@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_use_case_overview_and_problem_statement.html 
+keywords: NetApp, Case, Overview, Problem, Statement 
+summary:  
+---
+= Panoramica del caso d'utilizzo e Problem Statement
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+I set di dati e le versioni dei set di dati si trovano in genere in un data Lake, come lo storage basato su oggetti NetApp StorageGRID, che offre costi ridotti e altri vantaggi operativi. Gli scienziati dei dati estraggono questi set di dati e li progettano in più fasi per prepararli alla formazione con un modello specifico, spesso creando più versioni lungo il percorso. Come fase successiva, il data scientist deve scegliere risorse di calcolo ottimizzate (GPU, istanze di CPU high-end, un cluster on-premise e così via) per eseguire il modello. La figura seguente mostra la mancanza di prossimità del dataset in un ambiente di calcolo ML.
+
+image:hcaios_image1.png["Errore: Immagine grafica mancante"]
+
+Tuttavia, è necessario eseguire più esperimenti di training in parallelo in diversi ambienti di calcolo, ciascuno dei quali richiede il download del dataset dal data Lake, un processo costoso e lungo. La prossimità del set di dati all'ambiente di calcolo (in particolare per un cloud ibrido) non è garantita. Inoltre, gli altri membri del team che eseguono i propri esperimenti con lo stesso set di dati devono eseguire lo stesso arduo processo. Al di là dell'evidente rallentamento dell'accesso ai dati, le sfide includono il monitoraggio delle versioni dei set di dati, la condivisione dei set di dati, la collaborazione e la riproducibilità.
+
+
+
+== Requisiti del cliente
+
+I requisiti dei clienti possono variare per ottenere esecuzioni ML dalle performance elevate utilizzando le risorse in modo efficiente; ad esempio, i clienti potrebbero richiedere quanto segue:
+
+* Accesso rapido ai set di dati da ogni istanza di calcolo che esegue il modello di training senza incorrere in costose complessità di download e accesso ai dati
+* L'utilizzo di qualsiasi istanza di calcolo (GPU o CPU) nel cloud o on-premise senza preoccuparsi della posizione dei set di dati
+* Maggiore efficienza e produttività grazie all'esecuzione di più esperimenti di training in parallelo con diverse risorse di calcolo sullo stesso set di dati senza ritardi e latenza dei dati non necessari
+* Costi delle istanze di calcolo ridotti al minimo
+* Riproducibilità migliorata grazie a tool per la conservazione dei record dei set di dati, della loro discendenza, delle versioni e di altri dettagli sui metadati
+* Condivisione e collaborazione migliorate per consentire a qualsiasi membro autorizzato del team di accedere ai set di dati ed eseguire esperimenti
+
+
+Per implementare il caching dei set di dati con il software per la gestione dei dati NetApp ONTAP, i clienti devono eseguire le seguenti attività:
+
+* Configurare e impostare lo storage NFS più vicino alle risorse di calcolo.
+* Determinare il set di dati e la versione da memorizzare nella cache.
+* Monitorare la memoria totale impegnata nei set di dati memorizzati nella cache e la quantità di storage NFS disponibile per ulteriori commit di cache (ad esempio, gestione della cache).
+* Esaurire i set di dati nella cache se non sono stati utilizzati in un determinato periodo di tempo. L'impostazione predefinita è un giorno; sono disponibili altre opzioni di configurazione.
+
+
+link:hcaios_solution_overview.html["Pagina successiva: Panoramica della soluzione"]

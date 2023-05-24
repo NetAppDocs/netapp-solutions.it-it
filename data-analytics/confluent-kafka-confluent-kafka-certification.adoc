@@ -1,0 +1,99 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-confluent-kafka-certification.html 
+keywords: certification, setup, configuration, benchmark 
+summary: Abbiamo ottenuto la certificazione con la piattaforma confluente con Kafka per lo storage su più livelli in NetApp StorageGRID. 
+---
+= Verifica confluente
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:confluent-kafka-technology-overview.html["Precedente: Panoramica della tecnologia."]
+
+[role="lead"]
+Abbiamo eseguito la verifica con la piattaforma confluente 6.2 Tiered Storage in NetApp StorageGRID. I team NetApp e Confluent hanno lavorato insieme a questa verifica ed hanno eseguito i casi di test richiesti per la verifica.
+
+
+
+== Configurazione della piattaforma confluente
+
+Per la verifica abbiamo utilizzato la seguente configurazione.
+
+Per la verifica, abbiamo utilizzato tre zookeeper, cinque broker, cinque server di esecuzione script di test, server named tools con 256 GB di RAM e 16 CPU. Per lo storage NetApp, abbiamo utilizzato StorageGRID con un bilanciamento del carico SG1000 con quattro SGF6024. Lo storage e i broker erano connessi tramite connessioni 100GbE.
+
+La figura seguente mostra la topologia di rete della configurazione utilizzata per la verifica confluente.
+
+image:confluent-kafka-image7.png["Errore: Immagine grafica mancante"]
+
+I server degli strumenti fungono da client applicativi che inviano richieste ai nodi confluenti.
+
+
+
+== Configurazione dello storage a più livelli confluente
+
+La configurazione dello storage a più livelli richiede i seguenti parametri in Kafka:
+
+....
+Confluent.tier.archiver.num.threads=16
+confluent.tier.fetcher.num.threads=32
+confluent.tier.enable=true
+confluent.tier.feature=true
+confluent.tier.backend=S3
+confluent.tier.s3.bucket=kafkasgdbucket1-2
+confluent.tier.s3.region=us-west-2
+confluent.tier.s3.cred.file.path=/data/kafka/.ssh/credentials
+confluent.tier.s3.aws.endpoint.override=http://kafkasgd.rtpppe.netapp.com:10444/
+confluent.tier.s3.force.path.style.access=true
+....
+Per la verifica, abbiamo utilizzato StorageGRID con il protocollo HTTP, ma funziona anche HTTPS. La chiave di accesso e la chiave segreta vengono memorizzate nel nome file fornito in `confluent.tier.s3.cred.file.path` parametro.
+
+
+
+== Storage a oggetti NetApp - StorageGRID
+
+Abbiamo configurato la configurazione a sito singolo in StorageGRID per la verificazione.
+
+image:confluent-kafka-image8.png["Errore: Immagine grafica mancante"]
+
+
+
+== Test di verifica
+
+Abbiamo completato i seguenti cinque casi di test per la verifica. Questi test vengono eseguiti sul framework Trogdor. I primi due erano test di funzionalità e i restanti tre erano test di performance.
+
+
+
+=== Test di correttezza dell'archivio di oggetti
+
+Questo test determina se tutte le operazioni di base (ad esempio, GET/put/delete) sull'API dell'archivio di oggetti funzionano correttamente in base alle esigenze dello storage su più livelli. Si tratta di un test di base che ogni servizio dell'archivio di oggetti dovrebbe superare prima dei seguenti test. Si tratta di un test assertivo che può essere superato o non superato.
+
+
+
+=== Test di correttezza delle funzionalità di tiering
+
+Questo test determina se la funzionalità di storage a più livelli end-to-end funziona correttamente con un test assertivo che supera o non supera. Il test crea un argomento di test che per impostazione predefinita è configurato con il tiering attivato e una dimensione hotset altamente ridotta. Produce un flusso di eventi per l'argomento di test appena creato, attende che i broker archivino i segmenti nell'archivio di oggetti, quindi consuma il flusso di eventi e convalida che il flusso consumato corrisponda al flusso prodotto. Il numero di messaggi prodotti per il flusso di eventi è configurabile, il che consente all'utente di generare un carico di lavoro sufficientemente grande in base alle esigenze di test. La dimensione ridotta degli hotset garantisce che i fetch consumer al di fuori del segmento attivo vengano serviti solo dall'archivio di oggetti; questo aiuta a verificare la correttezza dell'archivio di oggetti per le letture. Questo test è stato eseguito con e senza un'iniezione di errori dello store di oggetti. Abbiamo simulato il guasto del nodo arrestando il servizio di gestione dei servizi in uno dei nodi in StorageGRID e convalidando che la funzionalità end-to-end funziona con lo storage a oggetti.
+
+
+
+=== Benchmark Tier fetch
+
+Questo test ha validato le prestazioni di lettura dello storage a più livelli e verificato l'intervallo di richieste di lettura di recupero sotto carico pesante dai segmenti generati dal benchmark. In questo benchmark, Confluent ha sviluppato client personalizzati per soddisfare le richieste di recupero del Tier.
+
+
+
+=== Benchmark sui carichi di lavoro producete-consumate
+
+Questo test ha generato indirettamente il carico di lavoro di scrittura nell'archivio di oggetti attraverso l'archiviazione dei segmenti. Il carico di lavoro di lettura (segmenti letti) è stato generato dallo storage a oggetti quando i gruppi di consumatori hanno recuperato i segmenti. Questo carico di lavoro è stato generato dallo script di test. Questo test ha verificato le prestazioni di lettura e scrittura sullo storage a oggetti in thread paralleli. Abbiamo eseguito test con e senza l'iniezione di errori del negozio di oggetti come abbiamo fatto per il test di correttezza della funzionalità di tiering.
+
+
+
+=== Benchmark del carico di lavoro di conservazione
+
+Questo test ha controllato le prestazioni di eliminazione di un archivio di oggetti con un carico di lavoro pesante di conservazione degli argomenti. Il carico di lavoro di conservazione è stato generato utilizzando uno script di test che produce molti messaggi in parallelo a un argomento di test. L'argomento del test è stato configurato con un'impostazione di conservazione aggressiva basata sulle dimensioni e sul tempo che ha causato la rimozione continua del flusso di eventi dall'archivio di oggetti. I segmenti sono stati quindi archiviati. Ciò ha portato a un gran numero di eliminazioni nello storage a oggetti da parte del broker e alla raccolta delle performance delle operazioni di eliminazione degli archivi di oggetti.
+
+link:confluent-kafka-performance-tests-with-scalability.html["Avanti: Test delle performance con scalabilità."]

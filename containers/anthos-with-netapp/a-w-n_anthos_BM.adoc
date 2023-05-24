@@ -1,0 +1,127 @@
+---
+sidebar: sidebar 
+permalink: containers/anthos-with-netapp/a-w-n_anthos_BM.html 
+keywords: Anthos, bare metal, linux 
+summary: 'Le funzionalità indipendenti dall"hardware di anthos on bare metal ti consentono di scegliere una piattaforma di calcolo ottimizzata per il tuo caso d"utilizzo personalizzato e di offrire molti vantaggi aggiuntivi.' 
+---
+= Anthos su bare metal
+:allow-uri-read: 
+
+
+
+
+== Benefici
+
+Le funzionalità indipendenti dall'hardware di anthos on bare metal ti consentono di scegliere una piattaforma di calcolo ottimizzata per il tuo caso d'utilizzo personalizzato e di offrire molti vantaggi aggiuntivi.
+
+Alcuni esempi includono:
+
+* *Porta il tuo server.* puoi utilizzare server che corrispondono alla tua infrastruttura esistente per ridurre le spese di capitale e i costi di gestione.
+* *Porta il tuo sistema operativo Linux.* scegliendo il sistema operativo Linux al quale desideri implementare l'ambiente anthos-on-bare-metal, puoi assicurarti che l'ambiente anthos si adatti perfettamente all'infrastruttura e agli schemi di gestione esistenti.
+* *Prestazioni migliorate e costi ridotti.* senza la necessità di un hypervisor, i cluster anthos-on-bare-metal richiedono l'accesso diretto alle risorse hardware del server, inclusi i dispositivi hardware ottimizzati per le performance come le GPU.
+* *Prestazioni di rete migliorate e latenza ridotta.* poiché i nodi server anthos-on-bare-metal sono collegati direttamente alla rete senza un livello di astrazione virtualizzato, possono essere ottimizzati per bassa latenza e performance.
+
+
+
+
+== Requisiti hardware
+
+
+
+=== Calcolo
+
+Google Cloud richiede periodicamente la convalida aggiornata delle piattaforme server dei partner con le nuove release di anthos attraverso il programma per partner della piattaforma anthos Ready. È possibile trovare un elenco delle piattaforme server attualmente validate e delle versioni di anthos supportate https://cloud.google.com/anthos/docs/resources/partner-platforms["qui"^].
+
+La seguente tabella contiene le piattaforme server testate dai partner engineer NetApp e NetApp per la convalida di anthos sulle implementazioni bare metal.
+
+|===
+
+
+| Produttore | Fare | Modello 
+
+
+| Cisco | UCS | B200 M5 
+
+
+| HPE | ProLiant | DL360 
+|===
+
+
+=== Sistema operativo
+
+I nodi anthos-on-bare-metal possono essere configurati con diverse distribuzioni Linux scelte dal cliente per adattarsi all'attuale infrastruttura del data center.
+
+La seguente tabella contiene un elenco dei sistemi operativi Linux utilizzati da NetApp e dai partner per la convalida della soluzione.
+
+|===
+| Sistema operativo | Rilasciare | Versioni anthos 
+
+
+| CentOS | 8.4 | 1.11 
+
+
+| Red Hat Enterprise Linux | 8.4 | 1.11 
+
+
+| Ubuntu | 18.04 LTS | 1.11 
+
+
+| Ubuntu | 20.04 LTS | 1.11 
+|===
+
+
+=== Hardware aggiuntivo
+
+Per completare l'implementazione di anthos su bare metal come soluzione completamente validata, NetApp e i nostri partner hanno testato componenti aggiuntivi per il data center per il networking e lo storage.
+
+La tabella seguente contiene informazioni su questi componenti dell'infrastruttura aggiuntivi.
+
+|===
+| Produttore | Nome hardware | Modello 
+
+
+| Cisco | Nexus | C9336C-FX2 
+
+
+| NetApp | AFF | A250, A220 
+|===
+
+
+=== Software aggiuntivo
+
+La seguente tabella include un elenco delle versioni software aggiuntive implementate nell'ambiente di convalida.
+
+|===
+| Produttore | Nome del software | Versione 
+
+
+| Cisco | NXOS | 9.3(5) 
+
+
+| NetApp | ONTAP | 9.9.1, 9.10.1 
+
+
+| NetApp | Astra Trident | 22.04 
+|===
+Durante la convalida della piattaforma anthos Ready eseguita da NetApp e dal nostro team di partner di World Wide Technology (WWT), l'ambiente di laboratorio è stato costruito sulla base del seguente diagramma, che ci ha consentito di testare la funzionalità di ogni tipo di server, sistema operativo, dispositivi di rete, e sistemi storage implementati nella soluzione.
+
+image:a-w-n_anthos_baremetal_validation.png["Errore: Immagine grafica mancante"]
+
+
+NOTE: Questo ambiente multi-OS mostra l'interoperabilità con le versioni dei sistemi operativi supportate per la soluzione anthos-on-bare-metal. Prevediamo che i clienti si standardizzeranno su uno o un sottoinsieme di sistemi operativi per la loro implementazione.
+
+
+
+=== Risorse di supporto dell'infrastruttura
+
+Prima dell'implementazione di anthos su bare metal, deve essere implementata la seguente infrastruttura:
+
+* Almeno un server DNS che fornisce una risoluzione completa del nome host accessibile dalla rete di gestione.
+* Almeno un server NTP accessibile dalla rete di gestione.
+* (Opzionale) connettività Internet in uscita per la rete di gestione in banda.
+
+
+
+NOTE: Nella sezione Video e demo di questo documento è disponibile un video dimostrativo su un'implementazione di anthos su bare metal.
+
+link:a-w-n_overview_netapp.html["Pagina successiva: Panoramica dei sistemi storage NetApp."]

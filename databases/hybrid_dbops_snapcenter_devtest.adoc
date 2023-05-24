@@ -1,0 +1,162 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_devtest.html 
+summary: 'L"agilità del cloud pubblico, il time-to-value e i risparmi sui costi sono tutte proposte di valore significative per le aziende che adottano il cloud pubblico per lo sviluppo di applicazioni di database e le attività di test. Non esiste uno strumento migliore di SnapCenter per trasformare questo in realtà in una situazione di fretta. SnapCenter non solo può proteggere il database di produzione on-premise, ma può anche clonare rapidamente una copia per lo sviluppo di applicazioni o il test del codice nel cloud pubblico, consumando pochissimo spazio di storage aggiuntivo. Di seguito sono riportati i dettagli dei processi passo-passo che utilizzano lo strumento.' 
+keywords: hybrid cloud, database, solutions, dev/test, workflow 
+---
+= Workflow per sviluppo/test bursting nel cloud
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:hybrid_dbops_snapcenter_getting_started_aws.html["Precedente: Introduzione al cloud pubblico AWS."]
+
+[role="lead"]
+L'agilità del cloud pubblico, il time-to-value e i risparmi sui costi sono tutte proposte di valore significative per le aziende che adottano il cloud pubblico per lo sviluppo e il test delle applicazioni di database. Non esiste uno strumento migliore di SnapCenter per trasformare questo in realtà. SnapCenter non solo può proteggere il database di produzione on-premise, ma può anche clonare rapidamente una copia per lo sviluppo di applicazioni o il test del codice nel cloud pubblico, consumando pochissimo storage aggiuntivo. Di seguito sono riportati i dettagli dei processi passo-passo per l'utilizzo di questo strumento.
+
+
+
+== Clonare un database Oracle per lo sviluppo/test da un backup di snapshot replicato
+
+. Accedere a SnapCenter con un ID utente per la gestione del database per Oracle. Accedere alla scheda risorse, che mostra i database Oracle protetti da SnapCenter.
++
+image:snapctr_ora_clone_01.PNG["Errore: Immagine grafica mancante"]
+
+. Fare clic sul nome del database on-premise desiderato per la topologia di backup e la vista dettagliata. Se è attivata una posizione replicata secondaria, vengono visualizzati i backup mirror collegati.
++
+image:snapctr_ora_clone_02.PNG["Errore: Immagine grafica mancante"]
+
+. Per passare alla vista dei backup mirrorati, fare clic su Backup mirrorati. Vengono quindi visualizzati i backup dei mirror secondari.
++
+image:snapctr_ora_clone_03.PNG["Errore: Immagine grafica mancante"]
+
+. Scegliere una copia di backup del database secondario mirrorata da clonare e determinare un punto di ripristino in base all'ora e al numero di modifica del sistema o in base alla SCN. In genere, il punto di ripristino deve essere sottoposto a un periodo di tempo inferiore rispetto al tempo di backup completo del database o alla data SCN da clonare. Dopo aver deciso un punto di ripristino, il backup del file di registro richiesto deve essere montato per il ripristino. Il backup del file di log deve essere montato sul server DB di destinazione in cui deve essere ospitato il database clone.
++
+image:snapctr_ora_clone_04.PNG["Errore: Immagine grafica mancante"]
+
++
+image:snapctr_ora_clone_05.PNG["Errore: Immagine grafica mancante"]
+
++
+
+NOTE: Se la funzione di eliminazione dei log è attivata e il punto di ripristino viene esteso oltre l'ultima eliminazione dei log, potrebbe essere necessario montare più backup dei log di archiviazione.
+
+. Evidenziare la copia di backup completa del database da clonare, quindi fare clic sul pulsante clone per avviare il flusso di lavoro del clone del database.
++
+image:snapctr_ora_clone_06.PNG["Errore: Immagine grafica mancante"]
+
+. Scegliere un SID DB clone appropriato per un database container completo o un clone CDB.
++
+image:snapctr_ora_clone_07.PNG["Errore: Immagine grafica mancante"]
+
+. Selezionare l'host clone di destinazione nel cloud e le directory del file di dati, del file di controllo e del log di ripristino vengono create dal flusso di lavoro del clone.
++
+image:snapctr_ora_clone_08.PNG["Errore: Immagine grafica mancante"]
+
+. Il nome della credenziale Nessuno viene utilizzato per l'autenticazione basata sul sistema operativo, rendendo la porta del database irrilevante. Compilare i campi Oracle Home, Oracle OS User e Oracle OS Group appropriati, come configurati nel server DB clone di destinazione.
++
+image:snapctr_ora_clone_09.PNG["Errore: Immagine grafica mancante"]
+
+. Specificare gli script da eseguire prima dell'operazione di clonazione. Cosa ancora più importante, il parametro dell'istanza del database può essere modificato o definito qui.
++
+image:snapctr_ora_clone_10.PNG["Errore: Immagine grafica mancante"]
+
+. Specificare il punto di ripristino in base alla data e all'ora o alla SCN. Fino a quando Annulla ripristina il database fino ai log di archiviazione disponibili. Specificare la posizione del log di archiviazione esterno dall'host di destinazione in cui è montato il volume del log di archiviazione. Se il proprietario del server di destinazione Oracle è diverso dal server di produzione on-premise, verificare che la directory del log di archiviazione sia leggibile dal proprietario del server di destinazione Oracle.
++
+image:snapctr_ora_clone_11.PNG["Errore: Immagine grafica mancante"]
+
++
+image:snapctr_ora_clone_12.PNG["Errore: Immagine grafica mancante"]
+
+. Configurare il server SMTP per la notifica via email, se lo si desidera.
++
+image:snapctr_ora_clone_13.PNG["Errore: Immagine grafica mancante"]
+
+. Riepilogo dei cloni.
++
+image:snapctr_ora_clone_14.PNG["Errore: Immagine grafica mancante"]
+
+. Dopo il cloning, è necessario eseguire la convalida per assicurarsi che il database clonato sia operativo. Alcune attività aggiuntive, come l'avvio del listener o la disattivazione della modalità di archiviazione del registro DB, possono essere eseguite sul database di sviluppo/test.
++
+image:snapctr_ora_clone_15.PNG["Errore: Immagine grafica mancante"]
+
+
+
+
+
+== Clonare un database SQL per lo sviluppo/test da un backup Snapshot replicato
+
+. Accedere a SnapCenter con un ID utente per la gestione del database per SQL Server. Accedere alla scheda risorse, che mostra i database degli utenti SQL Server protetti da SnapCenter e un'istanza SQL di standby di destinazione nel cloud pubblico.
++
+image:snapctr_sql_clone_01.PNG["Errore: Immagine grafica mancante"]
+
+. Fare clic sul nome del database utente SQL Server on-premise desiderato per la topologia dei backup e la vista dettagliata. Se è attivata una posizione replicata secondaria, vengono visualizzati i backup mirror collegati.
++
+image:snapctr_sql_clone_02.PNG["Errore: Immagine grafica mancante"]
+
+. Passare alla vista dei backup mirrorati facendo clic su Backup mirrorati. Vengono quindi visualizzati i backup mirror secondari. Poiché SnapCenter esegue il backup del log delle transazioni di SQL Server su un'unità dedicata per il ripristino, vengono visualizzati solo i backup completi del database.
++
+image:snapctr_sql_clone_03.PNG["Errore: Immagine grafica mancante"]
+
+. Scegliere una copia di backup, quindi fare clic sul pulsante Clone (Copia) per avviare il flusso di lavoro Clone from Backup (Copia da backup).
++
+image:snapctr_sql_clone_04_1.PNG["Errore: Immagine grafica mancante"]
+
++
+image:snapctr_sql_clone_04.PNG["Errore: Immagine grafica mancante"]
+
+. Selezionare un server cloud come server clone di destinazione, nome istanza clone e nome database clone. Scegliere un punto di montaggio ad assegnazione automatica o un percorso del punto di montaggio definito dall'utente.
++
+image:snapctr_sql_clone_05.PNG["Errore: Immagine grafica mancante"]
+
+. Determinare un punto di ripristino in base all'ora di backup del registro o a una data e un'ora specifiche.
++
+image:snapctr_sql_clone_06.PNG["Errore: Immagine grafica mancante"]
+
+. Specificare gli script opzionali da eseguire prima e dopo l'operazione di cloning.
++
+image:snapctr_sql_clone_07.PNG["Errore: Immagine grafica mancante"]
+
+. Configurare un server SMTP se si desidera inviare una notifica via email.
++
+image:snapctr_sql_clone_08.PNG["Errore: Immagine grafica mancante"]
+
+. Riepilogo dei cloni.
++
+image:snapctr_sql_clone_09.PNG["Errore: Immagine grafica mancante"]
+
+. Monitorare lo stato del processo e verificare che il database utente desiderato sia stato collegato a un'istanza SQL di destinazione nel server clone cloud.
++
+image:snapctr_sql_clone_10.PNG["Errore: Immagine grafica mancante"]
+
+
+
+
+
+== Configurazione post-clone
+
+. Un database di produzione Oracle on-premise viene in genere eseguito in modalità di archiviazione dei log. Questa modalità non è necessaria per un database di sviluppo o test. Per disattivare la modalità di archiviazione dei log, accedere a Oracle DB come sysdba, eseguire un comando di modifica della modalità di log e avviare il database per l'accesso.
+. Configurare un listener Oracle o registrare il database appena clonato con un listener esistente per l'accesso dell'utente.
+. Per SQL Server, modificare la modalità di log da Full a Easy in modo che il file di log di sviluppo/test di SQL Server possa essere facilmente ridotto quando si riempie il volume di log.
+
+
+
+
+== Aggiornare il database dei cloni
+
+. Eliminare i database clonati e ripulire l'ambiente del server DB cloud. Seguire quindi le procedure precedenti per clonare un nuovo database con nuovi dati. La clonazione di un nuovo database richiede solo pochi minuti.
+. Chiudere il database dei cloni, eseguire un comando di refresh dei cloni utilizzando la CLI. Per ulteriori informazioni, consultare la seguente documentazione SnapCenter: link:https://docs.netapp.com/us-en/snapcenter/protect-sco/task_refresh_a_clone.html["Aggiornare un clone"^].
+
+
+
+
+== Dove cercare aiuto?
+
+Se hai bisogno di aiuto per questa soluzione e per i casi d'utilizzo, partecipa a. link:https://netapppub.slack.com/archives/C021R4WC0LC["La community di NetApp Solution Automation supporta il canale slack"] e cerca il canale di automazione della soluzione per inviare domande o domande.
+
+link:hybrid_dbops_snapcenter_dr.html["Successivo: Workflow di disaster recovery."]

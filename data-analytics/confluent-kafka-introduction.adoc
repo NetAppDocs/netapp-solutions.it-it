@@ -1,0 +1,58 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-introduction.html 
+keywords: tr-4912, tr4912, 4912, introduction, best practices, Kafka, confluent 
+summary: 'Questo documento descrive le linee guida sulle Best practice per l"utilizzo di Kafka su un controller di storage NetApp.' 
+---
+= TR-4912: Linee guida sulle Best practice per lo storage a più livelli Confluent Kafka con NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Karthikeyan Nagalingam, Joseph Kandatilparambil, NetApp Rankesh Kumar, Confluent
+
+[role="lead"]
+Apache Kafka è una piattaforma per lo streaming di eventi distribuita dalla community in grado di gestire migliaia di miliardi di eventi al giorno. Inizialmente concepito come coda di messaggistica, Kafka si basa su un'astrazione di un log di commit distribuito. Da quando è stata creata e open-source da LinkedIn nel 2011, Kafka si è evoluta da una coda di messaggi a una piattaforma completa per lo streaming di eventi. Confluent offre la distribuzione di Apache Kafka con la Confluent Platform. La piattaforma Confluent integra Kafka con funzionalità commerciali e di community aggiuntive progettate per migliorare l'esperienza di streaming di operatori e sviluppatori in produzione su vasta scala.
+
+Questo documento descrive le linee guida sulle Best practice per l'utilizzo dello storage a livelli confluente su un'offerta di storage a oggetti NetApp, fornendo i seguenti contenuti:
+
+* Verifica confluente con lo storage a oggetti NetApp: NetApp StorageGRID
+* Tiered storage performance test
+* Linee guida sulle Best practice per Confluent sui sistemi storage NetApp
+
+
+
+
+== Perché lo storage a livelli confluente?
+
+Confluent è diventata la piattaforma di streaming real-time predefinita per molte applicazioni, in particolare per i big data, gli analytics e i carichi di lavoro di streaming. Tiered Storage consente agli utenti di separare il calcolo dallo storage nella piattaforma Confluent. L'archiviazione dei dati risulta più conveniente, consente di memorizzare quantità virtualmente infinite di dati e di scalare i carichi di lavoro on-demand in su (o in giù) e semplifica le attività amministrative come il ribilanciamento dei dati e dei tenant. I sistemi storage compatibili con S3 possono sfruttare tutte queste funzionalità per democratizzare i dati con tutti gli eventi in un unico posto, eliminando la necessità di un'ingegneria dei dati complessa. Per ulteriori informazioni sul motivo per cui dovresti utilizzare lo storage a più livelli per Kafka, consulta link:https://docs.confluent.io/platform/current/kafka/tiered-storage.html#netapp-object-storage["Questo articolo di Confluent"^].
+
+
+
+== Perché scegliere NetApp StorageGRID per lo storage su più livelli?
+
+StorageGRID è una piattaforma di storage a oggetti leader del settore di NetApp. StorageGRID è una soluzione di storage a oggetti, software-defined, che supporta API a oggetti standard di settore, inclusa l'API S3 (Simple Storage Service) di Amazon. StorageGRID archivia e gestisce i dati non strutturati su larga scala per fornire uno storage a oggetti sicuro e durevole. I contenuti vengono posizionati nella giusta posizione, al momento giusto e nel giusto Tier di storage, ottimizzando i flussi di lavoro e riducendo i costi per i contenuti multimediali distribuiti a livello globale.
+
+Il principale elemento di differenziazione per StorageGRID è il motore di policy per la gestione del ciclo di vita delle informazioni (ILM) che consente la gestione del ciclo di vita dei dati basata su policy. Il motore delle policy può utilizzare i metadati per gestire il modo in cui i dati vengono memorizzati per tutta la vita utile, per ottimizzare inizialmente le performance e ottimizzare automaticamente i costi e la durata con l'invecchiamento dei dati.
+
+
+
+== Abilitare lo storage a livelli confluente
+
+L'idea di base dello storage su più livelli è separare le attività dello storage dei dati dall'elaborazione dei dati. Grazie a questa separazione, la scalabilità indipendente del Tier di storage e del Tier di elaborazione dei dati diventa molto più semplice.
+
+Una soluzione storage a più livelli per Confluent deve affrontare due fattori. Innanzitutto, deve aggirare o evitare proprietà comuni di coerenza e disponibilità degli archivi di oggetti, come incoerenze nelle operazioni DI ELENCO e occasionali indisponibilità degli oggetti. In secondo luogo, deve gestire correttamente l'interazione tra lo storage su più livelli e il modello di tolleranza agli errori e replica di Kafka, inclusa la possibilità che i leader zombie continuino a tierare gli intervalli di offset. Lo storage a oggetti NetApp offre la disponibilità costante degli oggetti e il modello ha che rendono lo storage stanco disponibile per gli intervalli di offset del Tier. Lo storage a oggetti NetApp offre una disponibilità degli oggetti coerente e un modello ha per rendere lo storage stanco disponibile per gli intervalli di offset del Tier.
+
+Con lo storage a più livelli, puoi utilizzare piattaforme dalle performance elevate per letture e scritture a bassa latenza in prossimità della coda dei dati in streaming e puoi anche utilizzare archivi di oggetti scalabili e più economici come NetApp StorageGRID per letture storiche ad alto throughput. Disponiamo anche di una soluzione tecnica per Spark con controller di storage netapp e i dettagli sono qui. La figura seguente mostra come Kafka si inserisce in una pipeline di analytics in tempo reale.
+
+image:confluent-kafka-image2.png["Errore: Immagine grafica mancante"]
+
+La figura seguente mostra come NetApp StorageGRID si inserisce nel livello di storage a oggetti di Confluent Kafka.
+
+image:confluent-kafka-image3.png["Errore: Immagine grafica mancante"]
+
+link:confluent-kafka-solution.html["Pagina successiva: Dettagli sull'architettura della soluzione."]

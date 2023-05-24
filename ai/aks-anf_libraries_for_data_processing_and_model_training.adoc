@@ -1,0 +1,35 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_libraries_for_data_processing_and_model_training.html 
+keywords: libraries, cuml, cudf, dask, transform, load, subsetting, transformation, encoding, rapids, estimators 
+summary: In questa pagina sono elencate le librerie e i framework utilizzati per creare questa attività. Tutti questi componenti sono stati completamente integrati con i controlli di sicurezza e accesso basati sui ruoli di Azure. 
+---
+= Librerie per l'elaborazione dei dati e la formazione sui modelli
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_azure_netapp_files_performance_tiers.html["Precedente: Livelli di performance Azure NetApp Files."]
+
+[role="lead"]
+La tabella seguente elenca le librerie e i framework utilizzati per creare questa attività. Tutti questi componenti sono stati completamente integrati con i controlli di sicurezza e accesso basati sui ruoli di Azure.
+
+|===
+| Librerie/framework | Descrizione 
+
+
+| CuML di Dask | Per CONSENTIRE A ML di lavorare su GPU, il https://github.com/rapidsai/cuml/tree/main/python/cuml/dask["Libreria cuML"^] Fornisce l'accesso al pacchetto RAPIDS cuML con DAK. RAPIDS cuML implementa i più diffusi algoritmi ML, tra cui clustering, riduzione delle dimensioni e approcci di regressione, con implementazioni basate su GPU ad alte performance, che offrono velocità fino a 100 volte superiori rispetto agli approcci basati su CPU. 
+
+
+| Dask cuDF | CuDF include diverse altre funzioni che supportano l'estrazione, la trasformazione, il carico (ETL) con accelerazione GPU, come il sottosetting dei dati, le trasformazioni, la codifica one-hot e molto altro ancora. Il team RAPIDS gestisce un https://github.com/rapidsai/cudf/tree/main/python/dask_cudf["libreria dask-cudf"^] Sono inclusi i metodi di supporto per l'utilizzo di Dask e cuDF. 
+
+
+| Scikit Impara | Scikit-Learn offre decine di algoritmi e modelli di apprendimento automatico integrati, chiamati stimatori. Ciascuno https://scikit-learn.org/stable/glossary.html#term-estimators["stimatore"^] può essere adattato ad alcuni dati utilizzando its https://scikit-learn.org/stable/glossary.html#term-fit["adatta"^] metodo. 
+|===
+Abbiamo utilizzato due notebook per costruire LE pipeline ML per il confronto; uno è l'approccio convenzionale Pandas scikit-Learn e l'altro è la formazione distribuita con RAPIDS e Dask. Ciascun notebook può essere testato singolarmente per verificarne le prestazioni in termini di tempo e scalabilità. Copriamo ogni notebook singolarmente per dimostrare i vantaggi della formazione distribuita utilizzando RAPIDS e Dask.
+
+link:aks-anf_load_criteo_click_logs_day_15_in_pandas_and_train_a_scikit-learn_random_forest_model.html["Segue: Caricare i registri di clic di Criteo giorno 15 in Pandas e formare un modello di foresta casuale di scikit-learn."]

@@ -1,0 +1,71 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.html 
+keywords:  
+summary:  
+---
+= Elevato utilizzo del cluster con allocazione della GPU con quota eccessiva
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+In questa sezione e nelle sezioni link:osrunai_basic_resource_allocation_fairness.html["Equità nell'allocazione delle risorse di base"], e. link:osrunai_over-quota_fairness.html["Equità nell'overquota"], Abbiamo ideato scenari di test avanzati per dimostrare le funzionalità di orchestrazione Run:ai per la gestione di workload complessi, la pianificazione preventiva automatica e il provisioning di GPU con overquota. Lo abbiamo fatto per ottenere un elevato utilizzo delle risorse del cluster e ottimizzare la produttività del team di data science di livello Enterprise in un ambiente ai ONTAP.
+
+Per queste tre sezioni, impostare i seguenti progetti e quote:
+
+|===
+| Progetto | Quota 
+
+
+| squadra a. | 4 
+
+
+| team-b | 2 
+
+
+| team-c | 2 
+
+
+| team-d | 8 
+|===
+Inoltre, per queste tre sezioni vengono utilizzati i seguenti container:
+
+* Notebook Jupyter: `jupyter/base-notebook`
+* Run:Avvio rapido ai: `gcr.io/run-ai-demo/quickstart`
+
+
+Per questo scenario di test sono stati stabiliti i seguenti obiettivi:
+
+* Mostra la semplicità del provisioning delle risorse e il modo in cui le risorse vengono estratte dagli utenti
+* Mostrare come gli utenti possono eseguire facilmente il provisioning di frazioni di GPU e numero intero di GPU
+* Mostra come il sistema elimina i colli di bottiglia di calcolo consentendo a team o utenti di superare la quota di risorse se nel cluster sono presenti GPU gratuite
+* Mostra come vengono eliminati i colli di bottiglia della pipeline di dati utilizzando la soluzione NetApp durante l'esecuzione di processi a elaborazione intensiva, come il container NetApp
+* Mostrare come vengono eseguiti diversi tipi di container utilizzando il sistema
++
+** Notebook Jupyter
+** Container Run:ai
+
+
+* Mostra un utilizzo elevato quando il cluster è pieno
+
+
+Per informazioni dettagliate sulla sequenza di comandi effettiva eseguita durante il test, vedere link:osrunai_testing_details_for_section_4.8.html["Dettagli sui test per la Sezione 4.8"].
+
+Una volta inviati tutti i 13 carichi di lavoro, è possibile visualizzare un elenco di nomi di container e GPU allocati, come mostrato nella figura seguente. Disponiamo di sette corsi di formazione e sei lavori interattivi, che simulano quattro team di data science, ciascuno con i propri modelli in esecuzione o in fase di sviluppo. Per i lavori interattivi, i singoli sviluppatori utilizzano Jupyter Notebooks per scrivere o eseguire il debug del codice. Pertanto, è adatto per eseguire il provisioning delle frazioni GPU senza utilizzare troppe risorse del cluster.
+
+image:osrunai_image8.png["Errore: Immagine grafica mancante"]
+
+I risultati di questo scenario di test mostrano quanto segue:
+
+* Il cluster deve essere pieno: Vengono utilizzate 16/16 GPU.
+* Elevato utilizzo del cluster.
+* Più esperimenti rispetto alle GPU a causa dell'allocazione frazionale.
+* `team-d` non utilizza tutta la quota; pertanto, `team-b` e. `team-c` Possibilità di utilizzare GPU aggiuntive per i propri esperimenti, con conseguente riduzione dei tempi di innovazione.
+
+
+link:osrunai_basic_resource_allocation_fairness.html["Avanti: Equità nell'allocazione delle risorse di base"]

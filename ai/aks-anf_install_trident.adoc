@@ -1,0 +1,145 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_install_trident.html 
+keywords:  
+summary:  
+---
+= Installare Trident
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_peer_aks_vnet_and_azure_netapp_files_vnet.html["Precedente: Peer AKS VNET e Azure NetApp Files VNET."]
+
+[role="lead"]
+Per installare Trident utilizzando Helm, attenersi alla seguente procedura:
+
+. Installare Helm (per istruzioni sull'installazione, visitare il https://helm.sh/docs/intro/install/["origine"^]).
+. Scaricare ed estrarre il programma di installazione di Trident 20.01.1.
++
+....
+$wget
+$tar -xf trident-installer-21.01.1.tar.gz
+....
+. Modificare la directory in `trident-installer`.
++
+....
+$cd trident-installer
+....
+. Copia `tridentctl` a una directory del sistema `$PATH`.
++
+....
+$sudo cp ./tridentctl /usr/local/bin
+....
+. Installare Trident sul cluster Kubernetes (K8s) con Helm ( https://scaleoutsean.github.io/2021/02/02/trident-21.01-install-with-helm-on-netapp-hci.html["origine"^]):
++
+.. Modificare la directory in `helm` directory.
++
+....
+$cd helm
+....
+.. Installare Trident.
++
+....
+$helm install trident trident-operator-21.01.1.tgz --namespace trident --create-namespace
+....
+.. Controllare lo stato dei pod Trident.
++
+....
+$kubectl -n trident get pods
+....
++
+Se tutti i pod sono in funzione, Trident viene installato ed è possibile procedere.
+
+
+
+. Impostare il backend Azure NetApp Files e la classe storage per AKS.
++
+.. Creare un principio di servizio Azure.
++
+Il service principal è il modo in cui Trident comunica con Azure per gestire le risorse Azure NetApp Files.
+
++
+....
+$az ad sp create-for-rbac --name ""
+....
++
+L'output dovrebbe essere simile al seguente esempio:
+
++
+....
+{
+"appId": "xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", 
+"displayName": "netapptrident", 
+"name": "", 
+"password": "xxxxxxxxxxxxxxx.xxxxxxxxxxxxxx", 
+"tenant": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx"
+} 
+....
+
+
+. Creare un file json backend Trident, nome di esempio `anf-backend.json`.
+. Utilizzando l'editor di testo preferito, completare i seguenti campi all'interno di `anf-backend.json` file:
++
+....
+{
+    "version": 1,
+    "storageDriverName": "azure-netapp-files",
+    "subscriptionID": "fakec765-4774-fake-ae98-a721add4fake",
+    "tenantID": "fakef836-edc1-fake-bff9-b2d865eefake",
+    "clientID": "fake0f63-bf8e-fake-8076-8de91e57fake",
+    "clientSecret": "SECRET",
+    "location": "westeurope",
+    "serviceLevel": "Standard",
+    "virtualNetwork": "anf-vnet",
+    "subnet": "default",
+    "nfsMountOptions": "vers=3,proto=tcp",
+    "limitVolumeSize": "500Gi",
+    "defaults": {
+    "exportRule": "0.0.0.0/0",
+    "size": "200Gi"
+}
+....
+. Sostituire i seguenti campi:
++
+** `subscriptionID`. Il tuo ID di abbonamento Azure.
+** `tenantID`. Il tuo ID tenant Azure dall'output di `az ad sp` nella fase precedente.
+** `clientID`. Il tuo appID dall'output di `az ad sp` nella fase precedente.
+** `clientSecret`. La password dall'output di `az ad sp` nella fase precedente.
+
+
+. Chiedere a Trident di creare il backend Azure NetApp Files in `trident` namespace con `anf-backend.json` come file di configurazione:
++
+....
+$tridentctl create backend -f anf-backend.json -n trident
+....
++
+image:aks-anf_image8.png["Errore: Immagine grafica mancante"]
+
+. Creare una classe di storage. Kubernetes consente agli utenti di eseguire il provisioning dei volumi utilizzando PVC che specificano una classe di storage in base al nome. Chiedere a K8s di creare una classe di storage `azurenetappfiles` Che fa riferimento al backend Trident creato nel passaggio precedente.
+. Creare un YAML (`anf-storage-class.yaml`) per la copia e la classe di storage.
++
+....
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+name: azurenetappfiles
+provisioner: netapp.io/trident
+parameters:
+backendType: "azure-netapp-files"
+$kubectl create -f anf-storage-class.yaml
+....
+. Verificare che la classe di storage sia stata creata.
++
+....
+kubectl get sc azurenetappfiles
+....
+
+
+image:aks-anf_image9.png["Errore: Immagine grafica mancante"]
+
+link:aks-anf_set_up_dask_with_rapids_deployment_on_aks_using_helm.html["Avanti: Configurare Dask con L'implementazione DI RAPIDS su AKS utilizzando Helm."]

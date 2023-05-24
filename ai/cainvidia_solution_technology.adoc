@@ -1,0 +1,65 @@
+---
+sidebar: sidebar 
+permalink: ai/cainvidia_solution_technology.html 
+keywords: Solution, AIaaS, Jarvis NLP, Dialog Manager, Fulfillment Engine, 
+summary:  
+---
+= Tecnologia della soluzione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+La figura seguente illustra l'architettura di sistema ai conversazionale proposta. È possibile interagire con il sistema sia con il segnale vocale che con l'immissione di testo. Se viene rilevato un input vocale, Jarvis ai-as-service (AIaaS) esegue ASR per produrre testo per Dialog Manager. Dialog Manager memorizza gli stati di conversazione, indirizza il testo ai servizi corrispondenti e passa i comandi al motore di adempimento. Jarvis NLP Service prende il testo, riconosce intenti ed entità e restituisce tali intenti e slot di entità a Dialog Manager, che invia quindi Action al motore di adempimento. Fulfillment Engine è costituito da API di terze parti o database SQL che rispondono alle query degli utenti. Dopo aver ricevuto il risultato da Fulfillment Engine, Dialog Manager indirizza il testo a Jarvis TTS AIaaS per produrre una risposta audio per l'utente finale. Possiamo archiviare la cronologia delle conversazioni, annotare frasi con intenti e slot per il training NEMO in modo che il servizio NLP migliori man mano che un maggior numero di utenti interagisce con il sistema.
+
+image:cainvidia_image3.png["Errore: Immagine grafica mancante"]
+
+
+
+== Requisiti hardware
+
+Questa soluzione è stata validata utilizzando una stazione DGX e un sistema storage AFF A220. Jarvis richiede una GPU T4 o V100 per eseguire calcoli di rete neurali profondi.
+
+La seguente tabella elenca i componenti hardware necessari per implementare la soluzione come testata.
+
+|===
+| Hardware | Quantità 
+
+
+| GPU T4 O V100 | 1 
+
+
+| Stazione NVIDIA DGX | 1 
+|===
+
+
+== Requisiti software
+
+La seguente tabella elenca i componenti software necessari per implementare la soluzione come testata.
+
+|===
+| Software | Versione o altre informazioni 
+
+
+| Software per la gestione dei dati NetApp ONTAP | 9.6 
+
+
+| Firmware dello switch Cisco NX-OS | 7.0(3)I6(1) 
+
+
+| SISTEMA OPERATIVO NVIDIA DGX | 4.0.4 - Ubuntu 18.04 LTS 
+
+
+| NVIDIA Jarvis Framework | EA v0.2 
+
+
+| NVIDIA NEMO | nvcr.io/nvidia/nemo:v0.10 
+
+
+| Piattaforma container Docker | 18.06.1-ce [e68fc7a] 
+|===
+link:cainvidia_build_a_virtual_assistant_using_jarvis,_cloud_sync,_and_nemo_overview.html["Avanti: Costruisci un assistente virtuale utilizzando Jarvis, Cloud Sync e NEMO Overview"]

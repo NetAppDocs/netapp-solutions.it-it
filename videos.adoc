@@ -1,0 +1,188 @@
+---
+sidebar: sidebar 
+permalink: videos.html 
+summary: Serie di video e demo che illustrano le funzionalità di molte delle soluzioni NetApp 
+keywords: netapp, solutions, videos, demos 
+---
+= Soluzioni NetApp: Video e demo
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./media/
+
+
+[role="lead"]
+Panoramica dei video e delle demo che evidenziano le funzionalità specifiche di molte delle soluzioni NetApp.
+
+.Intelligenza artificiale (ai) e analisi dei dati moderna
+[#ai%collapsible]
+====
+* link:https://www.youtube.com/playlist?list=PLdXI3bZJEw7nSrRhuolRPYqvSlGLuTOAO["Soluzioni ai di NetApp"^]
+* link:https://www.youtube.com/playlist?list=PLdXI3bZJEw7n1sWK-QGq4QMI1VBJS-ZZW["MLOPS"^]
+
+
+====
+.Applicazioni e database aziendali
+[#db%collapsible]
+====
+[Sottolineare] * Video per database open source* n.
+
+[cols="5a, 5a, 5a"]
+|===
+
+
+ a| 
+.Implementazione automatica PostgreSQL, configurazione della replica ha/DR, failover, risincronizzazione
+video::aws_postgres_fsx_ec2_deploy_hadr.mp4[] a| 
+ a| 
+
+|===
+[Sottolineare] * Video per la modernizzazione di Oracle con cloud ibrido in AWS e FSX* n.
+
+[cols="5a, 5a, 5a"]
+|===
+
+
+ a| 
+.Parte 1 - caso d'utilizzo e architettura della soluzione
+video::oracle-aws-fsx-part1-usecase_callout.mp4[] a| 
+.Parte 2a - migrazione del database da on-premise ad AWS utilizzando il trasferimento automatizzato di PDB con la massima disponibilità
+video::oracle-aws-fsx-part2a-migration-pdbrelo_callout.mp4[] a| 
+.Parte 2b - migrazione del database da on-premise ad AWS utilizzando la console BlueXP tramite SnapMirror
+video::oracle-aws-fsx-part2b-migration-snapmirror_callout.mp4[]
+
+
+ a| 
+.Parte 3 - Configurazione automatica della replica ha/DR del database, failover, risincronizzazione
+video::oracle-aws-fsx-part3-hadr_callout.mp4[] a| 
+.Parte 4a - clone del database per sviluppo/test con interfaccia utente SnapCenter dalla copia di standby replicata
+video::oracle-aws-fsx-part4a-snapcenter_callout.mp4[] a| 
+.Parte 4b - Backup, ripristino e clonazione del database con l'interfaccia utente di SnapCenter
+video::oracle-aws-fsx-part4b-bkup-restore-clone-snapctr_callout.mp4[]
+
+
+ a| 
+.Parte 4c - Backup e ripristino del database con backup e ripristino di BlueXP SaaS Apps
+video::oracle-aws-fsx-part4c-bkup-restore-snapctrsvc_callout.mp4[] a| 
+ a| 
+
+|===
+[Sottolineato] * Video per database SQL Server* n.
+
+[cols="5a, 5a, 5a"]
+|===
+
+
+ a| 
+.Implementa SQL Server su AWS EC2 utilizzando Amazon FSX per NetApp ONTAP
+video::SQLonFSxN.mp4[] a| 
+ a| 
+
+|===
+* link:https://tv.netapp.com/detail/video/1670591628570468424/deploy-sql-server-always-on-failover-cluster-over-smb-with-azure-netapp-files["Cluster ad alta disponibilità SQL su Azure NetApp Files"^]
+* link:https://www.youtube.com/watch?v=krzMWjrrMb0["Oracle Multi-tenant Pluggable Database Clone con snapshot di storage"^]
+* link:https://www.youtube.com/watch?v=VcQMJIRzhoY["Implementazione automatizzata di Oracle 19c RAC su FlexPod con Ansible"^]
+
+
+*Case study*
+
+* link:https://customers.netapp.com/en/sap-azure-netapp-files-case-study["SAP su Azure NetApp Files"^]
+
+
+====
+.Multicloud ibrido (HMC)
+[#hmc%collapsible]
+====
+[Sottolineato] * Video per AWS/VMC* n.
+
+[cols="5a, 5a, 5a"]
+|===
+
+
+ a| 
+.Storage connesso guest Windows con FSX ONTAP utilizzando iSCSI
+video::vmc_windows_vm_iscsi.mp4[] a| 
+.Storage connesso guest Linux con FSX ONTAP con NFS
+video::vmc_linux_vm_nfs.mp4[] a| 
+.Archivio dati supplementare VMware Cloud su AWS con Amazon FSX per NetApp ONTAP
+video::FSxN-NFS-Datastore-on-VMC.mp4[]
+
+
+ a| 
+.Risparmi sul TCO di VMware Cloud su AWS con Amazon FSX per NetApp ONTAP
+video::FSxN-NFS-Datastore-on-VMC-TCO-calculator.mp4[] a| 
+.Installazione della configurazione e dell'implementazione di VMware HCX per VMC
+video::VMC_HCX_Setup.mp4[] a| 
+.Dimostrazione di VMotion con VMware HCX per VMC e FSxN
+video::Migration_HCX_VMC_FSxN_VMotion.mp4[]
+
+
+ a| 
+.Dimostrazione della migrazione a freddo con VMware HCX per VMC e FSxN
+video::Migration_HCX_VMC_FSxN_cold_migration.mp4[] a| 
+ a| 
+
+|===
+[Sottolineato] * Video per Azure/AVS* n.
+
+[cols="5a, 5a, 5a"]
+|===
+
+
+ a| 
+.Panoramica del datastore supplementare della soluzione VMware Azure con Azure NetApp Files
+video::ANF-NFS-datastore-on-AVS.mp4[] a| 
+.Soluzione VMware Azure DR con Cloud Volumes ONTAP, SnapCenter e JetStream
+video::AVS-guest-connect-DR-use-case.mp4[] a| 
+.Dimostrazione della migrazione a freddo con VMware HCX per AVS e ANF
+video::Migration_HCX_AVS_ANF_ColdMigration.mp4[]
+
+
+ a| 
+.Dimostrazione di VMotion con VMware HCX per AVS e ANF
+video::Migration_HCX_AVS_ANF_VMotion.mp4[] a| 
+.Dimostrazione della migrazione in blocco con VMware HCX per AVS e ANF
+video::Migration_HCX_AVS_ANF_Bulk.mp4[] a| 
+
+|===
+====
+.MultiCloud ibrido con Red Hat OpenShift
+[#rhhc%collapsible]
+====
+.ROSA DR con Astra Control Service
+video::rhhc-Rosa-DR-demo-audio.mp4[]
+.Integrazione di FSxN con Astra Trident
+video::rhhc-install-trident-using-helm.mp4[]
+.Failover e fail-back delle applicazioni su ROSA con FSxN
+video::rhhc-failover-failback.mp4[]
+.Dr utilizzando Astra Control Center
+link:https://www.netapp.tv/details/29504?mcid=35609780286441704190790628065560989458["Dr utilizzando Astra Control Center"]
+
+====
+.Virtualizzazione
+[#virtualization%collapsible]
+====
+* link:virtualization/vsphere_demos_videos.html["Raccolta video VMware"]
+
+
+====
+.Container/Kubernetes
+[#containers%collapsible]
+====
+* link:containers/anthos-with-netapp/a-w-n_videos_and_demos.html["Video NetApp con Google anthos"]
+* link:containers/tanzu_with_netapp/vtwn_videos_and_demos.html["Video NetApp con VMware Tanzu"]
+* link:containers/devops_with_netapp/dwn_videos_and_demos.html["Video NetApp per DevOps"]
+* link:containers/rh-os-n_videos_and_demos.html["Video di NetApp con Red Hat OpenShift"]
+
+
+====
+.Automazione della soluzione
+[#automation%collapsible]
+====
+* link:https://www.youtube.com/watch?v=VcQMJIRzhoY["Implementazione automatizzata di Oracle 19c RAC su FlexPod con Ansible"^]
+
+
+====

@@ -1,0 +1,93 @@
+---
+sidebar: sidebar 
+permalink: containers/devops_with_netapp/dwn_use_case_postmortem_with_restore.html 
+keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Astra Trident, Helm, Operator, ONTAP, OpenShift, Kubernetes, Red Hat OpenShift, DevOps, Data Protection, CI/CD, Clone, App Restore, Post-mortem Analysis 
+summary: 'NetApp Astra Control Center offre un"ampia gamma di servizi di gestione dei dati application-aware e storage per carichi di lavoro Kubernetes stateful, implementati in un ambiente on-premise, basati sulla tecnologia di protezione dei dati di NetApp.' 
+---
+= Utilizza Astra Control per facilitare l'analisi post-mortem e ripristinare l'applicazione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+
+
+== Panoramica
+
+In link:dwn_use_case_integrated_data_protection.html["primo caso di utilizzo"], Abbiamo dimostrato come utilizzare NetApp Astra Control Center per proteggere le tue applicazioni in Kubernetes. In questa sezione viene descritto come integrare i backup delle applicazioni tramite Astra Control direttamente nel flusso di lavoro di sviluppo utilizzando l'SDK Python del toolkit NetApp Astra. Questo approccio consente la protezione degli ambienti di sviluppo e produzione automatizzando i backup on-demand durante il processo di integrazione continua e implementazione continua (ci/CD). Con questo ulteriore livello di protezione dei dati coerente con le applicazioni aggiunto alla pipeline ci/CD e alle applicazioni di produzione, i processi di sviluppo sono sicuri se qualcosa va storto nel processo, il che promuove buone pratiche di business-continuity.
+
+In un workflow tradizionale, dopo aver riscontrato un errore quando l'applicazione viene aggiornata a una nuova versione, il team di sviluppo tentava di risolvere il problema in tempo reale in base ai report di bug forniti dai clienti. In alternativa, al primo segnale di problemi, il team potrebbe tentare di ridistribuire l'applicazione in un ambiente di debug parallelo per portare il processo offline. Potevano ridistribuire una base di codice precedente da una versione precedente in produzione, ripristinando l'applicazione in ordine di lavoro.
+
+image::dwn_image9.jpg[Workflow tradizionale]
+
+Anche se questo approccio funziona, il team dovrebbe assicurarsi che lo stato dell'applicazione di produzione guasta corrisponda a quello della versione vista in produzione quando si sono verificati i problemi. Inoltre, dovrebbero dedicare del tempo alla promozione della build sicuramente funzionante in produzione, recuperando il codice dal repository e ridistribuendo le immagini della macchina per ripristinare l'applicazione a un buon stato di esecuzione. Inoltre, in questo scenario, non abbiamo considerato se il database di produzione stesso fosse corrotto dal codice difettoso. Idealmente, esistono processi di backup separati per i dati del database, ma dobbiamo presumere che siano coerenti con lo stato dell'applicazione così come è stata pubblicata? È qui che i benefici di backup, ripristini e cloni stateful e coerenti con l'applicazione con Astra Control dimostrano davvero il loro valore.
+
+Innanzitutto, possiamo utilizzare Astra Control per facilitare l'analisi post-mortem sullo stato dell'applicazione. Per farlo, cloniamo la versione di produzione buggy in un ambiente di test parallelo in modo coerente con l'applicazione. La messa da parte di questo ambiente nello stato di bug-ridden ci consente di risolvere il problema in tempo reale.
+
+Inoltre, Astra Control supporta la funzionalità di ripristino in-place che consente di ripristinare l'applicazione di produzione a un ultimo backup accettabile (che ha preceduto la versione del codice interessata). La versione ripristinata assume la posizione dell'applicazione di produzione precedente, in modo coerente e stateful con l'applicazione, incluso l'IP di ingresso precedentemente assegnato. Di conseguenza, i clienti che accedono al front-end non sarebbero a conoscenza della transizione alla versione di backup.
+
+image::dwn_image10.jpg[Workflow post-mortem]
+
+
+
+== Prerequisiti per la convalida del caso d'utilizzo
+
+I seguenti strumenti o piattaforme sono stati implementati e configurati come prerequisiti:
+
+* Red Hat OpenShift Container Platform.
+* NetApp Astra Trident installato su OpenShift con un backend configurato su un sistema NetApp ONTAP.
+* Uno storageclass predefinito configurato, che punta a un backend NetApp ONTAP.
+* NetApp Astra Control Center installato su un cluster OpenShift.
+* Cluster OpenShift aggiunto come cluster gestito ad Astra Control Center.
+* Jenkins installato su un cluster OpenShift.
+* Applicazione Magento installata nell'ambiente di produzione. In questo caso di utilizzo, l'ambiente di produzione è uno spazio dei nomi chiamato "lento-prod" in un cluster Red Hat OpenShift.
+* Applicazione di produzione gestita da Astra Control Center.
+* Backup sicuramente funzionanti dell'applicazione di produzione acquisita con Astra Control.
+
+
+
+
+== Clonare e ripristinare la pipeline
+
+Considerando che l'applicazione è stata aggiornata a una nuova versione, l'applicazione nell'ambiente di produzione (`magento-prod`) non si comporta come previsto dopo l'aggiornamento. Supponiamo che i dati restituiti dalle query front-end non corrispondano alla richiesta o che il database sia stato effettivamente danneggiato. Per clonare e ripristinare la pipeline, attenersi alla seguente procedura:
+
+image::dwn_image12.jpg[App non riuscita]
+
+. Accedere a Jenkins e creare una pipeline facendo clic su New Item (nuovo elemento), quindi su Pipeline (pipeline).
+. Copiare la pipeline dal file Jenkinsfile https://github.com/NetApp/netapp-astra-toolkits/blob/main/ci_cd_examples/jenkins_pipelines/clone_for_postmortem_and_restore/Jenkinsfile["qui"^].
+. Incollare la pipeline nella sezione della pipeline Jenkins, quindi fare clic su Save (Salva).
+. Compilare i parametri della pipeline Jenkins con i relativi dettagli, come la versione corrente dell'applicazione Magento in produzione, l'FQDN di Astra Control Center, il token API, l'ID dell'istanza e il nome dell'applicazione o lo spazio dei nomi degli ambienti di produzione e debug, nonché i nomi dei cluster di origine e destinazione. Ai fini di questo caso d'utilizzo, l'ambiente di produzione è uno spazio dei nomi chiamato 'lento-prod' e l'ambiente di debug è uno spazio dei nomi chiamato 'lento-debug' configurato su un cluster Red Hat OpenShift.
++
+[listing]
+----
+MAGENTO_VERSION = '2.4.1-debian-10-r14'
+ASTRA_TOOLKIT_VERSION = '2.0.2'
+ASTRA_API_TOKEN = 'xxxxx'
+ASTRA_INSTANCE_ID = 'xxx-xxx-xxx-xxx-xxx'
+ASTRA_FQDN = 'netapp-astra-control-center.org.example.com'
+PROD_APP_NAME = 'magento-prod'
+DEBUG_APP_NAME = 'magento-debug'
+DEBUG_NAMESPACE = 'magento-debug'
+PROD_KUBERNETES_CLUSTER = 'ocp-vmw'
+DEBUG_KUBERNETES_CLUSTER = 'ocp-vmw'
+----
+. Fare clic su Crea ora. La pipeline inizia a essere eseguita e procede attraverso le fasi. L'applicazione viene prima clonata nello stato corrente in un ambiente di debug e quindi ripristinata al backup funzionante.
++
+image::dwn_image15.jpg[Pipeline post-mortem]
+
+. Verificare che l'applicazione clonata sia la versione contenente bug.
++
+image::dwn_image13.jpg[Applicazione clonata non riuscita]
+
+. Verificare che l'ambiente di produzione sia ripristinato a un backup funzionante e che l'applicazione in produzione funzioni come previsto.
++
+image::dwn_image14.jpg[Ripristinata l'app Prod]
+
+
+
+Queste due operazioni in tandem accelerano il ritorno alle normali operazioni di business. Per vedere questo caso d'utilizzo in azione, guarda il video link:dwn_videos_clone_for_postmortem_and_restore.html["qui"^].
+
+link:dwn_videos_and_demos.html["Pagina successiva: Video e demo - DevOps con NetApp Astra."]

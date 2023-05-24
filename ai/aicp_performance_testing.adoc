@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_performance_testing.html 
+keywords: Performance, Testing, benchmark, Tensorflow, Docker 
+summary: Come parte della creazione di questa soluzione, abbiamo eseguito un semplice confronto delle performance. Utilizzando Kubernetes, abbiamo eseguito diversi processi di benchmarking standard di NetApp e abbiamo confrontato i risultati del benchmark con le esecuzioni eseguite utilizzando un semplice comando di esecuzione di Docker. 
+---
+= Test delle performance
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Come parte della creazione di questa soluzione, abbiamo eseguito un semplice confronto delle performance. Utilizzando Kubernetes, abbiamo eseguito diversi processi di benchmarking ai standard di NetApp e abbiamo confrontato i risultati del benchmark con le esecuzioni eseguite utilizzando un semplice comando di esecuzione di Docker. Non sono state riscontrate differenze significative in termini di performance. Pertanto, abbiamo concluso che l'utilizzo di Kubernetes per orchestrare i lavori di training ai containerizzati non influisce negativamente sulle performance. Consulta la tabella seguente per i risultati del nostro confronto delle performance.
+
+|===
+| Benchmark | Dataset | Esecuzione Docker (immagini/sec) | Kubernetes (immagini/sec) 
+
+
+| TensorFlow a nodo singolo | Dati sintetici | 6,667.2475 | 6,661.93125 
+
+
+| TensorFlow a nodo singolo | ImageNet | 6,570.2025 | 6,530.59125 
+
+
+| Synchronous Distributed Two-Node TensorFlow | Dati sintetici | 13,213.70625 | 13,218.288125 
+
+
+| Synchronous Distributed Two-Node TensorFlow | ImageNet | 12,941.69125 | 12,881.33875 
+|===
+link:aicp_conclusion.html["Prossimo: Conclusione."]

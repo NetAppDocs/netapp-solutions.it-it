@@ -1,0 +1,42 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-sent-videos-and-demos.html 
+keywords: video, demo, notebook 
+summary: In questa sezione sono elencati i notebook Jupyter e altre risorse utili per questa soluzione. 
+---
+= Video e demo
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-sent-validation-results.html["Precedente: Risultati della convalida."]
+
+[role="lead"]
+Esistono due notebook che contengono la pipeline di analisi del sentimento: https://nbviewer.jupyter.org/github/NetAppDocs/netapp-solutions/blob/main/media/Support-Center-Model-Transfer-Learning-and-Fine-Tuning.ipynb[""Support-Center-Model-Transfer-Learning-and-fine-Tuning.ipynb""] e. link:https://nbviewer.jupyter.org/github/NetAppDocs/netapp-solutions/blob/main/media/Support-Center-Sentiment-Analysis-Pipeline.ipynb[""Support-Center-Sentiment-Analysis-pipeline.ipynb""]. Insieme, questi notebook dimostrano come sviluppare una pipeline per acquisire i dati del centro di supporto ed estrarre sentimenti da ogni frase utilizzando modelli di deep learning all'avanguardia e ottimizzati sui dati dell'utente.
+
+
+
+== Support Center - Sentiment Analysis Pipeline.ipynb
+
+Questo notebook contiene la pipeline Inference RIVA per l'acquisizione di audio, la conversione in testo e l'estrazione di sentimenti da utilizzare in una dashboard esterna. I set di dati vengono scaricati ed elaborati automaticamente, se non è già stato fatto. La prima sezione del notebook è Speech-to-Text, che gestisce la conversione dei file audio in testo. Segue la sezione analisi del sentimento che estrae i sentimenti per ciascuna frase di testo e visualizza i risultati in un formato simile alla dashboard proposta.
+
+
+NOTE: Questo notebook deve essere eseguito prima del training e della messa a punto del modello, in quanto il set di dati MP3 deve essere scaricato e convertito nel formato corretto.
+
+image:ai-sent-image12.png["Errore: Immagine grafica mancante"]
+
+
+
+== Support Center - Model Training e fine-Tuning.ipynb
+
+L'ambiente virtuale TAO Toolkit deve essere configurato prima di eseguire il notebook (per istruzioni sull'installazione, consultare la sezione relativa al toolkit TAO nella Panoramica dei comandi).
+
+Questo notebook si affida al toolkit TAO per mettere a punto modelli di apprendimento approfondito sui dati dei clienti. Come per il notebook precedente, questo è separato in due sezioni per i componenti Speech-to-Text e analisi del sentimento. Ogni sezione passa attraverso l'elaborazione dei dati, la formazione sui modelli e la messa a punto, la valutazione dei risultati e l'esportazione dei modelli. Infine, è disponibile una sezione finale per l'implementazione di entrambi i modelli ottimizzati per L'utilizzo in RIVA.
+
+image:ai-sent-image13.png["Errore: Immagine grafica mancante"]
+
+link:ai-sent-conclusion.html["Prossimo: Conclusione."]

@@ -1,0 +1,115 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_LB_MetalLB.html 
+summary: In questa pagina sono riportate le istruzioni di installazione e configurazione per il bilanciamento del carico MetalLB. 
+keywords: Red Hat OpenShift, Kubernetes, MetalLB, LoadBalancer, Astra, Astra Control Center 
+---
+= Installazione di bilanciatori di carico MetalLB: Red Hat OpenShift con NetApp
+:allow-uri-read: 
+
+
+Questa pagina elenca le istruzioni di installazione e configurazione per il bilanciamento del carico MetalLB.
+
+MetalLB è un bilanciamento del carico di rete self-hosting installato sul cluster OpenShift che consente la creazione di servizi OpenShift di bilanciamento del carico di tipo in cluster che non vengono eseguiti su un provider cloud. Le due funzionalità principali di MetalLB che lavorano insieme per supportare i servizi LoadBalancer sono l'allocazione degli indirizzi e l'annuncio esterno.
+
+
+
+== Opzioni di configurazione di MetalLB
+
+In base al modo in cui MetalLB annuncia l'indirizzo IP assegnato ai servizi LoadBalancer all'esterno del cluster OpenShift, opera in due modalità:
+
+* *Layer 2 mode.* in questa modalità, un nodo del cluster OpenShift assume la proprietà del servizio e risponde alle richieste ARP per quell'IP per renderlo raggiungibile all'esterno del cluster OpenShift. Poiché solo il nodo annuncia l'IP, presenta un collo di bottiglia nella larghezza di banda e limitazioni di failover lente. Per ulteriori informazioni, consultare la documentazione link:https://metallb.universe.tf/concepts/layer2/["qui"].
+* *Modalità BGP.* in questa modalità, tutti i nodi del cluster OpenShift stabiliscono sessioni di peering BGP con un router e pubblicizzano i route per inoltrare il traffico agli IP del servizio. Il prerequisito per questa operazione è l'integrazione di MetalLB con un router in tale rete. A causa del meccanismo di hashing in BGP, il mapping IP-to-Node per un servizio presenta una certa limitazione. Per ulteriori informazioni, consultare la documentazione link:https://metallb.universe.tf/concepts/bgp/["qui"].
+
+
+
+NOTE: Ai fini di questo documento, stiamo configurando MetalLB in modalità Layer-2.
+
+
+
+== Installazione del bilanciamento del carico MetalLB
+
+. Scarica le risorse di MetalLB.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ wget https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/namespace.yaml
+[netapp-user@rhel7 ~]$ wget https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/metallb.yaml
+----
+. Modificare il file `metallb.yaml` e rimuovere `spec.template.spec.securityContext` Da Controller Deployment e dal DemonSet dell'oratore.
++
+*Righe da eliminare:*
+
++
+[listing]
+----
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 65534
+----
+. Creare il `metallb-system` namespace.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc create -f namespace.yaml
+namespace/metallb-system created
+----
+. Creare il CR MetalLB.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc create -f metallb.yaml
+podsecuritypolicy.policy/controller created
+podsecuritypolicy.policy/speaker created
+serviceaccount/controller created
+serviceaccount/speaker created
+clusterrole.rbac.authorization.k8s.io/metallb-system:controller created
+clusterrole.rbac.authorization.k8s.io/metallb-system:speaker created
+role.rbac.authorization.k8s.io/config-watcher created
+role.rbac.authorization.k8s.io/pod-lister created
+role.rbac.authorization.k8s.io/controller created
+clusterrolebinding.rbac.authorization.k8s.io/metallb-system:controller created
+clusterrolebinding.rbac.authorization.k8s.io/metallb-system:speaker created
+rolebinding.rbac.authorization.k8s.io/config-watcher created
+rolebinding.rbac.authorization.k8s.io/pod-lister created
+rolebinding.rbac.authorization.k8s.io/controller created
+daemonset.apps/speaker created
+deployment.apps/controller created
+----
+. Prima di configurare l'altoparlante MetalLB, concedere al relatore i privilegi elevati DemonSet in modo che possa eseguire la configurazione di rete richiesta per far funzionare i bilanciatori di carico.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ oc adm policy add-scc-to-user privileged -n metallb-system -z speaker
+clusterrole.rbac.authorization.k8s.io/system:openshift:scc:privileged added: "speaker"
+----
+. Configurare MetalLB creando un `ConfigMap` in `metallb-system` namespace.
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ vim metallb-config.yaml
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: metallb-system
+  name: config
+data:
+  config: |
+    address-pools:
+    - name: default
+      protocol: layer2
+      addresses:
+      - 10.63.17.10-10.63.17.200
+
+[netapp-user@rhel7 ~]$ oc create -f metallb-config.yaml
+configmap/config created
+----
+. Ora, quando vengono creati i servizi loadbalancer, MetalLB assegna un IP esterno ai servizi e annuncia l'indirizzo IP rispondendo alle richieste ARP.
++
+
+NOTE: Se si desidera configurare MetalLB in modalità BGP, saltare il punto 6 e seguire la procedura nella documentazione di MetalLB link:https://metallb.universe.tf/concepts/bgp/["qui"].
+
+
+
+link:rh-os-n_use_cases.html["Pagina successiva: Convalida della soluzione/casi d'utilizzo: Red Hat OpenShift con NetApp."]

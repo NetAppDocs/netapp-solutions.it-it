@@ -1,0 +1,38 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_click-through_rate_prediction_use_case_summary.html 
+keywords: use case, terabyte click log, random forest, training 
+summary: Questa pagina riassume i vantaggi di Azure NetApp Files in termini di formazione distribuita o su larga scala. 
+---
+= Riepilogo del caso d'uso con la previsione del tasso di click-through
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_cloud_resource_requirements.html["Precedente: Requisiti relativi alle risorse cloud."]
+
+[role="lead"]
+Questo caso d'utilizzo si basa sui dati pubblicamente disponibili http://labs.criteo.com/2013/12/download-terabyte-click-logs/["Fare clic su Log di terabyte"^] dataset da https://ailab.criteo.com/["Criteo ai Lab"^]. Con i recenti progressi nelle piattaforme E nelle applicazioni ML, è ora molto importante concentrarsi sull'apprendimento su larga scala. Il tasso di click-through (CTR) è definito come il numero medio di click-through per cento impressioni di annunci online (espresso in percentuale). È ampiamente adottato come parametro chiave in diversi mercati verticali e casi di utilizzo del settore, tra cui digital marketing, retail, e-commerce e service provider. Di seguito sono riportati alcuni esempi di utilizzo di CTR come metrica importante per il potenziale traffico dei clienti:
+
+* *Digital marketing:* in https://support.google.com/google-ads/answer/2615875?hl=en["Google Analytics"^], CTR può essere usato per misurare come bene un advertiser o mercantile parole chiavi, annunci, ed elenchi liberi stanno eseguendo. Un CTR elevato è una buona indicazione che gli utenti trovano i tuoi annunci e gli elenchi utili e pertinenti. Il CTR contribuisce anche al CTR previsto dalla parola chiave, che è un componente di https://support.google.com/google-ads/answer/1752122?hl=en["Classifica ad"^].
+* *E-commerce:* oltre a sfruttare https://analytics.google.com/analytics/web/provision/#/provision["Google Analytics"^], ci sono almeno alcune statistiche dei visitatori in un backend di e-commerce. Anche se queste statistiche potrebbero non sembrare utili a prima vista, in genere sono facili da leggere e potrebbero essere più accurate di altre informazioni. I set di dati di prima parte composti da tali statistiche sono proprietari e sono quindi i più rilevanti per i venditori, gli acquirenti e le piattaforme di e-commerce. Questi set di dati possono essere utilizzati per impostare benchmark, confrontando i risultati con l'anno scorso e ieri, creando una serie temporale per ulteriori analisi.
+* *Retail:* i retailer Brick-and-mortar possono correlare il numero di visitatori e il numero di clienti al CTR. Il numero di clienti può essere visto dalla loro storia del punto vendita. Il CTR proveniente dai siti web dei rivenditori o dal traffico pubblicitario potrebbe comportare le vendite di cui sopra. I programmi fedeltà sono un altro caso d'utilizzo, perché i clienti reindirizzati dagli annunci online o da altri siti Web potrebbero unirsi per guadagnare premi. I retailer possono acquisire i clienti attraverso programmi fedeltà e registrare i comportamenti dalle cronologie di vendita per creare un sistema di raccomandazione che non solo preveda i comportamenti di acquisto dei consumatori in diverse categorie, ma anche personalizza i coupon e riduce il tasso di abbandono.
+* *Fornitori di servizi:* le aziende di telecomunicazioni e i provider di servizi Internet dispongono di numerosi dati telemetrici di prima parte per utenti che utilizzano in maniera approfondita ai, ML e analytics. Ad esempio, una telecomunicazione può sfruttare ogni giorno i log di cronologia dei domini di primo livello per la navigazione sul Web dei propri abbonati mobili per mettere a punto i modelli esistenti e produrre una segmentazione aggiornata del pubblico, prevedere il comportamento dei clienti e collaborare con gli inserzionisti per inserire annunci in tempo reale per una migliore esperienza online. In questo workflow di marketing basato sui dati, il CTR è una metrica importante per riflettere le conversioni.
+
+
+Nel contesto del digital marketing, http://labs.criteo.com/2013/12/download-terabyte-click-logs/["Registri Click di Criteo terabyte"^] Sono ora il set di dati di riferimento per la valutazione della scalabilità delle piattaforme E degli algoritmi ML. Prevedendo il tasso di click-through, un inserzionista può selezionare i visitatori che hanno più probabilità di rispondere agli annunci, analizzare la cronologia di navigazione e mostrare gli annunci più rilevanti in base agli interessi dell'utente.
+
+La soluzione fornita in questo report tecnico evidenzia i seguenti vantaggi:
+
+* I vantaggi di Azure NetApp Files nella formazione distribuita o su larga scala
+* RAPIDA elaborazione dei dati abilitata per CUDA (cuDF, cuPy e così via) e algoritmi ML (cuML)
+* Il framework di calcolo parallelo di Dask per la formazione distribuita
+
+
+Un workflow end-to-end basato su RAPIDS ai e Azure NetApp Files dimostra il drastico miglioramento dei tempi di training dei modelli di foresta casuali di due ordini di grandezza. Questo miglioramento è significativo rispetto all'approccio Pandas convenzionale quando si tratta di log click reali con 45 GB di dati tabulari strutturati (in media) ogni giorno. Ciò equivale a un DataFrame contenente circa venti miliardi di righe. Illustreremo la configurazione dell'ambiente cluster, l'installazione del framework e della libreria, il caricamento e l'elaborazione dei dati, la formazione convenzionale e distribuita, la visualizzazione e il monitoraggio e il confronto dei risultati critici di runtime end-to-end in questo report tecnico.
+
+link:aks-anf_install_and_set_up_the_aks_cluster.html["Quindi installare e configurare il cluster aks."]

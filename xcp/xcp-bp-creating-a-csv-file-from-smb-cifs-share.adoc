@@ -1,0 +1,42 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-creating-a-csv-file-from-smb-cifs-share.html 
+keywords: csv, data dump 
+summary: Il comando in questa sezione scarica i dati in formato CSV. È possibile riassumere la colonna delle dimensioni per ottenere la dimensione totale dei dati. 
+---
+= Creazione di un file CSV da una condivisione SMB/CIFS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:xcp-bp-specific-date-based-scan-and-copy-of-data.html["Precedente: Scansione e copia dei dati specifiche basate sulla data."]
+
+[role="lead"]
+Il seguente comando scarica i dati nel formato CSV. È possibile riassumere la colonna delle dimensioni per ottenere la dimensione totale dei dati.
+
+....
+xcp scan -match "((now-x.atime) / 3600) > 31*day" -fmt "'{}, {}, {}, {}'.format(relpath, name, strftime(x.atime, '%y-%m-%d-%H:%M:%S'), humanize_size(size))" -preserve-atime  >file.csv
+....
+L'output dovrebbe essere simile a questo esempio:
+
+....
+erase\report_av_fp_cdot_crosstab.csvreport_av_fp_cdot_crosstab.csv20-01-29-10:26:2449.6MiB
+....
+Per eseguire la scansione fino alla profondità di tre sottodirectory e fornire il risultato in ordine di ordinamento, eseguire `xcp -du` comando e dump delle dimensioni a ogni livello di directory fino alla profondità di tre sottodirectory.
+
+....
+./xcp  scan -du -depth 3 NFS_Server_IP:/source_vol
+ 
+....
+Per ordinare le informazioni, eseguire il dump delle informazioni in un file CSV e ordinarle.
+
+....
+xcp scan -match “type == d” -depth 3 -fmt "'{}, {}, {}, {}'.format(name, relpath, size)" NFS_Server_IP:/share > directory_report.csv
+....
+Si tratta di un report personalizzato che utilizza `-fmt` comando. Esegue la scansione di tutte le directory e scarica il nome della directory, il percorso e la dimensione della directory in un file CSV. È possibile ordinare la colonna delle dimensioni dall'applicazione per fogli di calcolo.
+
+link:xcp-bp-data-migration-from-7-mode-to-ontap.html["Pagina successiva: Migrazione dei dati da 7-Mode a ONTAP."]

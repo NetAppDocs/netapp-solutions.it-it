@@ -1,0 +1,72 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_load_criteo_click_logs_day_15_in_pandas_and_train_a_scikit-learn_random_forest_model.html 
+keywords: criteo, click log, pandas, scikit-learn, random, forest, model, dataframes, 
+summary: 'In questa pagina viene descritto come abbiamo utilizzato Pandas e Dask DataFrame per caricare i dati dei registri Click dal dataset Criteo Terabyte. Il caso d"utilizzo è importante nella pubblicità digitale per gli scambi di annunci per creare i profili degli utenti prevedendo se gli annunci verranno cliccati o se lo scambio non utilizza un modello accurato in una pipeline automatica.' 
+---
+= Load Criteo fare clic su Logs giorno 15 in Pandas e formare un modello di foresta casuale scikit-learn
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_libraries_for_data_processing_and_model_training.html["Precedente: Librerie per l'elaborazione dei dati e la formazione sui modelli."]
+
+[role="lead"]
+In questa sezione viene descritto come abbiamo utilizzato Pandas e Dask DataFrame per caricare i dati dei registri Click dall'insieme di dati Criteo Terabyte. Il caso d'utilizzo è importante nella pubblicità digitale per gli scambi di annunci per creare i profili degli utenti prevedendo se gli annunci verranno cliccati o se lo scambio non utilizza un modello accurato in una pipeline automatica.
+
+Abbiamo caricato i dati del giorno 15 dal set di dati Click Logs, per un totale di 45 GB. Eseguire la seguente cella nel notebook Jupyter `CTR-PandasRF-collated.ipynb` Crea un Pandas DataFrame che contiene i primi 50 milioni di righe e genera un modello di foresta casuale scikit-Learn.
+
+....
+%%time
+import pandas as pd
+import numpy as np
+header = ['col'+str(i) for i in range (1,41)] #note that according to criteo, the first column in the dataset is Click Through (CT). Consist of 40 columns
+first_row_taken = 50_000_000 # use this in pd.read_csv() if your compute resource is limited.
+# total number of rows in day15 is 20B
+# take 50M rows
+"""
+Read data & display the following metrics:
+1. Total number of rows per day
+2. df loading time in the cluster
+3. Train a random forest model
+"""
+df = pd.read_csv(file, nrows=first_row_taken, delimiter='\t', names=header)
+# take numerical columns
+df_sliced = df.iloc[:, 0:14]
+# split data into training and Y
+Y = df_sliced.pop('col1') # first column is binary (click or not)
+# change df_sliced data types & fillna
+df_sliced = df_sliced.astype(np.float32).fillna(0)
+from sklearn.ensemble import RandomForestClassifier
+# Random Forest building parameters
+# n_streams = 8 # optimization
+max_depth = 10
+n_bins = 16
+n_trees = 10
+rf_model = RandomForestClassifier(max_depth=max_depth, n_estimators=n_trees)
+rf_model.fit(df_sliced, Y)
+....
+Per eseguire la previsione utilizzando un modello di foresta casuale con formazione, eseguire il paragrafo seguente in questo notebook. Abbiamo preso gli ultimi un milione di righe dal giorno 15 come set di test per evitare qualsiasi duplicazione. La cella calcola anche la precisione della previsione, definita come la percentuale di occorrenze che il modello prevede accuratamente se un utente fa clic su un annuncio o meno. Per esaminare eventuali componenti non familiari presenti in questo notebook, consultare la sezione https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html["documentazione ufficiale scikit-learn"^].
+
+....
+# testing data, last 1M rows in day15
+test_file = '/data/day_15_test'
+with open(test_file) as g:
+    print(g.readline())
+
+# dataFrame processing for test data
+test_df = pd.read_csv(test_file, delimiter='\t', names=header)
+test_df_sliced = test_df.iloc[:, 0:14]
+test_Y = test_df_sliced.pop('col1')
+test_df_sliced = test_df_sliced.astype(np.float32).fillna(0)
+# prediction & calculating error
+pred_df = rf_model.predict(test_df_sliced)
+from sklearn import metrics
+# Model Accuracy
+print("Accuracy:",metrics.accuracy_score(test_Y, pred_df))
+....
+link:aks-anf_load_day_15_in_dask_and_train_a_dask_cuml_random_forest_model.html["Successivo: Caricare il giorno 15 in Dask e formare un modello di foresta casuale di Dask cuML."]

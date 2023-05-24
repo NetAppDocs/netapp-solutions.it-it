@@ -1,0 +1,58 @@
+---
+sidebar: sidebar 
+permalink: containers/anthos-with-netapp/a-w-n_overview_anthos.html 
+keywords: Anthos, deploy, baremetal, virtual 
+summary: 'Anthos unisce le operazioni di sviluppo e IT su un"unica piattaforma per creare, implementare e gestire le applicazioni in modo coerente tra infrastrutture di cloud ibrido e on-premise. Anthos porta i cluster GKE Kubernetes direttamente nel tuo ambiente di data center, in formati virtuali o bare metal.' 
+---
+= Panoramica di anthos
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+Anthos con NetApp è un'architettura di cloud ibrido verificata e basata su Best practice per l'implementazione on-premise di un ambiente Google Kubernetes Engine (GKE) in modo affidabile e affidabile. Questo documento di riferimento sull'architettura verificata di NetApp funge sia da guida di progettazione che da convalida dell'implementazione della soluzione anthos con NetApp implementata in ambienti virtuali e bare metal. L'architettura descritta in questo documento è stata convalidata da esperti in materia presso NetApp e Google Cloud per offrire i vantaggi dell'esecuzione di anthos nel tuo ambiente di data center aziendale.
+
+
+
+== Anthos
+
+Anthos è una soluzione per data center di Kubernetes con cloud ibrido che consente alle organizzazioni di costruire e gestire moderne infrastrutture di cloud ibrido adottando al contempo flussi di lavoro agili incentrati sullo sviluppo delle applicazioni. Anthos su VMware, una soluzione basata su tecnologie open-source, viene eseguita on-premise in un'infrastruttura basata su VMware vSphere, in grado di connettersi e interagire con Anthos GKE in Google Cloud. L'adozione di container, service mesh e altre tecnologie trasformative consente alle organizzazioni di sperimentare cicli di sviluppo delle applicazioni coerenti e carichi di lavoro pronti per la produzione in ambienti locali e basati sul cloud. La seguente figura illustra la soluzione anthos e il modo in cui un'implementazione in un data center on-premise si interconnette con l'infrastruttura nel cloud.
+
+Per ulteriori informazioni su anthos, visitare il sito Web di anthos all'indirizzo https://cloud.google.com/anthos["qui"^].
+
+Anthos offre le seguenti funzionalità:
+
+* *Anthos Configuration management.* automatizza le policy e la sicurezza delle implementazioni ibride di Kubernetes.
+* *Anthos Service Mesh.* migliora l'osservabilità, la sicurezza e il controllo delle applicazioni con una mesh di servizi basata su Istio.
+* *Google Cloud Marketplace for Kubernetes Applications.* un catalogo di applicazioni container curate disponibili per una facile implementazione.
+* *Migrazione per anthos.* migrazione automatica di servizi fisici e macchine virtuali da on-premise al cloud.
+* *Stackdriver.* Servizio di gestione offerto da Google per la registrazione e il monitoraggio delle istanze cloud.
+
+
+image:a-w-n_anthos_architecture.png["Errore: Immagine grafica mancante"]
+
+
+
+== Metodi di implementazione per anthos
+
+
+
+=== Anthos su VMware
+
+I cluster Anthos implementati negli ambienti VMware vSphere sono facili da implementare, gestire e scalare rapidamente per la maggior parte dei carichi di lavoro Kubernetes dell'utente finale.
+
+Per ulteriori informazioni sui cluster anthos su VMware, implementati con NetApp, visita la pagina link:a-w-n_anthos_VMW.html["qui"^].
+
+
+
+=== Anthos su bare metal
+
+I cluster anthos implementati su server bare metal sono indipendenti dall'hardware e consentono di selezionare una piattaforma di calcolo ottimizzata per il tuo caso d'utilizzo personalizzato.
+
+Per ulteriori informazioni su anthos sui cluster bare metal implementati con NetApp, visitare il sito link:a-w-n_anthos_BM.html["qui"^].
+
+link:a-w-n_anthos_VMW.html["Avanti: Anthos Clusters su VMware."]

@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_provision_a_jupyter_notebook_workspace_for_data_scientist_or_developer_use.html 
+keywords: Jupyter, Notebook, Workspace, Kubeflow 
+summary: Kubeflow è in grado di eseguire rapidamente il provisioning dei nuovi server Jupyter notebook per agire come aree di lavoro per scienziati dei dati. Per eseguire il provisioning di un nuovo server Jupyter notebook con Kubeflow, eseguire le attività elencate in questa pagina. 
+---
+= Provisioning di un'area di lavoro Jupyter notebook per l'utilizzo da parte di Data Scientist o Developer
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Kubeflow è in grado di eseguire rapidamente il provisioning dei nuovi server Jupyter notebook per agire come aree di lavoro per scienziati dei dati. Per eseguire il provisioning di un nuovo server Jupyter notebook con Kubeflow, eseguire le seguenti operazioni. Per ulteriori informazioni sui notebook Jupyter all'interno del contesto Kubeflow, vedere https://www.kubeflow.org/docs/components/notebooks/["Documentazione ufficiale del Kubeflow"^].
+
+. Dalla dashboard centrale di Kubeflow, fare clic su notebook Servers nel menu principale per accedere alla pagina di amministrazione del server Jupyter notebook.
++
+image:aicp_image9.png["Errore: Immagine grafica mancante"]
+
+. Fare clic su New Server (nuovo server) per eseguire il provisioning di un nuovo server Jupyter notebook.
++
+image:aicp_image10.png["Errore: Immagine grafica mancante"]
+
+. Assegnare un nome al nuovo server, scegliere l'immagine Docker su cui si desidera basare il server e specificare la quantità di CPU e RAM da riservare al server. Se il campo namespace è vuoto, utilizzare il menu Select namespace (Seleziona spazio dei nomi) nell'intestazione della pagina per scegliere uno spazio dei nomi. Il campo namespace viene quindi compilato automaticamente con lo spazio dei nomi scelto.
++
+Nell'esempio seguente, il `kubeflow-anonymous` viene scelto lo spazio dei nomi. Inoltre, vengono accettati i valori predefiniti per l'immagine Docker, la CPU e la RAM.
+
++
+image:aicp_image11.png["Errore: Immagine grafica mancante"]
+
+. Specificare i dettagli del volume dello spazio di lavoro. Se si sceglie di creare un nuovo volume, il provisioning di tale volume o PVC viene eseguito utilizzando la classe di storage predefinita. Perché un StorageClass che utilizza Trident è stato designato come StorageClass predefinito nella sezione link:aicp_kubeflow_deployment_overview.html["Implementazione di Kubeflow"], Il volume o PVC viene fornito con Trident. Questo volume viene montato automaticamente come area di lavoro predefinita all'interno del container Jupyter notebook Server. Tutti i notebook creati dall'utente sul server che non vengono salvati in un volume di dati separato vengono salvati automaticamente in questo volume di spazio di lavoro. Pertanto, i notebook sono persistenti durante i riavvii.
++
+image:aicp_image12.png["Errore: Immagine grafica mancante"]
+
+. Aggiungere volumi di dati. Nell'esempio seguente viene specificato un PVC esistente denominato 'pb-fg-all' e viene accettato il punto di montaggio predefinito.
++
+image:aicp_image13.png["Errore: Immagine grafica mancante"]
+
+. *Opzionale:* richiedere l'allocazione del numero desiderato di GPU al notebook server. Nell'esempio seguente, viene richiesta una GPU.
++
+image:aicp_image14.png["Errore: Immagine grafica mancante"]
+
+. Fare clic su Launch (Avvia) per eseguire il provisioning del nuovo notebook server.
+. Attendere il provisioning completo del server notebook. Questa operazione può richiedere alcuni minuti se non si è mai eseguito il provisioning di un server utilizzando l'immagine Docker specificata, in quanto l'immagine deve essere scaricata. Una volta completato il provisioning del server, viene visualizzato un segno di spunta verde nella colonna Status (Stato) della pagina di amministrazione del server Jupyter notebook.
++
+image:aicp_image15.png["Errore: Immagine grafica mancante"]
+
+. Fare clic su Connect (Connetti) per connettersi alla nuova interfaccia Web del server.
+. Verificare che il volume del set di dati specificato al punto 6 sia montato sul server. Si noti che questo volume viene montato nell'area di lavoro predefinita per impostazione predefinita. Dal punto di vista dell'utente, questa è solo un'altra cartella all'interno dello spazio di lavoro. L'utente, che è probabilmente un data scientist e non un esperto di infrastruttura, non deve possedere alcuna esperienza di storage per utilizzare questo volume.
++
+image:aicp_image16.png["Errore: Immagine grafica mancante"]
+
++
+image:aicp_image17.png["Errore: Immagine grafica mancante"]
+
+. Aprire un terminale e, supponendo che sia stato richiesto un nuovo volume nel passaggio 5, eseguire `df -h` Per confermare che un nuovo volume persistente con provisioning Trident è montato come area di lavoro predefinita.
++
+La directory predefinita dello spazio di lavoro è la directory di base che viene visualizzata quando si accede per la prima volta all'interfaccia Web del server. Pertanto, tutti gli artefatti creati utilizzando l'interfaccia Web vengono memorizzati su questo volume persistente con provisioning Trident.
+
++
+image:aicp_image18.png["Errore: Immagine grafica mancante"]
+
++
+image:aicp_image19.png["Errore: Immagine grafica mancante"]
+
+. Utilizzando il terminale, eseguire `nvidia-smi` Per confermare che il numero corretto di GPU è stato allocato al notebook server. Nell'esempio seguente, una GPU è stata allocata al notebook server come richiesto nel passaggio 7.
+
+
+image:aicp_image20.png["Errore: Immagine grafica mancante"]
+
+link:aicp_example_notebooks_and_pipelines.html["Avanti: Esempi di notebook e pipeline."]

@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_introduction.html 
+keywords: tr-4798, tr4798, 4798, NetApp AI, Machine, Deep learning, introduction 
+summary: Questo report mostra come clonare rapidamente uno spazio dei nomi dei dati. Dimostra come definire e implementare i workflow di training ai che incorporano la creazione quasi istantanea di dati e le linee di base dei modelli per la tracciabilità e il controllo delle versioni. Mostra inoltre come replicare perfettamente i dati tra siti e regioni e fornire rapidamente spazi di lavoro Jupyter notebook con accesso a set di dati di grandi dimensioni. 
+---
+= TR-4798: Piano di controllo ai di NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Mike Oglesby, NetApp
+
+[role="lead"]
+Aziende e organizzazioni di ogni dimensione e in molti settori stanno passando all'intelligenza artificiale (ai), all'apprendimento automatico (ML) e al deep learning (DL) per risolvere problemi reali, offrire prodotti e servizi innovativi e ottenere un vantaggio in un mercato sempre più competitivo. Man mano che le organizzazioni aumentano l'utilizzo di ai, ML e DL, devono affrontare molte sfide, tra cui la scalabilità dei workload e la disponibilità dei dati. Questo documento dimostra come affrontare queste sfide utilizzando il NetApp ai Control Plane, una soluzione che unisce le funzionalità di gestione dei dati di NetApp con i più diffusi framework e tool open-source.
+
+Questo report mostra come clonare rapidamente uno spazio dei nomi dei dati. Mostra inoltre come replicare perfettamente i dati tra siti e regioni per creare una pipeline di dati ai/ML/DL coesa e unificata. Inoltre, ti guida attraverso la definizione e l'implementazione di workflow di training ai, ML e DL che incorporano la creazione quasi istantanea di dati e linee di base dei modelli per la tracciabilità e il controllo delle versioni. Con questa soluzione, è possibile tracciare ogni ciclo di training del modello fino all'esatto set di dati utilizzato per la formazione e/o la convalida del modello. Infine, questo documento illustra come eseguire rapidamente il provisioning delle aree di lavoro dei notebook Jupyter con accesso a set di dati di grandi dimensioni.
+
+Nota: Per i training distribuiti in stile HPC su larga scala che coinvolgono un gran numero di server GPU che richiedono l'accesso condiviso allo stesso set di dati, o se si desidera un file system parallelo, consultare la sezione link:https://www.netapp.com/pdf.html?item=/media/31317-tr-4890.pdf["TR-4890"^]. Questo report tecnico descrive come includere link:https://blog.netapp.com/solution-support-for-beegfs-and-e-series/["La soluzione di file system parallelo completamente supportata di NetApp BeeGFS"^] Come parte del NetApp ai Control Plane. Questa soluzione è progettata per scalare da una manciata di sistemi NVIDIA DGX A100 fino a un SuperPOD a 140 nodi completo.
+
+Il piano di controllo ai di NetApp è rivolto a data scientist e data engineer e, di conseguenza, è necessaria una competenza minima di NetApp o NetApp ONTAP®. Con questa soluzione, le funzioni di gestione dei dati possono essere eseguite utilizzando interfacce e strumenti semplici e familiari. Se disponete già di storage NetApp nel vostro ambiente, potete testare il NetApp ai Control Plane oggi stesso. Se si desidera provare la soluzione ma non si dispone già di storage NetApp, visitare il sito http://cloud.netapp.com/["cloud.netapp.com"^]E potrai essere operativo con una soluzione di storage NetApp basata sul cloud in pochi minuti. La figura seguente fornisce una visualizzazione della soluzione.
+
+image:aicp_image1.png["Errore: Immagine grafica mancante"]
+
+link:aicp_concepts_and_components.html["Avanti: Concetti e componenti."]

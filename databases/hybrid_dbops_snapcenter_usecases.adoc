@@ -1,0 +1,48 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_usecases.html 
+summary: 'Questa soluzione fornisce ai clienti e al settore NetApp istruzioni e istruzioni per la configurazione, il funzionamento e la migrazione dei database in un ambiente di cloud ibrido utilizzando lo strumento basato sull"interfaccia grafica di NetApp SnapCenter e il servizio di storage CVO di NetApp nei cloud pubblici.' 
+keywords: tr-4908, tr4908, 4908, hybrid cloud, database, snapcenter, gui 
+---
+= TR-4908: Panoramica delle soluzioni di database per il cloud ibrido con SnapCenter
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+Alan Cao, Felix Meligan, NetApp
+
+[role="lead"]
+Questa soluzione fornisce ai clienti e al campo NetApp istruzioni e istruzioni per la configurazione, il funzionamento e la migrazione dei database in un ambiente di cloud ibrido utilizzando lo strumento basato sull'interfaccia grafica di NetApp SnapCenter e il servizio di storage CVO di NetApp nei cloud pubblici per i seguenti casi di utilizzo:
+
+* Operazioni di sviluppo/test del database nel cloud ibrido
+* Disaster recovery del database nel cloud ibrido
+
+
+Oggi, molti database aziendali risiedono ancora in data center aziendali privati per motivi di performance, sicurezza e/o altro. Questa soluzione di database per il cloud ibrido consente alle aziende di gestire i propri database primari on-site utilizzando un cloud pubblico per le operazioni di sviluppo/test dei database e per il disaster recovery per ridurre i costi operativi e di licenza.
+
+Molti database aziendali, come Oracle, SQL Server, SAP HANA e così via, costi operativi e di licenza elevati. Molti clienti pagano una quota di licenza una tantum e i costi di supporto annuali in base al numero di core di calcolo nel proprio ambiente di database, indipendentemente dal fatto che i core siano utilizzati per lo sviluppo, il test, la produzione o il disaster recovery. Molti di questi ambienti potrebbero non essere completamente utilizzati durante l'intero ciclo di vita dell'applicazione.
+
+Le soluzioni offrono ai clienti l'opzione di ridurre potenzialmente il numero di core licenziabili spostando nel cloud gli ambienti di database dedicati allo sviluppo, al test o al disaster recovery. Utilizzando la scalabilità del cloud pubblico, la ridondanza, l'alta disponibilità e un modello di fatturazione basato sui consumi, il risparmio sui costi per le licenze e le operazioni può essere sostanziale, senza sacrificare l'usabilità o la disponibilità delle applicazioni.
+
+Oltre ai potenziali risparmi sui costi di licenza dei database, il modello di licenza CVO basato sulla capacità di NetApp consente ai clienti di risparmiare sui costi di storage per GB, offrendo al contempo un elevato livello di gestibilità dei database che non è disponibile dai servizi di storage della concorrenza. Il grafico seguente mostra un confronto dei costi di storage dei più diffusi servizi di storage disponibili nel cloud pubblico.
+
+image:cvo_cloud_cost_comparision.png["Errore: Immagine grafica mancante"]
+
+Questa soluzione dimostra che, utilizzando lo strumento software basato su interfaccia grafica e la tecnologia SnapCenter SnapMirror, è possibile configurare, implementare e gestire in modo semplice le operazioni di database del cloud ibrido.
+
+I seguenti video mostrano SnapCenter in azione:
+
+* https://www.youtube.com/watch?v=-8GPzwjX9CM&list=PLdXI3bZJEw7nofM6lN44eOe4aOSoryckg&index=35["Backup di un database Oracle su un cloud ibrido utilizzando SnapCenter"^]
+* https://www.youtube.com/watch?v=v3udynwJlpI["SnapCenter - Clona SVILUPPO/TEST su cloud AWS per un database Oracle"^]
+
+
+In particolare, sebbene le illustrazioni di questo documento mostrino CVO come istanza di storage di destinazione nel cloud pubblico, la soluzione è anche pienamente validata per la nuova release del motore di storage FSX ONTAP per AWS.
+
+Per testare la soluzione e i casi di utilizzo, è possibile richiedere un NetApp Lab-on-Demand SL10680 al seguente link: https://labondemand.netapp.com/lod3/labtest/request?nodeid=68761&destination=lod3/testlabs[TL_AWS_004 HCoD: AWS - NW,SnapCenter(OnPrem)^].
+
+link:hybrid_dbops_snapcenter_architecture.html["Avanti: Architettura delle soluzioni."]

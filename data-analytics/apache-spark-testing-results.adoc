@@ -1,0 +1,357 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/apache-spark-testing-results.html 
+keywords: terasort, teravalidate, teragen, benchmarking, e-series, storagegrid, hadoop, financial sentiment analysis, distributed training, Horovod performance 
+summary: 'Abbiamo utilizzato gli script TeraSort e TeraValidate nello strumento di benchmarking TeraGen per misurare la convalida delle performance Spark con le configurazioni E5760, E5724 e AFF-A800. Inoltre, sono stati testati tre casi di utilizzo principali: Pipeline NLP Spark e training distribuito TensorFlow, training distribuito Horovod e deep learning multi-worker con keras per la previsione CTR con DeepFM.' 
+---
+= Risultati del test
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:apache-spark-major-ai,-ml,-and-dl-use-cases-and-architectures.html["Precedente: Principali casi di utilizzo e architetture ai, ML e DL."]
+
+[role="lead"]
+Abbiamo utilizzato gli script TeraSort e TeraValidate nello strumento di benchmarking TeraGen per misurare la convalida delle performance Spark con le configurazioni E5760, E5724 e AFF-A800. Inoltre, sono stati testati tre casi di utilizzo principali: Pipeline SPARK NLP e training distribuito TensorFlow, training distribuito Horovod e deep learning multi-worker con keras per la previsione CTR con DeepFM.
+
+Per la convalida di e-Series e StorageGRID, abbiamo utilizzato il fattore di replica Hadoop 2. Per la convalida AFF, abbiamo utilizzato una sola fonte di dati.
+
+La seguente tabella elenca la configurazione hardware per la convalida delle prestazioni di Spark.
+
+|===
+| Tipo | Nodi di lavoro Hadoop | Tipo di disco | Dischi per nodo | Controller dello storage 
+
+
+| SG6060 | 4 | SAS | 12 | Singola coppia ad alta disponibilità (ha) 
+
+
+| E5760 | 4 | SAS | 60 | Coppia ha singola 
+
+
+| E5724 | 4 | SAS | 24 | Coppia ha singola 
+
+
+| AFF800 | 4 | SSD | 6 | Coppia ha singola 
+|===
+La seguente tabella elenca i requisiti software.
+
+|===
+| Software | Versione 
+
+
+| RHEL | 7.9 
+
+
+| Ambiente di runtime OpenJDK | 1.8.0 
+
+
+| Server VM OpenJDK a 64 bit | 25.302 
+
+
+| Git | 2.24.1 
+
+
+| GCC/G++ | 11.2.1 
+
+
+| Scintilla | 3.2.1 
+
+
+| PySpark | 3.1.2 
+
+
+| SparkNLP | 3.4.2 
+
+
+| TensorFlow | 2.9.0 
+
+
+| Ere | 2.9.0 
+
+
+| Horovod | 0.24.3 
+|===
+
+
+== Analisi del sentimento finanziario
+
+Abbiamo pubblicato https://docs.netapp.com/us-en/netapp-solutions/ai/ai-sent-support-center-analytics.html["TR-4910: Analisi del sentimento da Customer Communications con NetApp ai"^], In cui è stata costruita una pipeline di ai conversazionale end-to-end utilizzando https://github.com/NetApp/netapp-dataops-toolkit["NetApp DataOps Toolkit"^], Storage AFF e sistema NVIDIA DGX. La pipeline esegue l'elaborazione del segnale audio batch, il riconoscimento vocale automatico (ASR), l'apprendimento del trasferimento e l'analisi del sentimento utilizzando il DataOps Toolkit, https://developer.nvidia.com/riva["SDK NVIDIA Riva"^]e il https://developer.nvidia.com/tao["Framework di Tao"^]. Espandendo il caso d'uso dell'analisi del sentimento nel settore dei servizi finanziari, abbiamo creato un workflow SparkNLP, caricato tre modelli BERT per varie attività NLP, come il riconoscimento delle entità nominate, e ottenuto un sentimento a livello di frase per le chiamate trimestrali sui guadagni delle prime 10 aziende NASDAQ.
+
+Il seguente script `sentiment_analysis_spark. py` Utilizza il modello FinBERT per elaborare le trascrizioni in HDFS e produrre conteggi di sentimenti positivi, neutri e negativi, come mostrato nella seguente tabella:
+
+....
+-bash-4.2$ time ~/anaconda3/bin/spark-submit
+--packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.3
+--master yarn
+--executor-memory 5g
+--executor-cores 1
+--num-executors 160
+--conf spark.driver.extraJavaOptions="-Xss10m -XX:MaxPermSize=1024M"
+--conf spark.executor.extraJavaOptions="-Xss10m -XX:MaxPermSize=512M"
+/sparkusecase/tr-4570-nlp/sentiment_analysis_spark.py hdfs:///data1/Transcripts/
+> ./sentiment_analysis_hdfs.log 2>&1
+real13m14.300s
+user557m11.319s
+sys4m47.676s
+....
+La seguente tabella elenca l'analisi del sentimento a livello di frase e di chiamata degli utili per le prime 10 aziende NASDAQ dal 2016 al 2020.
+
+|===
+| I conteggi dei sentimenti e la percentuale | Tutte le 10 aziende | AAAPL | AMD | N. AMZN | CSCO | GOOGL | INTC | MSFT | NVDA 
+
+
+| Conteggi positivi | 7447 | 1567 | 743 | 290 | 682 | 826 | 824 | 904 | 417 
+
+
+| Conteggi neutrali | 64067 | 6856 | 7596 | 5086 | 6650 | 5914 | 6099 | 5715 | 6189 
+
+
+| Conteggi negativi | 1787 | 253 | 213 | 84 | 189 | 97 | 282 | 202 | 89 
+
+
+| Conteggi senza categoria | 196 | 0 | 0 | 76 | 0 | 0 | 0 | 1 | 0 
+
+
+| (conteggi totali) | 73497 | 8676 | 8552 | 5536 | 7521 | 6837 | 7205 | 6822 | 6695 
+|===
+In termini di percentuali, la maggior parte delle frasi pronunciate dagli amministratori delegati e dai CFO è fattuale e quindi ha un sentimento neutrale. Durante una chiamata sui guadagni, gli analisti pongono domande che potrebbero trasmettere un sentimento positivo o negativo. Vale la pena di analizzare in maniera quantitativa il modo in cui il sentimento negativo o positivo influisce sui prezzi delle azioni nello stesso giorno o nel giorno successivo di negoziazione.
+
+La seguente tabella elenca l'analisi del sentimento a livello di frase per le prime 10 aziende NASDAQ, espressa in percentuale.
+
+|===
+| Percentuale di sentimento | Tutte le 10 aziende | AAAPL | AMD | N. AMZN | CSCO | GOOGL | INTC | MSFT | NVDA 
+
+
+| Positivo  a| 
+10.13%
+| 18.06% | 8.69% | 5.24% | 9.07% | 12.08% | 11.44% | 13.25% | 6.23% 
+
+
+| Neutro | 87.17% | 79.02% | 88.82% | 91.87% | 88.42% | 86.50% | 84.65% | 83.77% | 92.44% 
+
+
+| Negativo | 2.43% | 2.92% | 2.49% | 1.52% | 2.51% | 1.42% | 3.91% | 2.96% | 1.33% 
+
+
+| Senza categoria | 0.27% | 0% | 0% | 1.37% | 0% | 0% | 0% | 0.01% | 0% 
+|===
+In termini di runtime del workflow, abbiamo riscontrato un significativo miglioramento di 4,78 volte `local` A un ambiente distribuito in HDFS e un ulteriore miglioramento del 0.14% grazie all'utilizzo di NFS.
+
+....
+-bash-4.2$ time ~/anaconda3/bin/spark-submit
+--packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.3
+--master yarn
+--executor-memory 5g
+--executor-cores 1
+--num-executors 160
+--conf spark.driver.extraJavaOptions="-Xss10m -XX:MaxPermSize=1024M"
+--conf spark.executor.extraJavaOptions="-Xss10m -XX:MaxPermSize=512M"
+/sparkusecase/tr-4570-nlp/sentiment_analysis_spark.py file:///sparkdemo/sparknlp/Transcripts/
+> ./sentiment_analysis_nfs.log 2>&1
+real13m13.149s
+user537m50.148s
+sys4m46.173s
+....
+Come mostrato nella figura seguente, il parallelismo dei dati e dei modelli ha migliorato l'elaborazione dei dati e la velocità di deduzione del modello TensorFlow distribuito. La posizione dei dati in NFS ha prodotto un runtime leggermente migliore perché il collo di bottiglia del workflow è il download di modelli preformati. Se aumentiamo le dimensioni del set di dati delle trascrizioni, il vantaggio di NFS è più evidente.
+
+image:apache-spark-image11.png["Runtime del workflow end-to-end per l'analisi del sentimento di SPARK NLP."]
+
+
+
+== Formazione distribuita con performance Horovod
+
+Il seguente comando ha prodotto informazioni di runtime e un file di log nel cluster Spark utilizzando un singolo `master` nodo con 160 esecutori ciascuno con un core. La memoria dell'esecutore era limitata a 5 GB per evitare errori di memoria esaurita. Vedere la sezione link:apache-spark-python-scripts-for-each-major-use-case.html[""Script Python per ogni caso di utilizzo principale""] per ulteriori dettagli sull'elaborazione dei dati, sul training del modello e sul calcolo della precisione del modello in `keras_spark_horovod_rossmann_estimator.py`.
+
+....
+(base) [root@n138 horovod]# time spark-submit
+--master local
+--executor-memory 5g
+--executor-cores 1
+--num-executors 160
+/sparkusecase/horovod/keras_spark_horovod_rossmann_estimator.py
+--epochs 10
+--data-dir file:///sparkusecase/horovod
+--local-submission-csv /tmp/submission_0.csv
+--local-checkpoint-file /tmp/checkpoint/
+> /tmp/keras_spark_horovod_rossmann_estimator_local. log 2>&1
+....
+Il runtime risultante con dieci epoche di training è stato il seguente:
+
+....
+real43m34.608s
+user12m22.057s
+sys2m30.127s
+....
+Ci sono voluti più di 43 minuti per elaborare i dati di input, formare un modello DNN, calcolare la precisione e produrre checkpoint TensorFlow e un file CSV per i risultati delle previsioni. Abbiamo limitato il numero di epoche di training a 10, che in pratica è spesso impostato a 100 per garantire una precisione del modello soddisfacente. Il tempo di training in genere è in grado di scalare in modo lineare con il numero di epoche.
+
+Successivamente, abbiamo utilizzato i quattro nodi di lavoro disponibili nel cluster ed eseguito lo stesso script in `yarn` Modalità con dati in HDFS:
+
+....
+(base) [root@n138 horovod]# time spark-submit
+--master yarn
+--executor-memory 5g
+--executor-cores 1 --num-executors 160 /sparkusecase/horovod/keras_spark_horovod_rossmann_estimator.py
+--epochs 10
+--data-dir hdfs:///user/hdfs/tr-4570/experiments/horovod
+--local-submission-csv /tmp/submission_1.csv
+--local-checkpoint-file /tmp/checkpoint/
+> /tmp/keras_spark_horovod_rossmann_estimator_yarn.log 2>&1
+....
+Il runtime risultante è stato migliorato come segue:
+
+....
+real8m13.728s
+user7m48.421s
+sys1m26.063s
+....
+Con il modello di Horovod e il parallelismo dei dati in Spark, abbiamo visto una velocità di runtime di 5,29x `yarn` contro `local` con dieci epoche di training. Questo è mostrato nella figura seguente con le legende `HDFS` e. `Local`. Il training sul modello DNN TensorFlow sottostante può essere ulteriormente accelerato con le GPU, se disponibili. Prevediamo di condurre questo test e di pubblicare i risultati in un report tecnico futuro.
+
+Il nostro test successivo ha confrontato i runtime con i dati di input che risiedono in NFS rispetto a HDFS. Il volume NFS su AFF A800 è stato montato `/sparkdemo/horovod` Tra i cinque nodi (un master, quattro dipendenti) nel cluster Spark. Abbiamo eseguito un comando simile a quello dei test precedenti, con `--data- dir` Parametro ora che punta al montaggio NFS:
+
+....
+(base) [root@n138 horovod]# time spark-submit
+--master yarn
+--executor-memory 5g
+--executor-cores 1
+--num-executors 160
+/sparkusecase/horovod/keras_spark_horovod_rossmann_estimator.py
+--epochs 10
+--data-dir file:///sparkdemo/horovod
+--local-submission-csv /tmp/submission_2.csv
+--local-checkpoint-file /tmp/checkpoint/
+> /tmp/keras_spark_horovod_rossmann_estimator_nfs.log 2>&1
+....
+Il runtime risultante con NFS è stato il seguente:
+
+....
+real 5m46.229s
+user 5m35.693s
+sys  1m5.615s
+....
+Si è verificato un ulteriore velocismo di 1,43 volte, come mostrato nella figura seguente. Pertanto, con uno storage all-flash NetApp collegato al cluster, i clienti possono usufruire dei vantaggi di un rapido trasferimento e distribuzione dei dati per i flussi di lavoro di Horovod Spark, ottenendo una velocità di 7,55 volte superiore rispetto all'esecuzione su un singolo nodo.
+
+image:apache-spark-image12.png["Horovod Spark Workflow Runtime."]
+
+
+
+== Modelli di deep learning per performance di previsione CTR
+
+Per i sistemi di raccomandazione progettati per massimizzare il CTR, è necessario imparare sofisticate interazioni di funzionalità dietro i comportamenti degli utenti che possono essere calcolati matematicamente da basso ordine a alto ordine. Le interazioni di funzionalità di basso e alto ordine devono essere ugualmente importanti per un buon modello di deep learning senza polarizzare l'uno o l'altro. DeepFM (Deep Factorization Machine), una rete neurale basata su macchine per la fattorizzazione, combina macchine per la fattorizzazione per consigli e un apprendimento approfondito per l'apprendimento delle funzionalità in una nuova architettura di rete neurale.
+
+Anche se le macchine convenzionali di fattorizzazione modellano le interazioni a coppie come prodotto interno di vettori latenti tra le funzionalità e possono teoricamente acquisire informazioni di ordine elevato, in pratica, i professionisti dell'apprendimento automatico di solito utilizzano solo le interazioni di funzionalità di secondo ordine a causa dell'elevata complessità di calcolo e storage. Varianti di rete neurali profonde come quelle di Google https://arxiv.org/abs/1606.07792[" modelli profondi"^] d'altro canto, impara sofisticate interazioni di funzionalità in una struttura di rete ibrida combinando un modello ampio lineare e un modello profondo.
+
+Ci sono due input per questo modello ampio e profondo, uno per il modello ampio sottostante e l'altro per il deep, l'ultima parte del quale richiede ancora un esperto di ingegneria delle funzionalità e quindi rende la tecnica meno generalizzabile per altri domini. A differenza di Wide & Deep Model, DeepFM può essere addestrato in modo efficiente con funzionalità raw senza alcuna progettazione delle funzioni, perché la sua parte ampia e profonda condividono lo stesso input e lo stesso vettore di inclusione.
+
+Abbiamo elaborato per la prima volta il Criteo `train.txt` (11 GB) in un file CSV denominato `ctr_train.csv` Memorizzato in un montaggio NFS `/sparkdemo/tr-4570-data` utilizzo di `run_classification_criteo_spark.py` dalla sezione link:apache-spark-python-scripts-for-each-major-use-case.html[""Script Python per ogni caso di utilizzo principale"."] All'interno di questo script, la funzione `process_input_file` esegue diversi metodi di stringa per rimuovere le schede e inserire `‘,’` come delimitatore e. `‘\n’` come novità. Tenere presente che è necessario elaborare solo l'originale `train.txt` una volta, in modo che il blocco di codice sia visualizzato come commenti.
+
+Per i seguenti test di diversi modelli DL, abbiamo utilizzato `ctr_train.csv` come file di input. Nelle successive esecuzioni dei test, il file CSV di input è stato letto in un Spark DataFrame con schema contenente un campo di `‘label’`, caratteristiche ad alta densità di numeri interi `['I1', 'I2', 'I3', …, 'I13']`e funzioni sparse `['C1', 'C2', 'C3', …, 'C26']`. Quanto segue `spark-submit` Command acquisisce un input CSV, allena i modelli DeepFM con una suddivisione del 20% per la convalida incrociata e sceglie il modello migliore dopo dieci epoche di training per calcolare l'accuratezza della previsione sul set di test:
+
+....
+(base) [root@n138 ~]# time spark-submit --master yarn --executor-memory 5g --executor-cores 1 --num-executors 160 /sparkusecase/DeepCTR/examples/run_classification_criteo_spark.py --data-dir file:///sparkdemo/tr-4570-data > /tmp/run_classification_criteo_spark_local.log 2>&1
+....
+Tenere presente che dal file di dati `ctr_train.csv` È superiore a 11 GB, è necessario impostare un valore sufficiente `spark.driver.maxResultSize` maggiore della dimensione del set di dati per evitare errori.
+
+....
+ spark = SparkSession.builder \
+    .master("yarn") \
+    .appName("deep_ctr_classification") \
+    .config("spark.jars.packages", "io.github.ravwojdyla:spark-schema-utils_2.12:0.1.0") \
+    .config("spark.executor.cores", "1") \
+    .config('spark.executor.memory', '5gb') \
+    .config('spark.executor.memoryOverhead', '1500') \
+    .config('spark.driver.memoryOverhead', '1500') \
+    .config("spark.sql.shuffle.partitions", "480") \
+    .config("spark.sql.execution.arrow.enabled", "true") \
+    .config("spark.driver.maxResultSize", "50gb") \
+    .getOrCreate()
+....
+In quanto sopra `SparkSession.builder` anche la configurazione è stata abilitata https://arrow.apache.org/["Freccia Apache"^], Che converte un DataFrame Spark in un DataFrame Pandas con `df.toPandas()` metodo.
+
+....
+22/06/17 15:56:21 INFO scheduler.DAGScheduler: Job 2 finished: toPandas at /sparkusecase/DeepCTR/examples/run_classification_criteo_spark.py:96, took 627.126487 s
+Obtained Spark DF and transformed to Pandas DF using Arrow.
+....
+Dopo la suddivisione casuale, nel set di dati di training sono presenti più di 36 M di righe e 9 M di esempi nel set di test:
+
+....
+Training dataset size =  36672493
+Testing dataset size =  9168124
+....
+Poiché questo report tecnico è incentrato sul test della CPU senza utilizzare alcuna GPU, è fondamentale creare TensorFlow con i flag appropriati del compilatore. Questo passaggio evita di invocare librerie con accelerazione GPU e sfrutta al meglio le istruzioni AVX (Advanced Vector Extensions) e AVX2 di TensorFlow. Queste funzionalità sono progettate per calcoli algebrici lineari come addizione vettorizzata, moltiplicazioni di matrice all'interno di un training feed-forward o DNN back-propagation. L'istruzione FMA (Fused Multiply Add) disponibile con AVX2 che utilizza registri a virgola mobile (FP) a 256 bit è ideale per i tipi di dati e codice intero, con una velocità fino a 2 volte superiore. Per il codice FP e i tipi di dati, AVX2 raggiunge una velocità dell'8% su AVX.
+
+....
+2022-06-18 07:19:20.101478: I tensorflow/core/platform/cpu_feature_guard.cc:151] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+....
+Per creare TensorFlow dall'origine, NetApp consiglia di utilizzare https://bazel.build/["Bazel"^]. Per il nostro ambiente, abbiamo eseguito i seguenti comandi nel prompt della shell per l'installazione `dnf`, `dnf-plugins`E Bazel.
+
+....
+yum install dnf
+dnf install 'dnf-command(copr)'
+dnf copr enable vbatts/bazel
+dnf install bazel5
+....
+È necessario abilitare GCC 5 o versioni successive per utilizzare le funzionalità C++17 durante il processo di creazione, fornito da RHEL con Software Collections Library (SCL). I seguenti comandi vengono installati `devtoolset` E GCC 11.2.1 sul nostro cluster RHEL 7.9:
+
+....
+subscription-manager repos --enable rhel-server-rhscl-7-rpms
+yum install devtoolset-11-toolchain
+yum install devtoolset-11-gcc-c++
+yum update
+scl enable devtoolset-11 bash
+. /opt/rh/devtoolset-11/enable
+....
+Si noti che gli ultimi due comandi sono disponibili `devtoolset-11`, che utilizza `/opt/rh/devtoolset-11/root/usr/bin/gcc` (GCC 11.2.1). Inoltre, assicurarsi di `git` La versione è superiore alla 1.8.3 (fornita con RHEL 7.9). Fare riferimento a questo https://travis.media/how-to-upgrade-git-on-rhel7-and-centos7/["articolo"^] per l'aggiornamento `git` a 2.24.1.
+
+Supponiamo che tu abbia già clonato l'ultimo repo master TensorFlow. Quindi, creare un `workspace` directory con un `WORKSPACE` File per la creazione di TensorFlow dall'origine con AVX, AVX2 e FMA. Eseguire `configure` E specificare la posizione binaria di Python corretta. https://developer.nvidia.com/cuda-toolkit["CUDA"^] È disattivato per i test perché non abbiamo utilizzato una GPU. R `.bazelrc` il file viene generato in base alle impostazioni. Inoltre, abbiamo modificato il file e il set `build --define=no_hdfs_support=false` Per attivare il supporto HDFS. Fare riferimento a. `.bazelrc` nella sezione link:apache-spark-python-scripts-for-each-major-use-case.html[""Script Python per ogni caso di utilizzo principale","] per un elenco completo di impostazioni e flag.
+
+....
+./configure
+bazel build -c opt --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mfpmath=both -k //tensorflow/tools/pip_package:build_pip_package
+....
+Dopo aver creato TensorFlow con i flag corretti, eseguire il seguente script per elaborare il set di dati Criteo Display Ads, formare un modello DeepFM e calcolare l'area sotto la curva caratteristica operativa ricevitore (ROC AUC) in base ai punteggi di previsione.
+
+....
+(base) [root@n138 examples]# ~/anaconda3/bin/spark-submit
+--master yarn
+--executor-memory 15g
+--executor-cores 1
+--num-executors 160
+/sparkusecase/DeepCTR/examples/run_classification_criteo_spark.py
+--data-dir file:///sparkdemo/tr-4570-data
+> . /run_classification_criteo_spark_nfs.log 2>&1
+....
+Dopo dieci epoche di training, abbiamo ottenuto il punteggio AUC nel set di dati di test:
+
+....
+Epoch 1/10
+125/125 - 7s - loss: 0.4976 - binary_crossentropy: 0.4974 - val_loss: 0.4629 - val_binary_crossentropy: 0.4624
+Epoch 2/10
+125/125 - 1s - loss: 0.3281 - binary_crossentropy: 0.3271 - val_loss: 0.5146 - val_binary_crossentropy: 0.5130
+Epoch 3/10
+125/125 - 1s - loss: 0.1948 - binary_crossentropy: 0.1928 - val_loss: 0.6166 - val_binary_crossentropy: 0.6144
+Epoch 4/10
+125/125 - 1s - loss: 0.1408 - binary_crossentropy: 0.1383 - val_loss: 0.7261 - val_binary_crossentropy: 0.7235
+Epoch 5/10
+125/125 - 1s - loss: 0.1129 - binary_crossentropy: 0.1102 - val_loss: 0.7961 - val_binary_crossentropy: 0.7934
+Epoch 6/10
+125/125 - 1s - loss: 0.0949 - binary_crossentropy: 0.0921 - val_loss: 0.9502 - val_binary_crossentropy: 0.9474
+Epoch 7/10
+125/125 - 1s - loss: 0.0778 - binary_crossentropy: 0.0750 - val_loss: 1.1329 - val_binary_crossentropy: 1.1301
+Epoch 8/10
+125/125 - 1s - loss: 0.0651 - binary_crossentropy: 0.0622 - val_loss: 1.3794 - val_binary_crossentropy: 1.3766
+Epoch 9/10
+125/125 - 1s - loss: 0.0555 - binary_crossentropy: 0.0527 - val_loss: 1.6115 - val_binary_crossentropy: 1.6087
+Epoch 10/10
+125/125 - 1s - loss: 0.0470 - binary_crossentropy: 0.0442 - val_loss: 1.6768 - val_binary_crossentropy: 1.6740
+test AUC 0.6337
+....
+In modo simile ai casi di utilizzo precedenti, abbiamo confrontato il runtime del workflow Spark con i dati che risiedono in posizioni diverse. La figura seguente mostra un confronto della previsione CTR di apprendimento approfondito per un runtime di workflow Spark.
+
+image:apache-spark-image13.png["Confronto della previsione CTR di deep learning per un runtime di workflow Spark."]
+
+link:apache-spark-hybrid-cloud-solution.html["Avanti: Soluzione di cloud ibrido."]

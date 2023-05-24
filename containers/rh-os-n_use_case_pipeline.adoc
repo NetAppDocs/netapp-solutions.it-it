@@ -1,0 +1,93 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_pipeline.html 
+keywords: CI/CD, Continuous integration, continuous deployment, Jenkins, PVC 
+summary: In questa sezione vengono fornite le fasi necessarie per implementare una pipeline di implementazione o di integrazione continua con Jenkins per convalidare il funzionamento della soluzione. 
+---
+= Implementa una pipeline ci/CD Jenkins con storage persistente: Red Hat OpenShift con NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+In questa sezione vengono fornite le fasi necessarie per implementare una pipeline ci/CD (Continuous Integration/Continuous Delivery or Deployment) con Jenkins per convalidare il funzionamento della soluzione.
+
+
+
+== Creare le risorse necessarie per l'implementazione di Jenkins
+
+Per creare le risorse necessarie per l'implementazione dell'applicazione Jenkins, attenersi alla seguente procedura:
+
+. Crea un nuovo progetto chiamato Jenkins.
++
+image:redhat_openshift_image15.jpeg["Errore: Immagine grafica mancante"]
+
+. In questo esempio, abbiamo implementato Jenkins con storage persistente. Per supportare la build Jenkins, creare il PVC. Selezionare Storage > Persistent Volume Claims (Storage > Reclami volumi persistenti) e fare clic su Create Persistent Selezionare la classe di storage creata, assicurarsi che il nome della richiesta di rimborso del volume persistente sia jenkins, selezionare la dimensione e la modalità di accesso appropriate, quindi fare clic su Create (Crea).
+
+
+image:redhat_openshift_image16.png["Errore: Immagine grafica mancante"]
+
+
+
+== Implementare Jenkins con lo storage persistente
+
+Per implementare Jenkins con lo storage persistente, attenersi alla seguente procedura:
+
+. Nell'angolo in alto a sinistra, modificare il ruolo da Amministratore a sviluppatore. Fare clic su +Add (Aggiungi) e selezionare From Catalog (dal catalogo) Nella barra Filtra per parola chiave, cercare jenkins. Selezionare Servizio Jenkins con storage persistente.
++
+image:redhat_openshift_image17.png["Errore: Immagine grafica mancante"]
+
+. Fare clic su `Instantiate Template`.
++
+image:redhat_openshift_image18.png["Errore: Immagine grafica mancante"]
+
+. Per impostazione predefinita, i dettagli dell'applicazione Jenkins vengono popolati. In base alle proprie esigenze, modificare i parametri e fare clic su Create (Crea). Questo processo crea tutte le risorse necessarie per supportare Jenkins su OpenShift.
++
+image:redhat_openshift_image19.jpeg["Errore: Immagine grafica mancante"]
+
+. I pod Jenkins impiegano circa 10 - 12 minuti per entrare nello stato Pronta.
++
+image:redhat_openshift_image20.png["Errore: Immagine grafica mancante"]
+
+. Una volta creata l'istanza dei pod, accedere a Networking > routes (rete > percorsi). Per aprire la pagina Web di Jenkins, fare clic sull'URL fornito per il percorso jenkins.
++
+image:redhat_openshift_image21.png["Errore: Immagine grafica mancante"]
+
+. Poiché OpenShift OAuth è stato utilizzato durante la creazione dell'applicazione Jenkins, fare clic su Accedi con OpenShift.
++
+image:redhat_openshift_image22.jpeg["Errore: Immagine grafica mancante"]
+
+. Autorizzare l'account del servizio Jenkins ad accedere agli utenti OpenShift.
++
+image:redhat_openshift_image23.jpeg["Errore: Immagine grafica mancante"]
+
+. Viene visualizzata la pagina di benvenuto di Jenkins. Poiché stiamo utilizzando una build Maven, completare prima l'installazione di Maven. Accedere a Manage Jenkins > Global Tool Configuration (Gestisci Jenkins > Configurazione globale strumenti), quindi fare clic su Add Maven (Aggiungi Maven) nella sottotesta di Maven. Immettere il nome desiderato e assicurarsi che l'opzione Installa automaticamente sia selezionata. Fare clic su Salva.
++
+image:redhat_openshift_image24.png["Errore: Immagine grafica mancante"]
+
+. È ora possibile creare una pipeline per dimostrare il flusso di lavoro ci/CD. Nella home page, fare clic su Create New Jobs (Crea nuovi lavori) o New Item (nuovo elemento) dal menu a sinistra.
++
+image:redhat_openshift_image25.jpeg["Errore: Immagine grafica mancante"]
+
+. Nella pagina Create Item (Crea elemento), immettere il nome desiderato, selezionare Pipeline e fare clic su OK.
++
+image:redhat_openshift_image26.png["Errore: Immagine grafica mancante"]
+
+. Selezionare la scheda pipeline. Dal menu a discesa Try Sample Pipeline, selezionare Github + Maven. Il codice viene compilato automaticamente. Fare clic su Salva.
++
+image:redhat_openshift_image27.png["Errore: Immagine grafica mancante"]
+
+. Fare clic su Build Now (Crea ora) per avviare lo sviluppo attraverso la fase di preparazione, creazione e test. Il completamento dell'intero processo di creazione e la visualizzazione dei risultati della creazione possono richiedere alcuni minuti.
++
+image:redhat_openshift_image28.png["Errore: Immagine grafica mancante"]
+
+. Ogni volta che si verifica una modifica del codice, la pipeline può essere ricostruita per applicare patch alla nuova versione del software, consentendo un'integrazione continua e un'erogazione continua. Fare clic su Recent Changes (modifiche recenti) per tenere traccia delle modifiche rispetto alla versione precedente.
++
+image:redhat_openshift_image29.png["Errore: Immagine grafica mancante"]
+
+
+
+link:rh-os-n_videos_and_demos.html["Avanti: Video e demo."]

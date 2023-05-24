@@ -1,0 +1,149 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-introduction.html 
+keywords: tr-4886, tr4886, 4886, introduction, netapp, ai, inferencing, lenovo, thinksystem, solution, design 
+summary: 'Questo documento descrive un"architettura di calcolo e storage per implementare deduzione di intelligenza artificiale (ai) basata su GPU su storage controller NetApp e server Lenovo ThinkSystem in un ambiente edge che soddisfa gli scenari applicativi emergenti.' 
+---
+= TR-4886: Ai Inferencing at the Edge - NetApp con Lenovo ThinkSystem - progettazione di soluzioni
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Sathish Thyagarajan, NetApp Miroslav Hodak, Lenovo
+
+
+
+== Riepilogo
+
+Diversi scenari applicativi emergenti, come i sistemi avanzati di assistenza alla guida (ADAS), Industry 4.0, smart cities e Internet of Things (IoT), richiedono l'elaborazione di flussi di dati continui con una latenza quasi nulla. Questo documento descrive un'architettura di calcolo e storage per implementare deduzione di intelligenza artificiale (ai) basata su GPU su storage controller NetApp e server Lenovo ThinkSystem in un ambiente edge che soddisfi questi requisiti. Questo documento fornisce inoltre dati sulle performance per il benchmark MLPerf Inference standard di settore, valutando varie attività di inferenza su edge server dotati di GPU NVIDIA T4. Analizziamo le performance degli scenari di inferenza offline, single stream e multistream e mostriamo che l'architettura con un sistema di storage condiviso in rete a costi contenuti è altamente performante e fornisce un punto centrale per la gestione di dati e modelli per più edge server.
+
+
+
+== Introduzione
+
+Le aziende stanno generando sempre più enormi volumi di dati all'edge della rete. Per ottenere il massimo valore dai sensori intelligenti e dai dati IoT, le organizzazioni sono alla ricerca di una soluzione di streaming di eventi in tempo reale che consenta l'edge computing. I lavori più impegnativi dal punto di vista computazionale vengono quindi eseguiti sempre più all'edge, al di fuori dei data center. L'inferenza dell'ai è uno dei fattori trainanti di questa tendenza. Gli edge server forniscono una potenza di calcolo sufficiente per questi carichi di lavoro, soprattutto quando si utilizzano acceleratori, ma lo storage limitato è spesso un problema, soprattutto negli ambienti multisserver. In questo documento mostreremo come puoi implementare un sistema storage condiviso nell'ambiente edge e in che modo esso benefici per i carichi di lavoro di inferenza ai senza imporre penalizzazioni in termini di performance.
+
+Questo documento descrive un'architettura di riferimento per l'inferenza ai ai edge. Combina più edge server Lenovo ThinkSystem con un sistema storage NetApp per creare una soluzione semplice da implementare e gestire. Si tratta di una guida di riferimento per implementazioni pratiche in varie situazioni, come ad esempio il reparto di produzione con telecamere multiple e sensori industriali, sistemi POS (Point of sale) nelle transazioni al dettaglio o sistemi FSD (Full Self-Driving) che identificano anomalie visive nei veicoli autonomi.
+
+Il presente documento illustra il test e la convalida di una configurazione di calcolo e storage costituita da un server edge Lenovo ThinkSystem SE350 e da un sistema storage entry-level NetApp AFF ed EF-Series. Le architetture di riferimento offrono una soluzione efficiente e conveniente per le implementazioni ai, fornendo al contempo servizi dati completi, protezione integrata dei dati, scalabilità perfetta e storage dei dati connesso al cloud con NetApp ONTAP e il software di gestione dei dati NetApp SANtricity.
+
+
+
+=== Pubblico di riferimento
+
+Il presente documento è destinato ai seguenti destinatari:
+
+* Business leader e Enterprise architect che vogliono produrre l'ai alla periferia della rete.
+* Data scientist, data engineer, ricercatori ai/machine learning (ML) e sviluppatori di sistemi ai.
+* Architetti aziendali che progettano soluzioni per lo sviluppo di modelli e applicazioni ai/ML.
+* Data scientist e ingegneri ai alla ricerca di modi efficienti per implementare modelli di deep learning (DL) e ML.
+* Edge Device Manager e amministratori degli edge server responsabili dell'implementazione e della gestione dei modelli di inferenza edge.
+
+
+
+
+=== Architettura della soluzione
+
+Questo server Lenovo ThinkSystem e la soluzione di storage NetApp ONTAP o NetApp SANtricity sono progettati per gestire l'inferenza ai su set di dati di grandi dimensioni utilizzando la potenza di elaborazione delle GPU insieme alle CPU tradizionali. Questa convalida dimostra performance elevate e una gestione ottimale dei dati con un'architettura che utilizza uno o più edge server Lenovo SR350 interconnessi con un singolo sistema di storage NetApp AFF, come mostrato nelle due figure seguenti.
+
+image:ai-edge-image2.jpg["Errore: Immagine grafica mancante"]
+
+image:ai-edge-image17.png["Errore: Immagine grafica mancante"]
+
+La panoramica dell'architettura logica nella figura seguente mostra i ruoli degli elementi di calcolo e storage in questa architettura. In particolare, viene mostrato quanto segue:
+
+* I dispositivi di calcolo edge che eseguono l'inferenza sui dati ricevuti da telecamere, sensori e così via.
+* Un elemento storage condiviso che serve più scopi:
++
+** Fornisce una posizione centrale per i modelli di inferenza e altri dati necessari per eseguire l'inferenza. I server di calcolo accedono direttamente allo storage e utilizzano modelli di inferenza in tutta la rete senza la necessità di copiarli localmente.
+** I modelli aggiornati vengono inviati qui.
+** Archivia i dati di input ricevuti dagli edge server per un'analisi successiva. Ad esempio, se i dispositivi edge sono collegati alle telecamere, l'elemento di storage mantiene i video acquisiti dalle telecamere.
+
+
+
+
+image:ai-edge-image3.png["Errore: Immagine grafica mancante"]
+
+|===
+
+
+| rosso | blu 
+
+
+| Sistema di calcolo Lenovo | Sistema storage NetApp AFF 
+
+
+| Dispositivi edge che eseguono deduzione sugli input provenienti da telecamere, sensori e così via. | Storage condiviso con modelli di inferenza e dati provenienti da dispositivi edge per analisi successive. 
+|===
+Questa soluzione NetApp e Lenovo offre i seguenti vantaggi principali:
+
+* La GPU ha accelerato il computing all'edge della rete.
+* Implementazione di più edge server supportata e gestita da uno storage condiviso.
+* Protezione dei dati efficace per soddisfare gli obiettivi RPO (Recovery Point Objective) e RTO (Recovery Time Objective) ridotti senza perdita di dati.
+* Gestione dei dati ottimizzata con copie Snapshot e cloni NetApp per ottimizzare i flussi di lavoro di sviluppo.
+
+
+
+
+=== Come utilizzare questa architettura
+
+Questo documento convalida la progettazione e le performance dell'architettura proposta. Tuttavia, non abbiamo testato alcuni componenti a livello di software, come la gestione di container, workload o modelli e la sincronizzazione dei dati con il cloud o il data center on-premise, perché sono specifici di uno scenario di implementazione. In questo caso, esistono diverse scelte.
+
+A livello di gestione dei container, Kubernetes Container Management è una buona scelta ed è ben supportato sia in una versione completamente upstream (Canonical) che in una versione modificata adatta per le implementazioni Enterprise (Red Hat). Il link:https://docs.netapp.com/us-en/netapp-solutions/ai/aicp_introduction.html["Piano di controllo ai di NetApp"^] Che utilizza NetApp Trident e il nuovo aggiunto https://github.com/NetApp/netapp-dataops-toolkit/releases/tag/v2.0.0["NetApp DataOps Toolkit"^] Offre tracciabilità integrata, funzioni di gestione dei dati, interfacce e strumenti per data scientist e data engineer da integrare con lo storage NetApp. Kubeflow, IL toolkit ML per Kubernetes, offre funzionalità ai aggiuntive, oltre al supporto per il controllo delle versioni dei modelli e KFServing su diverse piattaforme, come TensorFlow Serving o NVIDIA Triton Inference Server. Un'altra opzione è la piattaforma NVIDIA EGX, che offre la gestione dei carichi di lavoro e l'accesso a un catalogo di container di inferenza ai abilitati per GPU. Tuttavia, queste opzioni potrebbero richiedere sforzi ed esperienza significativi per metterle in produzione e potrebbero richiedere l'assistenza di un vendor di software indipendente (ISV) o di un consulente di terze parti.
+
+
+
+=== Aree di soluzione
+
+Il vantaggio principale dell'inferenza ai e dell'edge computing è la capacità dei dispositivi di calcolare, elaborare e analizzare i dati con un elevato livello di qualità senza latenza. Esistono troppi esempi di casi d'utilizzo di edge computing da descrivere in questo documento, ma di seguito sono riportati alcuni esempi importanti:
+
+
+
+==== Automobili: Veicoli autonomi
+
+La classica illustrazione dell'edge computing si trova nei sistemi avanzati di assistenza alla guida (ADAS) nei veicoli autonomi (AV). L'ai nelle auto senza conducente deve elaborare rapidamente una grande quantità di dati provenienti da telecamere e sensori per essere un pilota sicuro e di successo. Un'interpretazione troppo lunga tra un oggetto e un essere umano può significare vita o morte, pertanto è fondamentale essere in grado di elaborare i dati il più vicino possibile al veicolo. In questo caso, uno o più server di calcolo edge gestiscono l'input da telecamere, RADAR, LDAR e altri sensori, mentre lo storage condiviso contiene modelli di inferenza e memorizza i dati di input provenienti dai sensori.
+
+
+
+==== Settore sanitario: Monitoraggio dei pazienti
+
+Uno dei maggiori impatti dell'intelligenza artificiale e dell'edge computing è la sua capacità di migliorare il monitoraggio continuo dei pazienti per le malattie croniche sia nelle strutture di assistenza domiciliare che nelle unità di terapia intensiva (ICU). I dati provenienti da dispositivi periferici che monitorano i livelli di insulina, la respirazione, l'attività neurologica, il ritmo cardiaco e le funzioni gastrointestinali richiedono un'analisi istantanea dei dati che devono essere utilizzati immediatamente, in quanto il tempo necessario per agire è limitato per salvare la vita di qualcuno.
+
+
+
+==== Retail: Pagamento senza cassa
+
+L'edge computing può potenziare ai e ML per aiutare i retailer a ridurre i tempi di checkout e aumentare il traffico. I sistemi senza cassiere supportano diversi componenti, ad esempio:
+
+* Autenticazione e accesso. Collegare l'acquirente fisico a un account validato e consentire l'accesso allo spazio di vendita al dettaglio.
+* Monitoraggio dell'inventario. Utilizzo di sensori, tag RFID e sistemi di visione computerizzata per confermare la selezione o la deselezione degli articoli da parte degli acquirenti.
++
+In questo caso, ciascuno degli edge server gestisce ciascun contatore di cassa e il sistema di storage condiviso funge da punto di sincronizzazione centrale.
+
+
+
+
+
+==== Servizi finanziari: Sicurezza umana nei chioschi e prevenzione delle frodi
+
+Le organizzazioni bancarie utilizzano l'ai e l'edge computing per innovare e creare esperienze bancarie personalizzate. I chioschi interattivi che utilizzano l'analisi dei dati in tempo reale e l'inferenza ai consentono ora agli ATM non solo di aiutare i clienti a prelevare denaro, ma anche di monitorare in modo proattivo i chioschi attraverso le immagini acquisite dalle telecamere per identificare i rischi per la sicurezza umana o i comportamenti fraudolenti. In questo scenario, i server di calcolo edge e i sistemi storage condivisi sono collegati a chioschi e telecamere interattivi per aiutare le banche a raccogliere ed elaborare i dati con modelli di inferenza ai.
+
+
+
+==== Produzione: Settore 4.0
+
+È iniziata la quarta rivoluzione industriale (Industry 4.0), insieme a trend emergenti come Smart Factory e stampa 3D. Per prepararsi a un futuro basato sui dati, la comunicazione machine-to-machine (M2M) e l'IoT su larga scala sono integrati per una maggiore automazione senza la necessità di un intervento umano. La produzione è già altamente automatizzata e l'aggiunta di funzionalità di ai è una naturale continuazione della tendenza a lungo termine. L'ai consente di automatizzare le operazioni che possono essere automatizzate con l'aiuto di computer Vision e altre funzionalità di ai. È possibile automatizzare il controllo di qualità o le attività che si basano sulla visione umana o sul processo decisionale per eseguire analisi più rapide dei materiali sulle linee di assemblaggio nei piani della fabbrica, in modo da aiutare gli impianti di produzione a soddisfare gli standard ISO richiesti per la gestione della qualità e della sicurezza. In questo caso, ogni edge server di calcolo è connesso a un array di sensori che monitorano il processo di produzione e i modelli di inferenza aggiornati vengono inviati allo storage condiviso, in base alle necessità.
+
+
+
+==== Telecomunicazioni: Rilevamento della ruggine, ispezione della torre e ottimizzazione della rete
+
+Il settore delle telecomunicazioni utilizza tecniche di visione computerizzata e ai per elaborare immagini che rilevano automaticamente la ruggine e identificano le torri cellulari che contengono corrosione e, di conseguenza, richiedono un'ulteriore ispezione. Negli ultimi anni è aumentato l'utilizzo di immagini drone e modelli ai per identificare regioni distinte di una torre per analizzare ruggine, crepe superficiali e corrosione. La domanda continua a crescere per le tecnologie ai che consentono di ispezionare in modo efficiente l'infrastruttura di telecomunicazione e i ripetitori cellulari, valutarne regolarmente il degrado e ripararli tempestivamente quando necessario.
+
+Inoltre, un altro caso d'utilizzo emergente nel settore delle telecomunicazioni è l'utilizzo di algoritmi ai e ML per prevedere i modelli di traffico dati, rilevare i dispositivi compatibili con il 5G e automatizzare e aumentare la gestione dell'energia MIMO (Multiple-Input and Multiple-Output). L'hardware MIMO viene utilizzato nelle radio tower per aumentare la capacità di rete, ma ciò comporta costi energetici aggiuntivi. I modelli ML per la "modalità di sospensione MIMO" implementati nei siti cellulari possono prevedere l'utilizzo efficiente delle radio e contribuire a ridurre i costi di consumo energetico per gli operatori di reti mobili (MNOS). Le soluzioni di inferenza ai e edge computing aiutano gli MNOS a ridurre la quantità di dati trasmessi avanti e indietro ai data center, ridurre il TCO, ottimizzare le operazioni di rete e migliorare le performance complessive per gli utenti finali.
+
+link:ai-edge-technology-overview.html["Avanti: Panoramica sulla tecnologia."]

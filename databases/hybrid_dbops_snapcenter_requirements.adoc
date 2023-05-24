@@ -1,0 +1,82 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_requirements.html 
+summary: Questa soluzione è progettata in un ambiente di cloud ibrido per supportare i database di produzione on-premise che possono esplodere in tutti i cloud pubblici più diffusi per le operazioni di sviluppo/test e disaster recovery. 
+keywords: requirements, virtualized, bare metal, versions, automation 
+---
+= Requisiti SnapCenter
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:hybrid_dbops_snapcenter_architecture.html["Precedente: Architettura delle soluzioni."]
+
+[role="lead"]
+Questa soluzione è progettata in un ambiente di cloud ibrido per supportare i database di produzione on-premise che possono esplodere in tutti i cloud pubblici più diffusi per le operazioni di sviluppo/test e disaster recovery.
+
+Questa soluzione supporta tutti i database attualmente supportati da SnapCenter, anche se qui vengono dimostrati solo i database Oracle e SQL Server. Questa soluzione è validata con carichi di lavoro di database virtualizzati, sebbene siano supportati anche i carichi di lavoro bare-metal.
+
+Supponiamo che i server di database in produzione siano ospitati on-premise con volumi DB presentati agli host DB da un cluster di storage ONTAP. Il software SnapCenter viene installato on-premise per il backup del database e la replica dei dati nel cloud. Un controller Ansible è consigliato ma non richiesto per l'automazione dell'implementazione del database o per la sincronizzazione della configurazione del kernel e del database del sistema operativo con un'istanza di DR di standby o istanze di sviluppo/test nel cloud pubblico.
+
+
+
+== Requisiti
+
+[cols="3, 9"]
+|===
+| Ambiente | Requisiti 
+
+
+.7+| *On-premise* | Qualsiasi database e versione supportati da SnapCenter 
+
+
+| SnapCenter v4.4 o superiore 
+
+
+| Ansible v2.09 o superiore 
+
+
+| Cluster ONTAP 9.x 
+
+
+| LIF intercluster configurati 
+
+
+| Connettività da on-premise a un VPC cloud (VPN, interconnessione e così via) 
+
+
+| Porte di rete aperte - ssh 22 - tcp 8145, 8146, 10000, 11104, 11105 
+
+
+.3+| *Cloud - AWS* | https://docs.netapp.com/us-en/occm/task_creating_connectors_aws.html["Connettore Cloud Manager"^] 
+
+
+| https://docs.netapp.com/us-en/occm/task_getting_started_aws.html["Cloud Volumes ONTAP"^] 
+
+
+| Corrispondenza delle istanze DB OS EC2 con quelle on-premise 
+
+
+.3+| *Cloud - Azure* | https://docs.netapp.com/us-en/occm/task_creating_connectors_azure.html["Connettore Cloud Manager"^] 
+
+
+| https://docs.netapp.com/us-en/occm/task_getting_started_azure.html["Cloud Volumes ONTAP"^] 
+
+
+| Abbinamento delle macchine virtuali DB OS Azure alle macchine virtuali on-premise 
+
+
+.3+| *Cloud - GCP* | https://docs.netapp.com/us-en/occm/task_creating_connectors_gcp.html["Connettore Cloud Manager"^] 
+
+
+| https://docs.netapp.com/us-en/occm/task_getting_started_gcp.html["Cloud Volumes ONTAP"^] 
+
+
+| Corrispondenza delle istanze di DB OS Google Compute Engine con quelle on-premise 
+|===
+link:hybrid_dbops_snapcenter_prerequisite.html["Pagina successiva: Prerequisiti per la configurazione."]

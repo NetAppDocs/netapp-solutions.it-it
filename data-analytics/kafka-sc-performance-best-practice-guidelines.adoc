@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-sc-performance-best-practice-guidelines.html 
+keywords: best practices, get size, s3 buckets, ethernet links, mtu 
+summary: Questa pagina descrive le Best practice per migliorare le performance di questa soluzione. 
+---
+= Linee guida sulle Best practice per le performance
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:kafka-sc-performance-tests-with-produce-consume-workload-generator.html["Precedente: Test delle performance con generatore di carichi di lavoro producete-consumate."]
+
+[role="lead"]
+* Per ONTAP, quando possibile, utilizzare una dimensione GET >=1 MB.
+* In aumento `num.network.threads` e. `num.io.threads` poll `server.properties` On broker Node consente di trasferire l'attività di tiering aumentata al Tier S3. Questi risultati sono con `num.network.threads` e. `num.io.threads` impostare su 32.
+* I bucket S3 devono essere mirati a otto componenti per aggregato membro.
+* I collegamenti Ethernet che guidano il traffico S3 devono utilizzare un MTU di 9k, quando possibile, sia sullo storage che sul client.
+
+
+link:kafka-sc-conclusion.html["Prossimo: Conclusione."]

@@ -1,0 +1,277 @@
+---
+sidebar: sidebar 
+permalink: samples.html 
+keywords: samples 
+summary:  
+---
+= Esempi di codifica e output di AsciiDoc
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+In questo documento sono inclusi alcuni esempi di origine asciidoc e dell'output risultante.
+
+
+
+== Livelli di intestazione
+
+[Sottolineatura blu]*origine AsciDoc:*
+
+[source]
+----
+= Heading level 0 (Document Title)
+== Heading level 1 (Section Title)
+=== Heading level 2 (Section Title)
+==== Heading level 3 (Section Title)
+===== Heading level 4 (Section Title)
+====== Heading level 5 (Section Title)
+----
+[Sottolineatura blu]*HTML generato:*
+
+
+
+== Titolo 1 (titolo sezione)
+
+
+
+=== Titolo livello 2 (titolo sezione)
+
+
+
+==== Titolo livello 3 (titolo sezione)
+
+
+
+===== Titolo livello 4 (titolo sezione)
+
+
+
+====== Titolo livello 5 (titolo sezione)
+
+
+NOTE: Dovrebbe essere presente un solo titolo del documento (livello 0) per documento e i titoli delle sezioni non possono essere ignorati (i sottotitoli delle sezioni devono essere il livello di intestazione successivo sotto la sezione). Per questo motivo, il campione non viene visualizzato nell'output per eliminare gli errori di costruzione durante l'elaborazione.
+
+
+
+== Elenchi
+
+[Sottolineatura blu]*origine AsciDoc:*
+
+[source]
+----
+Unordered list:
+
+* this is an unordered list
+* this is still an unordered list
+** this is a sub-element in an unordered list
+
+Ordered list:
+
+. this is an ordered list
+. this is still an ordered list
+.. this is a sub-element in an ordered list
+----
+[Sottolineatura blu]*HTML generato:*
+
+Elenco non ordinato:
+
+* questo è un elenco non ordinato
+* si tratta ancora di un elenco non ordinato
++
+** si tratta di un elemento secondario in un elenco non ordinato
+
+
+
+
+Elenco ordinato:
+
+. questo è un elenco ordinato
+. questo è ancora un elenco ordinato
++
+.. si tratta di un elemento secondario in un elenco ordinato
+
+
+
+
+
+
+== Immagini
+
+È possibile collegarsi alle immagini all'interno del repository o in qualsiasi punto del Web. Per le immagini all'interno del repository, queste vengono posizionate nella cartella dei file multimediali, quindi è necessario assicurarsi che ":imagesdir: ./media/" sia impostato correttamente.
+
+[Sottolineatura blu]*origine AsciDoc:*
+
+[source]
+----
+image::sample.png[Image within the repository]
+----
+[Sottolineatura blu]*HTML generato:*
+
+image::sample.png[Immagine all'interno del repository]
+
+[Sottolineatura blu]*origine AsciDoc:*
+
+[source]
+----
+image::https://www.pngall.com/wp-content/uploads/8/Sample-PNG-Image.png[Image outside the repository]
+----
+[Sottolineatura blu]*HTML generato:*
+
+image::https://www.pngall.com/wp-content/uploads/8/Sample-PNG-Image.png[Immagine esterna al repository]
+
+
+
+== Link
+
+Analogamente alle immagini, i link possono fare riferimento ai documenti all'interno del repository o in qualsiasi punto del web. Per i riferimenti interni, è importante assicurarsi che il percorso all'origine del collegamento sia specificato nell'istruzione "link::".
+
+[Sottolineatura blu]*origine AsciDoc:*
+
+[source]
+----
+link:change-log-display.html[NetApp Solutions change log (internal)]
+----
+[Sottolineatura blu]*HTML generato:*
+
+link:change-log-display.html["Registro delle modifiche delle soluzioni NetApp (interno)"]
+
+[Sottolineatura blu]*origine AsciDoc:*
+
+[source]
+----
+link:https://docs.netapp.com/us-en/netapp-solutions/change-log-display.html[NetApp Solutions change log (external)]
+----
+[Sottolineatura blu]*HTML generato:*
+
+link:https://docs.netapp.com/us-en/netapp-solutions/change-log-display.html["Registro delle modifiche delle soluzioni NetApp (esterno)"]
+
+
+
+== Contenuto comprimibile (a.k.a. Torsioni)
+
+[Sottolineatura blu]*origine AsciDoc:*
+
+[source]
+----
+.Title
+[%collapsible]
+=====
+Text to be collapsed goes here.
+=====
+----
+[Sottolineatura blu]*HTML generato:*
+
+.Titolo
+[%collapsible]
+====
+Qui viene visualizzato il testo da collassare.
+
+====
+
+NOTE: Fare clic su "Title" (titolo) per visualizzare il contenuto espanso
+
+
+
+== Creazione di una tavola
+
+[Sottolineatura blu]*origine AsciDoc:*
+
+[source]
+----
+[%autowidth.stretch]
+|===
+| Column A | Column B | Column C
+| Text in column A
+| Text in column B
+| Text in column C
+|===
+----
+[Sottolineatura blu]*HTML generato:*
+
+|===
+
+
+| Colonna A | Colonna B | Colonna C 
+
+
+| Testo nella colonna A. | Testo nella colonna B | Testo nella colonna C. 
+|===
+Ecco un altro esempio in cui una riga copre l'intera tabella e altre righe hanno dati che si estendono su più colonne:
+
+[Sottolineatura blu]*origine AsciDoc:*
+
+[source]
+----
+[%autowidth.stretch,cols="*,*,*,*"]
+|===
+| Header Column 1 | Header Column 2 | Header Column 3 | Header Column 4
+
+4+| This is a really long row that spreads across all 4 columns of the table.  It is the only cell in this row and leaves no empty cells.
+3+| This is a long row that spreads across 3 of the columns in the table leaving one empty cell |
+2+| This row spans 2 of the columns and leaves 2 cells empty | |
+| This | row | is | normal
+|===
+----
+[Sottolineatura blu]*HTML generato:*
+
+[cols="*,*,*,*"]
+|===
+| Intestazione colonna 1 | Intestazione colonna 2 | Intestazione colonna 3 | Intestazione colonna 4 
+
+
+4+| Si tratta di una riga davvero lunga che si estende su tutte e 4 le colonne della tabella. È l'unica cella di questa riga e non lascia celle vuote. 
+
+
+3+| Si tratta di una riga lunga che si estende su 3 colonne della tabella lasciando una cella vuota. |  
+
+
+2+| Questa riga si estende su 2 colonne e lascia 2 celle vuote. |  |  
+
+
+| Questo | riga | è | normale 
+|===
+
+NOTE: È possibile specificare diverse opzioni per modificare il layout di una tabella. Per ulteriori informazioni, cercare un esempio nel repository (versione HTML) che si desidera ottenere e accedere a VScode per visualizzare l'origine o visitare il sito link:https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/["Documentazione di AsciiDoc"] per ulteriori informazioni.
+
+
+
+== Blocchi a schede
+
+[Sottolineatura blu]*origine AsciDoc:*
+
+[source]
+----
+[role="tabbed-block"]
+====
+.First Tab
+--
+Content for first tab goes here
+--
+.Second Tab
+--
+Content for second tab goes here
+--
+====
+----
+[Sottolineatura blu]*HTML generato:*
+
+[role="tabbed-block"]
+====
+.Prima scheda
+--
+Il contenuto per la prima scheda va qui
+
+--
+.Seconda scheda
+--
+Il contenuto per la seconda scheda va qui
+
+--
+====
+
+NOTE: Fare clic su "seconda scheda" per visualizzare il contenuto della sezione.

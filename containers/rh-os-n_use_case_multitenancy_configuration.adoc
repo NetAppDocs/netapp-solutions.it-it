@@ -1,0 +1,56 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_multitenancy_configuration.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
+summary: Configurazione della multitenancy su Red Hat OpenShift con NetApp 
+---
+= Configurazione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Per qualsiasi soluzione multi-tenant, nessun utente può avere accesso a più risorse di cluster di quelle richieste. Pertanto, l'intero insieme di risorse da configurare come parte della configurazione multi-tenancy è diviso tra cluster-admin, storage-admin e sviluppatori che lavorano su ciascun progetto.
+
+La seguente tabella descrive le diverse attività che devono essere eseguite da diversi utenti:
+
+|===
+| Ruolo | Attività 
+
+
+.4+| *Cluster-admin* | Crea progetti per applicazioni o carichi di lavoro diversi 
+
+
+| Creare ClusterRoles e RoleBinding per l'amministrazione dello storage 
+
+
+| Creazione di ruoli e associazioni per gli sviluppatori che assegnano l'accesso a progetti specifici 
+
+
+| [Facoltativo] configurare i progetti per pianificare i pod su nodi specifici 
+
+
+.4+| *Storage-admin* | Creare SVM su NetApp ONTAP 
+
+
+| Creare backend Trident 
+
+
+| Creare StorageClasses 
+
+
+| Creare ResourceQuotas di storage 
+
+
+.3+| *Sviluppatori* | Convalidare l'accesso per creare o applicare patch a PVC o pod nel progetto assegnato 
+
+
+| Convalida l'accesso per creare o applicare patch a PVC o pod in un altro progetto 
+
+
+| Convalida l'accesso per visualizzare o modificare progetti, ResourceQuotas e StorageClasses 
+|===
+link:rh-os-n_use_case_multitenancy_configuration_prerequisites.html["Avanti: Prerequisiti."]

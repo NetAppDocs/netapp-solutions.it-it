@@ -1,0 +1,30 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_kubernetes_deployment.html 
+keywords: Kubernetes, Deployment, NVIDIA, DeepOps 
+summary:  
+---
+= Implementazione di Kubernetes
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Per implementare e configurare il cluster Kubernetes con NVIDIA DeepOps, eseguire le seguenti operazioni da un host di distribuzione jump:
+
+. Scaricare NVIDIA DeepOps seguendo le istruzioni sul https://github.com/NVIDIA/deepops/blob/master/docs/getting-started.md["Pagina introduttiva"^] Sul sito NVIDIA DeepOps GitHub.
+. Implementare Kubernetes nel cluster seguendo le istruzioni sul https://github.com/NVIDIA/deepops/blob/master/docs/kubernetes-cluster.md["Guida all'implementazione di Kubernetes"^] Sul sito NVIDIA DeepOps GitHub.
+
+
+
+NOTE: Affinché l'implementazione di DeepOps Kubernetes funzioni, lo stesso utente deve esistere su tutti i nodi master e worker di Kubernetes.
+
+Se l'implementazione non riesce, modificare il valore di `kubectl_localhost` a false in `deepops/config/group_vars/k8s-cluster.yml` e ripetere il punto 2. Il `Copy kubectl binary to ansible host` attività, che viene eseguita solo quando il valore di `kubectl_localhost` È vero, si basa sul modulo fetch Ansible, che presenta problemi noti di utilizzo della memoria. A volte, questi problemi di utilizzo della memoria possono causare un errore nell'attività. Se l'operazione non riesce a causa di un problema di memoria, il resto dell'operazione di implementazione non viene completata correttamente.
+
+Se l'implementazione viene completata correttamente dopo aver modificato il valore di `kubectl_localhost` a. `false`, quindi è necessario copiare manualmente `kubectl binary` Da un nodo master Kubernetes all'host di salto per l'implementazione. È possibile trovare la posizione di `kubectl binary` su un nodo master specifico eseguendo `which kubectl` comando direttamente su quel nodo.
+
+link:hcaios_cnvrg.io_deployment.html["Avanti: Implementazione di Cnvrg.io"]

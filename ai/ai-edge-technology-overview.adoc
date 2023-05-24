@@ -1,0 +1,226 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-technology-overview.html 
+keywords: tech, technology, overview, aff, a220, a250, ef280, ef300, 
+summary: Questa sezione descrive le basi tecnologiche di questa soluzione ai. 
+---
+= Panoramica della tecnologia
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-edge-introduction.html["Precedente: Introduzione."]
+
+
+
+== Sistemi NetApp AFF
+
+I sistemi storage NetApp AFF all'avanguardia consentono implementazioni di inferenza ai ai ai edge per soddisfare i requisiti di storage Enterprise con performance leader di settore, flessibilità superiore, integrazione nel cloud e gestione dei dati Best-in-class. Progettati appositamente per la tecnologia flash, i sistemi NetApp AFF aiutano ad accelerare, gestire e proteggere i dati business-critical.
+
+* I sistemi storage entry-level NetApp AFF sono basati su hardware FAS2750 e supporti flash SSD
+* Due controller in configurazione ha
+
+
+image:ai-edge-image5.png["Errore: Immagine grafica mancante"]
+
+I sistemi storage AFF C190 entry-level di NetApp supportano le seguenti funzionalità:
+
+* Un numero massimo di dischi SSD 24x 960 GB
+* Due possibili configurazioni:
++
+** Ethernet (10 GbE): 4 porte 10GBASE-T (RJ-45)
+** Unified (16 GB FC o 10 GbE): 4 porte UTA2 (Unified Target Adapter)
+
+
+* Capacità effettiva massima di 50,5 TB
++
+
+NOTE: Per i carichi di lavoro NAS, un singolo sistema AFF C190 entry-level supporta un throughput di 4,4 Gbps per letture sequenziali e 230 K IOPS per piccole letture casuali a latenze di 1 ms o inferiori.
+
+
+
+
+
+== NetApp AFF A220
+
+NetApp offre anche altri sistemi storage entry-level che offrono performance e scalabilità superiori per implementazioni su larga scala. Per i carichi di lavoro NAS, un singolo sistema AFF A220 entry-level supporta:
+
+* Throughput di 6,2 Gbps per letture sequenziali
+* 375.000 IOPS per piccole letture casuali con latenze di 1 ms o meno
+* Numero massimo di dischi SSD 144 x 960 GB, 3,8 TB o 7,6 TB
+* AFF A220 è in grado di scalare fino a un massimo di 1 PB di capacità effettiva
+
+
+
+
+== NetApp AFF A250
+
+* La capacità effettiva massima è di 35 PB con una scalabilità massima di 2-24 nodi (12 coppie ha)
+* Offre un aumento delle performance di ≥ 45% rispetto a AFF A220
+* 440.000 letture casuali IOPS @1 ms.
+* Basato sull'ultima release di NetApp ONTAP: ONTAP 9.8
+* Sfrutta due porte Ethernet da 25 GB per l'interconnessione di ha e cluster
+
+
+
+
+== Sistemi NetApp e-Series EF
+
+EF-Series è una famiglia di storage array SAN all-flash entry-level e mid-range in grado di accelerare l'accesso ai dati e di trarne valore più rapidamente con il software NetApp SANtricity. Questi sistemi offrono storage flash SAS e NVMe e offrono IOPS da convenienti a estremi, tempi di risposta inferiori a 100 microsecondi e larghezza di banda fino a 44 Gbps, il che li rende ideali per carichi di lavoro misti e applicazioni esigenti come l'inferenza ai e l'High Performance Computing (HPC).
+
+La figura seguente mostra il sistema storage NetApp EF280.
+
+image:ai-edge-image7.png["Errore: Immagine grafica mancante"]
+
+
+
+== NetApp EF280
+
+* Supporto FC 32 GB/16 GB, iSCSI 25 GB/10 GB e SAS 12 GB
+* La capacità effettiva massima è di 96 dischi per un totale di 1,5 PB
+* Throughput di 10 Gbps (letture sequenziali)
+* 300.000 IOPS (letture casuali)
+* NetApp EF280 è l'array all-flash (AFA) più economico del portfolio NetApp
+
+
+
+
+== NetApp EF300
+
+* 24 unità SSD NVMe per una capacità totale di 367 TB
+* Opzioni di espansione per un totale di 240x HDD NL-SAS, 96x SSD SAS o una combinazione
+* 100 GB di NVMe/IB, NVMe/RoCE, iSER/IB e SRP/IB
+* 32 GB NVME/FC, FCP
+* 25 GB iSCSI
+* 20 Gbps (letture sequenziali)
+* 670.000 IOPS (letture casuali)
+
+
+
+NOTE: Per ulteriori informazioni, consultare https://www.netapp.com/pdf.html?item=/media/19339-DS-4082.pdf["Scheda informativa sugli array all-flash NetApp EF-Series EF600, F300, EF570 e EF280"^].
+
+
+
+== NetApp ONTAP 9
+
+ONTAP 9.8.1, l'ultima generazione di software per la gestione dello storage NetApp, consente alle aziende di modernizzare l'infrastruttura e passare a un data center cloud-ready. Sfruttando le funzionalità di gestione dei dati leader del settore, ONTAP consente la gestione e la protezione dei dati con un singolo set di strumenti, indipendentemente dalla posizione dei dati. Puoi anche spostare liberamente i dati ovunque siano necessari: Edge, core o cloud. ONTAP 9.8.1 include numerose funzionalità che semplificano la gestione dei dati, accelerano e proteggono i dati critici e abilitano le funzionalità dell'infrastruttura di nuova generazione nelle architetture di cloud ibrido.
+
+
+
+=== Semplifica la gestione dei dati
+
+La gestione dei dati è fondamentale per le operazioni IT aziendali, in modo da utilizzare le risorse appropriate per applicazioni e set di dati. ONTAP include le seguenti funzionalità per ottimizzare e semplificare le operazioni e ridurre il costo totale delle operazioni:
+
+* *Compattazione dei dati inline e deduplica estesa.* la compattazione dei dati riduce lo spazio sprecato all'interno dei blocchi di storage e la deduplica aumenta significativamente la capacità effettiva. Ciò vale per i dati memorizzati localmente e per i dati a più livelli nel cloud.
+* *Qualità del servizio (AQoS) minima, massima e adattiva.* i controlli granulari della qualità del servizio (QoS) aiutano a mantenere i livelli di performance per le applicazioni critiche in ambienti altamente condivisi.
+* *NetApp FabricPool.* questa funzione offre il tiering automatico dei dati cold per le opzioni di cloud storage pubblico e privato, tra cui Amazon Web Services (AWS), Azure e la soluzione di storage NetApp StorageGRID. Per ulteriori informazioni su FabricPool, vedere link:https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598"^].
+
+
+
+
+=== Accelera e proteggi i dati
+
+ONTAP 9 offre livelli superiori di performance e protezione dei dati ed estende queste funzionalità nei seguenti modi:
+
+* *Prestazioni e latenza ridotta.* ONTAP offre il throughput più elevato possibile con la latenza più bassa possibile.
+* *Protezione dei dati.* ONTAP offre funzionalità di protezione dei dati integrate con gestione comune su tutte le piattaforme.
+* *Crittografia dei volumi NetApp (NVE).* ONTAP offre crittografia nativa a livello di volume con supporto per la gestione delle chiavi integrata ed esterna.
+* *Multitenancy e autenticazione a più fattori.* ONTAP consente la condivisione delle risorse dell'infrastruttura con i massimi livelli di sicurezza.
+
+
+
+
+=== Infrastruttura a prova di futuro
+
+ONTAP 9 aiuta a soddisfare le esigenze di business esigenti e in continua evoluzione con le seguenti funzionalità:
+
+* *Scalabilità perfetta e operazioni senza interruzioni.* ONTAP supporta l'aggiunta senza interruzioni di capacità ai controller esistenti e ai cluster scale-out. I clienti possono eseguire l'upgrade alle tecnologie più recenti, come NVMe e 32GB FC, senza costose migrazioni dei dati o interruzioni.
+* *Connessione al cloud.* ONTAP è il software di gestione dello storage più connesso al cloud, con opzioni per lo storage software-defined (ONTAP Select) e le istanze native del cloud (NetApp Cloud Volumes Service) in tutti i cloud pubblici.
+* *Integrazione con applicazioni emergenti.* ONTAP offre servizi dati di livello Enterprise per piattaforme e applicazioni di prossima generazione, come veicoli autonomi, città intelligenti e Industry 4.0, utilizzando la stessa infrastruttura che supporta le applicazioni aziendali esistenti.
+
+
+
+
+== NetApp SANtricity
+
+NetApp SANtricity è progettato per offrire performance, affidabilità e semplicità leader di settore agli array all-flash ibridi e EF-Series. Ottieni il massimo delle performance e dell'utilizzo degli array all-flash ibridi e EF-Series per applicazioni con carichi di lavoro elevati, tra cui analisi dei dati, videosorveglianza e backup e recovery. Con SANtricity, è possibile completare la modifica della configurazione, la manutenzione, l'espansione della capacità e altre attività mentre lo storage rimane online. SANtricity offre inoltre una protezione dei dati superiore, un monitoraggio proattivo e una sicurezza certificata, il tutto accessibile tramite l'interfaccia di System Manager, semplice da utilizzare e integrata. Per ulteriori informazioni, consultare https://www.netapp.com/pdf.html?item=/media/7676-ds-3891.pdf["Scheda informativa sul software NetApp e-Series SANtricity"^].
+
+
+
+=== Prestazioni ottimizzate
+
+Il software SANtricity ottimizzato per le performance offre dati, con IOPS elevati, throughput elevato e bassa latenza, a tutte le applicazioni di analisi dei dati, videosorveglianza e backup. Accelera le performance per applicazioni a bassa latenza, IOPS elevati e applicazioni a elevata larghezza di banda e throughput elevato.
+
+
+
+=== Massimizzare l'uptime
+
+Completa tutte le tue attività di gestione mentre lo storage rimane online. Modificare le configurazioni, eseguire la manutenzione o espandere la capacità senza interrompere l'i/O. Ottieni un'affidabilità Best-in-class con funzionalità automatizzate, configurazione online, tecnologia all'avanguardia Dynamic Disk Pools (DPP) e molto altro ancora.
+
+
+
+=== Resto facile
+
+Il software SANtricity offre una protezione dei dati superiore, un monitoraggio proattivo e una sicurezza certificata, il tutto tramite l'interfaccia di System Manager, semplice da utilizzare e integrata. Semplifica le attività di gestione dello storage. Ottieni la flessibilità necessaria per il tuning avanzato di tutti i sistemi storage e-Series. Gestisci il tuo sistema NetApp e-Series, sempre e ovunque. La nostra interfaccia on-box basata sul web ottimizza il tuo workflow di gestione.
+
+
+
+== Trident di NetApp
+
+https://netapp.io/persistent-storage-provisioner-for-kubernetes/["Trident"^] NetApp è uno storage dinamico open-source orchestrator per Docker e Kubernetes che semplifica la creazione, la gestione e il consumo dello storage persistente. Trident, un'applicazione nativa di Kubernetes, viene eseguita direttamente all'interno di un cluster Kubernetes. Trident consente ai clienti di implementare senza problemi le immagini dei container DL sullo storage NetApp e offre un'esperienza di livello Enterprise per le implementazioni dei container ai. Gli utenti di Kubernetes (come sviluppatori ML e data scientist) possono creare, gestire e automatizzare orchestrazione e cloning per sfruttare le funzionalità avanzate di gestione dei dati di NetApp basate sulla tecnologia NetApp.
+
+
+
+== NetApp Cloud Sync
+
+https://docs.netapp.com/us-en/occm/concept_cloud_sync.html["Cloud Sync"^] È un servizio NetApp per una sincronizzazione dei dati rapida e sicura. Sia che tu debba trasferire file tra condivisioni di file NFS o SMB on-premise, NetApp StorageGRID, NetApp ONTAP S3, NetApp Cloud Volumes Service, Azure NetApp Files, Amazon Simple Storage Service (Amazon S3), Amazon Elastic file System (Amazon EFS), Azure Blob, Google Cloud Storage, O IBM Cloud Object Storage, Cloud Sync sposta i file dove servono in modo rapido e sicuro. Una volta trasferiti, i dati sono completamente disponibili per l'utilizzo sia sull'origine che sulla destinazione. Cloud Sync sincronizza continuamente i dati, in base alla pianificazione predefinita, spostando solo i delta, in modo da ridurre al minimo il tempo e il denaro speso per la replica dei dati. Cloud Sync è uno strumento SaaS (Software as a Service) estremamente semplice da configurare e utilizzare. I trasferimenti di dati attivati da Cloud Sync vengono eseguiti da broker di dati. Puoi implementare i data broker Cloud Sync in AWS, Azure, piattaforma cloud Google o on-premise.
+
+
+
+=== Server Lenovo ThinkSystem
+
+I server Lenovo ThinkSystem sono dotati di hardware, software e servizi innovativi che risolvono le sfide attuali dei clienti e offrono un approccio di progettazione modulare e evolutivo, adatto allo scopo, per affrontare le sfide del futuro. Questi server si basano su tecnologie Best-in-class e standard di settore, unite a innovazioni Lenovo differenziate per offrire la massima flessibilità possibile nei server x86.
+
+I vantaggi principali dell'implementazione dei server Lenovo ThinkSystem includono:
+
+* Design altamente scalabili e modulari per crescere insieme al tuo business
+* Resilienza leader del settore per risparmiare ore di costosi downtime non pianificati
+* Tecnologie flash veloci per latenze inferiori, tempi di risposta più rapidi e gestione dei dati più intelligente in tempo reale
+
+
+Nell'area dell'ai, Lenovo sta adottando un approccio pratico per aiutare le aziende a comprendere e adottare i vantaggi di ML e ai per i propri carichi di lavoro. I clienti Lenovo possono esplorare e valutare le offerte Lenovo ai nei Lenovo ai Innovation Center per comprendere appieno il valore del loro caso di utilizzo specifico. Per migliorare il time-to-value, questo approccio incentrato sul cliente offre ai clienti una prova di concetto per le piattaforme di sviluppo di soluzioni pronte all'uso e ottimizzate per l'ai.
+
+
+
+=== Lenovo ThinkSystem SE350 Edge Server
+
+L'edge computing consente di analizzare i dati provenienti dai dispositivi IoT all'edge della rete prima di inviarli al data center o al cloud. Lenovo ThinkSystem SE350, come illustrato nella figura seguente, è progettato per soddisfare i requisiti esclusivi di implementazione alla periferia della rete, con particolare attenzione a flessibilità, connettività, sicurezza e gestibilità remota in un fattore di forma compatto e rinforzato dal punto di vista ambientale.
+
+Dotato del processore Intel Xeon D con la flessibilità di supportare l'accelerazione per i carichi di lavoro ai edge, il SE350 è costruito ad hoc per affrontare la sfida delle implementazioni dei server in una varietà di ambienti esterni al data center.
+
+image:ai-edge-image8.png["Errore: Immagine grafica mancante"]
+
+image:ai-edge-image9.png["Errore: Immagine grafica mancante"]
+
+
+
+==== MLPerf
+
+MLPerf è la suite di benchmark leader del settore per la valutazione delle performance ai. Copre molte aree dell'ai applicata, tra cui classificazione delle immagini, rilevamento degli oggetti, imaging medico e NLP (Natural Language Processing). In questa convalida, abbiamo utilizzato i carichi di lavoro Inference v0.7, che è l'ultima iterazione dell'inferenza MLPerf al completamento di questa convalida. Il https://mlcommons.org/en/news/mlperf-inference-v07/["MLPerf Inference v0.7"^] la suite include quattro nuovi benchmark per data center e sistemi edge:
+
+* *BERT.* rappresentazione del codificatore bidirezionale da Transformers (BERT) ottimizzata per la risposta alle domande utilizzando il set di dati della squadra.
+* *DLRM.* Deep Learning Recommendation Model (DLRM) è un modello di personalizzazione e raccomandazione che viene addestrato per ottimizzare i tassi di click-through (CTR).
+* *3D U-Net.* l'architettura 3D U-Net viene addestrata sul set di dati Brain Tumor Segmentation (Brats).
+* *RNN-T.* il trasduttore di rete neurale ricorrente (RNN-T) è un modello di riconoscimento vocale automatico (ASR) che viene addestrato su un sottoinsieme di LibriSpeech. I risultati e il codice dell'inferenza MLPerf sono pubblicamente disponibili e rilasciati sotto licenza Apache. MLPerf Inference dispone di una divisione Edge, che supporta i seguenti scenari:
+* *Single stream.* questo scenario imita i sistemi in cui la reattività è un fattore critico, come le query ai offline eseguite sugli smartphone. Le singole query vengono inviate al sistema e i tempi di risposta vengono registrati. come risultato viene riportata la latenza del 90° percentile di tutte le risposte.
+* *Multistream.* questo benchmark è per i sistemi che elaborano input da più sensori. Durante il test, le query vengono inviate a un intervallo di tempo fisso. Viene imposto un vincolo QoS (latenza massima consentita). Il test indica il numero di flussi che il sistema può elaborare rispettando il limite di QoS.
+* *Offline.* questo è lo scenario più semplice che copre le applicazioni di elaborazione in batch e la metrica è il throughput in campioni al secondo. Tutti i dati sono disponibili per il sistema e il benchmark misura il tempo necessario per elaborare tutti i campioni.
+
+
+Lenovo ha pubblicato i punteggi di inferenza MLPerf per SE350 con T4, il server utilizzato in questo documento. Vedere i risultati all'indirizzo https://mlperf.org/inference-results-0-7/["https://mlperf.org/inference-results-0-7/"] Nella sezione "Edge, CLOSED Division" della voce 0.7-145.
+
+link:ai-edge-test-plan.html["Successivo: Piano di test."]

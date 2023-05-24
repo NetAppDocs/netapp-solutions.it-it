@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_peer_aks_vnet_and_azure_netapp_files_vnet.html 
+keywords: aks, vnet, anf, peer 
+summary: In questa sezione viene descritto come eseguire il peer di AKS VNET a Azure NetApp Files VNET. 
+---
+= Peer AKS VNET e Azure NetApp Files VNET
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_create_a_delegated_subnet_for_azure_netapp_files.html["Precedente: Creare una subnet delegata per Azure NetApp Files."]
+
+[role="lead"]
+Per eseguire il peer di AKS VNET a Azure NetApp Files VNET, attenersi alla seguente procedura:
+
+. Immettere Virtual Networks nel campo di ricerca.
+. Selezionare `vnet aks-vnet-name.` Fare clic su di esso e immettere Peerings nel campo di ricerca.
+. Fare clic su +Add (Aggiungi).
+. Immettere i seguenti descrittori:
++
+.. Il nome del collegamento di peering è `aks-vnet-name_to_anf`.
+.. SubscriptionID e Azure NetApp Files VNET come partner di peering VNET.
+.. Lasciare tutte le sezioni senza asterisco con i valori predefiniti.
+
+
+. Fare clic su Aggiungi.
+
+
+Per ulteriori informazioni, vedere https://docs.microsoft.com/azure/virtual-network/virtual-network-manage-peering["Creare, modificare o eliminare un peering di rete virtuale"^].
+
+link:aks-anf_install_trident.html["A seguire: Installare Trident."]

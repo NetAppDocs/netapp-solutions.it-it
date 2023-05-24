@@ -1,0 +1,86 @@
+---
+sidebar: sidebar 
+permalink: databases/aws_ora_fsx_ec2_migration.html 
+summary: 'Questa sezione fornisce dettagli sui fattori da prendere in considerazione durante la migrazione del database Oracle da un"istanza on-premise a un"istanza AWS EC2 e allo storage FSX.' 
+keywords: HA, DR, database, Oracle, RDS, AWS, SnapCenter 
+---
+= Migrazione del database dal cloud on-premise al cloud pubblico
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:aws_ora_fsx_ec2_mgmt.html["Precedente: Gestione del database."]
+
+[role="lead"]
+La migrazione dei database è un'impresa impegnativa in ogni modo. La migrazione di un database Oracle da on-premise a cloud non fa eccezione.
+
+Le sezioni seguenti forniscono i fattori chiave da prendere in considerazione durante la migrazione dei database Oracle al cloud pubblico AWS con la piattaforma di calcolo AWS EC2 e storage FSX.
+
+
+
+== Lo storage ONTAP è disponibile on-premise
+
+Se il database Oracle on-premise si trova su un array di storage ONTAP, è più semplice configurare la replica per la migrazione del database utilizzando la tecnologia NetApp SnapMirror integrata nello storage AWS FSX ONTAP. Il processo di migrazione può essere orchestrato utilizzando la console NetApp BlueXP.
+
+. Creare un'istanza EC2 di calcolo di destinazione che corrisponda all'istanza on-premise.
+. Eseguire il provisioning di volumi di database corrispondenti e di dimensioni uguali dalla console FSX.
+. Montare i volumi del database FSX sull'istanza EC2.
+. Impostare la replica di SnapMirror tra i volumi di database on-premise nei volumi di database FSX di destinazione. La sincronizzazione iniziale potrebbe richiedere del tempo per spostare i dati di origine primari, ma gli eventuali aggiornamenti incrementali successivi sono molto più rapidi.
+. Al momento dello switchover, chiudere l'applicazione principale per interrompere tutte le transazioni. Dall'interfaccia Oracle sqlplus CLI, eseguire uno switch Oracle online log e consentire a SnapMirror Sync di trasferire l'ultimo log archiviato nel volume di destinazione.
+. Suddividere i volumi mirrorati, eseguire il ripristino Oracle alla destinazione e richiamare il database per il servizio.
+. Puntare le applicazioni verso il database Oracle nel cloud.
+
+
+Il seguente video mostra come migrare un database Oracle da on-premise ad AWS FSX/EC2 utilizzando la console NetApp BlueXP e la replica SnapMirror.
+
+link:https://docs.netapp.com/us-en/netapp-solutions/media/oracle-aws-fsx-part2b-migration-snapmirror_callout.mp4["Migrazione di database Oracle da on-premise a FSX/EC2 tramite SnapMirror e BlueXP"^]
+
+
+
+== Lo storage ONTAP non è disponibile on-premise
+
+Se il database Oracle on-premise è ospitato su storage di terze parti diverso da ONTAP, la migrazione del database si basa sul ripristino di una copia di backup del database Oracle. È necessario riprodurre il log di archiviazione per renderlo aggiornato prima di passare alla modalità di commutazione.
+
+AWS S3 può essere utilizzato come area di storage di staging per lo spostamento e la migrazione del database. Per questo metodo, fare riferimento ai seguenti passaggi:
+
+. Eseguire il provisioning di una nuova istanza EC2 corrispondente, paragonabile all'istanza on-premise.
+. Eseguire il provisioning di volumi di database uguali dallo storage FSX e montare i volumi sull'istanza EC2.
+. Creare una copia di backup Oracle a livello di disco.
+. Spostare la copia di backup sullo storage AWS S3.
+. Ricreare il file di controllo Oracle e ripristinare e ripristinare il database estraendo i dati e il log di archiviazione dallo storage S3.
+. Sincronizzare il database Oracle di destinazione con il database di origine on-premise.
+. Al momento dello switchover, arrestare l'applicazione e il database Oracle di origine. Copia gli ultimi log di archiviazione e applicali al database Oracle di destinazione per aggiornarli.
+. Avviare il database di destinazione per l'accesso degli utenti.
+. Reindirizzare l'applicazione al database di destinazione per completare lo switchover.
+
+
+
+
+== Migrare i database Oracle on-premise su AWS FSX/EC2 utilizzando il trasferimento di PDB con la massima disponibilità
+
+Questo approccio di migrazione è più adatto ai database Oracle già implementati nel modello multitenant PDB/CDB e lo storage ONTAP non è disponibile on-premise. Il metodo di trasferimento dei dati PDB utilizza la tecnologia di clonazione a caldo di Oracle PDB per spostare i dati PDB tra un CDB di origine e un CDB di destinazione, riducendo al minimo l'interruzione del servizio.
+
+Innanzitutto, creare CDB in AWS FSX/EC2 con storage sufficiente per ospitare PDB da migrare da on-premise. È possibile riallocare più PDB on-premise uno alla volta.
+
+. Se il database on-premise viene implementato in una singola istanza piuttosto che nel modello di PDB/CDB multi-tenant, seguire le istruzioni in link:https://docs.netapp.com/us-en/netapp-solutions/databases/azure_ora_nfile_migration.html#converting-a-single-instance-non-cdb-to-a-pdb-in-a-multitenant-cdb["Conversione di una singola istanza non CDB in una PDB in una CDB multi-tenant"^] Per convertire la singola istanza in PDB/CDB multi-tenant. Quindi, seguire la fase successiva per migrare il PDB convertito in CDB in AWS FSX/EC2.
+. Se il database on-premise è già implementato nel modello PDB/CDB multitenant, seguire le istruzioni in link:https://docs.netapp.com/us-en/netapp-solutions/databases/azure_ora_nfile_migration.html#migrate-on-premises-oracle-databases-to-azure-with-pdb-relocation["Migrare i database Oracle on-premise nel cloud con il trasferimento dei dati PDB"^] per eseguire la migrazione.
+
+
+Il seguente video mostra come è possibile migrare un database Oracle (PDB) su FSX/EC2 utilizzando il trasferimento PDB con la massima disponibilità.
+
+link:https://www.netapp.tv/insight/details/29998?playlist_id=0&mcid=85384745435828386870393606008847491796["Migrazione on-premise di Oracle PDB a AWS CDB con la massima disponibilità"^]
+
+
+NOTE: Sebbene le istruzioni dei passaggi 1 e 2 siano illustrate nel contesto del cloud pubblico Azure, le procedure sono applicabili al cloud AWS senza alcuna modifica.
+
+Il team NetApp Solutions Automation fornisce un toolkit per la migrazione in grado di facilitare la migrazione del database Oracle dal cloud AWS on-premise. Utilizzare il seguente comando per scaricare il toolkit di migrazione del database Oracle per il trasferimento di PDB.
+
+[source, cli]
+----
+git clone https://github.com/NetApp-Automation/na_ora_aws_migration.git
+----

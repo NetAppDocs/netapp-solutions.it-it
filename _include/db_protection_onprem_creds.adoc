@@ -1,0 +1,67 @@
+= 
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+. Configurare le credenziali.
+. Creare tipi di credenziale. Per le soluzioni che utilizzano ONTAP, è necessario configurare il tipo di credenziale in modo che corrisponda alle voci di nome utente e password.
++
+.. Accedere a Administration → Credential Types (Amministrazione tipi di credenziali) e fare clic su Add (Aggiungi).
+.. Fornire il nome e la descrizione.
+.. Incollare il seguente contenuto in Input Configuration (Configurazione input):
++
+[source, cli]
+----
+fields:
+  - id: dst_cluster_username
+    type: string
+    label: Destination Cluster Username
+  - id: dst_cluster_password
+    type: string
+    label: Destination Cluster Password
+    secret: true
+  - id: src_cluster_username
+    type: string
+    label: Source Cluster Username
+  - id: src_cluster_password
+    type: string
+    label: Source Cluster Password
+    secret: true
+----
+.. Incollare il seguente contenuto in Injector Configuration (Configurazione iniettore), quindi fare clic su Save (Salva):
++
+[source, cli]
+----
+extra_vars:
+  dst_cluster_username: '{{ dst_cluster_username }}'
+  dst_cluster_password: '{{ dst_cluster_password }}'
+  src_cluster_username: '{{ src_cluster_username }}'
+  src_cluster_password: '{{ src_cluster_password }}'
+----
+
+
+. Crea credenziale per ONTAP
++
+.. Accedere a Resources → Credentials (risorse credenziali) e fare clic su Add (Aggiungi).
+.. Immettere il nome e i dettagli dell'organizzazione per le credenziali ONTAP
+.. Selezionare il tipo di credenziale creato nel passaggio precedente.
+.. In Dettagli tipo, immettere il nome utente e la password per i cluster di origine e di destinazione.
+.. Fare clic su Salva
+
+
+. Crea credenziale per Oracle
++
+.. Accedere a Resources → Credentials (risorse credenziali) e fare clic su Add (Aggiungi).
+.. Immettere il nome e i dettagli dell'organizzazione per Oracle
+.. Selezionare il tipo di credenziale Machine.
+.. In Dettagli tipo, immettere il nome utente e la password per gli host Oracle.
+.. Selezionare il metodo corretto di escalation dei privilegi e immettere il nome utente e la password.
+.. Fare clic su Salva
+.. Ripetere la procedura se necessario per una credenziale diversa per l'host dr_oracle.
+
+
+

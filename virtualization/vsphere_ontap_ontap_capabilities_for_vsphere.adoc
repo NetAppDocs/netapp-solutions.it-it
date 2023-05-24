@@ -1,0 +1,88 @@
+---
+sidebar: sidebar 
+permalink: virtualization/vsphere_ontap_ontap_capabilities_for_vsphere.html 
+keywords: protocols, licensing, virtualization, NFS Plug-In for VMware VAAI, VASA Provider, Storage Replication Adapter 
+summary: 'ONTAP supporta tutti i principali protocolli di storage utilizzati per la virtualizzazione, come iSCSI, Fibre Channel (FC), Fibre Channel over Ethernet (FCoE) o non-volatile Memory Express over Fibre Channel (NVMe/FC) per ambienti SAN, oltre a NFS (v3 e v4.1) e SMB o S3 per connessioni guest. I clienti sono liberi di scegliere ciò che funziona meglio per il proprio ambiente e possono combinare i protocolli in base alle esigenze su un singolo sistema.' 
+---
+= Funzionalità ONTAP per vSphere
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Protocolli
+
+ONTAP supporta tutti i principali protocolli di storage utilizzati per la virtualizzazione, come iSCSI, Fibre Channel (FC), Fibre Channel over Ethernet (FCoE) o non-volatile Memory Express over Fibre Channel (NVMe/FC) per ambienti SAN, oltre a NFS (v3 e v4.1) e SMB o S3 per connessioni guest. I clienti sono liberi di scegliere ciò che funziona meglio per il proprio ambiente e possono combinare i protocolli in base alle esigenze su un singolo sistema. Ad esempio, è possibile aumentare l'utilizzo generale degli archivi dati NFS con alcune LUN iSCSI o condivisioni guest.
+
+
+
+== Caratteristiche
+
+Esistono molte funzionalità di ONTAP utili per la gestione dei workload virtualizzati. Alcuni che richiedono licenze di prodotto aggiuntive sono descritti nella sezione successiva. Altri strumenti standalone, alcuni per ONTAP e altri per l'intero portfolio NetApp, vengono descritti in seguito.
+
+Di seguito sono riportati ulteriori dettagli sulle funzionalità ONTAP di base:
+
+* *Copie Snapshot di NetApp.* ONTAP offre copie Snapshot istantanee di una macchina virtuale o di un datastore senza effetti sulle performance quando si crea o si utilizza una copia Snapshot. Possono essere utilizzati per creare un punto di ripristino per una macchina virtuale prima dell'applicazione delle patch o per una semplice protezione dei dati. Si noti che questi sono diversi dagli snapshot VMware (coerenza). Il modo più semplice per creare una copia Snapshot di ONTAP consiste nell'utilizzare il plug-in SnapCenter per VMware vSphere per eseguire il backup di macchine virtuali e datastore.
+* *Efficienza dello storage.* ONTAP supporta la deduplica e la compressione inline e in background, la deduplica a blocchi zero e la compattazione dei dati.
+* *Lo spostamento di volumi e LUN.* consente lo spostamento senza interruzioni di volumi e LUN che supportano datastore e vVol vSphere all'interno del cluster ONTAP per bilanciare performance e capacità o supportare manutenzione e upgrade senza interruzioni.
+* *QoS.* QoS consente di gestire le performance su un singolo LUN, volume o file. Questa funzione può essere utilizzata per limitare una macchina virtuale sconosciuta o ingombrante o per assicurarsi che una macchina virtuale importante riceva risorse di performance sufficienti.
+* *NetApp Volume Encryption e NetApp aggregate Encryption.* le opzioni di crittografia NetApp offrono una semplice crittografia basata su software per proteggere i dati inattivi.
+* *FabricPool.* questa funzione consente di eseguire automaticamente il Tier dei dati più freddi a livello di blocco in un archivio a oggetti separato, liberando il costoso storage flash.
+* *REST and Ansible.* Use https://devnet.netapp.com/restapi["API REST di ONTAP"^] per automatizzare la gestione dello storage e dei dati, e. https://netapp.io/configuration-management-and-automation/["Moduli Ansible"^] Per la gestione della configurazione dei sistemi ONTAP.
+
+
+Alcune funzionalità di ONTAP non sono adatte per i carichi di lavoro vSphere. Ad esempio, la tecnologia FlexGroup precedente a ONTAP 9.8 non disponeva del supporto completo per la clonazione e non era stata testata con vSphere (consultare la sezione FlexGroup per le ultime informazioni sull'utilizzo con vSphere). Inoltre, la tecnologia FlexCache non è ottimale per vSphere in quanto è progettata per carichi di lavoro in gran parte in lettura. Le scritture possono essere problematiche quando la cache viene disconnessa dall'origine, causando errori del datastore NFS su entrambi i lati.
+
+
+
+== Licenze ONTAP
+
+Alcune funzionalità di ONTAP utili per la gestione dei carichi di lavoro virtualizzati richiedono una licenza aggiuntiva, disponibile senza costi aggiuntivi, in bundle di licenza o à la carte. Per molti clienti, l'approccio più conveniente è con un bundle di licenze. Di seguito sono riportate le licenze principali relative a vSphere e il loro utilizzo:
+
+* *FlexClone.* FlexClone consente cloni istantanei ed efficienti in termini di spazio di volumi e file ONTAP. Questo cloning viene utilizzato quando le operazioni vengono trasferite al sistema storage dalle API di storage VMware vSphere – integrazione array (VAAI), per la verifica e il ripristino del backup (software SnapCenter) e per la clonazione vVol e le copie Snapshot. Ecco come vengono utilizzati:
++
+** VAAI è supportato con ONTAP per le copie offloaded a supporto delle operazioni di clone e migrazione vSphere (Storage vMotion). La licenza FlexClone consente cloni veloci all'interno di un volume NetApp FlexVol, ma, se non concessa in licenza, consente comunque l'utilizzo di copie a blocchi più lente.
+** Per la funzionalità vVol è necessaria una licenza FlexClone. Consente la clonazione di vVol all'interno di un singolo datastore o tra datastore e consente copie Snapshot gestite da vSphere dei vVol, che vengono scaricati nel sistema storage.
+
+
+* L'adattatore per la replica dello storage (SRA) viene utilizzato con VMware Site Recovery Manager ed è richiesta una licenza FlexClone per testare il ripristino in ambienti NAS e SAN. SRA può essere utilizzato senza FlexClone per i flussi di lavoro di rilevamento, ripristino e protezione.
+* La tecnologia *SnapRestore.* SnapRestore consente il ripristino istantaneo di un volume in uso senza copiare i dati. È richiesto dai tool di backup e ripristino NetApp, ad esempio SnapCenter, dove viene utilizzato per montare il datastore per le operazioni di verifica e ripristino.
+* *SnapMirror.* la tecnologia SnapMirror consente una replica semplice e rapida dei dati tra sistemi ONTAP on-premise e nel cloud. SnapMirror supporta la flessibilità della versione della replica logica con le prestazioni della replica a blocchi, inviando solo i dati modificati al sistema secondario. I dati possono essere protetti con policy di mirroring e/o vault, consentendo il disaster recovery e la conservazione dei dati a lungo termine per il backup. SnapMirror supporta relazioni asincrone e sincrone, mentre ONTAP 9.8 introduce il failover trasparente delle applicazioni con la business continuity di SnapMirror.
++
+SnapMirror è necessario per la replica SRA con Site Recovery Manager. È inoltre necessario che SnapCenter consenta la replica delle copie Snapshot su un sistema storage secondario.
+
+* Il software *SnapCenter.* SnapCenter offre una piattaforma e una suite plug-in unificati e scalabili per la protezione dei dati coerente con l'applicazione e la gestione dei cloni. Una licenza SnapCenter è inclusa nei bundle di licenza per la protezione dei dati per i sistemi AFF e FAS. Il plug-in SnapCenter per VMware vSphere è un prodotto gratuito se si utilizzano i seguenti sistemi storage: FAS, AFF, Cloud Volumes ONTAP o ONTAP Select. Tuttavia, sono richieste le licenze SnapRestore e FlexClone.
+* *MetroCluster.* NetApp MetroCluster è una soluzione di replica sincrona che combina alta disponibilità e disaster recovery in un campus o in un'area metropolitana per proteggere da disastri del sito e interruzioni dell'hardware. Fornisce soluzioni con ripristino trasparente da guasti, con nessuna perdita di dati (0 RPO) e ripristino rapido (RTO in pochi minuti). Viene utilizzato negli ambienti vSphere come parte di una configurazione di vSphere Metro Storage Cluster.
+
+
+
+
+== Strumenti di virtualizzazione per ONTAP
+
+NetApp offre diversi tool software standalone che possono essere utilizzati insieme a ONTAP e vSphere per gestire l'ambiente virtualizzato. I seguenti strumenti sono inclusi con la licenza ONTAP senza costi aggiuntivi. Vedere la Figura 1 per un'illustrazione del funzionamento di questi strumenti nell'ambiente vSphere.
+
+
+
+=== Strumenti ONTAP per VMware vSphere
+
+ONTAP Tools per VMware vSphere è un insieme di strumenti per l'utilizzo dello storage ONTAP insieme a vSphere. Il plug-in vCenter, precedentemente noto come Virtual Storage Console (VSC), semplifica le funzionalità di gestione ed efficienza dello storage, migliora la disponibilità e riduce i costi di storage e l'overhead operativo, sia che si utilizzi SAN che NAS. Utilizza le Best practice per il provisioning degli archivi dati e ottimizza le impostazioni degli host ESXi per gli ambienti di storage a blocchi e NFS. Per tutti questi vantaggi, NetApp consiglia di utilizzare questi tool ONTAP come Best practice quando si utilizza vSphere con sistemi che eseguono il software ONTAP. Include un'appliance server, estensioni dell'interfaccia utente per vCenter, VASA Provider e Storage Replication Adapter. Quasi tutto ciò che è contenuto negli strumenti ONTAP può essere automatizzato utilizzando semplici API REST, utilizzabili dalla maggior parte dei moderni strumenti di automazione.
+
+* Le estensioni dell'interfaccia utente di vCenter.* le estensioni dell'interfaccia utente di ONTAP Tools semplificano il lavoro dei team operativi e degli amministratori di vCenter, integrando menu facili da utilizzare e sensibili al contesto per la gestione di host e storage, portlet informativi e funzionalità di avviso native direttamente nell'interfaccia utente di vCenter per flussi di lavoro semplificati.
+* *Provider VASA per ONTAP.* il provider VASA per ONTAP supporta il framework VMware vStorage API for Storage Awareness (VASA). Viene fornito come parte dei tool ONTAP per VMware vSphere come singola appliance virtuale per una maggiore facilità di implementazione. IL provider VASA connette vCenter Server a ONTAP per facilitare il provisioning e il monitoraggio dello storage delle macchine virtuali. Consente il supporto di VMware Virtual Volumes (vVol), la gestione dei profili di capacità dello storage e delle performance di VM vVol individuali e gli allarmi per il monitoraggio della capacità e della conformità con i profili.
+* *Storage Replication Adapter.* SRA viene utilizzato insieme a VMware Site Recovery Manager (SRM) per gestire la replica dei dati tra siti di produzione e disaster recovery e testare le repliche DR senza interruzioni. Consente di automatizzare le attività di rilevamento, ripristino e protezione. Include un'appliance server SRA e adattatori SRA per server SRM Windows e appliance SRM.
+
+
+La figura seguente mostra gli strumenti ONTAP per vSphere.
+
+image:vsphere_ontap_image1.png["Errore: Immagine grafica mancante"]
+
+
+
+=== Plug-in NFS per VMware VAAI
+
+Il plug-in NetApp NFS per VMware VAAI è un plug-in per gli host ESXi che consente loro di utilizzare le funzionalità VAAI con gli archivi dati NFS su ONTAP. Supporta l'offload delle copie per le operazioni di cloni, la riserva di spazio per i file di dischi virtuali spessi e l'offload delle copie Snapshot. L'offload delle operazioni di copia sullo storage non è necessariamente più veloce da completare, ma riduce i requisiti di larghezza di banda della rete e scarica le risorse host come cicli CPU, buffer e code. È possibile utilizzare i tool ONTAP per VMware vSphere per installare il plug-in sugli host ESXi o, se supportato, vSphere Lifecycle Manager (vLCM).

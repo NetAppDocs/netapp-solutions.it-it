@@ -1,0 +1,107 @@
+---
+sidebar: sidebar 
+permalink: ai/runai-ld_solution_overview.html 
+keywords: azure, lane, detection, architecture, ai, run, machine learning 
+summary: 'In questa architettura, l"attenzione si concentra sulla parte più intensiva dal punto di vista computazionale del processo di training distribuito ai o di machine learning (ML) del rilevamento di corsia.' 
+---
+= Panoramica della soluzione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+In questa architettura, l'attenzione si concentra sulla parte più intensiva dal punto di vista computazionale del processo di training distribuito ai o di machine learning (ML) del rilevamento di corsia. Il rilevamento della corsia è una delle attività più importanti nella guida autonoma, che aiuta a guidare i veicoli attraverso la localizzazione delle linee di demarcazione della corsia. Componenti statici come le linee di demarcazione della corsia guidano il veicolo a guidare in autostrada in modo interattivo e sicuro.
+
+Gli approcci convoluzionali basati sulla rete neurale (CNN) hanno portato la comprensione e la segmentazione della scena a un nuovo livello. Anche se non funziona bene per oggetti con strutture e zone lunghe che potrebbero essere occluse (ad esempio, poli, ombre sulla corsia e così via). La rete neurale convoluzionale spaziale (SCNN) generalizza la CNN a un livello spaziale ricco. Consente la propagazione delle informazioni tra neuroni nello stesso livello, il che lo rende più adatto per oggetti strutturati come corsie, pali o camion con occlusioni. Questa compatibilità è dovuta al fatto che le informazioni spaziali possono essere rafforzate e preservano uniformità e continuità.
+
+Migliaia di immagini di scena devono essere iniettate nel sistema per consentire al modello di apprendere e distinguere i vari componenti del set di dati. Queste immagini includono condizioni meteo, diurne o notturne, strade a più corsie e altre condizioni di traffico.
+
+Per la formazione, è necessario disporre di una buona qualità e quantità di dati. Una singola GPU o più GPU possono richiedere da giorni a settimane per completare il training. La formazione distribuita sui dati può accelerare il processo utilizzando GPU multiple e multinode. Horovod è un framework di questo tipo che garantisce la formazione distribuita, ma la lettura dei dati tra cluster di GPU potrebbe costituire un ostacolo. Azure NetApp Files offre un throughput ultraveloce e elevato e una latenza ridotta e sostenuta per fornire funzionalità scale-out/scale-up in modo che le GPU vengano sfruttate al meglio della loro capacità di calcolo. I nostri esperimenti hanno verificato che tutte le GPU nel cluster vengono utilizzate in media più del 96% per l'addestramento del rilevamento di corsia mediante SCNN.
+
+
+
+== Pubblico di riferimento
+
+La scienza dei dati incorpora diverse discipline nell'IT e nel business, pertanto più persone fanno parte del nostro pubblico di riferimento:
+
+* Gli scienziati dei dati hanno bisogno della flessibilità necessaria per utilizzare gli strumenti e le librerie di loro scelta.
+* I data engineer devono sapere come i dati scorrono e dove risiedono.
+* Esperti di casi d'utilizzo per la guida autonoma.
+* Amministratori e architetti del cloud per configurare e gestire le risorse cloud (Azure).
+* Un tecnico DevOps ha bisogno dei tool per integrare le nuove applicazioni ai/ML nelle pipeline di integrazione continua e implementazione continua (ci/CD).
+* Gli utenti aziendali desiderano avere accesso alle applicazioni ai/ML.
+
+
+In questo documento, descriviamo in che modo Azure NetApp Files, RUN: Ai e Microsoft Azure aiutano ciascuno di questi ruoli a portare valore al business.
+
+
+
+== Tecnologia della soluzione
+
+In questa sezione vengono illustrati i requisiti tecnologici per il caso di utilizzo del rilevamento di corsia implementando una soluzione di training distribuita su larga scala che viene eseguita completamente nel cloud Azure. La figura seguente fornisce una panoramica dell'architettura della soluzione.
+
+Gli elementi utilizzati in questa soluzione sono:
+
+* Servizio Azure Kubernetes (AKS)
+* Azure Compute SKU con GPU NVIDIA
+* Azure NetApp Files
+* ESECUZIONE: AI
+* Trident di NetApp
+
+
+I collegamenti a tutti gli elementi menzionati sono elencati nella link:runai-ld_additional_information.html["Ulteriori informazioni"] sezione.
+
+image:runai-ld_image2.png["Errore: Immagine grafica mancante"]
+
+
+
+== Requisiti di risorse e servizi cloud
+
+La seguente tabella elenca i componenti hardware necessari per implementare la soluzione. I componenti cloud utilizzati in qualsiasi implementazione della soluzione possono variare in base ai requisiti del cliente.
+
+|===
+| Cloud | Quantità 
+
+
+| AKS | Almeno tre nodi di sistema e tre nodi di lavoro GPU 
+
+
+| Nodi di sistema delle SKU delle macchine virtuali (VM) | Tre Standard_DS2_v2 
+
+
+| Nodi di lavoro GPU SKU VM | Tre standard_NC6s_v3 
+
+
+| Azure NetApp Files | Tier standard da 4 TB 
+|===
+
+
+== Requisiti software
+
+La seguente tabella elenca i componenti software necessari per implementare la soluzione. I componenti software utilizzati in qualsiasi implementazione della soluzione possono variare in base ai requisiti del cliente.
+
+|===
+| Software | Versione o altre informazioni 
+
+
+| AKS - versione di Kubernetes | 1.18.14 
+
+
+| ESEGUI:AI CLI | v2.2.25 
+
+
+| RUN:ai Orchestration Kubernetes Operator version | 1.0.109 
+
+
+| Horovod | 0.21.2 
+
+
+| Trident di NetApp | 20.01.1 
+
+
+| Timone | 3.0.0 
+|===

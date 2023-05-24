@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_creating_projects_for_data_science_teams_and_allocating_gpus.html 
+keywords:  
+summary:  
+---
+= Creazione di progetti per i team Data Science e allocazione delle GPU
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+I ricercatori possono inviare i carichi di lavoro attraverso la CLI Run:ai, Kubeflow o processi simili. Per ottimizzare l'allocazione delle risorse e creare priorità, Run:ai introduce il concetto di progetti. I progetti sono entità di quota che associano un nome di progetto all'allocazione e alle preferenze della GPU. Si tratta di un metodo semplice e conveniente per gestire più team di data science.
+
+Un ricercatore che invia un workload deve associare un progetto a una richiesta di workload. Lo scheduler Run:ai confronta la richiesta con le allocazioni correnti e il progetto e determina se il carico di lavoro può essere allocato o se deve rimanere in uno stato in sospeso.
+
+In qualità di amministratore di sistema, è possibile impostare i seguenti parametri nella scheda Run:ai Projects (Esegui: Progetti ai):
+
+* *Model projects.* Imposta un progetto per utente, imposta un progetto per team di utenti e imposta un progetto per un progetto organizzativo reale.
+* *Quote di progetto.* ogni progetto è associato a una quota di GPU che può essere allocata per questo progetto contemporaneamente. Si tratta di una quota garantita nel senso che i ricercatori che utilizzano questo progetto possono ottenere questo numero di GPU indipendentemente dallo stato del cluster. Di norma, la somma dell'allocazione del progetto deve essere uguale al numero di GPU nel cluster. Oltre a questo, un utente di questo progetto può ricevere una quota eccessiva. Finché le GPU non vengono utilizzate, un ricercatore che utilizza questo progetto può ottenere più GPU. In vengono illustrati scenari di test con quote superiori e considerazioni di equità https://osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.adoc["Elevato utilizzo del cluster con allocazione della GPU con quota eccessiva"], https://osrunai_basic_resource_allocation_fairness.html["Equità nell'allocazione delle risorse di base"], e. https://osrunai_over-quota_fairness.html["Equità nell'overquota"].
+* Creare un nuovo progetto, aggiornare un progetto esistente ed eliminare un progetto esistente.
+* *Limita l'esecuzione dei job su gruppi di nodi specifici*. È possibile assegnare progetti specifici da eseguire solo su nodi specifici. Ciò è utile quando il team di progetto ha bisogno di hardware specializzato, ad esempio con memoria sufficiente. In alternativa, un team di progetto potrebbe essere il proprietario di hardware specifico acquistato con un budget specializzato, oppure quando potrebbe essere necessario indirizzare i carichi di lavoro di build o interattivi per lavorare su hardware più debole e indirizzare i carichi di lavoro di formazione più lunghi o non presidiati su nodi più veloci. Per i comandi per raggruppare i nodi e impostare l'affinità per un progetto specifico, vedere  https://docs.run.ai/Administrator/Admin-User-Interface-Setup/Working-with-Projects/["Run:documentazione ai"^].
+* *Limitare la durata dei lavori interattivi*. I ricercatori spesso si dimenticano di chiudere lavori interattivi. Ciò potrebbe comportare uno spreco di risorse. Alcune organizzazioni preferiscono limitare la durata dei lavori interattivi e chiuderli automaticamente.
+
+
+La figura seguente mostra la vista progetti con quattro team creati. A ciascun team viene assegnato un numero diverso di GPU per i diversi carichi di lavoro, con il numero totale di GPU pari a quello delle GPU totali disponibili in un cluster costituito da due DGX-1.
+
+image:osrunai_image4.png["Errore: Immagine grafica mancante"]
+
+link:osrunai_submitting_jobs_in_run_ai_cli.html["Successivo: Invio di job in Run ai CLI"]

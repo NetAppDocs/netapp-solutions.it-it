@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: ai/a400-thinksystem-introduction.html 
+keywords: tr4810, 4810, introduction, cluster architecture, lenovo, ai 
+summary: 'Questa soluzione si concentra sull"architettura cluster entry-level e mid-range utilizzando lo storage NetApp e i server Lenovo ottimizzati per i carichi di lavoro di intelligenza artificiale. È destinato ai team di piccole e medie dimensioni per i quali la maggior parte dei processi di calcolo sono a nodo singolo (GPU singola o multipla) o sono distribuiti su alcuni nodi di calcolo. Non si tratta di una limitazione importante, perché la maggior parte dei lavori di training ai giornalieri sono a nodo singolo.' 
+---
+= TR-4810: Training sul modello NetApp AFF A400 con Lenovo ThinkSystem SR670 V2 per ai e ML
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Sathish Thyagarajan, David Arnette, NetApp Mircea Troaca, Lenovo
+
+[role="lead"]
+Questa soluzione presenta un'architettura di cluster midrange che utilizza lo storage NetApp e i server Lenovo ottimizzati per i carichi di lavoro di intelligenza artificiale (ai). È destinato alle piccole e medie imprese per le quali la maggior parte dei lavori di calcolo sono a nodo singolo (GPU singola o multipla) o distribuiti su alcuni nodi di calcolo. Questa soluzione si allinea con la maggior parte dei lavori di training ai giornalieri per molte aziende.
+
+Il presente documento illustra il test e la convalida di una configurazione di calcolo e storage costituita da server Lenovo SR670V2 a otto GPU, un sistema storage NetApp AFF A400 di fascia media e uno switch di interconnessione da 100 GbE. Per misurare le performance, abbiamo utilizzato ResNet50 con il set di dati ImageNet, una dimensione batch di 408, mezza precisione, CUDA e cuDNN. Questa architettura offre una soluzione efficiente e conveniente per le piccole e medie imprese, iniziando con iniziative di ai che richiedono le funzionalità di livello Enterprise dello storage dei dati connesso al cloud di NetApp ONTAP.
+
+
+
+== Pubblico di riferimento
+
+Il presente documento è destinato ai seguenti destinatari:
+
+* Data scientist, data engineer, amministratori di dati e sviluppatori di sistemi ai
+* Architetti aziendali che progettano soluzioni per lo sviluppo di modelli ai
+* Data scientist e data engineer alla ricerca di metodi efficienti per raggiungere gli obiettivi di sviluppo del deep learning (DL) e dell'apprendimento automatico (ML)
+* Business leader e decision maker IT/IT che desiderano ottenere il più rapido time-to-market possibile per le iniziative ai
+
+
+
+
+== Architettura della soluzione
+
+Questa soluzione con server Lenovo ThinkSystem e NetApp ONTAP con storage AFF è progettata per gestire la formazione ai su grandi set di dati utilizzando la potenza di elaborazione delle GPU insieme alle CPU tradizionali. Questa convalida dimostra performance elevate e una gestione ottimale dei dati con un'architettura scale-out che utilizza uno, due o quattro server Lenovo SR670 V2 insieme a un singolo sistema storage NetApp AFF A400. La figura seguente fornisce una panoramica dell'architettura.
+
+image:a400-thinksystem-image2.png["Questa immagine mostra uno switch Ethernet circondato dal server di gestione, quattro SR670 V2S con otto GPU ciascuno e un sistema di storage NetApp ONTAP."]
+
+Questa soluzione NetApp e Lenovo offre i seguenti vantaggi principali:
+
+* Performance altamente efficienti e convenienti quando si eseguono più lavori di formazione in parallelo
+* Performance scalabili basate su diversi numeri di server Lenovo e diversi modelli di controller di storage NetApp
+* Protezione dei dati efficace per soddisfare gli obiettivi RPO (Recovery Point Objective) e RTO (Recovery Time Objective) ridotti senza perdita di dati
+* Gestione dei dati ottimizzata con snapshot e cloni per ottimizzare i flussi di lavoro di sviluppo
+
+
+link:a400-thinksystem-technology-overview.html["Avanti: Panoramica sulla tecnologia."]

@@ -1,0 +1,138 @@
+---
+section: ehc
+title: Multicloud ibrido NetApp con VMware
+url: "/ehc/index.html"
+entries:
+- title: VMware per il cloud pubblico
+  entries:
+  - title: Panoramica
+    url: "/ehc/ehc-overview.html"
+  - title: VMware Cloud su cloud hyperscaler
+    url: "/ehc/ehc-hyperscalers.html"
+  - title: Configurazioni supportate
+    url: "/ehc/ehc-support-configs.html"
+  - title: VMware nella configurazione degli hyperscaler
+    url: "/ehc/ehc-config-vmware-intro.html"
+    entries:
+    - title: Configurare VMC per AWS
+      url: "/ehc/aws/aws-setup.html"
+    - title: Configurare AVS per Azure
+      url: "/ehc/azure/azure-setup.html"
+    - title: Configurare GCVE per GCP
+      url: "/ehc/gcp/gcp-setup.html"
+  - title: Storage NetApp nei cloud hyperscaler
+    url: "/ehc/ehc-datastore-intro.html"
+    entries:
+    - title: Datastore NFS supplementare per VMC
+      url: "/ehc/aws/aws-native-overview.html"
+    - title: Storage guest connesso per VMC
+      url: "/ehc/aws/aws-guest.html"
+    - title: Archivio dati NFS supplementare per AVS
+      url: "/ehc/azure/azure-native-overview.html"
+    - title: Storage guest connesso per AVS
+      url: "/ehc/azure/azure-guest.html"
+    - title: Storage connesso guest per GCVE
+      url: "/ehc/gcp/gcp-guest.html"
+    - title: Supporto regionale per datastore NFS
+      url: "/ehc/ehc-regions.html"
+  - title: Riepilogo e conclusione
+    url: "/ehc/ehc-summary.html"
+- title: Casi di utilizzo di VMware Hybrid Cloud
+  entries:
+  - title: Panoramica del caso d'utilizzo
+    url: "/ehc/ehc-use-cases.html"
+  - title: Soluzioni per AWS/VMC
+    url: "/ehc/aws/aws-solutions.html"
+  - title: Soluzioni per Azure / AVS
+    url: "/ehc/azure/azure-solutions.html"
+  - title: Soluzioni per GCP/GCVE
+    url: "/ehc/gcp/gcp-solutions.html"
+- title: NetApp per AWS/VMC
+  url: "/ehc/aws/index.html"
+  entries:
+  - title: Protezione dei carichi di lavoro
+    entries:
+    - title: Disaster Recovery con VMC su AWS (connesso come guest)
+      url: "/ehc/aws/aws-guest-dr-solution-overview.html"
+    - title: Backup e ripristino Veeam in VMware Cloud, con AWS FSX per NetApp ONTAP
+      url: "/ehc/aws/aws-vmc-veeam-fsx-solution.html"
+    - title: Disaster recovery (DRO) con FSX per ONTAP e VMC
+      url: "/ehc/dro/aws-dro-overview.html"
+  - title: Migrazione dei carichi di lavoro
+    entries:
+    - title: Migrazione dei carichi di lavoro a FSX per datastore ONTAP con VMware
+        HCX
+      url: "/ehc/aws/aws-migrate-vmware-hcx.html"
+  - title: Supporto regionale per datastore NFS
+    url: "/ehc/aws/aws-regions.html"
+- title: NetApp per Azure/AVS
+  url: "/ehc/azure/index.html"
+  entries:
+  - title: Protezione dei carichi di lavoro
+    entries:
+    - title: Disaster Recovery con ANF e JetStream (datastore NFS supplementare)
+      url: "/ehc/azure/azure-native-dr-jetstream.html"
+    - title: Disaster Recovery con ANF e CVO (storage connesso guest)
+      url: "/ehc/azure/azure-guest-dr-cvo.html"
+    - title: Disaster recovery (DRO) con Azure NetApp Files e AVS
+      url: "/ehc/dro/azure-dro-overview.html"
+  - title: Migrazione dei carichi di lavoro
+    entries:
+    - title: Migrazione dei carichi di lavoro nel datastore ANF con VMware HCX
+      url: "/ehc/azure/azure-migrate-vmware-hcx.html"
+  - title: Supporto regionale per datastore NFS
+    url: "/ehc/azure/azure-regions.html"
+- title: NetApp per GCP/GCVE
+  url: "/ehc/gcp/index.html"
+  entries:
+  - title: Disaster recovery applicativo con replica SnapCenter, CVO e Veeam
+    url: "/ehc/gcp/gcp-app-dr-sc-cvo-veeam.html"
+  - title: Migrazione dei carichi di lavoro al datastore NFS Cloud Volume Service
+      con VMware HCX
+    url: "/ehc/gcp/gcp-migrate-vmware-hcx.html"
+  - title: Panoramica sulla sicurezza - NetApp Cloud Volumes Service (CVS) in Google
+      Cloud
+    type: solutions
+    entries:
+    - title: Panoramica
+      url: "/ehc/ncvs/ncvs-gc-overview.html"
+    - title: In che modo Cloud Volumes Service in Google Cloud protegge i tuoi dati
+      url: "/ehc/ncvs/ncvs-gc-how-cloud-volumes-service-in-google-cloud-secures-your-data.html"
+    - title: Considerazioni sulla sicurezza e superfici di attacco
+      url: "/ehc/ncvs/ncvs-gc-security-considerations-and-attack-surfaces.html"
+    - title: Architettura
+      entries:
+      - title: Panoramica dell'architettura
+        url: "/ehc/ncvs/ncvs-gc-architecture_overview.html"
+      - title: Architettura Cloud Volumes Service
+        url: "/ehc/ncvs/ncvs-gc-cloud-volumes-service-architecture.html"
+      - title: Architettura del piano di controllo
+        url: "/ehc/ncvs/ncvs-gc-control-plane-architecture.html"
+      - title: Architettura del data plane
+        url: "/ehc/ncvs/ncvs-gc-data-plane-architecture.html"
+      - title: Crittografia dei dati in transito
+        url: "/ehc/ncvs/ncvs-gc-data-encryption-in-transit.html"
+      - title: Crittografia dei dati a riposo
+        url: "/ehc/ncvs/ncvs-gc-data-encryption-at-rest.html"
+      - title: Firewall
+        url: "/ehc/ncvs/ncvs-gc-firewall.html"
+    - title: Protocolli NAS
+      entries:
+      - title: Panoramica dei protocolli NAS
+        url: "/ehc/ncvs/ncvs-gc-nas-protocols_overview.html"
+      - title: Nozioni di base sui protocolli NAS
+        url: "/ehc/ncvs/ncvs-gc-basics-of-nas-protocols.html"
+      - title: NFS
+        url: "/ehc/ncvs/ncvs-gc-nfs.html"
+      - title: PMI
+        url: "/ehc/ncvs/ncvs-gc-smb.html"
+      - title: Protocollo doppio/multiprotocollo
+        url: "/ehc/ncvs/ncvs-gc-dual-protocol-multiprotocol.html"
+      - title: Considerazioni per la creazione di connessioni Active Directory
+        url: "/ehc/ncvs/ncvs-gc-considerations-creating-active-directory-connections.html"
+      - title: Altre dipendenze del servizio infrastruttura NAS (KDC, LDAP, DNS)
+        url: "/ehc/ncvs/ncvs-gc-other-nas-infrastructure-service-dependencies.html"
+    - title: Funzionamento del servizio
+      url: "/ehc/ncvs/ncvs-gc-service-operation.html"
+    - title: Ulteriori informazioni
+      url: "/ehc/ncvs/ncvs-gc-additional-information.html"

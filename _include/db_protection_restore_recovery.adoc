@@ -1,0 +1,29 @@
+= 
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Pianificazione del Playbook di replica del registro
+
+*Configurare e avviare il modello di lavoro.*
+
+. Copiare il modello di lavoro creato in precedenza.
++
+.. Accedere a risorse → modelli.
+.. Individuare il modello di installazione di ONTAP/CVO e fare clic con il pulsante destro del mouse su Copy Template (Copia modello)
+.. Fare clic su Edit Template (Modifica modello) sul modello copiato e modificare il nome in Restore and Recovery Playbook (Guida per il ripristino e il ripristino).
+.. Mantenere lo stesso inventario, progetto e credenziali per il modello.
+.. Selezionare ora_recovery.yml come manuale da eseguire.
+.. Le variabili rimarranno le stesse, ma l'IP del cluster CVO dovrà essere impostato nella variabile dst_cluster_ip.
+.. Fare clic su Salva.
+
+
++
+
+NOTE: Questo manuale non verrà eseguito fino a quando non si sarà pronti a ripristinare il database nel sito remoto.
+
+

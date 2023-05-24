@@ -1,0 +1,89 @@
+= 
+:allow-uri-read: 
+
+
+Questa sezione descrive i passaggi necessari per configurare i parametri in AWX/Ansible Tower che preparano l'ambiente per l'utilizzo delle soluzioni automatizzate di NetApp.
+
+. Configurare l'inventario.
++
+.. Accedere a Resources → Inventories → Add e fare clic su Add Inventory (Aggiungi inventario).
+.. Fornire i dettagli relativi al nome e all'organizzazione e fare clic su Save (Salva).
+.. Nella pagina Inventories (inventari), fare clic sulle risorse di inventario appena create.
+.. Se sono presenti variabili di inventario, incollarle nel campo Variables (variabili).
+.. Accedere al sottomenu Groups (gruppi) e fare clic su Add (Aggiungi).
+.. Fornire il nome del gruppo, copiare le variabili del gruppo (se necessario) e fare clic su Save (Salva).
+.. Fare clic sul gruppo creato, accedere al sottomenu hosts e fare clic su Add New host (Aggiungi nuovo host).
+.. Fornire il nome host e l'indirizzo IP dell'host, incollare le variabili host (se necessario) e fare clic su Save (Salva).
+
+
+. Creare tipi di credenziale. Per le soluzioni che includono ONTAP, Element, VMware o qualsiasi altra connessione di trasporto basata su HTTPS, è necessario configurare il tipo di credenziale in modo che corrisponda alle voci di nome utente e password.
++
+.. Accedere a Administration → Credential Types (Amministrazione tipi di credenziali) e fare clic su Add (Aggiungi
+.. Fornire il nome e la descrizione.
+.. Incollare il seguente contenuto nella configurazione di input:
+
+
+
+
+[listing]
+----
+fields:
+- id: username
+type: string
+label: Username
+- id: password
+type: string
+label: Password
+secret: true
+- id: vsadmin_password
+type: string
+label: vsadmin_password
+secret: true
+----
+. Incollare il seguente contenuto nella configurazione dell'iniettore:
+
+
+[listing]
+----
+extra_vars:
+password: '{{ password }}'
+username: '{{ username }}'
+vsadmin_password: '{{ vsadmin_password }}'
+----
+. Configurare le credenziali.
++
+.. Accedere a risorse → credenziali e fare clic su Aggiungi.
+.. Inserire il nome e i dettagli dell'organizzazione.
+.. Selezionare il tipo di credenziale corretto; se si desidera utilizzare l'accesso SSH standard, selezionare il tipo macchina o, in alternativa, selezionare il tipo di credenziale personalizzato creato.
+.. Inserire gli altri dati corrispondenti e fare clic su Save (Salva).
+
+
+. Configurare il progetto.
++
+.. Accedere a risorse → progetti e fare clic su Aggiungi.
+.. Inserire il nome e i dettagli dell'organizzazione.
+.. Selezionare Git (Git) per il tipo di credenziale del controllo di origine.
+.. Incollare l'URL del controllo di origine (o l'URL del clone git) corrispondente alla soluzione specifica.
+.. Facoltativamente, se l'URL Git è controllato dall'accesso, creare e allegare la credenziale corrispondente nella credenziale di controllo del codice sorgente.
+.. Fare clic su Salva.
+
+
+. Configurare il modello di lavoro.
++
+.. Accedere a risorse → modelli → Aggiungi e fare clic su Aggiungi modello di processo.
+.. Immettere il nome e la descrizione.
+.. Selezionare il tipo di lavoro; Esegui consente di configurare il sistema in base a un playbook e Check esegue un ciclo completo del playbook senza configurare effettivamente il sistema.
+.. Seleziona l'inventario, il progetto e le credenziali corrispondenti per il playbook.
+.. Selezionare la guida che si desidera eseguire come parte del modello di lavoro.
+.. In genere, le variabili vengono incollate durante il runtime. Pertanto, per visualizzare la richiesta di popolare le variabili durante l'esecuzione, assicurarsi di selezionare la casella di controllo prompt on Launch (prompt all'avvio) corrispondente al campo Variable (variabile).
+.. Fornire eventuali altri dettagli necessari e fare clic su Save (Salva).
+
+
+. Avviare il modello di lavoro.
++
+.. Accedere a risorse → modelli.
+.. Fare clic sul modello desiderato, quindi fare clic su Launch (Avvia).
+.. Se richiesto all'avvio, inserire le variabili, quindi fare nuovamente clic su Launch (Avvia).
+
+
+

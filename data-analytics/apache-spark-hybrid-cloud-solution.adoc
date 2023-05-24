@@ -1,0 +1,41 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/apache-spark-hybrid-cloud-solution.html 
+keywords: hybrid cloud, operating model, netapp private storage, 
+summary: Un moderno data center aziendale è un cloud ibrido che connette più ambienti di infrastruttura distribuita attraverso un piano di gestione continua dei dati con un modello operativo coerente, on-premise e/o in più cloud pubblici. Per ottenere il massimo da un cloud ibrido, devi essere in grado di spostare perfettamente i dati tra ambienti on-premise e multi-cloud senza la necessità di conversioni di dati o refactoring delle applicazioni. 
+---
+= Soluzione di cloud ibrido
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:apache-spark-testing-results.html["Precedente: Risultati del test."]
+
+[role="lead"]
+Un moderno data center aziendale è un cloud ibrido che connette più ambienti di infrastruttura distribuita attraverso un piano di gestione continua dei dati con un modello operativo coerente, on-premise e/o in più cloud pubblici. Per ottenere il massimo da un cloud ibrido, devi essere in grado di spostare perfettamente i dati tra ambienti on-premise e multi-cloud senza la necessità di conversioni di dati o refactoring delle applicazioni.
+
+I clienti hanno indicato di iniziare il loro percorso nel cloud ibrido spostando lo storage secondario nel cloud per casi di utilizzo come la protezione dei dati o spostando meno carichi di lavoro business-critical come lo sviluppo delle applicazioni e DevOps nel cloud. Passano quindi a carichi di lavoro più critici. Hosting di contenuti e web, sviluppo di applicazioni e DevOps, database, analytics e applicazioni containerizzate sono tra i carichi di lavoro di cloud ibrido più diffusi. La complessità, i costi e i rischi dei progetti ai aziendali hanno storicamente ostacolato l'adozione dell'ai dalla fase sperimentale alla produzione.
+
+Con una soluzione di cloud ibrido NetApp, i clienti possono beneficiare di strumenti integrati per la sicurezza, la governance dei dati e la conformità con un unico pannello di controllo per la gestione dei dati e del workflow in ambienti distribuiti, ottimizzando al contempo il costo totale di proprietà in base al consumo. La figura seguente è una soluzione di esempio di un partner di servizi cloud che ha il compito di fornire connettività multi-cloud per i dati di analisi dei big data dei clienti.
+
+image:apache-spark-image14.png["Esempio di soluzione di un partner di servizi cloud."]
+
+In questo scenario, i dati IoT ricevuti in AWS da diverse origini vengono memorizzati in una posizione centrale in NetApp Private Storage (NPS). Lo storage NPS è connesso ai cluster Spark o Hadoop situati in AWS e Azure, consentendo l'esecuzione di applicazioni di big data analytics in più cloud che accedono agli stessi dati. I requisiti e le sfide principali per questo caso di utilizzo includono:
+
+* I clienti vogliono eseguire lavori di analisi sugli stessi dati utilizzando più cloud.
+* I dati devono essere ricevuti da fonti diverse, ad esempio ambienti on-premise e cloud, attraverso diversi sensori e hub.
+* La soluzione deve essere efficiente e conveniente.
+* La sfida principale è quella di creare una soluzione conveniente ed efficiente in grado di offrire servizi di analisi ibridi tra diversi ambienti on-premise e cloud.
+
+
+La nostra soluzione per la protezione dei dati e la connettività multicloud risolve il problema di avere applicazioni di analisi del cloud su più hyperscaler. Come mostrato nella figura precedente, i dati provenienti dai sensori vengono trasmessi e acquisiti nel cluster AWS Spark tramite Kafka. I dati vengono memorizzati in una condivisione NFS residente in NPS, che si trova all'esterno del cloud provider all'interno di un data center Equinix.
+
+Poiché NetApp NPS è connesso ad Amazon AWS e Microsoft Azure rispettivamente tramite Direct Connect e Express Route Connections, i clienti possono sfruttare il modulo di analisi in-place per accedere ai dati da entrambi i cluster di analisi Amazon e AWS. Di conseguenza, poiché sia lo storage on-premise che NPS esegue il software ONTAP, https://docs.netapp.com/us-en/ontap/data-protection/snapmirror-replication-concept.html["SnapMirror"^] Può eseguire il mirroring dei dati NPS nel cluster on-premise, fornendo analisi del cloud ibrido su cloud on-premise e multipli.
+
+Per ottenere le migliori performance, NetApp consiglia di utilizzare più interfacce di rete e connessioni dirette o percorsi espressi per accedere ai dati dalle istanze cloud. Abbiamo altre soluzioni di data mover, tra cui https://mysupport.netapp.com/documentation/docweb/index.html?productID=63942&language=en-US["XCP"^] e. https://cloud.netapp.com/cloud-sync-service["Cloud Sync"^] Per aiutare i clienti a creare cluster Spark di cloud ibrido basati su applicazioni, sicuri e convenienti.
+
+link:apache-spark-python-scripts-for-each-major-use-case.html["Segue: Script Python per ogni caso di utilizzo principale."]

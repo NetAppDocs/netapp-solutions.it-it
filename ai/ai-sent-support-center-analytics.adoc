@@ -1,0 +1,35 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-sent-support-center-analytics.html 
+keywords: tr-4910, tr4910, 4910, sentiment, analysis, customer value, support center, artificial intelligence 
+summary: 'Questo report tecnico fornisce ai clienti indicazioni di progettazione per eseguire l"analisi del sentimento in un centro di supporto globale di livello Enterprise utilizzando le tecnologie di gestione dei dati NetApp con un framework software NVIDIA che utilizza l"apprendimento del trasferimento e l"intelligenza artificiale conversazionale.' 
+---
+= TR-4910: Analisi del sentimento da Customer Communications con NetApp ai
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Rick Huang, Sathish Thyagarajan e David Arnette, NetApp Diego Sosa-Coba, SFL Scientific
+
+[role="lead"]
+Questo report tecnico fornisce ai clienti indicazioni di progettazione per eseguire l'analisi del sentimento in un centro di supporto globale di livello Enterprise utilizzando le tecnologie di gestione dei dati NetApp con un framework software NVIDIA che utilizza l'apprendimento del trasferimento e l'intelligenza artificiale conversazionale. Questa soluzione è applicabile a qualsiasi settore che desideri ottenere informazioni sui clienti da file di testo o vocali registrati che rappresentano registri di chat, e-mail e altre comunicazioni di testo o audio. Abbiamo implementato una pipeline end-to-end per dimostrare il riconoscimento vocale automatico, l'analisi del sentimento in tempo reale e le funzionalità di riqualificazione del modello di elaborazione del linguaggio naturale di apprendimento approfondito su un cluster di calcolo accelerato dalla GPU con storage all-flash NetApp connesso al cloud. È possibile formare e ottimizzare enormi modelli linguistici all'avanguardia per eseguire rapidamente l'inferenza con il centro di supporto globale, al fine di creare un'esperienza del cliente eccezionale e valutazioni obiettive e a lungo termine delle performance dei dipendenti.
+
+L'analisi del sentimento è un campo di studio all'interno di Natural Language Processing (NLP) attraverso il quale i sentimenti positivi, negativi o neutri vengono estratti dal testo. I sistemi di intelligenza artificiale convergente sono saliti a un livello di integrazione quasi globale man mano che sempre più persone vengono a interagire con loro. L'analisi del sentimento ha una varietà di casi di utilizzo, dalla determinazione delle performance dei dipendenti del centro di supporto nelle conversazioni con i chiamanti e la fornitura di risposte dei chatbot automatizzate appropriate alla previsione del prezzo delle azioni di un'azienda in base alle interazioni tra i rappresentanti dell'azienda e il pubblico alle chiamate trimestrali sui guadagni. Inoltre, l'analisi del sentimento può essere utilizzata per determinare la posizione del cliente sui prodotti, servizi o supporto forniti dal marchio.
+
+Questa soluzione end-to-end utilizza modelli NLP per eseguire un'analisi del sentimento di alto livello che abilita i framework analitici del centro di supporto. Le registrazioni audio vengono elaborate in testo scritto e il sentimento viene estratto da ciascuna frase della conversazione. I risultati, aggregati in una dashboard, possono essere creati per analizzare i sentimenti delle conversazioni, sia storicamente che in tempo reale. Questa soluzione può essere generalizzata ad altre soluzioni con modalità dati e esigenze di output simili. Con i dati appropriati, è possibile eseguire altri casi di utilizzo. Ad esempio, è possibile analizzare le richieste di guadagno dell'azienda per verificare il sentimento utilizzando la stessa pipeline end-to-end. Altre forme di analisi NLP, come la modellazione topica e il riconoscimento di entità nominate (NER), sono possibili anche grazie alla natura flessibile della pipeline.
+
+Queste implementazioni di ai sono state rese possibili da NVIDIA RIVA, NVIDIA TAO Toolkit e NetApp DataOps Toolkit che hanno collaborato. I tool NVIDIA vengono utilizzati per implementare rapidamente soluzioni ai dalle performance elevate utilizzando modelli e pipeline precostruiti. Il NetApp DataOps Toolkit semplifica varie attività di gestione dei dati per accelerare lo sviluppo.
+
+
+
+== Valore per il cliente
+
+Le aziende vedono il valore di uno strumento di valutazione dei dipendenti e reazione dei clienti per conversazioni testuali, audio e video per l'analisi del sentimento. I manager traggono vantaggio dalle informazioni presentate nella dashboard, consentendo una valutazione dei dipendenti e della soddisfazione dei clienti in base a entrambe le parti della conversazione.
+
+Inoltre, il NetApp DataOps Toolkit gestisce la versione e l'allocazione dei dati all'interno dell'infrastruttura del cliente. Questo porta ad aggiornamenti frequenti delle analisi presentate all'interno della dashboard senza creare costi di storage dei dati ingombranti.
+
+link:ai-sent-use-cases.html["Successivo: Casi d'utilizzo."]

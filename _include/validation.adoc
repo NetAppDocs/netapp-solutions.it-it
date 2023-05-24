@@ -1,0 +1,96 @@
+= Convalidare l'installazione di Oracle
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+=== Convalidare l'installazione di Oracle
+
+
+[source, cli]
+----
+ps -ef | grep ora
+----
+
+NOTE: In questo modo verranno elencati i processi oracle se l'installazione è stata completata come previsto e oracle DB è stato avviato
+
+
+[source, cli]
+----
+sqlplus / as sysdba
+----
+[oracle@localhost ~] sqlplus / come sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - produzione giovedì 6 maggio 12:52:51 2021 versione 19.8.0.0.0
+
+Copyright (c) 1982, 2019, Oracle. Tutti i diritti riservati.
+
+Connesso a: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - versione di produzione 19.8.0.0.0
+
+SQL>
+
+[source, cli]
+----
+select name, log_mode from v$database;
+----
+SQL> selezionare name, log_mode dal database v€; NAME LOG_MODE -------- ------------ CDB2 ARCHIVELOG
+
+[source, cli]
+----
+show pdbs;
+----
+SQL> mostra pdbs
+
+....
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB$SEED                       READ ONLY  NO
+         3 CDB2_PDB1                      READ WRITE NO
+         4 CDB2_PDB2                      READ WRITE NO
+         5 CDB2_PDB3                      READ WRITE NO
+....
+[source, cli]
+----
+col svrname form a30
+col dirname form a30
+select svrname, dirname, nfsversion from v$dnfs_servers;
+----
+SQL> col svrname form a30 SQL> col dirname form a30 SQL> selezionare svrname, dirname, nfsversion da v€dnfs_servers;
+
+SVGA DIRNAME NFSVERSION -------------------------------------------------------------- ------------------------------------------------------------ ------------------ 172.21.126.200 /rhelora03_u02 NFSv3.0 172.21.126.200 /rhelora03_u03 NFSv3.0 172.21.126.200 /rhelora03_u01 NFSv3.0
+
+[listing]
+----
+This confirms that dNFS is working properly.
+----
+
+[source, cli]
+----
+sqlplus system@//localhost:1523/cdb2_pdb1.cie.netapp.com
+----
+[oracle@localhost ~]@ sqlplus system//localhost:1523/cdb2_pdb1.cie.netapp.com
+
+SQL*Plus: Release 19.0.0.0.0 - produzione giovedì 6 maggio 13:19:57 2021 versione 19.8.0.0.0
+
+Copyright (c) 1982, 2019, Oracle. Tutti i diritti riservati.
+
+Enter password: Last Successful login time: Mer May 05 2021 17:11:11 -04:00
+
+Connesso a: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - versione di produzione 19.8.0.0.0
+
+SQL> show user is "SYSTEM" SQL> show con_name con_NAME CDB2_PDB1
+
+[listing]
+----
+This confirms that Oracle listener is working properly.
+----
+
+
+=== Dove cercare aiuto?
+
+Se hai bisogno di aiuto con il toolkit, iscriviti a. link:https://netapppub.slack.com/archives/C021R4WC0LC["La community di NetApp Solution Automation supporta il canale slack"] e cerca il canale di automazione della soluzione per inviare domande o domande.

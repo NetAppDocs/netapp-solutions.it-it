@@ -1,0 +1,38 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/apache-spark-solution-technology.html 
+keywords: standalone, apache mesos, hadoop yarn, resilient distributed dataset, rdd, dataframe, hadoop distributed file system, hdfs 
+summary: Questa sezione descrive la natura e i componenti di Apache Spark e il loro contributo a questa soluzione. 
+---
+= Tecnologia della soluzione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:apache-spark-target-audience.html["Precedente: Pubblico di riferimento."]
+
+[role="lead"]
+Apache Spark è un popolare framework di programmazione per la scrittura di applicazioni Hadoop che funziona direttamente con Hadoop Distributed file System (HDFS). Spark è pronto per la produzione, supporta l'elaborazione dei dati in streaming ed è più veloce di MapReduce. Spark dispone di un caching dei dati in-memory configurabile per un'iterazione efficiente e la shell Spark è interattiva per l'apprendimento e l'esplorazione dei dati. Con Spark, puoi creare applicazioni in Python, Scala o Java. Le applicazioni SPARK sono costituite da uno o più lavori che hanno uno o più compiti.
+
+Ogni applicazione Spark dispone di un driver Spark. In modalità YARN-Client, il driver viene eseguito sul client localmente. In modalità YARN-Cluster, il driver viene eseguito nel cluster sul master dell'applicazione. In modalità cluster, l'applicazione continua a funzionare anche se il client si disconnette.
+
+image:apache-spark-image3.png["Errore: Immagine grafica mancante"]
+
+Esistono tre cluster manager:
+
+* *Standalone.* questo gestore fa parte di Spark, che semplifica la configurazione di un cluster.
+* *Apache Mesos.* questo è un gestore di cluster generale che esegue anche MapReduce e altre applicazioni.
+* *Hadoop YARN.* questo è un resource manager in Hadoop 3.
+
+
+Il dataset distribuito resiliente (RDD) è il componente principale di Spark. RDD ricrea i dati persi e mancanti dai dati memorizzati nel cluster e memorizza i dati iniziali provenienti da un file o creati a livello di programmazione. Le RDD vengono create da file, dati in memoria o da un altro RDD. La programmazione SPARK esegue due operazioni: Trasformazione e azioni. La trasformazione crea un nuovo RDD basato su uno esistente. Le azioni restituiscono un valore da un RDD.
+
+Le trasformazioni e le azioni si applicano anche ai DataSet e ai DataFrame di Spark. Un set di dati è una raccolta distribuita di dati che offre i benefici delle RDDs (tipizzazione forte, utilizzo delle funzioni lambda) con i benefici del motore di esecuzione ottimizzato di Spark SQL. È possibile costruire un dataset da oggetti JVM e manipolarlo utilizzando trasformazioni funzionali (mappa, mappa piatta, filtro e così via). Un DataFrame è un dataset organizzato in colonne denominate. È concettualmente equivalente a una tabella in un database relazionale o a un frame di dati in R/Python. I DataFrame possono essere costruiti da un'ampia gamma di origini come file di dati strutturati, tabelle in Hive/HBase, database esterni on-premise o nel cloud o RDDs esistenti.
+
+Le applicazioni SPARK includono uno o più lavori Spark. I job eseguono task negli esecutori e gli esecutori vengono eseguiti in CONTAINER DI FILATI. Ogni esecutore viene eseguito in un singolo container e gli esecutori esistono per tutta la vita di un'applicazione. Un esecutore viene fissato dopo l'avvio dell'applicazione e IL FILATO non ridimensiona il container già allocato. Un esecutore può eseguire task contemporaneamente sui dati in-memory.
+
+link:apache-spark-netapp-spark-solutions-overview.html["Pagina successiva: Panoramica delle soluzioni NetApp Spark."]

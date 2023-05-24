@@ -1,0 +1,61 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_over-quota_fairness.html 
+keywords:  
+summary:  
+---
+= Equità nell'overquota
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+In questa sezione, espandiamo lo scenario in cui più team inviano carichi di lavoro e superano la loro quota. In questo modo, dimostreremo come l'algoritmo di equità di Run:ai alloca le risorse del cluster in base al rapporto delle quote preimpostate.
+
+Obiettivi per questo scenario di test:
+
+* Mostra il meccanismo di accodamento quando più team richiedono GPU sulla propria quota.
+* Mostrare come il sistema distribuisce una quota equa del cluster tra più team che superano la quota in base al rapporto tra le quote, in modo che il team con la quota maggiore ottenga una quota maggiore della capacità di riserva.
+
+
+Alla fine di link:osrunai_basic_resource_allocation_fairness.html["Equità nell'allocazione delle risorse di base"], sono presenti due carichi di lavoro in coda: uno per `team-b` e uno per `team-c`. In questa sezione, vengono accodati carichi di lavoro aggiuntivi.
+
+Per ulteriori informazioni, tra cui invio di lavori, immagini container utilizzate e sequenze di comandi eseguite, vedere link:osrunai_testing_details_for_section_4.10.html["Dettagli sui test per la sezione 4.10"].
+
+Quando tutti i lavori vengono inoltrati in base alla sezione link:osrunai_testing_details_for_section_4.10.html["Dettagli sui test per la sezione 4.10"], il dashboard di sistema lo mostra `team-a`, `team-b`, e. `team-c` Tutti hanno più GPU rispetto alla quota preimpostata. `team-a` Occupa quattro GPU in più rispetto alla quota soft preimpostata (quattro), mentre `team-b` e. `team-c` Ciascuna di esse occupa due GPU in più rispetto alla propria quota soft (due). Il rapporto delle GPU con overquota allocate è uguale a quello della quota preimpostata. Questo perché il sistema ha utilizzato la quota preimpostata come riferimento di priorità e fornito di conseguenza quando più team richiedono più GPU, superando la quota. Tale bilanciamento automatico del carico offre equità e prioritizzazione quando i team di data science aziendali sono attivamente impegnati nello sviluppo e nella produzione di modelli di ai.
+
+image:osrunai_image10.png["Errore: Immagine grafica mancante"]
+
+I risultati di questo scenario di test mostrano quanto segue:
+
+* Il sistema inizia a demettere in coda i carichi di lavoro di altri team.
+* L'ordine di dequeuing viene stabilito in base agli algoritmi di equità, in modo che `team-b` e. `team-c` Ottenere la stessa quantità di GPU con quote eccessive (poiché hanno una quota simile), e. `team-a` Ottiene una quantità doppia di GPU poiché la loro quota è due volte superiore alla quota di `team-b` e. `team-c`.
+* Tutta l'allocazione viene eseguita automaticamente.
+
+
+Pertanto, il sistema dovrebbe stabilizzarsi nei seguenti stati:
+
+|===
+| Progetto | GPU allocate | Commento 
+
+
+| squadra a. | 8/4 | Quattro GPU oltre la quota. Coda vuota. 
+
+
+| team-b | 4/2 | Due GPU oltre la quota. Un carico di lavoro in coda. 
+
+
+| team-c | 4/2 | Due GPU oltre la quota. Un carico di lavoro in coda. 
+
+
+| team-d | 0/8 | Non utilizzare le GPU, non i carichi di lavoro in coda. 
+|===
+La figura seguente mostra l'allocazione della GPU per progetto nel tempo nella dashboard Run:ai Analytics per le sezioni link:osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.html["Elevato utilizzo del cluster con allocazione della GPU con quota eccessiva"], link:osrunai_basic_resource_allocation_fairness.html["Equità nell'allocazione delle risorse di base"], e. link:osrunai_over-quota_fairness.html["Equità nell'overquota"]. Ciascuna riga della figura indica il numero di GPU fornite per un determinato team di data science in qualsiasi momento. Possiamo vedere che il sistema alloca dinamicamente le GPU in base ai carichi di lavoro inviati. Ciò consente ai team di superare la quota quando nel cluster sono disponibili GPU, quindi di prevenire i lavori in base all'equità, prima di raggiungere infine uno stato stabile per tutti e quattro i team.
+
+image:osrunai_image11.png["Errore: Immagine grafica mancante"]
+
+link:osrunai_saving_data_to_a_trident-provisioned_persistentvolume.html["Successivo: Salvataggio dei dati in un PersistentVolume con provisioning Trident"]

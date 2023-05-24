@@ -1,0 +1,67 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-test-plan.html 
+keywords: test, plan, mlperf, inference, benchmarks 
+summary: 'Questo documento segue il codice MLPerf Inference v0.7, il codice MLPerf Inference v1.1 e le regole. Abbiamo eseguito benchmark progettati per l"inferenza ai margini, come definito nelle tabelle presentate in questa sezione.' 
+---
+= Piano di test
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-edge-technology-overview.html["Precedente: Panoramica della tecnologia."]
+
+[role="lead"]
+Questo documento segue l'inferenza MLPerf v0.7 https://github.com/mlperf/inference_results_v0.7/tree/master/closed/Lenovo["codice"^], MLPerf Inference v1.1 https://github.com/mlcommons/inference_results_v1.1/tree/main/closed/Lenovo["codice"^], e. https://github.com/mlcommons/inference_policies/blob/master/inference_rules.adoc["regole"^]. Abbiamo eseguito benchmark MLPerf progettati per l'inferenza ai margini, come definito nella tabella seguente.
+
+|===
+| Area | Attività | Modello | Dataset | Dimensione QSL | Qualità | Vincolo di latenza multi-stream 
+
+
+| Visione | Classificazione delle immagini | Resnet50v1.5 | ImageNet (224 x 224) | 1024 | 99% del 32° PQ | 50 ms. 
+
+
+| Visione | Rilevamento di oggetti (grande) | SSD- ResNet34 | COCO (1200 x 1200) | 64 | 99% del 32° PQ | 66 ms. 
+
+
+| Visione | Rilevamento di oggetti (piccolo) | SSD - MobileNetsv1 | COCO (300 x 300) | 256 | 99% del 32° PQ | 50 ms. 
+
+
+| Visione | Segmentazione delle immagini mediche | UNET 3D | Brat 2019 (224 x 224 x 160) | 16 | 99% e 99.9% del 32° PQ | n/a. 
+
+
+| Discorso | Voce-testo | RNNT | Sviluppo di Librispeech-clean | 2513 | 99% del 32° PQ | n/a. 
+
+
+| Lingua | Elaborazione della lingua | BERT | Squadra v1.1 | 10833 | 99% del 32° PQ | n/a. 
+|===
+Nella tabella seguente sono illustrati gli scenari di benchmark Edge.
+
+|===
+| Area | Attività | Scenari 
+
+
+| Visione | Classificazione delle immagini | Single stream, offline, multistream 
+
+
+| Visione | Rilevamento di oggetti (grande) | Single stream, offline, multistream 
+
+
+| Visione | Rilevamento di oggetti (piccolo) | Single stream, offline, multistream 
+
+
+| Visione | Segmentazione delle immagini mediche | Single stream, offline 
+
+
+| Discorso | Voce-testo | Single stream, offline 
+
+
+| Lingua | Elaborazione della lingua | Single stream, offline 
+|===
+Abbiamo eseguito questi benchmark utilizzando l'architettura di storage di rete sviluppata in questa convalida e confrontato i risultati con quelli delle esecuzioni locali sugli edge server precedentemente inviati a MLPerf. Il confronto serve a determinare l'impatto dello storage condiviso sulle performance di inferenza.
+
+link:ai-edge-test-configuration.html["Pagina successiva: Test della configurazione."]

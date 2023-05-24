@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_advanced_cluster_management_deployment.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, ONTAP, Trident, Red Hat OpenShift, Advanced Cluster Management, Advanced Cluster Management for Kubernetes 
+summary: Gestione avanzata dei cluster per Kubernetes su Red Hat OpenShift con NetApp. 
+---
+= Implementare Advanced Cluster Management per Kubernetes
+:allow-uri-read: 
+
+
+Per installare Advanced Cluster Management per Kubernetes su un cluster OpenShift, attenersi alla seguente procedura:
+
+. Scegliere un cluster OpenShift come cluster hub e accedervi con privilegi di amministratore del cluster.
+. Accedere a Operators > Operators Hub e cercare Advanced Cluster Management for Kubernetes.
++
+image::redhat_openshift_image66.jpg[Riquadro ACM]
+
+. Selezionare Advanced Cluster Management for Kubernetes (Gestione avanzata cluster per Kubernetes) e fare clic su Install (Installa).
++
+image::redhat_openshift_image67.jpg[Dettagli del riquadro ACM]
+
+. Nella schermata Install Operator (operatore di installazione), fornire i dettagli necessari (NetApp consiglia di conservare i parametri predefiniti) e fare clic su Install (Installa).
++
+image::redhat_openshift_image68.jpg[Installare la tessera ACM Operator]
+
+. Attendere il completamento dell'installazione da parte dell'operatore.
++
+image::redhat_openshift_image69.jpg[Installazione dell'operatore ACM in corso]
+
+. Una volta installato l'operatore, fare clic su Create MultiClusterHub (Crea MultiClusterHub).
++
+image::redhat_openshift_image70.jpg[Operatore ACM Multiplexerhub]
+
+. Nella schermata Create MultiClusterHub (Crea MultiClusterHub), fare clic su Create (Crea) dopo aver inserito i dettagli. In questo modo viene avviata l'installazione di un hub multi-cluster.
++
+image::redhat_openshift_image71.jpg[Schermata Create Multiploud hub]
+
+. Dopo che tutti i pod sono stati spostati nello stato in esecuzione nello spazio dei nomi di gestione del cluster aperto e l'operatore passa allo stato riuscito, viene installata la funzione Advanced Cluster Management per Kubernetes.
++
+image::redhat_openshift_image72.jpg[Operatore ACM installato]
+
+. Il completamento dell'installazione dell'hub richiede un po' di tempo e, una volta completata, l'hub MultiCluster passa allo stato di esecuzione.
++
+image::redhat_openshift_image73.jpg[Hub multigruppo pronto]
+
+. Crea un percorso nello spazio dei nomi di gestione del cluster aperto. Connettersi all'URL nel percorso per accedere alla console Advanced Cluster Management.
++
+image::redhat_openshift_image74.jpg[Percorso della console ACM]
+
+
+
+link:rh-os-n_use_case_advanced_cluster_management_features_cluster_lcm.html["Avanti: Funzionalità - Gestione del ciclo di vita del cluster."]

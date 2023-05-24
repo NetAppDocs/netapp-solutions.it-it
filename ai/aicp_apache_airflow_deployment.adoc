@@ -1,0 +1,144 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_apache_airflow_deployment.html 
+keywords: AI, control plane, apache, airflow 
+summary: 'Questa sezione descrive le attività da completare per implementare il flusso d"aria nel cluster Kubernetes.' 
+---
+= Implementazione di Apache Airflow
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+NetApp consiglia di eseguire Apache Airflow su Kubernetes. Questa sezione descrive le attività da completare per implementare il flusso d'aria nel cluster Kubernetes.
+
+
+NOTE: È possibile implementare il flusso d'aria su piattaforme diverse da Kubernetes. L'implementazione del flusso d'aria su piattaforme diverse da Kubernetes non rientra nell'ambito di questa soluzione.
+
+
+
+== Prerequisiti
+
+Prima di eseguire l'esercizio di implementazione descritto in questa sezione, si presuppone che siano già state eseguite le seguenti attività:
+
+. Hai già un cluster Kubernetes funzionante.
+. NetApp Trident è già stato installato e configurato nel cluster Kubernetes, come descritto nella sezione "implementazione e configurazione di NetApp Trident".
+
+
+
+
+== Installare Helm
+
+Il flusso d'aria viene implementato utilizzando Helm, un popolare gestore di pacchetti per Kubernetes. Prima di implementare il flusso d'aria, è necessario installare Helm sull'host di distribuzione jump. Per installare Helm sull'host di distribuzione jump, seguire la https://helm.sh/docs/intro/install/["istruzioni per l'installazione"^] Nella documentazione ufficiale di Helm.
+
+
+
+== Impostare la classe di storage Kubernetes predefinita
+
+Prima di implementare il flusso d'aria, è necessario specificare un StorageClass predefinito all'interno del cluster Kubernetes. Il processo di implementazione del flusso d'aria tenta di eseguire il provisioning di nuovi volumi persistenti utilizzando la classe di storage predefinita. Se non viene indicato StorageClass come StorageClass predefinito, l'implementazione non riesce. Per designare una StorageClass predefinita all'interno del cluster, seguire le istruzioni riportate nella sezione link:aicp_kubeflow_deployment_overview.html["Implementazione di Kubeflow"]. Se è già stata designata una StorageClass predefinita all'interno del cluster, è possibile saltare questo passaggio.
+
+
+
+== USA Helm per implementare il flusso d'aria
+
+Per implementare il flusso d'aria nel cluster Kubernetes utilizzando Helm, eseguire le seguenti operazioni dall'host di distribuzione jump:
+
+. Implementare il flusso d'aria utilizzando Helm seguendo il https://artifacthub.io/packages/helm/airflow-helm/airflow["istruzioni per l'implementazione"^] Per il diagramma ufficiale del flusso d'aria sull'Artifact Hub. I comandi di esempio che seguono mostrano l'implementazione del flusso d'aria con Helm. Modificare, aggiungere e/o rimuovere i valori in `custom- values.yaml` file in base alle necessità, a seconda dell'ambiente e della configurazione desiderata.
++
+....
+$ cat << EOF > custom-values.yaml
+###################################
+# Airflow - Common Configs
+###################################
+airflow:
+  ## the airflow executor type to use
+  ##
+  executor: "CeleryExecutor"
+  ## environment variables for the web/scheduler/worker Pods (for airflow configs)
+  ##
+  #
+###################################
+# Airflow - WebUI Configs
+###################################
+web:
+  ## configs for the Service of the web Pods
+  ##
+  service:
+    type: NodePort
+###################################
+# Airflow - Logs Configs
+###################################
+logs:
+  persistence:
+    enabled: true
+###################################
+# Airflow - DAGs Configs
+###################################
+dags:
+  ## configs for the DAG git repository & sync container
+  ##
+  gitSync:
+    enabled: true
+    ## url of the git repository
+    ##
+    repo: "git@github.com:mboglesby/airflow-dev.git"
+    ## the branch/tag/sha1 which we clone
+    ##
+    branch: master
+    revision: HEAD
+    ## the name of a pre-created secret containing files for ~/.ssh/
+    ##
+    ## NOTE:
+    ## - this is ONLY RELEVANT for SSH git repos
+    ## - the secret commonly includes files: id_rsa, id_rsa.pub, known_hosts
+    ## - known_hosts is NOT NEEDED if `git.sshKeyscan` is true
+    ##
+    sshSecret: "airflow-ssh-git-secret"
+    ## the name of the private key file in your `git.secret`
+    ##
+    ## NOTE:
+    ## - this is ONLY RELEVANT for PRIVATE SSH git repos
+    ##
+    sshSecretKey: id_rsa
+    ## the git sync interval in seconds
+    ##
+    syncWait: 60
+EOF
+$ helm install airflow airflow-stable/airflow -n airflow --version 8.0.8 --values ./custom-values.yaml
+...
+Congratulations. You have just deployed Apache Airflow!
+1. Get the Airflow Service URL by running these commands:
+   export NODE_PORT=$(kubectl get --namespace airflow -o jsonpath="{.spec.ports[0].nodePort}" services airflow-web)
+   export NODE_IP=$(kubectl get nodes --namespace airflow -o jsonpath="{.items[0].status.addresses[0].address}")
+   echo http://$NODE_IP:$NODE_PORT/
+2. Open Airflow in your web browser
+....
+. Verificare che tutti i pod del flusso d'aria siano in funzione. L'avvio di tutti i pod potrebbe richiedere alcuni minuti.
++
+....
+$ kubectl -n airflow get pod
+NAME                                READY   STATUS    RESTARTS   AGE
+airflow-flower-b5656d44f-h8qjk      1/1     Running   0          2h
+airflow-postgresql-0                1/1     Running   0          2h
+airflow-redis-master-0              1/1     Running   0          2h
+airflow-scheduler-9d95fcdf9-clf4b   2/2     Running   2          2h
+airflow-web-59c94db9c5-z7rg4        1/1     Running   0          2h
+airflow-worker-0                    2/2     Running   2          2h
+....
+. Ottenere l'URL del servizio Web Airflow seguendo le istruzioni stampate sulla console quando si implementa Airflow utilizzando Helm nel passaggio 1.
++
+....
+$ export NODE_PORT=$(kubectl get --namespace airflow -o jsonpath="{.spec.ports[0].nodePort}" services airflow-web)
+$ export NODE_IP=$(kubectl get nodes --namespace airflow -o jsonpath="{.items[0].status.addresses[0].address}")
+$ echo http://$NODE_IP:$NODE_PORT/
+....
+. Verificare che sia possibile accedere al servizio Web Airflow.
+
+
+image:aicp_imageaa1.png["Errore: Immagine grafica mancante"]
+
+link:aicp_example_apache_airflow_workflows_overview.html["Segue: Esempio di flussi di lavoro Apache Airflow."]

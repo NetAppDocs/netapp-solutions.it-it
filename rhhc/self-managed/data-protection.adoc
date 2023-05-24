@@ -1,0 +1,72 @@
+---
+sidebar: sidebar 
+permalink: rhhc/self-managed/data-protection.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= Protezione dei dati mediante Astra Control Center
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+Questa pagina mostra le opzioni di protezione dei dati per le applicazioni basate su container Red Hat OpenShift eseguite su VMware vSphere utilizzando Astra Control Center (ACC).
+
+Mentre gli utenti intraprendono il percorso di modernizzazione delle proprie applicazioni con Red Hat OpenShift, è necessario adottare una strategia di protezione dei dati per proteggerli da cancellazioni accidentali o altri errori umani. Spesso, per proteggere i propri dati da un diaster, è necessaria anche una strategia di protezione a scopo normativo o di compliance.
+
+I requisiti di protezione dei dati variano dal ritorno a una copia point-in-time al failover automatico a un dominio di errore diverso senza alcun intervento umano. Molti clienti scelgono ONTAP come piattaforma di storage preferita per le loro applicazioni Kubernetes per le sue ricche funzionalità come multi-tenancy, multi-protocollo, offerte di capacità e performance elevate, replica e caching per ubicazioni multi-sito, sicurezza e flessibilità.
+
+I clienti possono avere un ambiente cloud configurato come estensione del data center, in modo che possano sfruttare i benefici del cloud e essere in grado di spostare i propri carichi di lavoro in un momento futuro. Per tali clienti, il backup delle applicazioni OpenShift e dei dati nell'ambiente cloud diventa una scelta inevitabile. Possono quindi ripristinare le applicazioni e i dati associati su un cluster OpenShift nel cloud o nel data center.
+
+
+
+== Backup e ripristino con ACC
+
+I proprietari delle applicazioni possono rivedere e aggiornare le applicazioni rilevate da ACC. ACC può eseguire copie Snapshot utilizzando CSI ed eseguire il backup utilizzando la copia Snapshot point-in-time. La destinazione del backup può essere un archivio di oggetti nell'ambiente cloud. È possibile configurare i criteri di protezione per i backup pianificati e il numero di versioni di backup da conservare. L'RPO minimo è di un'ora.
+
+
+
+=== Ripristino di un'applicazione da un backup mediante ACC
+
+image:rhhc-onprem-dp-br.png["Opzione di ripristino di Astra Control Center"]
+
+
+
+== Hook di esecuzione specifici dell'applicazione
+
+Anche se sono disponibili funzionalità di protezione dei dati a livello di array di storage, spesso sono necessari ulteriori passaggi per rendere coerenti le applicazioni di backup e ripristino. I passaggi aggiuntivi specifici dell'applicazione potrebbero essere: - Prima o dopo la creazione di una copia Snapshot. - prima o dopo la creazione di un backup. - Dopo il ripristino da una copia Snapshot o da un backup. Astra Control può eseguire questi passaggi specifici dell'applicazione codificati come script personalizzati chiamati uncini di esecuzione.
+
+Di NetApp link:https://github.com/NetApp/Verda["Progetto open source Verda"] fornisce hook di esecuzione per le applicazioni native del cloud più diffuse per rendere la protezione delle applicazioni semplice, robusta e facile da orchestrare. Se si dispone di informazioni sufficienti per un'applicazione non presente nel repository, è possibile contribuire al progetto.
+
+
+
+== Esempio di gancio di esecuzione per pre-Snapshot di un'applicazione redis.
+
+image::rhhc-onprem-dp-br-hook.png[Gancio di esecuzione di Astra Control Center]
+
+
+
+== Replica con ACC
+
+Per la protezione regionale o per una soluzione RPO e RTO bassa, un'applicazione può essere replicata in un'altra istanza di Kubernetes in esecuzione in un sito diverso, preferibilmente in un'altra regione. ACC utilizza SnapMirror asincrono ONTAP con RPO in soli 5 minuti. Fare riferimento a. link:https://docs.netapp.com/us-en/astra-control-center/use/replicate_snapmirror.html["qui"] Per le istruzioni di installazione di SnapMirror.
+
+
+
+=== SnapMirror con ACC
+
+image::rhhc-onprem-dp-rep.png[Replica di Astra Control Center]
+
+
+NOTE: i driver di storage san-economy e nas-economy non supportano la funzione di replica. Fare riferimento a. link:https://docs.netapp.com/us-en/astra-control-center/get-started/requirements.html#astra-trident-requirements["qui"] per ulteriori dettagli.
+
+
+
+=== Video dimostrativo:
+
+link:https://www.netapp.tv/details/29504?mcid=35609780286441704190790628065560989458["Video dimostrativo del disaster recovery con Astra Control Center"]
+
+Sono disponibili dettagli sulle funzioni di protezione dei dati di Astra Control Center link:https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html["qui"]

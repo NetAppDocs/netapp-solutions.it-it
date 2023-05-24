@@ -1,0 +1,409 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp/gcp-guest.html 
+keywords: NetApp Solutions, google cloud, gcp, gcve, enterprise, hybrid, cloud, cloud volumes ontap, cvo 
+summary:  
+---
+= Opzioni di storage NetApp per GCP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+GCP supporta lo storage NetApp connesso come guest con Cloud Volumes ONTAP (CVO) o Cloud Volumes Service (CVS).
+
+
+
+== Cloud Volumes ONTAP (CVO)
+
+Cloud Volumes ONTAP, o CVO, è la soluzione per la gestione dei dati nel cloud leader del settore basata sul software di storage ONTAP, disponibile in modalità nativa su Amazon Web Services (AWS), Microsoft Azure e Google Cloud Platform (GCP).
+
+Si tratta di una versione software-defined di ONTAP che utilizza lo storage nativo del cloud, consentendoti di avere lo stesso software di storage nel cloud e on-premise, riducendo la necessità di riorganizzare il tuo staff IT con metodi completamente nuovi per gestire i tuoi dati.
+
+CVO offre ai clienti la possibilità di spostare senza problemi i dati dall'edge al data center, al cloud e viceversa, unendo il tuo cloud ibrido, il tutto gestito con una console di gestione a singolo pannello, NetApp Cloud Manager.
+
+Per progettazione, CVO offre performance estreme e funzionalità avanzate di gestione dei dati per soddisfare anche le applicazioni più esigenti nel cloud
+
+
+
+=== Cloud Volumes ONTAP (CVO) come storage connesso guest
+
+.Implementare Cloud Volumes ONTAP in Google Cloud (fai da te)
+[%collapsible]
+====
+Le condivisioni e le LUN Cloud Volumes ONTAP possono essere montate da macchine virtuali create nell'ambiente di cloud privato GCVE. I volumi possono essere montati anche sul client Linux e sul client Windows, mentre I LUN possono essere utilizzati su client Linux o Windows come dispositivi a blocchi quando montati su iSCSI, perché Cloud Volumes ONTAP supporta i protocolli iSCSI, SMB e NFS. I volumi Cloud Volumes ONTAP possono essere configurati in pochi semplici passaggi.
+
+Per replicare i volumi da un ambiente on-premise al cloud per scopi di disaster recovery o migrazione, stabilire la connettività di rete a Google Cloud, utilizzando una VPN sito-sito o un'interconnessione cloud. La replica dei dati da on-premise a Cloud Volumes ONTAP non rientra nell'ambito di questo documento. Per replicare i dati tra sistemi on-premise e Cloud Volumes ONTAP, vedere link:mailto:CloudOwner@gve.local#setting-up-data-replication-between-systems["Configurazione della replica dei dati tra sistemi"].
+
+
+NOTE: Utilizzare link:https://cloud.netapp.com/cvo-sizer["Cloud Volumes ONTAP Sizer"] Per dimensionare con precisione le istanze di Cloud Volumes ONTAP. Monitorare anche le performance on-premise da utilizzare come input nel Cloud Volumes ONTAP Sizer.
+
+. Accedi a NetApp Cloud Central: Viene visualizzata la schermata Fabric View. Individuare la scheda Cloud Volumes ONTAP (Gestione cloud) e selezionare Go to Cloud Manager (Vai a Gestione cloud). Una volta effettuato l'accesso, viene visualizzata la schermata Canvas.
++
+image:gcve-cvo-guest-1.png[""]
+
+. Nella scheda Cloud Manager Canvas, fare clic su Add a Working Environment (Aggiungi ambiente di lavoro), quindi selezionare Google Cloud Platform come cloud e il tipo di configurazione del sistema. Quindi, fare clic su Next (Avanti).
++
+image:gcve-cvo-guest-2.png[""]
+
+. Fornire i dettagli dell'ambiente da creare, inclusi il nome dell'ambiente e le credenziali di amministratore. Al termine, fare clic su Continue (continua).
++
+image:gcve-cvo-guest-3.png[""]
+
+. Seleziona o deseleziona i servizi aggiuntivi per l'implementazione di Cloud Volumes ONTAP, tra cui rilevamento e conformità dei dati o backup nel cloud. Quindi, fare clic su Continue (continua).
++
+SUGGERIMENTO: Quando si disattivano i servizi aggiuntivi, viene visualizzato un messaggio a comparsa di verifica. I servizi add-on possono essere aggiunti/rimossi dopo l'implementazione di CVO; se non necessari, è consigliabile deselezionarli dall'inizio per evitare i costi.
+
++
+image:gcve-cvo-guest-4.png[""]
+
+. Selezionare una posizione, scegliere un criterio firewall e selezionare la casella di controllo per confermare la connettività di rete allo storage Google Cloud.
++
+image:gcve-cvo-guest-5.png[""]
+
+. Selezionare l'opzione di licenza: Pay-as-you-Go o BYOL per utilizzare la licenza esistente. In questo esempio, viene utilizzata l'opzione Freemium. Quindi, fare clic su Continue (continua).
++
+image:gcve-cvo-guest-6.png[""]
+
+. Scegliere tra diversi pacchetti preconfigurati disponibili in base al tipo di carico di lavoro che verrà implementato sulle macchine virtuali in esecuzione sul cloud VMware su AWS SDDC.
++
+SUGGERIMENTO: Passare il mouse sui riquadri per ulteriori dettagli o personalizzare i componenti CVO e la versione di ONTAP facendo clic su Modifica configurazione.
+
++
+image:gcve-cvo-guest-7.png[""]
+
+. Nella pagina Review & Approve (esamina e approva), rivedere e confermare le selezioni.per creare l'istanza di Cloud Volumes ONTAP, fare clic su Go (Vai).
++
+image:gcve-cvo-guest-8.png[""]
+
+. Una volta eseguito il provisioning, Cloud Volumes ONTAP viene elencato negli ambienti di lavoro nella pagina Canvas.
++
+image:gcve-cvo-guest-9.png[""]
+
+
+
+====
+.Configurazioni aggiuntive per volumi SMB
+[%collapsible]
+====
+. Una volta pronto l'ambiente di lavoro, assicurarsi che il server CIFS sia configurato con i parametri di configurazione DNS e Active Directory appropriati. Questo passaggio è necessario prima di poter creare il volume SMB.
++
+SUGGERIMENTO: Fare clic sull'icona Menu (º), selezionare Advanced (Avanzate) per visualizzare altre opzioni e selezionare CIFS setup (Configurazione CIFS).
+
++
+image:gcve-cvo-guest-10.png[""]
+
+. La creazione del volume SMB è un processo semplice. In Canvas, fare doppio clic sull'ambiente di lavoro Cloud Volumes ONTAP per creare e gestire i volumi e fare clic sull'opzione Crea volume. Scegli le dimensioni appropriate e il cloud manager sceglie l'aggregato contenente o utilizza un meccanismo di allocazione avanzato da collocare su un aggregato specifico. Per questa demo, CIFS/SMB è selezionato come protocollo.
++
+image:gcve-cvo-guest-11.png[""]
+
+. Una volta eseguito il provisioning, il volume sarà disponibile nel riquadro Volumes (volumi). Poiché viene fornita una condivisione CIFS, assegnare agli utenti o ai gruppi l'autorizzazione per i file e le cartelle e verificare che tali utenti possano accedere alla condivisione e creare un file. Questo passaggio non è necessario se il volume viene replicato da un ambiente on-premise perché le autorizzazioni per file e cartelle vengono mantenute come parte della replica di SnapMirror.
++
+SUGGERIMENTO: Fare clic sul menu del volume (º) per visualizzarne le opzioni.
+
++
+image:gcve-cvo-guest-12.png[""]
+
+. Una volta creato il volume, utilizzare il comando mount per visualizzare le istruzioni di connessione del volume, quindi connettersi alla condivisione dalle macchine virtuali su Google Cloud VMware Engine.
++
+image:gcve-cvo-guest-13.png[""]
+
+. Copiare il seguente percorso e utilizzare l'opzione Map Network Drive per montare il volume sulla macchina virtuale in esecuzione su Google Cloud VMware Engine.
++
+image:gcve-cvo-guest-14.png[""]
+
++
+Una volta mappato, è possibile accedervi facilmente e impostare le autorizzazioni NTFS di conseguenza.
+
++
+image:gcve-cvo-guest-15.png[""]
+
+
+
+====
+.Collegare il LUN su Cloud Volumes ONTAP a un host
+[%collapsible]
+====
+Per collegare il LUN Cloud Volumes ONTAP a un host, attenersi alla seguente procedura:
+
+. Nella pagina Canvas, fare doppio clic sull'ambiente di lavoro Cloud Volumes ONTAP per creare e gestire i volumi.
+. Fare clic su Add Volume (Aggiungi volume) > New Volume (nuovo volume), quindi selezionare iSCSI e fare clic su Create Initiator Group (Crea Fare clic su continua.
++
+image:gcve-cvo-guest-16.png[""]
+image:gcve-cvo-guest-17.png[""]
+
+. Una volta eseguito il provisioning del volume, selezionare il menu del volume (º), quindi fare clic su Target IQN (IQN di destinazione). Per copiare il nome qualificato iSCSI (IQN), fare clic su Copy (Copia). Impostare una connessione iSCSI dall'host al LUN.
+
+
+Per ottenere lo stesso risultato per l'host residente su Google Cloud VMware Engine:
+
+. RDP sulla macchina virtuale ospitata su Google Cloud VMware Engine.
+. Aprire la finestra di dialogo iSCSI Initiator Properties (Proprietà iSCSI Initiator): Server Manager > Dashboard > Tools > iSCSI Initiator.
+. Dalla scheda Discovery (rilevamento), fare clic su Discover Portal (Scopri portale) o Add Portal (Aggiungi portale), quindi inserire l'indirizzo IP della porta di destinazione iSCSI.
+. Dalla scheda Target, selezionare la destinazione rilevata, quindi fare clic su Log on (Accedi) o Connect (Connetti).
+. Selezionare Enable multipath (attiva multipath), quindi selezionare Automatically Restore this Connection when the computer starts or Add this Connection to the List of Favorite targets (Ripristina automaticamente questa connessione all'avvio del computer). Fare clic su Avanzate.
++
+
+NOTE: L'host Windows deve disporre di una connessione iSCSI a ciascun nodo del cluster. Il DSM nativo seleziona i percorsi migliori da utilizzare.
+
++
+image:gcve-cvo-guest-18.png[""]
+
++
+I LUN sulla macchina virtuale di storage (SVM) vengono visualizzati come dischi sull'host Windows. I nuovi dischi aggiunti non vengono rilevati automaticamente dall'host. Attivare una nuova scansione manuale per rilevare i dischi completando la seguente procedura:
+
++
+.. Aprire l'utility Gestione computer di Windows: Start > Strumenti di amministrazione > Gestione computer.
+.. Espandere il nodo Storage nella struttura di navigazione.
+.. Fare clic su Gestione disco.
+.. Fare clic su Action (azione) > Rescan Disks (Nuova scansione
++
+image:gcve-cvo-guest-19.png[""]
+
++
+Quando l'host Windows accede per la prima volta a un nuovo LUN, non dispone di partizione o file system. Inizializzare il LUN e, facoltativamente, formattare il LUN con un file system completando la seguente procedura:
+
+.. Avviare Gestione disco di Windows.
+.. Fare clic con il pulsante destro del mouse sul LUN, quindi selezionare il tipo di disco o partizione richiesto.
+.. Seguire le istruzioni della procedura guidata. In questo esempio, viene montato il disco F:.
+
+
+
+
+image:gcve-cvo-guest-20.png[""]
+
+Sui client Linux, assicurarsi che il daemon iSCSI sia in esecuzione. Una volta eseguito il provisioning dei LUN, fare riferimento alla guida dettagliata sulla configurazione iSCSI con Ubuntu come esempio qui. Per verificare, eseguire lsblk cmd dalla shell.
+
+image:gcve-cvo-guest-21.png[""]
+image:gcve-cvo-guest-22.png[""]
+
+====
+.Montare il volume NFS Cloud Volumes ONTAP sul client Linux
+[%collapsible]
+====
+Per montare il file system Cloud Volumes ONTAP (DIY) dalle macchine virtuali all'interno del motore VMware di Google Cloud, attenersi alla seguente procedura:
+
+Eseguire il provisioning del volume seguendo la procedura riportata di seguito
+
+. Nella scheda Volumes (volumi), fare clic su Create New Volume (Crea nuovo volume).
+. Nella pagina Create New Volume (Crea nuovo volume), selezionare un tipo di volume:
++
+image:gcve-cvo-guest-23.png[""]
+
+. Nella scheda Volumes (volumi), posizionare il cursore del mouse sul volume, selezionare l'icona del menu (º), quindi fare clic su Mount Command.
++
+image:gcve-cvo-guest-24.png[""]
+
+. Fare clic su Copia.
+. Connettersi all'istanza Linux designata.
+. Aprire un terminale sull'istanza utilizzando la shell sicura (SSH) e accedere con le credenziali appropriate.
+. Creare una directory per il punto di montaggio del volume con il seguente comando.
++
+ $ sudo mkdir /cvogcvetst
++
+image:gcve-cvo-guest-25.png[""]
+
+. Montare il volume NFS di Cloud Volumes ONTAP nella directory creata nel passaggio precedente.
++
+ sudo mount 10.0.6.251:/cvogcvenfsvol01 /cvogcvetst
++
+image:gcve-cvo-guest-26.png[""]
+image:gcve-cvo-guest-27.png[""]
+
+
+
+====
+
+
+== Cloud Volumes Service (CVS)
+
+Cloud Volumes Services (CVS) è un portfolio completo di servizi dati per offrire soluzioni cloud avanzate. Cloud Volumes Services supporta diversi protocolli di accesso ai file per i principali cloud provider (supporto NFS e SMB).
+
+Altri vantaggi e funzionalità includono: Protezione e ripristino dei dati con Snapshot, funzionalità speciali per replicare, sincronizzare e migrare le destinazioni dei dati on-premise o nel cloud e performance costantemente elevate a livello di un sistema di storage flash dedicato.
+
+
+
+=== Cloud Volumes Service (CVS) come storage connesso al guest
+
+.Configurare Cloud Volumes Service con VMware Engine
+[%collapsible]
+====
+Le condivisioni Cloud Volumes Service possono essere montate da macchine virtuali create nell'ambiente VMware Engine. I volumi possono anche essere montati sul client Linux e mappati sul client Windows perché Cloud Volumes Service supporta i protocolli SMB e NFS. I volumi Cloud Volumes Service possono essere configurati in semplici passaggi.
+
+Cloud Volume Service e il cloud privato VMware Engine di Google Cloud devono trovarsi nella stessa regione.
+
+Per acquistare, abilitare e configurare NetApp Cloud Volumes Service per Google Cloud da Google Cloud Marketplace, seguire questa procedura dettagliata link:https://cloud.google.com/vmware-engine/docs/quickstart-prerequisites["guida"].
+
+====
+.Creare un volume NFS CVS nel cloud privato GCVE
+[%collapsible]
+====
+Per creare e montare volumi NFS, attenersi alla seguente procedura:
+
+. Accedi a Cloud Volumes da Partner Solutions all'interno della console cloud di Google.
++
+image:gcve-cvs-guest-1.png[""]
+
+. Nella Cloud Volumes Console, accedere alla pagina Volumes (volumi) e fare clic su Create (Crea).
++
+image:gcve-cvs-guest-2.png[""]
+
+. Nella pagina Create file System (Crea file system), specificare il nome del volume e le etichette di fatturazione necessari per i meccanismi di chargeback.
++
+image:gcve-cvs-guest-3.png[""]
+
+. Selezionare il servizio appropriato. Per GCVE, scegliere CVS-Performance e il livello di servizio desiderato per una latenza migliorata e performance più elevate in base ai requisiti del carico di lavoro dell'applicazione.
++
+image:gcve-cvs-guest-4.png[""]
+
+. Specificare l'area di Google Cloud per il volume e il percorso del volume (il percorso del volume deve essere unico in tutti i volumi cloud del progetto)
++
+image:gcve-cvs-guest-5.png[""]
+
+. Selezionare il livello di performance per il volume.
++
+image:gcve-cvs-guest-6.png[""]
+
+. Specificare le dimensioni del volume e il tipo di protocollo. In questo test viene utilizzato NFSv3.
++
+image:gcve-cvs-guest-7.png[""]
+
+. In questa fase, selezionare la rete VPC da cui sarà possibile accedere al volume. Assicurarsi che il peering VPC sia in posizione.
++
+SUGGERIMENTO: Se il peering VPC non è stato eseguito, viene visualizzato un pulsante a comparsa che guida l'utente attraverso i comandi di peering. Aprire una sessione della shell cloud ed eseguire i comandi appropriati per mettere in relazione il VPC con il produttore Cloud Volumes Service. Nel caso in cui si decida di preparare il peering VPC in anticipo, fare riferimento a queste istruzioni.
+
++
+image:gcve-cvs-guest-8.png[""]
+
+. Gestire le regole dei criteri di esportazione aggiungendo le regole appropriate e selezionare la casella di controllo per la versione NFS corrispondente.
++
+Nota: L'accesso ai volumi NFS non sarà possibile a meno che non venga aggiunta una policy di esportazione.
+
++
+image:gcve-cvs-guest-9.png[""]
+
+. Fare clic su Save (Salva) per creare il volume.
++
+image:gcve-cvs-guest-10.png[""]
+
+
+
+====
+.Montare le esportazioni NFS sulle macchine virtuali in esecuzione su VMware Engine
+[%collapsible]
+====
+Prima di prepararsi al montaggio del volume NFS, assicurarsi che lo stato di peering della connessione privata sia indicato come attivo. Una volta che lo stato è attivo, utilizzare il comando mount.
+
+Per montare un volume NFS, procedere come segue:
+
+. Nella Cloud Console, andare a Cloud Volumes > Volumes (volumi cloud > volumi).
+. Accedere alla pagina Volumes (volumi)
+. Fare clic sul volume NFS per il quale si desidera montare le esportazioni NFS.
+. Scorrere verso destra, sotto Mostra altri, fare clic su istruzioni di montaggio.
+
+
+Per eseguire il processo di montaggio dal sistema operativo guest della macchina virtuale VMware, attenersi alla procedura riportata di seguito:
+
+. Utilizzare il client SSH e SSH per la macchina virtuale.
+. Installare il client nfs sull'istanza.
++
+.. Su Red Hat Enterprise Linux o istanza di SUSE Linux:
++
+ sudo yum install -y nfs-utils
+.. Su un'istanza di Ubuntu o Debian:
++
+ sudo apt-get install nfs-common
+
+
+. Creare una nuova directory sull'istanza, ad esempio "/nimCVSNFSol01":
++
+ sudo mkdir /nimCVSNFSol01
++
+image:gcve-cvs-guest-20.png[""]
+
+. Montare il volume utilizzando il comando appropriato. Di seguito è riportato un esempio di comando del laboratorio:
++
+ sudo mount -t nfs -o rw,hard,rsize=65536,wsize=65536,vers=3,tcp 10.53.0.4:/nimCVSNFSol01 /nimCVSNFSol01
++
+image:gcve-cvs-guest-21.png[""]
+image:gcve-cvs-guest-22.png[""]
+
+
+
+====
+.Creazione e montaggio di SMB Share sulle macchine virtuali in esecuzione su VMware Engine
+[%collapsible]
+====
+Per i volumi SMB, assicurarsi che le connessioni Active Directory siano configurate prima di creare il volume SMB.
+
+image:gcve-cvs-guest-30.png[""]
+
+Una volta stabilita la connessione ad, creare il volume con il livello di servizio desiderato. I passaggi sono simili alla creazione di un volume NFS, ad eccezione della selezione del protocollo appropriato.
+
+. Nella Cloud Volumes Console, accedere alla pagina Volumes (volumi) e fare clic su Create (Crea).
+. Nella pagina Create file System (Crea file system), specificare il nome del volume e le etichette di fatturazione necessari per i meccanismi di chargeback.
++
+image:gcve-cvs-guest-31.png[""]
+
+. Selezionare il servizio appropriato. Per GCVE, scegliere CVS-Performance e il livello di servizio desiderato per una latenza migliorata e performance più elevate in base ai requisiti del carico di lavoro.
++
+image:gcve-cvs-guest-32.png[""]
+
+. Specificare l'area di Google Cloud per il volume e il percorso del volume (il percorso del volume deve essere unico in tutti i volumi cloud del progetto)
++
+image:gcve-cvs-guest-33.png[""]
+
+. Selezionare il livello di performance per il volume.
++
+image:gcve-cvs-guest-34.png[""]
+
+. Specificare le dimensioni del volume e il tipo di protocollo. In questo test, viene utilizzato SMB.
++
+image:gcve-cvs-guest-35.png[""]
+
+. In questa fase, selezionare la rete VPC da cui sarà possibile accedere al volume. Assicurarsi che il peering VPC sia in posizione.
++
+SUGGERIMENTO: Se il peering VPC non è stato eseguito, viene visualizzato un pulsante a comparsa che guida l'utente attraverso i comandi di peering. Aprire una sessione della shell cloud ed eseguire i comandi appropriati per mettere in relazione il VPC con il produttore Cloud Volumes Service. Nel caso in cui si decida di preparare il peering VPC in anticipo, fare riferimento a questi link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/setting-up-private-services-access?hl=en["istruzioni"].
+
++
+image:gcve-cvs-guest-36.png[""]
+
+. Fare clic su Save (Salva) per creare il volume.
++
+image:gcve-cvs-guest-37.png[""]
+
+
+
+Per montare il volume SMB, procedere come segue:
+
+. Nella Cloud Console, andare a Cloud Volumes > Volumes (volumi cloud > volumi).
+. Accedere alla pagina Volumes (volumi)
+. Fare clic sul volume SMB per il quale si desidera mappare una condivisione SMB.
+. Scorrere verso destra, sotto Mostra altri, fare clic su istruzioni di montaggio.
+
+
+Per eseguire il processo di montaggio dal sistema operativo guest di Windows della macchina virtuale VMware, attenersi alla seguente procedura:
+
+. Fare clic sul pulsante Start, quindi su computer.
+. Fare clic su Map Network Drive (Connetti unità di rete
+. Nell'elenco Drive (unità), fare clic su una lettera di unità disponibile.
+. Nella casella della cartella, digitare:
++
+ \\nimsmb-3830.nimgcveval.com\nimCVSMBvol01
++
+image:gcve-cvs-guest-38.png[""]
+
++
+Per connettersi ogni volta che si accede al computer, selezionare la casella di controllo Reconnect at sign-in (riconnessione all'accesso).
+
+. Fare clic su fine.
++
+image:gcve-cvs-guest-39.png[""]
+
+
+
+====

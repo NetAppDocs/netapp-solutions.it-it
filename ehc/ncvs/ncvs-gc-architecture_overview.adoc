@@ -1,0 +1,37 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs/ncvs-gc-architecture_overview.html 
+keywords: architecture overview, control plane, data plane 
+summary: 'Parte dell"affidabilità di una soluzione cloud è la comprensione dell"architettura e del modo in cui è protetta. In questa sezione vengono descritti diversi aspetti dell"architettura Cloud Volumes Service di Google per ridurre i potenziali problemi relativi alla protezione dei dati, nonché le aree in cui potrebbero essere necessarie ulteriori procedure di configurazione per ottenere un"implementazione più sicura.' 
+---
+= Panoramica
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+link:ncvs-gc-security-considerations-and-attack-surfaces.html["Precedente: Considerazioni sulla sicurezza e superfici di attacco."]
+
+[role="lead"]
+Parte dell'affidabilità di una soluzione cloud è la comprensione dell'architettura e del modo in cui è protetta. In questa sezione vengono descritti diversi aspetti dell'architettura Cloud Volumes Service di Google per ridurre i potenziali problemi relativi alla protezione dei dati, nonché le aree in cui potrebbero essere necessarie ulteriori procedure di configurazione per ottenere un'implementazione più sicura.
+
+L'architettura generale di Cloud Volumes Service può essere suddivisa in due componenti principali: Il piano di controllo e il piano dati.
+
+
+
+== Piano di controllo
+
+Il piano di controllo di Cloud Volumes Service è l'infrastruttura di back-end gestita dagli amministratori Cloud Volumes Service e dal software di automazione nativo NetApp. Questo piano è completamente trasparente per gli utenti finali e include networking, hardware per lo storage, aggiornamenti software e così via per contribuire a fornire valore a una soluzione residente nel cloud come Cloud Volumes Service.
+
+
+
+== Piano dati
+
+Il piano dati di Cloud Volumes Service include i volumi di dati effettivi e la configurazione generale di Cloud Volumes Service (ad esempio controllo degli accessi, autenticazione Kerberos e così via). Il data plane è interamente sotto il controllo degli utenti finali e dei consumatori della piattaforma Cloud Volumes Service.
+
+Esistono differenze distinte nel modo in cui ciascun piano viene protetto e gestito. Le seguenti sezioni illustrano queste differenze, a partire da una panoramica dell'architettura Cloud Volumes Service.
+
+link:ncvs-gc-cloud-volumes-service-architecture.html["Avanti: Architettura Cloud Volumes Service."]

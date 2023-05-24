@@ -1,0 +1,30 @@
+---
+sidebar: sidebar 
+permalink: databases/sql-srv-anf_overview.html 
+keywords: use case, rehosting, enterprise resource planning, RDBMS, cloud migration 
+summary: 'Il presente documento illustra un"implementazione in tempo reale di SQL Server Always on Availability Group (AOAG) su Azure NetApp Files sfruttando le macchine virtuali Azure.' 
+---
+= TR-4897: SQL Server su Azure NetApp Files - Vista di implementazione reale
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Niyaz Mohamed, NetApp
+
+Le organizzazioni IT devono affrontare cambiamenti costanti. Secondo Gartner, entro il 2022 quasi il 75% di tutti i database richiederà uno storage basato sul cloud. In qualità di sistema di gestione di database relazionali leader del settore (RDBMS), Microsoft SQL Server è la scelta ideale per le applicazioni e le organizzazioni progettate per la piattaforma Windows che si affidano a SQL Server per qualsiasi cosa, dalla pianificazione delle risorse aziendali (ERP) all'analisi dei dati alla gestione dei contenuti. SQL Server ha contribuito a rivoluzionare il modo in cui le aziende gestiscono enormi set di dati e potenziano le loro applicazioni per soddisfare le esigenze di performance di query e schema.
+
+La maggior parte delle organizzazioni IT adotta un approccio basato sul cloud. I clienti in una fase di trasformazione valutano il loro attuale panorama IT e quindi migrano i workload dei database nel cloud in base a un esercizio di valutazione e scoperta. Alcuni fattori che spingono i clienti verso la migrazione del cloud includono flessibilità/burst, uscita dal data center, consolidamento del data center, scenari di fine ciclo di vita, fusioni, acquisizioni e così via. Il motivo della migrazione può variare in base a ciascuna organizzazione e alle rispettive priorità di business. Quando si passa al cloud, la scelta dello storage cloud giusto è molto importante per liberare la potenza dell'implementazione del cloud di database SQL Server.
+
+
+
+== Caso d'utilizzo
+
+Lo spostamento di SQL Server in Azure e l'integrazione di SQL Server con la vasta gamma di funzionalità Platform-as-a-Service (PaaS) di Azure, come Azure Data Factory, Azure IoT Hub e Azure Machine Learning, creano un enorme valore di business per supportare la trasformazione digitale. L'adozione del cloud consente inoltre alla rispettiva business unit di concentrarsi sulla produttività e di offrire nuove funzionalità e miglioramenti più rapidamente (caso d'utilizzo DevTest) rispetto al modello CAPEX o ai modelli di cloud privato tradizionali. Il presente documento illustra un'implementazione in tempo reale di SQL Server Always on Availability Group (AOAG) su Azure NetApp Files sfruttando le macchine virtuali Azure.
+
+Azure NetApp Files offre storage di livello Enterprise con condivisioni di file continuamente disponibili. Le condivisioni continuamente disponibili sono richieste dai database di produzione di SQL Server sulla condivisione file SMB per garantire che il nodo abbia sempre accesso allo storage del database, anche durante scenari di interruzione come aggiornamenti o guasti del controller. Le condivisioni di file continuamente disponibili eliminano la necessità di replicare i dati tra nodi di storage. Azure NetApp Files utilizza lo scale-out SMB 3.0, gli handle persistenti e il failover trasparente per supportare operazioni senza interruzioni (NDOS) per eventi di downtime pianificati e non pianificati, incluse molte attività amministrative.
+
+Quando pianifichi le migrazioni nel cloud, dovresti sempre valutare l'approccio migliore da utilizzare. L'approccio più comune e semplice per la migrazione delle applicazioni è il rehosting (noto anche come Lift and Shift). Lo scenario di esempio fornito in questo documento utilizza il metodo di rehosting. SQL Server su macchine virtuali Azure con Azure NetApp Files consente di utilizzare versioni complete di SQL Server nel cloud senza dover gestire l'hardware on-premise. Le macchine virtuali (VM) di SQL Server semplificano inoltre i costi di licenza quando si paga a consumo e forniscono funzionalità di flessibilità e bursting per scenari di sviluppo, test e refresh delle proprietà.

@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_create_a_delegated_subnet_for_azure_netapp_files.html 
+keywords: delegated subnet, virtual network, azure portal, vnet, delegation 
+summary: Questa pagina descrive i passaggi necessari per creare una subnet delegata per Azure NetApp Files. 
+---
+= Creare una subnet delegata per Azure NetApp Files
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_install_and_set_up_the_aks_cluster.html["Precedente: Installare e configurare il cluster AKS."]
+
+[role="lead"]
+Per creare una subnet delegata per Azure NetApp Files, attenersi alla seguente procedura:
+
+. Accedere alle reti virtuali all'interno del portale Azure. Trova la tua rete virtuale appena creata. Dovrebbe avere un prefisso come `aks-vnet`.
+. Fare clic sul nome di VNET.
++
+image:aks-anf_image5.png["Errore: Immagine grafica mancante"]
+
+. Fare clic su subnet e fare clic su +Subnet nella barra degli strumenti superiore.
++
+image:aks-anf_image6.png["Errore: Immagine grafica mancante"]
+
+. Specificare un nome per la subnet, ad esempio `ANF.sn` Quindi, sotto delega subnet, selezionare `Microsoft.Netapp/volumes`. Non cambiare altro. Fare clic su OK.
++
+image:aks-anf_image7.png["Errore: Immagine grafica mancante"]
+
+
+
+I volumi Azure NetApp Files vengono allocati nel cluster di applicazioni e vengono utilizzati come dichiarazioni di volumi persistenti (PVC) in Kubernetes. A sua volta, questo processo offre la flessibilità di mapparli a diversi servizi, come i notebook Jupyter, le funzioni senza server e così via.
+
+Gli utenti dei servizi possono consumare lo storage dalla piattaforma in molti modi. Mentre questo report tecnico illustra gli NFS, i principali vantaggi di Azure NetApp Files sono:
+
+* Fornire agli utenti la possibilità di utilizzare le copie Snapshot.
+* Consente agli utenti di memorizzare grandi quantità di dati su volumi Azure NetApp Files.
+* Utilizzo dei vantaggi in termini di performance dei volumi Azure NetApp Files quando si eseguono i modelli su grandi set di file.
+
+
+link:aks-anf_peer_aks_vnet_and_azure_netapp_files_vnet.html["Avanti: Peer AKS vnet e Azure NetApp Files vnet."]

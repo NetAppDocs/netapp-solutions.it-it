@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_advanced_cluster_management_features_cluster_lcm.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, ONTAP, Trident, Red Hat OpenShift, Advanced Cluster Management, Advanced Cluster Management for Kubernetes 
+summary: Gestione avanzata dei cluster per Kubernetes su Red Hat OpenShift con NetApp 
+---
+= Funzionalità: Gestione avanzata dei cluster per Kubernetes su Red Hat OpenShift con NetApp
+:allow-uri-read: 
+
+
+
+
+== Gestione del ciclo di vita del cluster
+
+Per gestire diversi cluster OpenShift, è possibile crearli o importarli in Advanced Cluster Management.
+
+. Prima di tutto, automatizza le infrastrutture > Clusters.
+. Per creare un nuovo cluster OpenShift, attenersi alla seguente procedura:
++
+.. Creare una connessione al provider: Accedere a connessioni provider e fare clic su Aggiungi una connessione, fornire tutti i dettagli corrispondenti al tipo di provider selezionato e fare clic su Aggiungi.
++
+image::redhat_openshift_image75.jpg[Aggiungi connessione provider]
+
+.. Per creare un nuovo cluster, accedere a Clusters e fare clic su Add a Cluster (Aggiungi cluster) > Create a Cluster (Crea cluster). Fornire i dettagli del cluster e del provider corrispondente, quindi fare clic su Create (Crea).
++
+image::redhat_openshift_image76.jpg[Aggiungere cluster]
+
+.. Una volta creato, il cluster viene visualizzato nell'elenco dei cluster con lo stato Ready (Pronto).
+
+
+. Per importare un cluster esistente, attenersi alla seguente procedura:
++
+.. Accedere a Clusters e fare clic su Add a Cluster (Aggiungi cluster) > Import an Existing Cluster (Importa cluster esistente).
+.. Inserire il nome del cluster e fare clic su Save Import and generate Code (Salva importazione e genera codice). Viene visualizzato un comando per aggiungere il cluster esistente.
+.. Fare clic su Copy Command (Copia comando) ed eseguire il comando sul cluster da aggiungere al cluster hub. In questo modo viene avviata l'installazione degli agenti necessari sul cluster e, al termine di questo processo, il cluster viene visualizzato nell'elenco dei cluster con lo stato Ready.
++
+image::redhat_openshift_image77.jpg[Importare il cluster esistente]
+
+
+
+. Dopo aver creato e importato più cluster, è possibile monitorarli e gestirli da una singola console.
+
+
+link:rh-os-n_use_case_advanced_cluster_management_features_application_lcm.html["Avanti: Funzionalità - Gestione del ciclo di vita delle applicazioni."]

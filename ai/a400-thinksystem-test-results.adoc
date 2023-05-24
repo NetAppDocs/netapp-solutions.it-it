@@ -1,0 +1,30 @@
+---
+sidebar: sidebar 
+permalink: ai/a400-thinksystem-test-results.html 
+keywords: test results, data, 
+summary: In questa sezione vengono riepilogati i risultati dei test di questa soluzione. 
+---
+= Risultati del test
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:a400-thinksystem-test-plan.html["Precedente: Piano di test."]
+
+[role="lead"]
+La seguente tabella riassume i risultati di tutti i test eseguiti per questa soluzione.
+
+|===
+| Descrizione del test | Riepilogo dei risultati 
+
+
+| Training sul riconoscimento delle immagini: Più processi simultanei | Performance altamente efficienti. Tutti i lavori venivano eseguiti alla massima velocità anche quando il cluster era completamente utilizzato. I sistemi storage NetApp hanno fornito performance di training paragonabili allo storage SSD locale, consentendo allo stesso tempo una facile condivisione dei dati tra server. 
+
+
+| Training per il riconoscimento delle immagini: Scale-out | Altamente efficiente per un massimo di quattro nodi. A quel punto, la scalabilità orizzontale era meno efficiente ma ancora fattibile. L'utilizzo di una rete di calcolo ad alta velocità migliora la scalabilità. Il sistema storage NetApp ha fornito performance di training paragonabili allo storage SSD locale, consentendo al contempo una facile condivisione dei dati tra server. 
+|===
+link:a400-thinksystem-test-configuration.html["Pagina successiva: Test della configurazione."]

@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: ai/mlrun_configuring_kubernetes_cluster.html 
+keywords: NetApp, Kubernetes, Cluster, Configuring 
+summary:  
+---
+= Configurazione del cluster Kubernetes
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Questa sezione è suddivisa in due parti, rispettivamente per l'implementazione in cloud e on-premise.
+
+
+
+== Configurazione di Kubernetes per l'implementazione del cloud
+
+Tramite NetApp Cloud Manager, è possibile definire la connessione al cluster Iguazio Kubernetes. Trident richiede l'accesso a più risorse nel cluster per rendere disponibile il volume.
+
+. Per abilitare l'accesso, ottenere il file di configurazione di Kubernetes da uno dei nodi Iguazio. Il file si trova in `/home/Iguazio/.kube/config.` Scaricare questo file sul desktop.
+. Accedere a Discover Cluster (rilevamento cluster) per eseguire la configurazione.
++
+image:mlrun_image9.png["Errore: Immagine grafica mancante"]
+
+. Caricare il file di configurazione di Kubernetes. Vedere la seguente immagine.
++
+image:mlrun_image10.PNG["Errore: Immagine grafica mancante"]
+
+. Implementare Trident e associare un volume al cluster. Vedere la seguente immagine per definire e assegnare un volume persistente al cluster Iguazio. Questo processo crea un volume persistente (PV) nel cluster Kubernetes di Iguazio. Prima di poterlo utilizzare, è necessario definire un PVC (Persistent Volume Claim).
+
+
+image:mlrun_image5.png["Errore: Immagine grafica mancante"]
+
+
+
+== Configurazione di Kubernetes per l'implementazione on-premise
+
+Per l'installazione on-premise di NetApp Trident, vedere https://www.netapp.com/us/media/tr-4798.pdf["TR-4798"^] per ulteriori informazioni. Dopo aver configurato il cluster Kubernetes e aver installato NetApp Trident, è possibile collegare Trident al cluster Iguazio per abilitare le funzionalità di gestione dei dati NetApp, come l'acquisizione di copie Snapshot dei dati e del modello.
+
+link:mlrun_define_persistent_volume_claim.html["Avanti: Definire la richiesta di rimborso per volumi persistenti"]

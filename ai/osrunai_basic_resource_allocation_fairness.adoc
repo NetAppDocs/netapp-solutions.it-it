@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_basic_resource_allocation_fairness.html 
+keywords:  
+summary:  
+---
+= Equità nell'allocazione delle risorse di base
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+In questa sezione, mostreremo quando `team-d` Richiede più GPU (sono sotto la loro quota), il sistema mette in pausa i carichi di lavoro di `team-b` e. `team-c` e li sposta in uno stato in sospeso in modo equo e condiviso.
+
+Per ulteriori informazioni, tra cui invio dei job, immagini container utilizzate e sequenze di comandi eseguite, vedere la sezione link:osrunai_testing_details_for_section_4.9.html["Dettagli sui test per la Sezione 4.9"].
+
+La figura seguente mostra l'utilizzo del cluster risultante, le GPU allocate per team e i processi in sospeso a causa del bilanciamento automatico del carico e della pianificazione preventiva. Possiamo osservare che quando il numero totale di GPU richieste da tutti i carichi di lavoro del team supera il numero totale di GPU disponibili nel cluster, l'algoritmo di equità interna di Run:ai mette in pausa un job per ciascuno `team-b` e. `team-c` perché hanno soddisfatto la quota di progetto. In questo modo si ottiene un elevato utilizzo generale del cluster, mentre i team di data science continuano a lavorare sotto i limiti delle risorse stabiliti da un amministratore.
+
+image:osrunai_image9.png["Errore: Immagine grafica mancante"]
+
+I risultati di questo scenario di test dimostrano quanto segue:
+
+* *Bilanciamento automatico del carico.* il sistema bilancia automaticamente la quota delle GPU, in modo che ogni team utilizzi ora la propria quota. I carichi di lavoro che sono stati sospesi appartengono ai team che hanno superato la quota.
+* *Fair share pause.* il sistema sceglie di arrestare il carico di lavoro di un team che ha superato la quota e quindi di arrestare il carico di lavoro dell'altro team. Run:ai dispone di algoritmi interni per la correttezza.
+
+
+link:osrunai_over-quota_fairness.html["Avanti: Equità nell'overquota"]

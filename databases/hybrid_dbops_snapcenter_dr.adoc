@@ -1,0 +1,187 @@
+---
+sidebar: sidebar 
+permalink: databases/hybrid_dbops_snapcenter_dr.html 
+summary: Soluzioni di database per il cloud ibrido con workflow di DR SnapCenter 
+keywords: 'netapp, solutions, database, SnapCenter, DR, "business continuity", "disaster recovery"' 
+---
+= Workflow di disaster recovery
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:hybrid_dbops_snapcenter_devtest.html["Precedente: Workflow per sviluppo/test bursting nel cloud."]
+
+[role="lead"]
+Le aziende hanno adottato il cloud pubblico come risorsa e destinazione praticabili per il disaster recovery. SnapCenter rende questo processo il più possibile perfetto. Questo flusso di lavoro di disaster recovery è molto simile al flusso di lavoro dei cloni, ma il ripristino del database viene eseguito attraverso l'ultimo log disponibile replicato nel cloud per ripristinare tutte le transazioni di business possibili. Tuttavia, sono disponibili ulteriori fasi di pre-configurazione e post-configurazione specifiche per il disaster recovery.
+
+
+
+== Clonare un database di produzione Oracle on-premise nel cloud per il DR
+
+. Per verificare che il ripristino del clone venga eseguito attraverso l'ultimo log disponibile, abbiamo creato una piccola tabella di test e inserito una riga. I dati del test vengono ripristinati dopo un ripristino completo dell'ultimo registro disponibile.
++
+image:snapctr_ora_dr_01.PNG["Errore: Immagine grafica mancante"]
+
+. Accedere a SnapCenter come ID utente per la gestione del database per Oracle. Accedere alla scheda risorse, che mostra i database Oracle protetti da SnapCenter.
++
+image:snapctr_ora_dr_02.PNG["Errore: Immagine grafica mancante"]
+
+. Selezionare il gruppo di risorse del registro Oracle e fare clic su Backup Now (Esegui backup ora) per eseguire manualmente un backup del registro Oracle per scaricare l'ultima transazione verso la destinazione nel cloud. In un vero scenario di DR, l'ultima transazione ripristinabile dipende dalla frequenza di replica del volume del log del database nel cloud, che a sua volta dipende dalla policy RTO o RPO dell'azienda.
++
+image:snapctr_ora_dr_03.PNG["Errore: Immagine grafica mancante"]
+
++
+image:snapctr_ora_dr_04.PNG["Errore: Immagine grafica mancante"]
+
++
+
+NOTE: SnapMirror asincrono perde i dati che non l'hanno fatto alla destinazione cloud nell'intervallo di backup del registro del database in uno scenario di disaster recovery. Per ridurre al minimo la perdita di dati, è possibile pianificare backup dei log più frequenti. Tuttavia, esiste un limite alla frequenza di backup dei log tecnicamente raggiungibile.
+
+. Selezionare l'ultimo backup del registro in Secondary Mirror Backup(s) (Backup mirror secondario) e montare il backup del registro.
++
+image:snapctr_ora_dr_05.PNG["Errore: Immagine grafica mancante"]
+
++
+image:snapctr_ora_dr_06.PNG["Errore: Immagine grafica mancante"]
+
+. Selezionare l'ultimo backup completo del database e fare clic su Clone (Clona) per avviare il flusso di lavoro dei cloni.
++
+image:snapctr_ora_dr_07.PNG["Errore: Immagine grafica mancante"]
+
+. Selezionare un ID DB clone univoco sull'host.
++
+image:snapctr_ora_dr_08.PNG["Errore: Immagine grafica mancante"]
+
+. Eseguire il provisioning di un volume di log e montarlo sul server DR di destinazione per l'area di ripristino flash Oracle e i registri online.
++
+image:snapctr_ora_dr_09.PNG["Errore: Immagine grafica mancante"]
+
++
+image:snapctr_ora_dr_10.PNG["Errore: Immagine grafica mancante"]
+
++
+
+NOTE: La procedura di clonazione Oracle non crea un volume di log, che deve essere fornito sul server DR prima della clonazione.
+
+. Selezionare l'host clone di destinazione e la posizione in cui inserire i file di dati, i file di controllo e i log di ripristino.
++
+image:snapctr_ora_dr_11.PNG["Errore: Immagine grafica mancante"]
+
+. Selezionare le credenziali per il clone. Inserire i dettagli della configurazione Oracle home sul server di destinazione.
++
+image:snapctr_ora_dr_12.PNG["Errore: Immagine grafica mancante"]
+
+. Specificare gli script da eseguire prima della clonazione. Se necessario, è possibile regolare i parametri del database.
++
+image:snapctr_ora_dr_13.PNG["Errore: Immagine grafica mancante"]
+
+. Selezionare l'opzione di ripristino fino a quando non viene eseguita l'opzione Cancel (Annulla), in modo che il ripristino venga eseguito attraverso tutti i log di archivio disponibili per recuperare l'ultima transazione replicata nella posizione del cloud secondario.
++
+image:snapctr_ora_dr_14.PNG["Errore: Immagine grafica mancante"]
+
+. Configurare il server SMTP per la notifica via email, se necessario.
++
+image:snapctr_ora_dr_15.PNG["Errore: Immagine grafica mancante"]
+
+. Riepilogo dei cloni DR.
++
+image:snapctr_ora_dr_16.PNG["Errore: Immagine grafica mancante"]
+
+. I DBS clonati vengono registrati con SnapCenter subito dopo il completamento del clone e sono quindi disponibili per la protezione del backup.
++
+image:snapctr_ora_dr_16_1.PNG["Errore: Immagine grafica mancante"]
+
+
+
+
+
+== Convalida e configurazione dei cloni post-DR per Oracle
+
+. Convalida l'ultima transazione di test che è stata scaricata, replicata e ripristinata nella posizione DR nel cloud.
++
+image:snapctr_ora_dr_17.PNG["Errore: Immagine grafica mancante"]
+
+. Configurare l'area di ripristino della flash.
++
+image:snapctr_ora_dr_18.PNG["Errore: Immagine grafica mancante"]
+
+. Configurare il listener Oracle per l'accesso degli utenti.
+. Separare il volume clonato dal volume di origine replicato.
+. Eseguire la replica inversa dal cloud a on-premise e ricostruire il server di database on-premise guasto.
+
+
+
+NOTE: La suddivisione dei cloni può comportare un utilizzo temporaneo dello spazio di storage molto più elevato del normale funzionamento. Tuttavia, dopo la ricostruzione del server DB on-premise, è possibile liberare spazio aggiuntivo.
+
+
+
+== Clonare un database di produzione SQL on-premise nel cloud per il DR
+
+. Allo stesso modo, per verificare che il ripristino del clone SQL sia stato eseguito attraverso l'ultimo log disponibile, abbiamo creato una piccola tabella di test e inserito una riga. I dati del test vengono ripristinati dopo un ripristino completo dell'ultimo registro disponibile.
++
+image:snapctr_sql_dr_01.PNG["Errore: Immagine grafica mancante"]
+
+. Accedere a SnapCenter con un ID utente per la gestione del database per SQL Server. Accedere alla scheda Resources (risorse), che mostra il gruppo di risorse di protezione di SQL Server.
++
+image:snapctr_sql_dr_02.PNG["Errore: Immagine grafica mancante"]
+
+. Eseguire manualmente un backup del log per svuotare l'ultima transazione da replicare sullo storage secondario nel cloud pubblico.
++
+image:snapctr_sql_dr_03.PNG["Errore: Immagine grafica mancante"]
+
+. Selezionare l'ultimo backup completo di SQL Server per il clone.
++
+image:snapctr_sql_dr_04.PNG["Errore: Immagine grafica mancante"]
+
+. Impostare l'impostazione del clone, ad esempio Clone Server, Clone Instance, Clone Name e mount. Il percorso di storage secondario in cui viene eseguita la clonazione viene popolato automaticamente.
++
+image:snapctr_sql_dr_05.PNG["Errore: Immagine grafica mancante"]
+
+. Selezionare tutti i backup del registro da applicare.
++
+image:snapctr_sql_dr_06.PNG["Errore: Immagine grafica mancante"]
+
+. Specificare eventuali script opzionali da eseguire prima o dopo la clonazione.
++
+image:snapctr_sql_dr_07.PNG["Errore: Immagine grafica mancante"]
+
+. Specificare un server SMTP se si desidera inviare una notifica via e-mail.
++
+image:snapctr_sql_dr_08.PNG["Errore: Immagine grafica mancante"]
+
+. Riepilogo dei cloni DR. I database clonati vengono immediatamente registrati con SnapCenter e sono disponibili per la protezione del backup.
++
+image:snapctr_sql_dr_09.PNG["Errore: Immagine grafica mancante"]
+
++
+image:snapctr_sql_dr_10.PNG["Errore: Immagine grafica mancante"]
+
+
+
+
+
+== Convalida e configurazione dei cloni post-DR per SQL
+
+. Monitorare lo stato del lavoro clone.
++
+image:snapctr_sql_dr_11.PNG["Errore: Immagine grafica mancante"]
+
+. Verificare che l'ultima transazione sia stata replicata e ripristinata con tutti i cloni dei file di log e il ripristino.
++
+image:snapctr_sql_dr_12.PNG["Errore: Immagine grafica mancante"]
+
+. Configurare una nuova directory di log di SnapCenter sul server DR per il backup del log di SQL Server.
+. Separare il volume clonato dal volume di origine replicato.
+. Eseguire la replica inversa dal cloud a on-premise e ricostruire il server di database on-premise guasto.
+
+
+
+
+== Dove cercare aiuto?
+
+Se hai bisogno di aiuto per questa soluzione e per i casi d'utilizzo, partecipa al link:https://netapppub.slack.com/archives/C021R4WC0LC["La community di NetApp Solution Automation supporta il canale slack"] e cerca il canale di automazione della soluzione per inviare domande o domande.

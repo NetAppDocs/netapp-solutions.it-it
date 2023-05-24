@@ -1,0 +1,62 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_azure_netapp_files_performance_tiers.html 
+keywords: azure, service level, capacity pool, tier, standard, premium, 
+summary: 'È possibile modificare il livello di servizio di un volume esistente spostando il volume in un altro pool di capacità che utilizza il livello di servizio desiderato per il volume. Questa soluzione consente ai clienti di iniziare con un piccolo set di dati e un piccolo numero di GPU nel Tier standard e scalare in orizzontale o in verticale fino al Tier Premium con l"aumentare della quantità di dati e GPU.' 
+---
+= Livelli di performance Azure NetApp Files
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_set_up_dask_with_rapids_deployment_on_aks_using_helm.html["Precedente: Impostare Dask con L'implementazione DI RAPIDS su AKS utilizzando Helm."]
+
+[role="lead"]
+È possibile modificare il livello di servizio di un volume esistente spostando il volume in un altro pool di capacità che utilizza il livello di servizio desiderato per il volume. Questa soluzione consente ai clienti di iniziare con un piccolo set di dati e un piccolo numero di GPU nel Tier standard e scalare in orizzontale o in verticale fino al Tier Premium con l'aumentare della quantità di dati e GPU. Il livello Premium offre un throughput per terabyte quattro volte superiore rispetto al livello Standard e la scalabilità verticale viene eseguita senza dover spostare alcun dato per modificare il livello di servizio di un volume.
+
+
+
+== Modificare dinamicamente il livello di servizio di un volume
+
+Per modificare dinamicamente il livello di servizio di un volume, attenersi alla seguente procedura:
+
+. Nella pagina Volumes (volumi), fare clic con il pulsante destro del mouse sul volume di cui si desidera modificare il livello di servizio. Selezionare Cambia pool.
++
+image:aks-anf_image10.png["Errore: Immagine grafica mancante"]
+
+. Nella finestra Change Pool, selezionare il pool di capacità in cui si desidera spostare il volume.
++
+image:aks-anf_image11.png["Errore: Immagine grafica mancante"]
+
+. Fare clic su OK.
+
+
+
+
+== Automatizza la modifica del Tier delle performance
+
+Sono disponibili le seguenti opzioni per automatizzare le modifiche del Tier di performance:
+
+* La modifica dinamica del livello di servizio è ancora in Public Preview (Anteprima pubblica) e non è attivata per impostazione predefinita. Per attivare questa funzione nell'abbonamento Azure, consultare la presente documentazione https://docs.microsoft.com/azure/azure-netapp-files/dynamic-change-volume-service-level["Modificare dinamicamente il livello di servizio di un volume"^].
+* I comandi di modifica del pool di volumi Azure CLI sono forniti in https://docs.microsoft.com/en-us/cli/azure/netappfiles/volume?view=azure-cli-latest&viewFallbackFrom=azure-cli-latest%20-%20az_netappfiles_volume_pool_change["documentazione per la modifica del pool di volumi"^] e nel seguente esempio:
++
+....
+az netappfiles volume pool-change -g mygroup --account-name myaccname --pool-name mypoolname --name myvolname --new-pool-resource-id mynewresourceid
+....
+* PowerShell https://docs.microsoft.com/powershell/module/az.netappfiles/set-aznetappfilesvolumepool?view=azps-5.8.0["Set-AzNetAppFilesVolumePool cmdlet"^] Modifica il pool di un volume Azure NetApp Files e viene mostrato nell'esempio seguente:
++
+....
+Set-AzNetAppFilesVolumePool
+-ResourceGroupName "MyRG"
+-AccountName "MyAnfAccount"
+-PoolName "MyAnfPool"
+-Name "MyAnfVolume"
+-NewPoolResourceId 7d6e4069-6c78-6c61-7bf6-c60968e45fbf
+....
+
+
+link:aks-anf_libraries_for_data_processing_and_model_training.html["Avanti: Librerie per l'elaborazione dei dati e la formazione sui modelli."]

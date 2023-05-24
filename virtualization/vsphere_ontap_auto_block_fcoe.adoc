@@ -1,0 +1,93 @@
+---
+sidebar: sidebar 
+permalink: virtualization/vsphere_ontap_auto_block_fcoe.html 
+keywords: vSphere, datastore, VMFS, FCoE, ONTAP tools, zone, network interface 
+summary: 'In questa pagina viene illustrata la procedura per l"implementazione di un datastore FCoE VMFS per lo storage NetApp ONTAP in un ambiente VMware vSphere.' 
+---
+= Datastore vSphere VMFS - protocollo storage Fibre Channel over Ethernet con ONTAP
+:allow-uri-read: 
+
+
+
+
+== A proposito di questa attività
+
+In questa sezione viene illustrata la creazione di un datastore VMFS con il protocollo di trasporto Fibre Channel over Ethernet (FCoE) allo storage ONTAP.
+
+Per il provisioning automatizzato, utilizzare uno dei seguenti script: <<PowerShell>>, <<Ansible>>, o. <<Terraform>>.
+
+
+
+== Di cosa hai bisogno
+
+* Le competenze di base necessarie per gestire un ambiente vSphere e ONTAP
+* Un sistema storage ONTAP (FAS/AFF/CVO/ONTAP Select) con {ontap_version}
+* Credenziali ONTAP (nome SVM, ID utente e password)
+* link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanconf/GUID-CE5218C0-2572-4E12-9C72-BF04D5CE222A.html++["Una combinazione FCoE supportata"]
+* link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-429C4DDD-5EC0-4DBD-8EA8-76082AB7ADEC.html++["Un foglio di lavoro di configurazione completo"]
+* Credenziali vCenter Server
+* Informazioni sugli host vSphere
++
+** {vsphere_version}
+
+
+* Switch fabric
++
+** Con porte dati ONTAP FC o host vSphere collegati
+** Con la funzione NPIV (N_Port ID Virtualization) attivata
+** Creare una singola zona di destinazione dell'iniziatore.
+** link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanconf/GUID-374F3D38-43B3-423E-A710-2E2ABAC90D1A.html++["Zoning FC/FCoE configurato"]
+
+
+* Switch di rete
++
+** Supporto FCoE
+** Supporto DCB
+** link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanag/GUID-16DEF659-E9C8-42B0-9B94-E5C5E2FEFF9C.html++["Frame jumbo per FCoE"]
+
+
+* Tool ONTAP per VMware vSphere implementato, configurato e pronto all'uso
+
+
+
+
+== Eseguire il provisioning di un datastore VMFS
+
+* Verificare la compatibilità con https://mysupport.netapp.com/matrix["Tool di matrice di interoperabilità (IMT)"].
+* link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-7D444A0D-02CE-4A21-8017-CB1DC99EFD9A.html++["Verificare che la configurazione FCoE sia supportata"].
+
+
+
+
+== Attività di ONTAP
+
+. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-cmpr-980/system__license__show.html++["Verificare la licenza ONTAP per FCP."]
++
+.. Utilizzare `system license show` Per verificare che l'FCP sia presente nell'elenco.
+.. Utilizzare `license add -license-code <license code>` per aggiungere una licenza.
+
+
+. Verificare che il protocollo FCP sia attivato su SVM.
++
+.. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-1C31DF2B-8453-4ED0-952A-DF68C3D8B76F.html++["Verificare l'FCP su una SVM esistente."]
+.. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-D322649F-0334-4AD7-9700-2A4494544CB9.html++["Configurare l'FCP su una SVM esistente."]
+.. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-0FCB46AA-DA18-417B-A9EF-B6A665DB77FC.html++["Creare una nuova SVM con FCP."]
+
+
+. Verificare che le interfacce logiche FCP siano disponibili su SVM.
++
+.. Utilizzare `Network Interface show` Per verificare l'adattatore FCP.
+.. Quando la SVM viene creata con la GUI, le interfacce logiche fanno parte di tale processo.
+.. Per rinominare l'interfaccia di rete, utilizzare `Network Interface modify`.
+
+
+. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanag/GUID-D4DAC7DB-A6B0-4696-B972-7327EE99FD72.html++["Creare e mappare un LUN"]; Saltare questo passaggio se si utilizzano i tool ONTAP per VMware vSphere.
+
+
+
+
+== Attività di VMware vSphere
+
+. Verificare che i driver HBA siano installati. Gli HBA supportati da VMware dispongono di driver implementati e devono essere visibili in link:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-ED20B7BE-0D1C-4BF7-85C9-631D45D96FEC.html++["informazioni sull'adattatore di storage"].
+. link:++https://docs.netapp.com/vapp-98/topic/com.netapp.doc.vsc-iag/GUID-D7CAD8AF-E722-40C2-A4CB-5B4089A14B00.html++["Eseguire il provisioning di un datastore VMFS con gli strumenti ONTAP"].
+

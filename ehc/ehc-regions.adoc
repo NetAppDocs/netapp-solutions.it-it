@@ -1,0 +1,142 @@
+---
+sidebar: sidebar 
+permalink: ehc/ehc-regions.html 
+keywords: NetApp Solutions, hybrid, multi cloud, region, support 
+summary:  
+---
+= Disponibilità regionale per datastore NFS supplementari su AWS, Azure e GCP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+Scopri di più sul supporto della Global Region per datastore NFS supplementari su AWS, Azure e Google Cloud Platform (GCP).
+
+
+
+== Disponibilità AWS Region
+
+La disponibilità di datastore NFS supplementari su AWS / VMC è definita da Amazon. Innanzitutto, è necessario determinare se VMC e FSxN sono disponibili in una regione specifica. Quindi, è necessario determinare se il datastore NFS supplementare FSxN è supportato in quella regione.
+
+* Verificare la disponibilità di VMC link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws.getting-started/GUID-19FB6A08-B1DA-4A6F-88A3-50ED445CFFCF.html["qui"].
+* La guida ai prezzi di Amazon offre informazioni su dove è disponibile FSxN (FSX ONTAP). Queste informazioni sono disponibili link:https://aws.amazon.com/fsx/netapp-ontap/pricing/["qui"].
+* La disponibilità del datastore NFS supplementare FSxN per VMC sarà presto disponibile.
+
+
+Mentre le informazioni sono ancora in fase di rilascio, il seguente grafico identifica il supporto corrente per VMC, FSxN e FSxN come datastore NFS supplementare.
+
+[role="tabbed-block"]
+====
+.Americhe
+--
+|===
+
+
+| *Regione AWS* | *Disponibilità VMC* | *Disponibilità FSX ONTAP* | *Disponibilità datastore NFS* 
+
+
+| US East (Virginia del Nord) | Sì | Sì | Sì 
+
+
+| USA Est (Ohio) | Sì | Sì | Sì 
+
+
+| US West (California settentrionale) | Sì | No | No 
+
+
+| STATI UNITI occidentali (Oregon) | Sì | Sì | Sì 
+
+
+| GovCloud (ovest degli Stati Uniti) | Sì | Sì | Sì 
+
+
+| Canada (centrale) | Sì | Sì | Sì 
+
+
+| Sud America (San Paolo) | Sì | Sì | Sì 
+|===
+Ultimo aggiornamento: 2 giugno 2022.
+
+--
+.EMEA
+--
+|===
+
+
+| *Regione AWS* | *Disponibilità VMC* | *Disponibilità FSX ONTAP* | *Disponibilità datastore NFS* 
+
+
+| Europa (Irlanda) | Sì | Sì | Sì 
+
+
+| Europa (Londra) | Sì | Sì | Sì 
+
+
+| Europa (Francoforte) | Sì | Sì | Sì 
+
+
+| Europa (Parigi) | Sì | Sì | Sì 
+
+
+| Europa (Milano) | Sì | Sì | Sì 
+
+
+| Europa (Stoccolma) | Sì | Sì | Sì 
+|===
+Ultimo aggiornamento: 2 giugno 2022.
+
+--
+.Asia Pacifico
+--
+|===
+
+
+| *Regione AWS* | *Disponibilità VMC* | *Disponibilità FSX ONTAP* | *Disponibilità datastore NFS* 
+
+
+| Asia Pacifico (Sydney) | Sì | Sì | Sì 
+
+
+| Asia Pacifico (Tokyo) | Sì | Sì | Sì 
+
+
+| Asia Pacifico (Osaka) | Sì | No | No 
+
+
+| Asia Pacifico (Singapore) | Sì | Sì | Sì 
+
+
+| Asia Pacifico (Seul) | Sì | Sì | Sì 
+
+
+| Asia Pacifico (Mumbai) | Sì | Sì | Sì 
+
+
+| Asia Pacifico (Giacarta) | No | No | No 
+
+
+| Asia Pacifico (Hong Kong) | Sì | Sì | Sì 
+|===
+Ultimo aggiornamento: 28 settembre 2022.
+
+--
+====
+
+
+== Disponibilità della regione di Azure
+
+La disponibilità di datastore NFS supplementari su Azure / AVS è definita da Microsoft. Innanzitutto, è necessario determinare se AVS e ANF sono disponibili in una regione specifica. Quindi, è necessario determinare se il datastore NFS supplementare ANF è supportato in quella regione.
+
+* Verificare la disponibilità di AVS e ANF link:https://azure.microsoft.com/en-us/global-infrastructure/services/?products=netapp,azure-vmware&regions=all["qui"].
+* Verificare la disponibilità del datastore NFS supplementare ANF link:https://docs.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal#supported-regions["qui"].
+
+
+
+
+== Disponibilità della regione GCP
+
+La disponibilità della regione GCP verrà rilasciata quando GCP entrerà nella disponibilità pubblica.

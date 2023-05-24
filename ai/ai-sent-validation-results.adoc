@@ -1,0 +1,54 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-sent-validation-results.html 
+keywords: validation, errors, metrics, score, recall, precision 
+summary: 'Come indicato nella sezione precedente, gli errori vengono propagati in tutta la pipeline ogni volta che vi sono due o più modelli di apprendimento automatico in esecuzione in sequenza. Per questa soluzione, il sentimento della frase è il fattore più importante nella misurazione del livello di rischio azionario dell"azienda. Il modello da voce a testo, sebbene essenziale per la pipeline, funge da unità di pre-elaborazione prima che i sentimenti possano essere previsti.' 
+---
+= Risultati della convalida
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-sent-deploying-support-center-sentiment-analysis.html["Precedente: Implementazione dell'analisi del sentimento del centro di supporto."]
+
+[role="lead"]
+Come indicato nella sezione precedente, gli errori vengono propagati in tutta la pipeline ogni volta che vi sono due o più modelli di apprendimento automatico in esecuzione in sequenza. Per questa soluzione, il sentimento della frase è il fattore più importante nella misurazione del livello di rischio azionario dell'azienda. Il modello da voce a testo, sebbene essenziale per la pipeline, funge da unità di pre-elaborazione prima che i sentimenti possano essere previsti. Ciò che conta realmente è la differenza di sentimento tra le frasi di verità e le frasi previste. Questo serve come proxy per il tasso di errore di parola (WER). La precisione del parlato-to-text è importante, ma il WER non viene utilizzato direttamente nella metrica finale della pipeline.
+
+....
+PIPELINE_SENTIMENT_METRIC = MEAN(DIFF(GT_sentiment, ASR_sentiment))
+....
+Queste metriche di sentimento possono essere calcolate per il punteggio F1, il richiamo e la precisione di ciascuna frase. I risultati possono quindi essere aggregati e visualizzati all'interno di una matrice di confusione, insieme agli intervalli di confidenza per ciascuna metrica.
+
+Il vantaggio dell'utilizzo del transfer learning è un aumento delle performance del modello per una frazione dei requisiti dei dati, dei tempi di formazione e dei costi. I modelli perfezionati devono anche essere confrontati con le versioni di riferimento per garantire che l'apprendimento del trasferimento migliori le performance invece di comprometterle. In altre parole, il modello ottimizzato dovrebbe funzionare meglio sui dati del centro di supporto rispetto al modello preaddestrato.
+
+
+
+== Valutazione della pipeline
+
+|===
+| Caso di test | Dettagli 
+
+
+| Numero del test | Metrica del sentimento della pipeline 
+
+
+| Prerequisiti del test | Modelli ottimizzati per modelli di analisi del parlato-to-text e del sentimento 
+
+
+| Risultato previsto | La metrica del sentimento del modello ottimizzato offre prestazioni migliori rispetto al modello originale preaddestrato. 
+|===
+
+
+== Metrica del sentimento della pipeline
+
+. Calcola la metrica del sentimento per il modello di riferimento.
+. Calcola la metrica del sentimento per il modello ottimizzato.
+. Calcola la differenza tra queste metriche.
+. Calcolare la media delle differenze tra tutte le frasi.
+
+
+link:ai-sent-videos-and-demos.html["Avanti: Video e demo."]

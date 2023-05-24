@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_overview.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualizzazione Red Hat OpenShift con NetApp ONTAP 
+---
+= Virtualizzazione Red Hat OpenShift con NetApp ONTAP
+:allow-uri-read: 
+
+
+A seconda del caso di utilizzo specifico, sia i container che le macchine virtuali (VM) possono fungere da piattaforme ottimali per diversi tipi di applicazioni. Pertanto, molte organizzazioni eseguono alcuni dei propri carichi di lavoro su container e alcune su macchine virtuali. Spesso, questo porta le organizzazioni ad affrontare ulteriori sfide dovendo gestire piattaforme separate: Un hypervisor per le macchine virtuali e un container orchestrator per le applicazioni.
+
+Per affrontare questa sfida, Red Hat ha introdotto la virtualizzazione OpenShift (precedentemente nota come virtualizzazione nativa container) a partire dalla versione 4.6 di OpenShift. La funzionalità di virtualizzazione di OpenShift consente di eseguire e gestire macchine virtuali insieme ai container nella stessa installazione di OpenShift Container Platform, offrendo una funzionalità di gestione ibrida per automatizzare l'implementazione e la gestione delle macchine virtuali attraverso gli operatori. Oltre a creare macchine virtuali in OpenShift, con la virtualizzazione OpenShift, Red Hat supporta anche l'importazione di macchine virtuali da VMware vSphere, Red Hat Virtualization e Red Hat OpenStack Platform.
+
+image::redhat_openshift_image44.jpg[Virtualizzazione OpenShift]
+
+Alcune funzionalità come la migrazione live delle macchine virtuali, la clonazione dei dischi delle macchine virtuali, le snapshot delle macchine virtuali e così via sono supportate dalla virtualizzazione OpenShift con l'assistenza di Astra Trident, se supportata da NetApp ONTAP. Esempi di ciascuno di questi flussi di lavoro sono discussi più avanti in questo documento nelle rispettive sezioni.
+
+Per ulteriori informazioni sulla virtualizzazione di Red Hat OpenShift, consulta la documentazione https://www.openshift.com/learn/topics/virtualization/["qui"].
+
+link:rh-os-n_use_case_openshift_virtualization_deployment_prerequisites.html["Avanti: Prerequisiti per l'implementazione."]

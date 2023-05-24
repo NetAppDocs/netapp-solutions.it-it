@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: ai/a400-thinksystem-architecture-adjustments.html 
+keywords: adjustments 
+summary: La configurazione utilizzata per la convalida può essere regolata per adattarsi ad altri casi di utilizzo. 
+---
+= Modifiche dell'architettura
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:a400-thinksystem-test-procedure-and-detailed-results.html["Precedente: Procedura di test e risultati dettagliati."]
+
+[role="lead"]
+La configurazione utilizzata per questa convalida può essere regolata per adattarsi ad altri casi di utilizzo.
+
+
+
+== Regolazioni della CPU
+
+Per questa convalida abbiamo utilizzato un processore Platinum Skylake Intel Xeon 8360Y, come raccomandato da Lenovo. Ci aspettiamo che l'equivalente CPU Cascade Lake, un processore Gold Intel Xeon 6330, offra performance simili perché questo carico di lavoro non è legato alla CPU.
+
+
+
+== Aumento della capacità dello storage
+
+In base alle tue esigenze di capacità di storage, puoi aumentare lo storage condiviso (volume NFS) on-demand, a patto di disporre di shelf di dischi e modelli di controller aggiuntivi. È possibile eseguire questa operazione dall'interfaccia CLI o dall'interfaccia Web di NetApp del controller di storage come utente amministratore.
+
+link:a400-thinksystem-conclusion.html["Prossimo: Conclusione."]

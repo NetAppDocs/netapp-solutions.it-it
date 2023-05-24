@@ -1,0 +1,59 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_solution_overview.html 
+keywords: NetApp, Solution, Overview, ML 
+summary:  
+---
+= Panoramica della soluzione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+In questa sezione viene descritta una pipeline convenzionale per la scienza dei dati e i relativi inconvenienti. Presenta inoltre l'architettura della soluzione di caching dei set di dati proposta.
+
+
+
+== Pipeline e svantaggi convenzionali di Data Science
+
+Una sequenza tipica di sviluppo e implementazione del modello ML prevede passaggi iterativi che includono:
+
+* Acquisizione dei dati
+* Pre-elaborazione dei dati (creazione di più versioni dei set di dati)
+* Esecuzione di esperimenti multipli che coinvolgono l'ottimizzazione degli hyperparameter, modelli diversi e così via
+* Implementazione
+* Monitoringcnvrg.io ha sviluppato una piattaforma completa per automatizzare tutte le attività, dalla ricerca all'implementazione. Un piccolo esempio di schermate della dashboard relative alla pipeline è illustrato nella figura seguente.
+
+
+image:hcaios_image2.png["Errore: Immagine grafica mancante"]
+
+È molto comune avere più set di dati in gioco da repository pubblici e dati privati. Inoltre, è probabile che ogni set di dati disponga di più versioni risultanti dalla pulizia dei set di dati o dall'ingegneria delle funzionalità. Una dashboard che fornisce un hub di set di dati e una versione hub è necessaria per garantire che i tool di collaborazione e coerenza siano disponibili per il team, come illustrato nella figura seguente.
+
+image:hcaios_image3.png["Errore: Immagine grafica mancante"]
+
+La fase successiva della pipeline è la formazione, che richiede più istanze parallele di modelli di training, ciascuna associata a un dataset e a una determinata istanza di calcolo. L'associazione di un dataset a un certo esperimento con una determinata istanza di calcolo è una sfida perché è possibile che alcuni esperimenti vengano eseguiti da istanze GPU da Amazon Web Services (AWS), mentre altri esperimenti vengono eseguiti da istanze DGX-1 o DGX-2 on-premise. Altri esperimenti potrebbero essere eseguiti nei server CPU in GCP, mentre la posizione del set di dati non si trova in prossimità delle risorse di calcolo che eseguono il training. Una vicinanza ragionevole avrebbe una connettività completa a 10 GbE o più a bassa latenza dallo storage del dataset all'istanza di calcolo.
+
+È pratica comune per i data scientist scaricare il set di dati nell'istanza di calcolo che esegue il training ed esegue l'esperimento. Tuttavia, questo approccio può comportare diversi problemi:
+
+* Quando il data scientist scarica il dataset in un'istanza di calcolo, non vi sono garanzie che lo storage di calcolo integrato sia dalle performance elevate (un esempio di sistema dalle performance elevate sarebbe la soluzione NVMe ONTAP AFF A800).
+* Quando il set di dati scaricato risiede in un nodo di calcolo, lo storage può diventare un collo di bottiglia quando i modelli distribuiti vengono eseguiti su più nodi (a differenza dello storage distribuito dalle performance elevate di NetApp ONTAP).
+* La successiva iterazione dell'esperimento di training potrebbe essere eseguita in un'istanza di calcolo diversa a causa di conflitti di coda o priorità, creando nuovamente una distanza di rete significativa dal dataset alla posizione di calcolo.
+* Gli altri membri del team che eseguono esperimenti di training sullo stesso cluster di calcolo non possono condividere questo set di dati; ciascuno esegue il (costoso) download del set di dati da una posizione arbitraria.
+* Se sono necessari altri set di dati o versioni dello stesso set di dati per i successivi lavori di formazione, i data scientist devono eseguire nuovamente il (costoso) download del set di dati nell'istanza di calcolo che esegue training.NetApp e cnvrg.io hanno creato una nuova soluzione di caching del set di dati che elimina questi ostacoli. La soluzione crea un'esecuzione accelerata della pipeline ML memorizzando nella cache i set di dati hot sul sistema storage ad alte performance ONTAP. Con ONTAP NFS, i set di dati vengono memorizzati nella cache una sola volta (e una sola volta) in un data fabric basato su NetApp (ad esempio AFF A800), che viene posizionato insieme al calcolo. Poiché lo storage NetApp ONTAP NFS ad alta velocità può servire più nodi di calcolo ML, le performance dei modelli di training sono ottimizzate, offrendo risparmi sui costi, produttività ed efficienza operativa all'organizzazione.
+
+
+
+
+== Architettura della soluzione
+
+Questa soluzione di NetApp e cnvrg.io fornisce il caching dei set di dati, come mostrato nella figura seguente. Il caching dei set di dati consente agli scienziati dei dati di scegliere una versione di set di dati o set di dati desiderata e di spostarla nella cache NFS di ONTAP, che si trova in prossimità del cluster di calcolo ML. Il data scientist può ora eseguire più esperimenti senza incorrere in ritardi o download. Inoltre, tutti i tecnici che collaborano possono utilizzare lo stesso set di dati con il cluster di calcolo collegato (con la libertà di scegliere qualsiasi nodo) senza ulteriori download dal data Lake. Ai data scientist viene offerta una dashboard che tiene traccia e monitora tutti i set di dati e le versioni e fornisce una vista dei set di dati memorizzati nella cache.
+
+La piattaforma cnvrg.io rileva automaticamente i set di dati vecchi che non sono stati utilizzati per un certo periodo di tempo e li eludono dalla cache, mantenendo spazio libero nella cache NFS per i set di dati più utilizzati. È importante notare che il caching dei set di dati con ONTAP funziona nel cloud e on-premise, fornendo così la massima flessibilità.
+
+image:hcaios_image4.png["Errore: Immagine grafica mancante"]
+
+link:hcaios_concepts_and_components.html["Avanti: Concetti e componenti"]

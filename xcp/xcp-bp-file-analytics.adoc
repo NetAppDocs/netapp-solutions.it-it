@@ -1,0 +1,117 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-file-analytics.html 
+keywords: file analytics, rest api, gui, nas, nfs, smb systemtl, postgres, dashboard, stats, xcp scan, match, filter 
+summary: 'La GUI di analisi dei file XCP di NetApp consente di eseguire scansioni del file system utilizzando XCP nel back-end e visualizzando statistiche come grafici e viste per qualsiasi file system NAS (NFS, SMB).' 
+---
+= Analisi dei file
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:xcp-bp-migration-workflow-overview.html["Precedente: Workflow di migrazione."]
+
+[role="lead"]
+La GUI di analisi dei file XCP di NetApp consente di eseguire scansioni del file system utilizzando XCP nel back-end e visualizzando statistiche come grafici e viste per qualsiasi file system NAS (NFS, SMB). A partire dal 1.6, XCP può essere eseguito come servizio con l'aiuto di semplici fasi di implementazione utilizzando le opzioni Configure e systemctl. L'opzione di configurazione di XCP consente di installare e configurare Postgres e un server Web, nonché di raccogliere le credenziali. L'opzione systemctl esegue XCP come servizio per le comunicazioni API REST dalla GUI.
+
+La figura seguente illustra il flusso di analisi dei file XCP.
+
+image:xcp-bp_image6.png["Errore: Immagine grafica mancante"]
+
+
+NOTE: Per ulteriori informazioni sull'architettura di alto livello di XCP file analytics, le visualizzazioni di dashboard basate su GUI come la vista delle statistiche e i dettagli della vista della distribuzione dei file, consulta il post del blog https://blog.netapp.com/xcp-data-migration-software["NetApp XCP 1.6 offre miglioramenti dell'infrastruttura e dell'analisi dei file aperti"^].
+
+XCP 1.6 dispone di una GUI limitata per i grafici personalizzati. Per creare i grafici richiesti, è possibile utilizzare la CLI per eseguire `xcp` comando di scansione con filtri corrispondenti. Vedere gli esempi seguenti.
+
+. Generare un elenco di file modificati oltre un anno utilizzando `xcp scan` e a. `-match` filtrare con lo spazio occupato.
++
+....
+[root@ch-vm-cent7-2 linux]# ./xcp scan -match "modified > 1*year" -l -q 192.168.89.110:/ifs/data_for_analysis  > modified_morethan_year
+XCP 1.6P1; (c) 2020 NetApp, Inc.; Licensed to Karthikeyan Nagalingam [NetApp Inc] until Wed Sep  9 13:19:35 2020
+ 
+xcp: WARNING: CPU count is only 1!
+ 
+Filtered: 1 did not match
+ 
+Xcp command : xcp scan -match modified > 1*year -l -q 192.168.89.110:/ifs/data_for_analysis
+5,055 scanned, 5,054 matched, 0 error
+Speed       : 1.10 MiB in (510 KiB/s), 110 KiB out (49.5 KiB/s)
+Total Time  : 2s.
+STATUS      : PASSED
+[root@ch-vm-cent7-2 linux]#
+[root@ch-vm-cent7-2 linux]# cat modified_morethan_year
+ rwxr-xr-x --- 7056 503        0     512  7y99d data_for_analysis/benchmarks/benchmarks/udf_TOBAGandTOTUPLE_7_benchmark.out/6/_SUCCESS
+ rwxr-xr-x --- 7056 503      270 8.50KiB  7y99d data_for_analysis/benchmarks/benchmarks/udf_TOBAGandTOTUPLE_7_benchmark.out/6/part-r-00000
+ rw-r--r-- --- 7056 503        0     512  7y58d data_for_analysis/benchmarks/benchmarks/udf_TOBAGandTOTUPLE_7_benchmark.out/6/SUCCESS.crc
+ rw-r--r-- --- 7056 503      270 8.50KiB  7y99d data_for_analysis/benchmarks/benchmarks/udf_TOBAGandTOTUPLE_7_benchmark.out/6/out_original
+ rw-r--r-- --- 7056 503      270 8.50KiB  7y99d data_for_analysis/benchmarks/benchmarks/udf_TOBAGandTOTUPLE_7_benchmark.out/6/out_sorted
+ rwxr-xr-x --- 7056 503        0     512  7y99d data_for_analysis/benchmarks/benchmarks/udf_TOBAGandTOTUPLE_7_benchmark.out/2/_SUCCESS
+ rwxr-xr-x --- 7056 503       90 8.50KiB  7y99d data_for_analysis/benchmarks/benchmarks/udf_TOBAGandTOTUPLE_7_benchmark.out/2/part-r-00000
+…
+< console output removed due o page space size >
+…
+....
+. Trova lo spazio utilizzato dai file che hanno più di un anno di vita.
++
+....
+[root@ch-vm-cent7-2 linux]# ./xcp -du -match "modified > 1*year"  192.168.89.110:/ifs/data_for_analysis/
+XCP 1.6.1; (c) 2020 NetApp, Inc.; Licensed to Karthikeyan Nagalingam [NetApp Inc] until Wed Sep  9 13:19:35 2020
+xcp: WARNING: CPU count is only 1!
+52.5KiB data_for_analysis/benchmarks/benchmarks/Macro_Scope_1_benchmark.out
+28.5KiB data_for_analysis/benchmarks/benchmarks/CollectedGroup_6_benchmark.out
+28.5KiB data_for_analysis/benchmarks/benchmarks/Foreach_11_benchmark.out
+ 153KiB data_for_analysis/benchmarks/benchmarks/SecondarySort_9_benchmark.out
+ 412KiB data_for_analysis/benchmarks/benchmarks/CoGroupFlatten_6_benchmark.out
+ 652KiB data_for_analysis/benchmarks/benchmarks/Iterator_1_benchmark.out
+ 652KiB data_for_analysis/benchmarks/benchmarks/LoaderDefaultDir_1_benchmark.out
+ 652KiB data_for_analysis/benchmarks/benchmarks/Order_4_benchmark.out
+28.5KiB data_for_analysis/benchmarks/benchmarks/MapPartialAgg_4_benchmark.out/2
+28.5KiB data_for_analysis/benchmarks/benchmarks/CastScalar_11_benchmark.out/2
+1.29MiB data_for_analysis/benchmarks/benchmarks/Order_18_benchmark.out
+ 652KiB data_for_analysis/benchmarks/benchmarks/FilterBoolean_5_benchmark.out
+20.5KiB data_for_analysis/benchmarks/benchmarks/Macro_DefinitionAndInline_5_benchmark.out/2
+ 628KiB data_for_analysis/benchmarks/benchmarks/Types_29_benchmark.out
+…
+< console output removed due o page space size >
+…
+3.18MiB data_for_analysis/benchmarks/benchmarks/hadoop10
+ 340KiB data_for_analysis/benchmarks/benchmarks/Split_5_benchmark.out
+5.90GiB data_for_analysis/benchmarks/benchmarks
+6.56GiB data_for_analysis/benchmarks
+6.56GiB data_for_analysis
+
+Filtered: 488 did not match
+
+Xcp command : xcp -du -match modified > 1*year 192.168.89.110:/ifs/data_for_analysis/
+Stats       : 5,055 scanned, 4,567 matched
+Speed       : 1.10 MiB in (1.36 MiB/s), 110 KiB out (135 KiB/s)
+Total Time  : 0s.
+STATUS      : PASSED
+[root@ch-vm-cent7-2 linux]#
+....
+. Trova le dimensioni totali e la visualizzazione grafica dei dati modificati più di un anno fa.
++
+....
+[root@ch-vm-cent7-2 linux]# ./xcp -stats -match "modified > 1*year" -html  192.168.89.110:/ifs/data_for_analysis/ > modified_morethan_year_stats.html
+XCP 1.6.1; (c) 2020 NetApp, Inc.; Licensed to Karthikeyan Nagalingam [NetApp Inc] until Wed Sep  9 13:19:35 2020
+
+xcp: WARNING: CPU count is only 1!
+
+Xcp command : xcp -stats -match modified > 1*year -html 192.168.89.110:/ifs/data_for_analysis/
+Stats       : 5,055 scanned, 4,567 matched
+Speed       : 1.10 MiB in (919 KiB/s), 110 KiB out (89.1 KiB/s)
+Total Time  : 1s.
+STATUS      : PASSED
+[root@ch-vm-cent7-2 linux]#
+....
+
+
+Il seguente report è un esempio personalizzato di scansione dei file modificati più di un anno fa.
+
+image:xcp-bp_image7.png["Errore: Immagine grafica mancante"]
+
+link:xcp-bp-deployment-steps.html["Avanti: Fasi di implementazione."]

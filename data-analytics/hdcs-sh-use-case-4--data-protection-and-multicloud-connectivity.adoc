@@ -1,0 +1,53 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/hdcs-sh-use-case-4--data-protection-and-multicloud-connectivity.html 
+keywords: iot, aws, nps, azure, analytics application 
+summary: Questo caso di utilizzo è importante per un partner di servizi cloud che ha il compito di fornire connettività multi-cloud per i dati di analisi dei big data dei clienti. 
+---
+= Caso d'utilizzo 4: Protezione dei dati e connettività multicloud
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:hdcs-sh-use-case-3--enabling-devtest-on-existing-hadoop-data.html["Precedente: Caso d'utilizzo 3 - abilitazione di DevTest sui dati Hadoop esistenti."]
+
+[role="lead"]
+Questo caso di utilizzo è importante per un partner di servizi cloud che ha il compito di fornire connettività multi-cloud per i dati di analisi dei big data dei clienti.
+
+
+
+== Scenario
+
+In questo scenario, i dati IoT ricevuti in AWS da diverse origini vengono memorizzati in una posizione centrale in NPS. Lo storage NPS è connesso ai cluster Spark/Hadoop situati in AWS e Azure, consentendo l'esecuzione di applicazioni di analisi dei big data in più cloud che accedono agli stessi dati.
+
+
+
+== Requisiti e sfide
+
+I requisiti e le sfide principali per questo caso di utilizzo includono:
+
+* I clienti vogliono eseguire lavori di analisi sugli stessi dati utilizzando più cloud.
+* I dati devono essere ricevuti da fonti diverse, ad esempio on-premise e cloud, attraverso diversi sensori e hub.
+* La soluzione deve essere efficiente e conveniente.
+* La sfida principale è quella di creare una soluzione conveniente ed efficiente in grado di offrire servizi di analisi ibridi tra cloud diversi e on-premise.
+
+
+
+
+== Soluzione
+
+Questa immagine illustra la soluzione per la protezione dei dati e la connettività multicloud.
+
+image:hdcs-sh-image12.png["Errore: Immagine grafica mancante"]
+
+Come mostrato nella figura precedente, i dati provenienti dai sensori vengono trasmessi e acquisiti nel cluster AWS Spark tramite Kafka. I dati vengono memorizzati in una condivisione NFS residente in NPS, che si trova all'esterno del cloud provider all'interno di un data center Equinix. Poiché NetApp NPS è connesso ad Amazon AWS e Microsoft Azure rispettivamente tramite Direct Connect e Express Route Connections, i clienti possono sfruttare l'Analytics Module in-place per accedere ai dati da entrambi i cluster di analisi Amazon e AWS. Questo approccio risolve l'utilizzo di analytics nel cloud in più hyperscaler.
+
+Di conseguenza, poiché sia lo storage on-premise che NPS esegue il software ONTAP, SnapMirror può eseguire il mirroring dei dati NPS nel cluster on-premise, fornendo analisi del cloud ibrido tra cloud on-premise e multipli.
+
+Per ottenere le migliori performance, NetApp consiglia di utilizzare interfacce di rete multiple e percorsi di connessione diretta/express per accedere ai dati dalle istanze cloud.
+
+link:hdcs-sh-use-case-5--accelerate-analytic-workloads.html["Successivo: Caso d'utilizzo 5 - accelerare i carichi di lavoro di analisi."]

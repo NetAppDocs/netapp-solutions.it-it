@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: ai/hcaios_hardware_and_software_requirements.html 
+keywords: Hardware, Software, Requirements, NVIDIA, Kubernetes, cnvrg.io, ONTAP 
+summary:  
+---
+= Requisiti hardware e software
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+In questa sezione vengono illustrati i requisiti tecnologici per la soluzione ai di ONTAP.
+
+
+
+== Requisiti hardware
+
+Sebbene i requisiti hardware dipendano da carichi di lavoro specifici dei clienti, ONTAP ai può essere implementato su qualsiasi scala per data engineering, formazione sui modelli e deduzione di produzione da una singola GPU fino a configurazioni su scala rack per operazioni ML/DL su larga scala. Per ulteriori informazioni su ONTAP ai, vedere https://www.netapp.com/us/products/ontap-ai.aspx["Sito web ONTAP ai"^].
+
+Questa soluzione è stata validata utilizzando un sistema DGX-1 per il calcolo, un sistema storage NetApp AFF A800 e Cisco Nexus 3232C per la connettività di rete. Il sistema AFF A800 utilizzato per questa convalida può supportare fino a 10 sistemi DGX-1 per la maggior parte dei carichi di lavoro ML/DL. La figura seguente mostra la topologia ONTAP ai utilizzata per il training sui modelli in questa convalida.
+
+image:hcaios_image6.png["Errore: Immagine grafica mancante"]
+
+Per estendere questa soluzione a un cloud pubblico, Cloud Volumes ONTAP può essere implementato insieme alle risorse di calcolo della GPU del cloud e integrato in un data fabric del cloud ibrido che consente ai clienti di utilizzare le risorse appropriate per un determinato carico di lavoro.
+
+
+
+== Requisiti software
+
+La seguente tabella mostra le versioni software specifiche utilizzate per la convalida della soluzione.
+
+|===
+| Componente | Versione 
+
+
+| Ubuntu | 18.04.4 LTS 
+
+
+| SISTEMA OPERATIVO NVIDIA DGX | 4.4.0 
+
+
+| NVIDIA DeepOps | 20.02.1 
+
+
+| Kubernetes | 1.15 
+
+
+| Timone | 3.1.0 
+
+
+| cnvrg.io | 3.0.0 
+
+
+| NetApp ONTAP | 9.6P4 
+|===
+Per la convalida di questa soluzione, Kubernetes è stato implementato come cluster a nodo singolo nel sistema DGX-1. Per le implementazioni su larga scala, è necessario implementare nodi master Kubernetes indipendenti per fornire un'elevata disponibilità dei servizi di gestione e riservare preziose risorse DGX per i carichi di lavoro ML e DL.
+
+link:hcaios_solution_deployment_and_validation_details.html["Pagina successiva: Dettagli sulla distribuzione e sulla convalida della soluzione"]

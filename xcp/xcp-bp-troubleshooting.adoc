@@ -1,0 +1,61 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-troubleshooting.html 
+keywords: troubleshooting, problems, error 70, 
+summary: Questa sezione fornisce indicazioni per la risoluzione dei problemi relativi alla migrazione dei dati con NetApp XCP. 
+---
+= Risoluzione dei problemi
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:xcp-bp-best-practice-guidelines-and-recommendations.html["Precedente: Linee guida e consigli sulle Best practice."]
+
+
+
+== Errore 1: XCP non riuscito con errore nfs3 70: Errore di gestione file obsoleta nel xcp.log
+
+*Motivo e guida.*
+
+Montare la cartella di origine e verificare che esista. Se non esiste o se è stato rimosso, si riceverà un `stale filehandle` errore, nel qual caso è possibile ignorare l'errore.
+
+
+
+== Errore 2: Il volume di destinazione NetApp NFS ha spazio, ma XCP non è riuscito con errore nfs3 28: Spazio non disponibile sul dispositivo
+
+*Motivo e guida.*
+
+. Controllare lo spazio del volume di destinazione NFS eseguendo il `df` controllare o controllare lo storage.
++
+....
+root@workr-140: USER3# df -h /xcpdest
+Filesystem                 Size  Used Avail Use% Mounted on
+10.63.150.127:/xcpsrc_vol  4.3T  1.7T  2.6T  40% /xcpsrc_vol
+....
+. Controllare gli inode nel controller di storage.
++
+....
+A800-Node1-2::> volume show -volume xcpdest -fields files,files-used
+vserver        volume  files    files-used
+-------------- ------- -------- ----------
+A800-Node1_vs1 xcpdest 21251126 21251126
+A800-Node1-2::>
+....
+. Se si utilizza inode, aumentare il numero di inode eseguendo il seguente comando:
++
+....
+A800-Node1-2::> volume modify -volume xcpdest -vserver A800-Node1_vs1 -files 40000000
+Volume modify successful on volume xcpdest of Vserver A800-Node1_vs1.
+A800-Node1-2::> volume show -volume xcpdest -fields files,files-used
+vserver        volume  files    files-used
+-------------- ------- -------- ----------
+A800-Node1_vs1 xcpdest 39999990 21251126
+A800-Node1-2::>
+....
+
+
+link:xcp-bp-where-to-find-additional-information.html["Avanti: Dove trovare ulteriori informazioni."]

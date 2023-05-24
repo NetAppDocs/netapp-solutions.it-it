@@ -1,0 +1,35 @@
+= 
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Configurazione ONTAP e CVO
+
+*Configurare e avviare il modello di lavoro.*
+
+. Creare il modello di lavoro.
++
+.. Accedere a risorse → modelli → Aggiungi e fare clic su Aggiungi modello di processo.
+.. Immettere il nome ONTAP/CVO Setup
+.. Selezionare il tipo di lavoro; Esegui consente di configurare il sistema in base a una guida.
+.. Seleziona l'inventario, il progetto, il playbook e le credenziali corrispondenti per il playbook.
+.. Selezionare il playbook ontap_setup.yml per un ambiente on-Prem oppure selezionare cvo_setup.yml per la replica su un'istanza CVO.
+.. Incollare le variabili globali copiate dal passaggio 4 nel campo Template Variables (variabili modello) nella scheda YAML.
+.. Fare clic su Salva.
+
+
+. Avviare il modello di lavoro.
++
+.. Accedere a risorse → modelli.
+.. Fare clic sul modello desiderato, quindi fare clic su Launch (Avvia).
++
+
+NOTE: Utilizzeremo questo modello e lo copieremo per gli altri playbook.
+
+
+
+

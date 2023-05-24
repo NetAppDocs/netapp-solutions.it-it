@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-confluent-kafka-rebalance.html 
+keywords: rebalance, test, self balancing, brokers 
+summary: Questo test si basa sulla funzionalità dei cluster a bilanciamento automatico, che automatizza il ribilanciamento in base alle modifiche della topologia del cluster o al carico non uniforme. 
+---
+= Clusters a bilanciamento automatico confluente
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:confluent-kafka-kafka-s3-connector.html["Precedente: Connettore kafka s3."]
+
+[role="lead"]
+Se hai già gestito un cluster Kafka in precedenza, probabilmente conosci le sfide legate alla riassegnazione manuale delle partizioni a diversi broker per garantire che il carico di lavoro sia bilanciato in tutto il cluster. Per le organizzazioni con implementazioni Kafka di grandi dimensioni, rimescolare grandi quantità di dati può essere scoraggiante, noioso e rischioso, soprattutto se le applicazioni mission-critical sono costruite sul cluster. Tuttavia, anche per i più piccoli casi di utilizzo di Kafka, il processo richiede tempo e può essere soggetto a errori umani.
+
+Nel nostro laboratorio, abbiamo testato la funzionalità dei cluster di bilanciamento automatico Confluent, che automatizza il ribilanciamento in base alle modifiche della topologia dei cluster o al carico non uniforme. Il test di ribilanciamento confluente consente di misurare il tempo necessario per aggiungere un nuovo broker quando un guasto al nodo o il nodo di scalabilità richiede il ribilanciamento dei dati tra broker. Nelle configurazioni Kafka classiche, la quantità di dati da ribilanciare aumenta con la crescita del cluster, ma, nello storage a più livelli, il ribilanciamento è limitato a una piccola quantità di dati. In base alla nostra convalida, il ribilanciamento dello storage a più livelli richiede secondi o minuti in una classica architettura Kafka e cresce linearmente con la crescita del cluster.
+
+Nei cluster con bilanciamento automatico, i ribilanciamenti delle partizioni sono completamente automatizzati per ottimizzare il throughput di Kafka, accelerare la scalabilità dei broker e ridurre il carico operativo di un cluster di grandi dimensioni. A stato stazionario, i cluster con bilanciamento automatico monitorano l'inclinazione dei dati tra i broker e riassegnano continuamente le partizioni per ottimizzare le performance del cluster. Quando la piattaforma viene scalata verso l'alto o verso il basso, i cluster a bilanciamento automatico riconoscono automaticamente la presenza di nuovi broker o la rimozione di vecchi broker e attivano una successiva riassegnazione delle partizioni. In questo modo potrai aggiungere e decommissionare facilmente i broker, rendendo i cluster Kafka fondamentalmente più elastici. Questi vantaggi non richiedono interventi manuali, calcoli complessi o il rischio di errori umani che le riassegnazioni delle partizioni comportano in genere. Di conseguenza, i ribilanciamenti dei dati vengono completati in meno tempo e puoi concentrarti su progetti di streaming di eventi di valore superiore, invece di dover monitorare costantemente i tuoi cluster.
+
+link:confluent-kafka-best-practice-guidelines.html["Segue: Linee guida sulle Best practice."]

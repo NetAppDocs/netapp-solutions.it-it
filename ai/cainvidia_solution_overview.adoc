@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: ai/cainvidia_solution_overview.html 
+keywords: Solution Overview, ONTAP, AI, Cloud Sync, NVIDIA DGX, 
+summary:  
+---
+= Panoramica della soluzione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== NetApp ONTAP ai e Cloud Sync
+
+L'architettura NetApp ONTAP ai, basata su sistemi NVIDIA DGX e sistemi storage connessi al cloud, è stata sviluppata e verificata da NetApp e NVIDIA. Questa architettura di riferimento offre alle organizzazioni IT i seguenti vantaggi:
+
+* Elimina le complessità di progettazione
+* Consente una scalabilità indipendente di calcolo e storage
+* Consente ai clienti di partire da piccoli e scalare perfettamente
+* Offre una vasta gamma di opzioni di storage per diverse esigenze di performance e costi NetApp ONTAP ai integra perfettamente i sistemi DGX e i sistemi storage NetApp AFF A220 con networking all'avanguardia. I sistemi NetApp ONTAP ai e DGX semplificano le implementazioni ai eliminando la complessità e le congetture di progettazione. I clienti possono iniziare a crescere in maniera ininterrotta e allo stesso tempo gestire in modo intelligente i dati dall'edge al core, fino al cloud e viceversa.
+
+
+NetApp Cloud Sync consente di spostare facilmente i dati su diversi protocolli, tra due condivisioni NFS, due condivisioni CIFS o una condivisione file e Amazon S3, Amazon Elastic file System (EFS) o Azure Blob Storage. Il funzionamento Active-Active consente di continuare a lavorare contemporaneamente con l'origine e la destinazione, sincronizzando in modo incrementale le modifiche dei dati quando necessario. Grazie alla possibilità di spostare e sincronizzare in modo incrementale i dati tra qualsiasi sistema di origine e di destinazione, on-premise o basato su cloud, Cloud Sync offre una vasta gamma di nuovi modi per utilizzare i dati. La migrazione dei dati tra sistemi on-premise, cloud on-boarding e migrazione del cloud o collaboration e analytics dei dati diventa facilmente realizzabile. La figura seguente mostra le fonti e le destinazioni disponibili.
+
+Nei sistemi di intelligenza artificiale conversa, gli sviluppatori possono sfruttare Cloud Sync per archiviare la cronologia delle conversazioni dal cloud ai data center per consentire la formazione offline dei modelli NLP (Natural Language Processing). Attraverso modelli di training per riconoscere più intenti, il sistema di ai convergenti sarà meglio attrezzato per gestire domande più complesse da parte degli utenti finali.
+
+
+
+== Framework multimodale NVIDIA Jarvis
+
+image:cainvidia_image2.png["Errore: Immagine grafica mancante"]
+
+https://devblogs.nvidia.com/introducing-jarvis-framework-for-gpu-accelerated-conversational-ai-apps/["NVIDIA Jarvis"^] È un framework end-to-end per la creazione di servizi di ai conversivi. Include i seguenti servizi ottimizzati per GPU:
+
+* Riconoscimento vocale automatico (ASR)
+* Comprensione del linguaggio naturale (NLU)
+* Integrazione con servizi di adempimento specifici del dominio
+* Text-to-speech (TTS)
+* I servizi basati su computer Vision (CV) Jarvis utilizzano modelli di deep learning all'avanguardia per affrontare il complesso e impegnativo compito dell'ai conversazionale in tempo reale. Per consentire un'interazione naturale e in tempo reale con un utente finale, i modelli devono completare il calcolo in meno di 300 millisecondi. Le interazioni naturali sono impegnative e richiedono un'integrazione sensoriale multimodale. Anche le pipeline dei modelli sono complesse e richiedono un coordinamento tra i servizi indicati sopra.
+
+
+Jarvis è un framework applicativo completamente accelerato per la creazione di servizi ai di conversazione multimodale che utilizzano una pipeline di deep learning end-to-end. Il framework Jarvis include modelli di ai conversazionali preformati, strumenti e servizi end-to-end ottimizzati per le attività vocali, di visione e NLU. Oltre ai servizi di intelligenza artificiale, Jarvis ti consente di unire contemporaneamente vision, audio e altri input dei sensori per offrire funzionalità come conversazioni multi-utente e multi-contesto in applicazioni come assistenti virtuali, diarizzazione multiutente e assistenti di call center.
+
+
+
+== NVIDIA NEMO
+
+https://developer.nvidia.com/nvidia-nemo["NVIDIA NEMO"^] È un toolkit Python open-source per la creazione, la formazione e la messa a punto di modelli di ai conversazionali allo stato dell'arte con accelerazione GPU utilizzando interfacce di programmazione applicativa (API) di facile utilizzo. NEMO esegue calcoli misti di precisione utilizzando core Tensor in GPU NVIDIA e può scalare facilmente fino a più GPU per offrire le migliori performance di training possibili. NEMO viene utilizzato per creare modelli per applicazioni ASR, NLP e TTS in tempo reale, come trascrizioni di videochiamate, assistenti video intelligenti e supporto automatizzato di call center in diversi mercati verticali del settore, tra cui settore sanitario, finanziario, retail e telecomunicazioni.
+
+Abbiamo utilizzato NEMO per formare modelli che riconoscono intenti complessi dalle domande degli utenti nella cronologia delle conversazioni archiviate. Questo training estende le funzionalità dell'assistente virtuale al dettaglio oltre il supporto fornito da Jarvis.
+
+
+
+== Riepilogo dei casi di utilizzo al dettaglio
+
+Utilizzando NVIDIA Jarvis, abbiamo creato un assistente virtuale al dettaglio che accetta l'input vocale o di testo e risponde a domande relative a meteo, punti di interesse e prezzi di inventario. Il sistema ai conversazionale è in grado di ricordare il flusso di conversazione, ad esempio, porre una domanda di follow-up se l'utente non specifica la posizione per il meteo o i punti di interesse. Il sistema riconosce anche entità complesse come "cibo tailandese" o "memoria per laptop". Comprende domande di linguaggio naturale come "pioverà la prossima settimana a Los Angeles?" Una dimostrazione dell'assistente virtuale per la vendita al dettaglio è disponibile in https://cainvidia_customize_states_and_flows_for_retail_use_case.html["Personalizza gli stati e i flussi per i casi d'utilizzo retail"].
+
+link:cainvidia_solution_technology.html["Avanti: Tecnologia della soluzione"]

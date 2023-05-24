@@ -1,0 +1,46 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_run_ai_installation.html 
+keywords:  
+summary:  
+---
+= Esegui:Installazione ai
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Per installare Run:ai, attenersi alla seguente procedura:
+
+. Installare il cluster Kubernetes utilizzando DeepOps e configurare la classe di storage predefinita di NetApp.
+. Preparare i nodi GPU:
++
+.. Verificare che i driver NVIDIA siano installati sui nodi GPU.
+.. Verificare che `nvidia-docker` è installato e configurato come runtime predefinito di docker.
+
+
+. Esecuzione dell'installazione:ai:
++
+.. Accedere a. https://app.run.ai["Esegui: UI Admin ai"^] per creare il cluster.
+.. Scarica il creato `runai-operator-<clustername>.yaml` file.
+.. Applicare la configurazione dell'operatore al cluster Kubernetes.
++
+....
+kubectl apply -f runai-operator-<clustername>.yaml
+....
+
+
+. Verificare l'installazione:
++
+.. Passare a. https://app.run.ai/["https://app.run.ai/"^].
+.. Accedere alla dashboard Panoramica.
+.. Verificare che il numero di GPU in alto a destra rifletta il numero previsto di GPU e che i nodi GPU siano tutti nell'elenco dei server.per ulteriori informazioni sull'implementazione di Run:ai, vedere https://docs.run.ai/Administrator/Cluster-Setup/Installing-Run-AI-on-an-on-premise-Kubernetes-Cluster/["Installazione di Run:ai su un cluster Kubernetes on-premise"^] e. https://docs.run.ai/Administrator/Researcher-Setup/Installing-the-Run-AI-Command-Line-Interface/["Installazione della CLI Run:ai"^].
+
+
+
+
+link:osrunai_run_ai_dashboards_and_views.html["Avanti: Esegui dashboard e viste ai"]

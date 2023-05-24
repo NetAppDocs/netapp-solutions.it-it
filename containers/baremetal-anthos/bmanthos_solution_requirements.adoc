@@ -1,0 +1,87 @@
+---
+sidebar: sidebar 
+permalink: containers/baremetal-anthos/bmanthos_solution_requirements.html 
+keywords: Hardware, software, compute, storage, requirements 
+summary: 'Le funzionalità indipendenti dall"hardware di anthos on bare metal ti consentono di scegliere una piattaforma di calcolo ottimizzata per il tuo caso d"utilizzo. Pertanto, il può corrispondere all"infrastruttura esistente e ridurre le spese di capitale.' 
+---
+= Requisiti della soluzione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+
+
+== Requisiti hardware
+
+
+
+=== Calcolo: Porta il tuo server
+
+Le funzionalità indipendenti dall'hardware di anthos on bare metal ti consentono di scegliere una piattaforma di calcolo ottimizzata per il tuo caso d'utilizzo. Pertanto, il può corrispondere all'infrastruttura esistente e ridurre le spese di capitale.
+
+La seguente tabella elenca il numero minimo di componenti hardware di calcolo necessari per implementare questa soluzione, anche se i modelli hardware utilizzati possono variare in base ai requisiti del cliente.
+
+|===
+| Utilizzo | Hardware e modello | Quantità 
+
+
+| Nodi di amministrazione | Cisco UCS B200 | 3 
+
+
+| Nodi di lavoro | HP ProLiant DL360 | 4 
+|===
+
+
+=== Storage: NetApp ONTAP
+
+La seguente tabella elenca il numero minimo di componenti storage-hardware necessari per implementare la soluzione, anche se i modelli hardware utilizzati possono variare in base ai requisiti del cliente.
+
+|===
+| Hardware | Modello | Quantità 
+
+
+| NetApp AFF | NetApp AFF A300 | 2 (1 coppia ha) 
+|===
+
+
+== Requisiti software
+
+Le versioni software identificate nella seguente tabella sono state utilizzate da NetApp e dai nostri partner per validare la soluzione con NetApp, anche se i componenti software utilizzati possono variare in base ai requisiti del cliente.
+
+|===
+| Software | Scopo | Versione 
+
+
+| Ubuntu | Sistema operativo su 3 amministratori | 20.04 
+
+
+|  | Sistema operativo su Worker4 | 20.04 
+
+
+|  | Sistema operativo su Worker3 | 18.04 
+
+
+| CentOS | Sistema operativo su Worker2 | 8.2 
+
+
+| Red Hat Enterprise Linux | Sistema operativo su Worker1 | 8.1 
+
+
+| Anthos su bare metal | Orchestrazione di container | 1.6.0 
+
+
+| NetApp ONTAP | Sistema operativo per lo storage | 9.7P8 
+
+
+| NetApp Astra Trident | Gestione dello storage container | 20.10 
+|===
+
+NOTE: Questo ambiente multi-OS mostra l'interoperabilità con le versioni del sistema operativo supportate della soluzione anthos on bare metal. Prevediamo che i clienti si standardizzeranno su uno o un sottoinsieme di sistemi operativi per l'implementazione.
+
+Per i requisiti hardware e software di anthos on bare metal, consultare https://cloud.google.com/anthos/clusters/docs/bare-metal/latest["Anthos sulla documentazione bare metal"^] pagina.
+
+link:bmanthos_deployment_summary.html["Avanti: Riepilogo dell'implementazione."]

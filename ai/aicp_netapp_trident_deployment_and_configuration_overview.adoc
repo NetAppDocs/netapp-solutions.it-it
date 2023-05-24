@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_netapp_trident_deployment_and_configuration_overview.html 
+keywords: Trident, Kubernetes, Storageclass 
+summary: Questa pagina descrive le attività da completare per installare e configurare NetApp Trident nel cluster Kubernetes. 
+---
+= Implementazione e configurazione di NetApp Trident
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Questa sezione descrive le attività da completare per installare e configurare NetApp Trident nel cluster Kubernetes.
+
+
+
+== Prerequisiti
+
+Prima di eseguire l'esercizio di implementazione descritto in questa sezione, si presuppone che siano già state eseguite le seguenti attività:
+
+. Hai già un cluster Kubernetes funzionante e stai eseguendo una versione di Kubernetes supportata da Trident. Per un elenco delle versioni supportate, vedere https://docs.netapp.com/us-en/trident/["Documentazione di Trident"^].
+. Disponete già di un'appliance di storage NetApp funzionante, di un'istanza software-defined o di un servizio di cloud storage supportato da Trident.
+
+
+
+
+== Installare Trident
+
+Per installare e configurare NetApp Trident nel cluster Kubernetes, eseguire le seguenti attività dall'host di distribuzione jump:
+
+. Implementare Trident utilizzando uno dei seguenti metodi:
++
+** Se hai utilizzato NVIDIA DeepOps per implementare il cluster Kubernetes, puoi anche utilizzare NVIDIA DeepOps per implementare Trident nel cluster Kubernetes. Per implementare Trident con DeepOps, seguire https://github.com/NVIDIA/deepops/tree/master/docs/k8s-cluster#netapp-trident["Istruzioni per l'implementazione di Trident"] Sul sito NVIDIA DeepOps GitHub.
+** Se non hai utilizzato NVIDIA DeepOps per implementare il cluster Kubernetes o se preferisci semplicemente implementare Trident manualmente, puoi implementare Trident seguendo la https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["istruzioni per l'implementazione"^] Nella documentazione di Trident. Per ulteriori informazioni sulla configurazione, assicurarsi di creare almeno un backend Trident e almeno un StorageClass Kubernetes https://docs.netapp.com/us-en/trident/trident-use/backends.html["Back-end"^] e. https://docs.netapp.com/us-en/trident/trident-use/manage-stor-class.html["StorageClasses"^] Consulta le sottosezioni collegate nei documenti di NetApp.
++
+
+NOTE: Se stai implementando la soluzione NetApp per il piano di controllo ai su un pod ai ONTAP, consulta link:aicp_example_trident_backends_for_ontap_ai_deployments.html["Esempi di backend Trident per implementazioni ai ONTAP"] Per alcuni esempi di diversi backend Trident che si desidera creare e. link:aicp_example_kubernetes_storageclasses_for_ontap_ai_deployments.html["Esempi di storaglasses Kubernetes per implementazioni ai ONTAP"] Per alcuni esempi di diverse Kubernetes StorageClasses che potresti voler creare.
+
+
+
+
+
+link:aicp_example_trident_backends_for_ontap_ai_deployments.html["Segue: Esempio di backend Trident per implementazioni ai ONTAP."]

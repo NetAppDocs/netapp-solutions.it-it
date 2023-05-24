@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_jupyter_notebooks.html 
+keywords: jupyter, notebook, reference 
+summary: Questa sezione si collega a due notebook Jupyter pertinenti a questo report tecnico. 
+---
+= Notebook Jupyter come riferimento
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_dataset_and_model_versioning_using_netapp_dataops_toolkit.html["Precedente: Versione di set di dati e modelli con NetApp DataOps Toolkit."]
+
+[role="lead"]
+Al report tecnico sono associati due notebook Jupyter:
+
+* link:https://nbviewer.jupyter.org/github/NetAppDocs/netapp-solutions/blob/main/media/CTR-PandasRF-collated.ipynb["*CTR-PandasRF-collated.ipynb.*"] Questo notebook carica il giorno 15 dal set di dati Click Logs di Criteo Terabyte, elabora e formatta i dati in un Pandas DataFrame, forma un modello di foresta casuale Scikit-learn, esegue la previsione e calcola la precisione.
+* link:https://nbviewer.jupyter.org/github/NetAppDocs/netapp-solutions/blob/main/media/criteo_dask_RF.ipynb["*criteo_dask_RF.ipynb.*"] Questo notebook carica il giorno 15 dal set di dati Click Logs di Criteo Terabyte, elabora e formatta i dati in un cuDF Dask, forma un modello di foresta casuale cuML Dask, esegue la previsione e calcola la precisione. Sfruttando nodi di lavoro multipli con GPU, questo approccio di elaborazione e formazione dei dati distribuiti e dei modelli è altamente efficiente. Maggiore è il numero di dati elaborati, maggiore è il risparmio di tempo rispetto a un approccio ML convenzionale. È possibile implementare questo notebook nel cloud, on-premise o in un ambiente ibrido in cui il cluster Kubernetes contiene calcolo e storage in posizioni diverse, purché la configurazione di rete consenta il libero spostamento dei dati e la distribuzione dei modelli.
+
+
+link:aks-anf_conclusion.html["Prossimo: Conclusione."]

@@ -1,0 +1,73 @@
+---
+sidebar: sidebar 
+permalink: automation/authentication_tokens.html 
+summary: Questa pagina fornisce informazioni dettagliate per la raccolta dei token Refresh e delle chiavi Access/Secret necessari per le implementazioni CVO e Cloud Manager Connector tramite NetApp Cloud Manager. 
+keywords: netapp, solutions, automation, ansible 
+---
+= Automazione delle soluzioni NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+
+
+== Requisiti di autenticazione AWS per CVO e Connector che utilizzano NetApp Cloud Manager
+
+Per configurare le implementazioni automatiche di CVO e connettori utilizzando i playbook Ansible tramite AWX/Ansible Tower, sono necessarie le seguenti informazioni:
+
+
+
+=== Acquisizione delle chiavi di accesso/segreto da AWS
+
+. Per implementare CVO e Connector in Cloud Manager, abbiamo bisogno di AWS Access/Secret Key. Acquisire le chiavi nella console AWS avviando IAM-->Users-->il proprio nome utente-->credenziali di sicurezza-->Crea chiave di accesso.
+. Copiare le chiavi di accesso e conservarle in modo sicuro per l'utilizzo nell'implementazione di connettori e CVO.
+
+
+
+NOTE: In caso di smarrimento della chiave, è possibile creare un'altra chiave di accesso ed eliminare quella persa
+
+image::access_keys.png[Aggiorna token]
+
+
+
+=== Acquisizione del token di refresh da NetApp Cloud Central
+
+. Accedi al tuo account cloud Central utilizzando le credenziali del tuo account all'indirizzo https://services.cloud.netapp.com/refresh-token[]
+. Generare un token di refresh e salvarlo per le implementazioni.
+
+
+image::token_authentication.png[Aggiorna token]
+
+
+
+=== Acquisizione ID client in corso
+
+. Accedere alla pagina API per copiare l'ID client all'indirizzo https://services.cloud.netapp.com/developer-hub[].
+. Fare clic su "Learn How to Authenticate" (informazioni sull'autenticazione), nell'angolo in alto a destra.
+. Dalla finestra di autenticazione visualizzata, copiare l'ID client da accesso regolare se si richiede un nome utente/password per l'accesso. Gli utenti federati con SSO devono copiare l'ID client dalla scheda "Refresh Token" (Aggiorna token).
+
+
+image::client_id.JPG[ID client]
+
+
+
+=== Acquisizione della coppia di chiavi da AWS
+
+. Nella console AWS, cercare "Key Pair" e creare una coppia di chiavi con "pem". Ricordare il nome di coppia_chiave, che verrà utilizzato per implementare il connettore.
+
+
+image::key_pair.png[Coppia di chiavi]
+
+
+
+=== Acquisizione ID account in corso
+
+. In Cloud Manager, fare clic su account –> Manage Accounts (account -> Gestisci account), quindi copiare l'id account da utilizzare nelle variabili per AWX.
+
+
+image::account_id.JPG[ID client]

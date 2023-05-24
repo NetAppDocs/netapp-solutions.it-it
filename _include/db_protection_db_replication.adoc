@@ -1,0 +1,36 @@
+= 
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Pianificazione del manuale di replica binario e database
+
+*Configurare e avviare il modello di lavoro.*
+
+. Copiare il modello di lavoro creato in precedenza.
++
+.. Accedere a risorse → modelli.
+.. Individuare il modello di installazione di ONTAP/CVO e fare clic con il pulsante destro del mouse su Copy Template (Copia modello)
+.. Fare clic su Edit Template (Modifica modello) nel modello copiato e modificare il nome in Binary and Database Replication Playbook (Playbook di replica binario e database).
+.. Mantenere lo stesso inventario, progetto e credenziali per il modello.
+.. Selezionare ora_Replication_cg.yml come manuale da eseguire.
+.. Le variabili rimarranno le stesse, ma l'IP del cluster CVO dovrà essere impostato nella variabile dst_cluster_ip.
+.. Fare clic su Salva.
+
+
+. Pianificare il modello di lavoro.
++
+.. Accedere a risorse → modelli.
+.. Fare clic sul modello Playbook di replica binario e database, quindi fare clic su Pianificazioni nella parte superiore del set di opzioni.
+.. Fare clic su Add (Aggiungi), add Name Schedule (Aggiungi pianificazione nome) per la replica binaria e del database, scegliere la data/ora di inizio all'inizio dell'ora, scegliere il fuso orario locale e la frequenza di esecuzione. La frequenza di esecuzione sarà spesso la replica di SnapMirror verrà aggiornata.
++
+
+NOTE: Verrà creata una pianificazione separata per la replica del volume Log, in modo che possa essere replicata con cadenza più frequente.
+
+
+
+

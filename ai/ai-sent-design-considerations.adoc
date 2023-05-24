@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-sent-design-considerations.html 
+keywords: network, compute, design, storage, riva, best practices, 
+summary: In questa sezione vengono descritte le considerazioni di progettazione relative ai diversi componenti di questa soluzione. 
+---
+= Considerazioni di progettazione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-sent-architecture.html["Precedente: Architettura."]
+
+
+
+== Progettazione di rete e calcolo
+
+A seconda delle restrizioni sulla sicurezza dei dati, tutti i dati devono rimanere all'interno dell'infrastruttura del cliente o in un ambiente sicuro.
+
+image:ai-sent-image9.png["Errore: Immagine grafica mancante"]
+
+
+
+== Progettazione dello storage
+
+Il NetApp DataOps Toolkit funge da servizio principale per la gestione dei sistemi storage. DataOps Toolkit è una libreria Python che consente a sviluppatori, data scientist, ingegneri DevOps e data engineer di eseguire diverse attività di gestione dei dati, come il provisioning quasi istantaneo di un nuovo volume di dati o di un'area di lavoro JupyterLab, la clonazione quasi istantanea di un volume di dati o di un'area di lavoro JupyterLab, E lo snap-shoting quasi istantaneo di un volume di dati o di uno spazio di lavoro JupyterLab per la tracciabilità o il baselining. Questa libreria Python può funzionare come un'utility a riga di comando o una libreria di funzioni che possono essere importate in qualsiasi programma Python o Jupyter notebook.
+
+
+
+== Best practice RIVA
+
+NVIDIA offre diverse funzionalità generali https://docs.nvidia.com/deeplearning/riva/user-guide/docs/best-practices.html["best practice per i dati"^] Per utilizzare RIVA:
+
+* *Se possibile, utilizzare formati audio senza perdita di dati.* l'utilizzo di codec con perdita di dati come MP3 può ridurre la qualità.
+* *Aumentare i dati di training.* l'aggiunta di rumore di fondo ai dati di training audio può inizialmente ridurre la precisione e aumentare la robustezza.
+* *Limitare la dimensione del vocabolario se si utilizza il testo scartato.* molte fonti online contengono messaggi o voci accessorie e parole non comuni. La rimozione di questi elementi può migliorare il modello linguistico.
+* *Se possibile, utilizzare una frequenza di campionamento minima di 16 kHz.* tuttavia, provare a non ricampionare, perché in questo modo si riduce la qualità audio.
+
+
+Oltre a queste Best practice, i clienti devono dare la priorità alla raccolta di un set di dati campione rappresentativo con etichette accurate per ogni fase della pipeline. In altre parole, il set di dati di esempio dovrebbe riflettere in modo proporzionale le caratteristiche specificate esemplificate in un set di dati di destinazione. Allo stesso modo, gli annotatori dei set di dati hanno la responsabilità di bilanciare la precisione e la velocità dell'etichettatura in modo da massimizzare la qualità e la quantità dei dati. Ad esempio, questa soluzione di Support Center richiede file audio, testo etichettato ed etichette di sentimento. La natura sequenziale di questa soluzione significa che gli errori dall'inizio della pipeline vengono propagati fino alla fine Se i file audio sono di scarsa qualità, anche le trascrizioni di testo e le etichette di sentimento saranno.
+
+Questa propagazione degli errori si applica allo stesso modo ai modelli addestrati su questi dati. Se le previsioni del sentimento sono accurate al 100% ma il modello da voce a testo non funziona correttamente, la pipeline finale è limitata dalle trascrizioni audio-testo iniziali. È essenziale che gli sviluppatori considerino le performance di ciascun modello singolarmente e come un componente di una pipeline più ampia. In questo caso specifico, l'obiettivo finale è sviluppare una pipeline in grado di prevedere con precisione il sentimento. Pertanto, la metrica generale su cui valutare la pipeline è la precisione dei sentimenti, che la trascrizione vocale-testuale influisce direttamente.
+
+image:ai-sent-image10.png["Errore: Immagine grafica mancante"]
+
+Il NetApp DataOps Toolkit integra la pipeline per il controllo della qualità dei dati attraverso l'utilizzo della sua tecnologia di cloning dei dati quasi istantanea. Ogni file etichettato deve essere valutato e confrontato con i file etichettati esistenti. La distribuzione di questi controlli di qualità nei vari sistemi di storage dei dati garantisce che questi controlli vengano eseguiti in modo rapido ed efficiente.
+
+link:ai-sent-deploying-support-center-sentiment-analysis.html["Avanti: Implementazione dell'analisi del sentimento del centro di supporto."]

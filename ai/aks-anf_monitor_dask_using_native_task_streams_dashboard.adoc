@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_monitor_dask_using_native_task_streams_dashboard.html 
+keywords: dashboard, progress bar, bytes stored, task stream, dataframe, criteo click log 
+summary: Questa pagina descrive come monitorare Task utilizzando la dashboard nativa di Task Stream. 
+---
+= Monitorate la Task utilizzando la dashboard nativa dei Task Streams
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_load_day_15_in_dask_and_train_a_dask_cuml_random_forest_model.html["Precedente: Caricare il giorno 15 in Dask e formare un modello di foresta casuale di Dask cuML."]
+
+[role="lead"]
+Il https://docs.dask.org/en/latest/scheduling.html["Scheduler distribuito di Dask"^] fornisce feedback live in due forme:
+
+* Una dashboard interattiva contenente numerosi grafici e tabelle con informazioni in tempo reale
+* Barra di avanzamento adatta per l'utilizzo interattivo in console o notebook
+
+
+Nel nostro caso, la figura seguente mostra come è possibile monitorare l'avanzamento del task, inclusi i byte memorizzati, il Task Stream con una dettagliata suddivisione del numero di flussi e l'avanzamento in base ai nomi delle attività con le funzioni associate eseguite. Nel nostro caso, poiché abbiamo tre nodi di lavoro, ci sono tre blocchi principali di flusso e i codici colore indicano attività diverse all'interno di ogni flusso.
+
+image:aks-anf_image13.png["Errore: Immagine grafica mancante"]
+
+È possibile analizzare le singole attività ed esaminare il tempo di esecuzione in millisecondi o identificare eventuali ostacoli o ostacoli. Ad esempio, la figura seguente mostra i flussi di attività per la fase di adattamento del modello di foresta casuale. Le funzioni eseguite sono notevolmente più numerose, tra cui il chunk unico per l'elaborazione di DataFrame, _Construct_rf per l'adattamento della foresta casuale e così via. La maggior parte del tempo è stato dedicato alle operazioni DataFrame a causa delle grandi dimensioni (45 GB) di un giorno di dati provenienti dai Click Logs di Criteo.
+
+image:aks-anf_image14.png["Errore: Immagine grafica mancante"]
+
+link:aks-anf_training_time_comparison.html["Avanti: Confronto dei tempi di training."]

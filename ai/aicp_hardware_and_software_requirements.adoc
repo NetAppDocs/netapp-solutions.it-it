@@ -1,0 +1,67 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_hardware_and_software_requirements.html 
+keywords: Hardware, Software, Requirements, Trident, DeepOps, ONTAP, Ubuntu 
+summary: La soluzione NetApp ai Control Plane non dipende da questo hardware specifico. 
+---
+= Requisiti hardware e software
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+La soluzione NetApp ai Control Plane non dipende da questo hardware specifico. La soluzione è compatibile con qualsiasi appliance di storage fisico, istanza software-defined o servizio cloud NetApp, supportato da Trident. Ad esempio, un sistema di storage NetApp AFF, Azure NetApp Files, NetApp Cloud Volumes Service, un'istanza di storage NetApp ONTAP Select definita tramite software o un'istanza di NetApp Cloud Volumes ONTAP. Inoltre, la soluzione può essere implementata su qualsiasi cluster Kubernetes purché la versione di Kubernetes utilizzata sia supportata da Kubeflow e NetApp Trident. Per un elenco delle versioni di Kubernetes supportate da Kubeflow, vedere la https://www.kubeflow.org/docs/started/getting-started/["Documentazione ufficiale del Kubeflow"^]. Per un elenco delle versioni di Kubernetes supportate da Trident, vedere https://netapp-trident.readthedocs.io/["Documentazione di Trident"^]. Per informazioni dettagliate sull'ambiente utilizzato per la convalida della soluzione, consultare le tabelle seguenti.
+
+|===
+| Componente dell'infrastruttura | Quantità | Dettagli | Sistema operativo 
+
+
+| Host di salto per l'implementazione | 1 | MACCHINA VIRTUALE | Ubuntu 20.04.2 LTS 
+
+
+| Nodi master Kubernetes | 1 | MACCHINA VIRTUALE | Ubuntu 20.04.2 LTS 
+
+
+| Nodi di lavoro Kubernetes | 2 | MACCHINA VIRTUALE | Ubuntu 20.04.2 LTS 
+
+
+| Kubernetes nodi di lavoro GPU | 2 | NVIDIA DGX-1 (bare-metal) | NVIDIA DGX OS 4.0.5 (basato su Ubuntu 18.04.2 LTS) 
+
+
+| Storage | 1 coppia ha | NetApp AFF A220 | NetApp ONTAP 9.7 P6 
+|===
+|===
+| Componente software | Versione 
+
+
+| Flusso d'aria Apache | 2.0.1 
+
+
+| Helm Chart di Apache Airflow | 8.0.8 
+
+
+| Docker | 19.03.12 
+
+
+| Kubeflow | 1.2 
+
+
+| Kubernetes | 1.18.9 
+
+
+| Trident di NetApp | 21.01.2 
+
+
+| NVIDIA DeepOps | Funzionalità di implementazione di Trident dalla filiale master al momento del commit link:https://github.com/NVIDIA/deepops/tree/61898cdfdaa0c59c07e9fabf3022945a905b148e/docs/k8s-cluster["61898cdfda"]; Tutte le altre funzionalità dalla versione 21.03 
+|===
+
+
+== Supporto
+
+NetApp non offre supporto Enterprise per Apache Airflow, Docker, Kubeflow, Kubernetes o NVIDIA DeepOps. Se sei interessato a una soluzione completamente supportata con funzionalità simili alla soluzione NetApp ai Control Plane, link:https://www.netapp.com/us/contact-us/index.aspx?for_cr=us["Contatta NetApp"] Informazioni sulle soluzioni ai/ML completamente supportate che NetApp offre insieme ai partner.
+
+link:aicp_kubernetes_deployment.html["Pagina successiva: Implementazione di Kubernetes."]

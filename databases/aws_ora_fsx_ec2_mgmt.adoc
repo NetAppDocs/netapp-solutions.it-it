@@ -1,0 +1,279 @@
+---
+sidebar: sidebar 
+permalink: databases/aws_ora_fsx_ec2_mgmt.html 
+summary: 'Questa sezione fornisce informazioni dettagliate sulla gestione dei database AWS RDS Custom per Oracle tramite l"interfaccia utente di SnapCenter come integrazione dell"interfaccia utente della console RDS di AWS.' 
+keywords: HA, DR, database, Oracle, RDS, AWS, SnapCenter 
+---
+= Gestione dei database Oracle EC2 e FSX
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:aws_ora_fsx_ec2_procedures.html["Precedente: Procedure di implementazione."]
+
+[role="lead"]
+Oltre alla console di gestione AWS EC2 e FSX, il nodo di controllo Ansible e lo strumento dell'interfaccia utente SnapCenter vengono implementati per la gestione del database in questo ambiente Oracle.
+
+È possibile utilizzare un nodo di controllo Ansible per gestire la configurazione dell'ambiente Oracle, con aggiornamenti paralleli che mantengono sincronizzate le istanze primarie e di standby per gli aggiornamenti del kernel o delle patch. Failover, risincronizzazione e failback possono essere automatizzati con NetApp Automation Toolkit per archiviare la disponibilità e il ripristino rapido delle applicazioni con Ansible. Alcune attività di gestione del database ripetibili possono essere eseguite utilizzando un manuale per ridurre gli errori umani.
+
+Il tool UI di SnapCenter consente di eseguire backup snapshot del database, recovery point-in-time, cloning del database e così via con il plug-in SnapCenter per database Oracle. Per ulteriori informazioni sulle funzionalità dei plug-in Oracle, vedere link:https://docs.netapp.com/ocsc-43/index.jsp?topic=%2Fcom.netapp.doc.ocsc-con%2FGUID-CF6B23A3-2B2B-426F-826B-490706880EE8.html["Panoramica del plug-in SnapCenter per database Oracle"^].
+
+Le seguenti sezioni forniscono informazioni dettagliate su come le funzioni chiave della gestione del database Oracle vengono soddisfatte con l'interfaccia utente di SnapCenter:
+
+* Backup di snapshot del database
+* Ripristino point-in-time del database
+* Creazione di un clone del database
+
+
+Il cloning del database crea una replica di un database primario su un host EC2 separato per il ripristino dei dati in caso di errore logico o danneggiamento dei dati e i cloni possono essere utilizzati anche per il test delle applicazioni, il debug, la convalida delle patch e così via.
+
+
+
+== Acquisizione di un'istantanea
+
+Il backup di un database Oracle EC2/FSX viene eseguito regolarmente a intervalli configurati dall'utente. Un utente può anche eseguire un backup snapshot singolo in qualsiasi momento. Ciò vale sia per i backup snapshot completi del database che per i backup snapshot con solo log di archivio.
+
+
+
+=== Acquisizione di un'istantanea completa del database
+
+Un'istantanea completa del database include tutti i file Oracle, inclusi i file di dati, i file di controllo e i file di log dell'archivio.
+
+. Accedere all'interfaccia utente di SnapCenter e fare clic su risorse nel menu a sinistra. Dal menu a discesa View (Visualizza), passare alla vista Resource Group (Gruppo di risorse).
++
+image:aws_rds_custom_deploy_snp_10.PNG["Errore: Immagine grafica mancante"]
+
+. Fare clic sul nome completo della risorsa di backup, quindi fare clic sull'icona Backup Now per avviare un backup add-hoc.
++
+image:aws_rds_custom_deploy_snp_11.PNG["Errore: Immagine grafica mancante"]
+
+. Fare clic su Backup, quindi confermare il backup per avviare un backup completo del database.
++
+image:aws_rds_custom_deploy_snp_12.PNG["Errore: Immagine grafica mancante"]
+
++
+Dalla visualizzazione delle risorse del database, aprire la pagina delle copie di backup gestite del database per verificare che il backup singolo sia stato completato correttamente. Un backup completo del database crea due snapshot: Una per il volume di dati e una per il volume di log.
+
++
+image:aws_rds_custom_deploy_snp_13.PNG["Errore: Immagine grafica mancante"]
+
+
+
+
+
+=== Acquisizione di un'istantanea del log di archiviazione
+
+Viene eseguita una snapshot del log di archiviazione solo per il volume del log di archiviazione Oracle.
+
+. Accedere all'interfaccia utente di SnapCenter e fare clic sulla scheda risorse nella barra dei menu a sinistra. Dal menu a discesa View (Visualizza), passare alla vista Resource Group (Gruppo di risorse).
++
+image:aws_rds_custom_deploy_snp_10.PNG["Errore: Immagine grafica mancante"]
+
+. Fare clic sul nome della risorsa di backup del registro, quindi fare clic sull'icona Backup Now per avviare un backup add-hoc per i registri di archiviazione.
++
+image:aws_rds_custom_deploy_snp_14.PNG["Errore: Immagine grafica mancante"]
+
+. Fare clic su Backup, quindi confermare il backup per avviare un backup del registro di archiviazione.
++
+image:aws_rds_custom_deploy_snp_15.PNG["Errore: Immagine grafica mancante"]
+
++
+Dalla visualizzazione delle risorse del database, aprire la pagina delle copie di backup gestite del database per verificare che il backup del registro di archiviazione una tantum sia stato completato correttamente. Un backup del registro di archiviazione crea uno snapshot per il volume di registro.
+
++
+image:aws_rds_custom_deploy_snp_16.PNG["Errore: Immagine grafica mancante"]
+
+
+
+
+
+== Ripristino a un punto nel tempo
+
+Il ripristino basato su SnapCenter a un punto temporale viene eseguito sullo stesso host di istanza EC2. Per eseguire il ripristino, attenersi alla seguente procedura:
+
+. Dalla scheda risorse SnapCenter > visualizzazione database, fare clic sul nome del database per aprire il backup del database.
++
+image:aws_rds_custom_deploy_snp_17.PNG["Errore: Immagine grafica mancante"]
+
+. Selezionare la copia di backup del database e il punto di tempo desiderato da ripristinare. Contrassegnare anche il numero SCN corrispondente al punto temporale. Il ripristino point-in-time può essere eseguito utilizzando Time o SCN.
++
+image:aws_rds_custom_deploy_snp_18.PNG["Errore: Immagine grafica mancante"]
+
+. Evidenziare l'istantanea del volume di log e fare clic sul pulsante Mount (attiva) per montare il volume.
++
+image:aws_rds_custom_deploy_snp_19.PNG["Errore: Immagine grafica mancante"]
+
+. Scegliere l'istanza primaria di EC2 per montare il volume di log.
++
+image:aws_rds_custom_deploy_snp_20.PNG["Errore: Immagine grafica mancante"]
+
+. Verificare che il processo di montaggio sia stato completato correttamente. Controllare anche sull'host dell'istanza EC2 per vedere il volume di log montato e il percorso del punto di montaggio.
++
+image:aws_rds_custom_deploy_snp_21_1.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_21_2.PNG["Errore: Immagine grafica mancante"]
+
+. Copiare i log di archiviazione dal volume di log montato alla directory del log di archiviazione corrente.
++
+[listing]
+----
+[ec2-user@ip-10-0-0-151 ~]$ cp /var/opt/snapcenter/sco/backup_mount/ip-10-0-0-151_03-25-2022_11.15.01.1503_1/ORCL/1/db/ORCL_A/arch/*.arc /ora_nfs_log/db/ORCL_A/arch/
+----
+. Tornare alla scheda risorse SnapCenter > pagina di backup del database, evidenziare la copia dello snapshot dei dati e fare clic sul pulsante Ripristina per avviare il flusso di lavoro di ripristino del database.
++
+image:aws_rds_custom_deploy_snp_22.PNG["Errore: Immagine grafica mancante"]
+
+. Selezionare "tutti i file di dati" e "Cambia stato del database se necessario per il ripristino e il ripristino", quindi fare clic su Avanti.
++
+image:aws_rds_custom_deploy_snp_23.PNG["Errore: Immagine grafica mancante"]
+
+. Scegliere l'ambito di ripristino desiderato utilizzando SCN o Time. Invece di copiare i registri di archivio montati nella directory di log corrente come illustrato al punto 6, il percorso di log di archivio montato può essere elencato in "specificare le posizioni dei file di log di archivio esterni" per il ripristino.
++
+image:aws_rds_custom_deploy_snp_24_1.PNG["Errore: Immagine grafica mancante"]
+
+. Specificare una prescrizione facoltativa da eseguire, se necessario.
++
+image:aws_rds_custom_deploy_snp_25.PNG["Errore: Immagine grafica mancante"]
+
+. Specificare un afterscript opzionale da eseguire, se necessario. Controllare il database aperto dopo il ripristino.
++
+image:aws_rds_custom_deploy_snp_26.PNG["Errore: Immagine grafica mancante"]
+
+. Fornire un server SMTP e un indirizzo e-mail se è necessaria una notifica del processo.
++
+image:aws_rds_custom_deploy_snp_27.PNG["Errore: Immagine grafica mancante"]
+
+. Ripristinare il riepilogo del processo. Fare clic su Finish (fine) per avviare il processo di ripristino.
++
+image:aws_rds_custom_deploy_snp_28.PNG["Errore: Immagine grafica mancante"]
+
+. Convalidare il ripristino da SnapCenter.
++
+image:aws_rds_custom_deploy_snp_29_1.PNG["Errore: Immagine grafica mancante"]
+
+. Convalidare il ripristino dall'host dell'istanza EC2.
++
+image:aws_rds_custom_deploy_snp_29_2.PNG["Errore: Immagine grafica mancante"]
+
+. Per smontare il volume del registro di ripristino, eseguire le operazioni descritte al punto 4.
+
+
+
+
+== Creazione di un clone del database
+
+Nella sezione seguente viene illustrato come utilizzare il flusso di lavoro dei cloni di SnapCenter per creare un clone del database da un database primario a un'istanza EC2 di standby.
+
+. Eseguire un backup snapshot completo del database primario da SnapCenter utilizzando il gruppo di risorse di backup completo.
++
+image:aws_rds_custom_deploy_replica_02.PNG["Errore: Immagine grafica mancante"]
+
+. Dalla scheda risorse SnapCenter > visualizzazione database, aprire la pagina Gestione backup database per il database principale dal quale deve essere creata la replica.
++
+image:aws_rds_custom_deploy_replica_04.PNG["Errore: Immagine grafica mancante"]
+
+. Montare lo snapshot del volume di log eseguito al punto 4 sull'host di istanza EC2 di standby.
++
+image:aws_rds_custom_deploy_replica_13.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_replica_14.PNG["Errore: Immagine grafica mancante"]
+
+. Evidenziare la copia snapshot da clonare per la replica e fare clic sul pulsante Clone (Copia) per avviare la procedura di cloning.
++
+image:aws_rds_custom_deploy_replica_05.PNG["Errore: Immagine grafica mancante"]
+
+. Modificare il nome della copia della replica in modo che sia diverso dal nome del database primario. Fare clic su Avanti.
++
+image:aws_rds_custom_deploy_replica_06.PNG["Errore: Immagine grafica mancante"]
+
+. Impostare l'host clone sull'host EC2 di standby, accettare il nome predefinito e fare clic su Next (Avanti).
++
+image:aws_rds_custom_deploy_replica_07.PNG["Errore: Immagine grafica mancante"]
+
+. Modificare le impostazioni home di Oracle in modo che corrispondano a quelle configurate per l'host del server Oracle di destinazione, quindi fare clic su Next (Avanti).
++
+image:aws_rds_custom_deploy_replica_08.PNG["Errore: Immagine grafica mancante"]
+
+. Specificare un punto di ripristino utilizzando Time o SCN e il percorso del log di archiviazione montato.
++
+image:aws_rds_custom_deploy_replica_15.PNG["Errore: Immagine grafica mancante"]
+
+. Se necessario, inviare le impostazioni e-mail SMTP.
++
+image:aws_rds_custom_deploy_replica_11.PNG["Errore: Immagine grafica mancante"]
+
+. Clonare il riepilogo del processo e fare clic su fine per avviare il processo clone.
++
+image:aws_rds_custom_deploy_replica_12.PNG["Errore: Immagine grafica mancante"]
+
+. Convalidare il clone della replica esaminando il log del processo clone.
++
+image:aws_rds_custom_deploy_replica_17.PNG["Errore: Immagine grafica mancante"]
+
++
+Il database clonato viene registrato immediatamente in SnapCenter.
+
++
+image:aws_rds_custom_deploy_replica_18.PNG["Errore: Immagine grafica mancante"]
+
+. Disattivare la modalità Oracle archive log. Accedere all'istanza EC2 come utente oracle ed eseguire il seguente comando:
++
+[source, cli]
+----
+sqlplus / as sysdba
+----
++
+[source, cli]
+----
+shutdown immediate;
+----
++
+[source, cli]
+----
+startup mount;
+----
++
+[source, cli]
+----
+alter database noarchivelog;
+----
++
+[source, cli]
+----
+alter database open;
+----
+
+
+
+NOTE: Al posto delle copie di backup primarie di Oracle, è possibile creare un clone anche dalle copie di backup secondarie replicate sul cluster FSX di destinazione con le stesse procedure.
+
+
+
+== Failover HA in standby e risincronizzazione
+
+Il cluster Oracle ha in standby offre alta disponibilità in caso di guasto nel sito primario, nel livello di elaborazione o nello storage. Uno dei vantaggi significativi della soluzione è che un utente può testare e convalidare l'infrastruttura in qualsiasi momento o con qualsiasi frequenza. Il failover può essere simulato dall'utente o attivato da un guasto reale. I processi di failover sono identici e possono essere automatizzati per un rapido ripristino delle applicazioni.
+
+Consultare il seguente elenco di procedure di failover:
+
+. Per un failover simulato, eseguire un backup dello snapshot del registro per scaricare le transazioni più recenti nel sito di standby, come illustrato nella sezione <<Acquisizione di un'istantanea del log di archiviazione>>. Per un failover attivato da un guasto effettivo, gli ultimi dati ripristinabili vengono replicati nel sito di standby con l'ultimo backup del volume di log pianificato.
+. Interrompere SnapMirror tra cluster FSX primario e di standby.
+. Montare i volumi di database di standby replicati sull'host di istanza EC2 di standby.
+. Ricollegare il binario Oracle se il binario Oracle replicato viene utilizzato per il ripristino Oracle.
+. Ripristinare il database Oracle di standby nell'ultimo log di archiviazione disponibile.
+. Aprire il database Oracle di standby per accedere all'applicazione e all'utente.
+. Per un guasto effettivo del sito primario, il database Oracle di standby assume ora il ruolo del nuovo sito primario e i volumi del database possono essere utilizzati per ricostruire il sito primario guasto come nuovo sito di standby con il metodo SnapMirror inverso.
+. In caso di guasto primario simulato del sito per il test o la convalida, arrestare il database Oracle di standby dopo il completamento degli esercizi di test. Quindi, smontare i volumi di database in standby dall'host di istanza EC2 di standby e risincronizzare la replica dal sito primario al sito di standby.
+
+
+Queste procedure possono essere eseguite con il NetApp Automation Toolkit disponibile per il download sul sito pubblico di NetApp GitHub.
+
+[source, cli]
+----
+git clone https://github.com/NetApp-Automation/na_ora_hadr_failover_resync.git
+----
+Leggere attentamente le istruzioni README prima di eseguire il test di configurazione e failover.
+
+link:aws_ora_fsx_ec2_migration.html["Successivo: Migrazione del database."]

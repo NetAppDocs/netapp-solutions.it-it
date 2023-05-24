@@ -1,0 +1,295 @@
+---
+sidebar: sidebar 
+permalink: ehc/dro/dro-overview.html 
+keywords: NetApp Solutions, hybrid, multicloud, multi cloud, hyperscalers, vmware, disaster recovery orchestrator, DRO 
+summary:  
+---
+= TR-4955: Disaster recovery con FSX per ONTAP e VMC (AWS VMware Cloud)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+Niyaz Mohamed, NetApp
+
+
+
+== Panoramica
+
+Il disaster recovery nel cloud è un metodo resiliente e conveniente per proteggere i carichi di lavoro da interruzioni del sito ed eventi di corruzione dei dati (ad esempio ransomware). Con la tecnologia NetApp SnapMirror, i carichi di lavoro VMware on-premise possono essere replicati su FSX per ONTAP in esecuzione in AWS.
+
+È possibile utilizzare Disaster Recovery Orchestrator (DRO, una soluzione basata su script con interfaccia utente) per ripristinare senza problemi i carichi di lavoro replicati da on-premise a FSX per ONTAP. DRO automatizza il ripristino dal livello SnapMirror, attraverso la registrazione delle macchine virtuali su VMC, fino alle mappature di rete direttamente su NSX-T. Questa funzione è inclusa in tutti gli ambienti VMC.
+
+image::dro-vmc-image1.png[Questa immagine mostra la struttura e le interconnessioni tra un data center on-premise, un'istanza di VMware Cloud su SDDC AWS e Amazon FSX per NetApp ONTAP. Ciò include la replica SnapMirror, il traffico DRaaS Ops, la connessione Internet o diretta e VMware Transit Connect.]
+
+
+
+== Per iniziare
+
+
+
+=== Implementare e configurare VMware Cloud su AWS
+
+link:https://www.vmware.com/products/vmc-on-aws.html["VMware Cloud su AWS"^] Offre un'esperienza nativa del cloud per i carichi di lavoro basati su VMware nell'ecosistema AWS. Ogni VMware Software-Defined Data Center (SDDC) viene eseguito in un Amazon Virtual Private Cloud (VPC) e fornisce uno stack VMware completo (incluso vCenter Server), networking software-defined NSX-T, storage vSAN software-defined e uno o più host ESXi che forniscono risorse di calcolo e storage ai carichi di lavoro. Per configurare un ambiente VMC su AWS, seguire questa procedura link:https://docs.netapp.com/us-en/netapp-solutions/ehc/aws/aws-setup.html["collegamento"^]. È possibile utilizzare anche un cluster di spie pilota per scopi di DR.
+
+
+NOTE: Nella versione iniziale, DRO supporta un cluster pilota-light esistente. La creazione di SDDC on-demand sarà disponibile in una release imminente.
+
+
+
+=== Provisioning e configurazione di FSX per ONTAP
+
+Amazon FSX per NetApp ONTAP è un servizio completamente gestito che offre un file storage altamente affidabile, scalabile, dalle performance elevate e ricco di funzionalità, basato sul popolare file system ONTAP di NetApp. Seguire questa procedura link:https://docs.netapp.com/us-en/netapp-solutions/ehc/aws/aws-native-overview.html["collegamento"^] Per eseguire il provisioning e la configurazione di FSX per ONTAP.
+
+
+
+=== Implementare e configurare SnapMirror in FSX per ONTAP
+
+Il passaggio successivo consiste nell'utilizzare NetApp BlueXP e individuare FSX per ONTAP su istanza AWS e replicare i volumi datastore desiderati da un ambiente on-premise a FSX per ONTAP con la frequenza appropriata e la conservazione delle copie Snapshot di NetApp:
+
+image::dro-vmc-image2.png[Questa immagine mostra la mappa delle relazioni di BlueXP Canvas che mostra le varie interazioni tra i servizi abilitati.]
+
+Seguire la procedura descritta in questo collegamento per configurare BlueXP. È inoltre possibile utilizzare l'interfaccia utente di NetApp ONTAP per pianificare la replica seguendo questo collegamento.
+
+
+NOTE: Una relazione SnapMirror è un prerequisito e deve essere creata in anticipo.
+
+
+
+== Installazione DRO
+
+Per iniziare a utilizzare DRO, utilizzare il sistema operativo Ubuntu su un'istanza EC2 o una macchina virtuale designata per assicurarsi di soddisfare i prerequisiti. Quindi installare il pacchetto.
+
+
+
+=== Prerequisiti
+
+* Assicurarsi che sia presente la connettività con i sistemi vCenter e storage di origine e di destinazione.
+* Se si utilizzano i nomi DNS, la risoluzione DNS deve essere effettiva. In caso contrario, utilizzare gli indirizzi IP per vCenter e sistemi storage.
+* Creare un utente con permessi root. È anche possibile utilizzare sudo con un'istanza EC2.
+
+
+
+
+=== Requisiti del sistema operativo
+
+* Ubuntu 20.04 (LTS) con almeno 2 GB e 4 vCPU
+* I seguenti pacchetti devono essere installati sulla macchina virtuale dell'agente designata:
++
+** Docker
+** Docker-Componi
+** JQ
+
+
+
+
+Modificare le autorizzazioni su `docker.sock`: `sudo chmod 666 /var/run/docker.sock`.
+
+
+NOTE: Il `deploy.sh` lo script esegue tutti i prerequisiti richiesti.
+
+
+
+=== Installare il pacchetto
+
+. Scaricare il pacchetto di installazione sulla macchina virtuale designata:
++
+[listing]
+----
+https://github.com/NetApp-Automation/DRO.git
+----
++
+
+NOTE: L'agente può essere installato on-premise o all'interno di un VPC AWS.
+
+. Decomprimere il pacchetto, eseguire lo script di implementazione e immettere l'IP host (ad esempio, 10.10.10.10).
++
+[listing]
+----
+tar xvf DRO-prereq.tar
+----
+. Accedere alla directory ed eseguire lo script di distribuzione come segue:
++
+[listing]
+----
+sudo sh deploy.sh
+----
+. Accedere all'interfaccia utente utilizzando:
++
+[listing]
+----
+https://<host-ip-address>
+----
++
+con le seguenti credenziali predefinite:
+
++
+[listing]
+----
+Username: admin
+Password: admin
+----
+
+
+
+NOTE: La password può essere modificata utilizzando l'opzione "Change Password" (Modifica password).
+
+image::dro-vmc-image3.png[Schermata di accesso a Disaster Recovery Orchestrator.]
+
+
+
+== Configurazione DRO
+
+Dopo aver configurato correttamente FSX per ONTAP e VMC, è possibile iniziare a configurare DRO per automatizzare il ripristino dei carichi di lavoro on-premise su VMC utilizzando le copie SnapMirror di sola lettura su FSX per ONTAP.
+
+NetApp consiglia di implementare l'agente DRO in AWS e anche sullo stesso VPC in cui viene implementato FSX per ONTAP (può anche essere collegato in modo peer), In modo che l'agente DRO possa comunicare attraverso la rete con i componenti on-premise e con le risorse FSX per ONTAP e VMC.
+
+Il primo passo è scoprire e aggiungere le risorse on-premise e cloud (vCenter e storage) a DRO. Aprire DRO in un browser supportato e utilizzare il nome utente e la password predefiniti (admin/admin) e Add Sites (Aggiungi siti). I siti possono essere aggiunti anche utilizzando l'opzione Discover. Aggiungere le seguenti piattaforme:
+
+* On-premise
++
+** VCenter on-premise
+** Sistema storage ONTAP
+
+
+* Cloud
++
+** VMC vCenter
+** FSX per ONTAP
+
+
+
+
+image::dro-vmc-image4.png[Descrizione dell'immagine segnaposto temporanea.]
+
+image::dro-vmc-image5.png[Pagina panoramica del sito DRO contenente i siti di origine e destinazione.]
+
+Una volta aggiunto, DRO esegue il rilevamento automatico e visualizza le macchine virtuali con le repliche SnapMirror corrispondenti dallo storage di origine a FSX per ONTAP. DRO rileva automaticamente le reti e i portgroup utilizzati dalle macchine virtuali e li popola.
+
+image::dro-vmc-image6.png[Schermata di rilevamento automatico contenente 219 VM e 10 datastore.]
+
+Il passaggio successivo consiste nel raggruppare le macchine virtuali richieste in gruppi funzionali che fungono da gruppi di risorse.
+
+
+
+=== Raggruppamenti di risorse
+
+Una volta aggiunte le piattaforme, è possibile raggruppare le macchine virtuali da ripristinare in gruppi di risorse. I gruppi di risorse DRO consentono di raggruppare un set di macchine virtuali dipendenti in gruppi logici che contengono i relativi ordini di avvio, ritardi di avvio e validazioni opzionali delle applicazioni che possono essere eseguite al momento del ripristino.
+
+Per iniziare a creare gruppi di risorse, attenersi alla seguente procedura:
+
+. Accedere a *gruppi di risorse* e fare clic su *Crea nuovo gruppo di risorse*.
+. In *nuovo gruppo di risorse*, selezionare il sito di origine dal menu a discesa e fare clic su *Crea*.
+. Fornire *Dettagli gruppo di risorse* e fare clic su *continua*.
+. Selezionare le macchine virtuali appropriate utilizzando l'opzione di ricerca.
+. Selezionare l'ordine di avvio e il ritardo di avvio (sec) per le macchine virtuali selezionate. Impostare l'ordine della sequenza di accensione selezionando ciascuna macchina virtuale e impostando la relativa priorità. Tre è il valore predefinito per tutte le macchine virtuali.
++
+Le opzioni sono le seguenti:
+
++
+1 – la prima macchina virtuale ad accenderlo 3 – Default 5 – l'ultima macchina virtuale ad accenderlo
+
+. Fare clic su *Crea gruppo di risorse*.
+
+
+image::dro-vmc-image7.png[Schermata dell'elenco dei gruppi di risorse con due voci: Test e DemoRG1.]
+
+
+
+=== Piani di replica
+
+Hai bisogno di un piano per il ripristino delle applicazioni in caso di disastro. Selezionare le piattaforme vCenter di origine e di destinazione dall'elenco a discesa e scegliere i gruppi di risorse da includere in questo piano, oltre al raggruppamento delle modalità di ripristino e accensione delle applicazioni (ad esempio, controller di dominio, Tier-1, Tier-2 e così via). Tali piani sono talvolta chiamati anche blueprint. Per definire il piano di ripristino, accedere alla scheda *Replication Plan* (piano di replica) e fare clic su *New Replication Plan* (nuovo piano di replica).
+
+Per iniziare a creare un piano di replica, attenersi alla seguente procedura:
+
+. Accedere a *Replication Plans* e fare clic su *Create New Replication Plan* (Crea nuovo piano di replica).
++
+image::dro-vmc-image8.png[Schermata del piano di replica contenente un piano chiamato DemoRP.]
+
+. In *New Replication Plan* (nuovo piano di replica), specificare un nome per il piano e aggiungere i mapping di ripristino selezionando il sito di origine, il vCenter associato, il sito di destinazione e il vCenter associato.
++
+image::dro-vmc-image9.png[Screenshot dei dettagli del piano di replica, inclusa la mappatura di recovery.]
+
+. Una volta completata la mappatura di ripristino, selezionare la mappatura del cluster.
++
+image::dro-vmc-image10.png[Descrizione dell'immagine segnaposto temporanea.]
+
+. Selezionare *Dettagli gruppo di risorse* e fare clic su *continua*.
+. Impostare l'ordine di esecuzione per il gruppo di risorse. Questa opzione consente di selezionare la sequenza di operazioni quando esistono più gruppi di risorse.
+. Al termine, selezionare la mappatura di rete per il segmento appropriato. I segmenti devono essere già sottoposti a provisioning all'interno di VMC, quindi selezionare il segmento appropriato per mappare la macchina virtuale.
+. In base alla selezione delle macchine virtuali, i mapping degli archivi dati vengono selezionati automaticamente.
++
+
+NOTE: SnapMirror è a livello di volume. Pertanto, tutte le macchine virtuali vengono replicate nella destinazione di replica. Assicurarsi di selezionare tutte le macchine virtuali che fanno parte dell'archivio dati. Se non sono selezionate, vengono elaborate solo le macchine virtuali che fanno parte del piano di replica.
+
++
+image::dro-vmc-image11.png[Descrizione dell'immagine segnaposto temporanea.]
+
+. In base ai dettagli della macchina virtuale, è possibile ridimensionare i parametri della CPU e della RAM della macchina virtuale; ciò può essere molto utile quando si ripristinano ambienti di grandi dimensioni in cluster di destinazione più piccoli o per eseguire test di DR senza dover eseguire il provisioning di un'infrastruttura fisica VMware uno a uno. Inoltre, è possibile modificare l'ordine di avvio e il ritardo di avvio (secondi) per tutte le macchine virtuali selezionate nei gruppi di risorse. Esiste un'opzione aggiuntiva per modificare l'ordine di avvio se sono necessarie modifiche da quelle selezionate durante la selezione dell'ordine di avvio del gruppo di risorse. Per impostazione predefinita, viene utilizzato l'ordine di avvio selezionato durante la selezione del gruppo di risorse; tuttavia, in questa fase è possibile eseguire qualsiasi modifica.
++
+image::dro-vmc-image12.png[Descrizione dell'immagine segnaposto temporanea.]
+
+. Fare clic su *Crea piano di replica*.
++
+image::dro-vmc-image13.png[Descrizione dell'immagine segnaposto temporanea.]
+
+
+
+Una volta creato il piano di replica, è possibile utilizzare l'opzione di failover, l'opzione di test-failover o l'opzione di migrazione a seconda dei requisiti. Durante le opzioni di failover e test-failover, viene utilizzata la copia Snapshot SnapMirror più recente oppure è possibile selezionare una copia Snapshot specifica da una copia Snapshot point-in-time (in base alla policy di conservazione di SnapMirror). L'opzione point-in-time può essere molto utile se si sta affrontando un evento di corruzione come ransomware, in cui le repliche più recenti sono già compromesse o crittografate. DRO mostra tutti i punti disponibili nel tempo. Per attivare il failover o verificare il failover con la configurazione specificata nel piano di replica, fare clic su *failover* o *Test failover*.
+
+image::dro-vmc-image14.png[Descrizione dell'immagine segnaposto temporanea.]
+
+image::dro-vmc-image15.png[In questa schermata, vengono forniti i dettagli di Volume Snapshot e viene offerta la possibilità di scegliere tra l'utilizzo dell'ultima snapshot e la scelta di una specifica istantanea.]
+
+Il piano di replica può essere monitorato nel menu delle attività:
+
+image::dro-vmc-image16.png[Il menu delle attività mostra tutti i processi e le opzioni per il piano di replica e consente inoltre di visualizzare i registri.]
+
+Dopo l'attivazione del failover, gli elementi ripristinati possono essere visualizzati in VMC vCenter (macchine virtuali, reti, datastore). Per impostazione predefinita, le macchine virtuali vengono ripristinate nella cartella workload.
+
+image::dro-vmc-image17.png[Descrizione dell'immagine segnaposto temporanea.]
+
+Il failback può essere attivato a livello di piano di replica. Per un failover di test, l'opzione di strappo può essere utilizzata per eseguire il rollback delle modifiche e rimuovere la relazione FlexClone. Il failback relativo al failover è un processo in due fasi. Selezionare il piano di replica e selezionare *Reverse data Sync*.
+
+image::dro-vmc-image18.png[Schermata della panoramica del piano di replica con menu a discesa contenente l'opzione Reverse Data Sync.]
+
+image::dro-vmc-image19.png[Descrizione dell'immagine segnaposto temporanea.]
+
+Una volta completato, è possibile attivare il failback per tornare al sito di produzione originale.
+
+image::dro-vmc-image20.png[Schermata della panoramica del piano di replica con menu a discesa contenente l'opzione di failover.]
+
+image::dro-vmc-image21.png[Schermata della pagina di riepilogo di DRO con il sito di produzione originale in funzione.]
+
+Da NetApp BlueXP, possiamo notare che lo stato di salute della replica è stato interrotto per i volumi appropriati (quelli mappati a VMC come volumi di lettura/scrittura). Durante il failover di test, DRO non esegue il mapping del volume di destinazione o di replica. Invece, crea una copia FlexClone dell'istanza SnapMirror (o Snapshot) richiesta ed espone l'istanza FlexClone, che non consuma ulteriore capacità fisica per FSX per ONTAP. Questo processo garantisce che il volume non venga modificato e che i processi di replica possano continuare anche durante i test di DR o i flussi di lavoro di triage. Inoltre, questo processo garantisce che, in caso di errori o di ripristino di dati corrotti, il ripristino possa essere pulito senza il rischio di distruzione della replica.
+
+image::dro-vmc-image22.png[Descrizione dell'immagine segnaposto temporanea.]
+
+
+
+=== Recovery ransomware
+
+Il ripristino dal ransomware può essere un compito scoraggiante. In particolare, può essere difficile per le organizzazioni IT individuare il punto di ritorno sicuro e, una volta stabilito, proteggere i carichi di lavoro recuperati da attacchi ricorrenti, ad esempio malware in sospensione o applicazioni vulnerabili.
+
+DRO risolve questi problemi consentendo di ripristinare il sistema da qualsiasi punto in tempo disponibile. È inoltre possibile ripristinare i carichi di lavoro su reti funzionali ma isolate, in modo che le applicazioni possano funzionare e comunicare tra loro in una posizione in cui non sono esposte al traffico nord-sud. In questo modo, il tuo team di sicurezza è in una posizione sicura per condurre indagini legali e assicurarsi che non ci siano malware nascosti o inattivi.
+
+
+
+== Benefici
+
+* Utilizzo della replica SnapMirror efficiente e resiliente.
+* Ripristino in qualsiasi momento disponibile con la conservazione delle copie Snapshot.
+* Automazione completa di tutte le fasi necessarie per ripristinare da centinaia a migliaia di macchine virtuali dalle fasi di convalida di storage, calcolo, rete e applicazioni.
+* Ripristino del workload con la tecnologia FlexClone di ONTAP che utilizza un metodo che non modifica il volume replicato.
++
+** Evita il rischio di corruzione dei dati per volumi o copie Snapshot.
+** Evita le interruzioni di replica durante i flussi di lavoro dei test di DR.
+** Potenziale utilizzo dei dati di DR con risorse di cloud computing per flussi di lavoro che vanno oltre il DR, come DevTest, test di sicurezza, test di patch o upgrade e test di correzione.
+
+
+* Ottimizzazione della CPU e della RAM per ridurre i costi del cloud consentendo il ripristino in cluster di calcolo più piccoli.
+

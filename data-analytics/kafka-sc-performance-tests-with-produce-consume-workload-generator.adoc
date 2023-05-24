@@ -1,0 +1,37 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-sc-performance-tests-with-produce-consume-workload-generator.html 
+keywords: data graphs, kafka throughput, s3 tiering traffic, aff a900, resource utilization 
+summary: 'Abbiamo eseguito test dello storage su più livelli con cinque o otto nodi broker durante un carico di lavoro di produzione-consumo con un controller di storage NetApp a coppia AFF A900 ha. Secondo i nostri test, il tempo di completamento e i risultati delle performance sono stati scalati in base al numero di nodi broker fino a quando l"utilizzo delle risorse di AFF A900 non ha raggiunto il 100%. La configurazione del controller di storage ONTAP richiedeva almeno una coppia ha.' 
+---
+= Test delle performance con generatore di carichi di lavoro producete-consumate
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:kafka-sc-confluent-performance-validation.html["Precedente: Convalida delle performance confluente."]
+
+[role="lead"]
+Abbiamo eseguito test dello storage su più livelli con cinque o otto nodi broker durante un carico di lavoro di produzione-consumo con un controller di storage NetApp a coppia AFF A900 ha. Secondo i nostri test, il tempo di completamento e i risultati delle performance sono stati scalati in base al numero di nodi broker fino a quando l'utilizzo delle risorse di AFF A900 non ha raggiunto il 100%. La configurazione del controller di storage ONTAP richiedeva almeno una coppia ha.
+
+Le performance per l'operazione di recupero S3 sono aumentate linearmente in base al numero di nodi di broker confluenti. Lo storage controller ONTAP supporta fino a 12 coppie ha in una singola implementazione.
+
+Il seguente grafico mostra il traffico di tiering S3 combinato con cinque o otto nodi broker. Abbiamo massimizzato le prestazioni della coppia ha singola AFF A900.
+
+image:kafka-sc-image9.png["Questo grafico dei dati mostra il traffico di tiering S3 combinato con cinque o otto nodi di broker."]
+
+Il seguente grafico mostra il throughput di Kafka a circa 31,74 GBps.
+
+image:kafka-sc-image10.png["Questo grafico dei dati mostra il throughput di Kafka a circa 31,74 GBps."]
+
+Abbiamo anche osservato un throughput simile nel controller di storage ONTAP `perfstat` report.
+
+....
+object_store_server:wle-mendocino-07-08:get_data:34080805907b/ s
+object_store_server:wle-mendocino-07-08:put_data:484236974b/ s
+....
+link:kafka-sc-performance-best-practice-guidelines.html["Segue: Linee guida sulle Best practice per le performance."]

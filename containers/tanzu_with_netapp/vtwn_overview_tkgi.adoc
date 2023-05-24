@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: containers/tanzu_with_netapp/vtwn_overview_tkgi.html 
+keywords: VMware Tanzu, Tanzu, Tanzu Kubernetes Grid Integrated, TKGI, DevOps, Netapp, Astra Trident, Astra Control, Astra 
+summary:  
+---
+= Panoramica di VMware Tanzu Kubernetes Grid Integrated Edition (TKGI)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+VMware Tanzu Kubernetes Grid Integrated (TKGI) Edition, precedentemente noto come VMware Enterprise PKS, è una piattaforma standalone per l'orchestrazione di container basata su Kubernetes con funzionalità come gestione del ciclo di vita, monitoraggio dello stato dei cluster, networking avanzato, un registro dei container e così via. TKGI fornisce e gestisce i cluster Kubernetes con il piano di controllo TKGI, che consiste in BOSH e Ops Manager.
+
+TKGI può essere installato e utilizzato in ambienti vSphere o OpenStack on-premise o in uno dei principali cloud pubblici delle rispettive offerte IaaS. Inoltre, l'integrazione di TKGI con NSX-T e Harbor consente casi di utilizzo più ampi per i carichi di lavoro aziendali. Per ulteriori informazioni su TKGI e sulle sue funzionalità, consulta la documentazione link:https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid-Integrated-Edition/index.html["qui"^].
+
+image::vtwn_image04.png[VMware Tanzu Kubernetes Grid Integrated Edition]
+
+TKGI viene installato in una varietà di configurazioni su una varietà di piattaforme basate su diversi casi di utilizzo e design. Seguire la guida link:https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid-Integrated-Edition/1.14/tkgi/GUID-index.html["qui"^] Per installare e configurare TKGI e i relativi prerequisiti. TKGI utilizza le macchine virtuali Bosh come nodi per i cluster Tanzu Kubernetes che eseguono immagini di configurazione immutabili e qualsiasi modifica manuale sulle macchine virtuali Bosh non rimane persistente durante i riavvii.
+
+Note importanti:
+
+* NetApp Trident richiede un accesso privilegiato ai container. Quindi, durante l'installazione di TKGI, assicurarsi di selezionare la casella di controllo Enable Privileged Containers (Abilita container privilegiati) nella fase per configurare i piani dei nodi del cluster Tanzu Kubernetes.
++
+image::vtwn_image05.jpg[Privileged Containers in TKGI]
+
+* NetApp consiglia di implementare tutti gli ambienti di produzione in implementazioni master multiple per la tolleranza agli errori, scegliendo la configurazione dei nodi di lavoro per soddisfare i requisiti dei carichi di lavoro previsti. Pertanto, un piano cluster TKGI consigliato consiste di almeno tre master e tre lavoratori con almeno quattro vCPU e 12 GB di RAM per un carico di lavoro altamente intensivo.
+
+
+link:vtwn_overview_netapp.html["Pagina successiva: Panoramica dei sistemi storage NetApp."]

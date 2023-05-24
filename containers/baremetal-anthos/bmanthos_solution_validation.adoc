@@ -1,0 +1,40 @@
+---
+sidebar: sidebar 
+permalink: containers/baremetal-anthos/bmanthos_solution_validation.html 
+keywords: validation, google cloud, nginx 
+summary: 'L"attuale implementazione di questa soluzione è stata eseguita attraverso due rigorosi processi di convalida utilizzando gli strumenti forniti dal team di Google Cloud.' 
+---
+= Convalida della soluzione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+L'attuale implementazione di questa soluzione è stata eseguita attraverso due rigorosi processi di convalida utilizzando gli strumenti forniti dal team di Google Cloud. Queste validazioni includono un sottoinsieme dei seguenti test:
+
+* Convalida da parte dei partner della piattaforma anthos-ready:
++
+** Verificare che tutti i servizi della piattaforma anthos su bare metal siano installati e in esecuzione.
+** Scalare l'anthos fisico su cluster bare metal da quattro nodi di lavoro a tre e poi di nuovo a quattro.
+** Creare ed eliminare uno spazio dei nomi personalizzato.
+** Creare un'implementazione del server Web Nginx, scalando tale implementazione aumentando il numero di repliche.
+** Creare un ingresso per l'applicazione Nginx e verificare la connettività curling index.html.
+** Pulire correttamente tutte le attività della suite di test e riportare il cluster a uno stato di pre-test.
+
+
+* Validazione da parte dei partner dello storage anthos-ready:
++
+** Creare un'implementazione con un'attestazione di volume persistente.
+** Utilizza NetApp Astra Trident per eseguire il provisioning e allegare il volume persistente richiesto da NetApp ONTAP.
+** Convalidare la funzionalità di stacco e ricollegamento dei volumi persistenti.
+** Validare l'accesso multi-attach e di sola lettura dei volumi persistenti da altri pod sul nodo.
+** Convalidare l'operazione di ridimensionamento del volume offline.
+** Verificare che il volume persistente sopravviva a un'operazione di scalabilità del cluster.
+
+
+
+
+link:bmanthos_conclusion.html["Prossimo: Conclusione."]

@@ -1,0 +1,135 @@
+---
+sidebar: sidebar 
+permalink: databases/azure_ora_nfile_factors.html 
+summary: 'Questa sezione fornisce dettagli sui fattori da prendere in considerazione durante l"implementazione del database Oracle su macchine virtuali Azure e storage Azure NetApp Files.' 
+keywords: database, Oracle, Azure, Azure NetApp Files 
+---
+= Fattori da considerare per l'implementazione del database Oracle
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:table-stripes: odd
+:imagesdir: ./../media/
+
+
+link:azure_ora_nfile_architecture.html["Precedente: Architettura della soluzione."]
+
+[role="lead"]
+Un cloud pubblico offre molte scelte per il calcolo e lo storage e l'utilizzo del tipo corretto di istanza di calcolo e motore di storage è un buon punto di partenza per l'implementazione del database. È inoltre necessario selezionare configurazioni di calcolo e storage ottimizzate per i database Oracle.
+
+Nelle sezioni seguenti vengono descritte le considerazioni principali relative all'implementazione di un database Oracle nel cloud pubblico Azure su un'istanza di macchina virtuale Azure con storage Azure NetApp Files.
+
+
+
+== Tipo e dimensionamento delle macchine virtuali
+
+La scelta del tipo e delle dimensioni delle macchine virtuali corrette è importante per ottenere performance ottimali di un database relazionale in un cloud pubblico. Una macchina virtuale Azure offre una vasta gamma di istanze di calcolo che possono essere utilizzate per ospitare i carichi di lavoro dei database Oracle. Consultare la documentazione Microsoft link:https://docs.microsoft.com/en-us/azure/virtual-machines/sizes["Dimensioni delle macchine virtuali in Azure"^] Per diversi tipi di macchine virtuali Azure e il loro dimensionamento. In generale, NetApp consiglia di utilizzare una macchina virtuale Azure generica per l'implementazione di database Oracle di piccole e medie dimensioni. Per l'implementazione di database Oracle più grandi, è appropriata una macchina virtuale Azure ottimizzata per la memoria. Con una maggiore quantità di RAM disponibile, è possibile configurare una cache Oracle SGA o Smart flash più grande per ridurre l'i/o fisico, migliorando a sua volta le performance del database.
+
+Azure NetApp Files funziona come montaggio NFS collegato a una macchina virtuale Azure, che offre un throughput più elevato e supera il limite di throughput delle macchine virtuali ottimizzato per lo storage con lo storage locale. Pertanto, l'esecuzione di Oracle su Azure NetApp Files potrebbe ridurre il numero di core delle CPU e i costi di licenza. Vedere link:https://www.netapp.com/media/17105-tr4780.pdf["TR-4780: Database Oracle su Microsoft Azure"^], Sezione 7 - come funziona Oracle Licensing?
+
+Altri fattori da considerare includono:
+
+* Scegliere la combinazione di vCPU e RAM corretta in base alle caratteristiche del carico di lavoro. Con l'aumentare delle dimensioni della RAM sulla macchina virtuale, aumenta anche il numero di core della vCPU. A un certo punto dovrebbe esserci un saldo, in quanto le tariffe di licenza Oracle vengono addebitate sul numero di core vCPU.
+* Aggiungere spazio di swap a una macchina virtuale. L'implementazione predefinita di Azure VM non crea uno spazio di swap, che non è ottimale per un database.
+
+
+
+
+== Performance Azure NetApp Files
+
+I volumi Azure NetApp Files vengono allocati da un pool di capacità che il cliente deve fornire nel proprio account di storage Azure NetApp Files. Ciascun pool di capacità viene assegnato come segue:
+
+* A un livello di servizio che definisce la capacità complessiva delle performance.
+* La capacità di storage o il tiering inizialmente forniti per quel pool di capacità. Un livello di qualità del servizio (QoS) che definisce il throughput massimo complessivo per ogni spazio sottoposto a provisioning.
+
+
+Il livello di servizio e la capacità di storage inizialmente fornita determinano il livello di performance per un particolare volume di database Oracle.
+
+
+
+=== 1. Livelli di servizio per Azure NetApp Files
+
+Azure NetApp Files supporta tre livelli di servizio: Ultra, Premium e Standard.
+
+* *Ultra storage.* questo Tier fornisce fino a 128 MiBps di throughput per 1 TiB di quota di volume assegnata.
+* *Premium storage.* questo Tier fornisce fino a 64 MiBps di throughput per 1 TiB di quota di volume assegnata.
+* *Storage standard.* questo Tier fornisce fino a 16 MiBps di throughput per 1 TiB di quota di volume assegnata.
+
+
+
+
+=== 2. Pool di capacità e qualità del servizio
+
+Ciascuno dei livelli di servizio desiderati ha un costo associato per la capacità di provisioning e include un livello di qualità del servizio (QoS) che definisce il throughput massimo complessivo per lo spazio di provisioning.
+
+Ad esempio, un pool a capacità singola con provisioning di 10TiB con livello di servizio premium fornisce un throughput globale disponibile per tutti i volumi in questo pool di capacità di 10x 64 MBps, quindi 640 MBps con 40,000 (16K) IOPS o 80,000 (8K) IOPS.
+
+La dimensione minima del pool di capacità è 4 TiB. È possibile modificare le dimensioni di un pool di capacità in incrementi di 1 TiB in risposta alle modifiche dei requisiti dei workload per gestire le esigenze e i costi dello storage.
+
+
+
+=== 3. Calcolare il livello di servizio in un volume di database
+
+Il limite di throughput per un volume di database Oracle è determinato da una combinazione dei seguenti fattori: Il livello di servizio del pool di capacità a cui appartiene il volume e la quota assegnata al volume.
+
+Il seguente diagramma mostra come viene calcolato il limite di throughput per un volume di database Oracle.
+
+image:db_ora_azure_anf_factors_01.PNG["Questa immagine mostra l'equazione applicata ai tre livelli di capacità per determinare il throughput lordo."]
+
+Nell'esempio 1, a un volume proveniente da un pool di capacità con il Tier di storage Premium assegnato a 2 TiB di quota viene assegnato un limite di throughput di 128 MiBps (2TiB * 64 MiBps). Questo scenario si applica indipendentemente dalle dimensioni del pool di capacità o dal consumo effettivo del volume.
+
+Nell'esempio 2, a un volume proveniente da un pool di capacità con il Tier di storage Premium a cui viene assegnato 100 GiB di quota viene assegnato un limite di throughput di 6,25 MiBps (0,09765625TiB * 64 MiBps). Questo scenario si applica indipendentemente dalle dimensioni del pool di capacità o dal consumo effettivo del volume.
+
+Tenere presente che le dimensioni minime del volume sono di 100 GiB.
+
+
+
+== Layout e impostazioni dello storage
+
+NetApp consiglia il seguente layout di storage:
+
+* Per database di piccole dimensioni, utilizzando il layout di un singolo volume per tutti i file Oracle.
++
+image:db_ora_azure_anf_factors_02.PNG["Questa immagine mostra tre database (DB1, DB2 e DB3) contenenti ciascuno datafile, log di ripristino, log di archiviazione e file di controllo all'interno di un singolo pool di capacità."]
+
+* Per i database di grandi dimensioni, il layout di volume consigliato è costituito da più volumi: Uno per i dati Oracle e un file di controllo duplicato e uno per il log attivo Oracle, il log archiviato e il file di controllo. NetApp consiglia vivamente di allocare un volume per il file binario Oracle anziché per il disco locale in modo che il database possa essere trasferito su un nuovo host e ripristinato rapidamente.
++
+image:db_ora_azure_anf_factors_03.PNG["Questa immagine mostra due database con due volumi ciascuno. Il primo volume contiene i file di dati, mentre il secondo volume di ogni database contiene i log di ripristino, i log di archiviazione e i file di controllo. Il tutto in un singolo pool di capacità."]
+
+
+
+
+
+== Configurazione NFS
+
+Linux, il sistema operativo più comune, include funzionalità NFS native. Oracle offre un client NFS (DNFS) integrato in modo nativo in Oracle. Oracle DNFS ignora la cache del sistema operativo e consente l'elaborazione parallela per migliorare le performance del database. Oracle supporta NFSv3 da oltre 20 anni e NFSv4 è supportato con Oracle 12.1.0.2 e versioni successive.
+
+Utilizzando DNFS (disponibile a partire da Oracle 11g), un database Oracle in esecuzione su una macchina virtuale Azure può gestire una quantità di i/o significativamente maggiore rispetto al client NFS nativo. L'implementazione automatica di Oracle utilizzando il toolkit di automazione NetApp configura automaticamente DNFS su NFSv3.
+
+Il seguente diagramma illustra il benchmark SLOB su Azure NetApp Files con Oracle DNFS.
+
+image:db_ora_azure_anf_factors_04.PNG["Questo grafico dimostra in modo significativo che DNFS migliora la latenza del file sequenziale DB (ms) su KNFS."]
+
+Altri fattori da considerare:
+
+* Le tabelle degli slot TCP sono l'equivalente NFS della profondità della coda HBA (host-bus-adapter). Queste tabelle controllano il numero di operazioni NFS che possono essere in sospeso in qualsiasi momento. Il valore predefinito è di solito 16, che è troppo basso per ottenere prestazioni ottimali. Il problema opposto si verifica sui kernel Linux più recenti, che possono aumentare automaticamente il limite della tabella degli slot TCP a un livello che satura il server NFS con le richieste.
++
+Per ottenere performance ottimali e prevenire problemi di performance, regolare i parametri del kernel che controllano le tabelle degli slot TCP su 128.
+
++
+[source, cli]
+----
+sysctl -a | grep tcp.*.slot_table
+----
+* La seguente tabella fornisce le opzioni di montaggio NFS consigliate per una singola istanza di Linux NFSv3.
++
+image:aws_ora_fsx_ec2_nfs_01.PNG["Questa tabella mostra le opzioni di montaggio NFS dettagliate per i seguenti tipi di file, file di controllo, file di dati, log di ripristino, ORACLE_HOME, E ORACLE_BASE."]
+
+
+
+
+NOTE: Prima di utilizzare DNFS, verificare che siano installate le patch descritte in Oracle Doc 1495104.1. A partire da Oracle 12c, DNFS include il supporto per NFSv3, NFSv4 e NFSv4.1. Le policy di supporto NetApp coprono v3 e v4 per tutti i client, ma al momento della stesura del presente documento, NFSv4.1 non è supportato per l'utilizzo con Oracle DNFS.
+
+link:azure_ora_nfile_procedures.html["Avanti: Procedure di implementazione."]

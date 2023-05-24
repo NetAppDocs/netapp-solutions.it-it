@@ -1,0 +1,80 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-solutions.html 
+keywords: NetApp Solutions, hybrid cloud, container workloads, containers, Red Hat OpenShift, RedHat OpenShift, VMware, ROSA, ACC, Astra Control Center, Advanced Cluster Management, ACM, Hub Cluster 
+summary:  
+---
+= Soluzioni supportate di NetApp Hybrid Multibloud per i carichi di lavoro dei container Red Hat OpenShift
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+La soluzione verifica e convalida la migrazione e la protezione centralizzata dei dati con la piattaforma container OpenShift, l'Advanced Cluster Manager (ACM) OpenShift, NetApp ONTAP, NetApp BlueXP e il centro di controllo NetApp Astra (ACC).
+
+Per questa soluzione, i seguenti scenari sono testati e validati da NetApp. La soluzione è suddivisa in più scenari in base alle seguenti caratteristiche:
+
+* on-premise
+* cloud
++
+** Cluster OpenShift autogestiti e storage NetApp autogestiti
+** Cluster OpenShift gestiti dal provider e storage NetApp gestito dal provider
+
+
+
+
+**In futuro verranno sviluppate soluzioni e casi di utilizzo aggiuntivi.**
+
+
+
+== Scenario 1: Protezione dei dati e migrazione all'interno dell'ambiente on-premise con ACC
+
+**On-premise: Cluster OpenShift autogestiti e storage NetApp autogestiti**
+
+* Utilizzando ACC, è possibile creare copie Snapshot, backup e ripristini per la protezione dei dati.
+* Utilizzando ACC, eseguire una replica SnapMirror delle applicazioni container.
+
+
+
+
+=== Scenario 1
+
+image:rhhc-on-premises.png[""]
+
+
+
+== Scenario 2: Protezione dei dati e migrazione dall'ambiente on-premise all'ambiente AWS utilizzando ACC:
+
+**On-premise: Cluster OpenShift autogestiti e storage autogestiti** **AWS Cloud: Cluster OpenShift autogestiti e storage autogestiti**
+
+* Utilizzando ACC, eseguire backup e ripristini per la protezione dei dati.
+* Utilizzando ACC, eseguire una replica SnapMirror delle applicazioni container.
+
+
+
+
+=== Scenario 2
+
+image:rhhc-self-managed-aws.png[""]
+
+
+
+== Scenario 3: Protezione dei dati e migrazione dall'ambiente on-premise all'ambiente AWS:
+
+**On-premise: Cluster OpenShift e storage autogestito** **AWS Cloud: Cluster OpenShift gestito dal provider (ROSA) e storage gestito dal provider (FSxN)**
+
+* Utilizzando BlueXP, eseguire la replica dei volumi persistenti (FSxN).
+* Utilizzando OpenShift GitOps, ricreare i metadati dell'applicazione.
+
+
+
+
+=== Scenario 3
+
+image:rhhc-rosa-with-fsxn.png[""]
+
+Per considerazioni sull'utilizzo di ONTAP in una configurazione MetroCluster, fare riferimento a. link:https://docs.netapp.com/us-en/ontap-metrocluster/install-stretch/concept_considerations_when_using_ontap_in_a_mcc_configuration.html["qui"].

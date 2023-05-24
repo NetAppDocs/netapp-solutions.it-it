@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+permalink: ai/aks-anf_install_and_set_up_the_aks_cluster.html 
+keywords: aks, install, cluster, node type, system, worker 
+summary: Questa pagina descrive i passaggi necessari per configurare il cluster AKS. 
+---
+= Installare e configurare il cluster AKS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aks-anf_click-through_rate_prediction_use_case_summary.html["Precedente: Riepilogo del caso d'uso previsto con un click-through."]
+
+[role="lead"]
+Per installare e configurare il cluster AKS, consultare la pagina Web https://docs.microsoft.com/azure/aks/kubernetes-walkthrough-portal["Creare un cluster AKS"^] quindi completare i seguenti passaggi:
+
+. Quando si seleziona il tipo di nodo (nodi di sistema [CPU] o di lavoro [GPU]), selezionare quanto segue:
++
+.. I nodi di sistema primari devono essere DS2v2 standard (`agentpool` tre nodi predefiniti).
+.. Quindi, aggiungere il pool Standard_NC6s_v3 del nodo di lavoro (minimo tre nodi) per il gruppo di utenti (per i nodi GPU) denominato `gpupool`.
++
+image:aks-anf_image3.png["Errore: Immagine grafica mancante"]
+
+
+
+. L'implementazione richiede da 5 a 10 minuti. Al termine, fare clic su Connect to Cluster (Connetti al cluster).
+. Per connettersi al cluster AKS appena creato, installare quanto segue dall'ambiente locale (laptop/pc):
++
+.. Lo strumento della riga di comando Kubernetes che utilizza https://kubernetes.io/docs/tasks/tools/install-kubectl/["Istruzioni fornite per il sistema operativo in uso"^]
+.. La CLI di Azure come descritto nel documento, https://docs.microsoft.com/cli/azure/install-azure-cli["Installare Azure CLI"^]
+
+
+. Per accedere al cluster AKS dal terminale, immettere `az login` e immettere le credenziali.
+. Eseguire i due comandi seguenti:
++
+....
+az account set --subscription xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxxx
+aks get-credentials --resource-group resourcegroup --name aksclustername
+....
+. Invio `Azure CLI: kubectl get nodes`.
+. Se tutti e sei i nodi sono attivi e in esecuzione, come illustrato nell'esempio seguente, il cluster AKS è pronto e connesso all'ambiente locale
+
+
+image:aks-anf_image4.png["Errore: Immagine grafica mancante"]
+
+link:aks-anf_create_a_delegated_subnet_for_azure_netapp_files.html["Quindi creare una subnet delegata per Azure NetApp Files."]

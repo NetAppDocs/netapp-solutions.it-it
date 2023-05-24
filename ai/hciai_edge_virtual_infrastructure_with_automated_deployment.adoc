@@ -1,0 +1,58 @@
+---
+sidebar: sidebar 
+permalink: ai/hciai_edge_virtual_infrastructure_with_automated_deployment.html 
+keywords:  
+summary:  
+---
+= Implementazione dell'infrastruttura virtuale VMware su NetApp HCI con NDE (implementazione automatica)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Prerequisiti per l'implementazione di NDE
+
+Consultare https://library.netapp.com/ecm/ecm_download_file/ECMLP2798490["Elenco di controllo per i prerequisiti di NetApp HCI"^] Per visualizzare i requisiti e i consigli per NetApp HCI prima di iniziare la distribuzione.
+
+. Configurazione e requisiti di rete e switch
+. Preparare gli ID VLAN richiesti
+. Configurazione dello switch
+. Requisiti dell'indirizzo IP per NetApp HCI e VMware
+. DNS e requisiti di conservazione del tempo
+. Preparazione finale
+
+
+
+
+== Esecuzione NDE
+
+Prima di eseguire NDE, è necessario completare il rack e lo stack di tutti i componenti, la configurazione degli switch di rete e la verifica di tutti i prerequisiti. È possibile eseguire NDE collegandosi all'indirizzo di gestione di un singolo nodo di storage se si intende consentire a NDE di configurare automaticamente tutti gli indirizzi.
+
+NDE esegue le seguenti attività per portare online un sistema HCI:
+
+. Installa il nodo di storage (software NetApp Element) su almeno due nodi di storage.
+. Installa l'hypervisor VMware su un minimo di due nodi di calcolo.
+. Installa VMware vCenter per gestire l'intero stack NetApp HCI.
+. Installa e configura il nodo di gestione dello storage NetApp (mNode) e NetApp Monitoring Agent.
++
+
+NOTE: Questa convalida utilizza NDE per configurare automaticamente tutti gli indirizzi. È inoltre possibile impostare DHCP nel proprio ambiente o assegnare manualmente gli indirizzi IP per ciascun nodo di storage e nodo di calcolo. Questi passaggi non sono trattati in questa guida.
+
++
+Come menzionato in precedenza, questa convalida utilizza una configurazione a due cavi per i nodi di calcolo.
+
++
+I passaggi dettagliati per l'NDE non sono trattati in questo documento.
+
++
+Per istruzioni dettagliate sul completamento dell'implementazione della piattaforma NetApp HCI di base, vedere http://docs.netapp.com/hci/topic/com.netapp.doc.hci-ude-180/home.html?cp=3_0["Guida all'implementazione"^].
+
+. Una volta terminato NDE, accedere a vCenter e creare un Distributed Port Group `NetApp HCI VDS 01-NFS_Network` Per l'utilizzo della rete NFS da parte di ONTAP Select e dell'applicazione.
+
+
+link:hciai_edge_netapp_h615cmanual_deployment.html["Pagina successiva: Configurare NetApp H615c (implementazione manuale)"]

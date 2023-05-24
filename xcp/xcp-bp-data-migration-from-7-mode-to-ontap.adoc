@@ -1,0 +1,1391 @@
+---
+sidebar: sidebar 
+permalink: xcp/xcp-bp-data-migration-from-7-mode-to-ontap.html 
+keywords: 7-mode, ontap, migration 
+summary: In questa sezione vengono descritte le procedure dettagliate per la migrazione dei dati da NetApp Data ONTAP in 7-Mode a ONTAP. 
+---
+= Migrazione dei dati da 7-Mode a ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:xcp-bp-creating-a-csv-file-from-smb-cifs-share.html["Precedente: Creazione di un file CSV da una condivisione SMB/CIFS."]
+
+[role="lead"]
+In questa sezione vengono descritte le procedure dettagliate per la migrazione dei dati da NetApp Data ONTAP in 7-Mode a ONTAP.
+
+
+
+== Transizione dello storage NFSv3 7-Mode a ONTAP per i dati NFS
+
+In questa sezione viene illustrata la procedura dettagliata illustrata nella seguente tabella per la transizione di un'esportazione NFSv3 di origine 7-Mode a un sistema ONTAP.
+
+NetApp presuppone che il volume NFSv3 7-Mode di origine venga esportato e montato sul sistema client e che XCP sia già installato su un sistema Linux.
+
+. Verificare che il sistema ONTAP di destinazione sia integro.
++
+....
+CLUSTER::> cluster show
+Node                  Health  Eligibility
+--------------------- ------- ------------
+CLUSTER-01            true    true
+CLUSTER-02            true    true
+2 entries were displayed.
+CLUSTER::> node show
+Node      Health Eligibility Uptime        Model       Owner    Location
+--------- ------ ----------- ------------- ----------- -------- ---------------
+CLUSTER-01
+          true   true        78 days 21:01 FAS8060              RTP
+CLUSTER-02
+          true   true        78 days 20:50 FAS8060              RTP
+2 entries were displayed.
+CLUSTER::> storage failover show
+                              Takeover
+Node           Partner        Possible State Description
+-------------- -------------- -------- -------------------------------------
+CLUSTER-01     CLUSTER-02     true     Connected to CLUSTER-02
+CLUSTER-02     CLUSTER-01     true     Connected to CLUSTER-01
+2 entries were displayed.
+....
+. Verificare che sul sistema di destinazione sia presente almeno un aggregato non root. L'aggregato è normale.
++
+....
+CLUSTER::> storage aggregate show
+Aggregate     Size Available Used% State   #Vols  Nodes            RAID Status
+--------- -------- --------- ----- ------- ------ ---------------- ------------
+aggr0      368.4GB   17.85GB   95% online       1 CLUSTER-01       raid_dp,
+                                                                   normal
+aggr0_CLUSTER_02_0
+           368.4GB   17.85GB   95% online       1 CLUSTER-02       raid_dp,
+                                                                   normal
+source      1.23TB    1.10TB   11% online       6 CLUSTER-01       raid_dp,
+                                                                   normal
+3 entries were displayed.
+....
++
+Se non è presente alcun aggregato di dati, crearne uno nuovo utilizzando `storage aggr create` comando.
+
+. Creare una macchina virtuale di storage (SVM) sul sistema cluster di destinazione.
++
+....
+CLUSTER::> vserver create -vserver dest -rootvolume dest_root -aggregate poc -rootvolume-security-style mixed
+[Job 647] Job succeeded:
+Vserver creation completed
+Verify the security style and language settings of the source
+
+Verify that the SVM was successfully created.
+CLUSTER::> vserver show -vserver dest
+                                    Vserver: dest
+                               Vserver Type: data
+                            Vserver Subtype: default
+                               Vserver UUID: 91f6d786-0063-11e5-b114-00a09853a969
+                                Root Volume: dest_root
+                                  Aggregate: poc
+                                 NIS Domain: -
+                 Root Volume Security Style: mixed
+                                LDAP Client: -
+               Default Volume Language Code: C.UTF-8
+                            Snapshot Policy: default
+                                    Comment:
+                               Quota Policy: default
+                List of Aggregates Assigned: -
+ Limit on Maximum Number of Volumes allowed: unlimited
+                        Vserver Admin State: running
+                  Vserver Operational State: running
+   Vserver Operational State Stopped Reason: -
+                          Allowed Protocols: nfs, cifs, fcp, iscsi, ndmp
+                       Disallowed Protocols: -
+            Is Vserver with Infinite Volume: false
+                           QoS Policy Group: -
+                                Config Lock: false
+                               IPspace Name: Default
+....
+. Rimuovere i protocolli FCP, iSCSI, NDMP e CIDS dalla SVM di destinazione.
++
+....
+CLUSTER::> vserver remove-protocols -vserver dest -protocols fcp,iscsi,ndmp,cifs
+....
++
+Verificare che NFS sia il protocollo consentito per questa SVM.
+
++
+....
+CLUSTER::> vserver show -vserver dest -fields allowed-protocols
+vserver allowed-protocols
+------- -----------------
+dest    nfs
+....
+. Creare un nuovo volume di dati di lettura/scrittura sulla SVM di destinazione. Verificare che lo stile di sicurezza, le impostazioni della lingua e i requisiti di capacità corrispondano al volume di origine.
++
+....
+CLUSTER::> vol create -vserver dest -volume dest_nfs -aggregate poc -size 150g -type RW -state online -security-style mixed
+[Job 648] Job succeeded: Successful
+....
+. Creare una LIF di dati per soddisfare le richieste del client NFS.
++
+....
+CLUSTER::> network interface create -vserver dest -lif dest_lif -address 10.61.73.115 -netmask 255.255.255.0 -role data -data-protocol nfs -home-node CLUSTER-01 -home-port e0l
+....
++
+Verificare che la LIF sia stata creata correttamente.
+
++
+....
+CLUSTER::> network interface show -vserver dest
+            Logical    Status     Network            Current       Current Is
+Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
+----------- ---------- ---------- ------------------ ------------- ------- ----
+dest
+            dest_lif
+                         up/up    10.61.73.113/24    CLUSTER-01    e0i     true
+....
+. Creare un percorso statico con la SVM, se necessario.
++
+....
+CLUSTER::> network route create -vserver dest -destination 0.0.0.0/0 -gateway 192.168.100.111
+....
++
+Verificare che il percorso sia stato creato correttamente.
+
++
+....
+CLUSTER::> network route show -vserver source
+Vserver             Destination     Gateway         Metric
+------------------- --------------- --------------- ------
+dest
+                    0.0.0.0/0       10.61.73.1      20
+....
+. Montare il volume di dati NFS di destinazione nello spazio dei nomi SVM.
++
+....
+CLUSTER::> volume mount -vserver dest -volume dest_nfs -junction-path /dest_nfs -active true
+....
++
+Verificare che il volume sia montato correttamente.
+
++
+....
+CLUSTER::> volume show -vserver dest -fields junction-path
+vserver volume   junction-path
+------- -------- -------------
+dest    dest_nfs /dest_nfs
+dest    dest_root
+                 /
+2 entries were displayed.
+....
++
+È inoltre possibile specificare le opzioni di montaggio del volume (percorso di giunzione) con `volume create` comando.
+
+. Avviare il servizio NFS sulla SVM di destinazione.
++
+....
+CLUSTER::> vserver nfs start -vserver dest
+....
++
+Verificare che il servizio sia avviato e in esecuzione.
+
++
+....
+CLUSTER::> vserver nfs status
+The NFS server is running on Vserver "dest".
+CLUSTER::> nfs show
+Vserver: dest
+        General Access:  true
+                    v3:  enabled
+                  v4.0:  disabled
+                   4.1:  disabled
+                   UDP:  enabled
+                   TCP:  enabled
+  Default Windows User:  -
+ Default Windows Group:  -
+....
+. Verificare che il criterio di esportazione NFS predefinito sia stato applicato alla SVM di destinazione.
++
+....
+CLUSTER::> vserver export-policy show -vserver dest
+Vserver          Policy Name
+---------------  -------------------
+dest             default
+....
+. Se necessario, creare un nuovo criterio di esportazione personalizzato per la SVM di destinazione.
++
+....
+CLUSTER::> vserver export-policy create -vserver dest -policyname xcpexportpolicy
+....
++
+Verificare che la nuova policy di esportazione personalizzata sia stata creata correttamente.
+
++
+....
+CLUSTER::> vserver export-policy show -vserver dest
+Vserver          Policy Name
+---------------  -------------------
+dest             default
+dest             xcpexportpolicy
+2 entries were displayed.
+....
+. Modificare le regole dei criteri di esportazione per consentire l'accesso ai client NFS.
++
+....
+CLUSTER::> export-policy rule modify -vserver dest -ruleindex 1 -policyname xcpexportpolicy -clientmatch 0.0.0.0/0 -rorule any -rwrule any -anon 0
+Verify the policy rules have modified
+CLUSTER::> export-policy rule show -instance
+                                    Vserver: dest
+                                Policy Name: xcpexportpolicy
+                                 Rule Index: 1
+                            Access Protocol: nfs3
+Client Match Hostname, IP Address, Netgroup, or Domain: 0.0.0.0/0
+                             RO Access Rule: none
+                             RW Access Rule: none
+User ID To Which Anonymous Users Are Mapped: 65534
+                   Superuser Security Types: none
+               Honor SetUID Bits in SETATTR: true
+                  Allow Creation of Devices: true
+....
+. Verificare che al client sia consentito l'accesso al volume.
++
+....
+CLUSTER::> export-policy check-access -vserver dest -volume dest_nfs -client-ip 10.61.82.215 -authentication-method none -protocol nfs3 -access-type read-write
+                                         Policy    Policy       Rule
+Path                          Policy     Owner     Owner Type  Index Access
+----------------------------- ---------- --------- ---------- ------ ----------
+/                             xcpexportpolicy
+                                         dest_root volume          1 read
+/dest_nfs                     xcpexportpolicy
+                                         dest_nfs  volume          1 read-write
+2 entries were displayed.
+....
+. Connettersi al server NFS Linux. Creare un punto di montaggio per il volume esportato NFS.
++
+....
+[root@localhost /]# cd /mnt
+[root@localhost mnt]# mkdir dest
+....
+. Montare il volume NFSv3 di destinazione esportato in questo punto di montaggio.
++
+
+NOTE: I volumi NFSv3 devono essere esportati ma non necessariamente montati dal server NFS. Se possono essere montati, il client host XCP Linux monta questi volumi.
+
++
+....
+[root@localhost mnt]# mount -t nfs 10.61.73.115:/dest_nfs /mnt/dest
+....
++
+Verificare che il punto di montaggio sia stato creato correttamente.
+
++
+....
+[root@ localhost /]# mount | grep nfs
+10.61.73.115:/dest_nfs on /mnt/dest type nfs (rw,relatime,vers=3,rsize=65536,wsize=65536,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=10.61.82.215,mountvers=3,mountport=4046,mountproto=udp,local_lock=none,addr=10.61.73.115)
+....
+. Creare un file di test sul mount point NFS esportato per abilitare l'accesso in lettura/scrittura.
++
+....
+[root@localhost dest]# touch test.txt
+Verify the file is created
+[root@localhost dest]# ls -l
+total 0
+-rw-r--r-- 1 root bin 0 Jun  2 03:16 test.txt
+....
++
+
+NOTE: Una volta completato il test di lettura/scrittura, eliminare il file dal punto di montaggio NFS di destinazione.
+
+. Connettersi al sistema client Linux in cui è installato XCP. Accedere al percorso di installazione di XCP.
++
+....
+[root@localhost ~]# cd /linux/
+[root@localhost linux]#
+....
+. Eseguire una query sulle esportazioni NFSv3 7-Mode di origine eseguendo il `xcp show` Sul sistema host del client XCP Linux.
++
+....
+[root@localhost]#./xcp show 10.61.82.215
+== NFS Exports ==
+Mounts  Errors  Server
+      4       0  10.61.82.215
+     Space    Files      Space    Files
+      Free     Free       Used     Used Export
+  23.7 GiB  778,134    356 KiB       96 10.61.82.215:/vol/nfsvol1
+  17.5 GiB  622,463   1.46 GiB      117 10.61.82.215:/vol/nfsvol
+   328 GiB    10.8M   2.86 GiB    7,904 10.61.82.215:/vol/vol0/home
+   328 GiB    10.8M   2.86 GiB    7,904 10.61.82.215:/vol/vol0
+== Attributes of NFS Exports ==
+drwxr-xr-x --- root wheel 4KiB 4KiB 2d21h 10.61.82.215:/vol/nfsvol1
+drwxr-xr-x --- root wheel 4KiB 4KiB 2d21h 10.61.82.215:/vol/nfsvol
+drwxrwxrwx --t root wheel 4KiB 4KiB 9d22h 10.61.82.215:/vol/vol0/home
+drwxr-xr-x --- root wheel 4KiB 4KiB  4d0h 10.61.82.215:/vol/vol0
+3.89 KiB in (5.70 KiB/s), 7.96 KiB out (11.7 KiB/s), 0s.
+....
+. Eseguire la scansione dei percorsi esportati NFSv3 di origine e stampare le statistiche della relativa struttura di file.
++
+NetApp consiglia di mettere le esportazioni NFSv3 di origine in modalità di sola lettura durante xcp `scan`, `copy`, e. `sync` operazioni.
+
++
+....
+[root@localhost /]# ./xcp scan 10.61.82.215:/vol/nfsvol
+nfsvol
+nfsvol/n5000-uk9.5.2.1.N1.1.bin
+nfsvol/821_q_image.tgz
+nfsvol/822RC2_q_image.tgz
+nfsvol/NX5010_12_node_RCF_v1.3.txt
+nfsvol/n5000-uk9-kickstart.5.2.1.N1.1.bin
+nfsvol/NetApp_CN1610_1.1.0.5.stk
+nfsvol/glibc-common-2.7-2.x86_64.rpm
+nfsvol/glibc-2.7-2.x86_64.rpm
+nfsvol/rhel-server-5.6-x86_64-dvd.iso.filepart
+nfsvol/xcp
+nfsvol/xcp_source
+nfsvol/catalog
+23 scanned, 7.79 KiB in (5.52 KiB/s), 1.51 KiB out (1.07 KiB/s), 1s.
+....
+. Copiare le esportazioni NFSv3 7-Mode di origine nelle esportazioni NFSv3 sul sistema ONTAP di destinazione.
++
+....
+[root@localhost /]# ./xcp copy 10.61.82.215:/vol/nfsvol 10.61.73.115:/dest_nfs
+ 44 scanned, 39 copied, 264 MiB in (51.9 MiB/s), 262 MiB out (51.5 MiB/s), 5s
+ 44 scanned, 39 copied, 481 MiB in (43.3 MiB/s), 479 MiB out (43.4 MiB/s), 10s
+ 44 scanned, 40 copied, 748 MiB in (51.2 MiB/s), 747 MiB out (51.3 MiB/s), 16s
+ 44 scanned, 40 copied, 1.00 GiB in (55.9 MiB/s), 1.00 GiB out (55.9 MiB/s), 21s
+ 44 scanned, 40 copied, 1.21 GiB in (42.8 MiB/s), 1.21 GiB out (42.8 MiB/s), 26s
+Sending statistics...
+44 scanned, 43 copied, 1.46 GiB in (47.6 MiB/s), 1.45 GiB out (47.6 MiB/s), 31s.
+....
+. Al termine della copia, verificare che le esportazioni NFSv3 di origine e di destinazione dispongano di dati identici. Eseguire `xcp verify` comando.
++
+....
+[root@localhost /]# ./xcp verify 10.61.82.215:/vol/nfsvol 10.61.73.115:/dest_nfs
+44 scanned, 44 found, 28 compared, 27 same data, 2.41 GiB in (98.4 MiB/s), 6.25 MiB out (255 KiB/s), 26s
+44 scanned, 44 found, 30 compared, 29 same data, 2.88 GiB in (96.4 MiB/s), 7.46 MiB out (249 KiB/s), 31s
+44 scanned, 100% found (43 have data), 43 compared, 100% verified (data, attrs, mods), 2.90 GiB in (92.6 MiB/s), 7.53 MiB out (240 KiB/s), 32s.
+....
++
+Se `xcp verify` rileva le differenze tra i dati di origine e di destinazione, quindi l'errore `no such file or directory` viene riportato nel riepilogo. Per risolvere il problema, eseguire `xcp sync` per copiare le modifiche di origine nella destinazione.
+
+. Prima e durante il cutover, eseguire `verify` di nuovo. Se l'origine contiene dati nuovi o aggiornati, eseguire aggiornamenti incrementali. Eseguire `xcp sync` comando.
++
+....
+For this operation, the previous copy index name or number is required.
+[root@localhost /]# ./xcp sync -id 3
+Index: {source: '10.61.82.215:/vol/nfsvol', target: '10.61.73.115:/dest_nfs1'}
+64 reviewed, 64 checked at source, 6 changes, 6 modifications, 51.7 KiB in (62.5 KiB/s), 22.7 KiB out (27.5 KiB/s), 0s.
+xcp: sync '3': Starting search pass for 1 modified directory...
+xcp: sync '3': Found 6 indexed files in the 1 changed directory
+xcp: sync '3': Rereading the 1 modified directory to find what's new...
+xcp: sync '3': Deep scanning the 1 directory that changed...
+11 scanned, 11 copied, 12.6KiB in (6.19KiBps), 9.50 KiB out (4.66KiBps), 2s.
+....
+. Per riprendere un'operazione di copia precedentemente interrotta, eseguire `xcp resume` comando.
++
+....
+[root@localhost /]# ./xcp resume -id 4
+Index: {source: '10.61.82.215:/vol/nfsvol', target: '10.61.73.115:/dest_nfs7'}
+xcp: resume '4': WARNING: Incomplete index.
+xcp: resume '4': Found 18 completed directories and 1 in progress
+106 reviewed, 24.2 KiB in (30.3 KiB/s), 7.23 KiB out (9.06 KiB/s), 0s.
+xcp: resume '4': Starting second pass for the in-progress directory...
+xcp: resume '4': Found 3 indexed directories and 0 indexed files in the 1 in-progress directory
+xcp: resume '4': In progress dirs: unindexed 1, indexed 0
+xcp: resume '4': Resuming the 1 in-progress directory...
+ 20 scanned, 7 copied, 205 MiB in (39.6 MiB/s), 205 MiB out (39.6 MiB/s), 5s
+ 20 scanned, 14 copied, 425 MiB in (42.1 MiB/s), 423 MiB out (41.8 MiB/s), 11s
+ 20 scanned, 14 copied, 540 MiB in (23.0 MiB/s), 538 MiB out (23.0 MiB/s), 16s
+ 20 scanned, 14 copied, 721 MiB in (35.6 MiB/s), 720 MiB out (35.6 MiB/s), 21s
+ 20 scanned, 15 copied, 835 MiB in (22.7 MiB/s), 833 MiB out (22.7 MiB/s), 26s
+ 20 scanned, 16 copied, 1007 MiB in (34.3 MiB/s), 1005 MiB out (34.3 MiB/s), 31s
+ 20 scanned, 17 copied, 1.15 GiB in (33.9 MiB/s), 1.15 GiB out (33.9 MiB/s), 36s
+ 20 scanned, 17 copied, 1.27 GiB in (25.5 MiB/s), 1.27 GiB out (25.5 MiB/s), 41s
+ 20 scanned, 17 copied, 1.45 GiB in (36.1 MiB/s), 1.45 GiB out (36.1 MiB/s), 46s
+ 20 scanned, 17 copied, 1.69 GiB in (48.7 MiB/s), 1.69 GiB out (48.7 MiB/s), 51s
+Sending statistics...
+20 scanned, 20 copied, 21 indexed, 1.77 GiB in (33.5 MiB/s), 1.77 GiB out (33.4 MiB/s), 54s.
+....
++
+Dopo `resume` termina la copia dei file, esegui `verify` anche in questo caso, in modo che lo storage di origine e di destinazione abbia dati identici.
+
+. L'host client NFSv3 deve smontare le esportazioni NFSv3 di origine fornite dallo storage 7-Mode e montare le esportazioni NFSv3 di destinazione da ONTAP. Il cutover richiede un'interruzione.
+
+
+
+
+== Transizione delle copie Snapshot del volume 7-Mode a ONTAP
+
+In questa sezione viene descritta la procedura per la transizione di una copia Snapshot NetApp di un volume di origine 7-Mode a ONTAP.
+
+
+NOTE: NetApp presuppone che il volume 7-Mode di origine sia esportato e montato sul sistema client e che XCP sia già installato su un sistema Linux. Una copia Snapshot è un'immagine point-in-time di un volume che registra le modifiche incrementali dall'ultima copia Snapshot. Utilizzare `-snap` Opzione con un sistema 7-Mode come origine.
+
+*Attenzione:* conservare la copia Snapshot di base. Non eliminare la copia Snapshot di base al termine della copia di riferimento. La copia Snapshot di base è necessaria per ulteriori operazioni di sincronizzazione.
+
+. Verificare che il sistema ONTAP di destinazione sia integro.
++
+....
+CLUSTER::> cluster show
+Node                  Health  Eligibility
+--------------------- ------- ------------
+CLUSTER-01            true    true
+CLUSTER-02            true    true
+2 entries were displayed.
+CLUSTER::> node show
+Node      Health Eligibility Uptime        Model       Owner    Location
+--------- ------ ----------- ------------- ----------- -------- ---------------
+CLUSTER-01
+          true   true        78 days 21:01 FAS8060              RTP
+CLUSTER-02
+          true   true        78 days 20:50 FAS8060              RTP
+2 entries were displayed.
+CLUSTER::> storage failover show
+                              Takeover
+Node           Partner        Possible State Description
+-------------- -------------- -------- -------------------------------------
+CLUSTER-01     CLUSTER-02     true     Connected to CLUSTER-02
+CLUSTER-02     CLUSTER-01     true     Connected to CLUSTER-01
+2 entries were displayed.
+....
+. Verificare che sul sistema di destinazione sia presente almeno un aggregato non root. L'aggregato è normale.
++
+....
+CLUSTER::> storage aggregate show
+Aggregate     Size Available Used% State   #Vols  Nodes            RAID Status
+--------- -------- --------- ----- ------- ------ ---------------- ------------
+aggr0      368.4GB   17.85GB   95% online       1 CLUSTER-01       raid_dp,
+                                                                   normal
+aggr0_CLUSTER_02_0
+           368.4GB   17.85GB   95% online       1 CLUSTER-02       raid_dp,
+                                                                   normal
+source      1.23TB    1.10TB   11% online       6 CLUSTER-01       raid_dp,
+                                                                   normal
+3 entries were displayed.
+....
++
+Se non è presente alcun aggregato di dati, crearne uno nuovo utilizzando `storage aggr create` comando.
+
+. Creare una SVM sul sistema cluster di destinazione.
++
+....
+CLUSTER::> vserver create -vserver dest -rootvolume dest_root -aggregate poc -rootvolume-security-style mixed
+[Job 647] Job succeeded:
+Vserver creation completed
+Verify the security style and language settings of the source
+
+Verify that the SVM was successfully created.
+CLUSTER::> vserver show -vserver dest
+                                    Vserver: dest
+                               Vserver Type: data
+                            Vserver Subtype: default
+                               Vserver UUID: 91f6d786-0063-11e5-b114-00a09853a969
+                                Root Volume: dest_root
+                                  Aggregate: poc
+                                 NIS Domain: -
+                 Root Volume Security Style: mixed
+                                LDAP Client: -
+               Default Volume Language Code: C.UTF-8
+                            Snapshot Policy: default
+                                    Comment:
+                               Quota Policy: default
+                List of Aggregates Assigned: -
+ Limit on Maximum Number of Volumes allowed: unlimited
+                        Vserver Admin State: running
+                  Vserver Operational State: running
+   Vserver Operational State Stopped Reason: -
+                          Allowed Protocols: nfs, cifs, fcp, iscsi, ndmp
+                       Disallowed Protocols: -
+            Is Vserver with Infinite Volume: false
+                           QoS Policy Group: -
+                                Config Lock: false
+                               IPspace Name: Default
+....
+. Rimuovere i protocolli FCP, iSCSI, NDMP e CIFS dalla SVM di destinazione.
++
+....
+CLUSTER::> vserver remove-protocols -vserver dest -protocols fcp,iscsi,ndmp,cifs
+Verify that NFS is the allowed protocol for this SVM.
+CLUSTER::> vserver show -vserver dest -fields allowed-protocols
+vserver allowed-protocols
+------- -----------------
+dest    nfs
+....
+. Creare un nuovo volume di dati di lettura/scrittura sulla SVM di destinazione. Verificare che lo stile di sicurezza, le impostazioni della lingua e i requisiti di capacità corrispondano al volume di origine.
++
+....
+CLUSTER::> vol create -vserver dest -volume dest_nfs -aggregate poc -size 150g -type RW -state online -security-style mixed
+[Job 648] Job succeeded: Successful
+....
+. Creare una LIF di dati per soddisfare le richieste del client NFS.
++
+....
+CLUSTER::> network interface create -vserver dest -lif dest_lif -address 10.61.73.115 -netmask 255.255.255.0 -role data -data-protocol nfs -home-node CLUSTER-01 -home-port e0l
+....
++
+Verificare che la LIF sia stata creata correttamente.
+
++
+....
+CLUSTER::> network interface show -vserver dest
+            Logical    Status     Network            Current       Current Is
+Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
+----------- ---------- ---------- ------------------ ------------- ------- ----
+dest
+            dest_lif
+                         up/up    10.61.73.113/24    CLUSTER-01    e0i     true
+....
+. Se necessario, creare un percorso statico con la SVM.
++
+....
+CLUSTER::> network route create -vserver dest -destination 0.0.0.0/0 -gateway 192.168.100.111
+....
++
+Verificare che il percorso sia stato creato correttamente.
+
++
+....
+CLUSTER::> network route show -vserver source
+Vserver             Destination     Gateway         Metric
+------------------- --------------- --------------- ------
+dest
+                    0.0.0.0/0       10.61.73.1      20
+....
+. Montare il volume di dati NFS di destinazione nello spazio dei nomi SVM.
++
+....
+CLUSTER::> volume mount -vserver dest -volume dest_nfs -junction-path /dest_nfs -active true
+....
++
+Verificare che il volume sia stato montato correttamente.
+
++
+....
+CLUSTER::> volume show -vserver dest -fields junction-path
+vserver volume   junction-path
+------- -------- -------------
+dest    dest_nfs /dest_nfs
+dest    dest_root
+                 /
+2 entries were displayed.
+....
++
+È inoltre possibile specificare le opzioni di montaggio del volume (percorso di giunzione) con `volume create` comando.
+
+. Avviare il servizio NFS sulla SVM di destinazione.
++
+....
+CLUSTER::> vserver nfs start -vserver dest
+....
++
+Verificare che il servizio sia avviato e in esecuzione.
+
++
+....
+CLUSTER::> vserver nfs status
+The NFS server is running on Vserver "dest".
+CLUSTER::> nfs show
+Vserver: dest
+        General Access:  true
+                    v3:  enabled
+                  v4.0:  disabled
+                   4.1:  disabled
+                   UDP:  enabled
+                   TCP:  enabled
+  Default Windows User:  -
+ Default Windows Group:  -
+....
+. Verificare che il criterio di esportazione NFS predefinito sia applicato alla SVM di destinazione.
++
+....
+CLUSTER::> vserver export-policy show -vserver dest
+Vserver          Policy Name
+---------------  -------------------
+dest             default
+....
+. Se necessario, creare un nuovo criterio di esportazione personalizzato per la SVM di destinazione.
++
+....
+CLUSTER::> vserver export-policy create -vserver dest -policyname xcpexportpolicy
+....
++
+Verificare che la nuova policy di esportazione personalizzata sia stata creata correttamente.
+
++
+....
+CLUSTER::> vserver export-policy show -vserver dest
+Vserver          Policy Name
+---------------  -------------------
+dest             default
+dest             xcpexportpolicy
+2 entries were displayed.
+....
+. Modificare le regole dei criteri di esportazione per consentire l'accesso ai client NFS sul sistema di destinazione.
++
+....
+CLUSTER::> export-policy rule modify -vserver dest -ruleindex 1 -policyname xcpexportpolicy -clientmatch 0.0.0.0/0 -rorule any -rwrule any -anon 0
+Verify the policy rules have modified
+CLUSTER::> export-policy rule show -instance
+                                    Vserver: dest
+                                Policy Name: xcpexportpolicy
+                                 Rule Index: 1
+                            Access Protocol: nfs3
+Client Match Hostname, IP Address, Netgroup, or Domain: 0.0.0.0/0
+                             RO Access Rule: none
+                             RW Access Rule: none
+User ID To Which Anonymous Users Are Mapped: 65534
+                   Superuser Security Types: none
+               Honor SetUID Bits in SETATTR: true
+                  Allow Creation of Devices: true
+....
+. Verificare che il client abbia accesso al volume di destinazione.
++
+....
+CLUSTER::> export-policy check-access -vserver dest -volume dest_nfs -client-ip 10.61.82.215 -authentication-method none -protocol nfs3 -access-type read-write
+                                         Policy    Policy       Rule
+Path                          Policy     Owner     Owner Type  Index Access
+----------------------------- ---------- --------- ---------- ------ ----------
+/                             xcpexportpolicy
+                                         dest_root volume          1 read
+/dest_nfs                     xcpexportpolicy
+                                         dest_nfs  volume          1 read-write
+2 entries were displayed.
+....
+. Connettersi al server NFS Linux. Creare un punto di montaggio per il volume esportato NFS.
++
+....
+[root@localhost /]# cd /mnt
+[root@localhost mnt]# mkdir dest
+....
+. Montare il volume NFSv3 di destinazione esportato in questo punto di montaggio.
++
+
+NOTE: I volumi NFSv3 devono essere esportati ma non necessariamente montati dal server NFS. Se possono essere montati, il client host XCP Linux monta questi volumi.
+
++
+....
+[root@localhost mnt]# mount -t nfs 10.61.73.115:/dest_nfs /mnt/dest
+....
++
+Verificare che il punto di montaggio sia stato creato correttamente.
+
++
+....
+[root@ localhost /]# mount | grep nfs
+10.61.73.115:/dest_nfs on /mnt/dest type nfs
+....
+. Creare un file di test sul mount point NFS esportato per abilitare l'accesso in lettura/scrittura.
++
+....
+[root@localhost dest]# touch test.txt
+Verify the file is created
+[root@localhost dest]# ls -l
+total 0
+-rw-r--r-- 1 root bin 0 Jun  2 03:16 test.txt
+....
++
+
+NOTE: Una volta completato il test di lettura/scrittura, eliminare il file dal punto di montaggio NFS di destinazione.
+
+. Connettersi al sistema client Linux in cui è installato XCP. Accedere al percorso di installazione di XCP.
++
+....
+[root@localhost ~]# cd /linux/
+[root@localhost linux]#
+....
+. Eseguire una query sulle esportazioni NFSv3 7-Mode di origine eseguendo il `xcp show` Sul sistema host del client XCP Linux.
++
+....
+[root@localhost]#./xcp show 10.61.82.215
+== NFS Exports ==
+Mounts  Errors  Server
+      4       0  10.61.82.215
+     Space    Files      Space    Files
+      Free     Free       Used     Used Export
+  23.7 GiB  778,134    356 KiB       96 10.61.82.215:/vol/nfsvol1
+  17.5 GiB  622,463   1.46 GiB      117 10.61.82.215:/vol/nfsvol
+   328 GiB    10.8M   2.86 GiB    7,904 10.61.82.215:/vol/vol0/home
+   328 GiB    10.8M   2.86 GiB    7,904 10.61.82.215:/vol/vol0
+== Attributes of NFS Exports ==
+drwxr-xr-x --- root wheel 4KiB 4KiB 2d21h 10.61.82.215:/vol/nfsvol1
+drwxr-xr-x --- root wheel 4KiB 4KiB 2d21h 10.61.82.215:/vol/nfsvol
+drwxrwxrwx --t root wheel 4KiB 4KiB 9d22h 10.61.82.215:/vol/vol0/home
+drwxr-xr-x --- root wheel 4KiB 4KiB  4d0h 10.61.82.215:/vol/vol0
+3.89 KiB in (5.70 KiB/s), 7.96 KiB out (11.7 KiB/s), 0s.
+....
+. Eseguire la scansione dei percorsi esportati NFSv3 di origine e stampare le statistiche della relativa struttura di file.
++
+NetApp consiglia di mettere le esportazioni NFSv3 di origine in modalità di sola lettura durante `xcp scan`, `copy`, e. `sync` operazioni. Poll `sync` operazione, è necessario superare il `-snap` con un valore corrispondente.
+
++
+....
+[root@localhost /]# ./xcp scan 10.61.82.215:/vol/nfsvol/.snapshot/snap1
+nfsvol
+nfsvol/n5000-uk9.5.2.1.N1.1.bin
+nfsvol/821_q_image.tgz
+nfsvol/822RC2_q_image.tgz
+nfsvol/NX5010_12_node_RCF_v1.3.txt
+nfsvol/n5000-uk9-kickstart.5.2.1.N1.1.bin
+nfsvol/catalog
+23 scanned, 7.79 KiB in (5.52 KiB/s), 1.51 KiB out (1.07 KiB/s), 1s.
+[root@scspr1202780001 vol_acl4]# ./xcp  sync -id 7msnap1  -snap 10.236.66.199:/vol/nfsvol/.snapshot/snap10
+(show scan and sync)
+....
+. Copiare lo snapshot NFSv3 7-Mode di origine (base) nelle esportazioni NFSv3 sul sistema ONTAP di destinazione.
++
+....
+[root@localhost /]# /xcp copy 10.61.82.215:/vol/nfsvol/.snapshot/snap1
+10.61.73.115:/dest_nfs
+ 44 scanned, 39 copied, 264 MiB in (51.9 MiB/s), 262 MiB out (51.5 MiB/s), 5s
+ 44 scanned, 39 copied, 481 MiB in (43.3 MiB/s), 479 MiB out (43.4 MiB/s), 10s
+ 44 scanned, 40 copied, 748 MiB in (51.2 MiB/s), 747 MiB out (51.3 MiB/s), 16s
+ 44 scanned, 40 copied, 1.00 GiB in (55.9 MiB/s), 1.00 GiB out (55.9 MiB/s), 21s
+ 44 scanned, 40 copied, 1.21 GiB in (42.8 MiB/s), 1.21 GiB out (42.8 MiB/s), 26s
+Sending statistics...
+44 scanned, 43 copied, 1.46 GiB in (47.6 MiB/s), 1.45 GiB out (47.6 MiB/s), 31s.
+....
++
+
+NOTE: Conserva questa snapshot di base per ulteriori operazioni di sincronizzazione.
+
+. Una volta completata la copia, verificare che le esportazioni NFSv3 di origine e di destinazione abbiano dati identici. Eseguire `xcp verify` comando.
++
+....
+[root@localhost /]# ./xcp verify 10.61.82.215:/vol/nfsvol 10.61.73.115:/dest_nfs
+44 scanned, 44 found, 28 compared, 27 same data, 2.41 GiB in (98.4 MiB/s), 6.25 MiB out (255 KiB/s), 26s
+44 scanned, 44 found, 30 compared, 29 same data, 2.88 GiB in (96.4 MiB/s), 7.46 MiB out (249 KiB/s), 31s
+44 scanned, 100% found (43 have data), 43 compared, 100% verified (data, attrs, mods), 2.90 GiB in (92.6 MiB/s), 7.53 MiB out (240 KiB/s), 32s.
+....
++
+Se `verify` rileva le differenze tra i dati di origine e di destinazione, quindi l'errore `no such file or directory `is reported in the summary. To fix that issue, run the `xcp sync` per copiare le modifiche di origine nella destinazione.
+
+. Prima e durante il cutover, eseguire `verify` di nuovo. Se l'origine contiene dati nuovi o aggiornati, eseguire aggiornamenti incrementali. In caso di modifiche incrementali, creare una nuova copia Snapshot per queste modifiche e passare il percorso di snapshot con `-snap` opzione per le operazioni di sincronizzazione.
++
+Eseguire `xcp sync` con il `-snap` opzione e percorso di snapshot.
+
++
+....
+ [root@localhost /]# ./xcp sync -id 3
+Index: {source: '10.61.82.215:/vol/nfsvol/.snapshot/snap1', target: '10.61.73.115:/dest_nfs1'}
+64 reviewed, 64 checked at source, 6 changes, 6 modifications, 51.7 KiB in (62.5
+KiB/s), 22.7 KiB out (27.5 KiB/s), 0s.
+xcp: sync '3': Starting search pass for 1 modified directory...
+xcp: sync '3': Found 6 indexed files in the 1 changed directory
+xcp: sync '3': Rereading the 1 modified directory to find what's new...
+xcp: sync '3': Deep scanning the 1 directory that changed...
+11 scanned, 11 copied, 12.6 KiB in (6.19 KiB/s), 9.50 KiB out (4.66 KiB/s), 2s..
+....
++
+
+NOTE: Per questa operazione, è necessaria l'istantanea di base.
+
+. Per riprendere un'operazione di copia precedentemente interrotta, eseguire `xcp resume` comando.
++
+....
+[root@scspr1202780001 534h_dest_vol]# ./xcp resume -id 3
+XCP <version>; (c) 2020 NetApp, Inc.; Licensed to xxxxx [NetApp Inc] until Mon Dec 31 00:00:00 2029
+xcp: Index: {source: '10.61.82.215:/vol/nfsvol',/.snapshot/snap1, target: 10.237.160.55:/dest_vol}
+xcp: resume '7msnap_res1': Reviewing the incomplete index...
+xcp: diff '7msnap_res1': Found 143 completed directories and 230 in progress
+39,688 reviewed, 1.28 MiB in (1.84 MiB/s), 13.3 KiB out (19.1 KiB/s), 0s.
+xcp: resume '7msnap_res1': Starting second pass for the in-progress directories...
+xcp: resume '7msnap_res1': Resuming the in-progress directories...
+xcp: resume '7msnap_res1': Resumed command: copy {-newid: u'7msnap_res1'}
+xcp: resume '7msnap_res1': Current options: {-id: '7msnap_res1'}
+xcp: resume '7msnap_res1': Merged options: {-id: '7msnap_res1', -newid: u'7msnap_res1'}
+xcp: resume '7msnap_res1': Values marked with a * include operations before resume
+ 68,848 scanned*, 54,651 copied*, 39,688 indexed*, 35.6 MiB in (7.04 MiB/s), 28.1 MiB out (5.57 MiB/s), 5s
+....
+. L'host client NFSv3 deve smontare le esportazioni NFSv3 di origine fornite dallo storage 7-Mode e montare le esportazioni NFSv3 di destinazione da ONTAP. Questo cutover richiede un'interruzione.
+
+
+
+
+== Migrazione di ACLv4 da NetApp 7-Mode a un sistema storage NetApp
+
+In questa sezione viene descritta la procedura dettagliata per la transizione di un'esportazione NFSv4 di origine a un sistema ONTAP.
+
+
+NOTE: NetApp presuppone che il volume NFSv4 di origine sia esportato e montato sul sistema client e che XCP sia già installato su un sistema Linux. L'origine deve essere un sistema NetApp 7-Mode che supporti gli ACL. La migrazione ACL è supportata solo da NetApp a NetApp. Per copiare i file con un carattere speciale nel nome, assicurarsi che l'origine e la destinazione supportino il linguaggio codificato UTF- 8.
+
+
+
+=== Prerequisiti per la migrazione di un'esportazione NFSv4 di origine in ONTAP
+
+Prima di migrare un'esportazione NFSv4 di origine in ONTAP, devono essere soddisfatti i seguenti prerequisiti:
+
+* Il sistema di destinazione deve avere configurato NFSv4.
+* L'origine e la destinazione di NFSv4 devono essere montate sull'host XCP. Selezionare NFS v4.0 in modo che corrisponda allo storage di origine e di destinazione e verificare che gli ACL siano abilitati sul sistema di origine e di destinazione.
+* XCP richiede il montaggio del percorso di origine/destinazione sull'host XCP per l'elaborazione ACL.nel seguente esempio, `vol1(10.63.5.56:/vol1)` è montato su `/mnt/vol1` percorso:
+
+
+....
+ [root@localhost ~]# df -h
+Filesystem                                                   Size  Used Avail Use% Mounted on
+10.63.5.56:/vol1                                             973M  4.2M  969M   1% /mnt/vol1
+[root@localhost ~]# ./xcp scan -l -acl4 10.63.5.56:/vol1/
+XCP <version>; (c) 2020 NetApp, Inc.; Licensed to XXX [NetApp Inc] until Sun Mar 31 00:00:00 2029
+drwxr-xr-x --- root root 4KiB 4KiB 23h42m vol1
+rw-r--r-- --- root root    4    0 23h42m vol1/DIR1/FILE
+drwxr-xr-x --- root root 4KiB 4KiB 23h42m vol1/DIR1/DIR11
+drwxr-xr-x --- root root 4KiB 4KiB 23h42m vol1/DIR1
+rw-r--r-- --- root root    4    0 23h42m vol1/DIR1/DIR11/FILE
+drwxr-xr-x --- root root 4KiB 4KiB 23h42m vol1/DIR1/DIR11/DIR2
+rw-r--r-- --- root root    4    0 23h42m vol1/DIR1/DIR11/DIR2/FILE
+drwxr-xr-x --- root root 4KiB 4KiB 17m43s vol1/DIR1/DIR11/DIR2/DIR22
+8 scanned, 8 getacls, 1 v3perm, 7 acls, 3.80 KiB in (3.86 KiB/s), 1.21 KiB out (1.23 KiB/s), 0s.
+....
+
+
+=== Opzioni delle sottodirectory
+
+Le due opzioni per lavorare con le sottodirectory sono le seguenti:
+
+* Per XCP lavorare su una sottodirectory `(/vol1/DIR1/DIR11`), montare il percorso completo (`10.63.5.56:/vol1/DIR1/DIR11`) Sull'host XCP.
++
+Se il percorso completo non è montato, XCP segnala il seguente errore:
+
+
+
+....
+[root@localhost ~]# ./xcp scan -l -acl4 10.63.5.56:/vol1/DIR1/DIR11
+XCP <version>; (c) 2020 NetApp, Inc.; Licensed to XXX [NetApp Inc] until Sun Mar 31 00:00:00 2029
+xcp: ERROR: For xcp to process ACLs, please mount 10.63.5.56:/vol1/DIR1/DIR11 using the OS nfs4 client.
+....
+* Utilizzare la sintassi della sottodirectory (`mount: subdirectory/qtree/.snapshot`), come mostrato nell'esempio seguente:
+
+
+....
+[root@localhost ~]# ./xcp scan -l -acl4 10.63.5.56:/vol1:/DIR1/DIR11
+XCP <version>; (c) 2020 NetApp, Inc.; Licensed to XXX [NetApp Inc] until Sun Mar 31 00:00:00 2029
+drwxr-xr-x --- root root 4KiB 4KiB 23h51m DIR11
+rw-r--r-- --- root root    4    0 23h51m DIR11/DIR2/FILE
+drwxr-xr-x --- root root 4KiB 4KiB  26m9s DIR11/DIR2/DIR22
+rw-r--r-- --- root root    4    0 23h51m DIR11/FILE
+drwxr-xr-x --- root root 4KiB 4KiB 23h51m DIR11/DIR2
+5 scanned, 5 getacls, 5 acls, 2.04 KiB in (3.22 KiB/s), 540 out (850/s), 0s.
+....
+Completare i seguenti passaggi per migrare ACLv4 da NetApp 7-Mode a un sistema storage NetApp.
+
+. Verificare che il sistema ONTAP di destinazione sia integro.
++
+....
+CLUSTER::> cluster show
+Node                  Health  Eligibility
+--------------------- ------- ------------
+CLUSTER-01            true    true
+CLUSTER-02            true    true
+2 entries were displayed.
+CLUSTER::> node show
+Node      Health Eligibility Uptime        Model       Owner    Location
+--------- ------ ----------- ------------- ----------- -------- ---------------
+CLUSTER-01
+          true   true        78 days 21:01 FAS8060              RTP
+CLUSTER-02
+          true   true        78 days 20:50 FAS8060              RTP
+2 entries were displayed.
+CLUSTER::> storage failover show
+                              Takeover
+Node           Partner        Possible State Description
+-------------- -------------- -------- -------------------------------------
+CLUSTER-01     CLUSTER-02     true     Connected to CLUSTER-02
+CLUSTER-02     CLUSTER-01     true     Connected to CLUSTER-01
+2 entries were displayed.
+....
+. Verificare che sul sistema di destinazione sia presente almeno un aggregato non root. L'aggregato è normale.
++
+....
+CLUSTER::> storage aggregate show
+Aggregate     Size Available Used% State   #Vols  Nodes            RAID Status
+--------- -------- --------- ----- ------- ------ ---------------- ------------
+aggr0      368.4GB   17.85GB   95% online       1 CLUSTER-01       raid_dp,
+                                                                   normal
+aggr0_CLUSTER_02_0
+           368.4GB   17.85GB   95% online       1 CLUSTER-02       raid_dp,
+                                                                   normal
+source      1.23TB    1.10TB   11% online       6 CLUSTER-01       raid_dp,
+                                                                   normal
+3 entries were displayed.
+....
++
+Se non è presente alcun aggregato di dati, crearne uno nuovo utilizzando `storage aggr create` comando.
+
+. Creare una SVM sul sistema cluster di destinazione.
++
+....
+CLUSTER::> vserver create -vserver dest -rootvolume dest_root -aggregate poc -rootvolume-security-style mixed
+[Job 647] Job succeeded:
+Vserver creation completed
+Verify the security style and language settings of the source
+....
++
+Verificare che la SVM sia stata creata correttamente.
+
++
+....
+CLUSTER::> vserver show -vserver dest
+                                    Vserver: dest
+                               Vserver Type: data
+                            Vserver Subtype: default
+                               Vserver UUID: 91f6d786-0063-11e5-b114-00a09853a969
+                                Root Volume: dest_root
+                                  Aggregate: poc
+                                 NIS Domain: -
+                 Root Volume Security Style: mixed
+                                LDAP Client: -
+               Default Volume Language Code: C.UTF-8
+                            Snapshot Policy: default
+                                    Comment:
+                               Quota Policy: default
+                List of Aggregates Assigned: -
+ Limit on Maximum Number of Volumes allowed: unlimited
+                        Vserver Admin State: running
+                  Vserver Operational State: running
+   Vserver Operational State Stopped Reason: -
+                          Allowed Protocols: nfs, cifs, fcp, iscsi, ndmp
+                       Disallowed Protocols: -
+            Is Vserver with Infinite Volume: false
+                           QoS Policy Group: -
+                                Config Lock: false
+                               IPspace Name: Default
+....
+. Rimuovere i protocolli FCP, iSCSI, NDMP e CIFS dalla SVM di destinazione.
++
+....
+CLUSTER::> vserver remove-protocols -vserver dest -protocols fcp,iscsi,ndmp,cifs
+....
++
+Verificare che NFS sia il protocollo consentito per questa SVM.
+
++
+....
+CLUSTER::> vserver show -vserver dest -fields allowed-protocols
+vserver allowed-protocols
+------- -----------------
+dest    nfs
+....
+. Creare un nuovo volume di dati di lettura/scrittura sulla SVM di destinazione. Verificare che lo stile di sicurezza, le impostazioni della lingua e i requisiti di capacità corrispondano al volume di origine.
++
+....
+CLUSTER::> vol create -vserver dest -volume dest_nfs -aggregate poc -size 150g -type RW -state online -security-style mixed
+[Job 648] Job succeeded: Successful
+....
+. Creare una LIF di dati per soddisfare le richieste del client NFS.
++
+....
+CLUSTER::> network interface create -vserver dest -lif dest_lif -address 10.61.73.115 -netmask 255.255.255.0 -role data -data-protocol nfs -home-node CLUSTER-01 -home-port e0l
+....
++
+Verificare che la LIF sia stata creata correttamente.
+
++
+....
+CLUSTER::> network interface show -vserver dest
+            Logical    Status     Network            Current       Current Is
+Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
+----------- ---------- ---------- ------------------ ------------- ------- ----
+dest
+            dest_lif
+                         up/up    10.61.73.113/24    CLUSTER-01    e0i     true
+....
+. Se necessario, creare un percorso statico con la SVM.
++
+....
+CLUSTER::> network route create -vserver dest -destination 0.0.0.0/0 -gateway 192.168.100.111
+....
++
+Verificare che il percorso sia stato creato correttamente.
+
++
+....
+CLUSTER::> network route show -vserver source
+Vserver             Destination     Gateway         Metric
+------------------- --------------- --------------- ------
+dest
+                    0.0.0.0/0       10.61.73.1      20
+....
+. Montare il volume di dati NFS di destinazione nello spazio dei nomi SVM.
++
+....
+CLUSTER::> volume mount -vserver dest -volume dest_nfs -junction-path /dest_nfs -active true
+....
++
+Verificare che il volume sia stato montato correttamente.
+
++
+....
+CLUSTER::> volume show -vserver dest -fields junction-path
+vserver volume   junction-path
+------- -------- -------------
+dest    dest_nfs /dest_nfs
+dest    dest_root
+                 /
+2 entries were displayed.
+....
++
+È inoltre possibile specificare le opzioni di montaggio del volume (percorso di giunzione) con `volume create` comando.
+
+. Avviare il servizio NFS sulla SVM di destinazione.
++
+....
+CLUSTER::> vserver nfs start -vserver dest
+....
++
+Verificare che il servizio sia avviato e in esecuzione.
+
++
+....
+CLUSTER::> vserver nfs status
+The NFS server is running on Vserver "dest".
+CLUSTER::> nfs show
+Vserver: dest
+        General Access:  true
+                    v3:  enabled
+                  v4.0:  enabled
+                   4.1:  disabled
+                   UDP:  enabled
+                   TCP:  enabled
+  Default Windows User:  -
+ Default Windows Group:  -
+....
+. Verificare che il criterio di esportazione NFS predefinito sia applicato alla SVM di destinazione.
++
+....
+CLUSTER::> vserver export-policy show -vserver dest
+Vserver          Policy Name
+---------------  -------------------
+dest             default
+....
+. Se necessario, creare un nuovo criterio di esportazione personalizzato per la SVM di destinazione.
++
+....
+CLUSTER::> vserver export-policy create -vserver dest -policyname xcpexportpolicy
+....
++
+Verificare che la nuova policy di esportazione personalizzata sia stata creata correttamente.
+
++
+....
+CLUSTER::> vserver export-policy show -vserver dest
+Vserver          Policy Name
+---------------  -------------------
+dest             default
+dest             xcpexportpolicy
+2 entries were displayed.
+....
+. Modificare le regole dei criteri di esportazione per consentire l'accesso ai client NFS.
++
+....
+CLUSTER::> export-policy rule modify -vserver dest -ruleindex 1 -policyname xcpexportpolicy -clientmatch 0.0.0.0/0 -rorule any -rwrule any -anon 0
+....
++
+Verificare che le regole dei criteri siano state modificate.
+
++
+....
+CLUSTER::> export-policy rule show -instance
+                                    Vserver: dest
+                                Policy Name: xcpexportpolicy
+                                 Rule Index: 1
+                            Access Protocol: nfs3
+Client Match Hostname, IP Address, Netgroup, or Domain: 0.0.0.0/0
+                             RO Access Rule: none
+                             RW Access Rule: none
+User ID To Which Anonymous Users Are Mapped: 65534
+                   Superuser Security Types: none
+               Honor SetUID Bits in SETATTR: true
+                  Allow Creation of Devices: true
+....
+. Verificare che al client sia consentito l'accesso al volume.
++
+....
+CLUSTER::> export-policy check-access -vserver dest -volume dest_nfs -client-ip 10.61.82.215 -authentication-method none -protocol nfs3 -access-type read-write
+                                         Policy    Policy       Rule
+Path                          Policy     Owner     Owner Type  Index Access
+----------------------------- ---------- --------- ---------- ------ ----------
+/                             xcpexportpolicy
+                                         dest_root volume          1 read
+/dest_nfs                     xcpexportpolicy
+                                         dest_nfs  volume          1 read-write
+2 entries were displayed.
+....
+. Connettersi al server NFS Linux. Creare un punto di montaggio per il volume esportato NFS.
++
+....
+[root@localhost /]# cd /mnt
+[root@localhost mnt]# mkdir dest
+....
+. Montare il volume di destinazione esportato NFSv4 in questo punto di montaggio.
++
+
+NOTE: I volumi NFSv4 devono essere esportati ma non necessariamente montati dal server NFS. Se possono essere montati, il client host XCP Linux monta questi volumi.
+
++
+....
+[root@localhost mnt]# mount -t nfs4 10.63.5.56:/vol1 /mnt/vol1
+....
++
+Verificare che il punto di montaggio sia stato creato correttamente.
+
++
+....
+[root@localhost mnt]# mount | grep nfs
+10.63.5.56:/vol1 on /mnt/vol1 type nfs4 (rw,relatime,vers=4.0,rsize=65536,wsize=65536,namlen=255,hard,proto=tcp,timeo=600,
+retrans=2,sec=sys,clientaddr=10.234.152.84,local_lock=none,addr=10.63.5.56)
+....
+. Creare un file di test sul mount point NFS esportato per abilitare l'accesso in lettura/scrittura.
++
+....
+[root@localhost dest]# touch test.txt
+....
++
+Verificare che il file sia stato creato.
+
++
+....
+[root@localhost dest]# ls -l
+total 0
+-rw-r--r-- 1 root bin 0 Jun  2 03:16 test.txt
+....
++
+
+NOTE: Una volta completato il test di lettura/scrittura, eliminare il file dal punto di montaggio NFS di destinazione.
+
+. Connettersi al sistema client Linux in cui è installato XCP. Accedere al percorso di installazione di XCP.
++
+....
+[root@localhost ~]# cd /linux/
+[root@localhost linux]#
+....
+. Eseguire una query sulle esportazioni NFSv4 di origine eseguendo `xcp show` Sul sistema host del client XCP Linux.
++
+....
+root@localhost]# ./xcp show 10.63.5.56
+XCP <version>; (c) 2020 NetApp, Inc.; Licensed to xxx [NetApp Inc] until Mon Dec 31 00:00:00 2029
+getting pmap dump from 10.63.5.56 port 111...
+getting export list from 10.63.5.56...
+sending 6 mounts and 24 nfs requests to 10.63.5.56...
+== RPC Services ==
+'10.63.5.56': UDP rpc services: MNT v1/2/3, NFS v3, NLM v4, PMAP v2/3/4, STATUS v1
+'10.63.5.56': TCP rpc services: MNT v1/2/3, NFS v3/4, NLM v4, PMAP v2/3/4, STATUS v1
+== NFS Exports ==
+ Mounts  Errors  Server
+      6       0  10.63.5.56
+     Space    Files      Space    Files
+      Free     Free       Used     Used Export
+  94.7 MiB   19,883    324 KiB      107 10.63.5.56:/
+   971 MiB   31,023   2.19 MiB       99 10.63.5.56:/vol2
+   970 MiB   31,024   2.83 MiB       98 10.63.5.56:/vol1
+  9.33 GiB  310,697    172 MiB      590 10.63.5.56:/vol_005
+  43.3 GiB    1.10M   4.17 GiB    1.00M 10.63.5.56:/vol3
+  36.4 GiB    1.10M   11.1 GiB    1.00M 10.63.5.56:/vol4
+== Attributes of NFS Exports ==
+drwxr-xr-x --- root root 4KiB 4KiB 6d2h 10.63.5.56:/
+drwxr-xr-x --- root root 4KiB 4KiB 3d2h 10.63.5.56:/vol2
+drwxr-xr-x --- root root 4KiB 4KiB 3d2h 10.63.5.56:/vol1
+drwxr-xr-x --- root root 4KiB 4KiB 9d2h 10.63.5.56:/vol_005
+drwxr-xr-x --- root root 4KiB 4KiB 9d4h 10.63.5.56:/vol3
+drwxr-xr-x --- root root 4KiB 4KiB 9d4h 10.63.5.56:/vol4
+6.09 KiB in (9.19 KiB/s), 12.2 KiB out (18.3 KiB/s), 0s.
+....
+. Eseguire la scansione dei percorsi esportati NFSv4 di origine e stampare le statistiche della relativa struttura di file.
++
+NetApp consiglia di mettere le esportazioni NFSv4 di origine in modalità di sola lettura durante `xcp scan`, `copy`, e. `sync` operazioni.
+
++
+....
+[root@localhost]# ./xcp scan -acl4 10.63.5.56:/vol1
+XCP <version>; (c) 2020 NetApp, Inc.; Licensed to xxx [NetApp Inc] until Mon Dec 31 00:00:00 2029
+vol1
+vol1/test/f1
+vol1/test
+3 scanned, 3 getacls, 3 v3perms, 1.59 KiB in (1.72 KiB/s), 696 out (753/s), 0s.
+....
+. Copiare le esportazioni NFSv4 di origine in esportazioni NFSv4 sul sistema ONTAP di destinazione.
++
+....
+[root@localhost]# ./xcp copy -acl4 -newid id1 10.63.5.56:/vol1 10.63.5.56:/vol2
+XCP <version>; (c) 2020 NetApp, Inc.; Licensed to xxx [NetApp Inc] until Mon Dec 31 00:00:00 2029
+3 scanned, 2 copied, 3 indexed, 3 getacls, 3 v3perms, 1 setacl, 14.7 KiB in (11.7 KiB/s), 61 KiB out (48.4 KiB/s), 1s..
+....
+. Dopo `copy` Verificare che le esportazioni NFSv4 di origine e di destinazione abbiano dati identici. Eseguire `xcp verify` comando.
++
+....
+[root@localhost]# ./xcp verify -acl4 -noid 10.63.5.56:/vol1 10.63.5.56:/vol2
+XCP <version>; (c) 2020 NetApp, Inc.; Licensed to xxx [NetApp Inc] until Mon Dec 31 00:00:00 2029
+3 scanned, 100% found (0 have data), 100% verified (data, attrs, mods, acls), 6 getacls, 6 v3perms, 2.90 KiB in (4.16 KiB/s), 2.94 KiB out (4.22 KiB/s), 0s.
+....
++
+Se `verify` rileva le differenze tra i dati di origine e di destinazione, quindi l'errore `no such file or directory` viene riportato nel riepilogo. Per risolvere il problema, eseguire `xcp sync` per copiare le modifiche di origine nella destinazione.
+
+. Prima e durante il cutover, eseguire `verify` di nuovo. Se l'origine contiene dati nuovi o aggiornati, eseguire aggiornamenti incrementali. Eseguire `xcp sync` comando.
++
+....
+[root@ root@localhost]# ./xcp sync -id id1
+XCP <version>; (c) 2020 NetApp, Inc.; Licensed to xxx [NetApp Inc] until Mon Dec 31 00:00:00 2029
+xcp: Index: {source: 10.63.5.56:/vol1, target: 10.63.5.56:/vol2}
+3 reviewed, 3 checked at source, no changes, 3 reindexed, 25.6 KiB in (32.3 KiB/s), 23.3 KiB out (29.5 KiB/s), 0s.
+....
++
+
+NOTE: Per questa operazione, è necessario il nome o il numero dell'indice di copia precedente.
+
+. Per riprendere un'interruzione precedente `copy` eseguire il `xcp resume` comando.
++
+....
+[root@localhost]# ./xcp resume -id id1
+XCP <version>; (c) 2020 NetApp, Inc.; Licensed to xxx [NetApp Inc] until Mon Dec 31 00:00:00 2029
+xcp: Index: {source: 10.63.5.56:/vol3, target: 10.63.5.56:/vol4}
+xcp: resume 'id1': Reviewing the incomplete index...
+xcp: diff 'id1': Found 0 completed directories and 8 in progress
+39,899 reviewed, 1.64 MiB in (1.03 MiB/s), 14.6 KiB out (9.23 KiB/s), 1s.
+xcp: resume 'id1': Starting second pass for the in-progress directories...
+xcp: resume 'id1': Resuming the in-progress directories...
+xcp: resume 'id1': Resumed command: copy {-acl4: True}
+xcp: resume 'id1': Current options: {-id: 'id1'}
+xcp: resume 'id1': Merged options: {-acl4: True, -id: 'id1'}
+xcp: resume 'id1': Values marked with a * include operations before resume
+ 86,404 scanned, 39,912 copied, 39,899 indexed, 13.0 MiB in (2.60 MiB/s), 78.4 KiB out (15.6 KiB/s), 5s 86,404 scanned, 39,912 copied, 39,899 indexed, 13.0 MiB in (0/s), 78.4 KiB out (0/s), 10s
+1.00M scanned, 100% found (1M have data), 1M compared, 100% verified (data, attrs, mods, acls), 2.00M getacls, 202 v3perms, 1.00M same acls, 2.56 GiB in (2.76 MiB/s), 485 MiB out (524 KiB/s), 15m48s.
+....
++
+Dopo `resume` termina la copia dei file, esegui `verify` anche in questo caso, in modo che lo storage di origine e di destinazione abbia dati identici.
+
+
+
+
+
+== Transizione dello storage SMB 7-Mode a ONTAP per i dati CIFS
+
+In questa sezione viene illustrata la procedura dettagliata per la transizione di una condivisione SMB di origine 7-Mode a un sistema ONTAP.
+
+
+NOTE: NetApp presuppone che i sistemi 7-Mode e ONTAP siano dotati di licenza SMB. Viene creata la SVM di destinazione, vengono esportate le condivisioni SMB di origine e di destinazione e XCP viene installato e concesso in licenza.
+
+. Eseguire la scansione delle condivisioni SMB per individuare file e directory.
++
+....
+C:\xcp>xcp scan -stats \\10.61.77.189\performance_SMB_home_dirs
+XCP SMB 1.6; (c) 2020 NetApp, Inc.; Licensed to xxxx xxxx[NetApp Inc] until Mon Dec 31 00:00:00 2029
+== Maximum Values ==
+Size Depth Namelen Dirsize
+15.6MiB 2 8 200
+== Average Values ==
+Size Depth Namelen Dirsize
+540KiB 2 7 81
+== Top File Extensions ==
+.txt .tmp
+5601 2200
+== Number of files ==
+empty <8KiB 8-64KiB 64KiB-1MiB 1-10MiB 10-100MiB >100MiB
+46 6301 700 302 200 252
+== Space used ==
+empty <8KiB 8-64KiB 64KiB-1MiB 1-10MiB 10-100MiB >100MiB
+0 6.80MiB 8.04MiB 120MiB 251MiB 3.64GiB 0
+== Directory entries ==
+empty 1-10 10-100 100-1K 1K-10K >10k
+18 1 77 1
+== Depth ==
+0-5 6-10 11-15 16-20 21-100 >100
+7898
+== Modified ==
+>1 year >1 month 1-31 days 1-24 hrs <1 hour <15 mins future
+2167 56 322 5353
+== Created ==
+>1 year >1 month 1-31 days 1-24 hrs <1 hour <15 mins future
+2171 54 373 5300
+Total count: 7898
+Directories: 97
+Regular files: 7801
+Symbolic links:
+Junctions:
+Special files:
+Total space for regular files: 4.02GiB
+Total space for directories: 0
+Total space used: 4.02GiB
+7,898 scanned, 0 errors, 0s
+....
+. Copiare i file (con o senza ACL) dall'origine alla condivisione SMB di destinazione. Nell'esempio seguente viene illustrata una copia con ACL.
++
+....
+C:\xcp>xcp copy -acl -fallback-user "DOMAIN\gabi" -fallback-group "DOMAIN\Group" \\10.61.77.189\performance_SMB_home_dirs \\10.61.77.56\performance_SMB_home_dirs
+XCP SMB 1.6; (c) 2020 NetApp, Inc.; Licensed to xxxx xxxx[NetApp Inc] until Mon Dec 31 00:00:00 2029
+7,898 scanned, 0 errors, 0 skipped, 184 copied, 96.1MiB (19.2MiB/s), 5s
+7,898 scanned, 0 errors, 0 skipped, 333 copied, 519MiB (84.7MiB/s), 10s
+7,898 scanned, 0 errors, 0 skipped, 366 copied, 969MiB (89.9MiB/s), 15s
+7,898 scanned, 0 errors, 0 skipped, 422 copied, 1.43GiB (99.8MiB/s), 20s
+7,898 scanned, 0 errors, 0 skipped, 1,100 copied, 1.69GiB (52.9MiB/s), 25s
+7,898 scanned, 0 errors, 0 skipped, 1,834 copied, 1.94GiB (50.4MiB/s), 30s
+7,898 scanned, 0 errors, 0 skipped, 1,906 copied, 2.43GiB (100MiB/s), 35s
+7,898 scanned, 0 errors, 0 skipped, 2,937 copied, 2.61GiB (36.6MiB/s), 40s
+7,898 scanned, 0 errors, 0 skipped, 2,969 copied, 3.09GiB (100.0MiB/s), 45s
+7,898 scanned, 0 errors, 0 skipped, 3,001 copied, 3.58GiB (100.0MiB/s), 50s
+7,898 scanned, 0 errors, 0 skipped, 3,298 copied, 4.01GiB (88.0MiB/s), 55s
+7,898 scanned, 0 errors, 0 skipped, 5,614 copied, 4.01GiB (679KiB/s), 1m0s
+7,898 scanned, 0 errors, 0 skipped, 7,879 copied, 4.02GiB (445KiB/s), 1m5s
+7,898 scanned, 0 errors, 0 skipped, 7,897 copied, 4.02GiB (63.2MiB/s), 1m5s
+....
++
+
+NOTE: Se non esiste un aggregato di dati, crearne uno nuovo utilizzando lo storage `aggr create` comando.
+
+. Sincronizzare i file di origine e di destinazione.
++
+....
+C:\xcp>xcp sync -acl -fallback-user "DOMAIN\gabi" -fallback-group "DOMAIN\Group" \\10.61.77.189\performance_SMB_home_dirs \\10.61.77.56\performance_SMB_home_dirs
+XCP SMB 1.6; (c) 2020 NetApp, Inc.; Licensed to xxxx xxxx[NetApp Inc] until Mon Dec 31 00:00:00 2029
+10,796 scanned, 4,002 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 5s
+15,796 scanned, 8,038 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 10s
+15,796 scanned, 8,505 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 15s
+15,796 scanned, 8,707 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 20s
+15,796 scanned, 8,730 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 25s
+15,796 scanned, 8,749 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 30s
+15,796 scanned, 8,765 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 35s
+15,796 scanned, 8,786 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 40s
+15,796 scanned, 8,956 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 45s
+8 XCP v1.6 User Guide © 2020 NetApp, Inc. All rights reserved.
+Step Description
+15,796 scanned, 9,320 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 50s
+15,796 scanned, 9,339 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 55s
+15,796 scanned, 9,363 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 1m0s
+15,796 scanned, 10,019 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 1m5s
+15,796 scanned, 10,042 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 1m10s
+15,796 scanned, 10,059 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 1m15s
+15,796 scanned, 10,075 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 1m20s
+15,796 scanned, 10,091 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 1m25s
+15,796 scanned, 10,108 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 1m30s
+15,796 scanned, 10,929 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 1m35s
+15,796 scanned, 12,443 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 1m40s
+15,796 scanned, 13,963 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 1m45s
+15,796 scanned, 15,488 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 1m50s
+15,796 scanned, 15,796 compared, 0 errors, 0 skipped, 0 copied, 0 removed, 1m51s
+....
+. Verificare che i file siano stati copiati correttamente.
++
+....
+C:\xcp> xcp verify \\10.61.77.189\performance_SMB_home_dirs \\10.61.77.56\performance_SMB_home_dir
+XCP SMB 1.6; (c) 2020 NetApp, Inc.; Licensed to xxxx xxxx[NetApp Inc] until Mon Dec 31 00:00:00 2029
+8 compared, 8 same, 0 different, 0 missing, 5s
+24 compared, 24 same, 0 different, 0 missing, 10s
+41 compared, 41 same, 0 different, 0 missing, 15s
+63 compared, 63 same, 0 different, 0 missing, 20s
+86 compared, 86 same, 0 different, 0 missing, 25s
+423 compared, 423 same, 0 different, 0 missing, 30s
+691 compared, 691 same, 0 different, 0 missing, 35s
+1,226 compared, 1,226 same, 0 different, 0 missing, 40s
+1,524 compared, 1,524 same, 0 different, 0 missing, 45s
+1,547 compared, 1,547 same, 0 different, 0 missing, 50s
+1,564 compared, 1,564 same, 0 different, 0 missing, 55s
+2,026 compared, 2,026 same, 0 different, 0 missing, 1m0s
+2,045 compared, 2,045 same, 0 different, 0 missing, 1m5s
+2,061 compared, 2,061 same, 0 different, 0 missing, 1m10s
+2,081 compared, 2,081 same, 0 different, 0 missing, 1m15s
+2,098 compared, 2,098 same, 0 different, 0 missing, 1m20s
+2,116 compared, 2,116 same, 0 different, 0 missing, 1m25s
+3,232 compared, 3,232 same, 0 different, 0 missing, 1m30s
+4,817 compared, 4,817 same, 0 different, 0 missing, 1m35s
+6,267 compared, 6,267 same, 0 different, 0 missing, 1m40s
+7,844 compared, 7,844 same, 0 different, 0 missing, 1m45s
+7,898 compared, 7,898 same, 0 different, 0 missing, 1m45s,cifs
+....
+
+
+link:xcp-bp-cifs-data-migration-with-acls-from-a-source-storage-box-to-ontap.html["Segue: Migrazione dei dati CIFS con ACL da un storage box di origine a ONTAP."]

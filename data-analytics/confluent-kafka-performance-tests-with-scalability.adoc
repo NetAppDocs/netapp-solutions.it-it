@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-performance-tests-with-scalability.html 
+keywords: performance, tests, scalability 
+summary: Con la configurazione di NetApp StorageGRID, abbiamo eseguito i test dello storage su più livelli con da tre a quattro nodi per i carichi di lavoro consumer e di produzione. 
+---
+= Test delle performance con scalabilità
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:confluent-kafka-confluent-kafka-certification.html["Precedente: Verifica confluente."]
+
+[role="lead"]
+Con la configurazione di NetApp StorageGRID, abbiamo eseguito il test dello storage su più livelli con da tre a quattro nodi per carichi di lavoro consumer e di produttori. Secondo i nostri test, il tempo di completamento e i risultati delle performance erano direttamente proporzionali al numero di nodi StorageGRID. L'installazione di StorageGRID richiedeva almeno tre nodi.
+
+* Il tempo necessario per completare le operazioni di produzione e di consumo è diminuito in modo lineare con l'aumento del numero di nodi di storage.
+
+
+image:confluent-kafka-image9.png["Errore: Immagine grafica mancante"]
+
+* Le performance per l'operazione di recupero s3 sono aumentate linearmente in base al numero di nodi StorageGRID. StorageGRID supporta fino a 200 nodi StorgeGRID.
+
+
+image:confluent-kafka-image10.png["Errore: Immagine grafica mancante"]
+
+link:confluent-kafka-kafka-s3-connector.html["Successivo: Connettore s3 confluente."]

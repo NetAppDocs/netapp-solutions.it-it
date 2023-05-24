@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: vdi-vds/hcvdivds_hybrid_cloud_environment.html 
+keywords: Virtual Desktop Service, VDS, Azure, IPsec VPN 
+summary: NetApp Virtual Desktop Service può essere esteso a on-premise quando esiste una connettività tra risorse on-premise e risorse cloud. Le aziende possono stabilire il collegamento a Microsoft Azure utilizzando Express Route o una connessione VPN IPSec site-to-site. È inoltre possibile creare collegamenti ad altri cloud in modo simile utilizzando un collegamento dedicato o un tunnel VPN IPSec. 
+---
+= Ambiente di cloud ibrido
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+NetApp Virtual Desktop Service può essere esteso a on-premise quando esiste una connettività tra risorse on-premise e risorse cloud. Le aziende possono stabilire il collegamento a Microsoft Azure utilizzando Express Route o una connessione VPN IPSec site-to-site. È inoltre possibile creare collegamenti ad altri cloud in modo simile utilizzando un collegamento dedicato o un tunnel VPN IPSec.
+
+Per la convalida della soluzione, abbiamo utilizzato l'ambiente illustrato nella figura seguente.
+
+image:hcvdivds_image8.png["Errore: Immagine grafica mancante"]
+
+On-premise, avevamo più VLAN per la gestione, host di sessione desktop remoto e così via. Si trovavano nella subnet 172.21.146-150.0/24 e venivano instradati alla rete aziendale utilizzando il servizio di accesso di routing remoto Microsoft. Abbiamo anche eseguito le seguenti attività:
+
+. Abbiamo preso nota dell'IP pubblico di Microsoft Routing and Remote Access Server (RRAS), identificato con IPchicken.com.
+. Abbiamo creato una risorsa Virtual Network Gateway (VPN basata su routing) con Azure Subscription.
+. È stata creata la connessione che fornisce l'indirizzo del gateway di rete locale per l'IP pubblico del server Microsoft RRAS.
+. Abbiamo completato la configurazione VPN su RRAS per creare un'interfaccia virtuale utilizzando l'autenticazione pre-condivisa fornita durante la creazione del gateway VPN. Se configurata correttamente, la VPN deve trovarsi nello stato connesso. Invece di Microsoft RRAS, è possibile utilizzare pfSense o altri strumenti pertinenti per creare il tunnel VPN IPSec sito-sito. Poiché è basato su route, il tunnel reindirizza il traffico in base alle subnet specifiche configurate.
+
+
+Microsoft Azure Active Directory fornisce l'autenticazione dell'identità basata su oAuth. Le autenticazioni dei client aziendali richiedono in genere l'autenticazione basata su NTLM o Kerberos. I servizi di dominio Active Directory di Microsoft Azure eseguono la sincronizzazione dell'hash delle password tra Azure Active Directory e i controller di dominio on-premise utilizzando ADConnect.
+
+Per la convalida di questa soluzione VDS ibrida, abbiamo inizialmente implementato Microsoft Azure e aggiunto un sito aggiuntivo con vSphere. Il vantaggio di questo approccio è che i servizi della piattaforma sono stati implementati in Microsoft Azure e quindi sono stati prontamente sottoposti a backup utilizzando il portale. È quindi possibile accedere facilmente ai servizi da qualsiasi luogo, anche se il collegamento VPN del sito non è attivo.
+
+Per aggiungere un altro sito, abbiamo utilizzato uno strumento chiamato DCConfig. Il collegamento a tale applicazione è disponibile sul desktop della macchina virtuale CWMgr (Cloud Workspace Manager). Una volta avviata l'applicazione, accedere alla scheda DataCenter Sites (Siti DataCenter), aggiungere il nuovo sito del data center e inserire le informazioni richieste come mostrato di seguito. L'URL punta all'IP vCenter. Assicurarsi che la macchina virtuale CWMgr possa comunicare con vCenter prima di aggiungere la configurazione.
+
+
+NOTE: Assicurarsi che vSphere PowerCLI 5.1 su CloudWorkspace Manager sia installato per consentire la comunicazione con l'ambiente VMware vSphere.
+
+La seguente figura illustra la configurazione del sito del data center on-premise.
+
+image:hcvdivds_image9.png["Errore: Immagine grafica mancante"]
+
+Tenere presente che sono disponibili opzioni di filtraggio per le risorse di calcolo in base al cluster specifico, al nome host o allo spazio libero della RAM. Le opzioni di filtraggio per le risorse di storage includono lo spazio libero minimo sugli archivi dati o il numero massimo di macchine virtuali per archivio dati. Gli archivi di dati possono essere esclusi utilizzando espressioni regolari. Fare clic sul pulsante Save (Salva) per salvare la configurazione.
+
+Per convalidare la configurazione, fare clic sul pulsante Test o fare clic su Load Hypervisor (carica hypervisor) e selezionare un menu a discesa nella sezione vSphere. Deve essere compilato con i valori appropriati. È consigliabile mantenere l'hypervisor primario impostato su yes per il sito di provisioning predefinito.
+
+I modelli di macchine virtuali creati su VMware vSphere vengono utilizzati come raccolte di provisioning su VDS. Le raccolte di provisioning sono disponibili in due forme: Condivisa e VDI. Il tipo di raccolta di provisioning condiviso viene utilizzato per i servizi di desktop remoto per i quali viene applicata una singola policy di risorse a tutti i server. Il tipo di VDI viene utilizzato per le istanze di WVD per le quali il criterio di risorsa viene assegnato singolarmente. Ai server di una raccolta di provisioning può essere assegnato uno dei tre ruoli seguenti:
+
+* *TSDATA.* combinazione di servizi terminal e ruolo del server dati.
+* *TS.* servizi terminal (host di sessione).
+* *DATA.* file server o database server. Quando si definisce il ruolo del server, è necessario scegliere il modello di macchina virtuale e lo storage (datastore). Il datastore scelto può essere limitato a un datastore specifico oppure è possibile utilizzare l'opzione meno utilizzata in cui il datastore viene scelto in base all'utilizzo dei dati.
+
+
+Ogni implementazione dispone di risorse VM predefinite per l'allocazione delle risorse cloud in base a utenti attivi, fissi, carico del server o numero di utenti.
+
+link:hcvdivds_single_server_load_test_with_login_vsi.html["Successivo: Test di carico del server singolo con Login VSI"]

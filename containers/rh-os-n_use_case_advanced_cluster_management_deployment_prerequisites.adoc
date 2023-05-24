@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_advanced_cluster_management_deployment_prerequisites.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, ONTAP, Trident, Red Hat OpenShift, Advanced Cluster Management, Advanced Cluster Management for Kubernetes 
+summary: Gestione avanzata dei cluster per Kubernetes su Red Hat OpenShift con NetApp 
+---
+= Implementare Advanced Cluster Management per Kubernetes
+:allow-uri-read: 
+
+
+
+
+== Prerequisiti
+
+. Un cluster Red Hat OpenShift (superiore alla versione 4.5) per il cluster hub
+. Cluster Red Hat OpenShift (superiori alla versione 4.4.3) per cluster gestiti
+. Accesso cluster-admin al cluster Red Hat OpenShift
+. Un abbonamento Red Hat per Advanced Cluster Management per Kubernetes
+
+
+Advanced Cluster Management è un add-on per il cluster OpenShift, pertanto esistono determinati requisiti e restrizioni sulle risorse hardware in base alle funzionalità utilizzate nell'hub e nei cluster gestiti. È necessario tenere conto di questi problemi durante il dimensionamento dei cluster. Consultare la documentazione https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.2/html-single/install/index#network-configuration["qui"] per ulteriori dettagli.
+
+Se il cluster hub dispone di nodi dedicati per l'hosting dei componenti dell'infrastruttura e si desidera installare risorse di Advanced Cluster Management solo su tali nodi, è necessario aggiungere di conseguenza tolleranze e selettori a tali nodi. Per ulteriori informazioni, consultare la documentazione https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.2/html/install/installing#installing-on-infra-node["qui"].
+
+link:rh-os-n_use_case_advanced_cluster_management_deployment.html["Successivo: Installazione."]

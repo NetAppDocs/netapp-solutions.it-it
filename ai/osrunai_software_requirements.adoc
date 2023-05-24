@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: ai/osrunai_software_requirements.html 
+keywords:  
+summary:  
+---
+= Requisiti software
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Questa soluzione è stata convalidata utilizzando un'implementazione Kubernetes di base con l'operatore Run:ai installato. Kubernetes è stato implementato utilizzando https://github.com/NVIDIA/deepops["NVIDIA DeepOps"^] motore di implementazione, che implementa tutti i componenti necessari per un ambiente pronto per la produzione. DeepOps implementato automaticamente https://netapp.io/persistent-storage-provisioner-for-kubernetes/["Trident di NetApp"^] Per l'integrazione persistente dello storage con l'ambiente k8s, sono state create classi di storage predefinite in modo che i container sfruttino lo storage del sistema storage AFF A800. Per ulteriori informazioni su Trident con Kubernetes su ONTAP ai, vedere https://www.netapp.com/us/media/tr-4798.pdf["TR-4798"^].
+
+ The following table lists the software components that are required to implement the solution as tested.
+|===
+| Software | Versione o altre informazioni 
+
+
+| Software per la gestione dei dati NetApp ONTAP | 9.6p4 
+
+
+| Firmware dello switch Cisco NX-OS | 7.0(3)I6(1) 
+
+
+| SISTEMA OPERATIVO NVIDIA DGX | 4.0.4 - Ubuntu 18.04 LTS 
+
+
+| Versione di Kubernetes | 1.17 
+
+
+| Versione di Trident | 20.04.0 
+
+
+| Esegui:ai CLI | v2.1.13 
+
+
+| Run:ai Orchestration Kubernetes Operator version | 1.0.39 
+
+
+| Piattaforma container Docker | 18.06.1-ce [e68fc7a] 
+|===
+Ulteriori requisiti software per Run:ai sono disponibili all'indirizzo https://docs.run.ai/Administrator/Cluster-Setup/Run-AI-GPU-Cluster-Prerequisites/["Esegui: Prerequisiti del cluster GPU ai"^].
+
+link:osrunai_optimal_cluster_and_gpu_utilization_with_run_ai_overview.html["Avanti: Utilizzo ottimale di cluster e GPU con Run ai"].

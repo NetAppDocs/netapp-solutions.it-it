@@ -1,0 +1,72 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_workflow_clone_vm.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualizzazione Red Hat OpenShift con NetApp ONTAP 
+---
+= Workflow: Virtualizzazione Red Hat OpenShift con NetApp ONTAP
+:allow-uri-read: 
+
+
+
+
+== Cloning delle macchine virtuali
+
+Il cloning di una macchina virtuale esistente in OpenShift viene ottenuto con il supporto della funzionalità di cloning di Volume CSI di Astra Trident. Il cloning del volume CSI consente la creazione di un nuovo PVC utilizzando un PVC esistente come origine dati duplicando il suo PV. Dopo la creazione del nuovo PVC, funziona come entità separata e senza alcun collegamento o dipendenza dal PVC di origine.
+
+image::redhat_openshift_image57.jpg[Architettura di VM Cloning]
+
+La clonazione dei volumi CSI è soggetta a determinate restrizioni:
+
+. Il PVC di origine e il PVC di destinazione devono trovarsi nello stesso progetto.
+. La clonazione è supportata all'interno della stessa classe di storage.
+. La clonazione può essere eseguita solo quando i volumi di origine e di destinazione utilizzano la stessa impostazione VolumeMode; ad esempio, un volume di blocco può essere clonato solo su un altro volume di blocco.
+
+
+Le VM in un cluster OpenShift possono essere clonate in due modi:
+
+. Spegnendo la VM di origine
+. Mantenendo attiva la VM di origine
+
+
+
+
+=== Spegnendo la VM di origine
+
+Clonare una macchina virtuale esistente spegnendo la macchina virtuale è una funzionalità OpenShift nativa implementata con il supporto di Astra Trident. Per clonare una macchina virtuale, attenersi alla seguente procedura.
+
+. Accedere a workload > Virtualization > Virtual Machines (carichi di lavoro > virtualizzazione > macchine virtuali) e fare clic sui puntini di sospensione accanto alla macchina virtuale che si desidera clonare.
+. Fare clic su Clone Virtual Machine (Clona macchina virtuale) e fornire i dettagli della nuova macchina virtuale.
++
+image::redhat_openshift_image58.JPG[clonare la macchina virtuale]
+
+. Fare clic su Clone Virtual Machine (Clona macchina virtuale) per chiudere la macchina virtuale di origine e avviare la creazione della macchina virtuale clone.
+. Al termine di questa fase, è possibile accedere e verificare il contenuto della VM clonata.
+
+
+
+
+=== Mantenendo attiva la VM di origine
+
+Una macchina virtuale esistente può anche essere clonata clonando il PVC esistente della macchina virtuale di origine e quindi creando una nuova macchina virtuale utilizzando il PVC clonato. Questo metodo non richiede l'arresto della VM di origine. Per clonare una macchina virtuale senza spegnerla, attenersi alla procedura riportata di seguito.
+
+. Accedere a Storage > PersistentVolumeClaims (Storage > PersistentVolumeClaims) e fare clic sui puntini di sospensione accanto al PVC collegato alla VM di origine.
+. Fare clic su Clone PVC e fornire i dettagli del nuovo PVC.
++
+image::redhat_openshift_image59.JPG[clonare il pvc]
+
+. Quindi fare clic su Clone (Clona). In questo modo si crea un PVC per la nuova macchina virtuale.
+. Accedere a workload > virtualizzazione > macchine virtuali e fare clic su Create > with YAML (Crea > con YAML).
+. Nella sezione spec > template > spec > Volumes (specifiche > modello > specifiche > volumi), collegare il PVC clonato invece del disco container. Fornire tutti gli altri dettagli della nuova macchina virtuale in base alle proprie esigenze.
++
+[source, cli]
+----
+- name: rootdisk
+  persistentVolumeClaim:
+    claimName: rhel8-short-frog-rootdisk-28dvb-clone
+----
+. Fare clic su Create (Crea) per creare la nuova macchina virtuale.
+. Una volta creata correttamente la macchina virtuale, accedere e verificare che la nuova macchina sia un clone della macchina virtuale di origine.
+
+
+link:rh-os-n_use_case_openshift_virtualization_workflow_vm_from_snapshot.html["Segue: Workflow: Creazione di macchine virtuali da un'istantanea."]

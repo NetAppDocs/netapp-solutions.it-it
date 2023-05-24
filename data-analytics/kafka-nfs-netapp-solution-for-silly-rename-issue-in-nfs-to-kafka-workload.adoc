@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-netapp-solution-for-silly-rename-issue-in-nfs-to-kafka-workload.html 
+keywords: solution, posix, xfs, ext4, rebalancing 
+summary: In questa sezione viene descritto il problema del ridenominazione sciocco e le modifiche necessarie al server NFS e al client NFS per risolvere il problema. 
+---
+= Soluzione NetApp per problemi di ridenominazione sciocco per carichi di lavoro da NFS a Kafka
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:kafka-nfs-introduction.html["Precedente: Introduzione."]
+
+[role="lead"]
+Kafka si basa sul presupposto che il file system sottostante sia conforme a POSIX, ad esempio XFS o Ext4. Il ribilanciamento delle risorse Kafka rimuove i file mentre l'applicazione li sta ancora utilizzando. Un file system conforme a POSIX consente di procedere con l'annullamento del collegamento. Tuttavia, il file viene rimosso solo dopo che tutti i riferimenti al file sono stati rimossi. Se il file system sottostante è collegato in rete, il client NFS intercetta le chiamate di sconnessione e gestisce il flusso di lavoro. Poiché il file non è collegato, il client NFS invia una richiesta di ridenominazione al server NFS e, all'ultima chiusura del file non collegato, effettua un'operazione di rimozione del file rinominato. Questo comportamento viene comunemente definito come ridenominazione sciocco di NFS ed è orchestrato dal client NFS.
+
+Qualsiasi broker Kafka che utilizza lo storage da un server NFSv3 si verifica in problemi a causa di questo comportamento. Tuttavia, il protocollo NFSv4.x dispone di funzionalità per risolvere questo problema consentendo al server di assumersi la responsabilità dei file aperti e non collegati. I server NFS che supportano questa funzionalità opzionale comunicano la proprietà al client NFS al momento dell'apertura del file. Il client NFS interrompe quindi la gestione di unlink quando vengono aperte le porte in sospeso e consente al server di gestire il flusso. Sebbene la specifica NFSv4 fornisca linee guida per l'implementazione, fino ad ora non esistevano implementazioni server NFS note che supportassero questa funzionalità opzionale.
+
+Le seguenti modifiche sono necessarie per consentire al server NFS e al client NFS di risolvere il problema del ridenominazione sciocco:
+
+* *Modifiche al client NFS (Linux).* al momento dell'apertura del file, il server NFS risponde con un flag, che indica la capacità di gestire lo scollegamento dei file aperti. Le modifiche al lato client NFS consentono al server NFS di gestire lo scollegamento in presenza del flag. NetApp ha aggiornato il client NFS Linux open-source con queste modifiche. Il client NFS aggiornato è ora generalmente disponibile in RHEL8.7 e RHEL9.1.
+* *Modifiche al server NFS.* il server NFS tiene traccia dell'apertura. Lo scollegamento su un file aperto esistente è ora gestito dal server per corrispondere alla semantica POSIX. Quando l'ultima apertura viene chiusa, il server NFS avvia la rimozione effettiva del file ed evita così il processo di ridenominazione sciocco. Il server NFS di ONTAP ha implementato questa funzionalità nella sua ultima versione, ONTAP 9.12.1.
+
+
+Con le suddette modifiche al client e al server NFS, Kafka può sfruttare in tutta sicurezza tutti i vantaggi dello storage NFS collegato alla rete.
+
+link:kafka-nfs-functional-validation-silly-rename-fix.html["Successivo: Convalida funzionale - correzione ridenominazione non rapida."]

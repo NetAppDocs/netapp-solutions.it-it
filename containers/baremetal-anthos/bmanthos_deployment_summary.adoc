@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: containers/baremetal-anthos/bmanthos_deployment_summary.html 
+keywords: Summary, World Wide Technology, ATC, WWT, Advanced Technology Center, bmctl tool, Cisco UCS B200M3, Cisco Nexus 5548, Red Hat Enterprise Linux 8.2, CentOS 8.2, Ubuntu 20.04 LTS, or Ubuntu 18.04 LTS 
+summary: 'Per la convalida iniziale di questa soluzione, NetApp ha collaborato con World Wide Technology (WWT) per creare un ambiente presso l"Advanced Technology Center (ATC) del WWT. Anthos è stato implementato su un"infrastruttura bare metal utilizzando il tool bmctl fornito da Google Cloud. La sezione seguente descrive in dettaglio l"implementazione utilizzata a scopo di convalida.' 
+---
+= Riepilogo dell'implementazione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+Per la convalida iniziale di questa soluzione, NetApp ha collaborato con World Wide Technology (WWT) per creare un ambiente presso l'Advanced Technology Center (ATC) del WWT. Anthos è stato implementato su un'infrastruttura bare metal utilizzando il tool bmctl fornito da Google Cloud. La sezione seguente descrive in dettaglio l'implementazione utilizzata a scopo di convalida.
+
+La soluzione anthos on bare metal con NetApp è stata costruita come un cluster ibrido altamente disponibile con tre nodi del piano di controllo anthos e quattro nodi di lavoro anthos.
+
+I nodi del piano di controllo utilizzati erano i server blade Cisco UCS B200M3 ospitati in uno chassis e configurati con una singola scheda di interfaccia di rete virtuale (vNIC) su ciascuno, che consentiva il failover A/B a livello di piattaforma Cisco UCS per la tolleranza agli errori. Lo chassis Cisco UCS è collegato a monte a una coppia di fabric interconnect Cisco UCS 6248 che forniscono percorsi diversi per la separazione del traffico lungo il fabric A e il fabric B. Tali fabric si interconnettono in upstream a una coppia di switch per data center Cisco Nexus 5548 collegati alla rete principale del WWT.
+
+I nodi di lavoro erano i nodi HP ProLiant DL360, ognuno dei quali esegueva una delle distribuzioni Linux supportate per anthos su bare metal: Red Hat Enterprise Linux 8.2, CentOS 8.2, Ubuntu 20.04 LTS o Ubuntu 18.04 LTS. I nodi Red Hat Enterprise Linux 8 e CentOS 8 sono stati configurati con i team NIC in esecuzione in modalità LACP e cablati a due switch Nexus 9k C93180YC-FX per la fault tolerance. I server Ubuntu sono stati configurati per il bonding di rete in modalità LACP e cablati alla stessa coppia di switch Nexus 9k per la fault tolerance.
+
+Il sistema di storage NetApp AFF A300 con software ONTAP 9.7 è stato installato e collegato fisicamente alla stessa coppia di switch Nexus 9k dei nodi di lavoro anthos. Questi uplink di rete sono stati aggregati in un gruppo di interfacce (a0a) e la VLAN della rete dati appropriata è stata contrassegnata per consentire ai nodi di lavoro di interagire con il sistema storage. È stata creata una macchina virtuale di storage (SVM) con LIF di dati che supportano il protocollo NFS e dedicata alle operazioni di storage per Trident per fornire storage persistente ai container implementati in anthos su cluster bare metal. Questi volumi persistenti sono stati forniti da NetApp Astra Trident 20.10, l'ultima release dello storage open-source NetApp orchestrator per Kubernetes completamente supportato.
+
+La figura seguente mostra uno schema di cablaggio fisico della soluzione nella parte superiore degli switch rack per data center.
+
+image:bmanthos_image4.png["Errore: Immagine grafica mancante"]
+
+La figura successiva presenta una vista logica della soluzione implementata e convalidata sull'hardware in laboratorio presso il partner NetApp WWT.
+
+image:bmanthos_image5.png["Errore: Immagine grafica mancante"]
+
+link:bmanthos_solution_validation.html["Successivo: Convalida della soluzione."]

@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: rhhc/provider-managed/data-migration.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP, Ansible Automation Platform, BlueXP 
+summary:  
+---
+= Migrazione dei dati
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+Questa pagina mostra le opzioni di migrazione dei dati per i carichi di lavoro container sui cluster gestiti Red Hat OpenShift che utilizzano FSX per NetApp ONTAP per lo storage persistente.
+
+
+
+== Migrazione dei dati
+
+Il servizio Red Hat OpenShift su AWS e FSX per NetApp ONTAP (FSxN) fanno parte del loro portfolio di servizi di AWS. FSxN è disponibile nelle opzioni AZ singolo o AZ multiplo. L'opzione Multi-Az offre la protezione dei dati dai guasti della zona di disponibilità. FSxN può essere integrato con Astra Trident per fornire storage persistente per le applicazioni sui cluster ROSA.
+
+
+
+=== Integrazione di FSxN con Trident utilizzando Helm Chart
+
+video::rhhc-install-trident-using-helm.mp4[]
+La migrazione delle applicazioni container comporta:
+
+* Volumi persistenti: Questa operazione può essere eseguita utilizzando BlueXP. Un'altra opzione consiste nell'utilizzare Astra Control Center per gestire le migrazioni delle applicazioni container dall'ambiente on-premise a quello cloud. L'automazione può essere utilizzata per lo stesso scopo.
+* Metadati dell'applicazione: È possibile eseguire questa operazione utilizzando OpenShift GitOps (Argo CD).
+
+
+
+
+=== Failover e fail-back delle applicazioni sul cluster ROSA utilizzando FSxN per lo storage persistente
+
+Il seguente video è una dimostrazione degli scenari di failover e fail-back delle applicazioni che utilizzano BlueXP e il CD Argo.
+
+video::rhhc-failover-failback.mp4[]
+
+
+=== Soluzione per la migrazione e la protezione dei dati per i carichi di lavoro dei container OpenShift
+
+image:rhhc-rosa-with-fsxn.png[""]

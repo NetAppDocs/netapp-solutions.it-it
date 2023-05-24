@@ -1,0 +1,164 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws/aws-setup.html 
+keywords: NetApp Solutions, amazon, aws, vmc, vmware managed cloud, enterprise, hybrid, cloud, config, configuration, 
+summary:  
+---
+= Implementare e configurare l'ambiente di virtualizzazione su AWS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+Come per i servizi on-premise, la pianificazione di VMware Cloud su AWS è fondamentale per un ambiente pronto per la produzione di successo per la creazione di macchine virtuali e la migrazione.
+
+Questa sezione descrive come configurare e gestire VMware Cloud su AWS SDDC e utilizzarlo in combinazione con le opzioni disponibili per la connessione dello storage NetApp.
+
+
+NOTE: Lo storage in-guest è attualmente l'unico metodo supportato per connettere Cloud Volumes ONTAP (CVO) ad AWS VMC.
+
+Il processo di installazione può essere suddiviso nei seguenti passaggi:
+
+.Implementare e configurare VMware Cloud per AWS
+[%collapsible]
+====
+link:https://www.vmware.com/products/vmc-on-aws.html["VMware Cloud su AWS"] Offre un'esperienza nativa nel cloud per i carichi di lavoro basati su VMware nell'ecosistema AWS. Ogni VMware Software-Defined Data Center (SDDC) viene eseguito in un Amazon Virtual Private Cloud (VPC) e fornisce uno stack VMware completo (incluso vCenter Server), networking software-defined NSX-T, storage vSAN software-defined e uno o più host ESXi che forniscono risorse di calcolo e storage ai carichi di lavoro.
+
+Questa sezione descrive come configurare e gestire VMware Cloud su AWS e utilizzarlo in combinazione con Amazon FSX per NetApp ONTAP e/o Cloud Volumes ONTAP su AWS con storage in-guest.
+
+
+NOTE: Lo storage in-guest è attualmente l'unico metodo supportato per connettere Cloud Volumes ONTAP (CVO) ad AWS VMC.
+
+Il processo di configurazione può essere suddiviso in tre parti:
+
+.Registrati per un account AWS
+[%collapsible]
+=====
+Registratevi per un link:https://aws.amazon.com/["Account Amazon Web Services"].
+
+Per iniziare, è necessario un account AWS, supponendo che non ne sia già stato creato uno. Nuovi o esistenti, per eseguire molte operazioni di questa procedura sono necessari privilegi amministrativi nell'account. Vedi questo link:https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html["collegamento"] Per ulteriori informazioni sulle credenziali AWS.
+
+=====
+.Registrati per un account My VMware
+[%collapsible]
+=====
+Registratevi per un link:https://customerconnect.vmware.com/home["Il mio VMware"] account.
+
+Per accedere al portfolio cloud di VMware (incluso VMware Cloud su AWS), è necessario un account cliente VMware o un account My VMware. Se non lo si è già fatto, creare un account VMware link:https://customerconnect.vmware.com/account-registration["qui"].
+
+=====
+.Provisioning di SDDC in VMware Cloud
+[%collapsible]
+=====
+Una volta configurato l'account VMware e eseguito il dimensionamento corretto, l'implementazione di un Software-Defined Data Center è il passaggio successivo più ovvio per l'utilizzo del servizio VMware Cloud su AWS. Per creare un SDDC, scegliere una regione AWS per ospitarla, assegnare un nome all'SDDC e specificare quanti host ESXi si desidera che l'SDDC contenga. Se non si dispone già di un account AWS, è comunque possibile creare un SDDC di configurazione iniziale contenente un singolo host ESXi.
+
+. Accedere a VMware Cloud Console utilizzando le credenziali VMware esistenti o create di recente.
++
+image:aws-config-1.png[""]
+
+. Configurare la regione AWS, l'implementazione, il tipo di host e il nome SDDC:
++
+image:aws-config-2.png[""]
+
+. Connettersi all'account AWS desiderato ed eseguire lo stack di formazione cloud AWS.
++
+image:aws-config-3.png[""]
+image:aws-config-4.png[""]
+image:aws-config-5.png[""]
+image:aws-config-6.png[""]
+
++
+
+NOTE: In questa convalida viene utilizzata la configurazione a host singolo.
+
+. Selezionare il VPC AWS desiderato per la connessione dell'ambiente VMC.
++
+image:aws-config-7.png[""]
+
+. Configurare la subnet di gestione VMC; questa subnet contiene servizi gestiti da VMC come vCenter, NSX e così via. Non scegliere uno spazio di indirizzi sovrapposto con altre reti che necessitano di connettività all'ambiente SDDC. Infine, seguire le raccomandazioni per la dimensione CIDR indicate di seguito.
++
+image:aws-config-8.png[""]
+
+. Esaminare e riconoscere la configurazione SDDC, quindi fare clic su Deploy the SDDC (implementa SDDC).
++
+image:aws-config-9.png[""]
+
++
+Il completamento del processo di implementazione richiede in genere circa due ore.
+
++
+image:aws-config-10.png[""]
+
+. Al termine dell'operazione, SDDC è pronto per l'uso.
++
+image:aws-config-11.png[""]
+
+
+
+Per una guida dettagliata sull'implementazione di SDDC, vedere link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-EF198D55-03E3-44D1-AC48-6E2ABA31FF02.html["Implementare un SDDC dalla console VMC"].
+
+=====
+====
+.Connetti VMware Cloud a FSX ONTAP
+[%collapsible]
+====
+Per connettere VMware Cloud a FSX ONTAP, attenersi alla seguente procedura:
+
+. Una volta completata l'implementazione di VMware Cloud e connessa ad AWS VPC, è necessario implementare Amazon FSX per NetApp ONTAP in un nuovo VPC anziché nel VPC collegato originale (vedere la schermata riportata di seguito). FSX (IP mobili NFS e SMB) non è accessibile se viene implementato nel VPC connesso. Tenere presente che gli endpoint ISCSI come Cloud Volumes ONTAP funzionano correttamente dal VPC connesso.
++
+image:aws-connect-fsx-1.png[""]
+
+. Implementare un VPC aggiuntivo nella stessa regione, quindi implementare Amazon FSX per NetApp ONTAP nel nuovo VPC.
++
+La configurazione di un gruppo SDDC nella console VMware Cloud abilita le opzioni di configurazione di rete necessarie per connettersi al nuovo VPC in cui viene implementato FSX. Nella fase 3, verificare che l'opzione "Configurazione di VMware Transit Connect per il gruppo comporterà costi per allegato e trasferimento dati" sia selezionata, quindi scegliere Crea gruppo. Il completamento del processo può richiedere alcuni minuti.
+
++
+image:aws-connect-fsx-2.png[""]
+image:aws-connect-fsx-3.png[""]
+image:aws-connect-fsx-4.png[""]
+
+. Collegare il VPC appena creato al gruppo SDDC appena creato. Selezionare la scheda External VPC (VPC esterno) e seguire le istruzioni link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["Istruzioni per il collegamento di un VPC esterno"] al gruppo. Il completamento di questo processo può richiedere da 10 a 15 minuti.
++
+image:aws-connect-fsx-5.png[""]
+image:aws-connect-fsx-6.png[""]
+
+. Nell'ambito del processo VPC esterno, viene richiesto tramite la console AWS di accedere a una nuova risorsa condivisa tramite Resource Access Manager. La risorsa condivisa è link:https://aws.amazon.com/transit-gateway["AWS Transit Gateway"] Gestito da VMware Transit Connect.
++
+image:aws-connect-fsx-7.png[""]
+image:aws-connect-fsx-8.png[""]
+
+. Creare l'allegato del gateway di transito.
++
+image:aws-connect-fsx-9.png[""]
+
+. Sulla console VMC, accettare l'allegato VPC. Il completamento di questo processo può richiedere circa 10 minuti.
++
+image:aws-connect-fsx-10.png[""]
+
+. Nella scheda External VPC (VPC esterno), fare clic sull'icona di modifica nella colonna routes (percorsi) e aggiungere i seguenti percorsi richiesti:
++
+** Un percorso per l'intervallo IP mobile per Amazon FSX per NetApp ONTAP link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html["IP mobili"].
+** Route per l'intervallo IP mobile per Cloud Volumes ONTAP (se applicabile).
+** Un percorso per lo spazio di indirizzi VPC esterno appena creato.
++
+image:aws-connect-fsx-11.png[""]
+
+
+
+. Infine, consentire il traffico bidirezionale link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-DE330202-D63D-408A-AECF-7CDC6ADF7EAC.html["regole del firewall"] Per l'accesso a FSX/CVO. Seguire queste istruzioni link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-DE330202-D63D-408A-AECF-7CDC6ADF7EAC.html["passaggi dettagliati"] Per le regole firewall del gateway di calcolo per la connettività dei carichi di lavoro SDDC.
++
+image:aws-connect-fsx-12.png[""]
+
+. Una volta configurati i gruppi di firewall per il gateway di gestione e di calcolo, è possibile accedere a vCenter come segue:
++
+image:aws-connect-fsx-13.png[""]
+
+
+
+Il passaggio successivo consiste nel verificare che Amazon FSX ONTAP o Cloud Volumes ONTAP sia configurato in base ai requisiti e che i volumi siano configurati per trasferire i componenti di storage da vSAN per ottimizzare l'implementazione.
+
+====

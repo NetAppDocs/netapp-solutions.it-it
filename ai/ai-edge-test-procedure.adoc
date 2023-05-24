@@ -1,0 +1,66 @@
+---
+sidebar: sidebar 
+permalink: ai/ai-edge-test-procedure.html 
+keywords: procedure, operating system, ubuntu, nvidia, docker, criteo, brats 
+summary: Questa sezione descrive le procedure di test utilizzate per validare questa soluzione. 
+---
+= Procedura di test
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ai-edge-test-configuration.html["Precedente: Test della configurazione."]
+
+[role="lead"]
+In questa convalida abbiamo utilizzato la seguente procedura di test.
+
+
+
+== Configurazione del sistema operativo e dell'inferenza ai
+
+Per AFF C190, abbiamo utilizzato Ubuntu 18.04 con driver NVIDIA e docker con supporto per GPU NVIDIA e abbiamo utilizzato MLPerf https://github.com/mlperf/inference_results_v0.7/tree/master/closed/Lenovo["codice"^] Disponibile come parte dell'invio di Lenovo a MLPerf Inference v0.7.
+
+Per EF280, abbiamo utilizzato Ubuntu 20.04 con driver NVIDIA e docker con supporto per GPU NVIDIA e MLPerf https://github.com/mlcommons/inference_results_v1.1/tree/main/closed/Lenovo["codice"^] Disponibile come parte dell'invio di Lenovo a MLPerf Inference v1.1.
+
+Per impostare l'inferenza ai, segui questi passaggi:
+
+. Scarica i set di dati che richiedono la registrazione, il set di convalida ImageNet 2012, il set di dati Criteo Terabyte e il set di training Brats 2019, quindi decomprimere i file.
+. Creare una directory di lavoro con almeno 1 TB e definire la variabile ambientale `MLPERF_SCRATCH_PATH` facendo riferimento alla directory.
++
+È necessario condividere questa directory sullo storage condiviso per il caso di utilizzo dello storage di rete o sul disco locale durante il test con dati locali.
+
+. Esegui il make `prebuild` che crea e avvia il contenitore del docker per le attività di inferenza richieste.
++
+
+NOTE: I seguenti comandi vengono eseguiti tutti dall'interno del contenitore di docker in esecuzione:
+
++
+** Scarica i modelli ai preformati per le attività di inferenza MLPerf: `make download_model`
+** Scarica altri set di dati scaricabili gratuitamente: `make download_data`
+** Pre-elaborare i dati: Make `preprocess_data`
+** Esecuzione: `make build`.
+** Creazione di motori di inferenza ottimizzati per la GPU nei server di calcolo: `make generate_engines`
+** Per eseguire i carichi di lavoro di inferenza, eseguire quanto segue (un comando):
+
+
+
+
+....
+make run_harness RUN_ARGS="--benchmarks=<BENCHMARKS> --scenarios=<SCENARIOS>"
+....
+
+
+== L'inferenza ai è in esecuzione
+
+Sono stati eseguiti tre tipi di esecuzione:
+
+* Inferenza ai su server singolo utilizzando lo storage locale
+* Inferenza ai su server singolo utilizzando lo storage di rete
+* Inferenza ai multi-server utilizzando lo storage di rete
+
+
+link:ai-edge-test-results.html["Segue: Risultati del test."]
