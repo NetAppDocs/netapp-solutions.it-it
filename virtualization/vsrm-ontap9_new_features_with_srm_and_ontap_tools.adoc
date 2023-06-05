@@ -20,7 +20,7 @@ Con la transizione dall'appliance virtuale legacy, gli strumenti ONTAP offrono u
 
 == Ultime versioni di vSphere e Site Recovery Manager
 
-Con il rilascio di SRM 8.3 e versioni successive e con le versioni 9.7.1 e successive dei tool ONTAP, è ora possibile proteggere le macchine virtuali in esecuzione su VMware vSphere 7.
+Con il rilascio di SRM 8.7 e versioni successive e con le versioni 9.12 e successive dei tool ONTAP, è ora possibile proteggere le macchine virtuali in esecuzione su VMware vSphere 8 update 1.
 
 NetApp ha condiviso una partnership profonda con VMware da quasi vent'anni e si impegna a fornire il supporto per le ultime release il più presto possibile. Consulta sempre il tool per la matrice di interoperabilità NetApp (IMT) per scoprire le più recenti combinazioni di software qualificate.
 
@@ -30,17 +30,19 @@ NetApp IMT è disponibile https://mysupport.netapp.com/matrix["qui"^].
 
 == Supporto di vVol (e perché SPBM è importante, anche con SRM)
 
-A partire dalla versione 8.3, SRM supporta ora la gestione della replica basata su policy di storage (SPBM) sfruttando vVol e replica basata su array. A tale scopo, il server SRM è stato aggiornato per includere un nuovo servizio provider SRM vVol, che comunica con il servizio SMS del server vCenter per le attività correlate a VASA.
+A partire dalla versione 8.3, SRM supporta ora la gestione basata su policy di storage (SPBM) della replica sfruttando vVol e la replica basata su array per gli archivi dati utilizzando iSCSI, FCP e NFS v3. A tale scopo, il server SRM è stato aggiornato per includere un nuovo servizio provider SRM vVol, che comunica con il servizio SMS del server vCenter per le attività correlate a VASA.
 
 Uno dei vantaggi di questa architettura è che un SRA non è più necessario, poiché tutto viene gestito tramite VASA.
 
 SPBM è un potente strumento della toolbox vSphere che consente servizi di storage semplificati, prevedibili e coerenti per l'utilizzo da parte dei framework di automazione in ambienti cloud privati e ibridi. Fondamentalmente, SPBM consente di definire le classi di servizio che soddisfano le esigenze della vostra base clienti diversificata. SRM consente ora di esporre le funzionalità di replica ai clienti per i carichi di lavoro critici che richiedono un'efficace orchestrazione e automazione del disaster recovery standard di settore.
 
+Esempio di architettura vVol con FCP o iSCSI:
+
 image:vsrm-ontap9_image1.png["Errore: Immagine grafica mancante"]
 
 
 
-== VVol Architecture 2.3 supporto per server SRM basati su appliance
+== Supporto per server SRM basati su appliance
 
 I server SRM basati su sistema operativo Photon sono ora supportati, oltre alle piattaforme legacy basate su Windows.
 
@@ -61,10 +63,11 @@ IPv6 è ora supportato con le seguenti limitazioni:
 
 == Performance migliorate
 
-Le performance operative sono un requisito fondamentale per l'esecuzione delle attività SRM. Per soddisfare i requisiti degli RTO e degli RPO moderni, l'SRA con gli strumenti ONTAP ha aggiunto due nuovi miglioramenti.
+Le performance operative sono un requisito fondamentale per l'esecuzione delle attività SRM. Per soddisfare i requisiti degli RTO e degli RPO moderni, l'SRA con gli strumenti ONTAP ha aggiunto tre nuovi miglioramenti.
 
 * *Supporto per operazioni simultanee di risproteggere.* introdotto per la prima volta in SRA 9.7.1, questa funzionalità consente di eseguire la risproteggere su due o più piani di ripristino contemporaneamente, riducendo così il tempo necessario per la risproteggere i datastore dopo un failover o una migrazione e rimanendo all'interno dei parametri RTO e RPO.
 * *Strumenti ONTAP 9.8 aggiunge una nuova modalità ottimizzata solo NAS.* quando si utilizzano account con ambito SVM e connessioni a cluster ONTAP con solo datastore basati su NFS, è possibile abilitare la modalità ottimizzata solo NAS per le massime performance negli ambienti supportati.
+* *ONTAP Tools 9.12 ha aggiunto il supporto per la funzionalità di risincronizzazione rapida di ONTAP SnapMirror.* ciò consente una rapida risincronizzazione dei mirror con l'obiettivo di dover ricalcolare i risparmi in termini di efficienza dello storage dopo il processo. Questa funzione non viene utilizzata per impostazione predefinita, ma può essere attivata in ambienti su larga scala in cui la risincronizzazione tradizionale richiede troppo tempo o sta per scadere.
 
 
 
