@@ -31,6 +31,8 @@ entries:
       url: "/ehc/azure/azure-native-overview.html"
     - title: Storage guest connesso per AVS
       url: "/ehc/azure/azure-guest.html"
+    - title: Archivio dati NFS supplementare per GCVE
+      url: "/ehc/gcp/gcp-ncvs-datastore.html"
     - title: Storage connesso guest per GCVE
       url: "/ehc/gcp/gcp-guest.html"
     - title: Supporto regionale per datastore NFS
@@ -85,11 +87,22 @@ entries:
 - title: NetApp per GCP/GCVE
   url: "/ehc/gcp/index.html"
   entries:
-  - title: Disaster recovery applicativo con replica SnapCenter, CVO e Veeam
-    url: "/ehc/gcp/gcp-app-dr-sc-cvo-veeam.html"
-  - title: Migrazione dei carichi di lavoro al datastore NFS Cloud Volume Service
-      con VMware HCX
-    url: "/ehc/gcp/gcp-migrate-vmware-hcx.html"
+  - title: Protezione dei carichi di lavoro
+    entries:
+    - title: Disaster recovery con Veeam (datastore NFS supplementare)
+      url: "/ehc/gcp/gcp-app-dr-sc-cvs-veeam.html"
+    - title: Disaster recovery con Veeam (storage connesso guest)
+      url: "/ehc/gcp/gcp-app-dr-sc-cvo-veeam.html"
+  - title: Migrazione dei carichi di lavoro
+    entries:
+    - title: Migrazione dei carichi di lavoro al datastore NFS Cloud Volume Service
+        con VMware HCX
+      url: "/ehc/gcp/gcp-migrate-vmware-hcx.html"
+    - title: Migrare i carichi di lavoro delle macchine virtuali nel datastore NFS
+        del servizio volumi cloud di NetApp utilizzando la replica Veeam
+      url: "/ehc/gcp/gcp-migrate-veeam.html"
+  - title: Supporto regionale per datastore NFS CVS NetApp
+    url: "/ehc/gcp/gcp-regions.html"
   - title: Panoramica sulla sicurezza - NetApp Cloud Volumes Service (CVS) in Google
       Cloud
     type: solutions
