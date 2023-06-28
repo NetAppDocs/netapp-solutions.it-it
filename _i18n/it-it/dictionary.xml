@@ -119,7 +119,6 @@
   <block id="9d17f91ad987b7e7cf2fa7249cd97343" category="list-text"><block ref="7fcd357d480b8eaa4a38cdbbddfd6c97" category="inline-link-macro-rx"></block>Utilizzare<block ref="684590f66f47755afa88d3f70f9f25ad" prefix=" " category="inline-code"></block> E verificare se NVMe_of è elencato. Utilizzare<block ref="b7dcb36bf321df4a59507f6e4d0e13fb" prefix=" " category="inline-code"></block> per aggiungere una licenza.</block>
   <block id="7193bed15c5b4f7c80f1f19630b57e1e" category="list-text">Verificare che il protocollo NVMe sia attivato sulla SVM.</block>
   <block id="5eabd2d7390fc49cb61f882324bdcac0" category="inline-link-macro">Configurare le SVM per NVMe.</block>
-  <block id="3838b8ad26ea53cc8ddea76f2a58b20a" category="list-text"><block ref="3838b8ad26ea53cc8ddea76f2a58b20a" category="inline-link-macro-rx"></block></block>
   <block id="f2fd2de931ce484e947c89ae8207346a" category="list-text">Verificare che le interfacce logiche NVMe/FC siano disponibili sulle SVM.</block>
   <block id="aa01379022dd5b86e18f436c76f651f5" category="list-text">Utilizzare<block ref="e38d07be71f760e81ec7c17103cd57db" prefix=" " category="inline-code"></block> Per verificare l'adattatore FCP.</block>
   <block id="978583cfbb47e2700c599c43b7949a53" category="list-text">Quando si crea una SVM con la GUI, le interfacce logiche fanno parte di tale processo.</block>
@@ -1264,7 +1263,6 @@
   <block id="5073fc9da327263a7db04fd449991e6a" category="list-text">In ambienti dalle performance elevate o quando si testano le performance con un singolo datastore LUN, si consiglia di modificare l'impostazione del bilanciamento del carico del criterio di selezione del percorso (PSP) round-robin (VMW_PSP_RR) dall'impostazione IOPS predefinita di 1000 a un valore di 1. Consulta la Knowledge base di VMware<block ref="f3f4762788a6845119bdb5b9c9179bda" category="inline-link-rx"></block> per ulteriori informazioni.</block>
   <block id="1ea3eb55b985cf75e100607ee8bd935d" category="inline-link">Plug-in e policy per la selezione del percorso</block>
   <block id="249afbf456bd04d574e8d362d5bf133c" category="list-text">In vSphere 6.7 Update 1, VMware ha introdotto un nuovo meccanismo di bilanciamento del carico di latenza per la PSP Round Robin. La nuova opzione prende in considerazione la larghezza di banda i/o e la latenza del percorso quando si seleziona il percorso ottimale per i/O. Potrebbe essere utile utilizzarlo in ambienti con connettività di percorso non equivalente, ad esempio nei casi in cui vi sono più salti di rete su un percorso rispetto a un altro, o quando si utilizza un sistema NetApp All SAN Array. Vedere<block ref="f5ecc69f2970e2e9c8638ad278ec38f7" category="inline-link-rx"></block> per ulteriori informazioni.</block>
-  <block id="53f8aa6361303e58854a4451a706df5e" category="doc">WP-7355: Plug-in SnapCenter VMware vSphere - sicurezza del prodotto</block>
   <block id="ae9e79ac4b60eba67cf1c7508417b42c" category="paragraph">Il plug-in NetApp SnapCenter per il software engineering VMware vSphere utilizza le seguenti attività di sviluppo sicuro:</block>
   <block id="b25a1098aff7d0c5ee590f1e1a114bb9" category="list-text">*Dynamic Application Security testing (DAST).* tecnologie progettate per rilevare condizioni vulnerabili sulle applicazioni in esecuzione. DAST testa le interfacce HTTP e HTML esposte delle applicazioni web-enable.</block>
   <block id="6cc1fee6b4fc48755d78e93170bbed93" category="list-text">*Valuta del codice di terze parti.* come parte dello sviluppo di software e dell'utilizzo di software open-source (OSS), è importante risolvere le vulnerabilità di sicurezza che potrebbero essere associate a OSS che è stato incorporato nel prodotto. Si tratta di un impegno continuo, in quanto la versione del componente OSS potrebbe presentare una vulnerabilità scoperta di recente in qualsiasi momento.</block>
@@ -2192,9 +2190,7 @@
   <block id="715a2804377bea12c12d2dfc86a3dcfc" category="list-text">ontap-nas-flexgroup (volume dedicato su larga scala)</block>
   <block id="3d8c841d5d9cfab6bcaea8932fb26d33" category="paragraph">Per VMware CSI e Astra Trident CSI, ONTAP supporta nconnect, trunking di sessione, kerberos, ecc. per NFS e multipathing, autenticazione chap, ecc. per i protocolli a blocchi.</block>
   <block id="86c5dadebaa1ddb48e303ff25ad2a146" category="inline-link-macro">Linee guida per le performance di AWS</block>
-  <block id="7a6f37e13b28950f3e673e6ba257a242" category="paragraph">In AWS, FSX per NetApp ONTAP (FSxN) può essere implementato in una singola zona di disponibilità (AZ) o in più AZ. Per i carichi di lavoro di produzione che richiedono alta disponibilità, multi-AZ offre tolleranza di errore a livello zonale e una cache di lettura NVMe migliore rispetto a AZ singolo. Per ulteriori informazioni, consultare <block ref="e4c9b635745c064746324939979ac3ba" category="inline-link-macro-rx"></block>. Per risparmiare sui costi del sito di disaster recovery, è possibile utilizzare un singolo ONTAP AZ FSX.</block>
   <block id="8e9cfb71a7e863c2f209d5480941fd78" category="inline-image-macro">Replica tra Multi-AZ e Single-AZ</block>
-  <block id="d945e872f3d86016e69cb70542c0cc6a" category="paragraph"><block ref="d945e872f3d86016e69cb70542c0cc6a" category="inline-image-macro-rx" type="image"></block></block>
   <block id="935ca08bdd64725cdd1088c0fb91776b" category="inline-link-macro">Gestione della macchina virtuale per lo storage FSX ONTAP</block>
   <block id="0aa0b6b72c2288a10c437f6fd4b333b9" category="paragraph">Per il numero di SVM supportati da FSX ONTAP, fare riferimento a. <block ref="0a6e802412081ec42f8b1e7e94aea7a2" category="inline-link-macro-rx"></block></block>
   <block id="8ac66023d6d64852e30505c1e8d60986" category="doc">Soluzione NetApp con workload gestiti della piattaforma container Red Hat OpenShift su AWS</block>
@@ -19292,4 +19288,18 @@ Collabora con gli architetti delle soluzioni Google e NetApp per ottenere le ott
   <block id="7d14043e2cdfe5f80dbf7456184b3298" category="sidebar">Disaster recovery con Veeam (datastore NFS supplementare)</block>
   <block id="92ef9ceb20c6f7456f4a032dfc9b936a" category="sidebar">Disaster recovery con Veeam (storage connesso guest)</block>
   <block id="38943740bfb1c9d0f91a2b9c5f28c5d3" category="sidebar">Supporto regionale per datastore NFS CVS NetApp</block>
+  <block id="2b5f7f41c5c29f5e4b505fb600cf00c6" category="inline-link-macro">Processo di replica Veeam di SQL VM</block>
+  <block id="540ae7989dc4362242b68c527324365b" category="paragraph"><block ref="540ae7989dc4362242b68c527324365b" category="inline-link-macro-rx"></block></block>
+  <block id="c8596ecd5f3e8b5f6cbfb717a8618aa1" category="inline-link-macro">Failover di SQL VM</block>
+  <block id="2664ca85e7e24c42f77e6d92ddd1ff96" category="paragraph"><block ref="2664ca85e7e24c42f77e6d92ddd1ff96" category="inline-link-macro-rx"></block></block>
+  <block id="676b3c6fe52210ed7050e0d913efabed" category="list-text"><block ref="676b3c6fe52210ed7050e0d913efabed" category="inline-link-macro-rx"></block></block>
+  <block id="f97944acc5aaa9b4b0adb546cdbf3563" category="paragraph">Questo documento descrive le tecniche e la tecnologia utilizzate per proteggere i tool ONTAP per VMware vSphere 9.X dalle minacce esistenti ed emergenti negli ambienti di prodotto.</block>
+  <block id="1965d168d69f3aaabc31c5eb077df0ca" category="doc">WP-7355: Plug-in SnapCenter per VMware vSphere - sicurezza del prodotto</block>
+  <block id="644bb3494646d0ef4823567ae39ae761" category="paragraph">Questo documento descrive le tecniche e la tecnologia utilizzate per proteggere il plug-in NetApp SnapCenter per VMware vSphere 4.X dalle minacce esistenti ed emergenti negli ambienti di prodotto.</block>
+  <block id="8f4aa12da484f4f9dd891a8442f18542" category="cell">Versione 1.0.1</block>
+  <block id="411d690288852abddc39378b2989bfda" category="cell">Giugno 2023</block>
+  <block id="59c0e7f986426f0f712126b456b4eb2a" category="cell">Modifiche grammaticali e di branding minori.</block>
+  <block id="d95d4cfa2b3fc19757cbb653dedde17d" category="paragraph">In AWS, FSX per NetApp ONTAP (FSxN) può essere implementato in una singola zona di disponibilità (AZ) o in più AZ. Per i carichi di lavoro di produzione che richiedono alta disponibilità, multi-AZ offre tolleranza di errore a livello zonale e una cache di lettura NVMe migliore rispetto a AZ singolo. Per ulteriori informazioni, consultare <block ref="e4c9b635745c064746324939979ac3ba" category="inline-link-macro-rx"></block>.
+Per risparmiare sui costi del sito di disaster recovery, è possibile utilizzare un singolo ONTAP AZ FSX.
+<block ref="d945e872f3d86016e69cb70542c0cc6a" category="inline-image-macro-rx" type="image"></block></block>
 </blocks>

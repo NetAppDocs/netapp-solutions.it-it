@@ -58,8 +58,8 @@ Negli ambienti vSphere, i clienti possono scegliere il driver VMware CSI e/o Ast
 
 Per VMware CSI e Astra Trident CSI, ONTAP supporta nconnect, trunking di sessione, kerberos, ecc. per NFS e multipathing, autenticazione chap, ecc. per i protocolli a blocchi.
 
-In AWS, FSX per NetApp ONTAP (FSxN) può essere implementato in una singola zona di disponibilità (AZ) o in più AZ. Per i carichi di lavoro di produzione che richiedono alta disponibilità, multi-AZ offre tolleranza di errore a livello zonale e una cache di lettura NVMe migliore rispetto a AZ singolo. Per ulteriori informazioni, consultare link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["Linee guida per le performance di AWS"]. Per risparmiare sui costi del sito di disaster recovery, è possibile utilizzare un singolo ONTAP AZ FSX.
-
+In AWS, FSX per NetApp ONTAP (FSxN) può essere implementato in una singola zona di disponibilità (AZ) o in più AZ. Per i carichi di lavoro di produzione che richiedono alta disponibilità, multi-AZ offre tolleranza di errore a livello zonale e una cache di lettura NVMe migliore rispetto a AZ singolo. Per ulteriori informazioni, consultare link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["Linee guida per le performance di AWS"].
+Per risparmiare sui costi del sito di disaster recovery, è possibile utilizzare un singolo ONTAP AZ FSX.
 image:rhhc_storage_options_fsxn_options.png["Replica tra Multi-AZ e Single-AZ"]
 
 Per il numero di SVM supportati da FSX ONTAP, fare riferimento a. link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html#max-svms["Gestione della macchina virtuale per lo storage FSX ONTAP"]
