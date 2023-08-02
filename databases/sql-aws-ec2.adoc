@@ -72,7 +72,10 @@ Inoltre, fare riferimento alle Best practice NetApp per gli ambienti SQL Server 
 ====
 Con FSX ONTAP, procurarsi lo storage è l'attività più semplice e può essere eseguita aggiornando il file system. Questo semplice processo consente l'ottimizzazione dinamica dei costi e delle performance in base alle esigenze, aiuta a bilanciare il carico di lavoro SQL ed è anche un ottimo elemento di supporto per il thin provisioning. Il thin provisioning di FSX ONTAP è progettato per presentare più storage logico alle istanze EC2 che eseguono SQL Server rispetto a quanto previsto nel file system. Invece di allocare lo spazio in anticipo, lo spazio di storage viene allocato dinamicamente a ciascun volume o LUN durante la scrittura dei dati. Nella maggior parte delle configurazioni, lo spazio libero viene liberato anche quando i dati nel volume o nel LUN vengono cancellati (e non vengono conservati da alcuna copia Snapshot). La tabella seguente fornisce le impostazioni di configurazione per l'allocazione dinamica dello storage.
 
+[cols="40%, 60%"]
 |===
+
+
 | Impostazione | Configurazione 
 
 
@@ -304,6 +307,7 @@ NetApp SnapCenter è un software per la protezione dei dati di prossima generazi
 ====
 La seguente tabella elenca i requisiti minimi per l'installazione del server e del plug-in SnapCenter.
 
+[cols="50%, 50%"]
 |===
 | Componenti | Requisito 
 
@@ -345,6 +349,7 @@ Spazio minimo per l'installazione: 10 GB di spazio minimo per il repository: 10 
 
 
 |===
+Per informazioni dettagliate, fare riferimento a. link:https://docs.netapp.com/us-en/snapcenter/install/reference_space_and_sizing_requirements.html["requisiti di spazio e dimensionamento"].
 Per informazioni dettagliate, fare riferimento a. link:https://docs.netapp.com/us-en/snapcenter/install/reference_space_and_sizing_requirements.html["requisiti di spazio e dimensionamento"].
 
 Per informazioni sulla compatibilità delle versioni, consultare https://mysupport.netapp.com/matrix/["Tool di matrice di interoperabilità NetApp"^].
@@ -434,6 +439,8 @@ Ora è possibile eseguire operazioni di backup, ripristino e clonazione per SQL 
 Dopo aver inserito il database e i file di log nelle LUN ONTAP FSX, è possibile utilizzare SnapCenter per eseguire il backup dei database. I seguenti processi vengono utilizzati per creare un backup completo.
 
 |===
+
+
 | Best Practice 
 
 
@@ -467,6 +474,8 @@ image:sql-awsec2-image23.png["Errore: Immagine grafica mancante"]
 
 
 |===
+
+
 | Best Practice 
 
 
@@ -515,6 +524,8 @@ L'esecuzione di tutti e tre i processi di backup in parallelo esegue il backup d
 Oltre al backup completo, NetApp consiglia di configurare un backup del log delle transazioni per i database critici. Assicurarsi che la proprietà del database sia impostata sul modello di ripristino completo.
 
 |===
+
+
 | Best practice 
 
 
@@ -580,7 +591,7 @@ image:sql-awsec2-image27.png["Errore: Immagine grafica mancante"]
 ====
 Per ulteriori informazioni su questo processo, guarda il seguente video:
 
-
+video::27f28284-433d-4273-8748-b01200fb3cd7[panopto,width=360]
 
 
 == Appendici
