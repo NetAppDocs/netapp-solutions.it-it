@@ -78,7 +78,7 @@ NetApp ha semplificato le funzionalità e la mappatura a partire dal provider VA
 | *Deduplica* | Sì, No, qualsiasi | Tutto | Obbligatorio per AFF nel 7.2 e versioni successive. 
 
 
-| *Crittografia* | Sì, No, qualsiasi | 7.2 e versioni successive | Seleziona o crea un volume FlexVol crittografato. È richiesta la licenza ONTAP. 
+| *Crittografia* | Sì, No, qualsiasi | 7.2 e versioni successive | Seleziona/crea un volume FlexVol crittografato. È richiesta la licenza ONTAP. 
 
 
 | *IOPS max* | <number> | 7.1 e versioni successive, ma le differenze | Elencato in QoS Policy Group per 7.2 e versioni successive. Per ulteriori informazioni, vedere la Tabella 4. 
@@ -93,7 +93,7 @@ NetApp ha semplificato le funzionalità e la mappatura a partire dal provider VA
 | *Riserva di spazio (Thin Provisioning)* | Sottile, spesso (qualsiasi) | Tutto, ma le differenze | Definito Thin Provisioning nel 7.1 e nelle versioni precedenti, che consentiva anche il valore di qualsiasi. Chiamata Space Reserve nel 7.2. Per impostazione predefinita, tutte le release sono impostate su Thin. 
 
 
-| *Policy di tiering* | Qualsiasi, Nessuno, Snapshot, Auto | 7.2 e versioni successive | Utilizzato per FabricPool; richiede AFF o ASA con ONTAP 9,4 o versione successiva. Si consiglia di utilizzare solo Snapshot, a meno che non si utilizzi una soluzione S3 on-premise come NetApp StorageGRID. 
+| *Policy di tiering* | Qualsiasi, Nessuno, Snapshot, Auto | 7.2 e versioni successive | Utilizzato per FabricPool^^ – richiede AFF o ASA con ONTAP 9.4 o versione successiva. Si consiglia di utilizzare solo Snapshot, a meno che non si utilizzi una soluzione S3 on-premise come NetApp StorageGRID. 
 |===
 
 
