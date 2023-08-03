@@ -62,15 +62,12 @@ Le API VMware vSphere per la consapevolezza dello storage (VASA) semplificano l'
 
 Esistono due elementi:
 
-[cols="20%, 80%"]
-|===
+. *Storage Capability Profile (SCP)*
+Un SCP (Storage Capability Profile) è un modello di storage che consente all'amministratore di vCenter di definire le funzionalità di storage necessarie senza dover comprendere come gestire tali funzionalità in ONTAP. Adottando un approccio basato su modelli, l'amministratore può fornire facilmente servizi di storage in modo coerente e prevedibile. Le funzionalità descritte in un SCP includono performance, protocollo, efficienza dello storage e altre funzionalità. Le funzionalità specifiche variano in base alla versione. Vengono creati utilizzando il menu ONTAP Tools per VMware vSphere all'interno dell'interfaccia utente di vCenter. È inoltre possibile utilizzare le API REST per creare SCP. Possono essere creati manualmente selezionando singole funzionalità o generati automaticamente da datastore esistenti (tradizionali).
+. *Criterio di storage delle macchine virtuali*
+I criteri di storage delle macchine virtuali vengono creati in vCenter in Criteri e profili. Per i vVol, creare un set di regole utilizzando le regole del provider del tipo di storage NetApp vVols. Gli strumenti di ONTAP offrono un approccio semplificato, consentendo di selezionare semplicemente un SCP piuttosto che obbligare a specificare singole regole.
 
 
-| *Storage Capability Profile (SCP)* | Un SCP (Storage Capability Profile) è un modello di storage che consente all'amministratore di vCenter di definire le funzionalità di storage necessarie senza dover comprendere come gestire tali funzionalità in ONTAP. Adottando un approccio basato su modelli, l'amministratore può fornire facilmente servizi di storage in modo coerente e prevedibile. Le funzionalità descritte in un SCP includono performance, protocollo, efficienza dello storage e altre funzionalità. Le funzionalità specifiche variano in base alla versione. Vengono creati utilizzando il menu ONTAP Tools per VMware vSphere all'interno dell'interfaccia utente di vCenter. È inoltre possibile utilizzare le API REST per creare SCP. Possono essere creati manualmente selezionando singole funzionalità o generati automaticamente da datastore esistenti (tradizionali). 
-
-
-| *Criterio di storage delle macchine virtuali* | I criteri di storage delle macchine virtuali vengono creati in vCenter in Criteri e profili. Per i vVol, creare un set di regole utilizzando le regole del provider del tipo di storage NetApp vVols. Gli strumenti di ONTAP offrono un approccio semplificato, consentendo di selezionare semplicemente un SCP piuttosto che obbligare a specificare singole regole. 
-|===
 Come indicato in precedenza, l'utilizzo delle policy consente di ottimizzare l'attività di provisioning di un volume. È sufficiente selezionare una policy appropriata e il provider VASA mostrerà gli archivi dati vVol che supportano tale policy e inserirà vVol in un singolo volume FlexVol conforme (Figura 1).
 
 

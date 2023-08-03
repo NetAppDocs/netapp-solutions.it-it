@@ -24,12 +24,11 @@ Una singola macchina virtuale non è in grado di gestire i dati (VMDK) o RDM) su
 * Una SVM può controllare LUN e volumi che si estendono su più nodi in un cluster.
 
 
-|===
-| Best practice 
+*Best practice*
+
+. Per determinare la supportabilità, tenere presente questa regola: Per proteggere una macchina virtuale utilizzando SRM e NetApp SRA, tutte le parti della macchina virtuale devono esistere su un solo SVM. Questa regola si applica sia al sito protetto che al sito di ripristino.
 
 
-| Per determinare la supportabilità, tenere presente questa regola: Per proteggere una macchina virtuale utilizzando SRM e NetApp SRA, tutte le parti della macchina virtuale devono esistere su un solo SVM. Questa regola si applica sia al sito protetto che al sito di ripristino. 
-|===
 
 
 == Layout SnapMirror supportati
@@ -93,12 +92,11 @@ In un ambiente in cui viene utilizzato SnapVault, le copie Snapshot denominate i
 
 Per informazioni aggiornate su SnapMirror e SnapVault per ONTAP 9, vedere https://www.netapp.com/media/17229-tr4015.pdf?v=127202175503P["Guida alle Best practice per la configurazione di SnapMirror TR-4015 per ONTAP 9."^]
 
-|===
-| Best practice 
+*Best practice*
+
+. Se SnapVault e SRM vengono utilizzati nello stesso ambiente, NetApp consiglia di utilizzare una configurazione a cascata da SnapMirror a SnapVault in cui i backup di SnapVault vengono normalmente eseguiti dalla destinazione di SnapMirror nel sito di DR. In caso di disastro, questa configurazione rende il sito primario inaccessibile. Mantenendo la destinazione SnapVault nel sito di recovery, è possibile riconfigurare i backup SnapVault dopo il failover in modo che i backup SnapVault possano continuare mentre si opera nel sito di recovery.
 
 
-| Se SnapVault e SRM vengono utilizzati nello stesso ambiente, NetApp consiglia di utilizzare una configurazione a cascata da SnapMirror a SnapVault in cui i backup di SnapVault vengono normalmente eseguiti dalla destinazione di SnapMirror nel sito di DR. In caso di disastro, questa configurazione rende il sito primario inaccessibile. Mantenendo la destinazione SnapVault nel sito di recovery, è possibile riconfigurare i backup SnapVault dopo il failover in modo che i backup SnapVault possano continuare mentre si opera nel sito di recovery. 
-|===
 In un ambiente VMware, ogni datastore dispone di un UUID (Universal Unique Identifier) e ogni VM dispone di un MOID (Managed Object ID) univoco. Questi ID non vengono gestiti da SRM durante il failover o il failback. Poiché gli UUID degli archivi di dati e i MOID delle macchine virtuali non vengono mantenuti durante il failover da SRM, tutte le applicazioni che dipendono da questi ID devono essere riconfigurate dopo il failover di SRM. Un'applicazione di esempio è NetApp Active IQ Unified Manager, che coordina la replica SnapVault con l'ambiente vSphere.
 
 La figura seguente mostra una configurazione a cascata da SnapMirror a SnapVault. Se la destinazione SnapVault si trova nel sito di DR o in un sito terzo che non è interessato da un'interruzione nel sito primario, l'ambiente può essere riconfigurato per consentire ai backup di continuare dopo il failover.
@@ -125,9 +123,7 @@ Con i protocolli SAN supportati (FC, FCoE e iSCSI), ONTAP 9 offre servizi LUN, o
 
 VMware SRM e NetApp SRA supportano l'utilizzo del protocollo FC in un sito e del protocollo iSCSI nell'altro. Tuttavia, non supporta la combinazione di datastore FC-attached e datastore iSCSI-attached nello stesso host ESXi o in host diversi nello stesso cluster. Questa configurazione non è supportata con SRM perché, durante il failover SRM o il failover di test, SRM include tutti gli iniziatori FC e iSCSI negli host ESXi nella richiesta.
 
-|===
-| Best practice 
+*Best practice*
 
+. SRM e SRA supportano protocolli FC e iSCSI misti tra i siti protetti e di ripristino. Tuttavia, ogni sito deve essere configurato con un solo protocollo, FC o iSCSI, non entrambi nello stesso sito. Se esiste un requisito per la configurazione dei protocolli FC e iSCSI nello stesso sito, NetApp consiglia che alcuni host utilizzino iSCSI e altri host utilizzino FC. In questo caso, NetApp consiglia anche di configurare le mappature delle risorse SRM in modo che le macchine virtuali siano configurate per il failover in un gruppo di host o nell'altro.
 
-| SRM e SRA supportano protocolli FC e iSCSI misti tra i siti protetti e di ripristino. Tuttavia, ogni sito deve essere configurato con un solo protocollo, FC o iSCSI, non entrambi nello stesso sito. Se esiste un requisito per la configurazione dei protocolli FC e iSCSI nello stesso sito, NetApp consiglia che alcuni host utilizzino iSCSI e altri host utilizzino FC. In questo caso, NetApp consiglia anche di configurare le mappature delle risorse SRM in modo che le macchine virtuali siano configurate per il failover in un gruppo di host o nell'altro. 
-|===

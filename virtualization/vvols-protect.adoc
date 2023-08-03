@@ -104,50 +104,20 @@ Per informazioni sulle API REST del plug-in SnapCenter per VMware vSphere, veder
 
 Le seguenti Best practice possono aiutarti a ottenere il massimo dalla tua implementazione SnapCenter.
 
-|===
-
-
- a| 
-* SCV supporta sia vCenter Server RBAC che ONTAP RBAC e include ruoli vCenter predefiniti che vengono creati automaticamente al momento della registrazione del plug-in. Ulteriori informazioni sui tipi di RBAC supportati https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_types_of_rbac_for_snapcenter_users.html["qui."]
+. SCV supporta sia vCenter Server RBAC che ONTAP RBAC e include ruoli vCenter predefiniti che vengono creati automaticamente al momento della registrazione del plug-in. Ulteriori informazioni sui tipi di RBAC supportati https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_types_of_rbac_for_snapcenter_users.html["qui."]
 +
 ** Utilizzare l'interfaccia utente di vCenter per assegnare l'accesso agli account con privilegi minimi utilizzando i ruoli predefiniti descritti https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_predefined_roles_packaged_with_snapcenter.html["qui"].
 ** Se si utilizza SCV con il server SnapCenter, è necessario assegnare il ruolo _SnapCenterAdmin_.
 ** ONTAP RBAC si riferisce all'account utente utilizzato per aggiungere e gestire i sistemi di storage utilizzati da SCV. ONTAP RBAC non si applica ai backup basati su vVol. Scopri di più su ONTAP RBAC e SCV https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_ontap_rbac_features_in_snapcenter.html["qui"].
 
 
+. Replica i set di dati di backup su un secondo sistema utilizzando SnapMirror per repliche complete dei volumi di origine. Come indicato in precedenza, è anche possibile utilizzare policy di vault mirror per la conservazione a lungo termine dei dati di backup indipendentemente dalle impostazioni di conservazione delle snapshot del volume di origine. Entrambi i meccanismi sono supportati con vVol.
+. Poiché SCV richiede anche strumenti ONTAP per la funzionalità vVol di VMware vSphere, controllare sempre lo strumento matrice di interoperabilità NetApp (IMT) per verificare la compatibilità delle versioni specifiche
+. Se si utilizza la replica vVol con VMware SRM, prestare attenzione all'RPO delle policy e alla pianificazione del backup
+. Progettare le policy di backup con impostazioni di conservazione che soddisfino gli obiettivi dei punti di ripristino (RPO) definiti dall'organizzazione
+. Configurare le impostazioni di notifica sui gruppi di risorse per ricevere una notifica dello stato durante l'esecuzione dei backup (vedere la figura 10 di seguito)
 
 
-
-
- a| 
-* Replica i set di dati di backup su un secondo sistema utilizzando SnapMirror per repliche complete dei volumi di origine. Come indicato in precedenza, è anche possibile utilizzare policy di vault mirror per la conservazione a lungo termine dei dati di backup indipendentemente dalle impostazioni di conservazione delle snapshot del volume di origine. Entrambi i meccanismi sono supportati con vVol.
-
-
-
-
- a| 
-* Poiché SCV richiede anche strumenti ONTAP per la funzionalità vVol di VMware vSphere, controllare sempre lo strumento matrice di interoperabilità NetApp (IMT) per verificare la compatibilità delle versioni specifiche
-
-
-
-
- a| 
-* Se si utilizza la replica vVol con VMware SRM, prestare attenzione all'RPO delle policy e alla pianificazione del backup
-
-
-
-
- a| 
-* Progettare le policy di backup con impostazioni di conservazione che soddisfino gli obiettivi dei punti di ripristino (RPO) definiti dall'organizzazione
-
-
-
-
- a| 
-* Configurare le impostazioni di notifica sui gruppi di risorse per ricevere una notifica dello stato durante l'esecuzione dei backup (vedere la figura 10 di seguito)
-
-
-|===
 
 
 === Opzioni di notifica del gruppo di risorse

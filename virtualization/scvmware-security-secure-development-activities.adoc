@@ -8,6 +8,7 @@ summary:
 :allow-uri-read: 
 
 
+[role="lead"]
 Chance Bingen, NetApp
 
 Questo documento descrive le tecniche e la tecnologia utilizzate per proteggere il plug-in NetApp SnapCenter per VMware vSphere 4.X dalle minacce esistenti ed emergenti negli ambienti di prodotto.
@@ -16,7 +17,6 @@ Questo documento descrive le tecniche e la tecnologia utilizzate per proteggere 
 
 == Attività di sviluppo sicure
 
-[role="lead"]
 Il plug-in NetApp SnapCenter per il software engineering VMware vSphere utilizza le seguenti attività di sviluppo sicuro:
 
 * *Modellazione delle minacce.* lo scopo della modellazione delle minacce è quello di individuare i difetti di sicurezza in una funzionalità, un componente o un prodotto nelle prime fasi del ciclo di vita dello sviluppo software. Un modello di minaccia è una rappresentazione strutturata di tutte le informazioni che influiscono sulla sicurezza di un'applicazione. In sostanza, si tratta di una vista dell'applicazione e del suo ambiente attraverso l'obiettivo della sicurezza.
@@ -63,6 +63,7 @@ permitted by applicable law.
 
 La seguente tabella fornisce i dettagli della porta aperta.
 
+[cols="60%, 40%"]
 |===
 | Numero della porta TCP v4/v6 | Funzione 
 
@@ -94,17 +95,3 @@ La seguente tabella fornisce i dettagli della porta aperta.
 
 
 NetApp sviluppa funzionalità software e patch di sicurezza per quanto riguarda il plug-in SnapCenter per l'appliance VMware vSphere e le rilascia ai clienti come piattaforma software integrata. Poiché queste appliance includono dipendenze specifiche del sistema operativo secondario Linux e il nostro software proprietario, NetApp consiglia di non apportare modifiche al sistema operativo secondario, in quanto questo potrebbe influire sull'appliance NetApp. Ciò potrebbe influire sulla capacità di NetApp di supportare l'appliance. NetApp consiglia di testare e implementare la versione più recente del codice per le appliance, perché vengono rilasciate per correggere eventuali problemi relativi alla sicurezza.
-
-
-
-== Cronologia delle versioni
-
-|===
-| Versione | Data | Cronologia delle versioni del documento 
-
-
-| Versione 1.0 | Marzo 2022 | Release iniziale. 
-
-
-| Versione 1.0.1 | Giugno 2023 | Modifiche grammaticali e di branding minori. 
-|===
