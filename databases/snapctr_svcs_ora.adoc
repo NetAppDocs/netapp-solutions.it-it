@@ -234,6 +234,38 @@ image:snapctr_svcs_credential_07-aws.png["Schermata che mostra questo passaggio 
 
 . Rivedi e *Aggiungi*.
 image:snapctr_svcs_credential_08-aws.png["Schermata che mostra questo passaggio nella GUI."]
+. Innanzitutto, dalla console AWS EC2, creare un ruolo nel menu *Identity and Access Management (IAM)* *Roles*, *Create role* per avviare il flusso di lavoro di creazione dei ruoli.
++
+image:snapctr_svcs_credential_01-aws.png["Schermata che mostra questo passaggio nella GUI."]
+
+. Nella pagina *Seleziona entità attendibile*, scegli *account AWS*, *un altro account AWS* e incolla nell'ID account BlueXP, che può essere recuperato dalla console BlueXP.
++
+image:snapctr_svcs_credential_02-aws.png["Schermata che mostra questo passaggio nella GUI."]
+
+. Filtrare i criteri di autorizzazione in base a fsx e aggiungere *Criteri di autorizzazione* al ruolo.
++
+image:snapctr_svcs_credential_03-aws.png["Schermata che mostra questo passaggio nella GUI."]
+
+. Nella pagina *dettagli ruolo*, assegnare un nome al ruolo, aggiungere una descrizione, quindi fare clic su *Crea ruolo*.
++
+image:snapctr_svcs_credential_04-aws.png["Schermata che mostra questo passaggio nella GUI."]
+
+. Tornando alla console BlueXP, fare clic sull'icona delle impostazioni nell'angolo superiore destro della console per aprire la pagina *credenziali account*, fare clic su *Aggiungi credenziali* per avviare il flusso di lavoro di configurazione delle credenziali.
++
+image:snapctr_svcs_credential_05-aws.png["Schermata che mostra questo passaggio nella GUI."]
+
+. Scegli la posizione delle credenziali come - *Amazon Web Services - BlueXP*.
++
+image:snapctr_svcs_credential_06-aws.png["Schermata che mostra questo passaggio nella GUI."]
+
+. Definisci le credenziali AWS con *Role ARN* appropriato, che può essere recuperato dal ruolo AWS IAM creato nel passaggio 1 precedente. BlueXP *ID account*, utilizzato per creare il ruolo AWS IAM nel passaggio uno.
++
+image:snapctr_svcs_credential_07-aws.png["Schermata che mostra questo passaggio nella GUI."]
+
+. Rivedi e *Aggiungi*.
++
+image:snapctr_svcs_credential_08-aws.png["Schermata che mostra questo passaggio nella GUI."]
+
 
 
 ====

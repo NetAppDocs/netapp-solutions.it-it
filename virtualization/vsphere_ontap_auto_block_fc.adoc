@@ -5,7 +5,21 @@ keywords: vSphere, datastore, VMFS, FC, ONTAP tools, zone, WWPN
 summary: 'In questa pagina viene illustrata la procedura per l"implementazione di un datastore FC VMFS per lo storage NetApp ONTAP in un ambiente VMware vSphere.' 
 ---
 = Datastore vSphere VMFS - backend dello storage Fibre Channel con ONTAP
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+:scriptsdir: ./../scripts/
+:author: Suresh Thoppay, TME - Hybrid Cloud Solutions
+:ontap_version: ONTAP 9.8 or later
+:vsphere_version: vSphere 7.0 or later
+:firstname: Suresh
+:authorinitials: STT
+:middlename: Thoppay,
+:lastname: TME - Hybrid Cloud Solutions
+:authors: Suresh Thoppay, TME - Hybrid Cloud Solutions
 
 
 
@@ -21,14 +35,14 @@ Per il provisioning automatizzato, utilizzare uno dei seguenti script: <<PowerSh
 == Di cosa hai bisogno
 
 * Le competenze di base necessarie per gestire un ambiente vSphere e ONTAP
-* Un sistema storage ONTAP (FAS/AFF/CVO/ONTAP Select/ASA) con {ontap_version}
+* Un sistema storage ONTAP (FAS/AFF/CVO/ONTAP Select/ASA) con ONTAP 9,8 o versione successiva
 * Credenziali ONTAP (nome SVM, ID utente e password)
 * WWPN ONTAP di host, destinazione e informazioni su SVM e LUN
 * link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-429C4DDD-5EC0-4DBD-8EA8-76082AB7ADEC.html++["Il foglio di lavoro di configurazione FC completo"]
 * Credenziali vCenter Server
 * Informazioni sugli host vSphere
 +
-** {vsphere_version}
+** VSphere 7,0 o versione successiva
 
 
 * Switch fabric

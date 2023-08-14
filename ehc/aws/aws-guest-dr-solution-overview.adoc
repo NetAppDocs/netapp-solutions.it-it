@@ -211,10 +211,8 @@ FSx-Dest::> snapmirror create -source-path OnPremSourceSVM:OnPremSourceVol -dest
 ====
 Inizializzare la relazione SnapMirror. Questo processo avvia un nuovo snapshot generato dal volume di origine e lo copia nel volume di destinazione.
 
-Per creare un volume, eseguire il seguente comando su FSX ONTAP:
-
 ....
-FSx-Dest::> volume create -vserver DestSVM -volume DestVolName -aggregate DestAggrName -size VolSize -type DP
+FSx-Dest::> snapmirror initialize -destination-path DestSVM:DestVol
 ....
 ====
 

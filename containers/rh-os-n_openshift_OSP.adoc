@@ -20,7 +20,7 @@ OSP è un cloud Infrastructure-as-a-service (IaaS) implementato da una raccolta 
 
 Il progetto OpenStack è un progetto della community sviluppato rapidamente che fornisce release aggiornate ogni sei mesi. Inizialmente Red Hat OpenStack Platform ha mantenuto il passo con questo ciclo di release pubblicando una nuova release insieme a ogni release upstream e fornendo supporto a lungo termine per ogni terza release. Di recente, con la release di OSP 16.0 (basata su OpenStack Train), Red Hat ha scelto di non tenere il passo con i numeri di release, ma ha invece trasferito le nuove funzionalità nelle subrelease. La versione più recente è Red Hat OpenStack Platform 16.1, che include funzionalità avanzate con backport delle release Usuri e Victoria in upstream.
 
-Per ulteriori informazioni su OSP, vedere https://www.redhat.com/en/technologies/linux-platforms/openstack-platform["Sito Web della piattaforma Red Hat OpenStack"^].
+Per ulteriori informazioni su OSP, vedere link:https://www.redhat.com/en/technologies/linux-platforms/openstack-platform["Sito Web della piattaforma Red Hat OpenStack"^].
 
 
 
@@ -30,9 +30,8 @@ I servizi della piattaforma OpenStack vengono implementati come container, isola
 
 image:redhat_openshift_image34.png["Errore: Immagine grafica mancante"]
 
+[cols="15%, 15%, 70%"]
 |===
-
-
 | Servizio | Nome del progetto | Descrizione 
 
 
@@ -76,6 +75,7 @@ Red Hat OpenStack Director richiede la funzionalità IPMI per implementare la pi
 
 Red Hat OpenShift con NetApp è progettato per separare logicamente il traffico di rete per scopi diversi utilizzando Virtual Local Area Network (VLAN). Questa configurazione può essere scalata per soddisfare le esigenze dei clienti o per fornire un ulteriore isolamento per servizi di rete specifici. La seguente tabella elenca le VLAN necessarie per implementare la soluzione durante la convalida della soluzione in NetApp.
 
+[cols="15%, 70%, 15%"]
 |===
 | VLAN | Scopo | ID VLAN 
 
@@ -144,7 +144,7 @@ Un gruppo di server dispone di un massimo predefinito di 10 istanze virtuali per
 
 NOTE: Esiste un limite specifico di affinità/anti-affinità per i gruppi di server OSP; se non sono disponibili risorse sufficienti per l'implementazione su nodi separati o se non sono disponibili risorse sufficienti per consentire la condivisione dei nodi, la macchina virtuale non viene avviata.
 
-Per configurare i gruppi di affinità, vedere https://access.redhat.com/solutions/1977943["Come si configurano affinità e anti-affinità per le istanze di OpenStack?"^].
+Per configurare i gruppi di affinità, vedere link:https://access.redhat.com/solutions/1977943["Come si configurano affinità e anti-affinità per le istanze di OpenStack?"^].
 
 
 
@@ -152,6 +152,6 @@ Per configurare i gruppi di affinità, vedere https://access.redhat.com/solution
 
 IPI semplifica l'implementazione dei cluster OpenShift attraverso la procedura guidata interattiva descritta in precedenza in questo documento. Tuttavia, potrebbe essere necessario modificare alcuni valori predefiniti come parte di una distribuzione del cluster.
 
-In questi casi, è possibile eseguire ed eseguire le procedure guidate senza implementare immediatamente un cluster; al contrario, viene creato un file di configurazione da cui il cluster può essere distribuito in un secondo momento. Questa funzione è molto utile se si desidera modificare le impostazioni predefinite dell'IPI o se si desidera implementare più cluster identici nell'ambiente per altri utilizzi, ad esempio la multi-tenancy. Per ulteriori informazioni sulla creazione di una configurazione di installazione personalizzata per OpenShift, vedere https://docs.openshift.com/container-platform/4.7/installing/installing_openstack/installing-openstack-installer-custom.html["Red Hat OpenShift Installazione di un cluster su OpenStack con personalizzazioni"^].
+In questi casi, è possibile eseguire ed eseguire le procedure guidate senza implementare immediatamente un cluster; al contrario, viene creato un file di configurazione da cui il cluster può essere distribuito in un secondo momento. Questa funzione è molto utile se si desidera modificare le impostazioni predefinite dell'IPI o se si desidera implementare più cluster identici nell'ambiente per altri utilizzi, ad esempio la multi-tenancy. Per ulteriori informazioni sulla creazione di una configurazione di installazione personalizzata per OpenShift, vedere link:https://docs.openshift.com/container-platform/4.7/installing/installing_openstack/installing-openstack-installer-custom.html["Red Hat OpenShift Installazione di un cluster su OpenStack con personalizzazioni"^].
 
 link:rh-os-n_overview_netapp.html["Pagina successiva: Panoramica dello storage NetApp."]

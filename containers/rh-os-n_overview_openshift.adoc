@@ -2,15 +2,16 @@
 sidebar: sidebar 
 permalink: containers/rh-os-n_overview_openshift.html 
 keywords: OpenShift, deploy, baremetal, private cloud, virtual 
-summary: 'Red Hat OpenShift Container Platform unisce le operazioni IT e di sviluppo su un"unica piattaforma per creare, implementare e gestire le applicazioni in modo coerente tra infrastrutture cloud ibride e on-premise. Red Hat OpenShift si basa su innovazioni open-source e standard di settore, tra cui Kubernetes e Red Hat Enterprise Linux CoreOS, la distribuzione Linux aziendale leader a livello mondiale progettata per carichi di lavoro basati su container.' 
+summary: 'Red Hat OpenShift Container Platform unisce le operazioni IT e di sviluppo su un"unica piattaforma per creare, implementare e gestire le applicazioni in modo coerente tra infrastrutture cloud ibride e on-premise. Red Hat OpenShift si basa sull"innovazione open-source e sugli standard di settore, tra cui Kubernetes e Red Hat Enterprise Linux CoreOS, la principale distribuzione Linux aziendale progettata per workload basati su container.' 
 ---
 = Panoramica di OpenShift
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
 
-
-
-
-== Panoramica di OpenShift
 
 [role="lead"]
 Red Hat OpenShift Container Platform unisce le operazioni IT e di sviluppo su un'unica piattaforma per creare, implementare e gestire le applicazioni in modo coerente tra infrastrutture cloud ibride e on-premise. Red Hat OpenShift si basa su innovazioni open-source e standard di settore, tra cui Kubernetes e Red Hat Enterprise Linux CoreOS, la distribuzione Linux aziendale leader a livello mondiale progettata per carichi di lavoro basati su container. OpenShift fa parte del programma Cloud Native Computing Foundation (CNCF) Certified Kubernetes, che offre portabilità e interoperabilità dei carichi di lavoro dei container.
@@ -19,17 +20,18 @@ Red Hat OpenShift Container Platform unisce le operazioni IT e di sviluppo su un
 
 == Red Hat OpenShift offre le seguenti funzionalità:
 
-* *Provisioning self-service.* gli sviluppatori possono creare applicazioni on-demand in modo rapido e semplice dai tool che utilizzano di più, mentre le operazioni mantengono il pieno controllo sull'intero ambiente.
-* *Storage persistente.* grazie al supporto per lo storage persistente, OpenShift Container Platform consente di eseguire applicazioni stateful e stateless native nel cloud.
-* *Integrazione continua e sviluppo continuo (ci/CD).* questa piattaforma con codice sorgente gestisce immagini di build e implementazione su larga scala.
-* *Standard open-source.* questi standard incorporano l'Open Container Initiative (OCI) e Kubernetes per l'orchestrazione di container, oltre ad altre tecnologie open-source. Non ti limiterai alla tecnologia o alla roadmap di business di un vendor specifico.
-* *Ci/CD pipeline.* OpenShift fornisce supporto immediato per le pipeline ci/CD, in modo che i team di sviluppo possano automatizzare ogni fase del processo di delivery delle applicazioni e assicurarsi che venga eseguito in ogni modifica apportata al codice o alla configurazione dell'applicazione.
-* *RBAC (Role-Based Access Control).* questa funzione consente di monitorare team e utenti per organizzare un gruppo di sviluppatori di grandi dimensioni.
-* *Automated Build and Deploy.* OpenShift offre agli sviluppatori la possibilità di creare le proprie applicazioni containerizzate o di fare in modo che la piattaforma crei i container dal codice sorgente dell'applicazione o persino dai binari. La piattaforma automatizza quindi l'implementazione di queste applicazioni nell'infrastruttura in base alle caratteristiche definite per le applicazioni. Ad esempio, la quantità di risorse da allocare e la posizione dell'infrastruttura da implementare per garantire la conformità con le licenze di terze parti.
-* *Ambienti coerenti.* OpenShift garantisce che l'ambiente fornito per gli sviluppatori e per tutto il ciclo di vita dell'applicazione sia coerente dal sistema operativo alle librerie, alla versione runtime (ad esempio, Java runtime), e persino il runtime dell'applicazione in uso (ad esempio, tomcat) per rimuovere i rischi derivanti da ambienti incoerenti.
-* *Gestione della configurazione.* la configurazione e la gestione dei dati sensibili sono integrate nella piattaforma per garantire che all'applicazione venga fornita una configurazione coerente e indipendente dall'ambiente, indipendentemente dalle tecnologie utilizzate per creare l'applicazione o dall'ambiente in cui viene implementata.
-* *Registri e metriche delle applicazioni.* un feedback rapido è un aspetto importante dello sviluppo delle applicazioni. Il monitoraggio integrato e la gestione dei log di OpenShift forniscono agli sviluppatori metriche immediate per studiare il comportamento dell'applicazione tra le modifiche e per risolvere i problemi il prima possibile nel ciclo di vita dell'applicazione.
-* *Sicurezza e catalogo di container.* OpenShift offre la multi-tenancy e protegge l'utente dall'esecuzione di codice dannoso utilizzando la sicurezza stabilita con Security-Enhanced Linux (SELinux), CGroups e Secure Computing Mode (seccomp) per isolare e proteggere i container. Fornisce inoltre la crittografia tramite certificati TLS per i vari sottosistemi e l'accesso ai container certificati Red Hat (access.redhat.com/containers) sottoposti a scansione e classificati con un'enfasi specifica sulla sicurezza per fornire container applicativi certificati, affidabili e sicuri agli utenti finali.
+* *Provisioning self-service* gli sviluppatori possono creare applicazioni su richiesta in modo rapido e semplice utilizzando gli strumenti più utilizzati, mentre le operazioni mantengono il pieno controllo sull'intero ambiente.
+* *Storage persistente* grazie al supporto per lo storage persistente, OpenShift Container Platform consente di eseguire sia applicazioni stateful che applicazioni stateless native del cloud.
+* *Integrazione continua e sviluppo continuo (ci/CD)* questa piattaforma di codice sorgente gestisce le immagini di build e distribuzione su larga scala.
+* *Standard open-source* questi standard incorporano l'Open Container Initiative (OCI) e Kubernetes per l'orchestrazione dei container, oltre ad altre tecnologie open-source. Non ti limiterai alla tecnologia o alla roadmap di business di un vendor specifico.
+* *Pipeline ci/CD* OpenShift fornisce un supporto immediato per le pipeline ci/CD, in modo che i team di sviluppo possano automatizzare ogni fase del processo di distribuzione dell'applicazione e assicurarsi che venga eseguito ad ogni modifica apportata al codice o alla configurazione dell'applicazione.
+* *RBAC (Role-Based Access Control)* questa funzionalità fornisce il monitoraggio di team e utenti per aiutare a organizzare un gruppo di sviluppatori di grandi dimensioni.
+* *Automated Build and Deploy* OpenShift offre agli sviluppatori la possibilità di creare le proprie applicazioni containerizzate o di far costruire i contenitori dal codice sorgente dell'applicazione o anche dai file binari. La piattaforma automatizza quindi l'implementazione di queste applicazioni nell'infrastruttura in base alle caratteristiche definite per le applicazioni. Ad esempio, la quantità di risorse da allocare e la posizione dell'infrastruttura da implementare per garantire la conformità con le licenze di terze parti.
+* *Ambienti coerenti* OpenShift garantisce che l'ambiente fornito agli sviluppatori e per tutto il ciclo di vita dell'applicazione sia coerente dal sistema operativo alle librerie, alla versione runtime (ad esempio Java runtime), e persino il runtime dell'applicazione in uso (ad esempio, tomcat) per eliminare i rischi derivanti da ambienti incoerenti.
+* *Gestione della configurazione* la configurazione e la gestione dei dati sensibili sono integrate nella piattaforma per garantire che all'applicazione venga fornita una configurazione di applicazione coerente e indipendente dall'ambiente, indipendentemente dalle tecnologie utilizzate per creare l'applicazione o dall'ambiente in cui si trova
+implementati.
+* *Registri delle applicazioni e parametri metrici.* il feedback rapido è un aspetto importante dello sviluppo delle applicazioni. Il monitoraggio integrato e la gestione dei log di OpenShift forniscono agli sviluppatori metriche immediate per studiare il comportamento dell'applicazione tra le modifiche e per risolvere i problemi il prima possibile nel ciclo di vita dell'applicazione.
+* *Catalogo sicurezza e container* OpenShift offre la multi-tenancy e protegge l'utente dall'esecuzione di codice dannoso utilizzando la sicurezza stabilita con Security-Enhanced Linux (SELinux), CGroups e Secure Computing Mode (seccomp) per isolare e proteggere i contenitori. Fornisce inoltre la crittografia tramite certificati TLS per i vari sottosistemi e l'accesso ai container certificati Red Hat (access.redhat.com/containers) sottoposti a scansione e classificati con un'enfasi specifica sulla sicurezza per fornire container applicativi certificati, affidabili e sicuri agli utenti finali.
 
 
 image:redhat_openshift_image4.png["Errore: Immagine grafica mancante"]
@@ -48,7 +50,7 @@ Il metodo di installazione IPI è il metodo preferito nella maggior parte dei ca
 
 La distribuzione dell'infrastruttura IPI (Installer Provised Infrastructure) di OpenShift prevede questi passaggi di alto livello:
 
-. Visita Red Hat OpenShift https://www.openshift.com["sito web"^] E accedi con le tue credenziali SSO.
+. Visita Red Hat OpenShift link:https://www.openshift.com["sito web"^] E accedi con le tue credenziali SSO.
 . Seleziona l'ambiente in cui desideri implementare Red Hat OpenShift.
 +
 image:redhat_openshift_image8.jpeg["Errore: Immagine grafica mancante"]
@@ -57,7 +59,7 @@ image:redhat_openshift_image8.jpeg["Errore: Immagine grafica mancante"]
 +
 image:redhat_openshift_image9.jpeg["Errore: Immagine grafica mancante"]
 
-. Seguire la https://docs.openshift.com/container-platform/4.7/installing/index.html["istruzioni per l'installazione"] Fornito da Red Hat per l'implementazione nel vostro ambiente preferito.
+. Seguire la link:https://docs.openshift.com/container-platform/4.7/installing/index.html["istruzioni per l'installazione"] Fornito da Red Hat per l'implementazione nel vostro ambiente preferito.
 
 
 

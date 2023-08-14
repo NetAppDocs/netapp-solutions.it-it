@@ -16,15 +16,15 @@ summary: 'RHV è una piattaforma per data center virtuale aziendale che viene es
 [role="lead"]
 Red Hat Virtualization (RHV) è una piattaforma per data center virtuale aziendale che viene eseguita su Red Hat Enterprise Linux (RHEL) e utilizza l'hypervisor KVM.
 
-Per ulteriori informazioni su RHV, consultare https://www.redhat.com/en/technologies/virtualization/enterprise-virtualization["Sito Web Red Hat Virtualization"^].
+Per ulteriori informazioni su RHV, consultare link:https://www.redhat.com/en/technologies/virtualization/enterprise-virtualization["Sito Web Red Hat Virtualization"^].
 
 RHV offre le seguenti funzionalità:
 
-* *Gestione centralizzata di macchine virtuali e host.* il gestore RHV viene eseguito come macchina fisica o virtuale (VM) nell'implementazione e fornisce un'interfaccia grafica basata su web per la gestione della soluzione da un'interfaccia centrale.
-* *Motore self-hosting.* per ridurre al minimo i requisiti hardware, RHV consente di implementare RHV Manager (RHV-M) come macchina virtuale sugli stessi host che eseguono macchine virtuali guest.
-* *High Availability.* per evitare interruzioni in caso di guasti dell'host, RHV consente di configurare le macchine virtuali per l'alta disponibilità. Le macchine virtuali ad alta disponibilità vengono controllate a livello di cluster utilizzando policy di resilienza.
-* *Elevata scalabilità.* Un singolo cluster RHV può disporre di un massimo di 200 host hypervisor che consentono all'IT di supportare i requisiti di macchine virtuali di grandi dimensioni per ospitare carichi di lavoro di livello Enterprise e avidi in termini di risorse.
-* *Sicurezza migliorata.* ereditato da RHV, le tecnologie di virtualizzazione sicura (sVirt) e Security Enhanced Linux (SELinux) sono utilizzate da RHV per garantire sicurezza e protezione avanzata elevate per host e macchine virtuali. Il vantaggio principale di queste funzionalità è l'isolamento logico di una macchina virtuale e delle risorse associate.
+* *Gestione centralizzata di VM e host* il manager RHV viene eseguito come macchina fisica o virtuale (VM) nella distribuzione e fornisce una GUI basata sul Web per la gestione della soluzione da un'interfaccia centrale.
+* *Motore auto-ospitato* per ridurre al minimo i requisiti hardware, RHV consente a RHV Manager (RHV-M) di essere installato come VM sugli stessi host che eseguono VM guest.
+* *Alta disponibilità* per evitare interruzioni in caso di guasti all'host, RHV consente di configurare le VM per l'alta disponibilità. Le macchine virtuali ad alta disponibilità vengono controllate a livello di cluster utilizzando policy di resilienza.
+* *Elevata scalabilità* Un singolo cluster RHV può avere fino a 200 host hypervisor che consentono al reparto IT di supportare i requisiti di macchine virtuali di grandi dimensioni per ospitare carichi di lavoro di classe Enterprise avidi di risorse.
+* *La sicurezza avanzata* ereditata dalle tecnologie RHV, Secure Virtualization (sVirt) e Security Enhanced Linux (SELinux) è impiegata da RHV per scopi di elevata sicurezza e protezione avanzata per host e VM. Il vantaggio principale di queste funzionalità è l'isolamento logico di una macchina virtuale e delle risorse associate.
 
 
 image:redhat_openshift_image3.png["Errore: Immagine grafica mancante"]
@@ -41,6 +41,7 @@ La soluzione Red Hat OpenShift su NetApp utilizza due switch dati per fornire co
 
 Red Hat OpenShift su RHV è progettato per separare logicamente il traffico di rete per scopi diversi utilizzando Virtual Local Area Network (VLAN). Questa configurazione può essere scalata per soddisfare le esigenze dei clienti o per fornire un ulteriore isolamento per servizi di rete specifici. La seguente tabella elenca le VLAN necessarie per implementare la soluzione durante la convalida della soluzione in NetApp.
 
+[cols="40%, 40%, 20%"]
 |===
 | VLAN | Scopo | ID VLAN 
 
@@ -94,7 +95,7 @@ Affinity è un modo per definire le regole per un insieme di macchine virtuali e
 
 Le condizioni definite per i parametri possono essere l'applicazione forzata o forzata. La rigida applicazione garantisce che le macchine virtuali di un gruppo di affinità seguano sempre l'affinità positiva o negativa rigorosamente senza alcun riferimento alle condizioni esterne. La soft enforcement garantisce che venga impostata una preferenza più elevata per le macchine virtuali di un gruppo di affinità per seguire l'affinità positiva o negativa quando possibile. Nella configurazione di due o tre hypervisor descritta in questo documento, l'impostazione consigliata è affinità soft. Nei cluster più grandi, la hard affinità può distribuire correttamente i nodi OpenShift.
 
-Per configurare i gruppi di affinità, vedere https://access.redhat.com/documentation/en-us/red_hat_virtualization/4.4/html/virtual_machine_management_guide/sect-affinity_groups["Red Hat 6.11. Documentazione di Affinity Groups"^].
+Per configurare i gruppi di affinità, vedere link:https://access.redhat.com/documentation/en-us/red_hat_virtualization/4.4/html/virtual_machine_management_guide/sect-affinity_groups["Red Hat 6.11. Documentazione di Affinity Groups"^].
 
 
 
@@ -102,6 +103,6 @@ Per configurare i gruppi di affinità, vedere https://access.redhat.com/document
 
 IPI semplifica l'implementazione dei cluster OpenShift attraverso la procedura guidata interattiva descritta in precedenza in questo documento. Tuttavia, è possibile che alcuni valori predefiniti debbano essere modificati nell'ambito dell'implementazione del cluster.
 
-In questi casi, è possibile eseguire e gestire la procedura guidata senza implementare immediatamente un cluster. Viene invece creato un file di configurazione da cui è possibile implementare il cluster in un secondo momento. Questo è molto utile se si desidera modificare le impostazioni predefinite IPI o se si desidera implementare più cluster identici nel proprio ambiente per altri utilizzi, ad esempio la multi-tenancy. Per ulteriori informazioni sulla creazione di una configurazione di installazione personalizzata per OpenShift, vedere https://docs.openshift.com/container-platform/4.4/installing/installing_rhv/installing-rhv-customizations.html["Red Hat OpenShift Installazione di un cluster su RHV con personalizzazioni"^].
+In questi casi, è possibile eseguire e gestire la procedura guidata senza implementare immediatamente un cluster. Viene invece creato un file di configurazione da cui è possibile implementare il cluster in un secondo momento. Questo è molto utile se si desidera modificare le impostazioni predefinite IPI o se si desidera implementare più cluster identici nel proprio ambiente per altri utilizzi, ad esempio la multi-tenancy. Per ulteriori informazioni sulla creazione di una configurazione di installazione personalizzata per OpenShift, vedere link:https://docs.openshift.com/container-platform/4.4/installing/installing_rhv/installing-rhv-customizations.html["Red Hat OpenShift Installazione di un cluster su RHV con personalizzazioni"^].
 
 link:rh-os-n_overview_netapp.html["Pagina successiva: Panoramica dello storage NetApp."]

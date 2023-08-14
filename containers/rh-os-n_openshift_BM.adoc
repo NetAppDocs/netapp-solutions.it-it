@@ -22,10 +22,10 @@ OpenShift su bare metal è simile alle implementazioni virtuali di OpenShift, ch
 
 == OpenShift su bare metal offre le seguenti funzionalità:
 
-* *IPI o installazione assistita.* con un cluster OpenShift implementato da Installer Provised Infrastructure (IPI) su server bare metal, i clienti possono implementare un ambiente OpenShift altamente versatile e facilmente scalabile direttamente sui commodity server, senza la necessità di gestire un layer hypervisor.
-* *Progettazione di cluster compatti.* per ridurre al minimo i requisiti hardware, OpenShift on bare metal consente agli utenti di implementare cluster di soli 3 nodi, consentendo ai nodi del piano di controllo OpenShift di agire anche come nodi di lavoro e container host.
-* *Virtualizzazione OpenShift.* OpenShift può eseguire macchine virtuali all'interno di container utilizzando la virtualizzazione OpenShift. Questa virtualizzazione nativa per container esegue l'hypervisor KVM all'interno di un container e collega volumi persistenti per lo storage delle macchine virtuali.
-* *Infrastruttura ottimizzata per ai/ML.* implementa applicazioni come Kubeflow per applicazioni di machine learning incorporando nodi di lavoro basati su GPU nel tuo ambiente OpenShift e sfruttando OpenShift Advanced Scheduling.
+* *Implementazione IPI o assistita* con un cluster OpenShift distribuito da IPI (Installer Provisioning Infrastructure) su server bare metal, i clienti possono implementare un ambiente OpenShift altamente versatile e facilmente scalabile direttamente su commodity server, senza la necessità di gestire un livello di hypervisor.
+* *Compact cluster design* per ridurre al minimo i requisiti hardware, OpenShift su bare metal consente agli utenti di implementare cluster di soli 3 nodi, consentendo ai nodi del piano di controllo OpenShift di agire anche come nodi di lavoro e contenitori host.
+* *Virtualizzazione OpenShift* OpenShift può eseguire macchine virtuali all'interno dei container utilizzando OpenShift Virtualization. Questa virtualizzazione nativa per container esegue l'hypervisor KVM all'interno di un container e collega volumi persistenti per lo storage delle macchine virtuali.
+* *Infrastruttura ottimizzata per ai/ML* implementate applicazioni come Kubeflow per applicazioni di apprendimento automatico incorporando nodi di lavoro basati su GPU nel vostro ambiente OpenShift e sfruttando OpenShift Advanced Scheduling.
 
 
 
@@ -36,8 +36,8 @@ La soluzione Red Hat OpenShift su NetApp utilizza due switch dati per fornire co
 
 Per l'implementazione di OpenShift Bare-Metal IPI, è necessario creare un nodo di provisioning, una macchina Red Hat Enterprise Linux 8 che deve avere interfacce di rete collegate a reti separate.
 
-* *Provisioning network.* questa rete viene utilizzata per avviare i nodi bare-metal e installare le immagini e i pacchetti necessari per implementare il cluster OpenShift.
-* *Rete bare-metal.* questa rete viene utilizzata per la comunicazione pubblica del cluster dopo l'implementazione.
+* *Provisioning network* questa rete viene utilizzata per avviare i nodi bare-metal e installare le immagini e i pacchetti necessari per distribuire il cluster OpenShift.
+* *Rete bare-metal* questa rete viene utilizzata per la comunicazione pubblica del cluster dopo la sua distribuzione.
 
 
 Per la configurazione del nodo di provisioning, il cliente crea interfacce di bridge che consentono al traffico di instradare correttamente sul nodo stesso e sulla macchina virtuale Bootstrap fornita a scopo di implementazione. Una volta implementato il cluster, l'API e gli indirizzi VIP di ingresso vengono migrati dal nodo di boot strap al cluster appena implementato.
@@ -54,9 +54,8 @@ image:redhat_openshift_image37.png["Errore: Immagine grafica mancante"]
 
 La soluzione Red Hat OpenShift con NetApp è progettata per separare logicamente il traffico di rete per scopi diversi utilizzando Virtual Local Area Network (VLAN).
 
+[cols="40%, 40%, 20%"]
 |===
-
-
 | VLAN | Scopo | ID VLAN 
 
 
