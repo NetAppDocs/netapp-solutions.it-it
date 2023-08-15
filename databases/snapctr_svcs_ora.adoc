@@ -53,9 +53,9 @@ Il test e la convalida di questa soluzione sono stati eseguiti in un ambiente AW
 
 === Architettura
 
-image::snapctr_svcs_architecture.png[Questa immagine fornisce un'immagine dettagliata del Cloud Backup for Application all'interno della console BlueXP, inclusi l'interfaccia utente, il connettore e le risorse gestite.]
+image::snapctr_svcs_architecture.png[Questa immagine offre un quadro dettagliato del backup e recovery di BlueXP per le applicazioni nella console BlueXP, che include UI, connettore e risorse che gestisce.]
 
-Questa immagine fornisce un'immagine dettagliata di Cloud Backup for Application all'interno della console BlueXP, che include l'interfaccia utente, il connettore e le risorse gestite.
+Questa immagine offre un quadro dettagliato del backup e recovery di BlueXP per le applicazioni all'interno della console BlueXP, che include l'interfaccia utente, il connettore e le risorse che gestisce.
 
 
 
@@ -128,6 +128,7 @@ L'implementazione richiede i seguenti prerequisiti.
 . Un server database Oracle primario su un'istanza EC2 con un database Oracle completamente implementato e in esecuzione.
 . Un cluster Amazon FSX per ONTAP implementato in AWS che ospita i volumi di database qui sopra.
 . Un server di database opzionale su un'istanza EC2, utilizzabile per il test del cloning di un database Oracle su un host alternativo al fine di supportare un carico di lavoro di sviluppo/test o qualsiasi caso d'utilizzo che richiede un set di dati completo di un database Oracle di produzione.
+. Se hai bisogno di aiuto per soddisfare i prerequisiti sopra indicati per l'implementazione del database Oracle su Amazon FSX per ONTAP e istanze di calcolo EC2, consulta link:aws_ora_fsx_ec2_iscsi_asm.html["Implementazione e protezione di database Oracle in AWS FSX/EC2 con iSCSI/ASM"^] o white paper link:aws_ora_fsx_ec2_deploy_intro.html["Oracle Database Deployment su EC2 e FSX Best Practice"^]
 . Se hai bisogno di aiuto per soddisfare i prerequisiti sopra indicati per l'implementazione del database Oracle su Amazon FSX per ONTAP e istanze di calcolo EC2, consulta link:aws_ora_fsx_ec2_iscsi_asm.html["Implementazione e protezione di database Oracle in AWS FSX/EC2 con iSCSI/ASM"^] o white paper link:aws_ora_fsx_ec2_deploy_intro.html["Oracle Database Deployment su EC2 e FSX Best Practice"^]
 
 
@@ -475,7 +476,7 @@ Per ulteriori informazioni sulle informazioni descritte in questo documento, con
 
 link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.htmll["https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html"^]
 
-* Documentazione di Cloud Backup
+* Documentazione di backup e ripristino BlueXP
 
 
 link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/index.html["https://docs.netapp.com/us-en/cloud-manager-backup-restore/index.html"^]

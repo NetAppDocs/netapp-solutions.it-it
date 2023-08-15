@@ -52,27 +52,29 @@ Il test e la convalida di questa soluzione sono stati eseguiti in un ambiente di
 
 === Architettura
 
-image::snapctr_svcs_azure_architect.png[Questa immagine fornisce un'immagine dettagliata del Cloud Backup for Application all'interno della console BlueXP, inclusi l'interfaccia utente, il connettore e le risorse gestite.]
+image::snapctr_svcs_azure_architect.png[Questa immagine offre un quadro dettagliato del backup e recovery di BlueXP per le applicazioni nella console BlueXP, che include UI, connettore e risorse che gestisce.]
 
-Questa immagine fornisce un'immagine dettagliata di Cloud Backup for Application all'interno della console BlueXP, che include l'interfaccia utente, il connettore e le risorse gestite.
+Questa immagine offre un quadro dettagliato del backup e recovery di BlueXP per le applicazioni all'interno della console BlueXP, che include l'interfaccia utente, il connettore e le risorse che gestisce.
 
 
 
 === Componenti hardware e software
 
+*Hardware*
+
+[cols="30%, 30%, 40%"]
 |===
-
-
-3+| *Hardware* 
 
 
 | Storage Azure NetApp Files | Livello di servizio Premium | Tipo di qualità del servizio automatica e 4TB TB di capacità dello storage per il test 
 
 
 | Istanza di Azure per il calcolo | B4ms standard (4 vcpus, 16 GB di memoria GiB) | Due istanze implementate, una come server DB primario e l'altra come server DB clone 
+|===
+*Software*
 
-
-3+| *Software* 
+[cols="30%, 30%, 40%"]
+|===
 
 
 | RedHat Linux | Red Hat Enterprise Linux 8,7 (LVM) - x64 Gen2 | Implementazione dell'abbonamento a RedHat per il test 
@@ -108,7 +110,8 @@ Per iniziare, attenersi alla seguente procedura:
 * Leggere le istruzioni generali link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/concept-protect-cloud-app-data-to-cloud.html#architecture["Proteggi i dati delle tue applicazioni native nel cloud"^] E le sezioni relative a Oracle e Azure NetApp Files.
 * Guardare la seguente procedura dettagliata sul video
 +
-
+.Video sulla distribuzione di Oracle e ANF
+video::48adf2d8-3f5e-4ab3-b25c-b04a014635ac[panopto]
 
 
 
@@ -423,7 +426,7 @@ Per ulteriori informazioni sulle informazioni descritte in questo documento, con
 +
 link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.htmll["https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html"^]
 
-* Documentazione di Cloud Backup
+* Documentazione di backup e ripristino BlueXP
 +
 link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/index.html["https://docs.netapp.com/us-en/cloud-manager-backup-restore/index.html"^]
 

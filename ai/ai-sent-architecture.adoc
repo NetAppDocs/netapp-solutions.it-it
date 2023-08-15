@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ai/ai-sent-architecture.html 
-keywords: technology, architectural diagram, hardware requirements, NVIDIA RIVA, NVIDIA TAO Toolkit, Flash storage system, Cloud Sync 
+keywords: technology, architectural diagram, hardware requirements, NVIDIA RIVA, NVIDIA TAO Toolkit, Flash storage system, BlueXP Copy and Sync 
 summary: 'L"architettura di questa soluzione di Support Center si basa sugli strumenti predefiniti di NVIDIA e sul NetApp DataOps Toolkit. I tool NVIDIA vengono utilizzati per implementare rapidamente soluzioni ai ad alte performance utilizzando modelli e pipeline precostruiti. Il NetApp DataOps Toolkit semplifica varie attività di gestione dei dati per accelerare lo sviluppo.' 
 ---
 = Architettura
@@ -30,7 +30,7 @@ Il NetApp DataOps Toolkit è una libreria Python che semplifica l'esecuzione di 
 
 == Diagramma architetturale
 
-Il seguente diagramma illustra l'architettura della soluzione. Esistono tre categorie di ambiente principali: Cloud, core e edge. Ciascuna delle categorie può essere distribuita geograficamente. Ad esempio, il cloud contiene archivi di oggetti con file audio in bucket in diverse regioni, mentre il core potrebbe contenere data center collegati tramite una rete ad alta velocità o NetApp Cloud Sync. I nodi edge denotano le piattaforme di lavoro quotidiane dei singoli agenti umani, in cui sono disponibili strumenti di dashboard interattivi e microfoni per visualizzare il sentimento e raccogliere dati audio dalle conversazioni con i clienti.
+Il seguente diagramma illustra l'architettura della soluzione. Esistono tre categorie di ambiente principali: Cloud, core e edge. Ciascuna delle categorie può essere distribuita geograficamente. Ad esempio, il cloud contiene archivi di oggetti con file audio in bucket in regioni diverse, mentre il core potrebbe contenere data center collegati tramite una rete ad alta velocità o Copia e sincronizzazione di NetApp BlueXP. I nodi edge denotano le piattaforme di lavoro quotidiane dei singoli agenti umani, in cui sono disponibili strumenti di dashboard interattivi e microfoni per visualizzare il sentimento e raccogliere dati audio dalle conversazioni con i clienti.
 
 Nei data center con accelerazione GPU, le aziende possono utilizzare NVIDIA https://docs.nvidia.com/deeplearning/riva/user-guide/docs/index.html["RIVA"^] Framework per la creazione di applicazioni ai conversazionali, alle quali il https://developer.nvidia.com/tao["Toolkit Tao"^] Si connette per il finetuning e la riqualificazione dei modelli utilizzando tecniche di trasferimento L-learning. Queste applicazioni di calcolo e i flussi di lavoro sono basati su https://github.com/NetApp/netapp-dataops-toolkit["NetApp DataOps Toolkit"^], Che offre le migliori funzionalità di gestione dei dati offerte da ONTAP. Il toolkit consente ai team di dati aziendali di prototipare rapidamente i propri modelli con dati strutturati e non strutturati associati tramite snapshot e cloni per tracciabilità, controllo delle versioni, test A/B, fornendo così sicurezza, governance, e conformità alle normative. Vedere la sezione link:ai-sent-design-considerations.html#storage-design["Progettazione dello storage"] per ulteriori dettagli.
 
@@ -107,9 +107,9 @@ ONTAP 9.9, l'ultima generazione di software per la gestione dello storage NetApp
 
 
 
-==== NetApp Cloud Sync
+==== Copia e sincronizzazione di NetApp BlueXP
 
-https://docs.netapp.com/us-en/occm/concept_cloud_sync.html["Cloud Sync"^] È un servizio NetApp per una sincronizzazione dei dati rapida e sicura che consente di trasferire file tra condivisioni di file NFS o SMB on-premise a una delle seguenti destinazioni:
+https://docs.netapp.com/us-en/occm/concept_cloud_sync.html["Copia e sincronizzazione di BlueXP"^] È un servizio NetApp per una sincronizzazione dei dati rapida e sicura che consente di trasferire file tra condivisioni di file NFS o SMB on-premise a una delle seguenti destinazioni:
 
 * NetApp StorageGRID
 * NetApp ONTAP S3
@@ -122,7 +122,7 @@ https://docs.netapp.com/us-en/occm/concept_cloud_sync.html["Cloud Sync"^] È un 
 * Storage a oggetti IBM Cloud
 
 
-Cloud Sync sposta i file dove servono in modo rapido e sicuro. Una volta trasferiti, i dati sono completamente disponibili per l'utilizzo sia sull'origine che sulla destinazione. Cloud Sync sincronizza continuamente i dati, in base alla pianificazione predefinita, spostando solo i delta, in modo da ridurre al minimo il tempo e il denaro speso per la replica dei dati. Cloud Sync è uno strumento SaaS (Software as a Service) semplice da configurare e utilizzare. I trasferimenti di dati attivati da Cloud Sync vengono eseguiti da broker di dati. Puoi implementare i data broker Cloud Sync in AWS, Azure, piattaforma cloud Google o on-premise.
+BlueXP Copy e Sync sposta i file dove ne hai bisogno in modo rapido e sicuro. Una volta trasferiti, i dati sono completamente disponibili per l'utilizzo sia sull'origine che sulla destinazione. BlueXP Copy e Sync sincronizza costantemente i dati in base alla pianificazione predefinita, spostando solo i delta, in modo da ridurre al minimo il tempo e il denaro necessari per la replica. BlueXP Copy and Sync è un tool software as a service (SaaS) semplice da configurare e utilizzare. I trasferimenti dei dati attivati da BlueXP Copy e Sync sono effettuati dai broker di dati. Puoi implementare i broker di dati BlueXP Copy e Sync in AWS, Azure, Google Cloud Platform o on-premise.
 
 
 
