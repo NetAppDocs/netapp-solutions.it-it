@@ -162,18 +162,15 @@ Il criterio deve essere configurato con una stringa JSON disponibile nella docum
 image:snapctr_svcs_connector_02-wspace.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Fare clic su *Add a Connector* (Aggiungi un connettore) per avviare il flusso di lavoro di provisioning del connettore.
-
-
++
 image:snapctr_svcs_connector_03-add.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Scegli il tuo cloud provider (in questo caso, *Amazon Web Services*).
-
-
++
 image:snapctr_svcs_connector_04-aws.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Ignorare i passaggi *Permission*, *Authentication* e *Networking* se sono già stati configurati nell'account AWS. In caso contrario, è necessario configurarli prima di procedere. Da qui, è possibile recuperare anche le autorizzazioni per il criterio AWS a cui si fa riferimento nella sezione precedente "<<Preparazione al BlueXP>>."
-
-
++
 image:snapctr_svcs_connector_05-remind.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Inserisci l'autenticazione del tuo account AWS con *Access Key* e *Secret Key*.
@@ -181,8 +178,7 @@ image:snapctr_svcs_connector_05-remind.png["Schermata che mostra questo passaggi
 image:snapctr_svcs_connector_06-auth.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Assegnare un nome all'istanza del connettore e selezionare *Crea ruolo* in *Dettagli*.
-
-
++
 image:snapctr_svcs_connector_07-details.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Configurare la rete con *VPC*, *Subnet* e SSH *Coppia di chiavi* per l'accesso al connettore.
@@ -194,9 +190,10 @@ image:snapctr_svcs_connector_08-network.png["Schermata che mostra questo passagg
 image:snapctr_svcs_connector_09-security.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Esaminare la pagina di riepilogo e fare clic su *Aggiungi* per avviare la creazione del connettore. In genere occorrono circa 10 minuti per completare l'implementazione. Una volta completata l'operazione, l'istanza del connettore viene visualizzata nella dashboard di AWS EC2.
-
-
++
 image:snapctr_svcs_connector_10-review.png["Schermata che mostra questo passaggio nella GUI."]
+
+
 
 ====
 
@@ -318,7 +315,8 @@ Questa operazione completa la configurazione iniziale dei servizi SnapCenter per
 [%collapsible]
 ====
 . Fare clic sui tre punti accanto al database *Protection Status* (Stato protezione), quindi fare clic su *Polices* (Criteri) per visualizzare i criteri di protezione predefiniti del database che è possibile applicare per proteggere i database Oracle.
-+
+
+
 image:snapctr_svcs_bkup_01.png["Schermata che mostra questo passaggio nella GUI."]
 
 . È inoltre possibile creare policy personalizzate con una frequenza di backup personalizzata e una finestra di conservazione dei dati di backup.
@@ -406,9 +404,6 @@ image:snapctr_svcs_clone_07-status.png["Errore: Immagine grafica mancante"]
 . Convalidare il database clonato sull'host dell'istanza EC2.
 +
 image:snapctr_svcs_clone_08-crs.png["Errore: Immagine grafica mancante"]
-
-+
-image:snapctr_svcs_clone_08-db.png["Errore: Immagine grafica mancante"]
 
 
 
