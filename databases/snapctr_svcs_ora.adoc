@@ -129,7 +129,6 @@ L'implementazione richiede i seguenti prerequisiti.
 . Un cluster Amazon FSX per ONTAP implementato in AWS che ospita i volumi di database qui sopra.
 . Un server di database opzionale su un'istanza EC2, utilizzabile per il test del cloning di un database Oracle su un host alternativo al fine di supportare un carico di lavoro di sviluppo/test o qualsiasi caso d'utilizzo che richiede un set di dati completo di un database Oracle di produzione.
 . Se hai bisogno di aiuto per soddisfare i prerequisiti sopra indicati per l'implementazione del database Oracle su Amazon FSX per ONTAP e istanze di calcolo EC2, consulta link:aws_ora_fsx_ec2_iscsi_asm.html["Implementazione e protezione di database Oracle in AWS FSX/EC2 con iSCSI/ASM"^] o white paper link:aws_ora_fsx_ec2_deploy_intro.html["Oracle Database Deployment su EC2 e FSX Best Practice"^]
-. Se hai bisogno di aiuto per soddisfare i prerequisiti sopra indicati per l'implementazione del database Oracle su Amazon FSX per ONTAP e istanze di calcolo EC2, consulta link:aws_ora_fsx_ec2_iscsi_asm.html["Implementazione e protezione di database Oracle in AWS FSX/EC2 con iSCSI/ASM"^] o white paper link:aws_ora_fsx_ec2_deploy_intro.html["Oracle Database Deployment su EC2 e FSX Best Practice"^]
 
 
 ====
@@ -197,6 +196,45 @@ image:snapctr_svcs_connector_09-security.png["Schermata che mostra questo passag
 
 
 image:snapctr_svcs_connector_10-review.png["Schermata che mostra questo passaggio nella GUI."]
+
+====
+
+
+=== Definisci una credenziale nell'accesso alle risorse BlueXP per AWS
+
+[%collapsible]
+====
+. Innanzitutto, dalla console AWS EC2, creare un ruolo nel menu *Identity and Access Management (IAM)* *Roles*, *Create role* per avviare il flusso di lavoro di creazione dei ruoli.
++
+image:snapctr_svcs_credential_01-aws.png["Schermata che mostra questo passaggio nella GUI."]
+
+. Nella pagina *Seleziona entità attendibile*, scegli *account AWS*, *un altro account AWS* e incolla nell'ID account BlueXP, che può essere recuperato dalla console BlueXP.
++
+image:snapctr_svcs_credential_02-aws.png["Schermata che mostra questo passaggio nella GUI."]
+
+. Filtrare i criteri di autorizzazione in base a fsx e aggiungere *Criteri di autorizzazione* al ruolo.
++
+image:snapctr_svcs_credential_03-aws.png["Schermata che mostra questo passaggio nella GUI."]
+
+. Nella pagina *dettagli ruolo*, assegnare un nome al ruolo, aggiungere una descrizione, quindi fare clic su *Crea ruolo*.
++
+image:snapctr_svcs_credential_04-aws.png["Schermata che mostra questo passaggio nella GUI."]
+
+. Tornando alla console BlueXP, fare clic sull'icona delle impostazioni nell'angolo superiore destro della console per aprire la pagina *credenziali account*, fare clic su *Aggiungi credenziali* per avviare il flusso di lavoro di configurazione delle credenziali.
++
+image:snapctr_svcs_credential_05-aws.png["Schermata che mostra questo passaggio nella GUI."]
+
+. Scegli la posizione delle credenziali come - *Amazon Web Services - BlueXP*.
++
+image:snapctr_svcs_credential_06-aws.png["Schermata che mostra questo passaggio nella GUI."]
+
+. Definisci le credenziali AWS con *Role ARN* appropriato, che può essere recuperato dal ruolo AWS IAM creato nel passaggio 1 precedente. BlueXP *ID account*, utilizzato per creare il ruolo AWS IAM nel passaggio uno.
++
+image:snapctr_svcs_credential_07-aws.png["Schermata che mostra questo passaggio nella GUI."]
+
+. Rivedi e *Aggiungi*.
+image:snapctr_svcs_credential_08-aws.png["Schermata che mostra questo passaggio nella GUI."]
+
 
 ====
 
@@ -333,8 +371,10 @@ Questa operazione completa la configurazione iniziale dei servizi SnapCenter per
 image:snapctr_svcs_bkup_01.png["Schermata che mostra questo passaggio nella GUI."]
 
 . È inoltre possibile creare policy personalizzate con una frequenza di backup personalizzata e una finestra di conservazione dei dati di backup.
- +
+
+
 image:snapctr_svcs_bkup_02.png["Schermata che mostra questo passaggio nella GUI."]
+
 . Quando si è soddisfatti della configurazione dei criteri, è possibile assegnare i criteri scelti per proteggere il database.
 
 
@@ -427,6 +467,8 @@ image:snapctr_svcs_clone_07-status.png["Errore: Immagine grafica mancante"]
 
 
 image:snapctr_svcs_clone_08-crs.png["Errore: Immagine grafica mancante"]
+
+image:snapctr_svcs_clone_08-db.png["Errore: Immagine grafica mancante"]
 
 ====
 
