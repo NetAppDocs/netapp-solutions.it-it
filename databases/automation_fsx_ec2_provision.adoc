@@ -1,0 +1,247 @@
+---
+sidebar: sidebar 
+permalink: databases/automation_fsx_ec2_provision.html 
+keywords: AWS, FSx ONTAP, EC2 
+summary: 'La soluzione offre un toolkit di automazione basato su Terraform per il provisioning del cluster FSX ONTAP e dell"istanza di calcolo EC2' 
+---
+= Cluster ONTAP AWS FSX e provisioning di istanze EC2
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Team di progettazione delle soluzioni NetApp
+
+
+
+== Scopo
+
+Questo toolkit automatizza le attività di provisioning di un cluster di storage AWS FSX ONTAP e di un'istanza di calcolo EC2, che può essere successivamente utilizzata per l'implementazione del database.
+
+Questa soluzione risolve i seguenti casi di utilizzo:
+
+* Esegui il provisioning di un'istanza di calcolo EC2 nel cloud AWS in una subnet VPC predefinita e imposta la chiave ssh per l'accesso a EC2 istanza come EC2 utente.
+* Esegui il provisioning di un cluster di storage AWS FSX ONTAP nelle zone di disponibilità desiderate e configura una SVM di storage e imposta la password fsxadmin dell'utente del cluster.
+
+
+
+
+== Pubblico
+
+Questa soluzione è destinata alle seguenti persone:
+
+* Un DBA che gestisce i database in un ambiente AWS EC2.
+* Un Solution Architect per database interessato all'implementazione dei database nell'ecosistema AWS EC2.
+* Un amministratore dello storage che gestisce uno storage AWS FSX ONTAP che supporta i database.
+* Un proprietario delle applicazioni che ama gestire il database nell'ecosistema AWS EC2.
+
+
+
+
+== Licenza
+
+Accedendo, scaricando, installando o utilizzando il contenuto di questo repository GitHub, l'utente accetta i termini della licenza riportata in link:https://github.com/NetApp/na_ora_hadr_failover_resync/blob/master/LICENSE.TXT["File di licenza"^].
+
+
+NOTE: Ci sono alcune restrizioni riguardo alla produzione e/o alla condivisione di qualsiasi opera derivata con il contenuto di questo repository GitHub. Prima di utilizzare il contenuto, leggere i termini della licenza. Se non si accettano tutti i termini, non accedere, scaricare o utilizzare il contenuto di questo repository.
+
+
+
+== Implementazione della soluzione
+
+
+
+=== Prerequisiti per l'implementazione
+
+[%collapsible]
+====
+L'implementazione richiede i seguenti prerequisiti.
+
+....
+An Organization and AWS account has been setup in AWS public cloud
+  An user to run the deployment has been created
+  IAM roles has been configured
+  IAM roles granted to user to permit provisioning the resources
+....
+....
+VPC and security configuration
+  A VPC has been created to host the resources to be provisioned
+  A security group has been configured for the VPC
+  A ssh key pair has been created for EC2 instance access
+....
+....
+Network configuration
+  Subnets has been created for VPC with network segments assigned
+  Route tables and network ACL configured
+  NAT gateways or internet gateways configured for internet access
+....
+====
+
+
+=== Scaricare il toolkit
+
+[%collapsible]
+====
+[source, cli]
+----
+git clone https://github.com/NetApp/na_aws_fsx_ec2_deploy.git
+----
+====
+
+
+=== Connettività e autenticazione
+
+[%collapsible]
+====
+Il toolkit deve essere eseguito da una shell del cloud AWS. La shell cloud di AWS è una shell basata sul browser che facilita la gestione, l'esplorazione e l'interazione in sicurezza con le tue risorse AWS. CloudShell è pre-autenticato con le credenziali della console dell'utente. Gli strumenti operativi e di sviluppo più comuni sono preinstallati, pertanto non è necessaria alcuna installazione o configurazione locale.
+
+====
+
+
+=== Configurazione dei file terraform provider.tf e main.tf
+
+[%collapsible]
+====
+Il provider.tf definisce il provider dal quale Terraform effettua il provisioning delle risorse tramite chiamate API. Il file main.tf definisce le risorse e gli attributi delle risorse da sottoporre a provisioning. Di seguito sono riportati alcuni dettagli:
+
+....
+provider.tf:
+  terraform {
+    required_providers {
+      aws = {
+        source  = "hashicorp/aws"
+        version = "~> 4.54.0"
+      }
+    }
+  }
+....
+....
+main.tf:
+  resource "aws_instance" "ora_01" {
+    ami                           = var.ami
+    instance_type                 = var.instance_type
+    subnet_id                     = var.subnet_id
+    key_name                      = var.ssh_key_name
+    root_block_device {
+      volume_type                 = "gp3"
+      volume_size                 = var.root_volume_size
+    }
+    tags = {
+      Name                        = var.ec2_tag
+    }
+  }
+  ....
+....
+====
+
+
+=== Configurazione delle variabili di terraform.tf e terraform.tfvars
+
+[%collapsible]
+====
+Variables.tf dichiara le variabili da utilizzare in main.tf. Il file terraform.tfvars contiene i valori effettivi per le variabili. Di seguito sono riportati alcuni esempi:
+
+....
+variables.tf:
+  ### EC2 instance variables ###
+....
+....
+variable "ami" {
+  type        = string
+  description = "EC2 AMI image to be deployed"
+}
+....
+....
+variable "instance_type" {
+  type        = string
+  description = "EC2 instance type"
+}
+....
+....
+....
+terraform.tfvars:
+  # EC2 instance variables
+....
+....
+ami                     = "ami-06640050dc3f556bb" //RedHat 8.6  AMI
+instance_type           = "t2.micro"
+ec2_tag                 = "ora_01"
+subnet_id               = "subnet-04f5fe7073ff514fb"
+ssh_key_name            = "sufi_new"
+root_volume_size        = 30
+....
+....
+====
+
+
+=== Procedure passo passo - eseguite in sequenza
+
+[%collapsible]
+====
+. Installa Terraform nella shell del cloud AWS.
++
+[source, cli]
+----
+git clone https://github.com/tfutils/tfenv.git ~/.tfenv
+----
++
+[source, cli]
+----
+mkdir ~/bin
+----
++
+[source, cli]
+----
+ln -s ~/.tfenv/bin/* ~/bin/
+----
++
+[source, cli]
+----
+tfenv install
+----
++
+[source, cli]
+----
+tfenv use 1.3.9
+----
+. Scarica il toolkit dal sito pubblico di NetApp GitHub
++
+[source, cli]
+----
+git clone https://github.com/NetApp-Automation/na_aws_fsx_ec2_deploy.git
+----
+. Eseguire init per inizializzare la terraform
++
+[source, cli]
+----
+terraform init
+----
+. Generare il piano di esecuzione
++
+[source, cli]
+----
+terraform plan -out=main.plan
+----
+. Applicare il piano di esecuzione
++
+[source, cli]
+----
+terraform apply "main.plan"
+----
+. Eseguire Destroy per rimuovere le risorse al termine dell'operazione
++
+[source, cli]
+----
+terraform destroy
+----
+
+
+====
+
+
+== Dove trovare ulteriori informazioni
+
+Per ulteriori informazioni sull'automazione delle soluzioni NetApp, consulta il seguente sito Web link:https://docs.netapp.com/us-en/netapp-solutions/automation/automation_introduction.html["Automazione delle soluzioni NetApp"^]
