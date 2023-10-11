@@ -16,7 +16,7 @@ summary:
 [role="lead"]
 La soluzione testa e convalida la migrazione e la protezione centralizzata dei dati con la piattaforma container OpenShift, l'Advanced Cluster Manager OpenShift, NetApp ONTAP e il centro di controllo NetApp Astra.
 
-Diversi scenari della soluzione sono stati convalidati utilizzando le versioni indicate nella tabella seguente:
+Gli scenari 1, 2 e 3 della soluzione sono stati validati utilizzando le versioni indicate nella tabella seguente:
 
 [cols="25%, 75%"]
 |===
@@ -44,4 +44,35 @@ Diversi scenari della soluzione sono stati convalidati utilizzando le versioni i
 
 
 | *AWS FSX per NetApp ONTAP* | AZ. Singola 
+|===
+Lo scenario 4 della soluzione è stato validato utilizzando le versioni indicate nella tabella seguente:
+
+[cols="25%, 75%"]
+|===
+
+
+| *Componente* | *Versione* 
+
+
+| *VMware* | VSphere Client versione 8.0.2.00000
+VMware ESXi, 8,0.2, 22380479 
+
+
+| *Cluster hub* | OpenShift 4.13.13 
+
+
+| *Clusters di origine e destinazione* | OpenShift 4.13.12
+On-premise e in Google Cloud 
+
+
+| *NetApp Astra Trident* | Trident Server e Client 23.07.0 
+
+
+| *NetApp Astra Control Center* | ACC 23.07.0-25 
+
+
+| *NetApp ONTAP* | ONTAP 9.12.1 
+
+
+| *Cloud Volumes ONTAP* | AZ singolo, nodo singolo, 9.14.0 
 |===
