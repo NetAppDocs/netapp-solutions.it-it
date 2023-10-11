@@ -1,0 +1,138 @@
+---
+sidebar: sidebar 
+permalink: ai/ddlnexus_access_data_hybrid.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx for NetApp ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
+summary: MLOps multicloud ibrido con Domino Data Lab e NetApp - Accedi agli stessi dati in ambienti diversi 
+---
+= Accedi agli stessi dati in ambienti diversi
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:ddlnexus_expose_netapp_vols.html["Precedente: Esporre i volumi NetApp esistenti a Domino."]
+
+[role="lead"]
+Questa sezione descrive le attività che devono essere eseguite per accedere agli stessi dati in diversi ambienti di elaborazione. Nella piattaforma Domino MLOps, gli ambienti di calcolo sono denominati "piani dati". Segui le attività descritte in questa sezione se i tuoi dati risiedono su un volume NetApp in un piano dati ma devi accedervi in un altro piano dati. Questo tipo di scenario viene spesso chiamato "bursting" o, quando l'ambiente di destinazione è il cloud, "cloud bursting". Questa funzionalità è spesso necessaria quando si gestiscono risorse di calcolo limitate o sovrascritte. Ad esempio, se il tuo cluster di calcolo on-premise è sottoposto a un'iscrizione eccessiva, potresti voler programmare i workload nel cloud, dove possono essere avviati immediatamente.
+
+Esistono due opzioni consigliate per l'accesso a un volume NetApp che si trova in un piano dati diverso. Queste opzioni sono illustrate nelle sottosezioni riportate di seguito. Scegliere una di queste opzioni in base alle proprie esigenze specifiche. I vantaggi e gli svantaggi delle due opzioni sono descritti nella tabella seguente.
+
+|===
+| Opzione | Benefici | Svantaggi 
+
+
+| Opzione 1 - cache | - Flusso di lavoro più semplice
+- Possibilità di memorizzare nella cache un sottoinsieme di dati in base alle esigenze
+- Capacità di scrivere i dati di nuovo alla fonte
+- Nessuna copia remota da gestire | - Maggiore latenza all'accesso iniziale ai dati quando la cache viene idratata. 
+
+
+| Opzione 2 - specchietto | - Copia completa del volume di origine
+- Nessuna latenza aumentata a causa dell'idratazione della cache (dopo il completamento dell'operazione mirror) | - Prima di accedere ai dati, è necessario attendere il completamento del funzionamento del mirror
+- Deve gestire una copia remota
+- Nessuna capacità di scrivere di nuovo alla fonte 
+|===
+
+
+== Opzione 1 - creare una cache di un volume che risiede in un piano dati diverso
+
+Con link:https://docs.netapp.com/us-en/ontap/flexcache/accelerate-data-access-concept.html["Tecnologia NetApp FlexCache"], È possibile creare una cache di un volume NetApp che risiede in un piano dati diverso. Ad esempio, se hai un volume NetApp nel tuo piano dati on-premise e hai bisogno di accedere a quel volume nel tuo piano dati AWS, puoi creare una cache del volume in AWS. In questa sezione vengono descritte le attività che è necessario eseguire per creare una cache di un volume NetApp che risiede in un piano dati diverso.
+
+
+
+=== Creare un volume FlexCache nell'ambiente di destinazione
+
+
+NOTE: Se l'ambiente di destinazione è il tuo data center on-premise, creerai il volume FlexCache sul tuo sistema ONTAP on-premise. Se l'ambiente di destinazione è AWS, creerai il volume FlexCache sull'istanza di Amazon FSX per NetApp ONTAP.
+
+Innanzitutto, è necessario creare un volume FlexCache nell'ambiente di destinazione.
+
+Ti consigliamo di utilizzare BlueXP per creare il volume FlexCache. Per creare un volume FlexCache con BlueXP, segui le istruzioni riportate nella link:https://docs.netapp.com/us-en/bluexp-volume-caching/["Documentazione di caching dei volumi di BlueXP"].
+
+Se preferisci non utilizzare BlueXP, puoi usare ONTAP System Manager o l'interfaccia a riga di comando di ONTAP per creare il volume FlexCache. Per creare un volume FlexCache con System Manager, fare riferimento alle istruzioni riportate nella link:https://docs.netapp.com/us-en/ontap/task_nas_flexcache.html["Documentazione ONTAP"]. Per creare un volume FlexCache con l'interfaccia a riga di comando di ONTAP, fare riferimento alle istruzioni nella link:https://docs.netapp.com/us-en/ontap/flexcache/index.html["Documentazione ONTAP"].
+
+Se si desidera automatizzare questo processo, è possibile utilizzare link:https://docs.netapp.com/us-en/bluexp-automation/["API BlueXP"], il link:https://devnet.netapp.com/restapi.php["API REST di ONTAP"]o il link:https://docs.ansible.com/ansible/latest/collections/netapp/ontap/index.html["Raccolta Ansible ONTAP"].
+
+
+NOTE: System Manager non è disponibile in Amazon FSX per NetApp ONTAP.
+
+
+
+=== Esporre il volume FlexCache a Domino
+
+Successivamente, è necessario esporre il volume FlexCache alla piattaforma Domino MLOps. Per esporre il volume FlexCache a Domino, segui le istruzioni riportate nella sottosezione "Exposure existing NFS Volumes that non sono stati forniti da Astra Trident" di link:ddlnexus_expose_netapp_vols.html["Sezione "esponi volumi NetApp esistenti a Domino""] di questa soluzione.
+
+A questo punto, sarà possibile montare il volume FlexCache quando si avviano processi e aree di lavoro nel piano dati di destinazione, come illustrato nelle seguenti schermate.
+
+
+
+==== Prima di creare un volume FlexCache
+
+image:ddlnexus_image4.png["Errore: Immagine grafica mancante"]
+
+
+
+==== Dopo l'esposizione del volume FlexCache a Domino
+
+image:ddlnexus_image5.png["Errore: Immagine grafica mancante"]
+
+
+
+== Opzione 2 - replicare un volume che risiede in un piano dati diverso
+
+Con link:https://www.netapp.com/cyber-resilience/data-protection/data-backup-recovery/snapmirror-data-replication/["Tecnologia di replica dei dati NetApp SnapMirror"], È possibile creare una copia di un volume NetApp che risiede in un piano dati diverso. Ad esempio, se hai un volume NetApp nel tuo piano dati on-premise e hai bisogno di accedere a quel volume nel tuo piano dati AWS, puoi creare una copia del volume in AWS. In questa sezione vengono descritte le attività da eseguire per creare una copia di un volume NetApp che risiede in un piano dati diverso.
+
+
+
+=== Creare una relazione SnapMirror
+
+Innanzitutto, occorre creare una relazione SnapMirror tra il volume di origine e un nuovo volume di destinazione nell'ambiente di destinazione. Il volume di destinazione verrà creato come parte del processo di creazione della relazione SnapMirror.
+
+Ti consigliamo di usare BlueXP per creare la relazione di SnapMirror. Per creare una relazione di SnapMirror con BlueXP, segui le istruzioni nella link:https://docs.netapp.com/us-en/bluexp-replication/["Documentazione sulla replica BlueXP"].
+
+Se preferisci non utilizzare BlueXP, puoi usare ONTAP System Manager o l'interfaccia a riga di comando di ONTAP per creare la relazione di SnapMirror. Per creare una relazione di SnapMirror con System Manager, fare riferimento alle istruzioni nella link:https://docs.netapp.com/us-en/ontap/task_dp_configure_mirror.html["Documentazione ONTAP"]. Per creare una relazione di SnapMirror con l'interfaccia della riga di comando di ONTAP, fare riferimento alle istruzioni nella link:https://docs.netapp.com/us-en/ontap/data-protection/snapmirror-replication-workflow-concept.html["Documentazione ONTAP"].
+
+Se si desidera automatizzare questo processo, è possibile utilizzare link:https://docs.netapp.com/us-en/bluexp-automation/["API BlueXP"], il link:https://devnet.netapp.com/restapi.php["API REST di ONTAP"]o il link:https://docs.ansible.com/ansible/latest/collections/netapp/ontap/index.html["Raccolta Ansible ONTAP"].
+
+
+NOTE: System Manager non è disponibile in Amazon FSX per NetApp ONTAP.
+
+
+
+=== Interrompere la relazione di SnapMirror
+
+Successivamente, occorre interrompere la relazione di SnapMirror per attivare il volume di destinazione per l'accesso ai dati. Attendere il completamento della replica iniziale prima di eseguire questa operazione.
+
+
+NOTE: Puoi determinare se la replica è completa o meno controllando lo stato del mirror in BlueXP, ONTAP System Manager o nell'interfaccia a riga di comando di ONTAP. Al termine della replica, lo stato del mirror sarà "snapmirrored".
+
+Consigliamo di utilizzare BlueXP per interrompere la relazione di SnapMirror. Per interrompere un rapporto di SnapMirror con BlueXP, segui le istruzioni riportate nella link:https://docs.netapp.com/us-en/bluexp-replication/task-managing-replication.html["Documentazione sulla replica BlueXP"].
+
+Se preferisci non utilizzare BlueXP, puoi usare ONTAP System Manager o l'interfaccia a riga di comando di ONTAP per interrompere la relazione di SnapMirror. Per interrompere una relazione di SnapMirror con System Manager, fare riferimento alle istruzioni nella link:https://docs.netapp.com/us-en/ontap/task_dp_serve_data_from_destination.html["Documentazione ONTAP"]. Per interrompere una relazione di SnapMirror con la CLI ONTAP, fare riferimento alle istruzioni riportate nella link:https://docs.netapp.com/us-en/ontap/data-protection/make-destination-volume-writeable-task.html["Documentazione ONTAP"].
+
+Se si desidera automatizzare questo processo, è possibile utilizzare link:https://docs.netapp.com/us-en/bluexp-automation/["API BlueXP"], il link:https://devnet.netapp.com/restapi.php["API REST di ONTAP"]o il link:https://docs.ansible.com/ansible/latest/collections/netapp/ontap/index.html["Raccolta Ansible ONTAP"].
+
+
+
+=== Esporre il volume di destinazione a Domino
+
+Successivamente, è necessario esporre il volume di destinazione alla piattaforma Domino MLOps. Per esporre il volume di destinazione a Domino, seguire le istruzioni riportate nella sottosezione "Expose Exposure Existing NFS Volumes that non Were Provisioning da Astra Trident" di link:ddlnexus_expose_netapp_vols.html["Sezione "esponi volumi NetApp esistenti a Domino""] di questa soluzione.
+
+A questo punto, sarà possibile montare il volume di destinazione quando si avviano processi e aree di lavoro nel piano dati di destinazione, come illustrato nelle seguenti schermate.
+
+
+
+==== Prima di creare una relazione SnapMirror
+
+image:ddlnexus_image4.png["Errore: Immagine grafica mancante"]
+
+
+
+==== Dopo l'esposizione del volume di destinazione a Domino
+
+image:ddlnexus_image5.png["Errore: Immagine grafica mancante"]
+
+link:ddlnexus_additional_information.html["Avanti: Ulteriori informazioni."]
