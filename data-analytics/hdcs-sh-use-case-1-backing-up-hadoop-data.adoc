@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-permalink: data-analytics/hdcs-sh-use-case-1--backing-up-hadoop-data.html 
+permalink: data-analytics/hdcs-sh-use-case-1-backing-up-hadoop-data.html 
 keywords: use case 2, Hadoop repository, dr, disaster recovery 
 summary: 'In questo scenario, il cliente dispone di un grande repository Hadoop on-premise e desidera eseguirne il backup a scopo di disaster recovery. Tuttavia, l"attuale soluzione di backup del cliente è costosa e presenta una lunga finestra di backup di oltre 24 ore.' 
 ---
@@ -40,7 +40,7 @@ I requisiti e le sfide principali per questo caso di utilizzo includono:
 
 
 
-== Soluzione di backup esistente del cliente
+== La soluzione di backup esistente del cliente x
 
 La figura seguente mostra la soluzione di backup nativa Hadoop originale.
 
@@ -76,7 +76,7 @@ In base a queste sfide e requisiti e tenendo conto del sistema di backup esisten
 
 === Soluzione A
 
-La soluzione A aggiunge il modulo di analisi in-place al cluster di backup Hadoop, che consente backup secondari sui sistemi di storage NetApp NFS, eliminando il requisito del nastro, come mostrato nella figura seguente.
+Nella soluzione A, il cluster Hadoop di backup invia i backup secondari ai sistemi storage NFS NetApp, eliminando i requisiti su nastro, come mostrato nella figura sotto.
 
 image:hdcs-sh-image6.png["Errore: Immagine grafica mancante"]
 
@@ -91,7 +91,7 @@ Le attività dettagliate per la soluzione A includono:
 NOTE: Lo snapshot Hadoop viene utilizzato per proteggere i dati dalla produzione al cluster di backup Hadoop.
 
 * Il controller di storage NetApp ONTAP fornisce un volume esportato NFS, che viene fornito al cluster di backup Hadoop.
-* Eseguendo il `Hadoop distcp` Utilizzando MapReduce e più mappatori, i dati di analisi sono protetti dal cluster di backup Hadoop a NFS utilizzando il modulo di analisi in-place.
+* Eseguendo il `Hadoop distcp` Comando che sfrutta MapReduce e mappatori multipli, i dati degli analytics sono protetti dal cluster Hadoop di backup su NFS.
 +
 Una volta archiviati i dati in NFS sul sistema storage NetApp, le tecnologie NetApp Snapshot, SnapRestore e FlexClone vengono utilizzate per eseguire il backup, il ripristino e la duplicazione dei dati Hadoop in base alle necessità.
 
@@ -121,7 +121,7 @@ In questa soluzione, è possibile utilizzare i dischi SAN di ONTAP invece di JBO
 
 === Soluzione B
 
-La soluzione B aggiunge il modulo di analisi in-place al cluster Hadoop di produzione, eliminando la necessità di eseguire il backup del cluster Hadoop, come illustrato nella figura seguente.
+La soluzione B aggiunge un volume NFS al cluster Hadoop di produzione, che elimina la necessità di un cluster Hadoop di backup, come mostrato nella figura sotto.
 
 image:hdcs-sh-image7.png["Errore: Immagine grafica mancante"]
 
@@ -129,7 +129,7 @@ Le attività dettagliate per la soluzione B includono:
 
 * Lo storage controller NetApp ONTAP fornisce l'esportazione NFS al cluster Hadoop di produzione.
 +
-Nativo di Hadoop `hadoop distcp` Command protegge i dati Hadoop dal cluster di produzione HDFS a NFS attraverso il modulo di analisi in-place.
+Nativo di Hadoop `hadoop distcp` Command protegge i dati Hadoop dal cluster di produzione HDFS a NFS.
 
 * Una volta archiviati i dati in NFS sul sistema storage NetApp, le tecnologie Snapshot, SnapRestore e FlexClone vengono utilizzate per eseguire il backup, il ripristino e la duplicazione dei dati Hadoop in base alle necessità.
 
@@ -168,4 +168,4 @@ I vantaggi della soluzione C includono:
 * Consente funzioni di gestione aziendale tramite gli strumenti NetApp.
 
 
-link:hdcs-sh-use-case-2--backup-and-disaster-recovery-from-the-cloud-to-on-premises.html["Successivo: Caso d'utilizzo 2 - Backup e disaster recovery dal cloud all'on-premise."]
+link:hdcs-sh-use-case-2-backup-and-disaster-recovery-from-the-cloud-to-on-premises.html["Successivo: Caso d'utilizzo 2 - Backup e disaster recovery dal cloud all'on-premise."]
