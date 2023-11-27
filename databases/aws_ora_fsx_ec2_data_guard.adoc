@@ -4,7 +4,7 @@ permalink: databases/aws_ora_fsx_ec2_data_guard.html
 keywords: Oracle, AWS, FSx ONTAP, FSx, Database, Oracle 19c, Data Guard 
 summary: La soluzione offre una panoramica e dettagli sulla configurazione di Oracle Data Guard utilizzando AWS FSX ONTAP come storage di database Oracle in standby per ridurre i costi operativi e di licenza della soluzione ha/DR Oracle Data Guard in AWS. 
 ---
-= TR-4981: Riduzione dei costi di Data Guard attiva con AWS FSX ONTAP
+= TR-4981: Riduzione dei costi di Oracle Active Data Guard con Amazon FSX ONTAP
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -21,11 +21,11 @@ Allen Cao, Niyaz Mohamed, NetApp
 
 Oracle Data Guard garantisce disponibilità elevata, protezione dei dati e ripristino di emergenza per i dati aziendali in una configurazione di replica del database primario e di standby. Oracle Active Data Guard consente agli utenti di accedere ai database di standby mentre la replica dei dati è attiva dal database principale ai database di standby. Data Guard è una funzionalità di Oracle Database Enterprise Edition. Non richiede licenze separate. D'altra parte, Active Data Guard è un'opzione Oracle Database Enterprise Edition, pertanto richiede licenze separate. Più database di standby possono ricevere la replica dei dati da un database primario nella configurazione di Active Data Guard. Tuttavia, ogni database di standby aggiuntivo richiede una licenza Active Data Guard e un'ulteriore capacità di archiviazione come dimensione del database primario. I costi operativi si sommano rapidamente.
 
-Se sei entusiasta di ridurre i costi operativi del tuo database Oracle e stai pianificando di configurare un sistema Active Data Guard in AWS, dovresti prendere in considerazione un'alternativa. Invece di Active Data Guard, utilizza Data Guard per eseguire la replica dal database primario a un singolo database fisico di standby sullo storage AWS FSX ONTAP. Successivamente, è possibile clonare e aprire più copie di questo database di standby per accedere in lettura/scrittura e soddisfare molti altri casi d'utilizzo, come creazione di report, sviluppo, test, ecc. I risultati della rete offrono in modo efficace le funzionalità di Active Data Guard eliminando al contempo la licenza di Active Data Guard e i costi di storage aggiuntivi per ogni database di standby aggiuntivo. In questa documentazione, dimostreremo come configurare Oracle Data Guard con il database primario esistente in AWS e come posizionare il database di standby fisico sullo storage AWS FSX ONTAP. Il backup del database di standby viene eseguito tramite snapshot e clonato per l'accesso in lettura/scrittura per i casi d'utilizzo, in base alle necessità.
+Se sei entusiasta di ridurre i costi operativi del tuo database Oracle e stai pianificando di configurare un sistema Active Data Guard in AWS, dovresti prendere in considerazione un'alternativa. Invece di Active Data Guard, utilizza Data Guard per eseguire la replica dal database primario a un singolo database di standby fisico sullo storage Amazon FSX ONTAP. Successivamente, è possibile clonare e aprire più copie di questo database di standby per accedere in lettura/scrittura e soddisfare molti altri casi d'utilizzo, come creazione di report, sviluppo, test, ecc. I risultati della rete offrono in modo efficace le funzionalità di Active Data Guard eliminando al contempo la licenza di Active Data Guard e i costi di storage aggiuntivi per ogni database di standby aggiuntivo. In questa documentazione, dimostreremo come configurare Oracle Data Guard con il database primario esistente in AWS e posizionare il database di standby fisico sullo storage Amazon FSX ONTAP. Il backup del database di standby viene eseguito tramite snapshot e clonato per l'accesso in lettura/scrittura per i casi d'utilizzo, in base alle necessità.
 
 Questa soluzione risolve i seguenti casi di utilizzo:
 
-* Oracle Data Guard tra un database primario su qualsiasi storage in AWS e il database di standby sullo storage AWS FSX ONTAP.
+* Oracle Data Guard tra un database primario su qualsiasi storage in AWS e il database in standby sullo storage Amazon FSX ONTAP.
 * Clonazione del database in standby mentre è chiuso per la replica dei dati per casi di utilizzo come reporting, sviluppo, test, ecc.
 
 
