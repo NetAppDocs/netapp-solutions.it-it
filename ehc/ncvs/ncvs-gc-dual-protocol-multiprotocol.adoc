@@ -13,8 +13,6 @@ summary: Cloud Volumes Service offre la possibilità di condividere gli stessi s
 :imagesdir: ./../../media/
 
 
-link:ncvs-gc-smb.html["Precedente: SMB."]
-
 [role="lead"]
 Cloud Volumes Service offre la possibilità di condividere gli stessi set di dati con client SMB e NFS mantenendo le autorizzazioni di accesso appropriate (https://cloud.google.com/architecture/partners/netapp-cloud-volumes/managing-dual-protocol-access["protocollo doppio"^]). Ciò avviene coordinando il mapping delle identità tra i protocolli e utilizzando un server LDAP backend centralizzato per fornire le identità UNIX a Cloud Volumes Service. È possibile utilizzare Windows Active Directory per fornire agli utenti Windows e UNIX una maggiore facilità di utilizzo.
 
@@ -51,5 +49,3 @@ Quando si utilizzano configurazioni a doppio protocollo, Cloud Volumes Service u
 
 
 Se si crea un volume a doppio protocollo, è possibile scegliere lo stile ACL alla creazione del volume. Questa decisione deve essere presa in base alla gestione delle autorizzazioni desiderata. Se gli utenti gestiscono le autorizzazioni dai client Windows/SMB, selezionare NTFS. Se gli utenti preferiscono utilizzare client NFS e chmod/chown, utilizzare gli stili di sicurezza UNIX.
-
-link:ncvs-gc-considerations-creating-active-directory-connections.html["Segue: Considerazioni per la creazione di connessioni Active Directory."]

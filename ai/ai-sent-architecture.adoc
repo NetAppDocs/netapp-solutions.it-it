@@ -13,8 +13,6 @@ summary: 'L"architettura di questa soluzione di Support Center si basa sugli str
 :imagesdir: ./../media/
 
 
-link:ai-sent-use-cases.html["Precedente: Casi di utilizzo."]
-
 [role="lead"]
 L'architettura di questa soluzione di Support Center si basa sugli strumenti predefiniti di NVIDIA e sul NetApp DataOps Toolkit. I tool NVIDIA vengono utilizzati per implementare rapidamente soluzioni ai ad alte performance utilizzando modelli e pipeline precostruiti. Il NetApp DataOps Toolkit semplifica varie attività di gestione dei dati per accelerare lo sviluppo.
 
@@ -244,5 +242,3 @@ Per l'analisi del sentimento, l'output di testo del riconoscimento vocale automa
 image:ai-sent-image8.png["Errore: Immagine grafica mancante"]
 
 Una pipeline simile viene utilizzata sia per l'analisi del parlato-to-text che per l'analisi del sentimento all'interno del toolkit TAO. La differenza principale è l'utilizzo di etichette necessarie per la messa a punto dei modelli. La pipeline TAO Toolkit inizia con l'elaborazione dei file di dati. Poi i modelli preformati (provenienti da https://ngc.nvidia.com/catalog["Catalogo NGC NVIDIA"^]) vengono perfezionati utilizzando i dati del centro di supporto. I modelli perfezionati vengono valutati in base alle metriche di performance corrispondenti e, se sono più performanti dei modelli preformati, vengono implementati sul server RIVA.
-
-link:ai-sent-design-considerations.html["Segue: Considerazioni di progettazione."]

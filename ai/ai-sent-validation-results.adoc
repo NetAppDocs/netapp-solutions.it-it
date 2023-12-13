@@ -13,8 +13,6 @@ summary: 'Come indicato nella sezione precedente, gli errori vengono propagati i
 :imagesdir: ./../media/
 
 
-link:ai-sent-deploying-support-center-sentiment-analysis.html["Precedente: Implementazione dell'analisi del sentimento del centro di supporto."]
-
 [role="lead"]
 Come indicato nella sezione precedente, gli errori vengono propagati in tutta la pipeline ogni volta che vi sono due o più modelli di apprendimento automatico in esecuzione in sequenza. Per questa soluzione, il sentimento della frase è il fattore più importante nella misurazione del livello di rischio azionario dell'azienda. Il modello da voce a testo, sebbene essenziale per la pipeline, funge da unità di pre-elaborazione prima che i sentimenti possano essere previsti. Ciò che conta realmente è la differenza di sentimento tra le frasi di verità e le frasi previste. Questo serve come proxy per il tasso di errore di parola (WER). La precisione del parlato-to-text è importante, ma il WER non viene utilizzato direttamente nella metrica finale della pipeline.
 
@@ -50,5 +48,3 @@ Il vantaggio dell'utilizzo del transfer learning è un aumento delle performance
 . Calcola la differenza tra queste metriche.
 . Calcolare la media delle differenze tra tutte le frasi.
 
-
-link:ai-sent-videos-and-demos.html["Avanti: Video e demo."]

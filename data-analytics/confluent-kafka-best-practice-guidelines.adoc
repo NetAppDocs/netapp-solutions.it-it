@@ -13,9 +13,9 @@ summary: Questa sezione presenta le lezioni apprese da questa certificazione.
 :imagesdir: ./../media/
 
 
-link:confluent-kafka-confluent-kafka-rebalance.html["Precedente: Cluster di auto-ribilanciamento confluenti."]
-
 [role="lead"]
+Questa sezione presenta le lezioni apprese da questa certificazione.
+
 * In base alla nostra convalida, lo storage a oggetti S3 è la soluzione migliore per Confluent per conservare i dati.
 * Possiamo utilizzare SAN ad alto throughput (in particolare FC) per mantenere i dati hot del broker o il disco locale, perché, nella configurazione dello storage a più livelli Confluent, la dimensione dei dati contenuti nella directory dei dati broker si basa sulle dimensioni del segmento e sul tempo di conservazione quando i dati vengono spostati nello storage a oggetti.
 * Gli archivi di oggetti offrono performance migliori quando segment.bytes è più elevato; abbiamo testato 512 MB.
@@ -40,5 +40,3 @@ kafka-acls --bootstrap-server localhost:9092 --command-config adminclient-config
 NOTE: Sostituire l'utente `<kafka>` con l'effettivo broker principal nella tua implementazione.
 
 Ad esempio, il comando `confluent-tier-state` Imposta gli ACL sull'argomento interno per lo storage a più livelli. Attualmente, esiste solo un singolo argomento interno relativo allo storage a più livelli. Nell'esempio viene creato un ACL che fornisce l'autorizzazione principale Kafka per tutte le operazioni sull'argomento interno.
-
-link:confluent-kafka-sizing.html["Successivo: Dimensionamento."]

@@ -13,8 +13,6 @@ summary: Questa sezione descrive la natura e i componenti di Apache Spark e il l
 :imagesdir: ./../media/
 
 
-link:apache-spark-target-audience.html["Precedente: Pubblico di riferimento."]
-
 [role="lead"]
 Apache Spark è un popolare framework di programmazione per la scrittura di applicazioni Hadoop che funziona direttamente con Hadoop Distributed file System (HDFS). Spark è pronto per la produzione, supporta l'elaborazione dei dati in streaming ed è più veloce di MapReduce. Spark dispone di un caching dei dati in-memory configurabile per un'iterazione efficiente e la shell Spark è interattiva per l'apprendimento e l'esplorazione dei dati. Con Spark, puoi creare applicazioni in Python, Scala o Java. Le applicazioni SPARK sono costituite da uno o più lavori che hanno uno o più compiti.
 
@@ -34,5 +32,3 @@ Il dataset distribuito resiliente (RDD) è il componente principale di Spark. RD
 Le trasformazioni e le azioni si applicano anche ai DataSet e ai DataFrame di Spark. Un set di dati è una raccolta distribuita di dati che offre i benefici delle RDDs (tipizzazione forte, utilizzo delle funzioni lambda) con i benefici del motore di esecuzione ottimizzato di Spark SQL. È possibile costruire un dataset da oggetti JVM e manipolarlo utilizzando trasformazioni funzionali (mappa, mappa piatta, filtro e così via). Un DataFrame è un dataset organizzato in colonne denominate. È concettualmente equivalente a una tabella in un database relazionale o a un frame di dati in R/Python. I DataFrame possono essere costruiti da un'ampia gamma di origini come file di dati strutturati, tabelle in Hive/HBase, database esterni on-premise o nel cloud o RDDs esistenti.
 
 Le applicazioni SPARK includono uno o più lavori Spark. I job eseguono task negli esecutori e gli esecutori vengono eseguiti in CONTAINER DI FILATI. Ogni esecutore viene eseguito in un singolo container e gli esecutori esistono per tutta la vita di un'applicazione. Un esecutore viene fissato dopo l'avvio dell'applicazione e IL FILATO non ridimensiona il container già allocato. Un esecutore può eseguire task contemporaneamente sui dati in-memory.
-
-link:apache-spark-netapp-spark-solutions-overview.html["Pagina successiva: Panoramica delle soluzioni NetApp Spark."]

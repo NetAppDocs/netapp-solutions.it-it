@@ -13,8 +13,6 @@ summary: 'StorageGRID offre un"ampia gamma di funzionalità che gli utenti posso
 :imagesdir: ./../media/
 
 
-link:stgr-splunkss-solution-overview.html["Precedente: Panoramica della soluzione."]
-
 [role="lead"]
 StorageGRID offre un'ampia gamma di funzionalità che gli utenti possono sfruttare e personalizzare per il loro ambiente in continua evoluzione. Dall'implementazione alla scalabilità di Splunk SmartStore, il tuo ambiente richiede una rapida adozione dei cambiamenti e dovrebbe essere senza interruzioni per Splunk. Le policy di gestione dei dati flessibili (ILM) e i classificatori del traffico (QoS) di StorageGRID consentono di pianificare e adattarsi al tuo ambiente.
 
@@ -63,5 +61,3 @@ StorageGRID scala le performance aggiungendo più nodi, che possono essere macch
 I nodi di amministrazione in StorageGRID forniscono l'interfaccia utente (interfaccia utente) e l'endpoint REST API per visualizzare, configurare e gestire il sistema StorageGRID, nonché registri di controllo per tenere traccia dell'attività del sistema. Per fornire un endpoint S3 altamente disponibile per lo storage remoto Splunk SmartStore, abbiamo implementato il bilanciamento del carico StorageGRID, che viene eseguito come servizio sui nodi di amministrazione e sui nodi gateway. Inoltre, il bilanciamento del carico gestisce anche il traffico locale e comunica con GSLB (Global Server Load Balancing) per agevolare il disaster recovery.
 
 Per migliorare ulteriormente la configurazione degli endpoint, StorageGRID fornisce policy di classificazione del traffico integrate nel nodo di amministrazione, consente di monitorare il traffico dei workload e di applicare vari limiti di qualità del servizio (QoS) ai carichi di lavoro. I criteri di classificazione del traffico vengono applicati agli endpoint del servizio bilanciamento del carico StorageGRID per i nodi gateway e i nodi di amministrazione. Queste policy possono essere utili per la limitazione e il monitoraggio del traffico.
-
-link:stgr-splunkss-splunk-architecture.html["Avanti: Architettura Splunk."]

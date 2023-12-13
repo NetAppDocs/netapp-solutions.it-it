@@ -13,8 +13,6 @@ summary: MLOps multicloud ibrido con Domino Data Lab e NetApp - esponi i volumi 
 :imagesdir: ./../media/
 
 
-link:ddlnexus_initial_setup.html["Precedente: Configurazione iniziale."]
-
 [role="lead"]
 In questa sezione vengono descritte le attività da eseguire per esporre i volumi NFS NetApp ONTAP esistenti alla piattaforma Domino MLOps. Questi stessi passaggi si applicano sia on-premise che in AWS.
 
@@ -73,5 +71,3 @@ Se il provisioning del tuo volume è stato eseguito da Astra Trident, disponi gi
 === Registra volume dati esterni in Domino
 
 Successivamente, è necessario registrare un volume di dati esterno in Domino. Per registrare un volume di dati esterno, fare riferimento alla link:https://docs.dominodatalab.com/en/latest/admin_guide/9c3564/register-external-data-volumes/["istruzioni"] Nella guida dell'amministratore di Domino. Quando si registra il volume, assicurarsi di selezionare "Generico" dal menu a discesa "tipo volume". Dopo aver selezionato "Generico", il PVC dovrebbe essere visualizzato nell'elenco "volumi disponibili".
-
-link:ddlnexus_access_data_hybrid.html["Successivo: Accedi agli stessi dati in ambienti diversi."]

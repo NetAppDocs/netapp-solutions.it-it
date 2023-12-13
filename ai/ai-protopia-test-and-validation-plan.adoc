@@ -13,8 +13,6 @@ summary: Questa sezione fornisce una panoramica dei tre scenari validati in ques
 :imagesdir: ./../media/
 
 
-link:ai-protopia-technology-overview.html["Precedente: Panoramica della tecnologia."]
-
 [role="lead"]
 Per questa progettazione della soluzione, sono stati validati i seguenti tre scenari:
 
@@ -22,5 +20,3 @@ Per questa progettazione della soluzione, sono stati validati i seguenti tre sce
 * Un processo di deduzione in batch, con e senza offuscamento di Protopia, su Kubernetes con un volume di dati orchestrato utilizzando NetApp DataOps Toolkit per Kubernetes.
 * Un'attività di deduzione che utilizza un'istanza di NVIDIA Triton Inference Server orchestrata utilizzando NetApp DataOps Toolkit per Kubernetes. Abbiamo applicato l'offuscamento protopico all'immagine prima di invocare l'API di inferenza Triton per simulare il requisito comune che prevede l'offuscamento dei dati trasmessi sulla rete. Questo flusso di lavoro è applicabile ai casi di utilizzo in cui i dati vengono raccolti all'interno di una zona attendibile ma devono essere trasferiti all'esterno di tale zona attendibile per l'deduzione. Senza l'offuscamento di Protopia, non è possibile implementare questo tipo di workflow senza che i dati sensibili abbandonino la zona attendibile.
 
-
-link:ai-protopia-test-configuration.html["Pagina successiva: Test della configurazione."]

@@ -13,8 +13,6 @@ summary:
 :imagesdir: ./,,/media/
 
 
-link:apache-spark-hybrid-cloud-solution.html["Precedente: Soluzione di cloud ibrido."]
-
 [role="lead"]
 I tre script Python riportati di seguito corrispondono ai tre principali casi di utilizzo testati. Il primo è `sentiment_analysis_sparknlp.py`.
 
@@ -728,4 +726,3 @@ if __name__ == "__main__":
     print("test LogLoss", round(log_loss(pd.to_numeric(test.select(target).toPandas()).values, pred_ans), 4))
     print("test AUC", round(roc_auc_score(pd.to_numeric(test.select(target).toPandas()).values, pred_ans), 4))
 ....
-link:apache-spark-conclusion.html["Prossimo: Conclusione."]

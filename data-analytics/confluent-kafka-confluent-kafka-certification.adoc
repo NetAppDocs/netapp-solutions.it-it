@@ -13,8 +13,6 @@ summary: Abbiamo ottenuto la certificazione con la piattaforma confluente con Ka
 :imagesdir: ./../media/
 
 
-link:confluent-kafka-technology-overview.html["Precedente: Panoramica della tecnologia."]
-
 [role="lead"]
 Abbiamo eseguito la verifica con la piattaforma confluente 6.2 Tiered Storage in NetApp StorageGRID. I team NetApp e Confluent hanno lavorato insieme a questa verifica ed hanno eseguito i casi di test richiesti per la verifica.
 
@@ -95,5 +93,3 @@ Questo test ha generato indirettamente il carico di lavoro di scrittura nell'arc
 === Benchmark del carico di lavoro di conservazione
 
 Questo test ha controllato le prestazioni di eliminazione di un archivio di oggetti con un carico di lavoro pesante di conservazione degli argomenti. Il carico di lavoro di conservazione è stato generato utilizzando uno script di test che produce molti messaggi in parallelo a un argomento di test. L'argomento del test è stato configurato con un'impostazione di conservazione aggressiva basata sulle dimensioni e sul tempo che ha causato la rimozione continua del flusso di eventi dall'archivio di oggetti. I segmenti sono stati quindi archiviati. Ciò ha portato a un gran numero di eliminazioni nello storage a oggetti da parte del broker e alla raccolta delle performance delle operazioni di eliminazione degli archivi di oggetti.
-
-link:confluent-kafka-performance-tests-with-scalability.html["Avanti: Test delle performance con scalabilità."]

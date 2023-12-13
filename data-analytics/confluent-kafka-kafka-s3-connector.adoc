@@ -13,8 +13,6 @@ summary: In questa configurazione, viene illustrato come leggere e scrivere argo
 :imagesdir: ./../media/
 
 
-link:confluent-kafka-performance-tests-with-scalability.html["Precedente: Test delle performance con scalabilità."]
-
 [role="lead"]
 Amazon S3 Sink Connector esporta i dati dagli argomenti di Apache Kafka in oggetti S3 nei formati Avro, JSON o Bytes. Amazon S3 sink Connector esegue periodicamente il polling dei dati da Kafka e a sua volta li carica in S3. Un partitioner viene utilizzato per suddividere i dati di ogni partizione Kafka in blocchi. Ogni blocco di dati viene rappresentato come un oggetto S3. Il nome della chiave codifica l'argomento, la partizione Kafka e l'offset iniziale di questo blocco di dati.
 
@@ -307,5 +305,3 @@ root@stlrx2540m1-108:~# java -jar /usr/src/avro-tools-1.11.0.1.jar tojson tes.av
 root@stlrx2540m1-108:~#
 ....
 
-
-link:confluent-kafka-confluent-kafka-rebalance.html["Avanti: Cluster di auto-ribilanciamento confluenti."]

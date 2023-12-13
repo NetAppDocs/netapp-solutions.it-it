@@ -13,10 +13,10 @@ summary: 'Per questa soluzione, NetApp ha validato la migrazione dei dati da dat
 :imagesdir: ./../media/
 
 
-link:bda-ai-gpfs-to-netapp-ontap-nfs.html["Precedente: GPF per NetApp ONTAP NFS."]
-
 [role="lead"]
-Per questa soluzione, NetApp ha validato la migrazione dei dati da dati Lake (HDFS) e dati del cluster MapR a NFS ONTAP. I dati risiedevano in MapR-FS e HDFS. NetApp XCP ha introdotto una nuova funzionalità che consente la migrazione diretta dei dati da un file system distribuito come HDFS e MapR-FS a ONTAP NFS. XCP utilizza thread asincroni e chiamate API HDFS C per comunicare e trasferire dati da MapR- FS e HDFS. La figura seguente mostra la migrazione dei dati da un data Lake (HDFS) e MapR-FS a un NFS ONTAP. Con questa nuova funzionalità, non è necessario esportare l'origine come condivisione NFS.
+Per questa soluzione, NetApp ha validato la migrazione dei dati da dati Lake (HDFS) e dati del cluster MapR a NFS ONTAP. I dati risiedevano in MapR-FS e HDFS. NetApp XCP ha introdotto una nuova funzionalità che consente la migrazione diretta dei dati da un file system distribuito come HDFS e MapR-FS a ONTAP NFS. XCP utilizza thread asincroni e chiamate API HDFS C per comunicare e trasferire dati da MapR- FS e HDFS.
+
+La figura seguente mostra la migrazione dei dati da un data Lake (HDFS) e MapR-FS a un NFS ONTAP. Con questa nuova funzionalità, non è necessario esportare l'origine come condivisione NFS.
 
 image:bda-ai-image6.png["Errore: Immagine grafica mancante"]
 
@@ -40,5 +40,3 @@ I test sono stati eseguiti in Amazon Web Services (AWS) per trasferire i dati da
 In base ai test iniziali, abbiamo ottenuto un throughput di 20 Gbps e siamo stati in grado di trasferire 2 PB al giorno di dati.
 
 Per ulteriori informazioni sulla migrazione dei dati HDFS senza esportare HDFS in NFS, vedere la sezione "fasi di implementazione - NAS" in https://docs.netapp.com/us-en/netapp-solutions/xcp/xcp-bp-deployment-steps.html["TR-4863: TR-4863: Linee guida sulle Best practice per NetApp XCP - Data Mover, migrazione dei file e analisi"^].
-
-link:bda-ai-business-benefits.html["Avanti: Benefici per il business."]

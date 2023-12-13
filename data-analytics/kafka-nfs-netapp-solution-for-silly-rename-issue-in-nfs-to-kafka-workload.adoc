@@ -13,8 +13,6 @@ summary: In questa sezione viene descritto il problema del ridenominazione scioc
 :imagesdir: ./../media/
 
 
-link:kafka-nfs-introduction.html["Precedente: Introduzione."]
-
 [role="lead"]
 Kafka si basa sul presupposto che il file system sottostante sia conforme a POSIX, ad esempio XFS o Ext4. Il ribilanciamento delle risorse Kafka rimuove i file mentre l'applicazione li sta ancora utilizzando. Un file system conforme a POSIX consente di procedere con l'annullamento del collegamento. Tuttavia, il file viene rimosso solo dopo che tutti i riferimenti al file sono stati rimossi. Se il file system sottostante è collegato in rete, il client NFS intercetta le chiamate di sconnessione e gestisce il flusso di lavoro. Poiché il file non è collegato, il client NFS invia una richiesta di ridenominazione al server NFS e, all'ultima chiusura del file non collegato, effettua un'operazione di rimozione del file rinominato. Questo comportamento viene comunemente definito come ridenominazione sciocco di NFS ed è orchestrato dal client NFS.
 
@@ -27,5 +25,3 @@ Le seguenti modifiche sono necessarie per consentire al server NFS e al client N
 
 
 Con le suddette modifiche al client e al server NFS, Kafka può sfruttare in tutta sicurezza tutti i vantaggi dello storage NFS collegato alla rete.
-
-link:kafka-nfs-functional-validation-silly-rename-fix.html["Successivo: Convalida funzionale - correzione ridenominazione non rapida."]

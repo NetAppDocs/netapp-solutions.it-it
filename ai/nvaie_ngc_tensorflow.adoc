@@ -13,8 +13,6 @@ summary: NVIDIA ai Enterprise con NetApp e VMware - utilizzo del software NVIDIA
 :imagesdir: ./../media/
 
 
-link:nvaie_ngc_setup.html["Precedente: Installazione."]
-
 [role="lead"]
 Questa sezione descrive le attività da eseguire per eseguire un lavoro di training TensorFlow in un ambiente NVIDIA ai Enterprise.
 
@@ -74,5 +72,3 @@ $ sudo docker run --gpus all -v ~/imagenet:/imagenet -it --rm nvcr.io/nvaie/tens
 $ python ./nvidia-examples/cnn/resnet.py --layers 50 -b 64 -i 200 -u batch --precision fp16 --data_dir /imagenet/data
 ....
 
-
-link:nvaie_additional_information.html["Avanti: Dove trovare ulteriori informazioni."]

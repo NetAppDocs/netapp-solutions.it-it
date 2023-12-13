@@ -13,8 +13,6 @@ summary: Cloud Volumes Service per Google Cloud sfrutta il framework di accesso 
 :imagesdir: ./../../media/
 
 
-link:ncvs-gc-control-plane-architecture.html["Precedente: Architettura del piano di controllo."]
-
 [role="lead"]
 Cloud Volumes Service per Google Cloud sfrutta Google Cloud https://cloud.google.com/vpc/docs/configure-private-services-access["accesso ai servizi privati"^] framework. In questo framework, gli utenti possono connettersi a Cloud Volumes Service. Questo framework utilizza i costrutti di peering di Service Networking e VPC come altri servizi Google Cloud, garantendo un isolamento completo tra i tenant.
 
@@ -35,5 +33,3 @@ La figura precedente mostra un progetto (il progetto consumer CVS al centro) con
 NOTE: GCE7 non può accedere ad alcun volume.
 
 I dati possono essere crittografati sia in transito (utilizzando la crittografia Kerberos e/o SMB) che a riposo in Cloud Volumes Service.
-
-link:ncvs-gc-data-encryption-in-transit.html["Avanti: Crittografia dei dati in transito."]

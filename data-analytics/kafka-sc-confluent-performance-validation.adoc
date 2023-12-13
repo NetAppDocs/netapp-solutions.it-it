@@ -13,8 +13,6 @@ summary: 'Questa pagina descrive la convalida delle performance di Confluent all
 :imagesdir: ./../media/
 
 
-link:kafka-sc-technology-overview.html["Precedente: Panoramica della tecnologia."]
-
 [role="lead"]
 Abbiamo eseguito la verifica con la piattaforma confluente per lo storage su più livelli su NetApp ONTAP. I team NetApp e Confluent hanno lavorato insieme a questa verifica ed hanno eseguito i test case richiesti per l'IT.
 
@@ -114,5 +112,3 @@ Questo test genera indirettamente il carico di lavoro di scrittura nell'archivio
 Questo test ha controllato le prestazioni di eliminazione di uno storage a oggetti con un carico di lavoro di conservazione degli argomenti pesante. Il carico di lavoro di conservazione è stato generato utilizzando uno script TOCC che produce molti messaggi in parallelo a un argomento di test. L'argomento del test è stato configurato con un'impostazione di conservazione aggressiva basata sulle dimensioni e sul tempo che ha causato la rimozione continua del flusso di eventi dall'archivio di oggetti. I segmenti sono stati quindi archiviati. Ciò ha portato a numerose eliminazioni nello storage a oggetti da parte del broker e alla raccolta delle performance delle operazioni di eliminazione degli archivi di oggetti.
 
 Per informazioni dettagliate sulla verifica, consultare https://docs.confluent.io/platform/current/kafka/tiered-storage.html["Confluente"^] sito web.
-
-link:kafka-sc-performance-tests-with-produce-consume-workload-generator.html["Avanti: Test delle performance con generatore di carichi di lavoro producete-consumate."]

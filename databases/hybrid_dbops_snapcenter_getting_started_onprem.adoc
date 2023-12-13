@@ -14,7 +14,8 @@ keywords: workflow, on premises, rbac, roles, permissions
 :imagesdir: ./../media/
 
 
-link:hybrid_dbops_snapcenter_getting_started.html["Precedente: Panoramica introduttiva."]
+[role="lead"]
+Il tool NetApp SnapCenter utilizza RBAC (role based access control) per gestire l'accesso alle risorse utente e le autorizzazioni concesse, mentre l'installazione di SnapCenter crea ruoli prepopolati. Puoi anche creare ruoli personalizzati in base alle tue esigenze o alle tue applicazioni.
 
 
 
@@ -24,7 +25,7 @@ link:hybrid_dbops_snapcenter_getting_started.html["Precedente: Panoramica introd
 
 === 1. Configurare l'utente amministratore del database in SnapCenter
 
-Il tool NetApp SnapCenter utilizza RBAC (role-based access control) per gestire l'accesso alle risorse utente e le autorizzazioni concesse, mentre l'installazione di SnapCenter crea ruoli prepopolati. Puoi anche creare ruoli personalizzati in base alle tue esigenze o alle tue applicazioni. È opportuno disporre di un ID utente admin dedicato per ciascuna piattaforma di database supportata da SnapCenter per il backup, il ripristino e/o il disaster recovery del database. È inoltre possibile utilizzare un unico ID per gestire tutti i database. Nei nostri test case e dimostrazioni, abbiamo creato un utente amministratore dedicato per Oracle e SQL Server, rispettivamente.
+È opportuno disporre di un ID utente admin dedicato per ciascuna piattaforma di database supportata da SnapCenter per il backup, il ripristino e/o il disaster recovery del database. È inoltre possibile utilizzare un unico ID per gestire tutti i database. Nei nostri test case e dimostrazioni, abbiamo creato un utente amministratore dedicato per Oracle e SQL Server, rispettivamente.
 
 Alcune risorse SnapCenter possono essere fornite solo con il ruolo SnapCenterAdmin. Le risorse possono quindi essere assegnate ad altri ID utente per l'accesso.
 
@@ -553,5 +554,3 @@ Accedere alla scheda Resources (risorse), fare clic sul nome del database per vi
 image:snapctr_job_status_ora.PNG["Errore: Immagine grafica mancante"]
 
 A questo punto, le copie di backup del database nel cloud sono pronte per essere clonate per eseguire processi di sviluppo/test o per il disaster recovery in caso di guasto primario.
-
-link:hybrid_dbops_snapcenter_getting_started_aws.html["Avanti: Introduzione al cloud pubblico AWS."]

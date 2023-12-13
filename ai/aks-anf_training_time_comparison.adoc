@@ -13,8 +13,6 @@ summary: 'Questa pagina confronta il tempo di training del modello utilizzando i
 :imagesdir: ./../media/
 
 
-link:aks-anf_monitor_dask_using_native_task_streams_dashboard.html["Precedente: Monitorate la Task utilizzando la dashboard nativa dei Task Streams."]
-
 [role="lead"]
 In questa sezione viene confrontato il tempo di training del modello utilizzando i Panda convenzionali rispetto a quello di Dask. Per Pandas, abbiamo caricato una quantità inferiore di dati a causa della natura del tempo di elaborazione più lento per evitare l'overflow della memoria. Pertanto, abbiamo interpolato i risultati per offrire un confronto equo.
 
@@ -41,5 +39,3 @@ Se si interpolano i risultati dei tempi di training in modo lineare, come mostra
 | RAPIDS-Dask: Utilizzo di tutte le 20B righe del giorno 15 come dati di training | 1 ora, 12 minuti e 11 secondi 
 |===
 Nella tabella precedente, è possibile osservare che, utilizzando RAPIDS con Dask per distribuire l'elaborazione dei dati e modellare la formazione su più istanze GPU, il tempo di esecuzione è significativamente più breve rispetto all'elaborazione convenzionale di Pandas DataFrame con il training del modello scikit-Learn. Questo framework consente la scalabilità verticale e orizzontale nel cloud e on-premise in un cluster multi-GPU a più nodi.
-
-link:aks-anf_monitor_dask_and_rapids_with_prometheus_and_grafana.html["Segue: Monitora Dask e RAPIDE con Prometheus e Grafana."]

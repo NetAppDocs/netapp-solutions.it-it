@@ -13,8 +13,6 @@ summary: Il comando in questa sezione scarica i dati in formato CSV. È possibil
 :imagesdir: ./../media/
 
 
-link:xcp-bp-specific-date-based-scan-and-copy-of-data.html["Precedente: Scansione e copia dei dati specifiche basate sulla data."]
-
 [role="lead"]
 Il seguente comando scarica i dati nel formato CSV. È possibile riassumere la colonna delle dimensioni per ottenere la dimensione totale dei dati.
 
@@ -38,5 +36,3 @@ Per ordinare le informazioni, eseguire il dump delle informazioni in un file CSV
 xcp scan -match “type == d” -depth 3 -fmt "'{}, {}, {}, {}'.format(name, relpath, size)" NFS_Server_IP:/share > directory_report.csv
 ....
 Si tratta di un report personalizzato che utilizza `-fmt` comando. Esegue la scansione di tutte le directory e scarica il nome della directory, il percorso e la dimensione della directory in un file CSV. È possibile ordinare la colonna delle dimensioni dall'applicazione per fogli di calcolo.
-
-link:xcp-bp-data-migration-from-7-mode-to-ontap.html["Pagina successiva: Migrazione dei dati da 7-Mode a ONTAP."]
