@@ -1,0 +1,179 @@
+---
+sidebar: sidebar 
+permalink: ai/mlops_fsxn_cictcd.html 
+keywords: FSxN, AWS S3, SageMaker, MLOps, NetApp ONTAP 
+summary: 'L"articolo fornisce una guida alla creazione di una pipeline MLOps con servizi AWS, concentrandosi su ritraining, implementazione e ottimizzazione dei costi automatizzati dei modelli.' 
+---
+= Parte 3 - creazione di Una pipeline MLOps semplificata (ci/CT/CD)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:highlighter: rouge
+:imagesdir: ./../media/
+
+
+[role="lead"]
+*Autore(i):*
+Ken Jian, Senior Data & Applied Scientist, NetApp
+
+
+
+== Introduzione
+
+In questo tutorial scoprirai come sfruttare i vari servizi AWS per costruire una semplice pipeline MLOps che comprende Continuous Integration (ci), Continuous Training (CT) e Continuous Deployment (CD). A differenza delle tradizionali pipeline DevOps, gli MLOps richiedono ulteriori considerazioni per completare il ciclo operativo. Seguendo questo tutorial, si acquisiranno informazioni sull'integrazione della TC nel loop MLOps, consentendo una formazione continua dei modelli e una distribuzione perfetta per l'inferenza. Il tutorial ti guiderà attraverso il processo di utilizzo dei servizi AWS per creare questa pipeline MLOps end-to-end.
+
+
+
+== Manifesto
+
+|===
+| Funzionalità | Nome | Commento 
+
+
+| Storage dei dati | AWS FSxN | Fare riferimento a. link:https://docs.netapp.com/us-en/netapp-solutions/ai/mlops_fsxn_s3_integration.html["Parte 1 - integrazione di AWS FSX per NetApp ONTAP (FSxN) come bucket S3 privato in AWS SageMaker"]. 
+
+
+| IDE di data science | AWS SageMaker | Questa esercitazione si basa sul notebook Jupyter presentato in link:https://docs.netapp.com/us-en/netapp-solutions/ai/mlops_fsxn_sagemaker_integration_training.html["Parte 2 - utilizzo di AWS FSX for NetApp ONTAP (FSxN) come origine dati per il training sui modelli in SageMaker"]. 
+
+
+| Funzione per attivare la pipeline MLOps | Funzione AWS Lambda | - 
+
+
+| Trigger di job cron | AWS EventBridge | - 
+
+
+| Framework di deep learning | PyTorch | - 
+
+
+| SDK AWS Python | boto3 | - 
+
+
+| Linguaggio di programmazione | Python | v3,10 
+|===
+
+
+== Prerequisito
+
+* Un file system FSxN preconfigurato. Questa esercitazione utilizza i dati memorizzati in FSxN per il processo di formazione.
+* Un'istanza *SageMaker notebook* configurata per condividere lo stesso VPC del file system FSxN menzionato sopra.
+* Prima di attivare la funzione *AWS Lambda*, assicurarsi che l'istanza *SageMaker notebook* sia nello stato *Stopped*.
+* Il tipo di istanza *ml.g4dn.xlarge* è necessario per sfruttare l'accelerazione GPU necessaria per i calcoli delle reti neurali profonde.
+
+
+
+
+== Architettura
+
+image:mlops_fsxn_cictcd_0.png["Errore: Architettura"]
+
+Questa pipeline MLOps è un'implementazione pratica che utilizza un job cron per attivare una funzione senza server, che a sua volta esegue un servizio AWS registrato con una funzione di callback del ciclo di vita. Il *AWS EventBridge* agisce come job cron. Richiama periodicamente una funzione *AWS Lambda* responsabile del riaddestramento e della ridistribuzione del modello. Questo processo comporta la creazione dell'istanza *AWS SageMaker notebook* per eseguire le attività necessarie.
+
+
+
+== Configurazione dettagliata
+
+
+
+=== Configurazioni del ciclo di vita
+
+Per configurare la funzione di callback del ciclo di vita per l'istanza del notebook AWS SageMaker, utilizzare *configurazioni del ciclo di vita*. Questo servizio consente di definire le azioni necessarie da eseguire durante la rotazione dell'istanza del notebook. In particolare, è possibile implementare uno script della shell all'interno delle *configurazioni del ciclo di vita* per arrestare automaticamente l'istanza del notebook una volta completati i processi di formazione e distribuzione. Si tratta di una configurazione richiesta, in quanto il costo è una delle considerazioni principali di MLOps.
+
+È importante notare che la configurazione per *configurazioni del ciclo di vita* deve essere impostata in anticipo. Pertanto, si consiglia di assegnare una priorità alla configurazione di questo aspetto prima di procedere con l'altra impostazione della pipeline MLOps.
+
+. Per impostare una configurazione del ciclo di vita, aprire il pannello *Sagemaker* e passare a *configurazioni del ciclo di vita* nella sezione *configurazioni amministratore*.
++
+image:mlops_fsxn_cictcd_1.png["Errore: Pannello SageMaker"]
+
+. Selezionare la scheda *istanza notebook* e fare clic sul pulsante *Crea configurazione*
++
+image:mlops_fsxn_cictcd_2.png["Errore: Pagina di benvenuto della configurazione del ciclo di vita"]
+
+. Incollare il codice riportato di seguito nell'area di immissione.
++
+[source, bash]
+----
+#!/bin/bash
+
+set -e
+sudo -u ec2-user -i <<'EOF'
+# 1. Retraining and redeploying the model
+NOTEBOOK_FILE=/home/ec2-user/SageMaker/tyre_quality_classification_local_training.ipynb
+echo "Activating conda env"
+source /home/ec2-user/anaconda3/bin/activate pytorch_p310
+nohup jupyter nbconvert "$NOTEBOOK_FILE" --ExecutePreprocessor.kernel_name=python --execute --to notebook &
+nbconvert_pid=$!
+conda deactivate
+
+# 2. Scheduling a job to shutdown the notebook to save the cost
+PYTHON_DIR='/home/ec2-user/anaconda3/envs/JupyterSystemEnv/bin/python3.10'
+echo "Starting the autostop script in cron"
+(crontab -l 2>/dev/null; echo "*/5 * * * * bash -c 'if ps -p $nbconvert_pid > /dev/null; then echo \"Notebook is still running.\" >> /var/log/jupyter.log; else echo \"Notebook execution completed.\" >> /var/log/jupyter.log; $PYTHON_DIR -c \"import boto3;boto3.client(\'sagemaker\').stop_notebook_instance(NotebookInstanceName=get_notebook_name())\" >> /var/log/jupyter.log; fi'") | crontab -
+EOF
+----
+. Questo script esegue il notebook Jupyter, che gestisce il riaddestramento e la ridistribuzione del modello per l'inferenza. Al termine dell'esecuzione, il notebook si spegne automaticamente entro 5 minuti. Per ulteriori informazioni sull'istruzione Problem e sull'implementazione del codice, fare riferimento a. link:https://docs.netapp.com/us-en/netapp-solutions/ai/mlops_fsxn_sagemaker_integration_training.html["Parte 2 - utilizzo di AWS FSX for NetApp ONTAP (FSxN) come origine dati per il training sui modelli in SageMaker"].
++
+image:mlops_fsxn_cictcd_3.png["Errore: Creare la configurazione del ciclo di vita"]
+
+. Dopo la creazione, accedere a istanze notebook, selezionare l'istanza di destinazione e fare clic su *Aggiorna impostazioni* nel menu a discesa azioni.
++
+image:mlops_fsxn_cictcd_4.png["Errore: Menu a discesa Aggiorna impostazioni"]
+
+. Selezionare la configurazione *Lifecycle* creata e fare clic su *Aggiorna istanza notebook*.
++
+image:mlops_fsxn_cictcd_5.png["Errore: Aggiornare la configurazione del ciclo di vita del notebook"]
+
+
+
+
+
+=== Funzione serverless di AWS Lambda
+
+Come accennato in precedenza, la funzione *AWS Lambda* è responsabile della creazione dell'istanza *AWS SageMaker notebook*.
+
+. Per creare una funzione *AWS Lambda*, accedere al pannello corrispondente, passare alla scheda *funzioni* e fare clic su *Crea funzione*.
++
+image:mlops_fsxn_cictcd_6.png["Errore: Pagina di benvenuto della funzione lambda AWS"]
+
+. Si prega di archiviare tutte le voci necessarie nella pagina e ricordarsi di cambiare il Runtime a *Python 3,10*.
++
+image:mlops_fsxn_cictcd_7.png["Errore: Creare una funzione lambda AWS"]
+
+. Verificare che il ruolo designato disponga dell'autorizzazione richiesta *AmazonSageMakerFullAccess* e fare clic sul pulsante *Crea funzione*.
++
+image:mlops_fsxn_cictcd_8.png["Errore: Selezionare il ruolo di esecuzione"]
+
+. Selezionare la funzione Lambda creata. Nella scheda Codice, copiare e incollare il seguente codice nell'area di testo. Questo codice avvia l'istanza del notebook denominata *fsxn-ontap*.
++
+[source, python]
+----
+import boto3
+import logging
+
+def lambda_handler(event, context):
+    client = boto3.client('sagemaker')
+    logging.info('Invoking SageMaker')
+    client.start_notebook_instance(NotebookInstanceName='fsxn-ontap')
+    return {
+        'statusCode': 200,
+        'body': f'Starting notebook instance: {notebook_instance_name}'
+    }
+----
+. Fare clic sul pulsante *Deploy* per applicare questa modifica di codice.
++
+image:mlops_fsxn_cictcd_9.png["Errore: Distribuzione"]
+
+. Per specificare come attivare questa funzione AWS Lambda, fare clic sul pulsante Add Trigger (Aggiungi trigger).
++
+image:mlops_fsxn_cictcd_10.png["Errore: Aggiungi trigger di funzione AWS"]
+
+. Selezionare EventBridge dal menu a discesa, quindi fare clic sul pulsante di opzione Crea una nuova regola. Nel campo espressione pianificazione, immettere `rate(1 day)`, Quindi fare clic sul pulsante Aggiungi per creare e applicare questa nuova regola del job cron alla funzione AWS Lambda.
++
+image:mlops_fsxn_cictcd_11.png["Errore: Finalizzare il trigger"]
+
+
+
+Dopo aver completato la configurazione in due fasi, su base giornaliera, la funzione *AWS Lambda* avvierà il notebook *SageMaker*, eseguirà il riaddestramento del modello utilizzando i dati del repository *FSxN*, ridistribuirà il modello aggiornato nell'ambiente di produzione e spegnerà automaticamente l'istanza *SageMaker notebook* per ottimizzare i costi. In questo modo, il modello rimane aggiornato.
+
+Questo conclude il tutorial per lo sviluppo di una pipeline MLOps.
