@@ -1,33 +1,9 @@
 ---
 sidebar: sidebar 
 permalink: virtualization/vsphere_admin_storage_efficiencies.html 
-keywords: vSphere, efficiency, efficiencies, deduplication, compaction, compression, zero-block, inline, flexclone, adp, disk partitioning, ONTAP 
-summary: In questa pagina vengono descritte le efficienze dello storage ONTAP. 
+redirect: ontap-apps-dbs/vmware/vmware-vsphere-overview.html 
 ---
-= Efficienze dello storage ONTAP
-:hardbreaks:
+= 
 :allow-uri-read: 
-:nofooter: 
-:icons: font
-:linkattrs: 
-:imagesdir: ./../media/
 
 
-
-
-== Sulle efficienze dello storage
-
-Sebbene NetApp sia stata la prima azienda a offrire la deduplica per i workload di produzione, questa innovazione non è stata la prima o l'ultima in quest'area. È iniziato con le copie Snapshot di ONTAP, un meccanismo di protezione dei dati efficiente in termini di spazio senza alcun effetto sulle performance, insieme alla tecnologia FlexClone per eseguire istantaneamente copie in lettura/scrittura delle macchine virtuali per la produzione e l'utilizzo del backup. NetApp ha continuato a offrire funzionalità inline, tra cui deduplica, compressione e deduplica a blocchi zero, per eliminare il maggior numero di storage dai costosi SSD. Più di recente, ONTAP ha aggiunto la compattazione per rafforzare l'efficienza dello storage.
-
-* *Deduplica inline a blocchi zero.* elimina lo spreco di spazio da parte di blocchi completamente zero.
-* *Compressione inline.* comprime i blocchi di dati per ridurre la quantità di storage fisico richiesta.
-* *Deduplica inline.* Elimina i blocchi in entrata con i blocchi esistenti sul disco.
-* *Inline data compaction.* impacchi operazioni i/o e file più piccoli in ogni blocco fisico.
-
-
-image:vsphere_admin_storage_efficiencies.png["Efficienza dello storage"]
-
-È possibile eseguire la deduplica, la compressione dei dati e la compattazione dei dati insieme o in modo indipendente per ottenere risparmi di spazio ottimali su un volume FlexVol. La combinazione di queste funzionalità ha consentito ai clienti di ottenere risparmi fino a 5:1 per VSI e fino a 30:1 per VDI.
-
-
-NOTE: Per ulteriori informazioni sull'efficienza dello storage ONTAP, vedere https://docs.netapp.com/ontap-9/index.jsp["Utilizzo di deduplica, compressione dei dati e compattazione dei dati per aumentare l'efficienza dello storage"] Nel centro di documentazione di ONTAP 9.

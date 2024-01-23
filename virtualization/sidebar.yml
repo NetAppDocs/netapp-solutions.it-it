@@ -3,94 +3,29 @@ section: virtualization
 title: Virtualizzazione
 url: "/virtualization/index.html"
 entries:
-- title: Novità della virtualizzazione VMware
-  url: https://docs.netapp.com/us-en/ontap-whatsnew/ontap98fo_vmware_virtualization.html
-- title: Strumenti ONTAP per VMware vSphere - sicurezza dei prodotti
-  url: "/virtualization/tools-vmware-secure-development-activities.html"
 - title: Virtualizzazione VMware per ONTAP
+  url: https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-overview.html
+- title: Automazione VMware vSphere
+  url: "/virtualization/vsphere_auto_introduction.html"
   entries:
-  - title: Vantaggi di NetApp ONTAP per gli amministratori di VMware vSphere
+  - title: Provisioning tradizionale dello storage a blocchi
+    url: "/virtualization/vsphere_ontap_auto_block.html"
     entries:
-    - title: Introduzione
-      url: "/virtualization/vsphere_admin_introduction.html"
-    - title: Storage unificato
-      url: "/virtualization/vsphere_admin_unified_storage.html"
-    - title: Efficienza dello storage
-      url: "/virtualization/vsphere_admin_storage_efficiencies.html"
-    - title: Gestione basata su policy di storage e volumi virtuali
-      url: "/virtualization/vsphere_admin_vvols_and_spbm.html"
-    - title: Cloud ibrido
-      url: "/virtualization/vsphere_admin_hybrid_cloud.html"
-  - title: Best practice per VMware vSphere con ONTAP
-    url: "/virtualization/vsphere_ontap_ontap_for_vsphere.html"
+    - title: VMFS - Fibre Channel
+      url: "/virtualization/vsphere_ontap_auto_block_fc.html"
+    - title: VMFS - Fibre Channel over Ethernet
+      url: "/virtualization/vsphere_ontap_auto_block_fcoe.html"
+    - title: VMFS - iSCSI
+      url: "/virtualization/vsphere_ontap_auto_block_iscsi.html"
+    - title: VMFS - NVMe su fabric
+      url: "/virtualization/vsphere_ontap_auto_block_nvmeof.html"
+  - title: Provisioning di file storage tradizionale
+    url: "/virtualization/vsphere_ontap_auto_file.html"
     entries:
-    - title: Funzionalità ONTAP per vSphere
-      url: "/virtualization/vsphere_ontap_ontap_capabilities_for_vsphere.html"
-    - title: Datastore e protocolli
-      url: "/virtualization/vsphere_ontap_best_practices.html"
-    - title: Altre funzionalità per vSphere
-      url: "/virtualization/vsphere_ontap_other_capabilities_for_vsphere.html"
-    - title: Informazioni specifiche sulla release di ONTAP e vSphere
-      url: "/virtualization/vsphere_ontap_ontap_and_vsphere_release-specific_information.html"
-    - title: Host ESXi consigliato e altre impostazioni ONTAP
-      url: "/virtualization/vsphere_ontap_recommended_esxi_host_and_other_ontap_settings.html"
-    - title: Dove trovare ulteriori informazioni
-      url: "/virtualization/vsphere_ontap_where_to_find_additional_information.html"
-    - title: Contattaci
-      url: "/virtualization/vsphere_ontap_contact_us.html"
-  - title: Volumi virtuali VMware vSphere (vVol) con NetApp ONTAP
-    url: "/virtualization/vvols-overview.html"
-    entries:
-    - title: Utilizzo di vVol con ONTAP
-      url: "/virtualization/vvols-ontap.html"
-    - title: Implementazione dello storage vVol
-      url: "/virtualization/vvols-deploy.html"
-    - title: Protezione di vVol
-      url: "/virtualization/vvols-protect.html"
-    - title: Risoluzione dei problemi
-      url: "/virtualization/vvols-resources.html"
-  - title: VMware Site Recovery Manager con NetApp ONTAP 9
-    url: "/virtualization/vsrm-ontap9_1._introduction_to_srm_with_ontap.html"
-    entries:
-    - title: Nuove funzionalità con gli strumenti SRM e ONTAP
-      url: "/virtualization/vsrm-ontap9_new_features_with_srm_and_ontap_tools.html"
-    - title: Best practice per l'implementazione
-      url: "/virtualization/vsrm-ontap9_deployment_best_practices.html"
-    - title: Best practice operative
-      url: "/virtualization/vsrm-ontap9_operational_best_practices.html"
-    - title: Topologie di replica
-      url: "/virtualization/vsrm-ontap9_replication_topologies.html"
-    - title: Risoluzione dei problemi di SRM quando si utilizza la replica vVol
-      url: "/virtualization/vsrm-ontap9_appendix_a__troubleshooting_srm_when_using_vvols_replication.html"
-    - title: Conclusione
-      url: "/virtualization/vsrm-ontap9_conclusion.html"
-    - title: Ulteriori informazioni
-      url: "/virtualization/vsrm-ontap9_additional_information.html"
-  - title: Strumenti ONTAP per VMware vSphere - sicurezza dei prodotti
-    url: "/virtualization/tools-vmware-secure-development-activities.html"
-  - title: Plug-in SnapCenter VMware vSphere - sicurezza del prodotto
-    url: "/virtualization/scvmware-security-secure-development-activities.html"
-  - title: Automazione VMware vSphere
-    url: "/virtualization/vsphere_auto_introduction.html"
-    entries:
-    - title: Provisioning tradizionale dello storage a blocchi
-      url: "/virtualization/vsphere_ontap_auto_block.html"
-      entries:
-      - title: VMFS - Fibre Channel
-        url: "/virtualization/vsphere_ontap_auto_block_fc.html"
-      - title: VMFS - Fibre Channel over Ethernet
-        url: "/virtualization/vsphere_ontap_auto_block_fcoe.html"
-      - title: VMFS - iSCSI
-        url: "/virtualization/vsphere_ontap_auto_block_iscsi.html"
-      - title: VMFS - NVMe su fabric
-        url: "/virtualization/vsphere_ontap_auto_block_nvmeof.html"
-    - title: Provisioning di file storage tradizionale
-      url: "/virtualization/vsphere_ontap_auto_file.html"
-      entries:
-      - title: NFS - v3
-        url: "/virtualization/vsphere_ontap_auto_file_nfs.html"
-      - title: NFS - v4.1
-        url: "/virtualization/vsphere_ontap_auto_file_nfs41.html"
+    - title: NFS - v3
+      url: "/virtualization/vsphere_ontap_auto_file_nfs.html"
+    - title: NFS - v4.1
+      url: "/virtualization/vsphere_ontap_auto_file_nfs41.html"
 - title: VMware per il cloud pubblico
   url: "/ehc/index.html"
 - title: Casi d'utilizzo di multicloud ibrido di VMware
