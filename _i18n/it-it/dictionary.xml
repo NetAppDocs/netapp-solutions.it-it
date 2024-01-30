@@ -18935,8 +18935,6 @@ On-premise e in Azure</block>
   <block id="93a31c2d8bd53682f99f570fbf24e946" category="video-title">NetApp Cloud Insights - osservabilità per il moderno data center</block>
   <block id="83e9856e9d6140781dad6d19f316e08c" category="summary">Questo post fornisce una guida alla configurazione di FSxN come bucket S3 privato tramite AWS SageMaker.</block>
   <block id="af98be851b2e51f090cd51feafbfd4fc" category="doc">Parte 1 - integrazione di AWS FSX per NetApp ONTAP (FSxN) come bucket S3 privato in AWS SageMaker</block>
-  <block id="48a0d621bde82c3641c2bfd148fe7917" category="paragraph">*Autore(i):*
-Ken Jian, Senior Data &amp; Applied Scientist, NetApp</block>
   <block id="e0e4adbb40dea224d3249b910112c156" category="paragraph">Utilizzando SageMaker come esempio, questa pagina fornisce istruzioni sulla configurazione di FSxN come bucket S3 privato.</block>
   <block id="69620f6919f430e72c0f67207535605b" category="inline-link-macro">Collegamento video</block>
   <block id="28c7b2b0dbf1eba73ad2f4cd747b7ef9" category="paragraph">Per ulteriori informazioni su FSxN, si prega di dare un'occhiata a questa presentazione (.<block ref="f781ab67717d91cabffd32c6ef2dd731" category="inline-link-macro-rx"></block>)</block>
@@ -18949,11 +18947,6 @@ Ken Jian, Senior Data &amp; Applied Scientist, NetApp</block>
   <block id="7b8d9a34ee98c3b1e7231bdb38a022c7" category="list-text">Aprire *istanze notebook* nella scheda notebook, fare clic sul pulsante arancione *Crea istanza notebook*.</block>
   <block id="5967dd758f5e8b7a5b13714ee9eec573" category="inline-image-macro">Errore: Console istanza notebook AWS SageMaker</block>
   <block id="f4be1c22ae1980d94aba00017045fc9c" category="paragraph"><block ref="f4be1c22ae1980d94aba00017045fc9c" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="4b9073e97211281e5af3dac5bcd5b748" category="list-text">Nella pagina di creazione,
-Immettere il *nome istanza notebook*
-Espandere il pannello *rete*
-Lasciare le altre voci predefinite e selezionare i gruppi *VPC*, *Subnet* e *protezione*. (Questa *VPC* e *sottorete* verranno utilizzate per creare il file system FSxN in un secondo momento)
-Fare clic sul pulsante arancione *Crea istanza notebook* in basso a sinistra.</block>
   <block id="c5adb63a7f1793cbf65bf20f56169f00" category="inline-image-macro">Errore: Creare l'istanza del notebook</block>
   <block id="ed37a29c5c8b3dad1766b67612c4c5ec" category="paragraph"><block ref="ed37a29c5c8b3dad1766b67612c4c5ec" category="inline-image-macro-rx" type="image"></block></block>
   <block id="cd5c8a6e0acf4bab9cce5bb55f03978e" category="section-title">Creare un file system FSxN</block>
@@ -18979,10 +18972,8 @@ Fare clic sul pulsante arancione *Crea istanza notebook* in basso a sinistra.</b
   <block id="8cb695bdcb362931108f41ff0ec65293" category="list-text">Immettere il nome *Storage Virtual Machine* e *specificare una password* per la SVM (Storage Virtual Machine).</block>
   <block id="fad5d48050c3ffd279ba599f2939fa96" category="inline-image-macro">Errore: Configurazione predefinita della macchina virtuale di archiviazione</block>
   <block id="38caa4ec56d6b1a3e15088848cfc7eff" category="paragraph"><block ref="38caa4ec56d6b1a3e15088848cfc7eff" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="88f1507d805331ee2126ac5b7fa3b660" category="list-text">Lasciare le altre voci predefinite e fare clic sul pulsante arancione *Avanti* in basso a sinistra.</block>
   <block id="66dfcda81b33098d49dd6b202816eac4" category="inline-image-macro">Errore: Confermare la configurazione</block>
   <block id="20bc5d28ff5ae2518fe7620732f8da5d" category="paragraph"><block ref="20bc5d28ff5ae2518fe7620732f8da5d" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="b7a01849b3c2c9dfa932ee9d7d70d3d9" category="list-text">Fare clic sul pulsante arancione *Crea file system* nella parte inferiore sinistra della pagina di revisione.</block>
   <block id="8bbdba4ec2550ae26e76c7ccb1935997" category="inline-image-macro">Errore: Esaminare la configurazione e confermare la creazione</block>
   <block id="7830d9e7b16a77ed9086d21141c61249" category="paragraph"><block ref="7830d9e7b16a77ed9086d21141c61249" category="inline-image-macro-rx" type="image"></block></block>
   <block id="c12346192a59739b1315d8d07143db6e" category="list-text">L'accelerazione del file system FSX può richiedere circa *20-40 minuti*.</block>
@@ -19045,7 +19036,6 @@ Per un esempio di codice completo, fare riferimento a questo notebook.
   <block id="058c237f3a064c54cd4482ddc0bdee21" category="paragraph">FSxN (Amazon FSX per NetApp ONTAP) è un servizio di storage AWS. Include un file system in esecuzione sul sistema NetApp ONTAP e una SVM (System Virtual Machine) gestita da AWS che si connette all'IT. Nel diagramma fornito, il server NetApp ONTAP gestito da AWS si trova all'esterno del VPC. La SVM funge da intermediario tra SageMaker e il sistema NetApp ONTAP, ricevendo le richieste operative da SageMaker e inoltrandole allo storage sottostante. Per accedere a FSxN, SageMaker deve essere collocato nello stesso VPC della distribuzione di FSxN. Questa configurazione garantisce la comunicazione e l'accesso ai dati tra SageMaker e FSxN.</block>
   <block id="f8aacfa5c683858912c498f517c9b457" category="section-title">Accesso ai dati</block>
   <block id="dda624dce365defeb65011996c2313ad" category="paragraph">Negli scenari reali, i data scientist utilizzano in genere i dati esistenti memorizzati in FSxN per costruire i propri modelli di machine learning. Tuttavia, per scopi dimostrativi, poiché il file system FSxN è inizialmente vuoto dopo la creazione, è necessario caricare manualmente i dati di addestramento. Questo può essere ottenuto montando FSxN come volume a SageMaker. Una volta montato correttamente il file system, è possibile caricare il set di dati nella posizione montata, rendendolo accessibile per l'addestramento dei modelli all'interno dell'ambiente SageMaker. Questo approccio consente di sfruttare la capacità di storage e le funzionalità di FSxN lavorando con SageMaker per lo sviluppo e la formazione dei modelli.</block>
-  <block id="e04d28b9d9adbc81027c1ac1c68fe63d" category="paragraph">Il processo di lettura dei dati prevede la configurazione di FSxN come bucket S3 privato. Per istruzioni dettagliate sulla configurazione, fare riferimento alla <block ref="c8ff61ebc26830f9012741fc5a740a66" category="inline-link-macro-rx"></block></block>
   <block id="30eaeebc8f9611f55e018d1dd51789ba" category="section-title">Panoramica sull'integrazione</block>
   <block id="c011a85db53a4a7d12e0146d9d89ced9" category="inline-image-macro">Errore: Flusso di lavoro di formazione</block>
   <block id="53143d9ff0d27a36c7ff5ea412677076" category="paragraph"><block ref="53143d9ff0d27a36c7ff5ea412677076" category="inline-image-macro-rx" type="image"></block></block>
@@ -19077,9 +19067,7 @@ Per un esempio di codice completo, fare riferimento a questo notebook.
   <block id="e7e0038bb30579a3120d266861982881" category="cell">Funzionalità</block>
   <block id="dc21b082b0947a93d387b8c7e8f89ee5" category="cell">Storage dei dati</block>
   <block id="038790391c3f6a420beaed7bca0eb306" category="cell">AWS FSxN</block>
-  <block id="2b36707c45e9c63f4cb9480194f7866a" category="cell">Fare riferimento a. <block ref="c8ff61ebc26830f9012741fc5a740a66" category="inline-link-macro-rx"></block>.</block>
   <block id="4c5f43ed06df4b05c18ca410c7016249" category="cell">IDE di data science</block>
-  <block id="519675ed3f417add91b9aee0a959c599" category="cell">Questa esercitazione si basa sul notebook Jupyter presentato in <block ref="5840d7bf436be22c629530e065e130b2" category="inline-link-macro-rx"></block>.</block>
   <block id="e1d9ae96a3cc2d87549ec614a5eea75b" category="cell">Funzione per attivare la pipeline MLOps</block>
   <block id="10740b99bf79c58d32e1a8e73062d05c" category="cell">Funzione AWS Lambda</block>
   <block id="336d5ebc5436534e61d16e63ddfca327" category="cell">-</block>
@@ -19108,7 +19096,6 @@ Per un esempio di codice completo, fare riferimento a questo notebook.
   <block id="9866cc39114ff340fe9706df15b56abb" category="inline-image-macro">Errore: Pagina di benvenuto della configurazione del ciclo di vita</block>
   <block id="3136c126f3b9d4d7056156b66f4108b5" category="paragraph"><block ref="3136c126f3b9d4d7056156b66f4108b5" category="inline-image-macro-rx" type="image"></block></block>
   <block id="4bfce2cb9f46fa7b22c7f04d6aa38b9e" category="list-text">Incollare il codice riportato di seguito nell'area di immissione.</block>
-  <block id="d5b7dc116820ee855678d5998aaf3330" category="list-text">Questo script esegue il notebook Jupyter, che gestisce il riaddestramento e la ridistribuzione del modello per l'inferenza. Al termine dell'esecuzione, il notebook si spegne automaticamente entro 5 minuti. Per ulteriori informazioni sull'istruzione Problem e sull'implementazione del codice, fare riferimento a. <block ref="5840d7bf436be22c629530e065e130b2" category="inline-link-macro-rx"></block>.</block>
   <block id="14e0e0678133bba2cc24188e6bc33690" category="inline-image-macro">Errore: Creare la configurazione del ciclo di vita</block>
   <block id="715f40d05a00907e935047e328538c28" category="paragraph"><block ref="715f40d05a00907e935047e328538c28" category="inline-image-macro-rx" type="image"></block></block>
   <block id="a835fb020d342258f64fe6be9b11cc29" category="list-text">Dopo la creazione, accedere a istanze notebook, selezionare l'istanza di destinazione e fare clic su *Aggiorna impostazioni* nel menu a discesa azioni.</block>
@@ -19143,4 +19130,24 @@ Per un esempio di codice completo, fare riferimento a questo notebook.
   <block id="9647f011afc518d42e6703912b04ebea" category="sidebar">AWS FSX per NetApp ONTAP (FSxN) per MLOps</block>
   <block id="4bf9542c50f7b80d598d7ab1d3bef30b" category="paragraph">Come parte della convalida di questa soluzione, utilizziamo ORACLE per dimostrare il disaster recovery. Per ulteriori informazioni sulle Best practice relative A ORACLE e NetApp ONTAP, seguire questa procedura<block ref="065c174f340523fcff4fc7ccd47e71bd" category="inline-link-rx"></block>.</block>
   <block id="003651b61fd1add7d53aa34a94149bb5" category="sidebar">Implementazione di Oracle Database su ONTAP</block>
+  <block id="e16acc0f6a19a93c2ce155db24c7dab5" category="summary">Questa è la pagina introduttiva alla sezione MLOps di FSxN.</block>
+  <block id="5161c5ce9ddd62084bca0b7596db0266" category="paragraph">*Autore(i):*
+Jian Jian (Ken), Senior Data &amp; Applied Scientist, NetApp</block>
+  <block id="e9270d7905c7162d5c16d80d7ebe1cd5" category="paragraph">In questa sezione viene illustrata l'applicazione pratica dello sviluppo di infrastrutture ai, fornendo una panoramica end-to-end della costruzione di una pipeline MLOps utilizzando FSxN. Con tre esempi completi, ti guida a soddisfare le tue esigenze MLOps tramite questa potente piattaforma per la gestione dei dati.</block>
+  <block id="e2e58416305212ecee9fc44a8a57e389" category="paragraph">Questi articoli si concentrano su:</block>
+  <block id="b7f3b0c22dc36cd3b8991113153958c8" category="list-text"><block ref="b7f3b0c22dc36cd3b8991113153958c8" category="inline-link-macro-rx"></block></block>
+  <block id="b98e975dc2d06019b67aeb13902d6a15" category="list-text"><block ref="b98e975dc2d06019b67aeb13902d6a15" category="inline-link-macro-rx"></block></block>
+  <block id="882330f00abe9178a19f6053978f5b4f" category="list-text"><block ref="882330f00abe9178a19f6053978f5b4f" category="inline-link-macro-rx"></block></block>
+  <block id="5b53b7bace6f6d10be375785f215b3f4" category="paragraph">Al termine di questa sezione, avrete acquisito una solida comprensione di come utilizzare FSxN per ottimizzare i processi MLOps.</block>
+  <block id="f26750c7b8a4a47b5c84b59141936400" category="list-text">Nella pagina di creazione,
+Immettere il *nome istanza notebook*
+Espandere il pannello *rete*
+Lasciare le altre voci predefinite e selezionare i gruppi *VPC*, *Subnet* e *protezione*. (Questa *VPC* e *sottorete* verranno utilizzate per creare il file system FSxN in un secondo momento)
+Fare clic sul pulsante arancione *Crea istanza notebook* in basso a destra.</block>
+  <block id="c4c7ba1524cf2b18e8592e9ceb83df71" category="list-text">Lasciare le altre voci predefinite e fare clic sul pulsante arancione *Avanti* in basso a destra.</block>
+  <block id="6d5ce0306761971a734da357efdf9e6f" category="list-text">Fare clic sul pulsante arancione *Crea file system* in basso a destra nella pagina di revisione.</block>
+  <block id="09347bb6e4d6cc013c80eec20591bc29" category="paragraph">Il processo di lettura dei dati prevede la configurazione di FSxN come bucket S3 privato. Per istruzioni dettagliate sulla configurazione, fare riferimento alla <block ref="b7f3b0c22dc36cd3b8991113153958c8" category="inline-link-macro-rx"></block></block>
+  <block id="501f4a3a8ef5900dadf600db64e1ba2b" category="cell">Fare riferimento a. <block ref="b7f3b0c22dc36cd3b8991113153958c8" category="inline-link-macro-rx"></block>.</block>
+  <block id="1c70a2829c93823d7f0314c6b4bf651c" category="cell">Questa esercitazione si basa sul notebook Jupyter presentato in <block ref="b98e975dc2d06019b67aeb13902d6a15" category="inline-link-macro-rx"></block>.</block>
+  <block id="34388a3a0282609b02f3b2e33e8683b7" category="list-text">Questo script esegue il notebook Jupyter, che gestisce il riaddestramento e la ridistribuzione del modello per l'inferenza. Al termine dell'esecuzione, il notebook si spegne automaticamente entro 5 minuti. Per ulteriori informazioni sull'istruzione Problem e sull'implementazione del codice, fare riferimento a. <block ref="b98e975dc2d06019b67aeb13902d6a15" category="inline-link-macro-rx"></block>.</block>
 </blocks>

@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ai/mlops_fsxn_sagemaker_integration_training.html 
-keywords: FSxN, AWS S3, SageMaker, MLOps, NetApp ONTAP 
+keywords: FSxN, MLOps, NetApp ONTAP, SageMaker, AWS S3, Computer Vision, PyTorch 
 summary: 'L"articolo è un tutorial sull"utilizzo di AWS FSX for NetApp ONTAP (FSxN) per la formazione dei modelli PyTorch in SageMaker, in particolare per un progetto di classificazione della qualità degli pneumatici.' 
 ---
 = Parte 2 - utilizzo di AWS FSX for NetApp ONTAP (FSxN) come origine dati per il training sui modelli in SageMaker
@@ -16,7 +16,7 @@ summary: 'L"articolo è un tutorial sull"utilizzo di AWS FSX for NetApp ONTAP (F
 
 [role="lead"]
 *Autore(i):*
-Ken Jian, Senior Data & Applied Scientist, NetApp
+Jian Jian (Ken), Senior Data & Applied Scientist, NetApp
 
 
 
@@ -48,7 +48,7 @@ FSxN (Amazon FSX per NetApp ONTAP) è un servizio di storage AWS. Include un fil
 
 Negli scenari reali, i data scientist utilizzano in genere i dati esistenti memorizzati in FSxN per costruire i propri modelli di machine learning. Tuttavia, per scopi dimostrativi, poiché il file system FSxN è inizialmente vuoto dopo la creazione, è necessario caricare manualmente i dati di addestramento. Questo può essere ottenuto montando FSxN come volume a SageMaker. Una volta montato correttamente il file system, è possibile caricare il set di dati nella posizione montata, rendendolo accessibile per l'addestramento dei modelli all'interno dell'ambiente SageMaker. Questo approccio consente di sfruttare la capacità di storage e le funzionalità di FSxN lavorando con SageMaker per lo sviluppo e la formazione dei modelli.
 
-Il processo di lettura dei dati prevede la configurazione di FSxN come bucket S3 privato. Per istruzioni dettagliate sulla configurazione, fare riferimento alla link:https://docs.netapp.com/us-en/netapp-solutions/ai/mlops_fsxn_s3_integration.html["Parte 1 - integrazione di AWS FSX per NetApp ONTAP (FSxN) come bucket S3 privato in AWS SageMaker"]
+Il processo di lettura dei dati prevede la configurazione di FSxN come bucket S3 privato. Per istruzioni dettagliate sulla configurazione, fare riferimento alla link:./mlops_fsxn_s3_integration.html["Parte 1 - integrazione di AWS FSX per NetApp ONTAP (FSxN) come bucket S3 privato in AWS SageMaker"]
 
 
 
