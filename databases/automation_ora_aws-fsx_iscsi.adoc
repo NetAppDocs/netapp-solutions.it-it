@@ -4,7 +4,7 @@ permalink: databases/automation_ora_aws-fsx_iscsi.html
 keywords: Database, Oracle, AWS, FSx, ONTAP, Automation 
 summary: 'La soluzione fornisce una panoramica e dettagli per l"implementazione automatizzata di Oracle e la protezione in Amazon FSX ONTAP come storage di database primario con protocollo iSCSI e database Oracle configurati in modalità di riavvio standalone utilizzando Oracle asm come volume manager.' 
 ---
-= Implementazione semplificata e automatizzata di Oracle su Amazon FSX ONTAP con iSCSI
+= TR-4986: Implementazione di Oracle semplificata e automatizzata su Amazon FSX ONTAP con iSCSI
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -276,7 +276,7 @@ memory_limit: 8192
 
 [%collapsible]
 ====
-Nel toolkit di automazione sono presenti un totale di cinque playbook. Ciascuna di esse esegue blocchi di attività diversi e ha scopi diversi.
+Nel toolkit di automazione sono presenti sei playbook in totale. Ciascuna di esse esegue blocchi di attività diversi e ha scopi diversi.
 
 ....
 0-all_playbook.yml - execute playbooks from 1-4 in one playbook run.
@@ -288,7 +288,7 @@ Nel toolkit di automazione sono presenti un totale di cinque playbook. Ciascuna 
 ....
 Sono disponibili tre opzioni per eseguire i playbook con i seguenti comandi.
 
-. Esegui tutti i playbook in una corsa combinata.
+. Esegui tutti i playbook sull'implementazione in un'unica esecuzione combinata.
 +
 [source, cli]
 ----

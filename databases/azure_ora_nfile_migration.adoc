@@ -119,7 +119,7 @@ Arrestare e riavviare il database dei container. L'ncdb viene disconnesso dalla 
 
 == Migrare i database Oracle on-premise in Azure con il trasferimento dei dati PDB
 
-Il trasferimento di Oracle PDB con l'opzione di massima disponibilità utilizza la tecnologia di hot-clone PDB, che consente la disponibilità di PDB di origine mentre la PDB viene copiata sulla destinazione. Al passaggio, le sessioni e le connessioni vengono reindirizzate automaticamente al PDB di destinazione. Pertanto, il tempo di inattività viene ridotto al minimo indipendentemente dalla dimensione della PDB che viene ricollocata. NetApp offre un toolkit basato su Ansible che automatizza la procedura di migrazione.
+Il trasferimento di Oracle PDB con l'opzione di massima disponibilità utilizza la tecnologia di clonazione a caldo PDB, che consente la disponibilità del PDB di origine mentre il PDB esegue la copia nella destinazione. Allo switchover, le connessioni degli utenti vengono reindirizzate automaticamente al PDB di destinazione. In questo modo, il downtime viene ridotto al minimo indipendentemente dalle dimensioni del PDB. NetApp offre un toolkit basato su Ansible che automatizza la procedura di migrazione.
 
 . Creare una CDB nel cloud pubblico Azure su una macchina virtuale Azure con la stessa versione e lo stesso livello di patch.
 . Dal controller Ansible, clonare una copia del toolkit di automazione.

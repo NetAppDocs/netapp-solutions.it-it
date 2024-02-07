@@ -21,6 +21,9 @@ Team di progettazione delle soluzioni NetApp
 
 Questo toolkit automatizza la migrazione del database Oracle da on-premise al cloud AWS con storage FSX ONTAP e istanza di calcolo EC2 come infrastruttura di destinazione. Si presuppone che il cliente disponga già di un database Oracle on-premise implementato nel modello CDB/PDB. Il toolkit consentirà al cliente di trasferire un PDB denominato da un database di container su un host Oracle utilizzando la procedura di trasferimento di Oracle PDB con un'opzione di massima disponibilità. Ciò significa che il PDB di origine su qualsiasi storage array on-premise viene ricollocato in un nuovo database dei container, con un'interruzione minima del servizio. La procedura di trasferimento di Oracle sposterà i file di dati Oracle mentre il database è online. Successivamente, esegue il reindirizzamento delle sessioni utente dai servizi di database on-premise ai servizi di database ricollocati al momento del trasferimento, quando tutti i file di dati passano nel cloud di AWS. La tecnologia sottolineata è la metodologia collaudata per i cloni a caldo dei database Oracle PDB.
 
+
+NOTE: Sebbene il toolkit di migrazione sia sviluppato e validato sull'infrastruttura cloud di AWS, si basa sulle soluzioni Oracle a livello di applicazione. Pertanto, il toolkit è applicabile ad altre piattaforme di cloud pubblico, come Azure, GCP, ecc.
+
 Questa soluzione risolve i seguenti casi di utilizzo:
 
 * Creare un utente di migrazione e concedere i privilegi richiesti sul server DB di origine on-premise.

@@ -21,7 +21,7 @@ Allen Cao, Niyaz Mohamed, NetApp
 
 I sistemi NetApp ASA offrono soluzioni moderne per la tua infrastruttura SAN. Essi semplificano su larga scala e ti permettono di accelerare le applicazioni business-critical come i database, assicurano che i tuoi dati siano sempre disponibili (uptime del 99,9999%) e riducono il TCO e l'impronta di carbonio. I sistemi NetApp ASA includono modelli A-Series progettati per le applicazioni più esigenti in termini di performance e modelli C-Series ottimizzati per implementazioni convenienti e con capacità elevata. Insieme, i sistemi ASA A-Series e C-Series offrono performance eccezionali per migliorare l'esperienza dei clienti e ridurre i tempi di risultati, mantenere i dati business-critical disponibili, protetti e sicuri e fornire una capacità più effettiva per qualsiasi carico di lavoro, supportato dalla garanzia più vantaggiosa del settore.
 
-Questa documentazione dimostra l'implementazione semplificata dei database Oracle in un ambiente SAN costruito con sistemi ASA utilizzando l'automazione Ansible. Il database Oracle viene distribuito in una configurazione di riavvio standalone con protocollo iSCSI per l'accesso ai dati e Oracle ASM per la gestione dello storage sull'array di storage ASA. Dimostriamo inoltre come utilizzare il tool dell'interfaccia utente di NetApp SnapCenter per il backup, il ripristino e la clonazione di un database Oracle per lo sviluppo/il test o altri casi di utilizzo per il funzionamento efficiente in termini di storage per il database nei sistemi NetApp ASA.
+Questa documentazione dimostra l'implementazione semplificata dei database Oracle in un ambiente SAN costruito con sistemi ASA utilizzando l'automazione Ansible. Il database Oracle viene installato in una configurazione di riavvio standalone con protocollo iSCSI per l'accesso ai dati e Oracle ASM per la gestione dei dischi del database sull'array di archiviazione ASA. Il prodotto offre anche informazioni su backup, ripristino e cloning del database Oracle attraverso il tool dell'interfaccia utente di NetApp SnapCenter per il funzionamento efficiente in termini di storage dei database nei sistemi NetApp ASA.
 
 Questa soluzione risolve i seguenti casi di utilizzo:
 
@@ -52,7 +52,7 @@ Il test e la convalida di questa soluzione sono stati eseguiti in un laboratorio
 
 === Architettura
 
-image::automation_ora_asa_iscsi_archit.png[Questa immagine fornisce un quadro dettagliato della configurazione di implementazione di Oracle nel cloud pubblico AWS con iSCSI e ASM.]
+image::automation_ora_asa_iscsi_archit.png[Questa immagine fornisce un quadro dettagliato della configurazione dell'installazione Oracle in un sistema NetApp ASA con iSCSI e ASM.]
 
 
 
@@ -142,7 +142,7 @@ Nelle sezioni seguenti vengono fornite procedure dettagliate per l'implementazio
 L'implementazione richiede i seguenti prerequisiti.
 
 . Si presuppone che lo storage array NetApp ASA sia stato installato e configurato. Sono inclusi dominio di broadcast iSCSI, gruppi di interfacce LACP a0a su entrambi i nodi del controller, porte VLAN iSCSI (a0a-<iscsi-a-vlan-id>, a0a-<iscsi-b-vlan-id>) su entrambi i nodi del controller. Il seguente collegamento fornisce istruzioni dettagliate dettagliate, se è necessaria assistenza. link:https://docs.netapp.com/us-en/ontap-systems/asa400/install-detailed-guide.html["Guida dettagliata - ASA A400"^]
-. Provisioning di una VM Linux come nodo di controller Ansible con l'ultima versione di Ansible e Git installata. Fare riferimento al seguente link per i dettagli: link:https://review.docs.netapp.com/us-en/netapp-solutions_acao_ora_vmc/automation/getting-started.html["Introduzione all'automazione delle soluzioni NetApp"^] nella sezione - `Setup the Ansible Control Node for CLI deployments on RHEL / CentOS` oppure `Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`.
+. Provisioning di una VM Linux come nodo di controller Ansible con l'ultima versione di Ansible e Git installata. Fare riferimento al seguente link per i dettagli: link:https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["Introduzione all'automazione delle soluzioni NetApp"^] nella sezione - `Setup the Ansible Control Node for CLI deployments on RHEL / CentOS` oppure `Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`.
 . Clonazione di una copia del toolkit di automazione della distribuzione Oracle di NetApp per iSCSI.
 +
 [source, cli]
@@ -220,7 +220,7 @@ ora_02 ansible_host=10.61.180.23 ansible_ssh_private_key_file=ora_02.pem
 ######                 ONTAP env specific config variables                                             ######
 #############################################################################################################
 
-# Enter the ONTAP platform: on-prem, aws_fsx, aws_cvo, etc.
+# Enter the supported ONTAP platform: on-prem, aws-fsx.
 ontap_platform: on-prem
 
 # Enter ONTAP cluster management user credentials
@@ -284,19 +284,19 @@ memory_limit: 8192
 
 [%collapsible]
 ====
-Nel toolkit di automazione sono presenti un totale di cinque playbook. Ciascuna di esse esegue blocchi di attività diversi e ha scopi diversi.
+Nel toolkit di automazione sono presenti sei playbook in totale. Ciascuna di esse esegue blocchi di attività diversi e ha scopi diversi.
 
 ....
 0-all_playbook.yml - execute playbooks from 1-4 in one playbook run.
 1-ansible_requirements.yml - set up Ansible controller with required libs and collections.
 2-linux_config.yml - execute Linux kernel configuration on Oracle DB servers.
-3-ontap_config.yml - configure ONTAP for Oracle database including the creation of SVM, data volumes/luns provision, host igroup setup, etc.
+3-ontap_config.yml - configure ONTAP svm/volumes/luns for Oracle database and grant DB server access to luns.
 4-oracle_config.yml - install and configure Oracle on DB servers for grid infrastructure and create a container database.
 5-destroy.yml - optional to undo the environment to dismantle all.
 ....
 Sono disponibili tre opzioni per eseguire i playbook con i seguenti comandi.
 
-. Esegui tutti i playbook in una corsa combinata.
+. Esegui tutti i playbook sull'implementazione in un'unica esecuzione combinata.
 +
 [source, cli]
 ----
@@ -496,7 +496,7 @@ image::automation_ora_asa_em_03.png[Questa immagine fornisce la vista del databa
 
 [%collapsible]
 ====
-Fare riferimento a TR-4979 link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["Oracle semplificata e autogestita in VMware Cloud su AWS con FSX ONTAP montato su guest"^] sezione `Oracle backup, restore, and clone with SnapCenter` Per informazioni dettagliate su come configurare SnapCenter ed eseguire il flusso di lavoro di backup, ripristino e cloning del database.
+Fare riferimento a TR-4979 link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["Oracle semplificata e autogestita in VMware Cloud su AWS con FSX ONTAP montato su guest"^] sezione `Oracle backup, restore, and clone with SnapCenter` Per informazioni dettagliate su configurazione di SnapCenter ed esecuzione di flussi di lavoro di backup, ripristino e cloning del database.
 
 ====
 
