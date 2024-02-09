@@ -1,0 +1,338 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs-gc-smb.html 
+keywords: smb, access control, name aliases, authentication dialects, NTFS, mmc, 
+summary: SMB è un protocollo di file sharing di rete sviluppato da Microsoft che fornisce autenticazione centralizzata di utenti/gruppi, autorizzazioni, blocco e condivisione di file a più client SMB su una rete Ethernet. 
+---
+= PMI
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/hh831795(v=ws.11)["PMI"^] È un protocollo di condivisione file di rete sviluppato da Microsoft che fornisce autenticazione centralizzata di utenti/gruppi, autorizzazioni, blocco e condivisione file a più client SMB su una rete Ethernet. I file e le cartelle vengono presentati ai client tramite condivisioni, che possono essere configurate con una vasta gamma di proprietà di condivisione e offrono il controllo degli accessi tramite permessi a livello di condivisione. SMB può essere presentato a qualsiasi client che offra supporto per il protocollo, inclusi client Windows, Apple e Linux.
+
+Cloud Volumes Service supporta le versioni SMB 2.1 e 3.x del protocollo.
+
+
+
+== Controllo degli accessi/condivisioni SMB
+
+* Quando un nome utente Windows richiede l'accesso al volume Cloud Volumes Service, Cloud Volumes Service cerca un nome utente UNIX utilizzando i metodi configurati dagli amministratori Cloud Volumes Service.
+* Se viene configurato un provider di identità UNIX esterno (LDAP) e i nomi utente Windows/UNIX sono identici, i nomi utente di Windows verranno mappati 1:1 ai nomi utente UNIX senza alcuna configurazione aggiuntiva. Quando LDAP è attivato, Active Directory viene utilizzato per ospitare gli attributi UNIX per gli oggetti utente e gruppo.
+* Se i nomi Windows e UNIX non corrispondono in modo identico, è necessario configurare LDAP in modo da consentire a Cloud Volumes Service di utilizzare la configurazione di mappatura dei nomi LDAP (vedere la sezione link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap#using-ldap-for-asymmetric-name-mapping[""Utilizzo di LDAP per la mappatura asimmetrica dei nomi""]).
+* Se LDAP non è in uso, gli utenti SMB di Windows si associano a un utente UNIX locale predefinito denominato `pcuser` In Cloud Volumes Service. Ciò significa che i file scritti in Windows dagli utenti che eseguono il mapping a `pcuser` Mostra la proprietà UNIX come `pcuser` In ambienti NAS multiprotocollo. `pcuser` qui è effettivamente il `nobody` Utente in ambienti Linux (UID 65534).
+
+
+Nelle implementazioni solo con SMB, il `pcuser` Il mapping continua a verificarsi, ma non è importante, perché la proprietà di utenti e gruppi di Windows viene visualizzata correttamente e l'accesso NFS al volume solo SMB non è consentito. Inoltre, i volumi solo SMB non supportano la conversione in NFS o volumi a doppio protocollo dopo la loro creazione.
+
+Windows sfrutta Kerberos per l'autenticazione del nome utente con i domain controller di Active Directory, che richiede uno scambio di nome utente e password con i controller di dominio ad, esterni all'istanza di Cloud Volumes Service. L'autenticazione Kerberos viene utilizzata quando `\\SERVERNAME` Il percorso UNC viene utilizzato dai client SMB ed è vero quanto segue:
+
+* La voce DNS A/AAAA esiste per NOMESERVER
+* Esiste un SPN valido per l'accesso SMB/CIFS per NOMESERVER
+
+
+Quando viene creato un volume SMB Cloud Volumes Service, il nome dell'account del computer viene creato come definito nella sezione link:ncvs-gc-considerations-creating-active-directory-connections.html#how-cloud-volumes-service-shows-up-in-active-directory[""Come viene visualizzato Cloud Volumes Service in Active Directory.""] Il nome account del computer diventa anche il percorso di accesso condiviso SMB perché Cloud Volumes Service sfrutta il DNS dinamico (DDNS) per creare le voci A/AAAA e PTR necessarie nel DNS e le voci SPN necessarie sull'account principal del computer.
+
+
+NOTE: Per creare le voci PTR, la zona di ricerca inversa per l'indirizzo IP dell'istanza Cloud Volumes Service deve esistere sul server DNS.
+
+Ad esempio, questo volume Cloud Volumes Service utilizza il seguente percorso di condivisione UNC: `\\cvs-east- 433d.cvsdemo.local`.
+
+In Active Directory, queste sono le voci SPN generate dal servizio Cloud Volumes:
+
+image:ncvs-gc-image6.png["Errore: Immagine grafica mancante"]
+
+Questo è il risultato della ricerca DNS in avanti/indietro:
+
+....
+PS C:\> nslookup CVS-EAST-433D
+Server:  activedirectory. region. lab. internal
+Address:  10. xx.0. xx
+Name:    CVS-EAST-433D.cvsdemo.local
+Address:  10. xxx.0. x
+PS C:\> nslookup 10. xxx.0. x
+Server:  activedirectory.region.lab.internal
+Address:  10.xx.0.xx
+Name:    CVS-EAST-433D.CVSDEMO.LOCAL
+Address:  10. xxx.0. x
+....
+Facoltativamente, è possibile applicare un maggiore controllo degli accessi attivando/richiedendo la crittografia SMB per le condivisioni SMB in Cloud Volumes Service. Se la crittografia SMB non è supportata da uno degli endpoint, l'accesso non è consentito.
+
+
+
+=== Utilizzo degli alias dei nomi SMB
+
+In alcuni casi, potrebbe essere un problema di sicurezza per gli utenti finali conoscere il nome dell'account del computer in uso per Cloud Volumes Service. In altri casi, è sufficiente fornire un percorso di accesso più semplice agli utenti finali. In questi casi, è possibile creare alias SMB.
+
+Se si desidera creare alias per il percorso di condivisione SMB, è possibile sfruttare ciò che è noto come record CNAME in DNS. Ad esempio, se si desidera utilizzare il nome `\\CIFS` per accedere alle condivisioni anziché a. `\\cvs-east- 433d.cvsdemo.local`, Ma si desidera comunque utilizzare l'autenticazione Kerberos, un CNAME nel DNS che punta al record A/AAAA esistente e un ulteriore SPN aggiunto all'account del computer esistente fornisce l'accesso Kerberos.
+
+image:ncvs-gc-image7.png["Errore: Immagine grafica mancante"]
+
+Questo è il risultato della ricerca diretta DNS dopo l'aggiunta di un CNAME:
+
+....
+PS C:\> nslookup cifs
+Server:  ok-activedirectory.us-east4-a.c.cv-solution-architect-lab.internal
+Address:  10. xx.0. xx
+Name:    CVS-EAST-433D.cvsdemo.local
+Address:  10. xxx.0. x
+Aliases:  cifs.cvsdemo.local
+....
+Questa è la query SPN risultante dopo l'aggiunta di nuovi numeri di servizio:
+
+image:ncvs-gc-image8.png["Errore: Immagine grafica mancante"]
+
+In un'acquisizione di pacchetti, è possibile visualizzare la richiesta di configurazione della sessione utilizzando l'SPN legato al CNAME.
+
+image:ncvs-gc-image9.png["Errore: Immagine grafica mancante"]
+
+
+
+=== Dialetti di autenticazione SMB
+
+Cloud Volumes Service supporta quanto segue https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-smb2/8df1a501-ce4e-4287-8848-5f1d4733e280["dialetti"^] Per l'autenticazione SMB:
+
+* LM
+* NTLM
+* NTLMv2
+* Kerberos
+
+
+L'autenticazione Kerberos per l'accesso alle condivisioni SMB è il livello di autenticazione più sicuro possibile. Con la crittografia AES e SMB attivata, il livello di sicurezza aumenta ulteriormente.
+
+Cloud Volumes Service supporta anche la compatibilità con le versioni precedenti per l'autenticazione LM e NTLM. Quando Kerberos non è configurato correttamente (ad esempio quando si creano alias SMB), l'accesso alla condivisione viene ricallato ai metodi di autenticazione più deboli (ad esempio NTLMv2). Poiché questi meccanismi sono meno sicuri, sono disattivati in alcuni ambienti Active Directory. Se i metodi di autenticazione più deboli sono disattivati e Kerberos non è configurato correttamente, l'accesso alla condivisione non riesce perché non esiste un metodo di autenticazione valido.
+
+Per informazioni sulla configurazione e la visualizzazione dei livelli di autenticazione supportati in Active Directory, vedere https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/network-security-lan-manager-authentication-level["Sicurezza di rete: Livello di autenticazione di LAN Manager"^].
+
+
+
+== Modelli di permesso
+
+
+
+=== Permessi NTFS/file
+
+Le autorizzazioni NTFS sono le autorizzazioni applicate a file e cartelle nei file system che aderiscono alla logica NTFS. È possibile applicare le autorizzazioni NTFS in `Basic` oppure `Advanced` e può essere impostato su `Allow` oppure `Deny` per il controllo degli accessi.
+
+Le autorizzazioni di base includono:
+
+* Controllo completo
+* Modificare
+* Lettura ed esecuzione
+* Leggi
+* Di scrittura
+
+
+Quando si impostano le autorizzazioni per un utente o un gruppo, denominato ACE, si trova in un ACL. Le autorizzazioni NTFS utilizzano le stesse basi di lettura/scrittura/esecuzione dei bit in modalità UNIX, ma possono anche estendersi a controlli di accesso più granulari ed estesi (noti anche come permessi speciali), come Take Ownership, Create Folders/Append Data, Write Attributes e altro ancora.
+
+I bit in modalità UNIX standard non forniscono lo stesso livello di granularità delle autorizzazioni NTFS (ad esempio, la possibilità di impostare autorizzazioni per singoli oggetti utente e gruppo in un ACL o di impostare attributi estesi). Tuttavia, gli ACL NFSv4.1 offrono le stesse funzionalità degli ACL NTFS.
+
+Le autorizzazioni NTFS sono più specifiche delle autorizzazioni di condivisione e possono essere utilizzate insieme alle autorizzazioni di condivisione. Con le strutture di autorizzazione NTFS, si applicano le impostazioni più restrittive. Di conseguenza, le negazioni esplicite a un utente o a un gruppo sovrascrivono anche il controllo completo quando si definiscono i diritti di accesso.
+
+Le autorizzazioni NTFS sono controllate dai client SMB di Windows.
+
+
+
+=== Autorizzazioni di condivisione
+
+Le autorizzazioni di condivisione sono più generali delle autorizzazioni NTFS (solo lettura/modifica/controllo completo) e controllano la voce iniziale in una condivisione SMB, in modo simile al funzionamento delle regole dei criteri di esportazione NFS.
+
+Sebbene le regole dei criteri di esportazione NFS controllino l'accesso attraverso informazioni basate su host come indirizzi IP o nomi host, le autorizzazioni di condivisione SMB possono controllare l'accesso utilizzando le ACE di utente e gruppo in un ACL condiviso. È possibile impostare gli ACL di condivisione dal client Windows o dall'interfaccia utente di gestione di Cloud Volumes Service.
+
+Per impostazione predefinita, gli ACL di condivisione e gli ACL dei volumi iniziali includono Everyone con controllo completo. Gli ACL dei file devono essere modificati, ma le autorizzazioni di condivisione vengono ignorate dalle autorizzazioni dei file sugli oggetti nella condivisione.
+
+Ad esempio, se a un utente è consentito solo l'accesso in lettura all'ACL del file di volume Cloud Volumes Service, viene negato l'accesso per creare file e cartelle anche se l'ACL di condivisione è impostato su Everyone con controllo completo, come illustrato nella figura seguente.
+
+image:ncvs-gc-image10.png["Errore: Immagine grafica mancante"]
+
+image:ncvs-gc-image11.png["Errore: Immagine grafica mancante"]
+
+Per ottenere i migliori risultati di sicurezza, procedere come segue:
+
+* Rimuovere tutti dagli ACL di file e condivisione e impostare l'accesso di condivisione per utenti o gruppi.
+* Utilizzare i gruppi per il controllo degli accessi invece di singoli utenti per semplificare la gestione e velocizzare la rimozione/aggiunta degli utenti per condividere gli ACL attraverso la gestione dei gruppi.
+* Consentire un accesso di condivisione meno restrittivo e più generale alle ACE sulle autorizzazioni di condivisione e bloccare l'accesso a utenti e gruppi con permessi di file per un controllo degli accessi più granulare.
+* Evitare l'utilizzo generale di ACL di negazione esplicite, in quanto sovrascrivono gli ACL di consenso. Limitare l'utilizzo di ACL di negazione esplicite per utenti o gruppi che devono essere limitati all'accesso rapido a un file system.
+* Assicurarsi di prestare attenzione a. https://www.varonis.com/blog/permission-propagation/["Ereditarietà ACL"^] impostazioni durante la modifica delle autorizzazioni; l'impostazione del flag di ereditarietà al livello superiore di una directory o di un volume con un numero elevato di file indica che ogni file sotto a tale directory o volume ha ereditato le autorizzazioni aggiunte, che possono creare comportamenti indesiderati come accesso/negazione non intenzionale e lunga modifica delle autorizzazioni quando ogni file viene regolato.
+
+
+
+
+== SMB condivide le funzionalità di sicurezza
+
+La prima volta che si crea un volume con accesso SMB in Cloud Volumes Service, viene visualizzata una serie di opzioni per la protezione di tale volume.
+
+Alcune di queste scelte dipendono dal livello Cloud Volumes Service (prestazioni o software) e le scelte includono:
+
+* *Rendi visibile la directory Snapshot (disponibile sia per CVS-Performance che per CVS-SW).* questa opzione controlla se i client SMB possono accedere o meno alla directory Snapshot in una condivisione SMB (`\\server\share\~snapshot` E/o versioni precedenti). L'impostazione predefinita non è selezionata, il che significa che il volume per impostazione predefinita nasconde e non consente l'accesso a `~snapshot` Directory e non vengono visualizzate copie Snapshot nella scheda versioni precedenti del volume.
+
+
+image:ncvs-gc-image12.png["Errore: Immagine grafica mancante"]
+
+È possibile nascondere le copie Snapshot dagli utenti finali per motivi di sicurezza, di performance (nascondendo queste cartelle dalle scansioni AV) o di preferenza. Le istantanee di Cloud Volumes Service sono di sola lettura, quindi anche se sono visibili, gli utenti finali non possono eliminare o modificare i file nella directory Snapshot. Si applicano le autorizzazioni per i file o le cartelle al momento dell'esecuzione della copia Snapshot. Se le autorizzazioni di un file o di una cartella cambiano tra le copie Snapshot, le modifiche si applicano anche ai file o alle cartelle nella directory Snapshot. Utenti e gruppi possono accedere a questi file o cartelle in base alle autorizzazioni. Sebbene non sia possibile eliminare o modificare i file nella directory Snapshot, è possibile copiare file o cartelle dalla directory Snapshot.
+
+* *Attiva la crittografia SMB (disponibile sia per CVS-Performance che per CVS-SW).* la crittografia SMB è disattivata per impostazione predefinita nella condivisione SMB (non selezionata). Selezionando la casella viene attivata la crittografia SMB, il che significa che il traffico tra il client SMB e il server viene crittografato in-flight con i livelli di crittografia più elevati supportati negoziati. Cloud Volumes Service supporta la crittografia fino a AES-256 per le PMI. L'attivazione della crittografia SMB comporta una penalizzazione delle performance che potrebbe o meno essere evidente per i client SMB, approssimativamente nell'intervallo 10-20%. NetApp incoraggia vivamente i test per verificare se tale penalizzazione delle performance è accettabile.
+* *Nascondi condivisione SMB (disponibile sia per CVS-Performance che CVS-SW).* l'impostazione di questa opzione nasconde il percorso di condivisione SMB dalla normale navigazione. Ciò significa che i client che non conoscono il percorso di condivisione non possono visualizzare le condivisioni quando accedono al percorso UNC predefinito (ad esempio `\\CVS-SMB`). Quando la casella di controllo è selezionata, solo i client che conoscono esplicitamente il percorso di condivisione SMB o che hanno il percorso di condivisione definito da un oggetto Criteri di gruppo possono accedervi (sicurezza tramite offuscamento).
+* *Enable access-based enumeration (ABE) (solo CVS-SW).* questo è simile a nascondere la condivisione SMB, tranne che le condivisioni o i file sono nascosti solo agli utenti o ai gruppi che non dispongono delle autorizzazioni per accedere agli oggetti. Ad esempio, se utente Windows `joe` Non è consentito almeno l'accesso in lettura tramite le autorizzazioni, quindi l'utente Windows `joe` Impossibile visualizzare la condivisione SMB o i file. Questa opzione è disattivata per impostazione predefinita ed è possibile attivarla selezionando la casella di controllo. Per ulteriori informazioni su ABE, consultare l'articolo della Knowledge base di NetApp https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/How_does_Access_Based_Enumeration_(ABE)_work["Come funziona Access Based Enumeration (ABE)?"^]
+* *Attiva il supporto delle condivisioni CA (Continuously Available) (solo CVS-Performance).* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/What_are_SMB_Continuously_Available_(CA)_Shares["Condivisioni SMB sempre disponibili"^] Fornire un modo per ridurre al minimo le interruzioni delle applicazioni durante gli eventi di failover replicando gli stati di blocco tra i nodi nel sistema di back-end Cloud Volumes Service. Non si tratta di una funzionalità di sicurezza, ma offre una migliore resilienza generale. Attualmente, solo le applicazioni SQL Server e FSLogix sono supportate per questa funzionalità.
+
+
+
+
+== Condivisioni nascoste predefinite
+
+Quando viene creato un server SMB in Cloud Volumes Service, ne esistono https://library.netapp.com/ecmdocs/ECMP1366834/html/GUID-5B56B12D-219C-4E23-B3F8-1CB1C4F619CE.html["condivisioni amministrative nascoste"^] (Utilizzando la convenzione di naming in dollari) creati in aggiunta alla condivisione SMB del volume di dati. Questi includono l'accesso allo spazio dei nomi e l'IPC (sharing named pipe for communication between programs, come le chiamate di procedura remota (RPC) utilizzate per l'accesso a Microsoft Management Console (MMC)).
+
+La condivisione IPC non contiene ACL di condivisione e non può essere modificata, ma viene utilizzata esclusivamente per le chiamate RPC e. https://docs.microsoft.com/en-us/troubleshoot/windows-server/networking/inter-process-communication-share-null-session["Per impostazione predefinita, Windows non consente l'accesso anonimo a queste condivisioni"^].
+
+La condivisione consente l'accesso predefinito a BUILTIN/Administrators, ma l'automazione Cloud Volumes Service rimuove l'ACL della condivisione e non consente l'accesso a nessuno perché l'accesso alla condivisione consente la visibilità di tutti i volumi montati nei file system Cloud Volumes Service. Di conseguenza, tenta di accedere a. `\\SERVER\C$` non riuscito.
+
+
+
+== Account con diritti di amministratore/backup locali/BUILTIN
+
+I server SMB di Cloud Volumes Service mantengono una funzionalità simile a quella dei normali server SMB di Windows, in quanto esistono gruppi locali (ad esempio BUILTIN/amministratori) che applicano i diritti di accesso a utenti e gruppi di dominio selezionati.
+
+Quando si specifica un utente da aggiungere agli utenti di backup, l'utente viene aggiunto al gruppo BUILTIN/Backup Operators nell'istanza di Cloud Volumes Service che utilizza tale connessione, che ottiene quindi https://docs.microsoft.com/en-us/windows-hardware/drivers/ifs/privileges["SeBackupPrivilege e SeRestorePrivilege"^].
+
+Quando si aggiunge un utente a Security Privilege Users, all'utente viene assegnato il privilegio SeSecurityPrivilege, utile in alcuni casi di utilizzo dell'applicazione, ad esempio https://docs.netapp.com/us-en/ontap/smb-hyper-v-sql/add-sesecurityprivilege-user-account-task.html["SQL Server su condivisioni SMB"^].
+
+image:ncvs-gc-image13.png["Errore: Immagine grafica mancante"]
+
+È possibile visualizzare le appartenenze ai gruppi locali di Cloud Volumes Service tramite MMC con i privilegi appropriati. La figura seguente mostra gli utenti aggiunti utilizzando la console di Cloud Volumes Service.
+
+image:ncvs-gc-image14.png["Errore: Immagine grafica mancante"]
+
+La seguente tabella mostra l'elenco dei gruppi BUILTIN predefiniti e gli utenti/gruppi aggiunti per impostazione predefinita.
+
+|===
+| Locale/gruppo BUILTIN | Membri predefiniti 
+
+
+| BUILTIN/amministratori* | AMMINISTRATORI DI DOMINIO/dominio 
+
+
+| BUILTIN/Backup Operator* | Nessuno 
+
+
+| BUILTIN/guest | Dominio/dominio guest 
+
+
+| UTENTI BUILTIN/Power | Nessuno 
+
+
+| UTENTI BUILTIN/dominio | UTENTI DI DOMINIO/dominio 
+|===
+*Appartenenza al gruppo controllata nella configurazione della connessione ad Active Directory di Cloud Volumes Service.
+
+È possibile visualizzare gli utenti e i gruppi locali (e i membri del gruppo) nella finestra MMC, ma non è possibile aggiungere o eliminare oggetti o modificare le appartenenze ai gruppi da questa console. Per impostazione predefinita, solo il gruppo Domain Admins e l'amministratore vengono aggiunti al gruppo BUILTIN/Administrators in Cloud Volumes Service. Al momento, non è possibile modificarlo.
+
+image:ncvs-gc-image15.png["Errore: Immagine grafica mancante"]
+
+image:ncvs-gc-image16.png["Errore: Immagine grafica mancante"]
+
+
+
+== Accesso MMC/Gestione computer
+
+L'accesso SMB in Cloud Volumes Service fornisce la connettività alla MMC Gestione computer, che consente di visualizzare le condivisioni, gestire gli ACL delle condivisioni, visualizzare/gestire le sessioni SMB e aprire i file.
+
+Per utilizzare MMC per visualizzare le condivisioni SMB e le sessioni in Cloud Volumes Service, l'utente attualmente connesso deve essere un amministratore di dominio. Agli altri utenti è consentito l'accesso per visualizzare o gestire il server SMB da MMC e ricevere una finestra di dialogo non si dispone delle autorizzazioni quando si tenta di visualizzare condivisioni o sessioni sull'istanza SMB di Cloud Volumes Service.
+
+Per connettersi al server SMB, aprire Gestione computer, fare clic con il pulsante destro del mouse su Gestione computer, quindi selezionare Connetti a un altro computer. Viene visualizzata la finestra di dialogo Seleziona computer, in cui è possibile immettere il nome del server SMB (disponibile nelle informazioni sul volume Cloud Volumes Service).
+
+Quando si visualizzano le condivisioni SMB con le autorizzazioni appropriate, vengono visualizzate tutte le condivisioni disponibili nell'istanza di Cloud Volumes Service che condividono la connessione Active Directory. Per controllare questo comportamento, impostare l'opzione Nascondi condivisioni SMB sull'istanza del volume Cloud Volumes Service.
+
+Tenere presente che è consentita una sola connessione Active Directory per regione.
+
+image:ncvs-gc-image17.png["Errore: Immagine grafica mancante"]
+
+image:ncvs-gc-image18.png["Errore: Immagine grafica mancante"]
+
+La seguente tabella mostra un elenco delle funzionalità supportate/non supportate per MMC.
+
+|===
+| Funzioni supportate | Funzioni non supportate 
+
+
+ a| 
+* Visualizza condivisioni
+* Visualizzare le sessioni SMB attive
+* Visualizzare i file aperti
+* Visualizzare utenti e gruppi locali
+* Visualizzare le appartenenze ai gruppi locali
+* Enumerare l'elenco di sessioni, file e connessioni ad albero nel sistema
+* Chiudere i file aperti nel sistema
+* Chiudere le sessioni aperte
+* Creare/gestire le condivisioni
+
+ a| 
+* Creazione di nuovi utenti/gruppi locali
+* Gestione/visualizzazione di utenti/gruppi locali esistenti
+* Visualizza eventi o log delle performance
+* Gestione dello storage
+* Gestione di servizi e applicazioni
+
+
+|===
+
+
+== Informazioni sulla sicurezza dei server SMB
+
+Il server SMB di Cloud Volumes Service utilizza una serie di opzioni che definiscono le policy di sicurezza per le connessioni SMB, tra cui l'inclinazione del clock Kerberos, l'età del ticket, la crittografia e molto altro ancora.
+
+La seguente tabella contiene un elenco di queste opzioni, le loro funzioni, le configurazioni predefinite e se possono essere modificate con Cloud Volumes Service. Alcune opzioni non si applicano a Cloud Volumes Service.
+
+|===
+| Opzione di sicurezza | Che cosa fa | Valore predefinito | Può cambiare? 
+
+
+| Inclinazione massima del clock Kerberos (minuti) | Disallineamento massimo del tempo tra Cloud Volumes Service e i controller di dominio. Se l'intervallo di tempo supera i 5 minuti, l'autenticazione Kerberos non riesce. Viene impostato sul valore predefinito di Active Directory. | 5 | No 
+
+
+| Durata ticket Kerberos (ore) | Tempo massimo in cui un ticket Kerberos rimane valido prima di richiedere un rinnovo. Se non si verifica alcun rinnovo prima delle 10 ore, è necessario ottenere un nuovo biglietto. Cloud Volumes Service esegue automaticamente questi rinnovi. 10 ore è il valore predefinito di Active Directory. | 10 | No 
+
+
+| Rinnovo massimo ticket Kerberos (giorni) | Numero massimo di giorni in cui un ticket Kerberos può essere rinnovato prima che sia necessaria una nuova richiesta di autorizzazione. Cloud Volumes Service rinnova automaticamente i ticket per le connessioni SMB. Sette giorni è il valore predefinito di Active Directory. | 7 | No 
+
+
+| Timeout connessione KDC Kerberos (sec) | Il numero di secondi prima del timeout di una connessione KDC. | 3 | No 
+
+
+| Richiedi firma per traffico SMB in entrata | Impostazione per richiedere la firma per il traffico SMB. Se impostata su true, i client che non supportano la firma non riescono a connettersi. | Falso |  
+
+
+| Richiedi complessità password per account utente locali | Utilizzato per le password degli utenti SMB locali. Cloud Volumes Service non supporta la creazione di utenti locali, pertanto questa opzione non si applica a Cloud Volumes Service. | Vero | No 
+
+
+| Utilizzare start_tls per le connessioni LDAP di Active Directory | Utilizzato per attivare le connessioni TLS iniziali per Active Directory LDAP. Cloud Volumes Service attualmente non supporta l'abilitazione di questa opzione. | Falso | No 
+
+
+| AES-128 e AES-256 Encryption for Kerberos sono abilitati | In questo modo si controlla se la crittografia AES viene utilizzata per le connessioni Active Directory e viene controllata con l'opzione Enable AES Encryption for Active Directory Authentication (attiva crittografia AES per l'autenticazione Active Directory) quando si crea o si modifica la connessione Active Directory. | Falso | Sì 
+
+
+| Livello di compatibilità LM | Livello dei dialetti di autenticazione supportati per le connessioni Active Directory. Vedere la sezione "<<Dialetti di autenticazione SMB>>" per ulteriori informazioni. | ntlmv2-krb | No 
+
+
+| Richiedi crittografia SMB per traffico CIFS in entrata | Richiede la crittografia SMB per tutte le condivisioni. Questa opzione non viene utilizzata da Cloud Volumes Service; impostare invece la crittografia per volume (vedere la sezione "<<SMB condivide le funzionalità di sicurezza>>"). | Falso | No 
+
+
+| Sicurezza della sessione client | Imposta la firma e/o il sealing per la comunicazione LDAP. Questa opzione non è attualmente impostata in Cloud Volumes Service, ma potrebbe essere necessaria nelle versioni future per risolvere . La risoluzione dei problemi di autenticazione LDAP dovuti alla patch di Windows è descritta nella sezione link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap#ldap-channel-binding[""Associazione del canale LDAP"."]. | Nessuno | No 
+
+
+| Abilitazione SMB2 per connessioni DC | Utilizza SMB2 per le connessioni DC. Attivato per impostazione predefinita. | System-default | No 
+
+
+| LDAP Referral Chasing | Quando si utilizzano più server LDAP, la ricerca dei riferimenti consente al client di fare riferimento ad altri server LDAP nell'elenco quando non viene trovata una voce nel primo server. Attualmente non è supportato da Cloud Volumes Service. | Falso | No 
+
+
+| Utilizzare LDAPS per connessioni Active Directory sicure | Attiva l'utilizzo di LDAP su SSL. Attualmente non supportato da Cloud Volumes Service. | Falso | No 
+
+
+| La crittografia è necessaria per la connessione DC | Richiede la crittografia per le connessioni DC riuscite. Disattivato per impostazione predefinita in Cloud Volumes Service. | Falso | No 
+|===

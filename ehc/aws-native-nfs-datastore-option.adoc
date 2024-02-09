@@ -1,0 +1,295 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws-native-nfs-datastore-option.html 
+keywords:  
+summary:  
+---
+= Opzione supplementare NFS Datastore in AWS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Una volta che VMware Cloud è pronto e connesso ad AWS VPC, è necessario implementare Amazon FSX per NetApp ONTAP in un nuovo VPC designato piuttosto che nel VPC predefinito originale connesso o esistente.
+
+Per iniziare, implementa un VPC aggiuntivo nella stessa regione e zona di disponibilità in cui risiede SDDC, quindi implementa Amazon FSX per NetApp ONTAP nel nuovo VPC. https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-6B20CA3B-ABCD-4939-9176-BCEA44473C2B.html["Configurazione di un gruppo SDDC in VMware Cloud"^] Console abilita le opzioni di configurazione di rete necessarie per connettersi al nuovo VPC designato in cui verrà implementato FSX per ONTAP.
+
+
+NOTE: Implementare FSX per ONTAP nella stessa area disponibile di VMware Cloud su SDDC AWS.
+
+
+NOTE: Non è possibile implementare FSX per ONTAP nel VPC connesso. È invece necessario implementarlo in un nuovo VPC designato e quindi collegarlo a un VMware Managed Transit Gateway (vTGW) tramite gruppi SDDC.
+
+.Fase 1: Creazione di Amazon FSX per ONTAP in un nuovo VPC designato
+[%collapsible]
+====
+Per creare e montare il file system Amazon FSX per NetApp ONTAP, attenersi alla seguente procedura:
+
+. Aprire la console Amazon FSX all'indirizzo `https://console.aws.amazon.com/fsx/` E scegliere *Crea file system* per avviare la procedura guidata *creazione file system*.
+. Nella pagina Seleziona tipo di file system, selezionare *Amazon FSX per NetApp ONTAP*, quindi fare clic su *Avanti*. Viene visualizzata la pagina *Create file System* (Crea file system).
++
+image:fsx-nfs-image2.png["Errore: Immagine grafica mancante"]
+
+. Per il metodo di creazione, scegliere *Standard Create*.
++
+image:fsx-nfs-image3.png["Errore: Immagine grafica mancante"]
+
++
+image:fsx-nfs-image4.png["Errore: Immagine grafica mancante"]
+
++
+
+NOTE: Le dimensioni del datastore variano leggermente da cliente a cliente. Sebbene il numero consigliato di macchine virtuali per datastore NFS sia soggettivo, molti fattori determinano il numero ottimale di macchine virtuali che è possibile posizionare su ciascun datastore. Sebbene la maggior parte degli amministratori consideri solo la capacità, la quantità di i/o simultanei inviata ai VMDK è uno dei fattori più importanti per le performance complessive. Utilizza le statistiche delle performance on-premise per dimensionare di conseguenza i volumi del datastore.
+
+. Nella sezione *Networking* per Virtual Private Cloud (VPC), scegliere le subnet VPC e preferite appropriate insieme alla tabella di routing. In questo caso, dal menu a discesa viene selezionato Demo- FSxforONTAP-VPC.
++
+
+NOTE: Assicurarsi che si tratti di un nuovo VPC designato e non del VPC collegato.
+
++
+
+NOTE: Per impostazione predefinita, FSX per ONTAP utilizza 198.19.0.0/16 come intervallo di indirizzi IP dell'endpoint predefinito per il file system. Assicurarsi che l'intervallo di indirizzi IP degli endpoint non sia in conflitto con il VMC sull'SDDC AWS, le subnet VPC associate e l'infrastruttura on-premise. In caso di dubbi, utilizzare un intervallo non sovrapposto senza conflitti.
+
++
+image:fsx-nfs-image5.png["Errore: Immagine grafica mancante"]
+
+. Nella sezione *sicurezza e crittografia* della chiave di crittografia, scegliere la chiave di crittografia AWS Key Management Service (AWS KMS) che protegge i dati del file system inattivi. Per la *Password amministrativa del file system*, immettere una password sicura per l'utente fsxadmin.
++
+image:fsx-nfs-image6.png["Errore: Immagine grafica mancante"]
+
+. Nella sezione *Default Storage Virtual Machine Configuration*, specificare il nome della SVM.
++
+
+NOTE: A partire da GA, sono supportati quattro datastore NFS.
+
++
+image:fsx-nfs-image7.png["Errore: Immagine grafica mancante"]
+
+. Nella sezione *Default Volume Configuration* (Configurazione volume predefinita), specificare il nome e le dimensioni del volume richiesti per l'archivio dati e fare clic su *Next* (Avanti). Si tratta di un volume NFSv3. Per *efficienza dello storage*, scegliere *abilitato* per attivare le funzionalità di efficienza dello storage ONTAP (compressione, deduplica e compattazione). Dopo la creazione, utilizzare la shell per modificare i parametri del volume utilizzando *_volume modify_* come segue:
++
+[cols="50%, 50%"]
+|===
+| Impostazione | Configurazione 
+
+
+| Garanzia di volume (stile Space Guarantee) | None (thin provisioning) - impostazione predefinita 
+
+
+| fractional_reserve (riserva frazionale) | 0% - impostazione predefinita 
+
+
+| snap_reserve (spazio-snapshot-percentuale) | 0% 
+
+
+| Dimensionamento automatico (modalità dimensionamento automatico) | grow_shrink 
+
+
+| Efficienza dello storage | Enabled (attivato): Impostazione predefinita 
+
+
+| Eliminazione automatica | volume / oldest_first 
+
+
+| Policy di tiering dei volumi | Snapshot Only (solo snapshot): Impostazione predefinita 
+
+
+| prova_prima | Crescita automatica 
+
+
+| Policy di Snapshot | Nessuno 
+|===
++
+Utilizzare il seguente comando SSH per creare e modificare i volumi:
+
++
+*Comando per creare un nuovo volume datastore dalla shell:*
+
++
+ volume create -vserver FSxONTAPDatastoreSVM -volume DemoDS002 -aggregate aggr1 -size 1024GB -state online -tiering-policy snapshot-only -percent-snapshot-space 0 -autosize-mode grow -snapshot-policy none -junction-path /DemoDS002
++
+*Nota:* i volumi creati tramite shell richiederanno alcuni minuti per essere visualizzati nella console AWS.
+
++
+*Comando per modificare i parametri del volume non impostati per impostazione predefinita:*
+
++
+....
+volume modify -vserver FSxONTAPDatastoreSVM -volume DemoDS002 -fractional-reserve 0
+volume modify -vserver FSxONTAPDatastoreSVM -volume DemoDS002 -space-mgmt-try-first vol_grow
+volume modify -vserver FSxONTAPDatastoreSVM -volume DemoDS002 -autosize-mode grow
+....
++
+image:fsx-nfs-image8.png["Errore: Immagine grafica mancante"]
+
++
+image:fsx-nfs-image9.png["Errore: Immagine grafica mancante"]
+
++
+
+NOTE: Durante lo scenario di migrazione iniziale, il criterio di snapshot predefinito può causare problemi di capacità del datastore piena. Per superarla, modificare la policy di Snapshot in base alle esigenze.
+
+. Esaminare la configurazione del file system mostrata nella pagina *Create file System*.
+. Fare clic su *Create file System* (Crea file system).
++
+image:fsx-nfs-image10.png["Errore: Immagine grafica mancante"]
+
++
+image:fsx-nfs-image11.png["Errore: Immagine grafica mancante"]
+
++
+
+NOTE: Ripetere i passaggi precedenti per creare più macchine virtuali o file system storage e volumi datastore in base ai requisiti di capacità e performance.
+
+
+
+Per ulteriori informazioni sulle prestazioni di Amazon FSX per ONTAP, consulta https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["Performance di Amazon FSX per NetApp ONTAP"^].
+
+====
+.Fase 2: Creazione del gruppo SDDC
+[%collapsible]
+====
+Una volta creati i file system e le SVM, utilizzare VMware Console per creare un gruppo SDDC e configurare VMware Transit Connect. A tale scopo, completare i seguenti passaggi e ricordare che è necessario spostarsi tra VMware Cloud Console e AWS Console.
+
+. Accedere alla console VMC all'indirizzo `https://vmc.vmware.com`.
+. Nella pagina *inventario*, fare clic su *gruppi SDDC*.
+. Nella scheda *gruppi SDDC*, fare clic su *AZIONI* e selezionare *Crea gruppo SDDC*. Per scopi dimostrativi, viene chiamato il gruppo SDDC `FSxONTAPDatastoreGrp`.
+. Nella griglia Membership (appartenenza), selezionare gli SDDC da includere come membri del gruppo.
++
+image:fsx-nfs-image12.png["Errore: Immagine grafica mancante"]
+
+. Verificare che l'opzione "la configurazione di VMware Transit Connect per il proprio gruppo comporta costi per allegato e trasferimento dati" sia selezionata, quindi selezionare *Crea gruppo*. Il completamento del processo può richiedere alcuni minuti.
++
+image:fsx-nfs-image13.png["Errore: Immagine grafica mancante"]
+
+
+
+====
+.Fase 3: Configurare VMware Transit CONNECT
+[%collapsible]
+====
+. Collegare il VPC designato appena creato al gruppo SDDC. Selezionare la scheda *External VPC* (VPC esterno) e seguire le istruzioni https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["Istruzioni per il collegamento di un VPC esterno al gruppo"^]. Il completamento di questo processo può richiedere 10-15 minuti.
++
+image:fsx-nfs-image14.png["Errore: Immagine grafica mancante"]
+
+. Fare clic su *Aggiungi account*.
++
+.. Fornire l'account AWS utilizzato per il provisioning del file system FSX per ONTAP.
+.. Fare clic su *Aggiungi*.
+
+
+. Nella console AWS, accedere allo stesso account AWS e accedere alla pagina del servizio *Resource Access Manager*. È disponibile un pulsante per accettare la condivisione delle risorse.
++
+image:fsx-nfs-image15.png["Errore: Immagine grafica mancante"]
+
++
+
+NOTE: Come parte del processo VPC esterno, tramite la console AWS viene richiesto di accedere a una nuova risorsa condivisa tramite Resource Access Manager. La risorsa condivisa è l'AWS Transit Gateway gestito da VMware Transit Connect.
+
+. Fare clic su *Accetta condivisione risorse*.
++
+image:fsx-nfs-image16.png["Errore: Immagine grafica mancante"]
+
+. Nella console VMC, ora si vede che il VPC esterno si trova in uno stato associato. Questa operazione può richiedere alcuni minuti.
+
+
+====
+.Fase 4: Creazione dell'allegato del gateway di transito
+[%collapsible]
+====
+. Nella console AWS, accedere alla pagina del servizio VPC e accedere al VPC utilizzato per il provisioning del file system FSX. In questo punto, è possibile creare un allegato del gateway di transito facendo clic su *Transit Gateway Attachment* (collegamento gateway di transito) nel riquadro di navigazione a destra.
+. Nella sezione *allegato VPC*, assicurarsi che sia selezionata l'opzione supporto DNS e selezionare il VPC in cui è stato implementato FSX per ONTAP.
++
+image:fsx-nfs-image17.png["Errore: Immagine grafica mancante"]
+
+. Fare clic su *Create* *Transit gateway Attachment*.
++
+image:fsx-nfs-image18.png["Errore: Immagine grafica mancante"]
+
+. Tornare alla console di VMware Cloud e tornare alla scheda Gruppo SDDC > VPC esterno. Selezionare l'ID account AWS utilizzato per FSX, fare clic sul VPC e fare clic su *Accept* (Accetta).
++
+image:fsx-nfs-image19.png["Errore: Immagine grafica mancante"]
+
++
+image:fsx-nfs-image20.png["Errore: Immagine grafica mancante"]
+
++
+
+NOTE: La visualizzazione di questa opzione potrebbe richiedere alcuni minuti.
+
+. Quindi, nella scheda *External VPC* della colonna *routes*, fare clic sull'opzione *Add routes* (Aggiungi percorsi) e aggiungere i percorsi richiesti:
++
+** Un percorso per l'intervallo IP mobile per Amazon FSX per gli IP mobili NetApp ONTAP.
+** Un percorso per lo spazio di indirizzi VPC esterno appena creato.
++
+image:fsx-nfs-image21.png["Errore: Immagine grafica mancante"]
+
++
+image:fsx-nfs-image22.png["Errore: Immagine grafica mancante"]
+
+
+
+
+
+====
+.Fase 5: Configurare il routing (AWS VPC e SDDC) e i gruppi di sicurezza
+[%collapsible]
+====
+. Nella console AWS, creare il percorso di ritorno a SDDC individuando il VPC nella pagina di servizio VPC e selezionare la tabella di percorso *main* per il VPC.
+. Individuare la tabella dei percorsi nel pannello inferiore e fare clic su *Edit routes* (Modifica percorsi).
++
+image:fsx-nfs-image23.png["Errore: Immagine grafica mancante"]
+
+. Nel pannello *Edit routes* (Modifica percorsi), fare clic su *Add route* (Aggiungi percorso) e immettere il CIDR per l'infrastruttura SDDC selezionando *Transit Gateway* (Gateway di transito) e l'ID TGW associato. Fare clic su *Save Changes* (Salva modifiche).
++
+image:fsx-nfs-image24.png["Errore: Immagine grafica mancante"]
+
+. Il passo successivo consiste nel verificare che il gruppo di sicurezza nel VPC associato sia aggiornato con le regole in entrata corrette per il CIDR del gruppo SDDC.
+. Aggiornare la regola inbound con il blocco CIDR dell'infrastruttura SDDC.
++
+image:fsx-nfs-image25.png["Errore: Immagine grafica mancante"]
+
++
+
+NOTE: Verificare che la tabella di routing VPC (dove risiede FSX per ONTAP) sia aggiornata per evitare problemi di connettività.
+
++
+
+NOTE: Aggiornare il gruppo di protezione per accettare il traffico NFS.
+
+
+
+Questa è la fase finale della preparazione della connettività all'SDDC appropriato. Con il file system configurato, i percorsi aggiunti e i gruppi di sicurezza aggiornati, è il momento di montare gli archivi dati.
+
+====
+.Fase 6: Collegare il volume NFS come datastore al cluster SDDC
+[%collapsible]
+====
+Dopo aver eseguito il provisioning del file system e aver attivato la connettività, accedere a VMware Cloud Console per montare il datastore NFS.
+
+. Nella console VMC, aprire la scheda *Storage* del controller SDDC.
++
+image:fsx-nfs-image27.png["Errore: Immagine grafica mancante"]
+
+. Fare clic su *ATTACH DATASTORE* e inserire i valori richiesti.
++
+
+NOTE: L'indirizzo del server NFS è l'indirizzo IP NFS che si trova in FSX > scheda Storage virtual machine > Endpoints all'interno della console AWS.
+
++
+image:fsx-nfs-image28.png["Errore: Immagine grafica mancante"]
+
+. Fare clic su *ATTACH DATASTORE* per collegare il datastore al cluster.
++
+image:fsx-nfs-image29.png["Errore: Immagine grafica mancante"]
+
+. Validare il datastore NFS accedendo a vCenter come mostrato di seguito:
++
+image:fsx-nfs-image30.png["Errore: Immagine grafica mancante"]
+
+
+
+====

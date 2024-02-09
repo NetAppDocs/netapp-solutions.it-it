@@ -1,0 +1,152 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs-gc-considerations-creating-active-directory-connections.html 
+keywords: active directory, credentials, permissions, smb machine accounts, region, backup users, security privilege, 
+summary: 'Cloud Volumes Service consente di connettere l"istanza di Cloud Volumes Service a un server Active Directory esterno per la gestione delle identità per gli utenti SMB e UNIX. Per utilizzare SMB in Cloud Volumes Service è necessario creare una connessione Active Directory.' 
+---
+= Considerazioni per la creazione di connessioni Active Directory
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Cloud Volumes Service consente di connettere l'istanza di Cloud Volumes Service a un server Active Directory esterno per la gestione delle identità per gli utenti SMB e UNIX. Per utilizzare SMB in Cloud Volumes Service è necessario creare una connessione Active Directory.
+
+La configurazione fornisce diverse opzioni che richiedono una certa considerazione per la sicurezza. Il server Active Directory esterno può essere un'istanza on-premise o nativo del cloud. Se si utilizza un server Active Directory on-premise, non esporre il dominio alla rete esterna (ad esempio con un DMZ o un indirizzo IP esterno). Utilizzare, invece, tunnel privati o VPN sicuri, trust di foresta unirway o connessioni di rete dedicate alle reti on-premise con https://cloud.google.com/vpc/docs/private-google-access["Accesso privato a Google"^]. Per ulteriori informazioni su, consultare la documentazione di Google Cloud https://cloud.google.com/managed-microsoft-ad/docs/best-practices["Best practice per l'utilizzo di Active Directory in Google Cloud"^].
+
+
+NOTE: CVS-SW richiede che i server Active Directory si trovino nella stessa regione. Se si tenta di stabilire una connessione CC in CVS-SW con un'altra regione, il tentativo non riesce. Quando si utilizza CVS-SW, assicurarsi di creare siti Active Directory che includono i controller di dominio Active Directory e specificare i siti in Cloud Volumes Service per evitare tentativi di connessione DC tra regioni.
+
+
+
+== Credenziali di Active Directory
+
+Quando SMB o LDAP per NFS è attivato, Cloud Volumes Service interagisce con i controller di Active Directory per creare un oggetto account macchina da utilizzare per l'autenticazione. Questo non è diverso dal modo in cui un client SMB di Windows si unisce a un dominio e richiede gli stessi diritti di accesso alle unità organizzative (OU) in Active Directory.
+
+In molti casi, i gruppi di protezione non consentono l'utilizzo di un account amministratore di Windows su server esterni come Cloud Volumes Service. In alcuni casi, l'utente amministratore di Windows viene disattivato completamente come procedura consigliata per la protezione.
+
+
+
+=== Autorizzazioni necessarie per creare account di macchine SMB
+
+Per aggiungere oggetti computer Cloud Volumes Service a un'Active Directory, un account che dispone di diritti amministrativi per il dominio o che dispone di https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/delegating-administration-by-using-ou-objects["autorizzazioni delegate per creare e modificare oggetti account macchina"^] A un'unità organizzativa specificata. È possibile eseguire questa operazione con la delega guidata del controllo in Active Directory creando un'attività personalizzata che fornisce all'utente l'accesso alla creazione/eliminazione di oggetti computer con le seguenti autorizzazioni di accesso:
+
+* Lettura/scrittura
+* Crea/Elimina tutti gli oggetti figlio
+* Lettura/scrittura di tutte le proprietà
+* Modificare/reimpostare la password
+
+
+Questa operazione consente di aggiungere automaticamente un ACL di sicurezza per l'utente definito all'unità organizzativa in Active Directory e di ridurre al minimo l'accesso all'ambiente Active Directory. Dopo la delega di un utente, il nome utente e la password possono essere forniti come credenziali Active Directory in questa finestra.
+
+
+NOTE: Il nome utente e la password passati al dominio Active Directory sfruttano la crittografia Kerberos durante la query e la creazione dell'oggetto account del computer per una maggiore sicurezza.
+
+
+
+== Dettagli della connessione ad Active Directory
+
+Il https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-smb-volumes["Dettagli connessione Active Directory"^] Fornire agli amministratori campi per fornire informazioni specifiche sullo schema di Active Directory per il posizionamento degli account del computer, ad esempio:
+
+* *Tipo di connessione Active Directory.* consente di specificare se la connessione Active Directory in una regione viene utilizzata per volumi di tipo Cloud Volumes Service o CVS-Performance. Se questa impostazione non è corretta su una connessione esistente, potrebbe non funzionare correttamente quando viene utilizzata o modificata.
+* *Domain.* il nome di dominio di Active Directory.
+* *Site.* limita i server Active Directory a un sito specifico per motivi di sicurezza e performance https://cloud.google.com/architecture/partners/netapp-cloud-volumes/managing-active-directory-connections["considerazioni"^]. Ciò è necessario quando più server Active Directory si estendono in aree diverse, in quanto Cloud Volumes Service attualmente non supporta l'autorizzazione di richieste di autenticazione Active Directory per i server Active Directory in un'area diversa dall'istanza di Cloud Volumes Service. Ad esempio, il controller di dominio Active Directory si trova in un'area supportata solo da CVS-Performance, ma si desidera una condivisione SMB in un'istanza CVS-SW.
+* *Server DNS.* server DNS da utilizzare nelle ricerche dei nomi.
+* *Nome NetBIOS (opzionale).* se lo si desidera, il nome NetBIOS del server. Questa opzione viene utilizzata quando vengono creati nuovi account computer utilizzando la connessione Active Directory. Ad esempio, se il nome NetBIOS è impostato su CVS-EAST, i nomi degli account del computer saranno CVS-EAST-{1234}. Vedere la sezione link:ncvs-gc-considerations-creating-active-directory-connections.html#how-cloud-volumes-service-shows-up-in-active-directory["Come viene visualizzato Cloud Volumes Service in Active Directory"] per ulteriori informazioni.
+* *Unità organizzativa (OU).* unità organizzativa specifica per la creazione dell'account del computer. Ciò è utile se si sta delegando il controllo a un utente per gli account di computer a una specifica unità organizzativa.
+* *Crittografia AES.* è inoltre possibile selezionare o deselezionare la casella di controllo Enable AES Encryption for ad Authentication. L'attivazione della crittografia AES per l'autenticazione di Active Directory offre una maggiore sicurezza per le comunicazioni Cloud Volumes Service-Active Directory durante le ricerche di utenti e gruppi. Prima di attivare questa opzione, rivolgersi all'amministratore di dominio per verificare che i controller di dominio Active Directory supportino l'autenticazione AES.
+
+
+
+NOTE: Per impostazione predefinita, la maggior parte dei server Windows non disattiva le crittografia più deboli (AD esempio DES o RC4-HMAC), ma se si sceglie di disattivare le crittografia più deboli, verificare che la connessione Active Directory di Cloud Volumes Service sia stata configurata per abilitare AES. In caso contrario, si verificano errori di autenticazione. L'attivazione della crittografia AES non disattiva le crittografie più deboli, ma aggiunge il supporto per le crittografie AES all'account della macchina SMB di Cloud Volumes Service.
+
+
+
+== Dettagli area di autenticazione Kerberos
+
+Questa opzione non si applica ai server SMB. Viene invece utilizzato durante la configurazione di NFS Kerberos per il sistema Cloud Volumes Service. Quando questi dettagli vengono popolati, viene configurato l'ambiente Kerberos NFS (simile a un file krb5.conf su Linux) e viene utilizzato quando NFS Kerberos viene specificato nella creazione del volume Cloud Volumes Service, in quanto la connessione Active Directory agisce come centro di distribuzione Kerberos NFS (KDC).
+
+
+NOTE: Attualmente i KDC non Windows non sono supportati per l'utilizzo con Cloud Volumes Service.
+
+
+
+== Regione
+
+Una regione consente di specificare la posizione in cui risiede la connessione Active Directory. Questa regione deve essere la stessa del volume Cloud Volumes Service.
+
+* *Local NFS Users with LDAP.* in questa sezione è disponibile anche un'opzione per consentire agli utenti NFS locali con LDAP. Questa opzione deve essere lasciata deselezionata se si desidera estendere il supporto dell'appartenenza al gruppo di utenti UNIX oltre la limitazione di 16 gruppi di NFS (gruppi estesi). Tuttavia, l'utilizzo di gruppi estesi richiede un server LDAP configurato per le identità UNIX. Se non si dispone di un server LDAP, lasciare deselezionata questa opzione. Se si dispone di un server LDAP e si desidera utilizzare anche utenti UNIX locali (ad esempio root), selezionare questa opzione.
+
+
+
+
+== Utenti di backup
+
+Questa opzione consente di specificare gli utenti Windows che dispongono delle autorizzazioni di backup per il volume Cloud Volumes Service. I privilegi di backup (SeBackupPrivilege) sono necessari per consentire ad alcune applicazioni di eseguire correttamente il backup e il ripristino dei dati nei volumi NAS. Questo utente dispone di un elevato livello di accesso ai dati nel volume, pertanto è necessario prendere in considerazione l'opzione https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/audit-audit-the-use-of-backup-and-restore-privilege["abilitazione del controllo dell'accesso dell'utente"^]. Una volta attivato, gli eventi di controllo vengono visualizzati nel Visualizzatore eventi > Log di Windows > protezione.
+
+image:ncvs-gc-image19.png["Errore: Immagine grafica mancante"]
+
+
+
+== Utenti con privilegi di sicurezza
+
+Questa opzione consente di specificare gli utenti Windows che dispongono delle autorizzazioni per la modifica della protezione per il volume Cloud Volumes Service. Alcuni privilegi di sicurezza (SeSecurityPrivilege) sono necessari per alcune applicazioni (https://docs.netapp.com/us-en/ontap/smb-hyper-v-sql/add-sesecurityprivilege-user-account-task.html["Ad esempio SQL Server"^]) per impostare correttamente le autorizzazioni durante l'installazione. Questo privilegio è necessario per gestire il registro di protezione. Sebbene questo privilegio non sia potente come SeBackupPrivilege, NetApp consiglia https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-privilege-use["controllo dell'accesso degli utenti"^] con questo livello di privilegio, se necessario.
+
+Per ulteriori informazioni, vedere https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4672["Privilegi speciali assegnati al nuovo accesso"^].
+
+
+
+== Come viene visualizzato Cloud Volumes Service in Active Directory
+
+Cloud Volumes Service viene visualizzato in Active Directory come un normale oggetto account del computer. Le convenzioni di denominazione sono le seguenti.
+
+* CIFS/SMB e NFS Kerberos creano oggetti account macchina separati.
+* NFS con LDAP attivato crea un account macchina in Active Directory per i binding LDAP Kerberos.
+* I volumi a doppio protocollo con LDAP condividono l'account CIFS/SMB per LDAP e SMB.
+* Gli account CIFS/SMB utilizzano una convenzione di naming name-1234 (ID casuale a quattro cifre con trattino aggiunto al nome <10 caratteri) per l'account del computer. È possibile definire IL NOME in base all'impostazione NetBIOS name (Nome NetBIOS) sulla connessione Active Directory (vedere la sezione "<<Dettagli della connessione ad Active Directory>>").
+* NFS Kerberos utilizza NFS-NAME-1234 come convenzione di naming (fino a 15 caratteri). Se vengono utilizzati più di 15 caratteri, il nome è NFS-TRONCED-NAME-1234.
+* Le istanze CVS-Performance solo NFS con LDAP attivato creano un account SMB Machine per l'associazione al server LDAP con la stessa convenzione di denominazione delle istanze CIFS/SMB.
+* Quando viene creato un account SMB Machine, le condivisioni amministrative nascoste predefinite (vedere la sezione link:ncvs-gc-smb.html#default-hidden-shares[""Condivisioni nascoste predefinite""]), ma tali condivisioni non hanno ACL assegnati e non sono accessibili.
+* Per impostazione predefinita, gli oggetti del centro di costo del computer vengono posizionati in CN=Computers, ma R è possibile specificare un'unità organizzativa diversa quando necessario. Vedere la sezione "<<Autorizzazioni necessarie per creare account di macchine SMB>>" Per informazioni sui diritti di accesso necessari per aggiungere/rimuovere oggetti account macchina per Cloud Volumes Service.
+
+
+Quando Cloud Volumes Service aggiunge l'account del computer SMB ad Active Directory, vengono compilati i seguenti campi:
+
+* cn (con il nome del server SMB specificato)
+* DNSHostName (con SMBserver.domain.com)
+* MSDS-SupportedEncryptionTypes (supporta DES_CBC_MD5, RC4_HMAC_MD5 se la crittografia AES non è attivata; se la crittografia AES è attivata, DES_CBC_MD5, RC4_HMAC_MD5, AES128_CTS_HMAC_SHA1_96, AES256_CTS_HMAC_SHA1_96 sono consentiti per lo scambio di account con il ticket SMB)
+* Nome (con il nome del server SMB)
+* SAMAccountName (con SMBserver)
+* ServicePrincipalName (con host/smbserver.domain.com e host/smbserver SPN per Kerberos)
+
+
+Se si desidera disattivare i tipi di crittografia Kerberos più deboli (enctype) sull'account del computer, è possibile modificare il valore MSDS-SupportedEncryptionTypes sull'account del computer scegliendo uno dei valori nella tabella seguente per consentire solo AES.
+
+|===
+| Valore MSDS-SupportedEncryptionTypes | Entype attivato 
+
+
+| 2 | DES_CBC_MD5 
+
+
+| 4 | RC4_HMAC 
+
+
+| 8 | SOLO AES128_CTS_HMAC_SHA1_96 
+
+
+| 16 | SOLO AES256_CTS_HMAC_SHA1_96 
+
+
+| 24 | AES128_CTS_HMAC_SHA1_96 E AES256_CTS_HMAC_SHA1_96 
+
+
+| 30 | DES_CBC_MD5, RC4_HMAC, AES128_CTS_HMAC_SHA1_96 E AES256_CTS_HMAC_SHA1_96 
+|===
+Per attivare la crittografia AES per gli account dei computer SMB, fare clic su Enable AES Encryption for ad Authentication (attiva crittografia AES per l'autenticazione ad) quando si crea la connessione Active Directory.
+
+Per attivare la crittografia AES per NFS Kerberos, https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-nfs-volumes["Consultare la documentazione di Cloud Volumes Service"^].

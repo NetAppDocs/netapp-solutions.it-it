@@ -1,0 +1,124 @@
+---
+sidebar: sidebar 
+permalink: ehc/aws-regions.html 
+keywords: NetApp Solutions, amazon, vmc, regions 
+summary:  
+---
+= Disponibilità regionale: Datastore NFS supplementare per VMC
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+La disponibilità di datastore NFS supplementari su AWS / VMC è definita da Amazon. Innanzitutto, è necessario determinare se VMC e FSxN sono disponibili in una regione specifica. Quindi, è necessario determinare se il datastore NFS supplementare FSxN è supportato in quella regione.
+
+* Verificare la disponibilità di VMC link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws.getting-started/GUID-19FB6A08-B1DA-4A6F-88A3-50ED445CFFCF.html["qui"].
+* La guida ai prezzi di Amazon offre informazioni su dove è disponibile FSxN (FSX ONTAP). Queste informazioni sono disponibili link:https://aws.amazon.com/fsx/netapp-ontap/pricing/["qui"].
+* La disponibilità del datastore NFS supplementare FSxN per VMC sarà presto disponibile.
+
+
+Mentre le informazioni sono ancora in fase di rilascio, il seguente grafico identifica il supporto corrente per VMC, FSxN e FSxN come datastore NFS supplementare.
+
+[role="tabbed-block"]
+====
+.Americhe
+--
+[cols="25%, 25%, 25%, 25%"]
+|===
+
+
+| *Regione AWS* | *Disponibilità VMC* | *Disponibilità FSX ONTAP* | *Disponibilità datastore NFS* 
+
+
+| US East (Virginia del Nord) | Sì | Sì | Sì 
+
+
+| USA Est (Ohio) | Sì | Sì | Sì 
+
+
+| US West (California settentrionale) | Sì | No | No 
+
+
+| STATI UNITI occidentali (Oregon) | Sì | Sì | Sì 
+
+
+| GovCloud (ovest degli Stati Uniti) | Sì | Sì | Sì 
+
+
+| Canada (centrale) | Sì | Sì | Sì 
+
+
+| Sud America (San Paolo) | Sì | Sì | Sì 
+|===
+Ultimo aggiornamento: 2 giugno 2022.
+
+--
+.EMEA
+--
+[cols="25%, 25%, 25%, 25%"]
+|===
+
+
+| *Regione AWS* | *Disponibilità VMC* | *Disponibilità FSX ONTAP* | *Disponibilità datastore NFS* 
+
+
+| Europa (Irlanda) | Sì | Sì | Sì 
+
+
+| Europa (Londra) | Sì | Sì | Sì 
+
+
+| Europa (Francoforte) | Sì | Sì | Sì 
+
+
+| Europa (Parigi) | Sì | Sì | Sì 
+
+
+| Europa (Milano) | Sì | Sì | Sì 
+
+
+| Europa (Stoccolma) | Sì | Sì | Sì 
+|===
+Ultimo aggiornamento: 2 giugno 2022.
+
+--
+.Asia Pacifico
+--
+[cols="25%, 25%, 25%, 25%"]
+|===
+
+
+| *Regione AWS* | *Disponibilità VMC* | *Disponibilità FSX ONTAP* | *Disponibilità datastore NFS* 
+
+
+| Asia Pacifico (Sydney) | Sì | Sì | Sì 
+
+
+| Asia Pacifico (Tokyo) | Sì | Sì | Sì 
+
+
+| Asia Pacifico (Osaka) | Sì | No | No 
+
+
+| Asia Pacifico (Singapore) | Sì | Sì | Sì 
+
+
+| Asia Pacifico (Seul) | Sì | Sì | Sì 
+
+
+| Asia Pacifico (Mumbai) | Sì | Sì | Sì 
+
+
+| Asia Pacifico (Giacarta) | No | No | No 
+
+
+| Asia Pacifico (Hong Kong) | Sì | Sì | Sì 
+|===
+Ultimo aggiornamento: 28 settembre 2022.
+
+--
+====

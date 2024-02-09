@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-op-data-migration.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= Migrazione dei dati con Astra Control Center
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Questa pagina mostra le opzioni di migrazione dei dati per i carichi di lavoro container sui cluster Red Hat OpenShift con Astra Control Center (ACC).
+
+Le applicazioni Kubernetes spesso devono essere spostate da un ambiente all'altro. Per migrare un'applicazione insieme ai suoi dati persistenti, è possibile utilizzare NetApp ACC.
+
+
+
+== Migrazione dei dati tra diversi ambienti Kubernetes
+
+ACC supporta diversi tipi di Kubernetes, tra cui Google anthos, Red Hat OpenShift, Tanzu Kubernetes Grid, Rancher Kubernetes Engine, Kubernetes upstream, ecc. Per ulteriori dettagli, fare riferimento a. link:https://docs.netapp.com/us-en/astra-control-center/get-started/requirements.html#supported-host-cluster-kubernetes-environments["qui"].
+
+Per migrare l'applicazione da un cluster a un altro, è possibile utilizzare una delle seguenti funzionalità di ACC:
+
+* ** replica **
+* ** backup e ripristino **
+* ** clone **
+
+
+Fare riferimento a. link:../data-protection["sezione sulla protezione dei dati"] per le opzioni **replica e backup e ripristino**.
+
+Fare riferimento a. link:https://docs.netapp.com/us-en/astra-control-center/use/clone-apps.html["qui"] per ulteriori dettagli sulla clonazione **.
+
+
+NOTE: La funzione di replica Astra è supportata solo con Trident Container Storage Interface (CSI). Tuttavia, la replica non è supportata dai driver nas-economy e san-economy.
+
+
+
+=== Esecuzione della replica dei dati con ACC
+
+image:rhhc-onprem-dp-rep.png["Replica di Astra Control Center"]

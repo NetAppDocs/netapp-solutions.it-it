@@ -1,0 +1,112 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-op-data-protection.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= Protezione dei dati con Astra
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Questa pagina mostra le opzioni di protezione dei dati per le applicazioni basate su container Red Hat OpenShift eseguite su VMware vSphere utilizzando Astra Control Center (ACC).
+
+Mentre gli utenti intraprendono il percorso di modernizzazione delle proprie applicazioni con Red Hat OpenShift, è necessario adottare una strategia di protezione dei dati per proteggerli da cancellazioni accidentali o altri errori umani. Spesso, per proteggere i propri dati da un diaster, è necessaria anche una strategia di protezione a scopo normativo o di compliance.
+
+I requisiti di protezione dei dati variano dal ritorno a una copia point-in-time al failover automatico a un dominio di errore diverso senza alcun intervento umano. Molti clienti scelgono ONTAP come piattaforma di storage preferita per le loro applicazioni Kubernetes per le sue ricche funzionalità come multi-tenancy, multi-protocollo, offerte di capacità e performance elevate, replica e caching per ubicazioni multi-sito, sicurezza e flessibilità.
+
+La protezione dei dati in ONTAP può essere ottenuta utilizzando ad-hoc o policy controllate - **Snapshot** - **backup e ripristino**
+
+Sia le copie Snapshot che i backup proteggono i seguenti tipi di dati: - **I metadati dell'applicazione che rappresentano lo stato dell'applicazione** - **eventuali volumi di dati persistenti associati all'applicazione** - **eventuali artefatti delle risorse appartenenti all'applicazione**
+
+
+
+== Snapshot con ACC
+
+È possibile acquisire una copia point-in-time dei dati utilizzando Snapshot con ACC. La policy di protezione definisce il numero di copie Snapshot da conservare. L'opzione di pianificazione minima disponibile è oraria. Le copie Snapshot manuali e on-demand possono essere eseguite in qualsiasi momento e a intervalli più brevi rispetto alle copie Snapshot pianificate. Le copie Snapshot vengono memorizzate sullo stesso volume sottoposto a provisioning dell'applicazione.
+
+
+
+=== Configurazione di Snapshot con ACC
+
+image::rhhc-onprem-dp-snap.png[Vista Snapshot di Astra Control Center]
+
+
+
+== Backup e ripristino con ACC
+
+Un backup si basa su un'istantanea. ACC può eseguire copie Snapshot utilizzando CSI ed eseguire il backup utilizzando la copia Snapshot point-in-time. Il backup viene memorizzato in un archivio di oggetti esterno (qualsiasi compatibile con s3, incluso ONTAP S3, in una posizione diversa). È possibile configurare i criteri di protezione per i backup pianificati e il numero di versioni di backup da conservare. L'RPO minimo è di un'ora.
+
+
+
+=== Ripristino di un'applicazione da un backup mediante ACC
+
+ACC ripristina l'applicazione dal bucket S3 in cui sono memorizzati i backup.
+
+image:rhhc-onprem-dp-br.png["Opzione di ripristino di Astra Control Center"]
+
+
+
+== Hook di esecuzione specifici dell'applicazione
+
+Inoltre, è possibile configurare gli hook di esecuzione per l'esecuzione in combinazione con un'operazione di protezione dei dati di un'applicazione gestita. Anche se sono disponibili funzionalità di protezione dei dati a livello di array di storage, spesso sono necessari ulteriori passaggi per rendere coerenti backup e ripristini. I passaggi aggiuntivi specifici dell'applicazione potrebbero essere: - Prima o dopo la creazione di una copia Snapshot. - prima o dopo la creazione di un backup. - Dopo il ripristino da una copia Snapshot o da un backup.
+
+Astra Control può eseguire questi passaggi specifici dell'applicazione codificati come script personalizzati chiamati uncini di esecuzione.
+
+https://github.com/NetApp/Verda["Progetto NetApp Verda GitHub"] fornisce hook di esecuzione per le applicazioni native del cloud più diffuse per rendere la protezione delle applicazioni semplice, robusta e facile da orchestrare. Se si dispone di informazioni sufficienti per un'applicazione non presente nel repository, è possibile contribuire al progetto.
+
+
+
+== Esempio di gancio di esecuzione per pre-Snapshot di un'applicazione redis.
+
+image::rhhc-onprem-dp-br-hook.png[Gancio di esecuzione di Astra Control Center]
+
+
+
+== Replica con ACC
+
+Per la protezione regionale o per una soluzione RPO e RTO bassa, un'applicazione può essere replicata in un'altra istanza di Kubernetes in esecuzione in un sito diverso, preferibilmente in un'altra regione. ACC utilizza SnapMirror asincrono ONTAP con RPO in soli 5 minuti. La replica viene eseguita replicando in ONTAP, quindi un failover crea le risorse Kubernetes nel cluster di destinazione.
+
+
+NOTE: Tenere presente che la replica è diversa dal backup e ripristino, dove il backup viene eseguito in S3 e il ripristino viene eseguito da S3. Fare riferimento al link: https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html#replication-to-a-remote-cluster[here] per ulteriori dettagli sulle differenze tra i due tipi di protezione dei dati.
+
+Fare riferimento a. link:https://docs.netapp.com/us-en/astra-control-center/use/replicate_snapmirror.html["qui"] Per le istruzioni di installazione di SnapMirror.
+
+
+
+=== SnapMirror con ACC
+
+image::rhhc-onprem-dp-rep.png[Replica di Astra Control Center]
+
+
+NOTE: i driver di storage san-economy e nas-economy non supportano la funzione di replica. Fare riferimento a. link:https://docs.netapp.com/us-en/astra-control-center/get-started/requirements.html#astra-trident-requirements["qui"] per ulteriori dettagli.
+
+
+
+=== Video dimostrativo:
+
+link:https://www.netapp.tv/details/29504?mcid=35609780286441704190790628065560989458["Video dimostrativo del disaster recovery con Astra Control Center"]
+
+.Data Protection con Astra Control Center
+video::0cec0c90-4c6f-4018-9e4f-b09700eefb3a[panopto,width=360]
+
+
+== Continuità del business con MetroCluster
+
+La maggior parte della nostra piattaforma hardware per ONTAP dispone di funzionalità ad alta disponibilità per la protezione dai guasti dei dispositivi, evitando la necessità di eseguire il disaster recovery. Tuttavia, per proteggere da incendi o altri disastri e continuare il business con un RPO zero e un RTO basso, spesso viene utilizzata una soluzione MetroCluster.
+
+I clienti che attualmente dispongono di un sistema ONTAP possono estendere a MetroCluster aggiungendo sistemi ONTAP supportati entro i limiti di distanza per fornire il disaster recovery a livello di zona. Astra Trident, CSI (Container Storage Interface) supporta NetApp ONTAP, inclusa la configurazione MetroCluster e altre opzioni come Cloud Volumes ONTAP, Azure NetApp Files, AWS FSX per NetApp ONTAP, ecc. Astra Trident offre cinque opzioni di driver di storage per ONTAP, tutte supportate per la configurazione MetroCluster. Fare riferimento a. link:https://docs.netapp.com/us-en/trident/trident-concepts/ontap-drivers.html["qui"] Per ulteriori informazioni sui driver di storage ONTAP supportati da Astra Trident.
+
+La soluzione MetroCluster richiede un'estensione di rete Layer 2 o la capacità di accedere allo stesso indirizzo di rete da entrambi i domini di errore. Una volta eseguita la configurazione MetroCluster, la soluzione è trasparente per i proprietari delle applicazioni, in quanto tutti i volumi nella svm MetroCluster sono protetti e ottengono i benefici di SyncMirror (zero RPO).
+
+image:rhhc-onprem-dp-bc.png["Soluzione per la business continuity con MetroCluster"]
+
+
+TIP: Per la configurazione back-end Trident (TBC), non specificare dataLIF e SVM quando si utilizza la configurazione MetroCluster. Specificare l'IP di gestione SVM per la gestione LIF e utilizzare le credenziali del ruolo vsadmin.
+
+Sono disponibili dettagli sulle funzioni di protezione dei dati di Astra Control Center link:https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html["qui"]

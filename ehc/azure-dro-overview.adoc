@@ -1,0 +1,349 @@
+---
+sidebar: sidebar 
+permalink: ehc/azure-dro-overview.html 
+keywords: NetApp Solutions, hybrid, multicloud, multi cloud, hyperscalers, vmware, disaster recovery orchestrator, DRO 
+summary:  
+---
+= TR-4955: Disaster recovery con Azure NetApp Files (ANF) e Azure VMware Solution (AVS)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Autore: Niyaz Mohamed, NetApp Solutions Engineering
+
+
+
+== Panoramica
+
+Il disaster recovery che utilizza la replica a livello di blocco tra regioni all'interno del cloud è un metodo resiliente e conveniente per proteggere i carichi di lavoro da interruzioni del sito ed eventi di corruzione dei dati (ad esempio ransomware). Con la replica dei volumi Azure NetApp Files (ANF) cross-region, i carichi di lavoro VMware eseguiti su un sito SDDC Azure VMware Solution (AVS) utilizzando i volumi Azure NetApp Files come datastore NFS sul sito AVS primario possono essere replicati in un sito AVS secondario designato nella regione di recupero di destinazione.
+
+Disaster Recovery Orchestrator (DRO) (una soluzione basata su script con un'interfaccia utente) può essere utilizzato per ripristinare senza problemi i carichi di lavoro replicati da un SDDC AVS a un altro. DRO automatizza il recovery interrompendo il peering delle repliche e montando il volume di destinazione come datastore, attraverso la registrazione delle macchine virtuali in AVS, sulle mappature di rete direttamente su NSX-T (incluso con tutti i cloud privati AVS).
+
+image:azure-dro-image1.png["Errore: Immagine grafica mancante"]
+
+
+
+=== Prerequisiti e raccomandazioni generali
+
+* Verificare di aver attivato la replica tra regioni creando il peering delle repliche. Vedere https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering["Creare la replica di un volume per Azure NetApp Files"^].
+* È necessario configurare ExpressRoute Global Reach tra i cloud privati Azure VMware Solution di origine e di destinazione.
+* È necessario disporre di un service principal in grado di accedere alle risorse.
+* È supportata la seguente topologia: Dal sito AVS primario al sito AVS secondario.
+* Configurare https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-introduction["replica"^] pianifica ciascun volume in modo appropriato in base alle esigenze aziendali e al tasso di cambiamento dei dati.
+
+
+
+NOTE: Non sono supportate topologie a cascata e fan-in e fan-out.
+
+
+
+== Per iniziare
+
+
+
+=== Implementare la soluzione VMware Azure
+
+Il https://learn.microsoft.com/en-us/azure/azure-vmware/introduction["Soluzione VMware Azure"^] (AVS) è un servizio di cloud ibrido che fornisce SDDC VMware completamente funzionali all'interno di un cloud pubblico Microsoft Azure. AVS è una soluzione di prima parte completamente gestita e supportata da Microsoft e verificata da VMware che utilizza l'infrastruttura Azure. Pertanto, i clienti ottengono VMware ESXi per la virtualizzazione del calcolo, vSAN per lo storage iperconvergente e NSX per il networking e la sicurezza, il tutto sfruttando la presenza globale di Microsoft Azure, le strutture di data center leader di settore e la vicinanza al ricco ecosistema di servizi e soluzioni Azure native. Una combinazione di SDDC e Azure NetApp Files per la soluzione VMware Azure offre le migliori performance con una latenza di rete minima.
+
+Per configurare un cloud privato AVS su Azure, seguire la procedura descritta in questa sezione https://docs.netapp.com/us-en/netapp-solutions/ehc/azure-setup.html["collegamento"^] Per la documentazione NetApp e in questo https://learn.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal["collegamento"^] Per la documentazione Microsoft.  Un ambiente pilota con configurazione minima può essere utilizzato per scopi di DR.  Questa configurazione contiene solo i componenti principali per supportare le applicazioni critiche e può scalare e generare più host per sostenere la maggior parte del carico in caso di failover.
+
+
+NOTE: Nella versione iniziale, DRO supporta un cluster SDDC AVS esistente. La creazione di SDDC on-demand sarà disponibile in una release imminente.
+
+
+
+=== Provisioning e configurazione di Azure NetApp Files
+
+https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-introduction["Azure NetApp Files"^] è un servizio di file storage misurato di livello enterprise dalle performance elevate. Seguire la procedura descritta in questa sezione https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal["collegamento"^] Eseguire il provisioning e la configurazione di Azure NetApp Files come datastore NFS per ottimizzare le implementazioni di cloud privato AVS.
+
+
+
+==== Creazione di replica di volumi per i volumi datastore basati su file di Azure NetApp
+
+Il primo passaggio consiste nell'impostare la replica cross-region per i volumi del datastore desiderati dal sito primario AVS al sito secondario AVS con le frequenze e le ritention appropriate.
+
+image:azure-dro-image2.png["Errore: Immagine grafica mancante"]
+
+Seguire la procedura descritta in questa sezione https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering["collegamento"^] per impostare la replica tra regioni creando il peering delle repliche. Il livello di servizio per il pool di capacità di destinazione può corrispondere a quello del pool di capacità di origine. Tuttavia, per questo caso di utilizzo specifico, è possibile selezionare il livello di servizio standard, quindi https://learn.microsoft.com/en-us/azure/azure-netapp-files/dynamic-change-volume-service-level["modificare il livello di servizio"^] In caso di disastro reale o di simulazioni di DR.
+
+
+NOTE: Una relazione di replica tra regioni è un prerequisito e deve essere creata in anticipo.
+
+
+
+== Installazione DRO
+
+Per iniziare a utilizzare DRO, utilizzare il sistema operativo Ubuntu sulla macchina virtuale Azure designata e assicurarsi di soddisfare i prerequisiti. Quindi installare il pacchetto.
+
+*Prerequisiti:*
+
+* Service Principal in grado di accedere alle risorse.
+* Assicurarsi che esista una connettività appropriata alle istanze SDDC e Azure NetApp Files di origine e destinazione.
+* Se si utilizzano i nomi DNS, la risoluzione DNS deve essere effettiva. In caso contrario, utilizzare gli indirizzi IP per vCenter.
+
+
+*Requisiti del sistema operativo:*
+
+* Ubuntu Focal 20.04 (LTS)i seguenti pacchetti devono essere installati sulla macchina virtuale dell'agente designata:
+* Docker
+* Docker - comporre
+* JqChange `docker.sock` a questa nuova autorizzazione: `sudo chmod 666 /var/run/docker.sock`.
+
+
+
+NOTE: Il `deploy.sh` lo script esegue tutti i prerequisiti richiesti.
+
+I passaggi sono i seguenti:
+
+. Scaricare il pacchetto di installazione sulla macchina virtuale designata:
++
+....
+git clone https://github.com/NetApp/DRO-Azure.git
+....
++
+
+NOTE: L'agente deve essere installato nell'area del sito AVS secondario o nell'area del sito AVS primario in un AZ separato da SDDC.
+
+. Decomprimere il pacchetto, eseguire lo script di implementazione e immettere l'IP host (ad esempio,  `10.10.10.10`).
++
+....
+tar xvf draas_package.tar
+Navigate to the directory and run the deploy script as below:
+sudo sh deploy.sh
+....
+. Accedere all'interfaccia utente utilizzando le seguenti credenziali:
++
+** Nome utente: `admin`
+** Password: `admin`
++
+image:azure-dro-image3.png["Errore: Immagine grafica mancante"]
+
+
+
+
+
+
+
+== Configurazione DRO
+
+Dopo aver configurato correttamente Azure NetApp Files e AVS, è possibile iniziare a configurare DRO per automatizzare il ripristino dei workload dal sito AVS primario al sito AVS secondario. NetApp consiglia di implementare l'agente DRO nel sito AVS secondario e di configurare la connessione del gateway ExpressRoute in modo che l'agente DRO possa comunicare tramite la rete con i componenti AVS e Azure NetApp Files appropriati.
+
+Il primo passaggio consiste nell'aggiungere credenziali. DRO richiede l'autorizzazione per scoprire Azure NetApp Files e la soluzione VMware Azure. È possibile concedere le autorizzazioni richieste a un account Azure creando e configurando un'applicazione Azure Active Directory (ad) e ottenendo le credenziali Azure necessarie a DRO. È necessario associare l'entità del servizio all'abbonamento Azure e assegnargli un ruolo personalizzato con le autorizzazioni necessarie pertinenti. Quando si aggiungono ambienti di origine e di destinazione, viene richiesto di selezionare le credenziali associate all'entità del servizio. È necessario aggiungere queste credenziali a DRO prima di fare clic su Add New Site (Aggiungi nuovo sito).
+
+Per eseguire questa operazione, attenersi alla seguente procedura:
+
+. Aprire DRO in un browser supportato e utilizzare il nome utente e la password predefiniti /`admin`/`admin`). La password può essere reimpostata dopo il primo accesso utilizzando l'opzione Change Password (Modifica password).
+. Nella parte superiore destra della console DRO, fare clic sull'icona *Impostazioni* e selezionare *credenziali*.
+. Fare clic su Add New Credential (Aggiungi nuova credenziale) e seguire la procedura guidata.
+. Per definire le credenziali, immettere le informazioni relative all'entità del servizio Azure Active Directory che concede le autorizzazioni richieste:
++
+** Nome della credenziale
+** ID tenant
+** ID client
+** Segreto del client
+** ID abbonamento
++
+Queste informazioni dovrebbero essere state acquisite al momento della creazione dell'applicazione ad.
+
+
+
+. Confermare i dettagli relativi alle nuove credenziali e fare clic su Add Credential (Aggiungi credenziale).
++
+image:azure-dro-image4.png["Errore: Immagine grafica mancante"]
+
++
+Dopo aver aggiunto le credenziali, è il momento di individuare e aggiungere i siti AVS primari e secondari (sia vCenter che l'account storage Azure NetApp Files) a DRO. Per aggiungere il sito di origine e di destinazione, attenersi alla seguente procedura:
+
+. Accedere alla scheda *Discover*.
+. Fare clic su *Aggiungi nuovo sito*.
+. Aggiungere il seguente sito AVS primario (indicato come *origine* nella console).
++
+** VCenter SDDC
+** Account storage Azure NetApp Files
+
+
+. Aggiungere il seguente sito AVS secondario (indicato come *destinazione* nella console).
++
+** VCenter SDDC
+** Account storage Azure NetApp Files
++
+image:azure-dro-image5.png["Errore: Immagine grafica mancante"]
+
+
+
+. Aggiungere i dettagli del sito facendo clic su *Source (origine),* immettendo un nome descrittivo del sito e selezionando il connettore. Quindi fare clic su *continua*.
++
+
+NOTE: A scopo dimostrativo, l'aggiunta di un sito di origine viene trattata in questo documento.
+
+. Aggiorna i dettagli di vCenter. A tale scopo, selezionare le credenziali, l'area Azure e il gruppo di risorse dal menu a discesa per l'AVS SDDC primario.
+. IL DRO elenca tutti gli SDDC disponibili all'interno della regione. Selezionare l'URL del cloud privato designato dal menu a discesa.
+. Inserire il `cloudadmin@vsphere.local` credenziali dell'utente. È possibile accedervi dal portale Azure. Seguire la procedura indicata in questo https://learn.microsoft.com/en-us/azure/azure-vmware/tutorial-access-private-cloud["collegamento"^]. Al termine, fare clic su *Continue* (continua).
++
+image:azure-dro-image6.png["Errore: Immagine grafica mancante"]
+
+. Selezionare i dettagli dell'archiviazione di origine (ANF) selezionando il gruppo Azure Resource e l'account NetApp.
+. Fare clic su *Create Site* (Crea sito).
++
+image:azure-dro-image7.png["Errore: Immagine grafica mancante"]
+
+
+
+Una volta aggiunto, DRO esegue il rilevamento automatico e visualizza le macchine virtuali con repliche tra regioni corrispondenti dal sito di origine al sito di destinazione. DRO rileva automaticamente le reti e i segmenti utilizzati dalle macchine virtuali e li popola.
+
+image:azure-dro-image8.png["Errore: Immagine grafica mancante"]
+
+Il passaggio successivo consiste nel raggruppare le macchine virtuali richieste nei rispettivi gruppi funzionali come gruppi di risorse.
+
+
+
+=== Raggruppamenti di risorse
+
+Una volta aggiunte le piattaforme, raggruppare le macchine virtuali che si desidera ripristinare in gruppi di risorse. I gruppi di risorse DRO consentono di raggruppare un set di macchine virtuali dipendenti in gruppi logici che contengono i relativi ordini di avvio, ritardi di avvio e validazioni opzionali delle applicazioni che possono essere eseguite al momento del ripristino.
+
+Per iniziare a creare gruppi di risorse, fare clic sulla voce di menu *Crea nuovo gruppo di risorse*.
+
+. Accedere a *Resource Grou*ps e fare clic su *Create New Resource Group* (Crea nuovo gruppo di risorse).
++
+image:azure-dro-image9.png["Errore: Immagine grafica mancante"]
+
+. In New Resource Group (nuovo gruppo di risorse), selezionare il sito di origine dal menu a discesa e fare clic su *Create* (Crea).
+. Fornire i dettagli del gruppo di risorse e fare clic su *continua*.
+. Selezionare le macchine virtuali appropriate utilizzando l'opzione di ricerca.
+. Selezionare *Boot Order* (Ordine di avvio) e *Boot Delay* (sec) per tutte le macchine virtuali selezionate. Impostare l'ordine della sequenza di accensione selezionando ciascuna macchina virtuale e impostando la relativa priorità. Il valore predefinito per tutte le macchine virtuali è 3. Le opzioni sono le seguenti:
++
+** La prima macchina virtuale ad accenderlo
+** Predefinito
+** L'ultima macchina virtuale ad accenderlo
++
+image:azure-dro-image10.png["Errore: Immagine grafica mancante"]
+
+
+
+. Fare clic su *Crea gruppo di risorse*.
++
+image:azure-dro-image11.png["Errore: Immagine grafica mancante"]
+
+
+
+
+
+=== Piani di replica
+
+È necessario disporre di un piano per il ripristino delle applicazioni in caso di disastro. Selezionare le piattaforme vCenter di origine e di destinazione dall'elenco a discesa, scegliere i gruppi di risorse da includere in questo piano e includere anche il raggruppamento delle modalità di ripristino e accensione delle applicazioni (ad esempio, controller di dominio, Tier-1, Tier-2 e così via). I piani sono spesso chiamati anche blueprint. Per definire il piano di ripristino, accedere alla scheda Replication Plan (piano di replica) e fare clic su *New Replication Plan* (nuovo piano di replica).
+
+Per iniziare a creare un piano di replica, attenersi alla seguente procedura:
+
+. Selezionare *Replication Plans* (piani di replica) e fare clic su *Create New Replication Plan* (Crea nuovo piano di replica
++
+image:azure-dro-image12.png["Errore: Immagine grafica mancante"]
+
+. In *New Replication Plan*, fornire un nome per il piano e aggiungere i mapping di ripristino selezionando Source Site (Sito di origine), Associated vCenter (vCenter associato), Destination Site (Sito di destinazione) e Associated vCenter (vCenter associato).
++
+image:azure-dro-image13.png["Errore: Immagine grafica mancante"]
+
+. Una volta completata la mappatura di ripristino, selezionare *Cluster Mapping* (mappatura cluster).
++
+image:azure-dro-image14.png["Errore: Immagine grafica mancante"]
+
+. Selezionare *Dettagli gruppo di risorse* e fare clic su *continua*.
+. Impostare l'ordine di esecuzione per il gruppo di risorse. Questa opzione consente di selezionare la sequenza di operazioni quando esistono più gruppi di risorse.
+. Al termine, impostare la mappatura di rete sul segmento appropriato. I segmenti devono essere già sottoposti a provisioning sul cluster AVS secondario e, per mappare le macchine virtuali su di essi, selezionare il segmento appropriato.
+. I mapping degli archivi dati vengono selezionati automaticamente in base alla selezione delle macchine virtuali.
++
+
+NOTE: La replica cross-region (CRR) è a livello di volume. Pertanto, tutte le macchine virtuali che risiedono sul rispettivo volume vengono replicate nella destinazione CRR. Assicurarsi di selezionare tutte le macchine virtuali che fanno parte del datastore, in quanto vengono elaborate solo le macchine virtuali che fanno parte del piano di replica.
+
++
+image:azure-dro-image15.png["Errore: Immagine grafica mancante"]
+
+. In VM details (Dettagli VM), è possibile ridimensionare i parametri della CPU e della RAM delle macchine virtuali. Questo può essere molto utile quando si ripristinano ambienti di grandi dimensioni in cluster di destinazione più piccoli o quando si eseguono test di DR senza dover eseguire il provisioning di un'infrastruttura fisica VMware uno a uno. Inoltre, modificare l'ordine di avvio e il ritardo di avvio (sec) per tutte le macchine virtuali selezionate nei gruppi di risorse. Esiste un'opzione aggiuntiva per modificare l'ordine di avvio se sono necessarie modifiche da ciò che è stato selezionato durante la selezione dell'ordine di avvio del gruppo di risorse. Per impostazione predefinita, viene utilizzato l'ordine di avvio selezionato durante la selezione del gruppo di risorse, tuttavia in questa fase è possibile eseguire qualsiasi modifica.
++
+image:azure-dro-image16.png["Errore: Immagine grafica mancante"]
+
+. Fare clic su *Create Replication Plan* (Crea piano di replica). Una volta creato il piano di replica, è possibile eseguire il failover, il failover di test o le opzioni di migrazione in base ai requisiti.
++
+image:azure-dro-image17.png["Errore: Immagine grafica mancante"]
+
+
+
+Durante le opzioni di failover e test di failover, viene utilizzato lo snapshot più recente oppure è possibile selezionare uno snapshot specifico da uno snapshot point-in-time. L'opzione point-in-time può essere molto vantaggiosa se si sta affrontando un evento di corruzione come ransomware, in cui le repliche più recenti sono già compromesse o crittografate. DRO mostra tutti i tempi di rilevazione disponibili.
+
+image:azure-dro-image18.png["Errore: Immagine grafica mancante"]
+
+Per attivare il failover o verificare il failover con la configurazione specificata nel piano di replica, fare clic su *failover* o *Test failover*. È possibile monitorare il piano di replica nel menu delle attività.
+
+image:azure-dro-image19.png["Errore: Immagine grafica mancante"]
+
+Dopo l'attivazione del failover, gli elementi ripristinati possono essere visualizzati nel sito secondario AVS SDDC vCenter (VM, reti e datastore). Per impostazione predefinita, le macchine virtuali vengono ripristinate nella cartella workload.
+
+image:azure-dro-image20.png["Errore: Immagine grafica mancante"]
+
+Il failback può essere attivato a livello di piano di replica. In caso di failover di test, l'opzione di strappo può essere utilizzata per eseguire il rollback delle modifiche e rimuovere il volume appena creato. I fallback relativi al failover sono un processo in due fasi. Selezionare il piano di replica e selezionare *Reverse Data Sync*.
+
+image:azure-dro-image21.png["Errore: Immagine grafica mancante"]
+
+Al termine di questa fase, attivare il failback per tornare al sito AVS primario.
+
+image:azure-dro-image22.png["Errore: Immagine grafica mancante"]
+
+image:azure-dro-image23.png["Errore: Immagine grafica mancante"]
+
+Dal portale Azure, possiamo vedere che lo stato di salute della replica è stato interrotto per i volumi appropriati che sono stati mappati al sito secondario AVS SDDC come volumi di lettura/scrittura. Durante il failover di test, DRO non esegue il mapping del volume di destinazione o di replica. Al contrario, crea un nuovo volume dello snapshot di replica cross-region richiesto ed espone il volume come datastore, che consuma ulteriore capacità fisica dal pool di capacità e garantisce che il volume di origine non venga modificato. In particolare, i processi di replica possono continuare durante i test di DR o i flussi di lavoro di triage. Inoltre, questo processo garantisce che il ripristino possa essere ripulito senza il rischio che la replica venga distrutta in caso di errori o di ripristino di dati corrotti.
+
+
+
+=== Recovery ransomware
+
+Il ripristino dal ransomware può essere un compito scoraggiante. In particolare, può essere difficile per le organizzazioni IT individuare il punto di ritorno sicuro e, una volta stabilito, come garantire che i carichi di lavoro recuperati siano protetti dagli attacchi che si verificano (ad esempio, da malware in sospensione o attraverso applicazioni vulnerabili).
+
+DRO risolve questi problemi consentendo alle organizzazioni di eseguire il ripristino da qualsiasi point-in-time disponibile. I carichi di lavoro vengono quindi ripristinati in reti funzionali ma isolate, in modo che le applicazioni possano funzionare e comunicare tra loro, ma non siano esposte al traffico nord-sud. Questo processo offre ai team di sicurezza un luogo sicuro per condurre indagini legali e identificare eventuali malware nascosti o inattivi.
+
+
+
+== Conclusione
+
+La soluzione di disaster recovery Azure NetApp Files e Azure offre i seguenti vantaggi:
+
+* Sfrutta una replica Azure NetApp Files cross-region efficiente e resiliente.
+* Ripristino a qualsiasi point-in-time disponibile con la conservazione degli snapshot.
+* Automatizzare completamente tutte le fasi necessarie per ripristinare da centinaia a migliaia di macchine virtuali dalle fasi di convalida di storage, calcolo, rete e applicazioni.
+* Il recupero del workload sfrutta il processo "Create new volumes from the most recent snapshot" (Crea nuovi volumi dalle snapshot più recenti), che non manipola il volume replicato.
+* Evitare qualsiasi rischio di corruzione dei dati sui volumi o sugli snapshot.
+* Evita le interruzioni della replica durante i flussi di lavoro dei test di DR.
+* Sfrutta i dati di DR e le risorse di calcolo del cloud per i flussi di lavoro che vanno oltre il DR, come sviluppo/test, test di sicurezza, test di patch e upgrade e test di correzione.
+* L'ottimizzazione della CPU e della RAM può contribuire a ridurre i costi del cloud consentendo il ripristino a cluster di calcolo più piccoli.
+
+
+
+
+=== Dove trovare ulteriori informazioni
+
+Per ulteriori informazioni sulle informazioni descritte in questo documento, consultare i seguenti documenti e/o siti Web:
+
+* Creare la replica di un volume per Azure NetApp Files
++
+https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering["https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering"^]
+
+* Replica cross-region di volumi Azure NetApp Files
++
+https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-introduction%23service-level-objectives["https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-introduction#service-level-objectives"^]
+
+* https://learn.microsoft.com/en-us/azure/azure-vmware/introduction["Soluzione VMware Azure"^]
++
+https://learn.microsoft.com/en-us/azure/azure-vmware/introduction["https://learn.microsoft.com/en-us/azure/azure-vmware/introduction"^]
+
+* Implementare e configurare l'ambiente di virtualizzazione su Azure
++
+https://docs.netapp.com/us-en/netapp-solutions/ehc/azure-setup.html["https://docs.netapp.com/us-en/netapp-solutions/ehc/azure-setup.html"^]
+
+* Implementare e configurare Azure VMware Solution
++
+https://learn.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal["https://learn.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal"^]
+
+

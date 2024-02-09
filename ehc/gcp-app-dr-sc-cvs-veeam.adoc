@@ -1,0 +1,135 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp-app-dr-sc-cvs-veeam.html 
+keywords: gcp, gcve, snapcenter, cvo, cvs, iscsi, guest connect, dr, disaster recovery 
+summary: Il disaster recovery nel cloud è un metodo resiliente e conveniente per proteggere i workload da interruzioni del sito e eventi di corruzione dei dati come ransomware. Con NetApp SnapMirror, è possibile replicare i workload VMware on-premise che utilizzano lo storage connesso agli ospiti su NetApp Cloud Volumes ONTAP in esecuzione su Google Cloud. 
+---
+= Disaster recovery coerente con l'applicazione con replica NetApp SnapCenter e Veeam
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Autori: Suresh Thoppay, NetApp
+
+
+
+== Panoramica
+
+Molti clienti cercano una soluzione di disaster recovery efficace per le loro macchine virtuali applicative ospitate su VMware vSphere. Molti di loro utilizzano la soluzione di backup esistente per eseguire il recovery durante il diaster.
+Molte volte questa soluzione aumenta l'RTO e non soddisfa le loro aspettative. Per ridurre l'RPO e l'RTO, la replica delle macchine virtuali Veeam può essere utilizzata anche da on-premise a GCVE, purché siano disponibili connettività di rete e ambiente con autorizzazioni appropriate.
+NOTA: Veeam VM Replication non protegge i dispositivi storage connessi guest delle VM, come i supporti iSCSI o NFS, all'interno della VM guest. Necessità di proteggerli separatamente.
+
+Per una replica coerente delle applicazioni per SQL VM e per ridurre l'RTO, abbiamo utilizzato SnapCenter per orchestrare le operazioni di snapmirror dei volumi di log e del database SQL.
+
+Questo documento fornisce un approccio passo per passo per la configurazione e l'esecuzione del disaster recovery che utilizza NetApp SnapMirror, Veeeam e Google Cloud VMware Engine (GCVE).
+
+image:dr-cvs-gcve-veeam-image1.png["Application VM Replication Architecture"]
+
+
+
+== Presupposti
+
+Questo documento si concentra sullo storage in-guest per i dati delle applicazioni (noto anche come guest Connected) e si presume che l'ambiente on-premise stia utilizzando SnapCenter per backup coerenti con le applicazioni.
+
+
+NOTE: Questo documento si riferisce a qualsiasi soluzione di backup o ripristino di terze parti. A seconda della soluzione utilizzata nell'ambiente, seguire le Best practice per creare policy di backup che soddisfino gli SLA dell'organizzazione.
+
+Per la connettività tra l'ambiente on-premise e la rete Google Cloud, utilizza le opzioni di connettività come l'interconnessione dedicata o la VPN cloud. I segmenti devono essere creati in base alla progettazione della VLAN on-premise.
+
+
+NOTE: Esistono diverse opzioni per connettere i data center on-premise a Google Cloud, che ci impediscono di delineare un workflow specifico in questo documento. Fare riferimento alla documentazione di Google Cloud per il metodo di connettività on-premise-to-Google appropriato.
+
+
+
+== Implementazione della soluzione DR
+
+
+
+=== Panoramica sull'implementazione della soluzione
+
+. Assicurarsi che il backup dei dati dell'applicazione venga eseguito utilizzando SnapCenter con i requisiti RPO necessari.
+. Eseguire il provisioning di Cloud Volumes ONTAP con la dimensione dell'istanza corretta utilizzando BlueXP all'interno dell'abbonamento appropriato e della rete virtuale.
++
+.. Configurare SnapMirror per i volumi applicativi rilevanti.
+.. Aggiornare i criteri di backup in SnapCenter per attivare gli aggiornamenti di SnapMirror dopo i processi pianificati.
+
+
+. Installare il software Veeam e avviare la replica delle macchine virtuali sull'istanza di Google Cloud VMware Engine.
+. Durante un evento di emergenza, interrompere la relazione SnapMirror utilizzando BlueXP e attivare il failover delle macchine virtuali con Veeam.
++
+.. Ricollegare I LUN ISCSI e i montaggi NFS per le macchine virtuali dell'applicazione.
+.. Visualizzare le applicazioni online.
+
+
+. Richiamare il failback sul sito protetto risyncing inverso di SnapMirror dopo il ripristino del sito primario.
+
+
+
+
+=== Dettagli sull'implementazione
+
+.Configurare CVO su Google Cloud e replicare i volumi su CVO
+[%collapsible]
+====
+Il primo passo è configurare Cloud Volumes ONTAP su Google Cloud (https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp-guest.html["cvo"^]) E replicare i volumi desiderati su Cloud Volumes ONTAP con le frequenze desiderate e le ritentioni di snapshot.
+
+image:dr-cvo-gcve-image2.png["Errore: Immagine grafica mancante"]
+
+Per istruzioni dettagliate di esempio sull'impostazione di SnapCenter e la replica dei dati, fare riferimento a. https://docs.netapp.com/us-en/netapp-solutions/ehc/aws-guest-dr-config-snapmirror.html["Configurazione della replica con SnapCenter"]
+
+.Analisi della protezione di SQL VM con SnapCenter
+video::395e33db-0d63-4e48-8898-b01200f006ca[panopto]
+====
+.Configurare gli host GCVE e l'accesso ai dati CVO
+[%collapsible]
+====
+Due fattori importanti da prendere in considerazione durante l'implementazione di SDDC sono le dimensioni del cluster SDDC nella soluzione GCVE e il tempo necessario per mantenere SDDC in servizio. Queste due considerazioni chiave per una soluzione di disaster recovery contribuiscono a ridurre i costi operativi complessivi. Il controller SDDC può contenere fino a tre host, fino a un cluster multi-host in un'implementazione su larga scala.
+
+Il servizio di volume cloud di NetApp per datastore NFS e Cloud Volumes ONTAP per database SQL e log possono essere implementati su qualsiasi VPC e deve disporre di una connessione privata a tale VPC per montare datastore NFS e connettere le macchine virtuali a LUN iSCSI.
+
+Per configurare GCVE SDDC, vedere https://docs.netapp.com/us-en/netapp-solutions/ehc/gcp-setup.html["Implementare e configurare l'ambiente di virtualizzazione su Google Cloud Platform (GCP)"^]. Come prerequisito, verificare che le macchine virtuali guest che risiedono sugli host GCVE siano in grado di utilizzare i dati da Cloud Volumes ONTAP dopo aver stabilito la connettività.
+
+Dopo aver configurato correttamente Cloud Volumes ONTAP e GCVE, iniziare a configurare Veeam per automatizzare il ripristino dei carichi di lavoro on-premise su GCVE (macchine virtuali con VMDK delle applicazioni e macchine virtuali con storage in-guest) utilizzando la funzione di replica Veeam e sfruttando SnapMirror per le copie dei volumi delle applicazioni su Cloud Volumes ONTAP.
+
+====
+.Installare i componenti Veeam
+[%collapsible]
+====
+In base allo scenario di implementazione, il server di backup Veeam, il repository di backup e il proxy di backup che devono essere implementati. In questo caso di utilizzo, non è necessario implementare l'archivio di oggetti per Veeam e il repository scale-out.
+https://helpcenter.veeam.com/docs/backup/vsphere/replication_components.html?ver=120["Fare riferimento alla documentazione Veeam per la procedura di installazione"]
+Per ulteriori informazioni, fare riferimento a. link:gcp-migrate-veeam.html["Migrazione con Replica Veeam"]
+
+====
+.Configurazione della replica delle macchine virtuali con Veeam
+[%collapsible]
+====
+VCenter on-premise e gCVE vCenter devono essere registrati con Veeam. https://helpcenter.veeam.com/docs/backup/vsphere/replica_job.html?ver=120["Processo di replica di vSphere VM"] Nella fase di elaborazione guest della procedura guidata, selezionare Disable application processing (Disattiva elaborazione applicazioni), in quanto verrà utilizzato SnapCenter per il backup e il ripristino consapevoli dell'applicazione.
+
+video::8b7e4a9b-7de1-4d48-a8e2-b01200f00692[panopto,width=360]
+====
+.Failover di Microsoft SQL Server VM
+[%collapsible]
+====
+video::9762dc99-081b-41a2-ac68-b01200f00ac0[panopto,width=360]
+====
+
+
+== Vantaggi di questa soluzione
+
+* Utilizza la replica efficiente e resiliente di SnapMirror.
+* Effettua il ripristino in qualsiasi punto disponibile in tempo con la conservazione delle snapshot di ONTAP.
+* È disponibile un'automazione completa per tutte le fasi necessarie per il ripristino di centinaia o migliaia di macchine virtuali, dalle fasi di convalida di storage, calcolo, rete e applicazioni.
+* SnapCenter utilizza meccanismi di cloning che non modificano il volume replicato.
++
+** In questo modo si evita il rischio di corruzione dei dati per volumi e snapshot.
+** Evita le interruzioni di replica durante i flussi di lavoro dei test di DR.
+** Sfrutta i dati di DR per flussi di lavoro oltre il DR, come sviluppo/test, test di sicurezza, test di patch e upgrade e test di correzione.
+
+
+* La replica Veeam consente di modificare gli indirizzi IP delle macchine virtuali sul sito DR.
+

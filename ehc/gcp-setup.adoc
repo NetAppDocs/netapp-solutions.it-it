@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp-setup.html 
+keywords: NetApp Solutions, google cloud, gcp, gcve, vmware managed cloud, enterprise, hybrid, cloud, config, configuration, 
+summary:  
+---
+= Implementare e configurare l'ambiente di virtualizzazione su Google Cloud Platform (GCP)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Come avviene per le applicazioni on-premise, la pianificazione di Google Cloud VMware Engine (GCVE) è fondamentale per un ambiente pronto per la produzione di successo per la creazione di macchine virtuali e la migrazione.
+
+Questa sezione descrive come configurare e gestire GCVE e utilizzarlo in combinazione con le opzioni disponibili per la connessione dello storage NetApp.
+
+Il processo di installazione può essere suddiviso nei seguenti passaggi:
+
+.Distribuire e configurare GCVE
+[%collapsible]
+====
+Per configurare un ambiente GCVE su GCP, accedere alla console GCP e al portale VMware Engine.
+
+Fare clic sul pulsante "New Private Cloud" (nuovo cloud privato) e immettere la configurazione desiderata per il cloud privato GCVE. In "posizione", assicurarsi di implementare il cloud privato nella stessa regione/zona in cui viene implementato CVS/CVO, per garantire le migliori performance e la latenza più bassa.
+
+Prerequisiti:
+
+* Configurare il ruolo IAM di VMware Engine Service Admin
+* link:https://cloud.google.com/vmware-engine/docs/quickstart-prerequisites["Abilitare l'accesso API VMware Engine e la quota del nodo"]
+* Assicurati che la gamma CIDR non si sovrapponga a nessuna delle tue subnet on-premise o cloud. L'intervallo CIDR deve essere /27 o superiore.
+
+
+image:gcve-deploy-1.png[""]
+
+Nota: La creazione di un cloud privato può richiedere da 30 minuti a 2 ore.
+
+====
+.Attiva accesso privato a GCVE
+[%collapsible]
+====
+Una volta eseguito il provisioning del cloud privato, configurare l'accesso privato al cloud privato per una connessione con percorso dati a bassa latenza e throughput elevato.
+
+In questo modo, la rete VPC in cui sono in esecuzione le istanze di Cloud Volumes ONTAP sarà in grado di comunicare con il cloud privato GCVE. Per eseguire questa operazione, seguire la link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/quickstart["Documentazione GCP"]. Per il servizio volume cloud, stabilire una connessione tra VMware Engine e Cloud Volumes Service eseguendo un peering una tantum tra i progetti host del tenant. Per informazioni dettagliate, seguire questa procedura link:https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-service["collegamento"].
+
+image:gcve-access-1.png[""]
+
+Accedere a vcenter utilizzando CloudOwner@gve.local utente. Per accedere alle credenziali, accedere al portale VMware Engine, andare a risorse e selezionare il cloud privato appropriato. Nella sezione Basic info (informazioni di base), fare clic sul collegamento View (Visualizza) per le informazioni di accesso vCenter (vCenter Server, HCX Manager) o NSX-T (NSX Manager).
+
+image:gcve-access-2.png[""]
+
+In una macchina virtuale Windows, aprire un browser e accedere all'URL del client Web vCenter  E utilizzare il nome utente admin come CloudOwner@gve.local e incollare la password copiata. Allo stesso modo, è possibile accedere al gestore NSX-T anche utilizzando l'URL del client Web  e utilizzare il nome utente admin e incollare la password copiata per creare nuovi segmenti o modificare i gateway tier esistenti.
+
+Per la connessione da una rete on-premise al cloud privato VMware Engine, sfrutta la VPN cloud o l'interconnessione cloud per una connettività appropriata e assicurati che le porte richieste siano aperte. Per informazioni dettagliate, seguire questa procedura link:https://ubuntu.com/server/docs/service-iscsi["collegamento"].
+
+image:gcve-access-3.png[""]
+
+image:gcve-access-4.png[""]
+
+====
+.Implementare il datastore supplementare del servizio volume cloud di NetApp in GCVE
+[%collapsible]
+====
+Fare riferimento a. link:gcp-ncvs-datastore.html["Procedura per implementare un datastore NFS supplementare con CVS NetApp in GCVE"]
+
+====

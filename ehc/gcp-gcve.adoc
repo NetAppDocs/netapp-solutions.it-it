@@ -1,0 +1,75 @@
+---
+sidebar: sidebar 
+permalink: ehc/gcp-gcve.html 
+keywords: NetApp Solutions, hyperscalers, google cloud, gcp, gcve, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr 
+summary:  
+---
+= Funzionalità NetApp per Google Cloud Platform GCVE
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Scopri di più sulle funzionalità offerte da NetApp a Google Cloud Platform (GCP) Google Cloud VMware Engine (GCVE): Da NetApp come dispositivo storage connesso in guest o un datastore NFS supplementare alla migrazione dei flussi di lavoro, estensione/bursting nel cloud, backup/ripristino e disaster recovery.
+
+Passare alla sezione relativa al contenuto desiderato selezionando una delle seguenti opzioni:
+
+* link:#config["Configurazione di GCVE in GCP"]
+* link:#datastore["Opzioni di storage NetApp per GCVE"]
+* link:#solutions["Soluzioni cloud NetApp/VMware"]
+
+
+
+
+== Configurazione di GCVE in GCP
+
+Come per i sistemi on-premise, la pianificazione di un ambiente di virtualizzazione basato sul cloud è fondamentale per un ambiente pronto per la produzione di successo per la creazione di macchine virtuali e la migrazione.
+
+Questa sezione descrive come configurare e gestire GCVE e utilizzarlo in combinazione con le opzioni disponibili per la connessione dello storage NetApp.
+
+
+NOTE: Lo storage in-guest è l'unico metodo supportato per connettere Cloud Volumes ONTAP e Cloud Volumes Services a GCVE.
+
+Il processo di installazione può essere suddiviso nei seguenti passaggi:
+
+* Implementare e configurare GCVE
+* Attiva accesso privato a GCVE
+
+
+Visualizza i dettagli link:gcp-setup.html["Procedura di configurazione per GCVE"].
+
+
+
+== Opzioni di storage NetApp per GCVE
+
+Lo storage NetApp può essere utilizzato in diversi modi, come congettura connessa o come archivio dati NFS supplementare, all'interno di GCP GCVE.
+
+Visitare il sito link:../ehc-support-configs.html["Opzioni di storage NetApp supportate"] per ulteriori informazioni.
+
+Google Cloud supporta lo storage NetApp nelle seguenti configurazioni:
+
+* Cloud Volumes ONTAP (CVO) come storage connesso guest
+* Cloud Volumes Service (CVS) come storage connesso al guest
+* Cloud Volumes Service (CVS) come datastore NFS supplementare
+
+
+Visualizza i dettagli link:gcp-guest.html["Opzioni di storage di connessione guest per GCVE"].
+
+Scopri di più link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["Supporto del datastore NetApp Cloud Volumes Service per il motore VMware di Google Cloud (blog NetApp)"^] oppure link:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["Come utilizzare NetApp CVS come datastore per Google Cloud VMware Engine (Google blog)"^]
+
+
+
+== Casi di utilizzo della soluzione
+
+Con le soluzioni cloud NetApp e VMware, molti casi di utilizzo sono semplici da implementare in Azure AVS. I casi se sono definiti per ciascuna delle aree cloud definite da VMware:
+
+* Protect (include disaster recovery e backup/ripristino)
+* Estendi
+* Migrare
+
+
+link:gcp-solutions.html["Esplora le soluzioni NetApp per Google Cloud GCVE"]

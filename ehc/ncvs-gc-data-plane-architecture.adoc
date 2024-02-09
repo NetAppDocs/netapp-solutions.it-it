@@ -1,0 +1,35 @@
+---
+sidebar: sidebar 
+permalink: ehc/ncvs-gc-data-plane-architecture.html 
+keywords: cloud volumes service, google cloud, service networking, vpc peering 
+summary: Cloud Volumes Service per Google Cloud sfrutta il framework di accesso ai servizi privati di Google Cloud. In questo framework, gli utenti possono connettersi a Cloud Volumes Service. Questo framework utilizza i costrutti di peering di Service Networking e VPC come altri servizi Google Cloud, garantendo un isolamento completo tra i tenant. 
+---
+= Architettura del data plane
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Cloud Volumes Service per Google Cloud sfrutta Google Cloud https://cloud.google.com/vpc/docs/configure-private-services-access["accesso ai servizi privati"^] framework. In questo framework, gli utenti possono connettersi a Cloud Volumes Service. Questo framework utilizza i costrutti di peering di Service Networking e VPC come altri servizi Google Cloud, garantendo un isolamento completo tra i tenant.
+
+Per una panoramica dell'architettura di Cloud Volumes Service per Google Cloud, consulta https://cloud.google.com/architecture/partners/netapp-cloud-volumes/architecture["Architettura per Cloud Volumes Service"^].
+
+Le VPC degli utenti (standalone o condiviso) vengono collegate ai VPC all'interno dei progetti di tenant gestiti da Cloud Volumes Service, che ospitano i volumi.
+
+image:ncvs-gc-image5.png["Errore: Immagine grafica mancante"]
+
+La figura precedente mostra un progetto (il progetto consumer CVS al centro) con tre reti VPC collegate a Cloud Volumes Service e più macchine virtuali del motore di calcolo (GCE1-7) che condividono volumi:
+
+* VPC1 consente a GCE1 di accedere ai volumi A e B.
+* VPC2 consente a GCE2 e GCE4 di accedere al volume C.
+* La terza rete VPC è un VPC condiviso, condiviso con due progetti di servizio. Consente a GCE3, GCE4, GCE5 e GCE6 di accedere ai volumi D ed E. Le reti VPC condivise sono supportate solo per volumi del tipo di servizio CVS-Performance.
+
+
+
+NOTE: GCE7 non può accedere ad alcun volume.
+
+I dati possono essere crittografati sia in transito (utilizzando la crittografia Kerberos e/o SMB) che a riposo in Cloud Volumes Service.

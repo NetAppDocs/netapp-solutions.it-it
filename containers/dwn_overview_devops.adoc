@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: containers/dwn_overview_devops.html 
+keywords: DevOps, Netapp, Astra Trident, Astra Control, Astra 
+summary: Una panoramica di devops e dei potenziali casi di utilizzo in questo report tecnico. 
+---
+= Panoramica di DevOps
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+:k8s_distribution_name: Red Hat OpenShift, VMware Tanzu, Anthos by Google Cloud etc.
+
+
+[role="lead"]
+Negli ultimi anni, le organizzazioni che creano software hanno adottato i concetti di DevOps. Le pratiche DevOps abbattono le barriere organizzative, avvicinando i team di sviluppo e operativi. Le pratiche DevOps consentono inoltre ai team di accelerare l'erogazione, aumentare la disponibilità e rendere più stabili servizi e applicazioni, migliorando così la produttività del team. Inoltre, l'adozione di un framework di automazione è anche un elemento chiave del successo, dalla creazione, test e gestione di applicazioni su larga scala o dalla gestione di una piattaforma o stack di infrastruttura completamente automatizzati. Di seguito vengono illustrati alcuni casi di utilizzo principali per DevOps in cui è possibile implementare le soluzioni NetApp per migliorare le esperienze che i professionisti DevOps incontrano durante le loro pratiche quotidiane.
+
+
+
+== Casi di utilizzo DevOps
+
+Sebbene DevOps non disponga di una singola definizione universalmente accettata, le soluzioni per i professionisti DevOps contengono in genere costrutti o ideologie simili che consentono un'implementazione, una ripetizione e una gestione semplici su larga scala. Le sezioni seguenti descrivono i potenziali casi di utilizzo per i flussi di lavoro DevOps abilitati dalle soluzioni NetApp.
+
+
+
+=== Integrazione continua, erogazione continua e implementazione continua (ci/CD)
+
+Continuous Integration, Continuous Delivery e Continuous Deployment (ci/CD) è una filosofia di codifica che incoraggia gli sviluppatori a implementare e trasformare le proprie pratiche di codifica stabilendo un metodo per aggiornare, testare e implementare il proprio codice in modo automatizzato. Il metodo più diffuso con cui ci/CD viene implementato nella maggior parte dei flussi di lavoro DevOps è quello della pipeline ci/CD, e esistono diverse applicazioni software di terze parti che possono contribuire a ottenere questo risultato.
+
+image::dwn_image_16.png[Immagine ci/CD]
+
+Di seguito sono riportati alcuni esempi di applicazioni comuni che possono essere di aiuto con i flussi di lavoro ci/CD-type:
+
+https://argoproj.github.io/cd/["ArgoCD"]
+https://jenkins.io["Jenkins"]
+https://tekton.dev["Tekton"]
+
+Alcuni dei casi di utilizzo inclusi più avanti in questo report tecnico sono stati dimostrati in Jenkins, ma i principi ci/CD principali possono essere applicati a qualsiasi strumento implementato da un'organizzazione nelle proprie pratiche.
+
+
+
+=== Infrastruttura come codice
+
+L'infrastruttura come codice aiuta a fornire e gestire le risorse IT attraverso comandi automatizzati, API e kit di sviluppo software (SDK). Questo concetto migliora notevolmente l'esperienza DevOps eliminando i limiti fisici del data center o delle risorse che potrebbero impedire agli sviluppatori di raggiungere i propri obiettivi.
+
+image::dwn_image_17.png[Infrastruttura come immagine di codice]
+
+Gli utenti finali spesso utilizzano linguaggi di programmazione come https://www.python.org/["Python"] o strumenti di automazione come https://www.ansible.com/["Ansible"] oppure https://puppet.com/["Marionetta"] per creare azioni di scalabilità dell'infrastruttura automatizzate e ripetibili che possono essere chiamate dagli sviluppatori quando necessario.
+
+Sia NetApp ONTAP che Astra Control contengono API pubbliche e moduli ansible o toolkit di sviluppo software che rendono le operazioni di automazione molto semplici da adottare e integrare nei processi DevOps.

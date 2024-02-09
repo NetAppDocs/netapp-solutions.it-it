@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: containers/vtwn_astra_applications.html 
+summary: Dopo aver registrato i cluster VMware Tanzu Kubernetes, è possibile individuare le applicazioni implementate e gestirle tramite Astra Control Center. 
+keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Astra Trident, Helm, Operator, ONTAP, Tanzu, Tanzu Kubernetes cluster, VMware Tanzu 
+---
+= Scegliere le applicazioni da proteggere
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Dopo aver registrato i cluster Tanzu Kubernetes, è possibile individuare le applicazioni implementate e gestirle tramite Astra Control Center.
+
+
+
+== Gestire le applicazioni
+
+. Una volta registrati i cluster e i backend ONTAP di Tanzu Kubernetes con il centro di controllo Astra, il centro di controllo inizia automaticamente a rilevare le applicazioni in tutti gli spazi dei nomi che utilizzano lo storageclass configurato con il backend ONTAP specificato.
++
+image::vtwn_image15.jpg[Applicazioni di Astra Control Center rilevate]
+
+. Accedere a Apps > Dovered (applicazioni > rilevate) e fare clic sul menu a discesa accanto all'applicazione che si desidera gestire utilizzando Astra. Quindi fare clic su Manage (Gestisci)
++
+image::vtwn_image16.jpg[Astra Control Center gestisce le applicazioni]
+
+. L'applicazione entra nello stato Available (disponibile) e può essere visualizzata nella scheda Managed (gestito) nella sezione Apps (applicazioni).
++
+image::vtwn_image17.jpg[Applicazioni disponibili per Astra Control Center]
+
+
