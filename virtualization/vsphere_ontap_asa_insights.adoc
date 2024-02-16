@@ -1,0 +1,260 @@
+---
+sidebar: sidebar 
+permalink: virtualization/vsphere_ontap_asa_insights.html 
+keywords: vsphere, ontap, cloud insights, asa, all-flash san array, 
+summary:  
+---
+= Array SAN all-flash NetApp con VMware vSphere 8
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Autore: Josh Powell - NetApp Solutions Engineering
+
+
+
+== Monitoraggio dello storage on-premise con NetApp Cloud Insights
+
+NetApp Cloud Insights è una piattaforma di monitoring e analytics dell'infrastruttura basata su cloud progettata per fornire visibilità e informazioni complete su performance, salute e costi delle infrastrutture IT, sia on-premise che nel cloud. Le funzioni principali di NetApp Cloud Insights includono monitoraggio in tempo reale, dashboard personalizzabili, analytics predittivi e strumenti di ottimizzazione dei costi, consentendo alle organizzazioni di gestire e ottimizzare in modo efficace i propri ambienti on-premise e cloud.
+
+NetApp Cloud Insights opera attraverso il software dell'unità di acquisizione, che è configurato con i raccoglitori di dati per asset come VMware vSphere e i sistemi storage NetApp ONTAP. Questi raccoglitori raccolgono i dati e li trasmettono a Cloud Insights. La piattaforma utilizza quindi una varietà di dashboard, widget e query di metrica per organizzare i dati in analisi approfondite che gli utenti possono interpretare.
+
+Schema dell'architettura Cloud Insights:
+
+image::vmware-asa-image29.png[Cloud Insights]
+
+
+
+=== Panoramica sull'implementazione della soluzione
+
+Questa soluzione fornisce un'introduzione al monitoring dei sistemi storage on-premise di VMware vSphere e ONTAP utilizzando NetApp Cloud Insights.
+
+Questo elenco fornisce i passaggi di alto livello trattati in questa soluzione:
+
+. Configurare Data Collector per un cluster vSphere.
+. Configurare Data Collector per un sistema di archiviazione ONTAP.
+. Utilizzare le regole di annotazione per contrassegnare le risorse.
+. Esplorare e correlare le risorse.
+. USA una dashboard superiore della latenza delle macchine virtuali per isolare i noisy neighbor.
+. Identifica le opportunità per il corretto dimensionamento delle macchine virtuali.
+. Utilizzare le query per isolare e ordinare le metriche.
+
+
+
+
+=== Prerequisiti
+
+Questa soluzione utilizza i seguenti componenti:
+
+. Array SAN all-flash NetApp A400 con ONTAP 9,13.
+. Cluster VMware vSphere 8,0.
+. Account NetApp Cloud Insights.
+. Software dell'unità di acquisizione NetApp Cloud Insights installato su una macchina virtuale locale con connettività di rete agli asset per la raccolta dei dati.
+
+
+
+
+=== Implementazione della soluzione
+
+
+
+==== Configurare Data Collector
+
+Per configurare Data Collector per i sistemi di storage VMware vSphere e ONTAP, completare i seguenti passaggi:
+
+.Aggiunta di un Data Collector per un sistema di archiviazione ONTAP
+[%collapsible]
+====
+. Una volta effettuato l'accesso a Cloud Insights, accedere a *osservabilità > Collector > Data Collector* e premere il pulsante per installare un nuovo Data Collector.
++
+image::vmware-asa-image31.png[Nuovo Data Collector]
+
+. Da qui cercare *ONTAP* e fare clic su *Software di gestione dati ONTAP*.
++
+image::vmware-asa-image30.png[Cercare Data Collector]
+
+. Nella pagina *Configure Collector* (Configura modulo di raccolta) compilare un nome per il raccoglitore, specificare l'unità di acquisizione * corretta e fornire le credenziali per il sistema di archiviazione ONTAP. Fare clic su *Salva e continua*, quindi su *completa installazione* nella parte inferiore della pagina per completare la configurazione.
++
+image::vmware-asa-image32.png[Configurare Collector]
+
+
+
+====
+.Aggiunta di un Data Collector per un cluster VMware vSphere
+[%collapsible]
+====
+. Ancora una volta, accedere a *osservabilità > Collector > Data Collector* e premere il pulsante per installare un nuovo Data Collector.
++
+image::vmware-asa-image31.png[Nuovo Data Collector]
+
+. Da qui cercare *vSphere* e fare clic su *VMware vSphere*.
++
+image::vmware-asa-image33.png[Cercare Data Collector]
+
+. Nella pagina *Configure Collector* compilare un nome per il Collector, specificare l'unità di acquisizione * corretta e fornire le credenziali per il server vCenter. Fare clic su *Salva e continua*, quindi su *completa installazione* nella parte inferiore della pagina per completare la configurazione.
++
+image::vmware-asa-image34.png[Configurare Collector]
+
+
+
+====
+
+
+==== Aggiungere annotazioni alle risorse
+
+Le annotazioni sono un metodo utile per contrassegnare le risorse in modo che possano essere filtrate e altrimenti identificate nelle varie viste e query metriche disponibili in Cloud Insights.
+
+In questa sezione, le annotazioni verranno aggiunte alle risorse delle macchine virtuali per il filtraggio da parte di *Data Center*.
+
+.Utilizzare le regole di annotazione per contrassegnare le risorse
+[%collapsible]
+====
+. Nel menu a sinistra, accedere a *osservabilità > arricchimento > regole di annotazione* e fare clic sul pulsante *+ regola* in alto a destra per aggiungere una nuova regola.
++
+image::vmware-asa-image35.png[Accesso alle regole di annotazione]
+
+. Nella finestra di dialogo *Aggiungi regola* immettere un nome per la regola, individuare una query a cui applicare la regola, il campo di annotazione interessato e il valore da compilare.
++
+image::vmware-asa-image36.png[Aggiungi regola]
+
+. Infine, nell'angolo superiore destro della pagina *regole annotazione* fare clic su *Esegui tutte le regole* per eseguire la regola e applicare l'annotazione alle risorse.
++
+image::vmware-asa-image37.png[Esegui tutte le regole]
+
+
+
+====
+
+
+==== Esplorare e correlare le risorse
+
+Cloud Insights trae conclusioni logiche circa le risorse in esecuzione sui sistemi storage e sui cluster vsphere.
+
+In questa sezione viene illustrato come utilizzare i dashboard per correlare le risorse.
+
+.Correlazione delle risorse da una dashboard delle performance dello storage
+[%collapsible]
+====
+. Nel menu a sinistra, accedere a *osservabilità > Esplora > tutti i dashboard*.
++
+image::vmware-asa-image38.png[Accedi a tutte le dashboard]
+
+. Fare clic sul pulsante *+ da galleria* per visualizzare un elenco di dashboard pronti per l'uso che è possibile importare.
++
+image::vmware-asa-image39.png[Dashboard Galleria]
+
+. Scegliere un dashboard per le prestazioni FlexVol dall'elenco e fare clic sul pulsante *Aggiungi dashboard* nella parte inferiore della pagina.
++
+image::vmware-asa-image40.png[Dashboard delle performance di FlexVol]
+
+. Una volta importata, aprire la dashboard. Da qui è possibile visualizzare vari widget con dati dettagliati sulle prestazioni. Aggiungi un filtro per visualizzare un singolo sistema di storage e seleziona un volume di storage per analizzare i dettagli.
++
+image::vmware-asa-image41.png[Forare il volume di stoccaggio]
+
+. Da questa vista sono visibili le varie metriche correlate a questo volume di storage e al top utilizzato e delle macchine virtuali correlate in esecuzione sul volume.
++
+image::vmware-asa-image42.png[Macchine virtuali correlate principali]
+
+. Facendo clic sulla macchina virtuale con i risultati di utilizzo più elevati nelle metriche per tale macchina virtuale, è possibile visualizzare eventuali problemi potenziali.
++
+image::vmware-asa-image43.png[Metriche delle performance delle VM]
+
+
+
+====
+
+
+==== USA Cloud Insights per identificare i noisy neighbor
+
+Cloud Insights presenta dashboard in grado di isolare facilmente peer VM che hanno un impatto negativo sulle altre VM in esecuzione sullo stesso volume storage.
+
+.USA una dashboard superiore della latenza delle macchine virtuali per isolare i noisy neighbor
+[%collapsible]
+====
+. In questo esempio si accede a una dashboard disponibile nella *Gallery* chiamata *VMware Admin - dove si trova la latenza della VM?*
++
+image::vmware-asa-image44.png[Dashboard della latenza delle VM]
+
+. Successivamente, filtrare in base all'annotazione *Data Center* creata in una fase precedente per visualizzare un sottoinsieme di risorse.
++
+image::vmware-asa-image45.png[Annotazione del data center]
+
+. Questa dashboard mostra un elenco delle 10 macchine virtuali principali in base alla latenza media. Da qui, fare clic sulla VM di interesse per approfondire i dettagli.
++
+image::vmware-asa-image46.png[Le 10 VM principali]
+
+. Le VM che potenzialmente causano un conflitto nel carico di lavoro sono elencate e disponibili. Analizza in dettaglio le metriche relative alle prestazioni di queste VM per esaminare eventuali problemi potenziali.
++
+image::vmware-asa-image47.png[Conflitto nel carico di lavoro]
+
+
+
+====
+
+
+==== Visualizzare le risorse sottoutilizzate in Cloud Insights
+
+Associando le risorse delle macchine virtuali ai requisiti effettivi dei carichi di lavoro, è possibile ottimizzare l'utilizzo delle risorse con risparmi sui costi di infrastruttura e servizi cloud. I dati in Cloud Insights possono essere customizzati per visualizzare facilmente le macchine virtuali utilizzate, o quelle sottoutilizzate.
+
+.Identifica le opportunità per il corretto dimensionamento delle macchine virtuali
+[%collapsible]
+====
+. In questo esempio si accede a un dashboard disponibile nella *Gallery* chiamato *VMware Admin - dove sono le opportunità di dimensioni corrette?*
++
+image::vmware-asa-image48.png[Cruscotto di dimensioni adeguate]
+
+. Primo filtro da parte di tutti gli host ESXi nel cluster. È quindi possibile visualizzare la classificazione delle macchine virtuali superiore e inferiore in base all'utilizzo della memoria e della CPU.
++
+image::vmware-asa-image49.png[Cruscotto di dimensioni adeguate]
+
+. Le tabelle consentono l'ordinamento e forniscono maggiori dettagli in base alle colonne dei dati scelti.
++
+image::vmware-asa-image50.png[Tabelle metriche]
+
+. Un altro dashboard chiamato *VMware Admin - dove posso potenzialmente recuperare gli sprechi?* mostra VM disattivate ordinate in base al loro utilizzo di capacità.
++
+image::vmware-asa-image51.png[Spegnimento delle VM]
+
+
+
+====
+
+
+==== Utilizzare le query per isolare e ordinare le metriche
+
+La quantità di dati catturati da Cloud Insights è abbastanza completa. Le query metriche offrono un metodo efficace per ordinare e organizzare grandi quantità di dati in modi utili.
+
+.Visualizzate una query VMware dettagliata in ONTAP Essentials
+[%collapsible]
+====
+. Accedere a *ONTAP Essentials > VMware* per accedere a una query metrica VMware completa.
++
+image::vmware-asa-image52.png[ONTAP Essential - VMware]
+
+. In questa visualizzazione vengono visualizzate più opzioni per il filtraggio e il raggruppamento dei dati nella parte superiore. Tutte le colonne di dati sono personalizzabili e possono essere aggiunte facilmente colonne aggiuntive.
++
+image::vmware-asa-image53.png[ONTAP Essential - VMware]
+
+
+
+====
+
+
+=== Conclusione
+
+Questa soluzione è stata ideata come nozioni di base per scoprire come iniziare a utilizzare NetApp Cloud Insights e mostrare alcune delle potenti funzionalità che questa soluzione di osservabilità può fornire. Il prodotto include centinaia di dashboard e query metriche che semplificano l'utilizzo immediato. La versione completa di Cloud Insights è disponibile come versione di prova di 30 giorni e la versione di base è disponibile gratuitamente per i clienti NetApp.
+
+
+
+=== Ulteriori informazioni
+
+Per ulteriori informazioni sulle tecnologie presentate in questa soluzione, fare riferimento alle seguenti informazioni aggiuntive.
+
+* https://bluexp.netapp.com/cloud-insights["Landing page di NetApp BlueXP e Cloud Insights"]
+* https://docs.netapp.com/us-en/cloudinsights/["Documentazione NetApp Cloud Insights"]
+
