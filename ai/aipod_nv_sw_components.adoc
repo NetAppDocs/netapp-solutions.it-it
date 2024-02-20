@@ -1,0 +1,110 @@
+---
+sidebar: sidebar 
+permalink: ai/aipod_nv_sw_components.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVIDIA BasePOD, NVIDIA DGX 
+summary: Pod NetApp ai con sistemi NVIDIA DGX - componenti software 
+---
+= Pod NetApp ai con sistemi NVIDIA DGX - componenti software
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+link:aipod_nv_hw_components.html["Precedente: ONTAP ai - componenti hardware."]
+
+
+
+== Software NVIDIA
+
+
+
+=== Comando base NVIDIA
+
+NVIDIA base Command&#8482; (figura 2) potenzia ogni DGX BasePOD, consentendo alle organizzazioni di sfruttare il meglio dell'innovazione software NVIDIA. Le aziende possono liberare il pieno potenziale del proprio investimento con una piattaforma comprovata che include orchestrazione di livello Enterprise e gestione dei cluster, librerie che accelerano calcolo, infrastruttura di storage e rete e un sistema operativo ottimizzato per i carichi di lavoro ai.
+
+image:oai_BaseCommand.png["Errore: Immagine grafica mancante"]
+
+
+
+=== NVIDIA GPU CLOUD (NGC)
+
+NVIDIA NGC™ (Figura 3) fornisce un software per soddisfare le esigenze di data scientist, sviluppatori e ricercatori con vari livelli di competenza in ambito ai. Il software ospitato su NGC viene sottoposto a scansioni contro un insieme aggregato di vulnerabilità ed esposizioni (CVE), crittografia e chiavi private comuni. È stata testata e progettata per scalare a più GPU e, in molti casi, a più nodi, garantendo agli utenti di massimizzare il proprio investimento nei sistemi DGX.
+
+image:oai_ngc.png["Errore: Immagine grafica mancante"]
+
+
+
+=== NVIDIA ai Enterprise
+
+NVIDIA ai Enterprise è una suite di software di ai e data analytics ottimizzata per lo sviluppo e l'implementazione dell'ai. NVIDIA ai Enterprise include container e framework open-source comprovati come NVIDIA RAPIDS™, NVIDIA TAO Toolkit, NVIDIA TensorRT™ e NVIDIA Triton Inference Server, certificati e supportati per l'esecuzione su sistemi DGX. NVIDIA ai Enterprise è inclusa con i sistemi DGX e viene utilizzata in combinazione con NVIDIA base Command e NVIDIA NGC.
+
+
+
+== Software NetApp
+
+
+
+=== NetApp ONTAP
+
+ONTAP 9, l'ultima generazione di software per la gestione dello storage NetApp, consente alle aziende di modernizzare l'infrastruttura e passare a un data center predisposto per il cloud. Sfruttando le funzionalità di gestione dei dati leader del settore, ONTAP consente la gestione e la protezione dei dati con un singolo set di strumenti, indipendentemente dalla posizione dei dati. Puoi anche spostare liberamente i dati ovunque siano necessari: Edge, core o cloud. ONTAP 9 include numerose funzionalità che semplificano la gestione dei dati, accelerano e proteggono i dati critici e abilitano le funzionalità dell'infrastruttura di nuova generazione nelle architetture di cloud ibrido.
+
+
+
+==== Semplifica la gestione dei dati
+
+La gestione dei dati è fondamentale per le operazioni IT aziendali e per i data scientist, in modo che le risorse appropriate vengano utilizzate per le applicazioni ai e per la formazione dei set di dati ai/ML. Le seguenti informazioni aggiuntive sulle tecnologie NetApp non rientrano nell'ambito di questa convalida, ma potrebbero essere rilevanti a seconda dell'implementazione.
+
+Il software per la gestione dei dati ONTAP include le seguenti funzionalità per ottimizzare e semplificare le operazioni e ridurre il costo totale delle operazioni:
+
+* Compaction dei dati inline e deduplica estesa. La compattazione dei dati riduce lo spazio sprecato all'interno dei blocchi di storage e la deduplica aumenta significativamente la capacità effettiva. Ciò vale per i dati memorizzati localmente e per i dati a più livelli nel cloud.
+* Qualità del servizio (AQoS) minima, massima e adattativa. I controlli granulari della qualità del servizio (QoS) aiutano a mantenere i livelli di performance per le applicazioni critiche in ambienti altamente condivisi.
+* NetApp FabricPool. Offre il tiering automatico dei dati cold per le opzioni di cloud storage pubblico e privato, tra cui Amazon Web Services (AWS), Azure e la soluzione di storage NetApp StorageGRID. Per ulteriori informazioni su FabricPool, vedere https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598: Best practice FabricPool"^].
+* NetApp FlexCache. Fornisce capacità di caching dei volumi remoti che semplificano la distribuzione dei file, riducono la latenza WAN e riducono i costi della larghezza di banda WAN. FlexCache consente lo sviluppo distribuito di prodotti su più siti, oltre a un accesso accelerato ai set di dati aziendali da ubicazioni remote.
+
+
+
+
+==== Accelera e proteggi i dati
+
+ONTAP offre livelli superiori di performance e protezione dei dati ed estende queste funzionalità nei seguenti modi:
+
+* Performance e latenza ridotta. ONTAP offre il massimo throughput possibile con la latenza più bassa possibile, incluso il supporto di NVIDIA GPUDirect Storage (GDS) tramite NFS su RDMA.
+* Protezione dei dati. ONTAP offre funzionalità di protezione dei dati integrate con gestione comune su tutte le piattaforme.
+* NetApp Volume Encryption (NVE). ONTAP offre crittografia nativa a livello di volume con supporto per la gestione delle chiavi sia integrata che esterna.
+* Multi-tenancy e autenticazione a più fattori. ONTAP consente la condivisione delle risorse dell'infrastruttura con i massimi livelli di sicurezza.
+
+
+
+
+==== Infrastruttura a prova di futuro
+
+ONTAP aiuta a soddisfare le esigenze di business esigenti e in continua evoluzione con le seguenti funzionalità:
+
+* Scalabilità perfetta e operazioni senza interruzioni. ONTAP supporta l'aggiunta senza interruzioni di capacità ai controller esistenti e ai cluster scale-out. I clienti possono eseguire l'upgrade alle tecnologie più recenti, come NVMe e 32GB FC, senza costose migrazioni dei dati o interruzioni.
+* Connessione al cloud. ONTAP è il software per la gestione dello storage più connesso al cloud, con opzioni per lo storage software-defined (ONTAP Select) e le istanze native del cloud (NetApp Cloud Volumes Service) in tutti i cloud pubblici.
+* Integrazione con le applicazioni emergenti. ONTAP offre servizi dati di livello Enterprise per piattaforme e applicazioni di prossima generazione, come veicoli autonomi, città intelligenti e industria 4.0, utilizzando la stessa infrastruttura che supporta le applicazioni aziendali esistenti.
+
+
+
+
+=== NetApp DataOps Toolkit
+
+Il NetApp DataOps Toolkit è uno strumento basato su Python che semplifica la gestione degli spazi di lavoro di sviluppo/formazione e dei server di inferenza supportati dallo storage NetApp scale-out dalle performance elevate. DataOps Toolkit può funzionare come utility standalone ed è ancora più efficace negli ambienti Kubernetes sfruttando NetApp Astra Trident per automatizzare le operazioni di storage. Le funzionalità principali includono:
+
+* Provisioning rapido di nuove aree di lavoro JupyterLab ad alta capacità supportate da storage NetApp scale-out dalle performance elevate.
+* Provisioning rapido delle nuove istanze di NVIDIA Triton Inference Server supportate dallo storage NetApp di livello Enterprise.
+* Clonare quasi instantaneamente le aree di lavoro JupyterLab ad alta capacità per consentire la sperimentazione o l'iterazione rapida.
+* Salvataggio quasi istantaneo di snapshot di aree di lavoro JupyterLab ad alta capacità per backup e/o tracciabilità/baselining.
+* Provisioning, cloning e snapshot near-instataneamente di volumi di dati ad alta capacità e performance elevate.
+
+
+
+
+=== NetApp Astra Trident
+
+Astra Trident è un orchestrator di storage open-source completamente supportato per container e distribuzioni Kubernetes, incluso Anthos. Trident lavora con l'intero portfolio di storage NetApp, incluso NetApp ONTAP, e supporta anche connessioni NFS e iSCSI. Trident accelera il workflow DevOps consentendo agli utenti finali di eseguire il provisioning e gestire lo storage dai sistemi storage NetApp senza richiedere l'intervento di un amministratore dello storage.
+
+link:aipod_nv_architecture.html["Pagina successiva: Pod NetApp ai con sistemi NVIDIA DGX - architettura."]
