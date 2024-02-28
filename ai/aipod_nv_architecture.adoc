@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: ai/aipod_nv_architecture.html 
 keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVIDIA BasePOD, NVIDIA DGX 
-summary: Pod NetApp ai con sistemi NVIDIA DGX - architettura 
+summary: NetApp FlexPod con sistemi NVIDIA DGX - architettura 
 ---
-= Pod NetApp ai con sistemi NVIDIA DGX - architettura
+= NetApp FlexPod con sistemi NVIDIA DGX - architettura della soluzione
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -13,44 +13,54 @@ summary: Pod NetApp ai con sistemi NVIDIA DGX - architettura
 :imagesdir: ./../media/
 
 
-link:aipod_nv_sw_components.html["Precedente: ONTAP ai - componenti software."]
+link:aipod_nv_sw_components.html["Precedente: ONTAP ai - componenti software"]
+
+
+
+== Pod NetApp ai con sistemi DGX H100
 
 Questa architettura di riferimento sfrutta fabric separati per l'interconnessione del cluster di calcolo e l'accesso allo storage, con opzioni per la connettività NDR200 GbE e HDR200 GB Infiniband (IB) tra nodi di calcolo. I sistemi DGX H100 sono dotati di schede ConnectX-7 preinstallate per la connettività IB NDR, mentre i sistemi DGX A100 possono utilizzare schede ConnectX-6 o ConnectX-7 per la connettività HDR o NDR, rispettivamente.
 
+Il disegno qui sotto mostra la topologia della soluzione globale quando si utilizzano sistemi DGX H100 con NetApp AIPod.
 
-
-== ONTAP ai con sistemi DGX H100
-
-Il disegno qui sotto mostra la topologia della soluzione globale quando si utilizzano sistemi DGX H100 con ONTAP ai.
-
-image:oai_H100_topo.png["Errore: Immagine grafica mancante"]
-
-In questa configurazione la rete cluster di elaborazione utilizza una coppia di switch QM9700 NDR IB, che sono connessi insieme per l'alta disponibilità. Ogni sistema DGX H100 è collegato agli switch utilizzando otto connessioni NDR200, con porte con numero pari collegate a uno switch e porte con numero dispari collegate all'altro switch.
-
-Per l'accesso al sistema di storage, la gestione in banda e l'accesso client, viene utilizzata una coppia di switch Ethernet SN4600. Gli switch sono collegati con collegamenti inter-switch e configurati con più VLAN per isolare i vari tipi di traffico. Per implementazioni di dimensioni maggiori, la rete ethernet può essere estesa a una configurazione leaf-spine aggiungendo ulteriori coppie di switch per una colonna vertebrale e altri fogli in base alle necessità. Ogni sistema DGX A100 viene fornito con due schede ConnectX-6 a due porte per il traffico ethernet e di storage e per questa soluzione tutte e quattro le porte sono connesse ai SN4600 switch Ethernet a 200 Gbps. Una porta di ogni scheda è configurata in un legame LACP MLAG con una porta collegata a ogni switch, e VLAN per la gestione in banda, l'accesso client e l'accesso storage a livello utente sono ospitati su questo legame. L'altra porta di ciascuna scheda viene utilizzata in maniera indipendente in VLAN di storage RoCE dedicate separate per la connettività al sistema di storage AFF A800. Queste porte supportano l'accesso allo storage dalle performance elevate mediante NFS v3, NFSv4.x con pNFS e NFS su RDMA.
-
-Oltre all'interconnessione di elaborazione e alle reti ethernet ad alta velocità, tutti i dispositivi fisici sono collegati anche a uno o più switch Ethernet SN2201 per la gestione fuori banda.  Per ulteriori dettagli sulla connettività del sistema DGX A100, fare riferimento al link:https://nvdam.widen.net/s/nfnjflmzlj/nvidia-dgx-basepod-reference-architecture["Documentazione NVIDIA BasePOD"].
+image:aipod_nv_a900topo.png["Errore: Immagine grafica mancante"]
 
 
 
-== ONTAP ai con sistemi DGX A100
+== Configurazione di rete
 
-Il disegno qui sotto mostra la topologia della soluzione generale quando si utilizzano sistemi DGX A100 e un fabric di calcolo HDR con ONTAP ai.
+In questa configurazione il cluster fabric di elaborazione utilizza una coppia di switch QM9700 NDR IB, connessi insieme per high Availability. Ogni sistema DGX H100 è collegato agli switch utilizzando otto connessioni, con porte con numero pari collegate a uno switch e porte con numero dispari collegate all'altro switch.
 
-image:oai_A100_topo.png["Errore: Immagine grafica mancante"]
+Per l'accesso al sistema di storage, la gestione in banda e l'accesso client, viene utilizzata una coppia di switch Ethernet SN4600. Gli switch sono collegati con collegamenti inter-switch e configurati con più VLAN per isolare i vari tipi di traffico. Per implementazioni di dimensioni maggiori, la rete ethernet può essere estesa a una configurazione leaf-spine aggiungendo ulteriori coppie di switch per gli switch spine e altre schede, se necessario.
 
-In questa configurazione, la rete cluster di elaborazione utilizza una coppia di switch QM8700 HDR IB, che sono collegati insieme per garantire l'alta disponibilità. Ogni sistema DGX A100 è collegato agli switch utilizzando quattro schede ConnectX-6 a una porta a 200 Gbps, con porte pari collegate a uno switch e porte con numeri dispari collegate all'altro switch.
+Oltre all'interconnessione di elaborazione e alle reti ethernet ad alta velocità, tutti i dispositivi fisici sono collegati anche a uno o più switch Ethernet SN2201 per la gestione fuori banda.  Per ulteriori dettagli sulla connettività del sistema DGX H100, fare riferimento al link:https://nvdam.widen.net/s/nfnjflmzlj/nvidia-dgx-basepod-reference-architecture["Documentazione NVIDIA BasePOD"].
 
-Per l'accesso al sistema di storage, la gestione in banda e l'accesso client, viene utilizzata una coppia di switch Ethernet SN4600. Gli switch sono collegati con collegamenti inter-switch e configurati con più VLAN per isolare i vari tipi di traffico. Per implementazioni di dimensioni maggiori, la rete ethernet può essere estesa a una configurazione leaf-spine aggiungendo ulteriori coppie di switch per una colonna vertebrale e altri fogli in base alle necessità. Ogni sistema DGX A100 viene fornito con due schede ConnectX-6 a due porte per il traffico ethernet e di storage e per questa soluzione tutte e quattro le porte sono connesse ai SN4600 switch Ethernet a 200 Gbps. Una porta di ogni scheda è configurata in un legame LACP MLAG con una porta collegata a ogni switch, e VLAN per la gestione in banda, l'accesso client e l'accesso storage a livello utente sono ospitati su questo legame. L'altra porta di ciascuna scheda viene utilizzata in maniera indipendente in VLAN di storage RoCE dedicate separate per la connettività al sistema di storage AFF A800. Queste porte supportano l'accesso allo storage dalle performance elevate mediante NFS v3, NFSv4.x con pNFS e NFS su RDMA.
 
-Oltre all'interconnessione di elaborazione e alle reti ethernet ad alta velocità, tutti i dispositivi fisici sono collegati anche a uno o più switch Ethernet SN2201 per la gestione fuori banda.  Per ulteriori dettagli sulla connettività del sistema DGX A100, fare riferimento al link:https://nvdam.widen.net/s/nfnjflmzlj/nvidia-dgx-basepod-reference-architecture["Documentazione NVIDIA BasePOD"].
+
+== Configurazione del client per l'accesso allo storage
+
+Ogni sistema DGX H100 viene fornito con due schede ConnectX-7 a due porte per il traffico di gestione e storage e per questa soluzione entrambe le porte su ogni scheda sono collegate allo stesso switch. Una porta di ogni scheda viene quindi configurata in un legame LACP MLAG con una porta collegata a ogni switch, e VLAN per la gestione in banda, l'accesso client e l'accesso di storage a livello utente sono ospitate su questo legame.
+
+L'altra porta su ciascuna scheda viene utilizzata per la connettività ai sistemi di storage AFF A900 e può essere utilizzata in diverse configurazioni a seconda dei requisiti del carico di lavoro. Per le configurazioni che utilizzano NFS su RDMA per supportare l'archiviazione NVIDIA GPUDirect, le porte sono configurate in un legame attivo/passivo, poiché RDMA non è supportato su nessun altro tipo di legame. Per le implementazioni che non richiedono RDMA, i clienti possono anche sfruttare il bonding LACP sulle interfacce di storage per offrire alta disponibilità e larghezza di banda aggiuntiva. Con o senza RDMA, i client possono montare il sistema di storage utilizzando NFS v4,1 pNFS e Session trunking per consentire l'accesso parallelo a tutti i nodi di storage nel cluster.
+
+
+
+== Configurazione del sistema storage
+
+Ogni sistema storage AFF A900 è connesso tramite quattro porte 100 GbE da ciascun controller. Due porte da ciascun controller sono utilizzate per l'accesso ai dati dei carichi di lavoro dai sistemi DGX e due porte da ciascun controller sono configurate come un gruppo di interfacce LACP per supportare l'accesso dai server di piani di gestione per gli artefatti di gestione dei cluster e le home directory dell'utente. L'accesso ai dati dal sistema storage viene fornito tramite NFS, con una Storage Virtual Machine (SVM) dedicata all'accesso ai workload e una SVM separata dedicata agli utilizzi della gestione del cluster.
+
+Il carico di lavoro SVM è configurato con un totale di otto interfacce logiche (LIF), con due LIF per ciascuna porta fisica. Questa configurazione offre la massima larghezza di banda oltre a mezzi per eseguire il failover di ciascuna LIF in un'altra porta dello stesso controller, in modo che entrambi i controller rimangano attivi in caso di guasto alla rete. Questa configurazione supporta anche NFS su RDMA per abilitare l'accesso allo storage GPUDirect. Viene effettuato il provisioning della capacità dello storage sotto forma di un singolo volume FlexGroup di grandi dimensioni che comprende tutti gli storage controller del cluster, con 16 volumi costituenti su ciascun controller. Questo FlexGroup è accessibile da una qualsiasi LIF nella SVM e utilizzando NFSv4,1 con pNFS e trunking di sessione, i client stabiliscono connessioni a ogni LIF nella SVM, permettendo l'accesso in parallelo ai dati locali in ogni nodo storage per performance notevolmente migliorate. Anche la SVM del carico di lavoro e ciascuna LIF dati sono configurate per l'accesso al protocollo RDMA. Per ulteriori informazioni sulla configurazione RDMA per ONTAP, fare riferimento alla link:https://docs.netapp.com/us-en/ontap/nfs-rdma/index.html["Documentazione ONTAP"].
+
+La SVM di gestione richiede un singolo LIF, ospitato nei gruppi di interfacce a 2 porte configurati su ciascun controller. Nella SVM di gestione viene eseguito il provisioning di altri volumi FlexGroup per alloggiare elementi legati alla gestione del cluster, come le immagini dei nodi del cluster, i dati storici del monitoraggio del sistema e le home directory degli utenti finali. Il disegno qui sotto mostra la configurazione logica del sistema di archiviazione.
+
+image:aipod_nv_A900logical.png["Errore: Immagine grafica mancante"]
 
 
 
 == Server piani di gestione
 
-Questa architettura di riferimento include anche cinque server basati su CPU per gli utilizzi dei piani di gestione. Due di questi sistemi sono utilizzati come nodi principali per il base Command Manager per l'implementazione e la gestione del cluster. Gli altri tre sistemi sono utilizzati per fornire servizi cluster aggiuntivi come nodi master Kubernetes o nodi di login per implementazioni che utilizzano Slurm per la pianificazione dei processi. Le implementazioni che utilizzano Kubernetes possono sfruttare il driver NetApp Astra Trident CSI per fornire provisioning automatizzato e servizi dati con storage persistente per carichi di lavoro di gestione e ai sul sistema storage AFF A800.
+Questa architettura di riferimento include anche cinque server basati su CPU per gli utilizzi dei piani di gestione. Due di questi sistemi sono utilizzati come nodi principali per il base Command Manager per l'implementazione e la gestione del cluster. Gli altri tre sistemi sono utilizzati per fornire servizi cluster aggiuntivi come nodi master Kubernetes o nodi di login per implementazioni che utilizzano Slurm per la pianificazione dei processi. Le implementazioni che utilizzano Kubernetes possono sfruttare il driver NetApp Astra Trident CSI per fornire provisioning automatizzato e servizi dati con storage persistente per carichi di lavoro di gestione e ai sul sistema storage AFF A900.
 
 Ciascun server è fisicamente collegato sia agli switch IB che agli switch ethernet per consentire l'implementazione e la gestione del cluster e configurato con mount NFS al sistema storage tramite la SVM di gestione per lo storage degli artefatti di gestione dei cluster, come descritto in precedenza.
 
-link:aipod_nv_storage.html["Pagina successiva: Pod NetApp ai con sistemi NVIDIA DGX - Guida al dimensionamento e alla progettazione del sistema storage."]
+link:aipod_nv_validation_sizing.html["Pagina successiva: FlexPod con sistemi NVIDIA DGX - Solution Validation e Guida al dimensionamento di NetApp"]
