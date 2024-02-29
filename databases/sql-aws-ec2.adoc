@@ -173,7 +173,7 @@ image:sql-awsec2-image3.png["Errore: Immagine grafica mancante"]
 
 
 ....
-Vol create -vserver svm001 -volume vol_awssqlprod01_data -aggregate aggr1 -size 800GB -state online -tiering-policy snapshot-only -percent-snapshot-space 0 -autosize-mode grow -snapshot-policy none -security-style ntfs -aggregate aggr1
+vol create -vserver svm001 -volume vol_awssqlprod01_data -aggregate aggr1 -size 800GB -state online -tiering-policy snapshot-only -percent-snapshot-space 0 -autosize-mode grow -snapshot-policy none -security-style ntfs
 volume modify -vserver svm001 -volume vol_awssqlprod01_data -fractional-reserve 0
 volume modify -vserver svm001 -volume vol_awssqlprod01_data -space-mgmt-try-first vol_grow
 volume snapshot autodelete modify -vserver svm001 -volume vol_awssqlprod01_data -delete-order oldest_first
@@ -209,7 +209,7 @@ igroup create -igroup igrp_ws2019sql1 -protocol iscsi -ostype windows -initiator
 
 
 ....
-lun create -path /vol/vol_awssqlprod01_data/lun_awssqlprod01_data -size 700GB -ostype windows_2008 -space-reserve enabled -space-allocation enabled lun create -path /vol/vol_awssqlprod01_log/lun_awssqlprod01_log -size 100GB -ostype windows_2008 -space-reserve enabled -space-allocation enabled
+lun create -path /vol/vol_awssqlprod01_data/lun_awssqlprod01_data -size 700GB -ostype windows_2008 -space-allocation enabled lun create -path /vol/vol_awssqlprod01_log/lun_awssqlprod01_log -size 100GB -ostype windows_2008 -space-allocation enabled
 ....
 image:sql-awsec2-image5.png["Errore: Immagine grafica mancante"]
 
@@ -249,15 +249,15 @@ foreach ($TargetPortal in $TargetPortals) {New-IscsiTargetPortal -TargetPortalAd
 ....
 image:sql-awsec2-image10.png["Errore: Immagine grafica mancante"]
 
-+
 *Best practice*
 
-+
-* Configurare cinque sessioni iSCSI per l'interfaccia di destinazione per ottenere prestazioni ottimali.
-* Configurare un criterio round-robin per ottenere le migliori prestazioni complessive di iSCSI.
+* Configurare cinque sessioni iSCSI per interfaccia di destinazione per ottenere performance ottimali.
+* Configurare una policy di round robin per ottenere le migliori performance iSCSI complessive.
 * Assicurarsi che la dimensione dell'unità di allocazione sia impostata su 64K per le partizioni durante la formattazione dei LUN
++
+.. Eseguire il seguente comando PowerShell per assicurarsi che la sessione iSCSI sia persistente.
 
-. Eseguire il seguente comando PowerShell per assicurarsi che la sessione iSCSI sia persistente.
+
 
 
 ....
@@ -414,13 +414,16 @@ La formula di dimensionamento della directory del log host presuppone quanto seg
 
 * Backup del database di sistema che non include il database tempdb
 * Uno spazio di overhead del LUN del 10%: Consente di creare una directory di log host su un volume dedicato o su un LUN. La quantità di dati nella directory del registro host dipende dalle dimensioni dei backup e dal numero di giorni in cui i backup vengono conservati.
-
-
++
 image:sql-awsec2-image17.png["Errore: Immagine grafica mancante"]
 
++
 Se il provisioning dei LUN è già stato eseguito, è possibile selezionare il punto di montaggio per rappresentare la directory del registro host.
 
++
 image:sql-awsec2-image18.png["Errore: Immagine grafica mancante"]
+
+
 
 ====
 Ora è possibile eseguire operazioni di backup, ripristino e clonazione per SQL Server.
@@ -437,31 +440,28 @@ Dopo aver inserito il database e i file di log nelle LUN ONTAP FSX, è possibile
 * Utilizzare un gruppo di risorse per una configurazione di backup per l'ottimizzazione Snapshot e il numero di lavori da gestire.
 +
 .. Selezionare *risorse*, quindi selezionare *Microsoft SQL Server *dal menu a discesa in alto a sinistra. Selezionare *Aggiorna risorse*.
-
-
-
-
++
 image:sql-awsec2-image19.png["Errore: Immagine grafica mancante"]
 
-. Selezionare il database da sottoporre a backup, quindi selezionare *Avanti* e (**) per aggiungere il criterio se non è stato creato. Seguire la *New SQL Server Backup Policy* per creare un nuovo criterio.
-
-
+.. Selezionare il database da sottoporre a backup, quindi selezionare *Avanti* e (**) per aggiungere il criterio se non è stato creato. Seguire la *New SQL Server Backup Policy* per creare un nuovo criterio.
++
 image:sql-awsec2-image20.png["Errore: Immagine grafica mancante"]
 
-. Se necessario, selezionare il server di verifica. Questo server è il server che SnapCenter esegue DBCC CHECKDB dopo la creazione di un backup completo. Fare clic su *Avanti* per la notifica, quindi selezionare *Riepilogo* per la revisione. Dopo la revisione, fare clic su *fine*.
-
-
+.. Se necessario, selezionare il server di verifica. Questo server è il server che SnapCenter esegue DBCC CHECKDB dopo la creazione di un backup completo. Fare clic su *Avanti* per la notifica, quindi selezionare *Riepilogo* per la revisione. Dopo la revisione, fare clic su *fine*.
++
 image:sql-awsec2-image21.png["Errore: Immagine grafica mancante"]
 
-. Fare clic su *Backup Now* per verificare il backup. Nelle finestre a comparsa, selezionare *Backup*.
-
-
+.. Fare clic su *Backup Now* per verificare il backup. Nelle finestre a comparsa, selezionare *Backup*.
++
 image:sql-awsec2-image22.png["Errore: Immagine grafica mancante"]
 
-. Selezionare *Monitor* per verificare che il backup sia stato completato.
-
-
+.. Selezionare *Monitor* per verificare che il backup sia stato completato.
++
 image:sql-awsec2-image23.png["Errore: Immagine grafica mancante"]
+
+
+
+
 
 *Best Practice*
 
