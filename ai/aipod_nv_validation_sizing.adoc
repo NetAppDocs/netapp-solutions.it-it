@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: ai/aipod_nv_validation_sizing.html 
 keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVIDIA BasePOD, NVIDIA DGX 
-summary: FlexPod di NetApp con sistemi NVIDIA DGX - conclusioni 
+summary: NetApp FlexPod con sistemi NVIDIA DGX - Guida alla convalida della soluzione e al dimensionamento 
 ---
-= NetApp FlexPod con sistemi NVIDIA DGX - Solution Validation e Guida al dimensionamento
+= NetApp FlexPod con sistemi NVIDIA DGX - Guida alla convalida della soluzione e al dimensionamento
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -41,8 +41,9 @@ Il sistema storage è stato configurato come descritto con due coppie ha A900 (4
 
 == Guida al dimensionamento del sistema storage
 
-In base al test sopra descritto, NVDIIA ha certificato che la configurazione dello storage testata può facilmente supportare un cluster di otto sistemi DGX H100. Per implementazioni più estese con requisiti di performance dello storage più elevati, è possibile aggiungere sistemi AFF al cluster NetApp ONTAP fino a 12 coppie ha (24 nodi) in un singolo cluster. Utilizzando la tecnologia FlexGroup descritta in questa soluzione, un cluster a 24 nodi può offrire oltre 40 PB e un throughput fino a 300 Gbps in un singolo namespace. Altri sistemi storage NetApp come AFF A400, A250 e C800 offrono performance e/o capacità superiori per implementazioni più piccole a prezzi inferiori. Poiché ONTAP 9 supporta cluster di modelli misti, i clienti possono partire con un impatto iniziale minore e aggiungere al cluster più sistemi storage o più grandi man mano che crescono i requisiti di capacità e performance. La tabella seguente mostra una stima approssimativa del numero di GPU A100 e H100 supportate su ciascun modello AFF.
+NetApp ha completato con successo la certificazione DGX BasePOD, e le due coppie ha A900 testate possono supportare facilmente un cluster di otto sistemi DGX H100. Per implementazioni più estese con requisiti di performance dello storage più elevati, è possibile aggiungere sistemi AFF al cluster NetApp ONTAP fino a 12 coppie ha (24 nodi) in un singolo cluster. Utilizzando la tecnologia FlexGroup descritta in questa soluzione, un cluster a 24 nodi può offrire oltre 40 PB e un throughput fino a 300 Gbps in un singolo namespace. Altri sistemi storage NetApp come AFF A400, A250 e C800 offrono performance e/o capacità superiori per implementazioni più piccole a prezzi inferiori. Poiché ONTAP 9 supporta cluster di modelli misti, i clienti possono partire con un impatto iniziale minore e aggiungere al cluster più sistemi storage o più grandi man mano che crescono i requisiti di capacità e performance. La tabella seguente mostra una stima approssimativa del numero di GPU A100 e H100 supportate su ciascun modello AFF.
 
-image:aipod_nv_sizing.png["Errore: Immagine grafica mancante"]
+_Guida al dimensionamento del sistema storage NetApp_
+image:aipod_nv_sizing_new.png["Errore: Immagine grafica mancante"]
 
 link:aipod_nv_conclusion_add_info.html["Pagina successiva: NetApp FlexPod con sistemi NVIDIA DGX - conclusioni e informazioni aggiuntive"]

@@ -23,23 +23,25 @@ link:aipod_nv_hw_components.html["Precedente: FlexPod NetApp con sistemi NVIDIA 
 
 === Comando base NVIDIA
 
-NVIDIA base Command&#8482; (figura 2) potenzia ogni DGX BasePOD, consentendo alle organizzazioni di sfruttare il meglio dell'innovazione software NVIDIA. Le aziende possono liberare il pieno potenziale del proprio investimento con una piattaforma comprovata che include orchestrazione di livello Enterprise e gestione dei cluster, librerie che accelerano calcolo, infrastruttura di storage e rete e un sistema operativo ottimizzato per i carichi di lavoro ai.
+NVIDIA base Command&#8482; è alla base di ogni DGX BasePOD, che consente alle organizzazioni di sfruttare il meglio dell'innovazione software NVIDIA. Le aziende possono liberare il pieno potenziale del proprio investimento con una piattaforma comprovata che include orchestrazione di livello Enterprise e gestione dei cluster, librerie che accelerano calcolo, infrastruttura di storage e rete e un sistema operativo ottimizzato per i carichi di lavoro ai.
 
-image:aipod_nv_BaseCommand.png["Errore: Immagine grafica mancante"]
+_Soluzione NVIDIA BaseCommand_
+image:aipod_nv_BaseCommand_new.png["Errore: Immagine grafica mancante"]
 
 
 
 === NVIDIA GPU CLOUD (NGC)
 
-NVIDIA NGC™ (Figura 3) fornisce un software per soddisfare le esigenze di data scientist, sviluppatori e ricercatori con vari livelli di competenza in ambito ai. Il software ospitato su NGC viene sottoposto a scansioni contro un insieme aggregato di vulnerabilità ed esposizioni (CVE), crittografia e chiavi private comuni. È stata testata e progettata per scalare a più GPU e, in molti casi, a più nodi, garantendo agli utenti di massimizzare il proprio investimento nei sistemi DGX.
+NVIDIA NGC™ fornisce un software per soddisfare le esigenze di data scientist, sviluppatori e ricercatori con vari livelli di esperienza nel campo dell'intelligenza artificiale. Il software ospitato su NGC viene sottoposto a scansioni contro un insieme aggregato di vulnerabilità ed esposizioni (CVE), crittografia e chiavi private comuni. È stata testata e progettata per scalare a più GPU e, in molti casi, a più nodi, garantendo agli utenti di massimizzare il proprio investimento nei sistemi DGX.
 
+_NVIDIA GPU Cloud_
 image:aipod_nv_ngc.png["Errore: Immagine grafica mancante"]
 
 
 
 === NVIDIA ai Enterprise
 
-NVIDIA ai Enterprise è una suite di software di ai e data analytics ottimizzata per lo sviluppo e l'implementazione dell'ai. NVIDIA ai Enterprise include container e framework open-source comprovati come NVIDIA RAPIDS™, NVIDIA TAO Toolkit, NVIDIA TensorRT™ e NVIDIA Triton Inference Server, certificati e supportati per l'esecuzione su sistemi DGX. NVIDIA ai Enterprise è inclusa con i sistemi DGX e viene utilizzata in combinazione con NVIDIA base Command e NVIDIA NGC.
+NVIDIA ai Enterprise è la piattaforma software end-to-end che porta l'ai generativa nella portata di ogni azienda, offrendo il runtime più veloce ed efficiente per modelli di base ai generativi ottimizzati per l'esecuzione sulla piattaforma NVIDIA DGX. Con sicurezza, stabilità e gestibilità di livello produttivo, ottimizza lo sviluppo di soluzioni ai generative. NVIDIA ai Enterprise è inclusa con DGX BasePOD per gli sviluppatori aziendali per accedere a modelli preformati, framework ottimizzati, microservizi, librerie accelerate e supporto Enterprise.
 
 
 
@@ -57,10 +59,10 @@ ONTAP 9, l'ultima generazione di software per la gestione dello storage NetApp, 
 
 ONTAP offre livelli superiori di performance e protezione dei dati ed estende queste funzionalità nei seguenti modi:
 
-* Performance e latenza ridotta. ONTAP offre il massimo throughput possibile con la latenza più bassa possibile, incluso il supporto per NVIDIA GPUDirect Storage (GDS) utilizzando NFS su RDMA, Parallel NFS (pNFS) e NFS Session trunking.
+* Performance e latenza ridotta. ONTAP offre il massimo throughput possibile con la latenza più bassa possibile, incluso il supporto per NVIDIA GPUDirect Storage (GDS) utilizzando NFS su RDMA, Parallel NFS (pNFS) e NFS session trunking.
 * Protezione dei dati. ONTAP offre funzionalità di data Protection integrate e la più solida garanzia anti-ransomware del settore con una gestione comune su tutte le piattaforme.
 * NetApp Volume Encryption (NVE). ONTAP offre crittografia nativa a livello di volume con supporto per la gestione delle chiavi sia integrata che esterna.
-* Multi-tenancy e autenticazione a più fattori. ONTAP consente la condivisione delle risorse dell'infrastruttura con i massimi livelli di sicurezza.
+* Multi-tenancy dello storage e autenticazione multifattore. ONTAP consente la condivisione delle risorse dell'infrastruttura con i massimi livelli di sicurezza.
 
 
 
@@ -75,8 +77,9 @@ Il software per la gestione dei dati ONTAP include le seguenti funzionalità per
 * SnapMirror consente lo spostamento perfetto dei dati negli ambienti di cloud ibrido e multisito, fornendo i dati dove e quando è necessario.
 * Compaction dei dati inline e deduplica estesa. La compattazione dei dati riduce lo spazio sprecato all'interno dei blocchi di storage e la deduplica aumenta significativamente la capacità effettiva. Ciò vale per i dati memorizzati localmente e per i dati a più livelli nel cloud.
 * Qualità del servizio (AQoS) minima, massima e adattativa. I controlli granulari della qualità del servizio (QoS) aiutano a mantenere i livelli di performance per le applicazioni critiche in ambienti altamente condivisi.
+* I NetApp FlexGroup consentono la distribuzione dei dati in tutti i nodi del cluster storage, offrendo capacità elevata e performance più elevate per set di dati estremamente grandi.
 * NetApp FabricPool. Offre il tiering automatico dei dati cold per le opzioni di cloud storage pubblico e privato, tra cui Amazon Web Services (AWS), Azure e la soluzione di storage NetApp StorageGRID. Per ulteriori informazioni su FabricPool, vedere https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598: Best practice FabricPool"^].
-* NetApp FlexCache. Fornisce capacità di caching dei volumi remoti che semplificano la distribuzione dei file, riducono la latenza WAN e riducono i costi della larghezza di banda WAN. FlexCache consente lo sviluppo distribuito di prodotti su più siti, oltre a un accesso accelerato ai set di dati aziendali da ubicazioni remote.
+* NetApp FlexCache. Offre funzionalità di caching remoto dei volumi che semplificano la distribuzione dei file, riducono la latenza WAN e riducono i costi della larghezza di banda WAN. FlexCache consente lo sviluppo distribuito di prodotti su più siti, oltre a un accesso accelerato ai set di dati aziendali da ubicazioni remote.
 
 
 
@@ -85,7 +88,7 @@ Il software per la gestione dei dati ONTAP include le seguenti funzionalità per
 
 ONTAP aiuta a soddisfare le esigenze di business esigenti e in continua evoluzione con le seguenti funzionalità:
 
-* Scalabilità perfetta e operazioni senza interruzioni. ONTAP supporta l'aggiunta senza interruzioni di capacità ai controller esistenti e ai cluster scale-out. I clienti possono eseguire l'upgrade alle tecnologie più recenti, come NVMe e 32GB FC, senza costose migrazioni dei dati o interruzioni.
+* Scalabilità perfetta e operazioni senza interruzioni. ONTAP supporta l'aggiunta online di capacità ai controller esistenti e ai cluster scale-out. I clienti possono eseguire l'upgrade alle tecnologie più recenti, come NVMe e 32GB FC, senza costose migrazioni dei dati o interruzioni.
 * Connessione al cloud. ONTAP è il software per la gestione dello storage più connesso al cloud, con opzioni per lo storage software-defined (ONTAP Select) e le istanze native del cloud (NetApp Cloud Volumes Service) in tutti i cloud pubblici.
 * Integrazione con le applicazioni emergenti. ONTAP offre servizi dati di livello Enterprise per piattaforme e applicazioni di prossima generazione, come veicoli autonomi, città intelligenti e industria 4.0, utilizzando la stessa infrastruttura che supporta le applicazioni aziendali esistenti.
 
@@ -95,16 +98,18 @@ ONTAP aiuta a soddisfare le esigenze di business esigenti e in continua evoluzio
 === NetApp DataOps Toolkit
 
 Il NetApp DataOps Toolkit è uno strumento basato su Python che semplifica la gestione degli spazi di lavoro di sviluppo/formazione e dei server di inferenza supportati dallo storage NetApp scale-out dalle performance elevate. DataOps Toolkit può funzionare come utility standalone ed è ancora più efficace negli ambienti Kubernetes sfruttando NetApp Astra Trident per automatizzare le operazioni di storage. Le funzionalità principali includono:
-• Fornire rapidamente nuovi spazi di lavoro JupyterLab ad alta capacità, supportati dallo storage NetApp scale-out dalle performance elevate.
-• Esegui il provisioning rapido delle nuove istanze di NVIDIA Triton Inference Server supportate dallo storage NetApp di livello Enterprise.
-• Clonazione quasi istantanea di aree di lavoro JupyterLab ad alta capacità per consentire la sperimentazione o l'iterazione rapida.
-• Consente di salvare quasi istantaneamente istantanee di spazi di lavoro JupyterLab ad alta capacità per backup e/o tracciabilità/baseline.
-• Eseguire il provisioning quasi istantaneo, clonare e Snapshot su volumi di dati a elevata capacità e dalle performance elevate.
+
+* Provisioning rapido di nuove aree di lavoro JupyterLab ad alta capacità supportate da storage NetApp scale-out dalle performance elevate.
+* Provisioning rapido delle nuove istanze di NVIDIA Triton Inference Server supportate dallo storage NetApp di livello Enterprise.
+* Clonazione quasi istantanea di spazi di lavoro JupyterLab ad alta capacità per consentire la sperimentazione o l'iterazione rapida.
+* Istantanee quasi istantanee di spazi di lavoro JupyterLab ad alta capacità per backup e/o tracciabilità/baseline.
+* Provisioning, cloning e Snapshot quasi istantanei di volumi di dati a elevata capacità e performance elevate.
+
 
 
 
 === NetApp Astra Trident
 
-Astra Trident è un orchestrator di storage open-source completamente supportato per container e distribuzioni Kubernetes, incluso Anthos. Trident lavora con l'intero portfolio di storage NetApp, incluso NetApp ONTAP, e supporta anche connessioni NFS e iSCSI. Trident accelera il workflow DevOps consentendo agli utenti finali di eseguire il provisioning e gestire lo storage dai sistemi storage NetApp senza richiedere l'intervento di un amministratore dello storage.
+Astra Trident è un orchestrator di storage open-source completamente supportato per container e distribuzioni Kubernetes, incluso Anthos. Trident funziona con l'intero portfolio storage di NetApp, inclusi NetApp ONTAP, e supporta anche le connessioni NFS, NVMe/TCP e iSCSI. Trident accelera il workflow DevOps consentendo agli utenti finali di eseguire il provisioning e gestire lo storage dai sistemi storage NetApp senza richiedere l'intervento di un amministratore dello storage.
 
 link:aipod_nv_architecture.html["Pagina successiva: FlexPod NetApp con sistemi NVIDIA DGX - architettura della soluzione"]
