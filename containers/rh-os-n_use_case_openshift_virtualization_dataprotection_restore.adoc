@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_dataprotection_restore.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, OADP operator, Openshift Data Protection Application operator, velero 
+summary: Virtualizzazione Red Hat OpenShift con NetApp ONTAP 
+---
+= Ripristinare una VM da un backup
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Prerequisiti
+
+Per eseguire il ripristino da un backup, supponiamo che lo spazio dei nomi in cui esisteva la macchina virtuale sia stato eliminato accidentalmente.
+
+
+
+== Procedura per l'esecuzione di un ripristino
+
+Per eseguire il ripristino dal backup appena creato, è necessario creare una risorsa personalizzata di ripristino (CR). Dobbiamo fornirgli un nome, fornire il nome del backup da cui eseguire il ripristino e impostare su true.
+È possibile impostare parametri aggiuntivi come illustrato nella link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentazione"]. Fare clic sul pulsante Crea.
+
+image::redhat_openshift_OADP_restore_image1.jpg[Crea ripristino CR]
+
+....
+apiVersion: velero.io/v1
+kind: Restore
+metadata:
+  name: restore1
+  namespace: openshift-adp
+spec:
+  backupName: backup1
+  restorePVs: true
+....
+Quando la fase è completata, si noterà che le macchine virtuali sono state ripristinate
+nello stato in cui è stata acquisita l'istantanea. (Se il backup è stato creato quando la VM era in esecuzione, ripristinando la VM dal backup si avvia la VM ripristinata e la si porta in esecuzione)
+
+image::redhat_openshift_OADP_restore_image2.jpg[Ripristino CR creato]

@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_dataprotection_delete.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, OADP operator, Openshift Data Protection Application operator, velero 
+summary: Virtualizzazione Red Hat OpenShift con NetApp ONTAP 
+---
+= Eliminazione di backup e ripristini mediante Velero
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Eliminazione di un backup
+
+È possibile eliminare una CR di backup senza eliminare i dati di archiviazione oggetti utilizzando lo strumento CLI OC.
+
+....
+oc delete backup <backup_CR_name> -n <velero_namespace>
+....
+Se si desidera eliminare la CR di backup ed eliminare i dati di archiviazione degli oggetti associati, è possibile farlo utilizzando lo strumento CLI Velero.
+
+Scaricare l'interfaccia CLI come indicato nelle istruzioni nella link:https://velero.io/docs/v1.3.0/basic-install/#install-the-cli["Documentazione Velero"].
+
+Eseguire il seguente comando delete utilizzando l'interfaccia CLI di Velero
+
+....
+velero backup delete <backup_CR_name> -n <velero_namespace>
+....
+È inoltre possibile eliminare il ripristino CR utilizzando l'interfaccia CLI Velero
+
+....
+velero restore delete restore --namespace openshift-adp
+....
+È possibile utilizzare il comando oc e l'interfaccia utente per eliminare la CR di ripristino
+
+....
+oc delete backup <backup_CR_name> -n <velero_namespace>
+....

@@ -1,0 +1,75 @@
+---
+sidebar: sidebar 
+permalink: rhhc/self-managed/rhhc-sm-setup.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= Implementa e configura la piattaforma container Red Hat OpenShift su AWS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../../media/
+
+
+[role="lead"]
+In questa sezione viene descritto un workflow di alto livello che illustra come configurare e gestire i cluster OpenShift in AWS e come implementare applicazioni stateful su di essi. Mostra l'utilizzo dello storage NetApp Cloud Volumes ONTAP con l'aiuto di Astra Trident per fornire volumi persistenti. Vengono forniti dettagli sull'utilizzo di Astra Control Center per eseguire attività di migrazione e protezione dei dati per le applicazioni stateful.
+
+
+NOTE: Esistono diversi modi per implementare i cluster di piattaforme container Red Hat OpenShift su AWS. Questa descrizione di alto livello dell'installazione fornisce collegamenti alla documentazione per il metodo specifico utilizzato. È possibile fare riferimento agli altri metodi nei relativi collegamenti forniti in link:../rhhc-resources.html["sezione risorse"].
+
+Di seguito è riportato un diagramma che illustra i cluster implementati su AWS e connessi al data center mediante una VPN.
+
+image:rhhc-self-managed-aws.png[""]
+
+Il processo di installazione può essere suddiviso nei seguenti passaggi:
+
+.Installare un cluster OCP su AWS da Advanced Cluster Management.
+[%collapsible]
+====
+* Creare un VPC con una connessione VPN sito-sito (utilizzando pfsense) per connettersi alla rete on-premise.
+* La rete on-premise dispone di connettività Internet.
+* Creare 3 subnet private in 3 diversi AZS.
+* Creare una zona host privata Route 53 e un resolver DNS per il VPC.
+
+
+Creare il cluster OpenShift su AWS dalla procedura guidata Advanced Cluster Management (ACM). Fare riferimento alle istruzioni link:https://docs.openshift.com/dedicated/osd_install_access_delete_cluster/creating-an-aws-cluster.html["qui"].
+
+
+NOTE: Puoi anche creare il cluster in AWS dalla console OpenShift Hybrid Cloud. Fare riferimento a. link:https://docs.openshift.com/container-platform/4.10/installing/installing_aws/installing-aws-default.html["qui"] per istruzioni.
+
+
+TIP: Quando si crea il cluster utilizzando ACM, è possibile personalizzare l'installazione modificando il file yaml dopo aver inserito i dettagli nella vista del modulo. Una volta creato il cluster, è possibile accedere ssh ai nodi del cluster per la risoluzione dei problemi o per un'ulteriore configurazione manuale. Utilizzare la chiave ssh fornita durante l'installazione e il nome utente principale per effettuare il login.
+
+====
+.Implementare Cloud Volumes ONTAP in AWS utilizzando BlueXP.
+[%collapsible]
+====
+* Installare il connettore in ambiente VMware on-premise. Fare riferimento alle istruzioni link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-install-connector-on-prem.html#install-the-connector["qui"].
+* Implementare un'istanza CVO in AWS utilizzando il connettore. Fare riferimento alle istruzioni link:https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-ontap/task-getting-started-aws.html["qui"].
+
+
+
+NOTE: Il connettore può essere installato anche nell'ambiente cloud. Fare riferimento a. link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/concept-connectors.html["qui"] per ulteriori informazioni.
+
+====
+.Installare Astra Trident nel cluster OCP
+[%collapsible]
+====
+* Implementare Trident Operator utilizzando Helm. Fare riferimento alle istruzioni link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-helm.html["qui"]
+* Creare un backend e una classe di storage. Fare riferimento alle istruzioni link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["qui"].
+
+
+====
+.Aggiungere il cluster OCP su AWS all'Astra Control Center.
+[%collapsible]
+====
+Aggiungere il cluster OCP in AWS ad Astra Control Center.
+
+====
+.Utilizzo della funzionalità topologia CSI di Trident per architetture multi-zona
+I cloud provider, oggi, consentono agli amministratori di cluster Kubernetes/OpenShift di generare nodi dei cluster basati su zone. I nodi possono essere collocati in diverse zone di disponibilità all'interno di una regione o in diverse regioni. Per facilitare il provisioning dei volumi per i carichi di lavoro in un'architettura multi-zona, Astra Trident utilizza la topologia CSI. Utilizzando la funzionalità topologia CSI, l'accesso ai volumi può essere limitato a un sottoinsieme di nodi, in base alle aree geografiche e alle zone di disponibilità. Fare riferimento a. link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["qui"] per ulteriori dettagli.
+
+
+NOTE: Kubernetes supporta due modalità di binding del volume: - Quando **_VolumeBindingMode_ è impostato su _immediate_** (default), Astra Trident crea il volume senza alcuna consapevolezza della topologia. I volumi persistenti vengono creati senza alcuna dipendenza dai requisiti di pianificazione del pod richiedente. - Quando **_VolumeBindingMode_ viene impostato su _WaitForFirstConsumer_**, la creazione e il binding di un volume persistente per un PVC viene ritardata fino a quando un pod che utilizza il PVC viene pianificato e creato. In questo modo, i volumi vengono creati per soddisfare i vincoli di pianificazione imposti dai requisiti di topologia. I backend di storage Astra Trident possono essere progettati per eseguire il provisioning selettivo dei volumi in base alle zone di disponibilità (back-end compatibile con la topologia). Per StorageClasses che utilizzano tale backend, un volume viene creato solo se richiesto da un'applicazione pianificata in una regione/zona supportata. (StorageClass consapevole della topologia) fare riferimento link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["qui"] per ulteriori dettagli.
