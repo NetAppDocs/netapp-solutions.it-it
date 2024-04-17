@@ -1,0 +1,207 @@
+---
+sidebar: sidebar 
+permalink: databases/automation_ora_clone_lifecycle.html 
+keywords: Oracle, AWS, FSx ONTAP, Database, Oracle 19c, HA, DR 
+summary: 'La soluzione offre un toolkit di automazione basato su Ansible per la configurazione di alta disponibilità e disaster recovery (ha/DR) dei database Oracle con AWS FSX ONTAP come storage per il database Oracle e EC2 istanze di calcolo come AWS.' 
+---
+= Automazione del ciclo di vita dei cloni Oracle di SnapCenter
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Allen Cao, Niyaz Mohamed, NetApp
+
+
+
+== Scopo
+
+I clienti apprezzano la funzionalità FlexClone dello storage NetApp ONTAP per i database che offre significativi risparmi sui costi di storage. Questo toolkit basato su Ansible automatizza setup, cloning e aggiornamento dei database Oracle clonati in base alle tempistiche, utilizzando le utilità della riga di comando di NetApp SnapCenter per una gestione ottimizzata del ciclo di vita. Il toolkit è applicabile ai database Oracle implementati sullo storage ONTAP on-premise o nel cloud pubblico e gestiti dal tool dell'interfaccia utente di NetApp SnapCenter.
+
+Questa soluzione risolve i seguenti casi di utilizzo:
+
+* Setup del file di configurazione delle specifiche dei cloni del database Oracle.
+* Creare e aggiornare il database Oracle clone in base alla pianificazione definita dall'utente.
+
+
+
+
+== Pubblico
+
+Questa soluzione è destinata alle seguenti persone:
+
+* Un DBA che gestisce i database Oracle con SnapCenter.
+* Un amministratore dello storage che gestisce lo storage ONTAP con SnapCenter.
+* Proprietario di un'applicazione che ha accesso all'interfaccia utente di SnapCenter.
+
+
+
+
+== Licenza
+
+Accedendo, scaricando, installando o utilizzando il contenuto di questo repository GitHub, l'utente accetta i termini della licenza riportata in link:https://github.com/NetApp/na_ora_hadr_failover_resync/blob/master/LICENSE.TXT["File di licenza"^].
+
+
+NOTE: Ci sono alcune restrizioni riguardo alla produzione e/o alla condivisione di qualsiasi opera derivata con il contenuto di questo repository GitHub. Prima di utilizzare il contenuto, leggere i termini della licenza. Se non si accettano tutti i termini, non accedere, scaricare o utilizzare il contenuto di questo repository.
+
+
+
+== Implementazione della soluzione
+
+
+
+=== Prerequisiti per l'implementazione
+
+[%collapsible]
+====
+L'implementazione richiede i seguenti prerequisiti.
+
+....
+Ansible controller:
+  Ansible v.2.10 and higher
+  ONTAP collection 21.19.1
+  Python 3
+  Python libraries:
+    netapp-lib
+    xmltodict
+    jmespath
+....
+....
+SnapCenter server:
+  version 5.0
+  backup policy configured
+  Source database protected with a backup policy
+....
+....
+Oracle servers:
+  Source server managed by SnapCenter
+  Target server managed by SnapCenter
+  Target server with identical Oracle software stack as source server installed and configured
+....
+====
+
+
+=== Scaricare il toolkit
+
+[%collapsible]
+====
+[source, cli]
+----
+git clone https://bitbucket.ngage.netapp.com/scm/ns-bb/na_oracle_clone_lifecycle.git
+----
+====
+
+
+=== Configurazione dei file host di destinazione Ansible
+
+[%collapsible]
+====
+Il toolkit include un file hosts che definisce le destinazioni per cui viene eseguito un playbook Ansible. In genere, si tratta degli host clone di Oracle di destinazione. Di seguito è riportato un file di esempio. Una voce dell'host include l'indirizzo IP dell'host di destinazione e la chiave ssh per l'accesso di un utente amministratore all'host per eseguire il comando clone o refresh.
+
+#Host cloni Oracle
+
+....
+[clone_1]
+ora_04.cie.netapp.com ansible_host=10.61.180.29 ansible_ssh_private_key_file=ora_04.pem
+....
+ [clone_2]
+ [clone_3]
+====
+
+
+=== Configurazione variabili globali
+
+[%collapsible]
+====
+I playbook Ansible prendono input variabili da diversi file variabili. Di seguito è riportato un esempio di file variabile globale vars.yml.
+
+ # ONTAP specific config variables
+ # SnapCtr specific config variables
+....
+snapctr_usr: xxxxxxxx
+snapctr_pwd: 'xxxxxxxx'
+....
+ backup_policy: 'Oracle Full offline Backup'
+ # Linux specific config variables
+ # Oracle specific config variables
+====
+
+
+=== Configurazione variabili host
+
+[%collapsible]
+====
+Le variabili host sono definite nella directory host_vars denominata {{ host_name }}.yml. Di seguito è riportato un esempio di file di variabile host Oracle di destinazione ora_04.cie.netapp.com.yml che mostra la configurazione tipica.
+
+ # User configurable Oracle clone db host specific parameters
+....
+# Source database to clone from
+source_db_sid: NTAP1
+source_db_host: ora_03.cie.netapp.com
+....
+....
+# Clone database
+clone_db_sid: NTAP1DEV
+....
+ snapctr_obj_id: '{{ source_db_host }}\{{ source_db_sid }}'
+====
+
+
+=== Configurazione aggiuntiva del server Oracle di destinazione dei cloni
+
+[%collapsible]
+====
+Il server Oracle di destinazione della clonazione deve avere lo stesso stack software Oracle del server Oracle di origine installato e sottoposto a patch. L'utente Oracle .bash_profile ha $ORACLE_BASE e $ORACLE_HOME configurato. Inoltre, la variabile $ORACLE_HOME deve corrispondere all'impostazione del server Oracle di origine. Di seguito viene riportato un esempio.
+
+ # .bash_profile
+....
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+....
+....
+# User specific environment and startup programs
+export ORACLE_BASE=/u01/app/oracle
+export ORACLE_HOME=/u01/app/oracle/product/19.0.0/NTAP1
+....
+====
+
+
+=== Esecuzione Playbook
+
+[%collapsible]
+====
+Sono disponibili un totale di tre playbook per eseguire il ciclo di vita dei cloni del database Oracle con le utility della CLI di SnapCenter.
+
+. Installare i prerequisiti del controller Ansible - una sola volta.
++
+[source, cli]
+----
+ansible-playbook -i hosts ansible_requirements.yml
+----
+. File di configurazione clone - una sola volta.
++
+[source, cli]
+----
+ansible-playbook -i hosts clone_1_setup.yml -u admin -e @vars/vars.yml
+----
+. Crea e aggiorna regolarmente il database dei cloni da crontab con uno script shell per chiamare un playbook di refresh.
++
+[source, cli]
+----
+0 */4 * * * /home/admin/na_oracle_clone_lifecycle/clone_1_refresh.sh
+----
+
+
+Per un database clone aggiuntivo, creare un clone_n_setup.yml e clone_n_refresh.yml separati e clone_n_refresh.sh. Configurare di conseguenza gli host di destinazione Ansible e il file hostname.yml nella directory host_vars.
+
+====
+
+
+== Dove trovare ulteriori informazioni
+
+Per ulteriori informazioni sull'automazione delle soluzioni NetApp, consulta il seguente sito Web link:https://docs.netapp.com/us-en/netapp-solutions/automation/automation_introduction.html["Automazione delle soluzioni NetApp"^]
