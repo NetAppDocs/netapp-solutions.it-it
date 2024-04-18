@@ -21,10 +21,9 @@ Per eseguire il ripristino da un backup, supponiamo che lo spazio dei nomi in cu
 
 
 
-== Procedura per l'esecuzione di un ripristino
+== Ripristinare nello stesso namespace
 
-Per eseguire il ripristino dal backup appena creato, è necessario creare una risorsa personalizzata di ripristino (CR). Dobbiamo fornirgli un nome, fornire il nome del backup da cui eseguire il ripristino e impostare su true.
-È possibile impostare parametri aggiuntivi come illustrato nella link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentazione"]. Fare clic sul pulsante Crea.
+Per eseguire il ripristino dal backup appena creato, è necessario creare una risorsa personalizzata di ripristino (CR). Dobbiamo fornirgli un nome, fornire il nome del backup da cui eseguire il ripristino e impostare su true. È possibile impostare parametri aggiuntivi come illustrato nella link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentazione"]. Fare clic sul pulsante Crea.
 
 image::redhat_openshift_OADP_restore_image1.jpg[Crea ripristino CR]
 
@@ -38,7 +37,32 @@ spec:
   backupName: backup1
   restorePVs: true
 ....
-Quando la fase è completata, si noterà che le macchine virtuali sono state ripristinate
-nello stato in cui è stata acquisita l'istantanea. (Se il backup è stato creato quando la VM era in esecuzione, ripristinando la VM dal backup si avvia la VM ripristinata e la si porta in esecuzione)
+Quando la fase è completata, è possibile vedere che le macchine virtuali sono state ripristinate allo stato in cui è stato acquisito lo snapshot. (Se il backup è stato creato quando la VM era in esecuzione, ripristinando la VM dal backup si avvia la VM ripristinata e la si porta in esecuzione). La VM viene ripristinata nello stesso namespace.
 
-image::redhat_openshift_OADP_restore_image2.jpg[Ripristino CR creato]
+image::redhat_openshift_OADP_restore_image2.jpg[Ripristino completato]
+
+
+
+== Ripristinare in un namespace diverso
+
+Per ripristinare la macchina virtuale in uno spazio dei nomi diverso, è possibile fornire un namespaceMapping nella definizione yaml di Restore CR.
+
+Il seguente file yaml di esempio crea un Restore CR per ripristinare una VM e i relativi dischi nello spazio dei nomi virtual-machine-demo quando il backup è stato eseguito nello spazio dei nomi virtual-machine.
+
+....
+apiVersion: velero.io/v1
+kind: Restore
+metadata:
+  name: restore-to-different-ns
+  namespace: openshift-adp
+spec:
+  backupName: backup
+  restorePVs: true
+  includedNamespaces:
+  - virtual-machines-demo
+  namespaceMapping:
+    virtual-machines-demo: virtual-machines
+....
+Quando la fase è completata, è possibile vedere che le macchine virtuali sono state ripristinate allo stato in cui è stato acquisito lo snapshot. (Se il backup è stato creato quando la VM era in esecuzione, ripristinando la VM dal backup si avvia la VM ripristinata e la si porta in esecuzione). La VM viene ripristinata in uno spazio dei nomi diverso, come specificato in yaml.
+
+Immagine::redhat_openshift_OADP_restore_image3.jpg[Restore completata in un nuovo spazio dei nomi]%
