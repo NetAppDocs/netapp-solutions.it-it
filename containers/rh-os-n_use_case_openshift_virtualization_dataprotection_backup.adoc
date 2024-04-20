@@ -36,8 +36,7 @@ spec:
   ttl: 720h0m0s
 ....
 Una volta completato il backup, la sua fase viene visualizzata come completata.
-
-image::redhat_openshift_OADP_backup_image1.jpg[Backup completato]
+Immagine::redhat_openshift_OADP_backup_image1.jpg[Backup completata]
 
 È possibile esaminare il backup nell'archiviazione a oggetti con l'aiuto di un'applicazione browser S3. Il percorso del backup viene visualizzato nel bucket configurato con il nome del prefisso (velero/demobackup). Il contenuto del backup include gli snapshot del volume, i log e altri metadati della macchina virtuale.
 
@@ -51,7 +50,6 @@ image::redhat_openshift_OADP_backup_image2.jpg[Oggetti di backup in S3]
 == Creazione di backup pianificati per le VM in OpenShift Virtualization
 
 Per creare backup in base a una pianificazione, è necessario creare una pianificazione CR.
-
 La pianificazione è semplicemente un'espressione Cron che consente di specificare l'ora in cui si desidera creare il backup. Un esempio di yaml per creare una pianificazione CR.
 
 ....

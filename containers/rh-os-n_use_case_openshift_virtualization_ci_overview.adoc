@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_ci_overview.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, cloud Insights 
+summary: Monitoraggio utilizzando Cloud Insights per le VM nella virtualizzazione Red Hat OpenShift 
+---
+= Monitoraggio utilizzando Cloud Insights per le VM nella virtualizzazione Red Hat OpenShift
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Autore: Banu Sundhar, NetApp
+
+[role="lead"]
+Questa sezione del documento di riferimento fornisce dettagli sull'integrazione di NetApp Cloud Insights con un cluster Red Hat OpenShift per il monitoraggio delle VM di virtualizzazione OpenShift.
+
+NetApp Cloud Insights è uno strumento di monitoraggio dell'infrastruttura cloud che offre visibilità sull'intera infrastruttura. Con Cloud Insights, puoi monitorare, risolvere i problemi e ottimizzare tutte le risorse, inclusi i cloud pubblici e i data center privati. Per ulteriori informazioni su NetApp Cloud Insights, consultare la https://docs.netapp.com/us-en/cloudinsights["Documentazione Cloud Insights"].
+
+Per iniziare a utilizzare Cloud Insights, devi iscriverti al portale NetApp BlueXP. Per ulteriori informazioni, fare riferimento a. link:https://docs.netapp.com/us-en/cloudinsights/task_cloud_insights_onboarding_1.html["Assunzione di Cloud Insights"]
+
+Cloud Insights dispone di diverse funzionalità che ti consentono di trovare i dati in modo rapido e semplice, risolvere i problemi e fornire informazioni dettagliate sull'ambiente. È possibile trovare facilmente i dati con potenti query, visualizzare i dati nelle dashboard e inviare avvisi e-mail per le soglie di dati impostate. Fare riferimento a. link:https://docs.netapp.com/us-en/cloudinsights/concept_feature_tutorials.html#introduction["tutorial video"] per facilitare la comprensione di queste funzioni.
+
+Per avviare la raccolta dei dati da parte di Cloud Insights, è necessario disporre di quanto segue
+
+**Data Collector**
+Esistono 3 tipi di Data Collector:
+* Infrastruttura (dispositivi di storage, switch di rete, infrastruttura di elaborazione)
+* Sistemi operativi (come VMware o Windows)
+* Servizi (come Kafka)
+
+I Data Collector rilevano le informazioni provenienti dalle origini dati, ad esempio il dispositivo di archiviazione ONTAP (raccoglitore dati infrastruttura). Le informazioni raccolte vengono utilizzate per l'analisi, la convalida, il monitoraggio e la risoluzione dei problemi.
+
+**Unità di acquisizione**
+Se si utilizza un servizio Data Collector di infrastruttura, è necessaria anche un'unità di acquisizione per inserire i dati in Cloud Insights. Un'unità di acquisizione è un computer dedicato all'hosting di raccoglitori di dati, in genere una macchina virtuale. In genere, questo computer si trova nello stesso centro dati/VPC degli elementi monitorati.
+
+**Agenti Telegraf**
+Cloud Insights supporta anche Telegraf come agente per la raccolta dei dati di integrazione. Telegraf è un agente server basato su plug-in che può essere utilizzato per raccogliere e generare report su metriche, eventi e registri.
+
+Architettura Cloud Insights
+
+image::redhat_openshift_ci_overview_image1.jpg[Architettura Cloud Insights]
