@@ -83,14 +83,17 @@ image::redhat_openshift_OADP_install_image4.jpg[Segreto per S3 credenziali utent
 image::redhat_openshift_OADP_install_image5.jpg[Crea segreto per le credenziali utente S3]
 
 Per creare un segreto denominato sg-S3-credenziali dall'interfaccia CLI, è possibile utilizzare il seguente comando.
-Immagine::redhat_openshift_OADP_install_image6.jpg[Create Segreto per le credenziali utente di S3 utilizzando CLI]
+
+image::redhat_openshift_OADP_install_image6.jpg[Crea segreto per le credenziali utente S3 utilizzando CLI]
 
 * Quindi, per configurare Velero, selezionare Installed Operators dalla voce di menu in Operators, fare clic sull'operatore OADP, quindi selezionare la scheda DataProtectionApplication.
-Immagine::redhat_openshift_OADP_install_image7.jpg[DataProtectionApplication]
 
+
+image::redhat_openshift_OADP_install_image7.jpg[DataProtectionApplication]
 
 Fare clic su Create DataProtectionApplication. Nella vista modulo, specificare un nome per l'applicazione DataProtection o utilizzare il nome predefinito.
-Immagine::redhat_openshift_OADP_install_image8.jpg[Create DataProtectionApplication]
+
+image::redhat_openshift_OADP_install_image8.jpg[Creare DataProtectionApplication]
 
 Passare ora alla visualizzazione YAML e sostituire le informazioni sulle specifiche come mostrato negli esempi di file yaml riportati di seguito.
 
@@ -157,7 +160,7 @@ spec:
         - aws
         - kubevirt
 ....
-I file YAML di cui sopra presentano le seguenti sezioni nella specifica configurate in modo appropriato simile agli esempi precedenti
+La sezione delle specifiche nel file yaml deve essere configurata in modo appropriato per i seguenti parametri, come nell'esempio precedente
 
 **BackupLocations**
 ONTAP S3 o StorageGRID S3 (con le relative credenziali e altre informazioni come mostrato in yaml) è configurato come BackupLocation predefinito per velero.
@@ -165,7 +168,8 @@ ONTAP S3 o StorageGRID S3 (con le relative credenziali e altre informazioni come
 **SnapshotLocations**
 Se si utilizzano gli snapshot Container Storage Interface (CSI), non è necessario specificare una posizione dello snapshot perché si creerà un VolumeSnapshotClass CR per registrare il driver CSI. Nel nostro esempio, si utilizza Astra Trident CSI e in precedenza si è creato VolumeSnapShotClass CR utilizzando il driver Trident CSI.
 
-**Attiva CSI**
+**Attiva plugin CSI**
+
 Aggiungere csi ai prefaultPlugin per Velero per eseguire il backup dei volumi persistenti con gli snapshot CSI.
 I plug-in di Velero CSI, per eseguire il backup dei PVC supportati da CSI, sceglieranno VolumeSnapshotClass nel cluster su cui è impostata l'etichetta **velero.io/csi-volumesnapshot-class**. Per questo
 
@@ -189,7 +193,9 @@ deletionPolicy: Retain
 image::redhat_openshift_OADP_install_image10.jpg[Il criterio di eliminazione VolumeSnapshotClass deve essere impostato su Retain]
 
 Verificare che DataProtectionApplication sia stato creato e che sia in condizioni:riconciliato.
-Immagine::viene creato un oggetto redhat_openshift_OADP_install_image11.jpg[DataProtectionApplication]
+
+image::redhat_openshift_OADP_install_image11.jpg[L'oggetto DataProtectionApplication viene creato]
 
 L'operatore OADP creerà un BackupStorageLocation corrispondente. Questo verrà utilizzato durante la creazione di un backup.
-Immagine::redhat_openshift_OADP_install_image12.jpg[BackupStorageLocation creata]
+
+image::redhat_openshift_OADP_install_image12.jpg[BackupStorageLocation viene creato]

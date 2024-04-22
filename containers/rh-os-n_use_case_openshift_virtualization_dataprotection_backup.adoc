@@ -36,7 +36,8 @@ spec:
   ttl: 720h0m0s
 ....
 Una volta completato il backup, la sua fase viene visualizzata come completata.
-Immagine::redhat_openshift_OADP_backup_image1.jpg[Backup completata]
+
+image::redhat_openshift_OADP_backup_image1.jpg[Backup completato]
 
 È possibile esaminare il backup nell'archiviazione a oggetti con l'aiuto di un'applicazione browser S3. Il percorso del backup viene visualizzato nel bucket configurato con il nome del prefisso (velero/demobackup). Il contenuto del backup include gli snapshot del volume, i log e altri metadati della macchina virtuale.
 
@@ -72,7 +73,9 @@ Cron Expression 0 7 * * * significa che ogni giorno verrà creato un backup alle
 Vengono inoltre specificati gli spazi dei nomi da includere nel backup e la posizione di archiviazione per il backup. Quindi, invece di un CR di backup, il CR di pianificazione viene utilizzato per creare un backup all'ora e alla frequenza specificate.
 
 Una volta creata, la pianificazione viene attivata.
-Immagine::redhat_openshift_OADP_backup_image3.jpg[Schedule creata]
+
+image::redhat_openshift_OADP_backup_image3.jpg[Pianificazione creata]
 
 I backup verranno creati in base a questa pianificazione e possono essere visualizzati dalla scheda Backup.
-Immagine::redhat_openshift_OADP_backup_image4.jpg[Schedule creata]
+
+image::redhat_openshift_OADP_backup_image4.jpg[Pianificazione creata]
