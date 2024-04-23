@@ -13,8 +13,6 @@ summary: Pod NetApp ai con sistemi NVIDIA DGX - architettura
 :imagesdir: ./../media/
 
 
-link:aipod_nv_sw_components.html["Precedente: ONTAP ai - componenti software"]
-
 
 
 == Pod NetApp ai con sistemi DGX H100
@@ -62,5 +60,3 @@ image:aipod_nv_A900logical.png["Errore: Immagine grafica mancante"]
 Questa architettura di riferimento include anche cinque server basati su CPU per gli utilizzi dei piani di gestione. Due di questi sistemi sono utilizzati come nodi principali per NVIDIA base Command Manager per l'implementazione e la gestione del cluster. Gli altri tre sistemi sono utilizzati per fornire servizi cluster aggiuntivi come nodi master Kubernetes o nodi di login per implementazioni che utilizzano Slurm per la pianificazione dei processi. Le implementazioni che utilizzano Kubernetes possono sfruttare il driver NetApp Astra Trident CSI per fornire provisioning automatizzato e servizi dati con storage persistente per carichi di lavoro di gestione e ai sul sistema storage AFF A900.
 
 Ciascun server è fisicamente collegato sia agli switch IB che agli switch Ethernet per consentire l'implementazione e la gestione del cluster e configurato con mount NFS al sistema storage tramite la SVM di gestione per lo storage degli artefatti di gestione dei cluster, come descritto in precedenza.
-
-link:aipod_nv_validation_sizing.html["Pagina successiva: NetApp FlexPod con sistemi NVIDIA DGX - convalida della soluzione e linee guida al dimensionamento"]
