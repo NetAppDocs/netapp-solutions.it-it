@@ -19,10 +19,9 @@ summary: Virtualizzazione Red Hat OpenShift con NetApp ONTAP
 
 Per eseguire il ripristino da un backup, supponiamo che lo spazio dei nomi in cui esisteva la macchina virtuale sia stato eliminato accidentalmente.
 
-
-
-== Ripristinare nello stesso namespace
-
+.Ripristinare nello stesso namespace
+[%collapsible]
+====
 Per eseguire il ripristino dal backup appena creato, è necessario creare una risorsa personalizzata di ripristino (CR). Dobbiamo fornirgli un nome, fornire il nome del backup da cui eseguire il ripristino e impostare su true. È possibile impostare parametri aggiuntivi come illustrato nella link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentazione"]. Fare clic sul pulsante Crea.
 
 image::redhat_openshift_OADP_restore_image1.jpg[Crea ripristino CR]
@@ -41,10 +40,10 @@ Quando la fase è completata, è possibile vedere che le macchine virtuali sono 
 
 image::redhat_openshift_OADP_restore_image2.jpg[Ripristino completato]
 
-
-
-== Ripristinare in un namespace diverso
-
+====
+.Ripristinare in un namespace diverso
+[%collapsible]
+====
 Per ripristinare la macchina virtuale in uno spazio dei nomi diverso, è possibile fornire un namespaceMapping nella definizione yaml di Restore CR.
 
 Il seguente file yaml di esempio crea un Restore CR per ripristinare una VM e i relativi dischi nello spazio dei nomi virtual-machine-demo quando il backup è stato eseguito nello spazio dei nomi virtual-machine.
@@ -66,3 +65,62 @@ spec:
 Quando la fase è completata, è possibile vedere che le macchine virtuali sono state ripristinate allo stato in cui è stato acquisito lo snapshot. (Se il backup è stato creato quando la VM era in esecuzione, ripristinando la VM dal backup si avvia la VM ripristinata e la si porta in esecuzione). La VM viene ripristinata in uno spazio dei nomi diverso, come specificato in yaml.
 
 image::redhat_openshift_OADP_restore_image3.jpg[Ripristino completato in un nuovo namespace]
+
+====
+.Ripristinare in una classe di archiviazione diversa
+[%collapsible]
+====
+Velero fornisce una capacità generica di modificare le risorse durante il ripristino specificando le patch json. Le patch json vengono applicate alle risorse prima di essere ripristinate. Le patch json sono specificate in una configmap e la configmap è referenziata nel comando restore. Questa funzione consente di eseguire il ripristino utilizzando una classe di archiviazione diversa.
+
+Nell'esempio seguente, la macchina virtuale, in fase di creazione, utilizza ontap-nas come classe di storage per i dischi. Viene creato un backup della macchina virtuale denominata Backup1.
+
+image::redhat_openshift_OADP_restore_image4.jpg[VM che utilizzano ontap-nas]
+
+image::redhat_openshift_OADP_restore_image5.jpg[Backup ontap-nas VM]
+
+Simula la perdita della macchina virtuale eliminando la macchina virtuale.
+
+Per ripristinare la macchina virtuale utilizzando una classe di storage diversa, ad esempio ontap-nas-eco storage, devi effettuare i due seguenti passaggi:
+
+**Passo 1**
+
+Creare una mappa di configurazione (console) nello spazio dei nomi openshift-adp come segue:
+Inserisci i dettagli come mostrato nella schermata:
+Selezionare spazio dei nomi : openshift-adp
+Nome: Change-storage-class-config (può essere qualsiasi nome)
+Chiave: Change-storage-class-config.yaml:
+Valore:
+
+....
+version: v1
+    resourceModifierRules:
+    - conditions:
+         groupResource: persistentvolumeclaims
+         resourceNameRegex: "^rhel*"
+         namespaces:
+         - virtual-machines-demo
+      patches:
+      - operation: replace
+        path: "/spec/storageClassName"
+        value: "ontap-nas-eco"
+....
+image::redhat_openshift_OADP_restore_image6.jpg[interfaccia utente della mappa di configurazione]
+
+L'oggetto della mappa di configurazione risultante dovrebbe essere simile al seguente (CLI):
+
+image::redhat_openshift_OADP_restore_image7.jpg[Config map CLI]
+
+Questa mappa di configurazione applicherà la regola del modificatore di risorse quando viene creato il ripristino. Verrà applicata una patch per sostituire il nome della classe storage in ontap-nas-eco per tutte le richieste di volume persistenti a partire da rhel.
+
+**Passo 2**
+
+Per ripristinare la macchina virtuale, utilizzare il seguente comando dall'interfaccia CLI di Velero:
+
+....
+#velero restore create restore1 --from-backup backup1 --resource-modifier-configmap change-storage-class-config -n openshift-adp
+....
+La macchina virtuale viene ripristinata con lo stesso namespace con i dischi creati utilizzando la classe storage ontap-nas-eco.
+
+image::redhat_openshift_OADP_restore_image8.jpg[Ripristino ontap-nas-eco delle macchine virtuali]
+
+====
