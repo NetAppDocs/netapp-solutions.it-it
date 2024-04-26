@@ -1,0 +1,126 @@
+---
+sidebar: sidebar 
+permalink: ai/vector-database-vector-database.html 
+keywords: vector database 
+summary: database vettoriale - soluzione database vettoriale per NetApp 
+---
+= Database vettoriale
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Database vettoriale
+
+Un database vettoriale è un tipo specializzato di database progettato per gestire, indicizzare e ricercare dati non strutturati utilizzando embedding provenienti da modelli di apprendimento automatico. Invece di organizzare i dati in un formato tabulare tradizionale, organizza i dati come vettori ad alta dimensione, noti anche come embedding vettoriali. Questa struttura unica consente al database di gestire dati complessi e multidimensionali in modo più efficiente e preciso.
+
+Una delle funzionalità chiave di un database vettoriale è l'uso dell'intelligenza artificiale generativa per eseguire l'analisi. Ciò include ricerche di similarità, in cui il database identifica punti di dati simili a un dato input, e rilevamento di anomalie, in cui può individuare punti di dati che si discostano significativamente dalla norma.
+
+Inoltre, i database vettoriali sono ben adatti per gestire dati temporali, o dati marcati con l'ora. Questo tipo di dati fornisce informazioni su “cosa” è accaduto e quando è accaduto, in sequenza e in relazione a tutti gli altri eventi all’interno di un dato sistema INFORMATICO. Questa capacità di gestire e analizzare i dati temporali rende i database vettoriali particolarmente utili per le applicazioni che richiedono una comprensione degli eventi nel tempo.
+
+
+
+=== Vantaggi del database vettoriale per ML e ai:
+
+* Ricerca high-dimensionale: I database vettoriali sono eccellenti nella gestione e nel recupero di dati ad alta dimensione, spesso generati in applicazioni ai e ML.
+* Scalabilità: Possono scalare in modo efficiente per gestire grandi volumi di dati, supportando la crescita e l'espansione dei progetti ai e ML.
+* Flessibilità: Le banche dati vettoriali offrono un elevato grado di flessibilità, consentendo l'adattamento di diversi tipi di dati e strutture.
+* Performance: Offrono gestione e recupero dei dati dalle performance elevate, elementi critici per la velocità e l'efficienza delle operazioni ai e ML.
+* Indicizzazione personalizzabile: I database vettoriali offrono opzioni di indicizzazione personalizzabili, consentendo l'organizzazione e il recupero dei dati ottimizzati in base alle esigenze specifiche.
+
+
+
+
+=== Database vettoriali e casi di utilizzo.
+
+In questa sezione vengono forniti vari database vettoriali e i relativi dettagli sui casi di utilizzo.
+
+
+
+==== Faiss e Scann
+
+Si tratta di librerie che fungono da strumenti cruciali nel campo della ricerca vettoriale. Queste librerie forniscono funzionalità che sono fondamentali per la gestione e la ricerca dei dati vettoriali, rendendoli risorse preziose in questa area specializzata della gestione dei dati.
+
+
+
+==== Elasticsearch
+
+Si tratta di un motore di ricerca e analisi ampiamente utilizzato, che ha recentemente incorporato funzionalità di ricerca vettoriale. Questa nuova funzione migliora le sue funzionalità, consentendo di gestire e ricercare i dati vettoriali in modo più efficace.
+
+
+
+==== Pinecone
+
+Si tratta di un solido database vettoriale con un unico set di funzioni. Supporta vettori sia densi che sparse nella sua funzionalità di indicizzazione, che ne migliora la flessibilità e l'adattabilità. Uno dei suoi punti di forza principali risiede nella sua capacità di combinare i metodi di ricerca tradizionali con la ricerca di vettori densi basata su ai, creando un approccio di ricerca ibrida che sfrutta il meglio di entrambi i mondi.
+
+Principalmente basato su cloud, Pinecone è progettato per applicazioni di machine learning e si integra perfettamente con una varietà di piattaforme, tra cui GCP, AWS, Open ai, GPT-3, GPT-3,5, GPT-4, Catgut Plus, Elasticsearch, Haystack, e molto altro ancora. È importante notare che Pinecone è una piattaforma chiusa ed è disponibile come offerta Software as a Service (SaaS).
+
+Grazie alle sue funzionalità avanzate, Pinecone è particolarmente adatto per il settore della cybersicurezza, dove le sue funzionalità di ricerca ad alta dimensione e ibrida possono essere sfruttate in modo efficace per rilevare e rispondere alle minacce.
+
+
+
+==== Cromia
+
+Si tratta di un database vettoriale che ha un Core-API con quattro funzioni principali, una delle quali include un archivio vettoriale di documenti in memoria. Utilizza inoltre la libreria Face Transformers per vettorizzare i documenti, migliorandone la funzionalità e la versatilità.
+Chroma è progettato per operare sia nel cloud che on-premise, offrendo flessibilità sulla base delle esigenze dell'utente. In particolare, eccelle nelle applicazioni audio-correlate, rendendolo una scelta eccellente per i motori di ricerca audio-basati, i sistemi di raccomandazione di musica e altri casi di utilizzo audio-correlati.
+
+
+
+==== Weaviate
+
+Si tratta di un database vettoriale versatile che consente agli utenti di vettorizzare i propri contenuti utilizzando moduli integrati o moduli personalizzati, fornendo flessibilità in base a esigenze specifiche. Offre soluzioni completamente gestite e in hosting indipendente, adatte a una vasta gamma di preferenze di implementazione.
+
+Una delle caratteristiche principali di Weaviate è la sua capacità di memorizzare sia vettori che oggetti, migliorando le sue capacità di gestione dei dati. È ampiamente utilizzato per una vasta gamma di applicazioni, tra cui la ricerca semantica e la classificazione dei dati nei sistemi ERP. Nel settore dell'e-commerce, alimenta motori di ricerca e di raccomandazione. Weaviate viene inoltre utilizzato per la ricerca di immagini, il rilevamento di anomalie, l'armonizzazione automatizzata dei dati e l'analisi delle minacce alla sicurezza informatica, evidenziandone la versatilità in più domini.
+
+
+
+==== Redis
+
+Redis è un database vettoriale ad alte prestazioni noto per la sua veloce archiviazione in memoria, che offre una bassa latenza per operazioni di lettura e scrittura. Ciò lo rende una scelta eccellente per i sistemi di raccomandazione, i motori di ricerca e le applicazioni di analisi dei dati che richiedono un accesso rapido ai dati.
+
+Redis supporta varie strutture di dati per i vettori, inclusi elenchi, set e set ordinati. Fornisce anche operazioni vettoriali come il calcolo delle distanze tra vettori o la ricerca di intersezioni e unioni. Queste funzioni sono particolarmente utili per la ricerca di similarità, il clustering e i sistemi di raccomandazione basati sui contenuti.
+
+In termini di scalabilità e disponibilità, Redis è eccellente nella gestione dei carichi di lavoro a throughput elevato e offre la replica dei dati. Si integra bene anche con altri tipi di dati, inclusi i tradizionali database relazionali (RDBMS).
+Redis include una funzione Publish/Subscribe (Pub/Sub) per gli aggiornamenti in tempo reale, utile per la gestione dei vettori in tempo reale. Inoltre, Redis è leggero e semplice da utilizzare, il che lo rende una soluzione di facile utilizzo per la gestione dei dati vettoriali.
+
+
+
+==== Milvus
+
+Si tratta di un database vettoriale versatile che offre un'API come un archivio documenti, proprio come MongoDB. Si distingue per il supporto di un'ampia varietà di tipi di dati, che la rende una scelta popolare nel campo della data science e dell'apprendimento automatico.
+
+Una delle caratteristiche uniche di Milvus è la sua capacità di multi-vettorizzazione, che consente agli utenti di specificare in fase di runtime il tipo di vettore da utilizzare per la ricerca. Inoltre, utilizza Knowwhere, una libreria che si trova in cima ad altre librerie come Faiss, per gestire la comunicazione tra le query e gli algoritmi di ricerca vettoriale.
+
+Milvus offre inoltre una perfetta integrazione con i flussi di lavoro di apprendimento automatico, grazie alla sua compatibilità con PyTorch e TensorFlow. Questo lo rende uno strumento eccellente per una vasta gamma di applicazioni, tra cui e-commerce, analisi di immagini e video, riconoscimento di oggetti, ricerca di similarità delle immagini e recupero di immagini basato sul contenuto. Nell'ambito dell'elaborazione del linguaggio naturale, Milvus viene utilizzato per il clustering dei documenti, la ricerca semantica e i sistemi di risposta alle domande.
+
+Per questa soluzione, abbiamo scelto milvus per la convalida della soluzione. Per le prestazioni, abbiamo utilizzato sia milvus che postgres(pgvecto.rs).
+
+
+
+==== Perché abbiamo scelto milvus per questa soluzione?
+
+* Open-Source: Milvus è un database vettoriale open-source che incoraggia lo sviluppo e i miglioramenti guidati dalla comunità.
+* Integrazione ai: Sfrutta l'integrazione di applicazioni di ricerca della similarità e di intelligenza artificiale per migliorare le funzionalità del database vettoriale.
+* Gestione di grandi volumi: Milvus ha la capacità di memorizzare, indicizzare e gestire oltre un miliardo di vettori di incorporazione generati dai modelli Deep Neural Networks (DNN) e Machine Learning (ML).
+* Intuitivo: Facile da utilizzare e in meno di un minuto di tempo. Milvus offre anche SDK per diversi linguaggi di programmazione.
+* Velocità: Offre velocità di recupero incredibilmente elevate, fino a 10 volte più veloci di alcune alternative.
+* Scalabilità e disponibilità: Milvus è altamente scalabile e offre opzioni di scale-up e scale-out in base alle necessità.
+* Ricco di funzioni: Supporta diversi tipi di dati, filtro degli attributi, supporto UDF (User-Defined Function), livelli di coerenza configurabili e tempi di viaggio, il che lo rende uno strumento versatile per varie applicazioni.
+
+
+
+
+==== Panoramica dell'architettura di Milvus
+
+image:milvus_architecture_with_netapp.png["Errore: Immagine grafica mancante"]
+
+In questa sezione vengono forniti componenti e servizi di livello superiore della leva utilizzati nell'architettura Milvus.
+* Livello di accesso: È composto da un gruppo di proxy stateless e funge da livello anteriore del sistema e dell'endpoint per gli utenti.
+* Servizio Coordinatore: Assegna le attività ai nodi di lavoro e agisce come cervello di un sistema. Ha tre tipi di coordinatore: La coord di root, la coord di dati e la coord di query.
+* Nodi di lavoro : segue l'istruzione del servizio coordinatore ed esegue DML/DDL commands.it attivato dall'utente ha tre tipi di nodi di lavoro come nodo di query, nodo di dati e nodo di indice.
+* Storage: È responsabile della persistenza dei dati. Comprende metadata storage, broker dei log e storage a oggetti. Lo storage NetApp come ONTAP e StorageGRID offre storage a oggetti e basato su file a Milvus, sia per i dati dei clienti che per i dati del database vettoriale.

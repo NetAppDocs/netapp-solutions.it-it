@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: ai/vector-database-solution-with-netapp.html 
+keywords: vector database, milvus, usecases 
+summary: Questa è una pagina astratta per la soluzione datbase vettoriale con NetApp. 
+---
+= Soluzione database vettoriale con NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+Karthikeyan Nagalingam e Rodrigo Nascimento, NetApp
+
+[role="lead"]
+Questo documento offre un'esplorazione approfondita dell'implementazione e della gestione di database vettoriali come Milvus e pgvecto un'estensione PostgreSQL open-source, utilizzando le soluzioni storage di NetApp. Illustra in modo dettagliato le linee guida dell'infrastruttura per l'utilizzo dello storage a oggetti NetApp ONTAP e StorageGRID e convalida l'applicazione del database Milvus in AWS FSX per NetApp ONTAP. Il documento delinea il dualismo degli oggetti file di NetApp e la sua utility per database vettoriali e applicazioni che supportano le embedding vettoriali. Enfatizza le funzionalità di SnapCenter, il prodotto per la gestione aziendale di NetApp, nell'offerta di funzionalità di backup e ripristino per database vettoriali, garantendo l'integrità e la disponibilità dei dati. Il documento analizza ulteriormente la soluzione di cloud ibrido di NetApp, discutendo il suo ruolo nella replica e protezione dei dati negli ambienti on-premise e cloud. Include approfondimenti sulla convalida delle performance dei database vettoriali su NetApp ONTAP e si conclude con due casi d'utilizzo pratici su ai generativa: RAG con LLM e Chatai interno di NetApp. Il presente documento costituisce una guida completa all'utilizzo delle soluzioni storage di NetApp per la gestione di database vettoriali.
+
+L'architettura di riferimento si concentra su quanto segue:
+
+. link:./vector-database-introduction.html["Introduzione"]
+. link:./vector-database-solution-overview.html["Panoramica della soluzione"]
+. link:./vector-database-vector-database.html["Database vettoriale"]
+. link:./vector-database-technology-requirement.html["Requisiti tecnologici"]
+. link:./vector-database-deployment-procedure.html["Procedura di implementazione"]
+. link:./vector-database-solution-verification-overview.html["Panoramica di verifica della soluzione"]
+. link:./vector-database-instaclustr-with-pgvector.html["Database vettoriale con Instaclustr utilizzando PostgreSQL: Pgvector"]
+. link:./vector-database-use-cases.html["Casi di utilizzo del database vettoriale"]
+. link:./vector-database-conclusion.html["Conclusione"]
+. link:./vector-database-values-yaml.html["Appendice A: Values.yaml"]
+. link:./vector-database-prepare-data-netapp-new-py.html["Appendice B: prepare_data_netapp_new.py"]
+. link:./vector-database-verify-data-netapp-py.html["Appendice C: verify_data_netapp.py"]
+. link:./vector-database-docker-compose-xml.html["Appendice D: docker-compose.yml"]
+

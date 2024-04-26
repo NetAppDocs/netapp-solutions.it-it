@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: ai/vector-database-technology-requirement.html 
+keywords: vector database 
+summary: Requisiti tecnologici - soluzione per database vettoriali per NetApp 
+---
+= Requisiti tecnologici
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== Requisiti tecnologici
+
+Le configurazioni hardware e software descritte di seguito sono state utilizzate per la maggior parte delle convalide eseguite in questo documento, ad eccezione delle prestazioni. Queste configurazioni servono come linee guida per aiutarvi a configurare il vostro ambiente. Tuttavia, tenere presente che i componenti specifici possono variare in base alle esigenze dei singoli clienti.
+
+
+
+== Requisiti hardware
+
+|===
+| Hardware | Dettagli 
+
+
+| Coppia ha dello storage array NetApp AFF | * A800
+* ONTAP 9.14.1
+* 48 SSD-NVM DA 3,49TB GB
+* Due volumi di gruppo flessibili: Metadati e dati.
+* Il volume NFS metadati ha 12 volumi persistenti con 250GB.
+* I dati sono un volume NAS S3 di ONTAP 
+
+
+| 6 X FUJITSU PRIMERGY RX2540 M4 | * 64 CPU
+* CPU Intel(R) Xeon(R) Gold 6142 a 2,60GHz GHz
+* 256 MB di memoria fisica GM
+* Porta di rete 1 x 100GbE 
+
+
+| Networking | 100 GbE 
+
+
+| StorageGRID | * 1 x SG100, 3xSGF6024
+* 3 x 24 x 7,68TB 
+|===
+
+
+== Requisiti software
+
+|===
+| Software | Dettagli 
+
+
+| Cluster Milvus | * GRAFICO - milvus-4,1.11.
+* Versione APP – 2.3.4
+* Pacchetti dipendenti come bookkeeper, zookeeper, Pulsar, etcd, proxy, querynode, worker 
+
+
+| Kubernetes | * Cluster K8s a 5 nodi
+* 1 nodi master e 4 nodi Worker
+* Versione – 1.7.2 
+
+
+| Python | *3.10.12. 
+|===
