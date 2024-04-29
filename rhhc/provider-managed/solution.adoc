@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: rhhc/provider-managed/solution.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= Soluzione NetApp con workload gestiti della piattaforma container Red Hat OpenShift su AWS
+:allow-uri-read: 
+
+
+
+
+== Soluzione NetApp con workload gestiti della piattaforma container Red Hat OpenShift su AWS
+
+[role="lead"]
+I clienti possono "nascere nel cloud" o trovarsi in un punto del loro percorso di modernizzazione quando sono pronti a spostare alcuni carichi di lavoro selezionati o tutti i carichi di lavoro dai data center al cloud. Possono scegliere di utilizzare container OpenShift gestiti da provider e storage NetApp gestito da provider nel cloud per l'esecuzione dei carichi di lavoro. Devono pianificare e implementare i cluster di container gestiti Red Hat OpenShift (ROSA) nel cloud per un ambiente pronto per la produzione di successo per i carichi di lavoro dei container. Quando si trovano nel cloud AWS, potrebbero anche implementare FSX per NetApp ONTAP per le esigenze di storage.
+
+FSX per NetApp ONTAP offre protezione dei dati, affidabilità e flessibilità per le implementazioni di container in AWS. Astra Trident funge da provider di storage dinamico per consumare lo storage FSxN persistente per le applicazioni stateful dei clienti.
+
+Poiché ROSA può essere implementato in modalità ha con nodi del piano di controllo distribuiti in più zone di disponibilità, FSX ONTAP può anche essere fornito con l'opzione Multi-AZ che fornisce alta disponibilità e protegge dai guasti AZ.
+
+
+NOTE: Non sono previsti costi per il trasferimento dei dati quando si accede a un file system Amazon FSX dalla zona di disponibilità preferita (AZ) del file system. Per ulteriori informazioni sui prezzi, fare riferimento a. link:https://aws.amazon.com/fsx/netapp-ontap/pricing/["qui"].
+
+
+
+== Soluzione per la migrazione e la protezione dei dati per i carichi di lavoro dei container OpenShift
+
+image:rhhc-rosa-with-fsxn.png[""]
