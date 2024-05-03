@@ -265,7 +265,7 @@ ONTAP-Dest::> cluster peer show
 ====
 Il passaggio successivo consiste nell'impostare una relazione SVM tra le macchine virtuali dello storage di destinazione e di origine che contengono i volumi che si trovano nelle relazioni di SnapMirror.
 
-. Dal cluster FSX di origine, utilizzare il seguente comando dalla CLI per creare la relazione peer SVM:
+. Dal cluster ONTAP di destinazione, utilizza il seguente comando dall'interfaccia CLI per creare la relazione peer SVM:
 +
 ....
 ONTAP-Dest::> vserver peer create -vserver DestSVM -peer-vserver Backup -peer-cluster OnPremSourceSVM -applications snapmirror
