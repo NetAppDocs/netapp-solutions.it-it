@@ -21,7 +21,7 @@ Allen Cao, Niyaz Mohamed, NetApp
 
 Il software NetApp SnapCenter è una piattaforma aziendale di facile utilizzo per coordinare e gestire in modo sicuro la protezione dei dati tra applicazioni, database e file system. Semplifica backup, ripristino e Lifecycle management dei cloni scaricando questi task ai proprietari delle applicazioni senza sacrificare la capacità di sovrintendere e regolamentare l'attività nei sistemi storage. Sfruttando la gestione dei dati basata su storage, consente di aumentare performance e disponibilità, nonché di ridurre i tempi richiesti per test e sviluppo.
 
-In TR-4987, link:https://docs.netapp.com/us-en/netapp-solutions/databases/automation_ora_anf_nfs.html["Implementazione semplificata e automatizzata di Oracle su Azure NetApp Files con NFS"^], Dimostriamo la distribuzione automatizzata di Oracle su Azure NetApp Files (ANF) nel cloud Azure. In questa documentazione, presenteremo la protezione e la gestione dei database Oracle su ANF nel cloud Azure con un tool dell'interfaccia utente SnapCenter molto intuitivo.
+In TR-4987, link:automation_ora_anf_nfs.html["Implementazione semplificata e automatizzata di Oracle su Azure NetApp Files con NFS"^], Dimostriamo la distribuzione automatizzata di Oracle su Azure NetApp Files (ANF) nel cloud Azure. In questa documentazione, presenteremo la protezione e la gestione dei database Oracle su ANF nel cloud Azure con un tool dell'interfaccia utente SnapCenter molto intuitivo.
 
 Questa soluzione risolve i seguenti casi di utilizzo:
 
@@ -141,10 +141,10 @@ Le seguenti sezioni forniscono procedure passo per passo per implementazione di 
 
 [%collapsible]
 ====
-L'implementazione richiede database Oracle esistenti in esecuzione su ANF in Azure. In caso contrario, attenersi alla procedura riportata di seguito per creare due database Oracle da convalidare con la soluzione. Per informazioni dettagliate sull'implementazione del database Oracle in ANF nel cloud Azure con automazione, fare riferimento al documento TR-4987: link:https://docs.netapp.com/us-en/netapp-solutions/databases/automation_ora_anf_nfs.html["Implementazione semplificata e automatizzata di Oracle su Azure NetApp Files con NFS"^]
+L'implementazione richiede database Oracle esistenti in esecuzione su ANF in Azure. In caso contrario, attenersi alla procedura riportata di seguito per creare due database Oracle da convalidare con la soluzione. Per informazioni dettagliate sull'implementazione del database Oracle in ANF nel cloud Azure con automazione, fare riferimento al documento TR-4987: link:automation_ora_anf_nfs.html["Implementazione semplificata e automatizzata di Oracle su Azure NetApp Files con NFS"^]
 
 . È stato configurato un account Azure e all'interno dell'account Azure sono stati creati i segmenti di rete e VNET necessari.
-. Dal portale cloud Azure, implementa le macchine virtuali Azure Linux come server Oracle DB. Creare un pool di capacità Azure NetApp Files e volumi di database per il database Oracle. Abilitare l'autenticazione a chiave privata/pubblica SSH VM per azureuser nei server DB. Per ulteriori informazioni sulla configurazione dell'ambiente, fare riferimento al diagramma dell'architettura riportato nella sezione precedente. A cui si fa anche riferimento link:https://docs.netapp.com/us-en/netapp-solutions/databases/azure_ora_nfile_procedures.html["Procedure di implementazione Oracle dettagliate su Azure VM e Azure NetApp Files"^] per informazioni dettagliate.
+. Dal portale cloud Azure, implementa le macchine virtuali Azure Linux come server Oracle DB. Creare un pool di capacità Azure NetApp Files e volumi di database per il database Oracle. Abilitare l'autenticazione a chiave privata/pubblica SSH VM per azureuser nei server DB. Per ulteriori informazioni sulla configurazione dell'ambiente, fare riferimento al diagramma dell'architettura riportato nella sezione precedente. A cui si fa anche riferimento link:azure_ora_nfile_procedures.html["Procedure di implementazione Oracle dettagliate su Azure VM e Azure NetApp Files"^] per informazioni dettagliate.
 +
 
 NOTE: Per le macchine virtuali Azure distribuite con ridondanza del disco locale, assicurarsi di aver allocato almeno 128G GB nel disco principale della macchina virtuale in modo da avere spazio sufficiente per preparare i file di installazione di Oracle e aggiungere il file di swap del sistema operativo. Espandere di conseguenza la partizione del sistema operativo /tmplv e /rootlv. Assicurarsi che la denominazione del volume del database sia conforme alle convenzioni VMname-U01, VMname-U02 e VMname-U03.
@@ -160,14 +160,14 @@ sudo lvresize -r -L +20G /dev/mapper/rootvg-rootlv
 sudo lvresize -r -L +10G /dev/mapper/rootvg-tmplv
 ----
 . Dal portale cloud Azure, eseguire il provisioning di un server Windows per eseguire lo strumento UI di NetApp SnapCenter con la versione più recente. Fare riferimento al seguente link per i dettagli: link:https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["Installare il server SnapCenter"^].
-. Esegui il provisioning di una VM Linux come nodo di controller Ansible con l'ultima versione di Ansible e Git installata. Fare riferimento al seguente link per i dettagli: link:https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["Introduzione all'automazione delle soluzioni NetApp"^] nella sezione -
+. Esegui il provisioning di una VM Linux come nodo di controller Ansible con l'ultima versione di Ansible e Git installata. Fare riferimento al seguente link per i dettagli: link:../automation/getting-started.html["Introduzione all'automazione delle soluzioni NetApp"^] nella sezione -
 `Setup the Ansible Control Node for CLI deployments on RHEL / CentOS` oppure
 `Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`.
 +
 
 NOTE: Il nodo del controller Ansible può individuare on-premise o nel cloud Azure, nella misura in cui può raggiungere le VM di Azure DB tramite la porta ssh.
 
-. Clona una copia del toolkit di automazione dell'implementazione Oracle di NetApp per NFS. Seguire le istruzioni riportate in link:https://docs.netapp.com/us-en/netapp-solutions/databases/automation_ora_anf_nfs.html["TR-4887"^] per eseguire i playbook.
+. Clona una copia del toolkit di automazione dell'implementazione Oracle di NetApp per NFS. Seguire le istruzioni riportate in link:automation_ora_anf_nfs.html["TR-4887"^] per eseguire i playbook.
 +
 [source, cli]
 ----
@@ -548,6 +548,6 @@ link:https://docs.netapp.com/us-en/snapcenter/index.html["https://docs.netapp.co
 
 * TR-4987: Implementazione di Oracle semplificata e automatizzata su Azure NetApp Files con NFS
 +
-link:https://docs.netapp.com/us-en/netapp-solutions/databases/automation_ora_anf_nfs.html["https://docs.netapp.com/us-en/netapp-solutions/databases/automation_ora_anf_nfs.html"^]
+link:automation_ora_anf_nfs.html["Procedura di implementazione"]
 
 

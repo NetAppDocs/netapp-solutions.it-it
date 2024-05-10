@@ -1,0 +1,162 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-glossary.html 
+keywords: netapp, vmware, product, glossary 
+summary:  
+---
+= VMware e NetApp: Una potente alleanza per le soluzioni
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+La partnership tra NetApp e VMware è l'unica partnership in cui un singolo sistema storage si occupa di tutti i principali casi di utilizzo definiti da VMware.
+
+
+
+== VMware vSphere
+
+*Che cos'è VMware vSphere?*
+
+VSphere è il nome della suite VMware di prodotti di virtualizzazione server che include l'hypervisor ESXi e il software di gestione vCenter.
+
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/What-s-new-with-ONTAP-tools-for-VMware-vSphere-9-12/ba-p/443759["Perché eseguire l'upgrade a vSphere 8 con i tool NetApp ONTAP"]
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["Ottieni tutta la documentazione sui tool ONTAP per vSphere"]
+* link:index.html["Esplora le soluzioni NetApp per VMware vSphere"]
+* link:vmware-vsphere8-intro.html["Novità di VMware vSphere 8"]
+* link:https://docs.netapp.com/us-en/ontap-whatsnew/ontap98fo_vmware_virtualization.html["Novità per la virtualizzazione VMware in ONTAP"]
+* link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["Scopri di più sul plug-in SnapCenter per vSphere"]
+* link:https://docs.netapp.com/us-en/vsc-vasa-provider-sra-97/deploy/concept-virtual-storage-console-overview.html#vasa-provider["Scopri di più sul provider NetApp VASA"]
+
+
+*Perché VMware si preoccupa dello storage esterno?*
+
+I clienti, di solito, presentano una vasta gamma di richieste relative ai carichi di lavoro, incluse quelle relative allo storage necessario per applicazioni, utenti e policy di protezione. Per quanto riguarda gli ambienti VMware, queste esigenze sono generalmente soddisfatte sotto forma di datastore o storage connesso agli ospiti. I datastore sono disponibili attraverso le configurazioni di VMware vCenter, mentre lo storage connesso agli ospiti si basa su macchine virtuali o container. Spesso entrambe queste metodologie di accesso sono facilitate tramite uno storage condiviso come NetApp ONTAP.
+
+VMware organizza lo storage in 2 categorie: Modelli tradizionali di storage e software-defined storage. I modelli storage tradizionali comprendono configurazioni come SAN, NAS e RDM (Raw Device Mapping), mentre i modelli storage software-defined comprendono vVol (VMware Virtual Volumes) e vSAN. NetApp è la piattaforma perfetta per le offerte di storage tradizionali e i vVol, come dimostrano le nostre integrazioni di prodotti, le funzioni di livello Enterprise e la profondità e la portata della soluzione.
+
+*Come funzionano i datastore VMware?*
+
+I datastore sono container logici, analoghi ai file system, che nascondono le specifiche dello storage fisico e forniscono un modello uniforme per l'archiviazione dei file della macchina virtuale. I datastore possono anche essere utilizzati per memorizzare immagini ISO, modelli di macchine virtuali e immagini floppy.
+
+* link:https://docs.netapp/com/us-en/vontap-apps-dbs/vmware/vmware-vsphere-overview.html["NetApp ONTAP supporta tutti i protocolli di storage"]
+
+
+*Cos'è FlexPod?*
+
+FlexPod è una soluzione di infrastruttura convergente offerta dalla partnership tra Cisco e NetApp.  Contiene un data center virtuale "tutto in uno" composto da calcolo, rete e storage.  FlexPod offre numerose soluzioni basate su prodotti VMware.
+
+* link:https://docs.netapp.com/us-en/flexpod/["Archivio di documentazione sulle soluzioni FlexPod"]
+
+
+*Perché NVMe su TCP è importante per le macchine virtuali?*
+
+Per le VM su NVMe over TCP, puoi ridurre l'utilizzo della CPU e ottenere performance e affidabilità con NVMe accoppiato ai Virtual Volumes su NetApp per scalabilità, semplicità e automazione.
+
+* link:https://www.netapp.com/data-storage/nvme/what-is-nvme/?internal_promo=comp_pure_ww_ontap_awareness-coas_blog["Scopri i vantaggi di NVMe"]
+
+
+
+
+== VMware HCX[[hcx]]
+
+*Cos'è VMware HCX?*
+
+VMware HCX è una piattaforma per la mobilità delle applicazioni ideata per semplificare la migrazione delle applicazioni, ribilanciare i workload e ottimizzare il disaster recovery nei data center e nel cloud.
+
+HCX fornisce servizi tra due o più ambienti distinti. È possibile che gli ambienti eseguano vSphere legacy o eseguano il moderno vSphere SDDC e potrebbero anche essere istanze di cloud pubblico basate su VMware.
+
+image::vmware-hcx.png[vmware hcx]
+
+* link:../ehc/aws-migrate-vmware-hcx.html["Migra i carichi di lavoro nel datastore FSX ONTAP utilizzando VMware HCX"]
+* link:../ehc/azure-migrate-vmware-hcx.html["Migra i carichi di lavoro nel datastore Azure NetApp Files utilizzando VMware HCX"]
+* link:../ehc/gcp-migrate-vmware-hcx.html["Migra i carichi di lavoro nel datastore di NetApp Cloud Volume Service su Google Cloud VMware Engine utilizzando VMware HCX"]
+
+
+
+
+== VMware Tanzu[[tanzu]]
+
+*Cos'è VMware Tanzu?*
+
+VSphere con Tanzu è la nuova generazione di vSphere per le applicazioni containerizzate. Questa singola soluzione ottimizzata colma il divario tra le operazioni IT e gli sviluppatori, con una nuova tipologia di infrastruttura per applicazioni moderne e native del cloud, sia on-premise che nei cloud pubblici.
+
+* link:https://www.netapp.com/hybrid-cloud/vmware/what-is-vmware-tanzu/["Gestione di kuPokaise con VMware Tanzu"]
+* link:../containers/vtwn_solution_overview.html["Soluzioni NetApp per VMware Tanzu"]
+
+
+
+
+== VMware aria[[aria]]
+
+*Cos'è VMware aria?*
+
+VMware aria è una soluzione intelligente di gestione multi-cloud, costituita da una suite di prodotti che consente di implementare e gestire in modo coerente le applicazioni, l'infrastruttura e i servizi della piattaforma. Aria ti permette di ottenere il controllo del tuo ambiente su cloud privati, ibridi e multipli da una singola piattaforma e con un modello dati comune.
+
+L'editor di aria Automation Orchestrator Client consente la creazione di offerte di servizi semplici e complesse utilizzando la libreria di flussi di lavoro predefiniti e configurati dall'amministratore. Combinando i task di storage predefiniti in questa libreria con le API basate su REST di NetApp, è possibile creare una varietà di offerte di servizio. È quando queste offerte di servizi vengono pubblicate in un catalogo self-service, all'interno di aria Automation, che è possibile raggiungere qualsiasi obiettivo di business o IT.
+
+Oltre alle attività operative che è possibile svolgere, aria aiuta gli amministratori con visibilità in tempo reale sull'infrastruttura. VMware aria Management Pack per NetApp FAS/AFF è un adattatore integrato per VMware aria Operations. Questa integrazione fornisce analisi e informazioni aggiornate sull'infrastruttura, aiutandovi a identificare i problemi quando si presentano o potenzialmente prima.
+
+* link:https://www.vmware.com/products/aria.html["Documentazione VMware aria"]
+* link:https://docs.vmware.com/en/VMware-Aria-Operations-for-Integrations/4.2/Management-Pack-for-NetApp-FAS-AFF/GUID-9B9C2353-3975-403A-8803-EBF6CDB62D2C.html["Pacchetto gestione operativa VMware aria per NetApp FAS/AFF"]
+
+
+
+
+== Volumi virtuali VMware (vVol)
+
+*Che cos'è VMware Virtual Volumes (vVol)?*
+
+VMware vVol è lo storage di basso livello per le macchine virtuali che supporta operazioni a livello di storage array, in modo simile alle LUN tradizionali utilizzate per creare datastore. Invece di utilizzare il file system VMFS tradizionale, uno storage array definisce come fornire accesso e organizzare i dati per le macchine virtuali tramite lo storage array.
+
+* link:https://www.netapp.tv/details/29476["Ascoltate cosa possono fare VMware vVol con NetApp"]
+* link:https://docs.netapp/com/us-en/ontap-apps-dbs/vmware/vmware-vvols-overview.html["Documentazione tecnica di vVol"]
+
+
+
+
+== VMware Cloud Foundation (VCF)
+
+*Cos'è VMware Cloud Foundation?*
+
+VMware Cloud Foundation (VCF) è una piattaforma di cloud ibrido per applicazioni aziendali tradizionali e moderne. Costruito sullo stack software-defined di VMware per il calcolo, lo storage, la rete, i container e la gestione del cloud; le risorse all'interno di VCF sono rese disponibili attraverso la creazione di domini. I domini raggruppano le risorse di calcolo, rete e storage in un'unità logica in base alle Best practice. Esistono 2 tipi di domini: Il dominio di gestione iniziale e i domini del carico di lavoro dell'infrastruttura virtuale.
+
+In seguito alla creazione del dominio di gestione iniziale, i domini di workload successivi vengono implementati in base alle esigenze per soddisfare i requisiti aziendali. I domini di carico di lavoro vengono allocati in termini di performance e capacità con storage principale o supplementare. VCF offre un'esperienza semplificata e standard per ambienti eterogenei attraverso le implementazioni di domini di workload pronti per le applicazioni.
+
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/deploy/vmware_cloud_foundation_mode_deployment.html["Scopri come funziona l'infrastruttura NetApp con VCF"]
+* link:https://www.vmware.com/products/cloud-foundation.html["Pagina del prodotto VMware VCF"]
+* link:https://www.cisco.com/c/en/us/td/docs/unified_computing/ucs/UCS_CVDs/flexpod_vcf_design.html["FlexPod as a workload Domain for VMware Cloud Foundation Design Guide (in inglese)"]
+
+
+
+
+== SRM (Site Recovery Manager) di VMware
+
+*Che cos'è VMware Site Recovery Manager?*
+
+Site Recovery Manager (SRM) è la soluzione di gestione del disaster recovery (DR) leader del settore, progettata per ridurre al minimo i tempi di inattività in caso di emergenza. Offre gestione basata su criteri, orchestrazione automatizzata e test senza interruzioni dei piani di ripristino centralizzati.
+
+* link:https://docs.netapp.com/us-en/ntap-apps-dbs/vmware/vmware-srm-overview.html["VMware Site Recovery Manager con NetApp ONTAP 9"]
+
+
+
+
+== Servizi cloud di VMware
+
+*Che cos'è il multicloud ibrido con VMware e NetApp?*
+
+Nessun altro provider di infrastrutture può supportare i carichi di lavoro su VMware sia on-premise che nel cloud, qualsiasi cloud.  NetApp è il primo provider di infrastruttura a supportare VMware nel cloud su AWS, Microsoft Azure e Google Cloud.
+
+Ciascuno dei principali provider di cloud pubblico offre servizi di virtualizzazione su cui è possibile eseguire applicazioni e carichi di lavoro così come sono on-premise.
+
+NetApp offre un set completo di soluzioni per questi ambienti di virtualizzazione del cloud.
+
+* link:../ehc/index.html["Soluzioni NetApp per ambienti virtualizzati nel cloud"]
+* link:../ehc/index.html["Soluzioni NetApp per AWS VMware Cloud (VMC)"]
+* link:../ehc/index.html["Soluzioni NetApp per Azure VMware Solution (AVS)"]
+* link:../ehc/index.html["Soluzioni NetApp per Google Cloud VMware Engine (GCVE)"]
+

@@ -225,7 +225,7 @@ git clone https://github.com/NetApp-Automation/na_rds_fsx_oranfs_config.git
 
 === Esegui l'implementazione automatizzata di Oracle 19c utilizzando il toolkit di automazione
 
-Vedere queste istruzioni dettagliate link:https://docs.netapp.com/us-en/netapp-solutions/databases/cli_automation.html["Implementazione CLI Database Oracle 19c"^] Per implementare Oracle 19c con automazione CLI. La sintassi dei comandi per l'esecuzione di Playbook è leggermente cambiata perché si utilizza una coppia di chiavi SSH invece di una password per l'autenticazione dell'accesso all'host. Il seguente elenco è un riepilogo di alto livello:
+Vedere queste istruzioni dettagliate link:cli_automation.html["Implementazione CLI Database Oracle 19c"^] Per implementare Oracle 19c con automazione CLI. La sintassi dei comandi per l'esecuzione di Playbook è leggermente cambiata perché si utilizza una coppia di chiavi SSH invece di una password per l'autenticazione dell'accesso all'host. Il seguente elenco è un riepilogo di alto livello:
 
 . Per impostazione predefinita, un'istanza EC2 utilizza una coppia di chiavi SSH per l'autenticazione dell'accesso. Dalle directory principali di automazione del controller Ansible `/home/ec2-user/na_oracle19c_deploy`, e. `/home/ec2-user/na_rds_fsx_oranfs_config`, Eseguire una copia della chiave SSH `accesststkey.pem` Per l'host Oracle implementato nella fase "<<Creazione e connessione a un'istanza EC2 per l'hosting del database Oracle>>."
 . Accedere all'host DB dell'istanza EC2 come ec2-user e installare la libreria python3.
@@ -480,7 +480,7 @@ image:aws_rds_custom_deploy_snp_08.PNG["Errore: Immagine grafica mancante"]
 
 === Configurare i criteri di backup per il database Oracle
 
-Fare riferimento a questa sezione link:https://docs.netapp.com/us-en/netapp-solutions/databases/hybrid_dbops_snapcenter_getting_started_onprem.html#7-setup-database-backup-policy-in-snapcenter["Impostare il criterio di backup del database in SnapCenter"^] Per informazioni dettagliate sulla configurazione della policy di backup del database Oracle.
+Fare riferimento a questa sezione link:hybrid_dbops_snapcenter_getting_started_onprem.html#7-setup-database-backup-policy-in-snapcenter["Impostare il criterio di backup del database in SnapCenter"^] Per informazioni dettagliate sulla configurazione della policy di backup del database Oracle.
 
 In genere, è necessario creare una policy per il backup completo del database Oracle Snapshot e una policy per il backup dello snapshot Oracle con solo log di archiviazione.
 
@@ -493,7 +493,7 @@ NOTE: È possibile attivare la funzione di eliminazione dei log di archiviazione
 
 Il backup del database in SnapCenter è configurabile dall'utente e può essere impostato singolarmente o come gruppo in un gruppo di risorse. L'intervallo di backup dipende dagli obiettivi RTO e RPO. NetApp consiglia di eseguire un backup completo del database ogni poche ore e di archiviare il backup del log con una frequenza maggiore, ad esempio 10-15 minuti, per un ripristino rapido.
 
-Fare riferimento alla sezione Oracle di link:https://docs.netapp.com/us-en/netapp-solutions/databases/hybrid_dbops_snapcenter_getting_started_onprem.html#8-implement-backup-policy-to-protect-database["Implementare policy di backup per proteggere il database"^] per una procedura dettagliata per l'implementazione della policy di backup creata nella sezione <<Configurare i criteri di backup per il database Oracle>> e per la pianificazione dei processi di backup.
+Fare riferimento alla sezione Oracle di link:hybrid_dbops_snapcenter_getting_started_onprem.html#8-implement-backup-policy-to-protect-database["Implementare policy di backup per proteggere il database"^] per una procedura dettagliata per l'implementazione della policy di backup creata nella sezione <<Configurare i criteri di backup per il database Oracle>> e per la pianificazione dei processi di backup.
 
 L'immagine seguente mostra un esempio dei gruppi di risorse configurati per il backup di un database Oracle.
 

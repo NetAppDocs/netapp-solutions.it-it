@@ -71,7 +71,7 @@ NOTE: Esistono diverse opzioni per connettere i data center on-premise ad Azure,
 .Configurare CVO su Azure e replicare i volumi su CVO
 [%collapsible]
 ====
-Il primo passaggio consiste nella configurazione di Cloud Volumes ONTAP su Azure (https://docs.netapp.com/us-en/netapp-solutions/ehc/azure-guest.html["Collegamento"^]) E replicare i volumi desiderati su Cloud Volumes ONTAP con le frequenze desiderate e le ritentioni di snapshot.
+Il primo passaggio consiste nel configurare Cloud Volumes ONTAP su Azure (link:azure-guest.html["Collegamento"^]) E replicare i volumi desiderati su Cloud Volumes ONTAP con le frequenze desiderate e le ritentioni di snapshot.
 
 image:dr-cvo-avs-image2.png["Errore: Immagine grafica mancante"]
 
@@ -85,7 +85,7 @@ La decisione di implementare un cluster AVS si basa principalmente sui requisiti
 
 L'opzione implementata più comunemente è l'esecuzione di SDDC in una modalità di funzionamento always-on, con illuminazione pilota. Questa opzione offre un ingombro ridotto di tre host sempre disponibili e accelera le operazioni di recovery fornendo una base di riferimento per le attività di simulazione e i controlli di conformità, evitando così il rischio di deriva operativa tra i siti di produzione e DR. Il cluster pilota-light può essere scalato rapidamente fino al livello desiderato quando necessario per gestire un evento DR effettivo.
 
-Per configurare AVS SDDC (sia esso on-demand o in modalità pilota-light), vedere https://docs.netapp.com/us-en/netapp-solutions/ehc/azure-setup.html["Implementare e configurare l'ambiente di virtualizzazione su Azure"^]. Come prerequisito, verificare che le macchine virtuali guest che risiedono sugli host AVS siano in grado di utilizzare i dati provenienti da Cloud Volumes ONTAP dopo aver stabilito la connettività.
+Per configurare AVS SDDC (sia esso on-demand o in modalità pilota-light), vedere link:azure-setup.html["Implementare e configurare l'ambiente di virtualizzazione su Azure"^]. Come prerequisito, verificare che le macchine virtuali guest che risiedono sugli host AVS siano in grado di utilizzare i dati provenienti da Cloud Volumes ONTAP dopo aver stabilito la connettività.
 
 Dopo aver configurato correttamente Cloud Volumes ONTAP e AVS, iniziare a configurare Jetstream per automatizzare il ripristino dei carichi di lavoro on-premise su AVS (macchine virtuali con VMDK delle applicazioni e macchine virtuali con storage in-guest) utilizzando il meccanismo VAIO e sfruttando SnapMirror per le copie dei volumi delle applicazioni su Cloud Volumes ONTAP.
 

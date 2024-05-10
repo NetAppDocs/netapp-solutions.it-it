@@ -65,8 +65,8 @@ Questo approccio di migrazione è più adatto ai database Oracle già implementa
 
 Innanzitutto, creare CDB in AWS FSX/EC2 con storage sufficiente per ospitare PDB da migrare da on-premise. È possibile riallocare più PDB on-premise uno alla volta.
 
-. Se il database on-premise viene implementato in una singola istanza piuttosto che nel modello di PDB/CDB multi-tenant, seguire le istruzioni in link:https://docs.netapp.com/us-en/netapp-solutions/databases/azure_ora_nfile_migration.html#converting-a-single-instance-non-cdb-to-a-pdb-in-a-multitenant-cdb["Conversione di una singola istanza non CDB in una PDB in una CDB multi-tenant"^] Per convertire la singola istanza in PDB/CDB multi-tenant. Quindi, seguire la fase successiva per migrare il PDB convertito in CDB in AWS FSX/EC2.
-. Se il database on-premise è già implementato nel modello PDB/CDB multitenant, seguire le istruzioni in link:https://docs.netapp.com/us-en/netapp-solutions/databases/azure_ora_nfile_migration.html#migrate-on-premises-oracle-databases-to-azure-with-pdb-relocation["Migrare i database Oracle on-premise nel cloud con il trasferimento dei dati PDB"^] per eseguire la migrazione.
+. Se il database on-premise viene implementato in una singola istanza piuttosto che nel modello di PDB/CDB multi-tenant, seguire le istruzioni in link:azure_ora_nfile_migration.html#converting-a-single-instance-non-cdb-to-a-pdb-in-a-multitenant-cdb["Conversione di una singola istanza non CDB in una PDB in una CDB multi-tenant"^] Per convertire la singola istanza in PDB/CDB multi-tenant. Quindi, seguire la fase successiva per migrare il PDB convertito in CDB in AWS FSX/EC2.
+. Se il database on-premise è già implementato nel modello PDB/CDB multitenant, seguire le istruzioni in link:azure_ora_nfile_migration.html#migrate-on-premises-oracle-databases-to-azure-with-pdb-relocation["Migrare i database Oracle on-premise nel cloud con il trasferimento dei dati PDB"^] per eseguire la migrazione.
 
 
 Il seguente video mostra come è possibile migrare un database Oracle (PDB) su FSX/EC2 utilizzando il trasferimento PDB con la massima disponibilità.

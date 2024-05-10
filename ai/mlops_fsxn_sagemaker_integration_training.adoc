@@ -166,7 +166,7 @@ s3_client: boto3.client = boto3.resource(
 bucket = s3_client.Bucket(bucket_name)
 # --- End integrating SageMaker with FSXN ---
 ----
-Per leggere i dati da FSxN in SageMaker, viene creato un gestore che punta allo storage FSxN utilizzando il protocollo S3. Ciò consente a FSxN di essere trattato come un bucket S3 privato. La configurazione del gestore include l'indicazione dell'indirizzo IP della SVM FSxN, del nome del bucket e delle credenziali necessarie. Per una spiegazione completa su come ottenere questi elementi di configurazione, fare riferimento al documento all'indirizzo link:https://docs.netapp.com/us-en/netapp-solutions/ai/mlops_fsxn_s3_integration.html["Parte 1 - integrazione di AWS FSX per NetApp ONTAP (FSxN) come bucket S3 privato in AWS SageMaker"].
+Per leggere i dati da FSxN in SageMaker, viene creato un gestore che punta allo storage FSxN utilizzando il protocollo S3. Ciò consente a FSxN di essere trattato come un bucket S3 privato. La configurazione del gestore include l'indicazione dell'indirizzo IP della SVM FSxN, del nome del bucket e delle credenziali necessarie. Per una spiegazione completa su come ottenere questi elementi di configurazione, fare riferimento al documento all'indirizzo link:mlops_fsxn_s3_integration.html["Parte 1 - integrazione di AWS FSX per NetApp ONTAP (FSxN) come bucket S3 privato in AWS SageMaker"].
 
 Nell'esempio sopra menzionato, l'oggetto bucket viene utilizzato per creare un'istanza dell'oggetto dataset PyTorch. L'oggetto dataset verrà ulteriormente spiegato nella sezione successiva.
 

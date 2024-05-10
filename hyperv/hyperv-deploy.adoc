@@ -1,0 +1,1072 @@
+---
+sidebar: sidebar 
+permalink: hyperv/hyperv-deploy.html 
+keywords: hyperv, hyper-v, deploy, netapp, virtualization 
+summary: La soluzione fornisce le fasi necessarie per implementare Hyper-V sullo storage NetApp 
+---
+= Distribuzione di Microsoft Hyper-V sullo storage NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+La piattaforma Windows Server utilizza il ruolo di Hyper-V per fornire la tecnologia di virtualizzazione. Hyper-V è uno dei numerosi ruoli opzionali offerti con Windows Server.
+
+
+
+== Panoramica
+
+Il ruolo Hyper-V ci permette di creare e gestire un ambiente informatico virtualizzato utilizzando la tecnologia di virtualizzazione integrata in Windows Server. La tecnologia Hyper-V virtualizza l'hardware per fornire un ambiente in cui è possibile eseguire più sistemi operativi contemporaneamente su un unico computer fisico. Hyper-V ti consente di creare e gestire le macchine virtuali e le loro risorse. Ogni macchina virtuale è un sistema informatico isolato e virtualizzato in grado di eseguire il proprio sistema operativo. Hyper-V fornisce un'infrastruttura per la virtualizzazione di applicazioni e carichi di lavoro che supporta una varietà di obiettivi aziendali volti a migliorare l'efficienza e ridurre i costi, un'alternativa perfetta a VMware® vSphere, soprattutto quando le organizzazioni sono alla ricerca di una coesistenza di più hypervisor nelle attuali condizioni di mercato.
+
+
+
+== Pubblico
+
+Questo documento descrive l'architettura e le procedure di distribuzione per la configurazione del cluster Hyper-V con i sistemi NetApp ONTAP. Il presente documento è destinato a tecnici di vendita, consulenti sul campo, servizi professionali, responsabili IT, tecnici dei partner, e clienti che intendono implementare Hyper-V come hypervisor principale o alternativo.
+
+
+
+== Architettura
+
+L'architettura descritta in questo documento include in particolare la virtualizzazione Microsoft® Windows Server® 2022 e Hyper-V®. NetApp consiglia vivamente il software di virtualizzazione e il software di gestione dell'infrastruttura come parte di ogni implementazione. La configurazione utilizza le Best practice per ogni componente per consentire un'infrastruttura affidabile di classe Enterprise.
+
+
+
+== Riepilogo dei casi d'utilizzo
+
+Questo documento descrive le procedure di implementazione e le Best practice per la configurazione del cluster Hyper-V per un funzionamento ottimale come carico di lavoro su Microsoft Windows Server 2022 utilizzando modelli di array FAS all-flash e ASA di NetApp. Il sistema operativo/hypervisor del server è Microsoft Windows Server 2022. Le linee guida riguardano i sistemi storage NetApp che gestiscono dati tramite i protocolli SAN (Storage Area Network) e NAS (Network-Attached Storage).
+
+
+
+== Procedura di implementazione
+
+L'argomento descrive la procedura per configurare e implementare un cluster di failover a due nodi e macchine virtuali Hyper-V in cluster che sfruttano il sistema storage ONTAP.
+
+
+
+=== Prerequisiti per la procedura di distribuzione
+
+* Tutto l'hardware deve essere certificato per la versione di Windows Server in esecuzione e la soluzione cluster di failover completa deve superare tutti i test nella convalida guidata configurazione
+* Nodi Hyper-V Uniti al controller di dominio (consigliato) e connettività appropriata tra di loro.
+* Ogni nodo Hyper-V deve essere configurato in modo identico.
+* Adattatori di rete e switch virtuali designati configurati su ciascun server Hyper-V per il traffico segregato per gestione, ISCSI, SMB, Live Migration.
+* La funzione cluster di failover è abilitata su ogni server Hyper-V.
+* Le condivisioni SMB o i CSV vengono utilizzati come storage condiviso per memorizzare macchine virtuali e relativi dischi per il clustering Hyper-V.
+* Lo storage non deve essere condiviso tra cluster diversi. Pianificare una o più condivisioni CSV/CIFS per cluster.
+* Se la condivisione SMB viene utilizzata come storage condiviso, è necessario configurare le autorizzazioni sulla condivisione SMB in modo da consentire l'accesso agli account computer di tutti i nodi Hyper-V nel cluster.
+
+
+Per ulteriori informazioni, consulta:
+
+* link:https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/system-requirements-for-hyper-v-on-windows#how-to-check-for-hyper-v-requirements["Requisiti di sistema per Hyper-V su Windows Server"]
+* link:https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj134244(v=ws.11)#step-1-prepare-to-validate-hardware-for-a-failover-cluster["Convalida dell'hardware per un cluster di failover"]
+* link:https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj863389(v=ws.11)["Distribuire un cluster Hyper-V."]
+
+
+.Installazione delle funzioni di Windows
+[%collapsible]
+====
+La seguente procedura descrive come installare le funzionalità di Windows Server 2022 richieste.
+
+*Tutti gli host*
+
+. Preparare Windows OS 2022 con gli aggiornamenti necessari e i driver di dispositivo su tutti i nodi designati.
+. Accedere a ciascun nodo Hyper-V utilizzando la password di amministratore immessa durante l'installazione.
+. Avviare un prompt di PowerShell facendo clic con il pulsante destro del mouse sull'icona di PowerShell nella barra delle applicazioni e selezionando `Run as Administrator`.
+. Aggiungere le funzioni di Hyper-V, MPIO e clustering.
++
+[source, cli]
+----
+Add-WindowsFeature Hyper-V, Failover-Clustering, Multipath-IO `-IncludeManagementTools –Restart
+----
+
+
+====
+.Configurazione delle reti in corso
+[%collapsible]
+====
+Una corretta pianificazione della rete è fondamentale per ottenere una distribuzione con tolleranza di errore. La configurazione di adattatori di rete fisici distinti per ciascun tipo di traffico era il suggerimento standard per un cluster di failover. Con la possibilità di aggiungere adattatori di rete virtuali, attivare il raggruppamento incorporato (SET) e introdurre funzionalità come la QoS di Hyper-V, condensare il traffico di rete su un numero inferiore di adattatori fisici. Progettare la configurazione di rete tenendo conto della qualità del servizio, della ridondanza e dell'isolamento del traffico. La configurazione di tecniche di isolamento di rete come le VLAN in combinazione con tecniche di isolamento del traffico fornisce ridondanza per il traffico e la qualità del servizio, migliorando e aumentando la coerenza delle prestazioni del traffico di storage.
+
+Si consiglia di separare e isolare specifici carichi di lavoro utilizzando più reti logiche e/o fisiche. Di seguito sono riportati alcuni esempi tipici di traffico di rete suddivisi in segmenti:
+
+* Rete di storage ISCSI.
+* CSV (Cluster Shared Volume) o rete Heartbeat.
+* Migrazione live
+* Rete VM
+* Rete di gestione
+
+
+
+NOTE: Quando si utilizza iSCSI con schede di rete (NIC) dedicate, si sconsiglia l'uso di qualsiasi soluzione di raggruppamento e si consiglia di utilizzare MPIO/DSM.
+
+
+NOTE: Inoltre, le Best practice per le reti Hyper-V non consigliano l'uso del raggruppamento NIC per le reti di storage SMB 3,0 in ambiente Hyper-V.
+
+Per ulteriori informazioni, fare riferimento a. link:https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/plan/plan-hyper-v-networking-in-windows-server["Pianificate la connettività di rete Hyper-V in Windows Server"]
+
+====
+.Come decidere sulla progettazione dello storage per Hyper-V.
+[%collapsible]
+====
+Hyper-V supporta NAS (SMB3,0) e storage a blocchi (iSCSI/FC) come storage di backup per le macchine virtuali. NetApp supporta i protocolli SMB3,0, iSCSI e FC, che possono essere utilizzati come storage nativo per le VM - Cluster Shared Volumes (CSV) utilizzando iSCSI/FC e SMB3. I clienti possono anche utilizzare SMB3 e iSCSI come opzioni di storage connesso come guest per i carichi di lavoro che richiedono l'accesso diretto allo storage. ONTAP offre opzioni flessibili con storage unificato (All Flash Array) per i carichi di lavoro che richiedono accesso con protocollo misto e storage ottimizzato SAN (All SAN Array) solo per configurazioni SAN.
+
+La decisione di utilizzare SMB3 rispetto a iSCSI/FC è determinata dall'infrastruttura esistente, attualmente in uso SMB3/iSCSI consente ai clienti di utilizzare l'infrastruttura di rete esistente. Per i clienti che dispongono già di un'infrastruttura FC, è possibile sfruttare tale infrastruttura e presentare lo storage come volumi condivisi in cluster basati su FC.
+
+*Nota:* Uno storage controller NetApp che esegue il software ONTAP può supportare i seguenti carichi di lavoro in un ambiente Hyper-V:
+
+* Macchine virtuali in hosting sulle condivisioni SMB 3,0 sempre disponibili
+* VM ospitate su LUN CSV (Cluster Shared Volume) in esecuzione su iSCSI o FC
+* Storage in-Guest e passaggio dei dischi alle macchine virtuali guest
+
+
+
+NOTE: Funzionalità principali di ONTAP come thin provisioning, deduplica, compressione, data compaction, cloni flessibili, le snapshot e la replica funzionano perfettamente in background, indipendentemente dalla piattaforma o dal sistema operativo, e forniscono un valore significativo per i carichi di lavoro Hyper-V. Le impostazioni predefinite per queste funzioni sono ottimali per Windows Server e Hyper-V.
+
+
+NOTE: MPIO è supportato sulla VM guest mediante initiator in-guest se la VM dispone di percorsi multipli e se la funzione multipath i/o è installata e configurata.
+
+
+NOTE: ONTAP supporta tutti i principali protocolli client standard di settore: NFS, SMB, FC, FCoE, iSCSI, NVMe/FC e S3. Tuttavia, NVMe/FC e NVMe/TCP non sono supportati da Microsoft.
+
+====
+.Installazione delle utilità host iSCSI di NetApp Windows
+[%collapsible]
+====
+Nella sezione seguente viene descritto come eseguire un'installazione automatica delle utilità host iSCSI NetApp per Windows. Per informazioni dettagliate sull'installazione, consultare la link:https://docs.netapp.com/us-en/ontap-sanhost/hu_wuhu_72.html["Installare Windows Unified host Utilities 7,2 ( o la versione più recente supportata)"]
+
+*Tutti gli host*
+
+. Scarica link:https://mysupport.netapp.com/site/products/all/details/hostutilities/downloads-tab/download/61343/7.2["Utilità host iSCSI Windows"]
+. Sbloccare il file scaricato.
++
+[source, cli]
+----
+Unblock-file ~\Downloads\netapp_windows_host_utilities_7.2_x64.msi
+----
+. Installare le utilità host.
++
+[source, cli]
+----
+~\Downloads\netapp_windows_host_utilities_7.2_x64.msi /qn "MULTIPATHING=1"
+----
+
+
+
+NOTE: Il sistema verrà riavviato durante questo processo.
+
+====
+.Configurazione di iSCSI Initiator host Windows
+[%collapsible]
+====
+La seguente procedura descrive come configurare l'iniziatore iSCSI Microsoft integrato.
+
+*Tutti gli host*
+
+. Avviare un prompt di PowerShell facendo clic con il pulsante destro del mouse sull'icona di PowerShell nella barra delle applicazioni e selezionando Esegui come amministratore.
+. Configurare l'avvio automatico del servizio iSCSI.
++
+[source, cli]
+----
+Set-Service -Name MSiSCSI -StartupType Automatic
+----
+. Avviare il servizio iSCSI.
++
+[source, cli]
+----
+Start-Service -Name MSiSCSI
+----
+. Configurare MPIO per richiedere qualsiasi dispositivo iSCSI.
++
+[source, cli]
+----
+Enable-MSDSMAutomaticClaim -BusType iSCSI
+----
+. Impostare il criterio di bilanciamento del carico predefinito di tutti i dispositivi appena rivendicati su round robin.
++
+[source, cli]
+----
+Set-MSDSMGlobalDefaultLoadBalancePolicy -Policy RR 
+----
+. Configurare una destinazione iSCSI per ciascun controller.
++
+[source, cli]
+----
+New-IscsiTargetPortal -TargetPortalAddress <<iscsia_lif01_ip>> -InitiatorPortalAddress <iscsia_ipaddress>
+
+New-IscsiTargetPortal -TargetPortalAddress <<iscsib_lif01_ip>> -InitiatorPortalAddress <iscsib_ipaddress
+
+New-IscsiTargetPortal -TargetPortalAddress <<iscsia_lif02_ip>> -InitiatorPortalAddress <iscsia_ipaddress>
+
+New-IscsiTargetPortal -TargetPortalAddress <<iscsib_lif02_ip>> -InitiatorPortalAddress <iscsib_ipaddress>
+----
+. Collegare una sessione per ciascuna rete iSCSI a ciascuna destinazione.
++
+[source, cli]
+----
+Get-IscsiTarget | Connect-IscsiTarget -IsPersistent $true -IsMultipathEnabled $true -InitiatorPo rtalAddress <iscsia_ipaddress>
+
+Get-IscsiTarget | Connect-IscsiTarget -IsPersistent $true -IsMultipathEnabled $true -InitiatorPo rtalAddress <iscsib_ipaddress>
+----
+
+
+
+NOTE: Aggiunta di sessioni multiple (min. 5-8) per prestazioni migliori e utilizzo della larghezza di banda.
+
+====
+.Creazione di un cluster
+[%collapsible]
+====
+*Solo un server*
+
+. Avviare un prompt di PowerShell con autorizzazioni amministrative, facendo clic con il pulsante destro del mouse sull'icona PowerShell e selezionando `Run as Administrator``.
+. Creare un nuovo cluster.
++
+[source, cli]
+----
+New-Cluster -Name <cluster_name> -Node <hostnames> -NoStorage -StaticAddress <cluster_ip_address>
+----
++
+image:hyperv-deploy-image01.png["Immagine che mostra l'interfaccia di gestione del cluster"]
+
+. Selezionare la rete cluster appropriata per la migrazione in tempo reale.
+. Designare la rete CSV.
++
+[source, cli]
+----
+(Get-ClusterNetwork -Name Cluster).Metric = 900
+----
+. Modificare il cluster per utilizzare un disco quorum.
++
+.. Avviare un prompt di PowerShell con autorizzazioni amministrative facendo clic con il pulsante destro del mouse sull'icona di PowerShell e selezionando "Esegui come amministratore".
++
+[source, cli]
+----
+start-ClusterGroup "Available Storage"| Move-ClusterGroup -Node $env:COMPUTERNAME
+----
+.. In failover Cluster Manager, selezionare `Configure Cluster Quorum Settings`.
++
+image:hyperv-deploy-image02.png["Immagine delle impostazioni Configura Quorum cluster"]
+
+.. Fare clic su Avanti nella pagina di benvenuto.
+.. Selezionare il testimone quorum e fare clic su Avanti.
+.. Selezionare Configura un server di controllo del disco e fare clic su Avanti.
+.. Selezionare Disk W: (W disco) dalla memoria disponibile e fare clic su Next (Avanti).
+.. Fare clic su Avanti attraverso la pagina di conferma e su fine nella pagina di riepilogo.
++
+Per informazioni più dettagliate sul quorum e sul testimone, vedere link:https://learn.microsoft.com/en-us/windows-server/failover-clustering/manage-cluster-quorum#general-recommendations-for-quorum-configuration["Configurazione e gestione del quorum"]
+
+
+
+. Eseguire la procedura guidata di convalida cluster da failover Cluster Manager per convalidare la distribuzione.
+. Creazione di LUN CSV per memorizzare i dati delle macchine virtuali e creare macchine virtuali ad alta disponibilità tramite i ruoli in failover Cluster Manager.
+
+
+====
+
+
+== Considerazioni, funzionalità e integrazioni
+
+
+
+=== Fattori da considerare
+
+Questa fase è di fondamentale importanza per verificare che applicazioni, servizi e carichi di lavoro possano funzionare in modo efficace nell'ambiente Hyper-V. I controlli di compatibilità devono comprendere le versioni del sistema operativo, le versioni del server Windows, le dipendenze delle applicazioni, i sistemi di database e qualsiasi configurazione o personalizzazione specifica esistente nell'ambiente esistente.
+
+.Il dimensionamento dello storage
+[%collapsible]
+====
+Prima di implementare il carico di lavoro o di eseguire la migrazione dall'hypervisor esistente, assicurarsi che il carico di lavoro sia dimensionato in modo da soddisfare le performance richieste. Ciò può essere ottenuto facilmente raccogliendo i dati sulle performance per ogni singola macchina virtuale che raccoglie statistiche per CPU (utilizzata/fornita), memoria (utilizzata/fornita), storage (fornita/utilizzata), throughput di rete e latenza, insieme all'aggregazione degli IOPS in lettura/scrittura, throughput e dimensioni dei blocchi. Questi parametri sono obbligatori per un'implementazione corretta e per il dimensionamento corretto dello storage array e degli host del carico di lavoro.
+
+
+NOTE: Pianificare gli IOPS e la capacità al momento del dimensionamento dello storage per Hyper-V e dei carichi di lavoro associati.
+
+
+NOTE: Per macchine virtuali con i/o elevato o quelle che richiedono grandi quantità di risorse e capacità, isolamento del sistema operativo e dei dischi dati. I file binari del sistema operativo e dell'applicazione cambiano raramente e la coerenza del crash del volume è accettabile.
+
+
+NOTE: Utilizzare lo storage Guest Connected (noto anche come in-guest) per dischi dati ad alte prestazioni rispetto all'utilizzo di VHD. Anche questo facilita il processo di clonazione.
+
+====
+.Migliorare le prestazioni della macchina virtuale
+[%collapsible]
+====
+Scegliere la giusta quantità di RAM e vCPU per prestazioni ottimali oltre a collegare più dischi a un unico controller SCSI virtuale. L'utilizzo di VHDx fisso è comunque consigliato come scelta principale per i dischi virtuali per le distribuzioni e non vi sono restrizioni per l'utilizzo di alcun tipo di dischi virtuali VHDX.
+
+
+NOTE: Evitare di installare ruoli non necessari in Windows Server che non verranno utilizzati.
+
+
+NOTE: Scegli Gen2 come generazione per macchine virtuali in grado di caricare macchine virtuali dal controller SCSI e si basa sull'architettura VMBUS e VSP / VSC per il livello di boot, aumentando significativamente le performance complessive delle macchine virtuali.
+
+
+NOTE: Evitare di effettuare checkpoint frequenti perché ha un impatto negativo sulle prestazioni della VM.
+
+====
+.SMB3,0 progettazione e considerazione
+[%collapsible]
+====
+Le condivisioni di file SMB 3,0 possono essere utilizzate come storage condiviso per Hyper-V. ONTAP supporta operazioni senza interruzioni sulle condivisioni SMB per Hyper-V. Hyper-V può utilizzare le condivisioni di file SMB per archiviare i file della macchina virtuale, come configurazioni, Snapshot e file dell'hard disk virtuale (VHD). Utilizza una SVM CIFS dedicata di ONTAP per condivisioni basate su SMB3,0 per Hyper-V. I volumi utilizzati per archiviare i file della macchina virtuale devono essere creati con volumi di tipo di protezione NTFS. La connettività tra gli host Hyper-V e l'array NetApp è consigliata su una rete 10GB, se disponibile. In caso di connettività di rete 1GB GbE, NetApp consiglia di creare un gruppo di interfacce composto da più porte 1GB GbE. Collegare ogni NIC che serve SMB multicanale alla propria subnet IP dedicata, in modo che ogni subnet offra un unico percorso tra client e server.
+
+Punti chiave
+
+* Attiva il multi-canale SMB su SVM ONTAP
+* Le SVM CIFS di ONTAP devono avere almeno un'interfaccia LIF dati in ciascun nodo di un cluster.
+* Le condivisioni utilizzate devono essere configurate con il set di proprietà continuamente disponibile.
+* ONTAP One è ora incluso in tutti i sistemi AFF (A-Series e C-Series), All-SAN Array (ASA) e FAS. Pertanto, non sono necessarie licenze separate.
+* Per VHDx condiviso, utilizzare LUN iSCSI con connessione guest
+
+
+
+NOTE: ODX è supportato e funziona su più protocolli. Anche la copia dei dati tra una condivisione file e iSCSI o un LUN FCP-collegato utilizza ODX.
+
+
+NOTE: Le impostazioni di tempo sui nodi nel cluster devono essere configurate di conseguenza. È necessario utilizzare il protocollo NTP (Network Time Protocol) se il server CIFS NetApp deve far parte del dominio Active Directory (ad) di Windows.
+
+
+NOTE: I valori MTU di grandi dimensioni devono essere attivati tramite il server CIFS. Le dimensioni ridotte dei pacchetti possono causare un peggioramento delle prestazioni.
+
+====
+.Provisioning del volume SMB
+[%collapsible]
+====
+. Verificare che le opzioni richieste di server CIFS siano abilitate sulla Storage Virtual Machine (SVM)
+. Le seguenti opzioni devono essere impostate su true: SMB2 abilitato smb3 copy-offload abilitato shadowcopy-Enabled is-multicanale-Enabled è-Large-mtu-Enabled
++
+image:hyperv-deploy-image03.png["Immagine delle impostazioni della colonna SMB"]
+
+. Creare volumi di dati NTFS sulla Storage Virtual Machine (SVM) e configurare le condivisioni continuamente disponibili da utilizzare con Hyper-V.
++
+image:hyperv-deploy-image04.png["Immagine delle impostazioni del volume di dati NTFS"]
+
++
+
+NOTE: Le operazioni senza interruzioni per Hyper-V su SMB non funzionano correttamente, a meno che i volumi utilizzati nella configurazione non siano stati creati come volumi in stile di sicurezza NTFS.
+
+. Abilitare la disponibilità continua e configurare le autorizzazioni NTFS sulla condivisione in modo da includere i nodi Hyper-V con controllo completo.
++
+image:hyperv-deploy-image05.png["Immagine delle impostazioni delle autorizzazioni NTFS"]
+
+
+
+Per una guida dettagliata alle Best practice, vedere link:https://docs.netapp.com/us-en/ontap-apps-dbs/microsoft/win_overview.html["Linee guida per l'implementazione e Best practice per Hyper-V."].
+
+Per ulteriori informazioni, fare riferimento a. link:https://docs.netapp.com/us-en/ontap/smb-hyper-v-sql/server-volume-requirements-hyper-v-concept.html["Requisiti di volume e server SMB per Hyper-V su SMB
+"].
+
+====
+.Definizione e considerazione del protocollo di blocco
+[%collapsible]
+====
+Punti chiave
+
+* Utilizzo del multipathing (MPIO) sugli host per gestire i percorsi multipli. Crea più percorsi in base alle esigenze, per facilitare le operazioni di mobilità dei dati o sfruttare risorse di i/o aggiuntive, senza superare il numero massimo di percorsi supportati da un sistema operativo host.
+* Installare il kit di utilità host sugli host che accedono ai LUN.
+* Creazione di un minimo di 8 volumi.
+
+
+
+NOTE: Utilizzare un LUN per volume, con mappatura 1:1:1 per il rapporto LUN/CSV.
+
+* Una SVM deve avere una LIF per rete Ethernet o fabric Fibre Channel su ogni storage controller che fornirà dati tramite iSCSI o Fibre Channel.
+* Le SVM che forniscono dati con FCP o iSCSI necessitano di un'interfaccia di gestione SVM.
+
+
+====
+.Provisioning del volume ISCSI
+[%collapsible]
+====
+Per eseguire il provisioning del volume ISCSI, verificare che siano soddisfatti i seguenti prerequisiti.
+
+* Nella Storage Virtual Machine (SVM) deve essere attivato il protocollo iSCSI e devono essere create le interfacce logiche (LIF) appropriate.
+* L'aggregato designato deve disporre di spazio libero sufficiente per contenere il LUN.
+
+
+
+NOTE: Per impostazione predefinita, ONTAP utilizza la mappa LUN selettiva (SLM) per rendere il LUN accessibile solo attraverso i percorsi sul nodo che possiede il LUN e il suo partner ad alta disponibilità (ha).
+
+* Configura tutte le LIF iSCSI su ogni nodo per la mobilità delle LUN nel caso in cui la LUN venga spostata in un altro nodo del cluster.
+
+
+*Fasi*
+
+. Utilizzare System Manager e accedere alla finestra LUN (è possibile utilizzare l'interfaccia CLI di ONTAP per la stessa operazione).
+. Fare clic su Crea.
+. Sfogliare e selezionare la SVM designata in cui vengono visualizzate le LUN da creare e la procedura guidata Create LUN Wizard.
+. Nella pagina General Properties, selezionare Hyper-V per i LUN che contengono hard disk virtuali (VHD) per macchine virtuali Hyper-V.
++
+image:hyperv-deploy-image06.png["Immagine della pagina Proprietà generali per la creazione di LUN Hyper-V."]
+
+. <fare clic su altre opzioni> nella pagina del container LUN, selezionare un volume FlexVol esistente per evitare che venga creato un nuovo volume.
+. <fare clic su altre opzioni> nella pagina Mapping iniziatori, fare clic su Aggiungi gruppo iniziatori, immettere le informazioni richieste nella scheda Generale, quindi nella scheda iniziatori, immettere il nome del nodo iniziatore iSCSI degli host.
+. Confermare i dettagli, quindi fare clic su fine per completare la procedura guidata.
+
+
+Una volta creata la LUN, passare a failover Cluster Manager. Per aggiungere un disco a CSV, è necessario aggiungere il disco al gruppo archiviazione disponibile del cluster (se non è già stato aggiunto), quindi aggiungere il disco a CSV nel cluster.
+
+
+NOTE: La funzione CSV è attivata per impostazione predefinita in clustering di failover.
+
+*Aggiunta di un disco alla memoria disponibile:*
+
+. In failover Cluster Manager, nell'albero della console, espandere il nome del cluster, quindi espandere Storage.
+. Fare clic con il pulsante destro del mouse su dischi, quindi selezionare Aggiungi disco. Viene visualizzato un elenco con i dischi che è possibile aggiungere per l'utilizzo in un cluster di failover.
+. Selezionare il disco o i dischi che si desidera aggiungere, quindi selezionare OK.
+. I dischi vengono ora assegnati al gruppo archiviazione disponibile.
+. Al termine, selezionare il disco appena assegnato allo storage disponibile, fare clic con il pulsante destro del mouse sulla selezione, quindi selezionare Aggiungi a volumi condivisi cluster.
++
+image:hyperv-deploy-image07.png["Immagine dell'interfaccia Add to Cluster Shared Volumes (Aggiungi a volumi condivisi cluster)"]
+
+. I dischi vengono ora assegnati al gruppo Cluster Shared Volume nel cluster. I dischi sono esposti a ciascun nodo del cluster come volumi numerati (punti di montaggio) nella cartella %SystemDrive%ClusterStorage. I volumi vengono visualizzati nel file system CSVFS.
+
+
+Per ulteriori informazioni, fare riferimento a. link:https://learn.microsoft.com/en-us/windows-server/failover-clustering/failover-cluster-csvs#add-a-disk-to-csv-on-a-failover-cluster["Utilizzo di volumi condivisi del cluster in un cluster di failover"].
+
+*Creare macchine virtuali ad alta disponibilità:*
+
+Per creare una macchina virtuale altamente disponibile, attenersi alla seguente procedura:
+
+. In failover Cluster Manager, selezionare o specificare il cluster desiderato. Assicurarsi che la struttura della console sotto il cluster sia espansa.
+. Fare clic su ruoli.
+. Nel riquadro azioni, fare clic su macchine virtuali, quindi su Nuova macchina virtuale. Viene visualizzata la procedura guidata Nuova macchina virtuale. Fare clic su Avanti.
+. Nella pagina specifica nome e percorso, specificare un nome per la macchina virtuale, ad esempio nimdemo. Fare clic su Memorizza la macchina virtuale in un'altra posizione, quindi digitare il percorso completo o fare clic su Sfoglia e accedere allo storage condiviso.
+. Assegnare memoria e configurare la scheda di rete allo switch virtuale associato alla scheda di rete fisica.
+. Nella pagina Connetti disco rigido virtuale, fare clic su Crea un disco rigido virtuale.
+. Nella pagina Installation Options, fare clic su Install an operating system from a boot CD/DVD-ROM (Installa un sistema operativo da CD/DVD-ROM di avvio). In supporti, specificare la posizione del supporto, quindi fare clic su fine.
+. Viene creata la macchina virtuale. La procedura guidata per la disponibilità elevata in failover Cluster Manager configura automaticamente la macchina virtuale per l'alta disponibilità.
+
+
+====
+.Provisioning rapido di dischi virtuali tramite la funzione ODX
+[%collapsible]
+====
+La funzione ODX di ONTAP consente di creare copie dei VHD master semplicemente copiando un file VHDX master ospitato dal sistema storage ONTAP. Poiché una copia abilitata per ODX non trasferisce dati sulla rete, il processo di copia avviene sul lato storage di NetApp e pertanto può essere fino a sei-otto volte più veloce. Le considerazioni generali per un provisioning rapido includono le immagini sysprepped master archiviate nelle condivisioni file e i normali processi di copia avviati dalle macchine host Hyper-V.
+
+
+NOTE: ONTAP supporta ODX per i protocolli SMB e SAN.
+
+
+NOTE: Per sfruttare i casi di utilizzo per il pass-through di offload delle copie ODX con Hyper-V, il sistema operativo guest deve supportare ODX e i dischi del sistema operativo guest devono essere dischi SCSI salvati da uno storage (SMB o SAN) che supporta ODX. I dischi IDE sul sistema operativo guest non supportano il pass-through ODX.
+
+====
+.Ottimizzazione delle performance
+[%collapsible]
+====
+Sebbene il numero consigliato di VM per CSV sia soggettivo, numerosi fattori determinano il numero ottimale di VM che è possibile posizionare su ciascun volume CSV o SMB. Sebbene la maggior parte degli amministratori consideri solo la capacità, la quantità di i/o simultaneo inviata al VHDx è uno dei fattori principali per le performance complessive. Il modo più semplice per controllare le prestazioni è regolare il numero di macchine virtuali che vengono collocate in ogni CSV o condivisione. Se gli schemi i/o simultanei della macchina virtuale inviano troppo traffico al CSV o alla condivisione, le code del disco si riempiono e viene generata una latenza maggiore.
+
+====
+.Volume SMB e dimensionamento CSV
+[%collapsible]
+====
+Assicurati che la soluzione sia dimensionata in modo adeguato end-to-end per evitare i colli di bottiglia e, quando viene creato un volume per lo storage di macchine virtuali Hyper-V, la Best practice consiste nella creazione di un volume non superiore al necessario. Il dimensionamento corretto dei volumi impedisce di inserire accidentalmente troppe macchine virtuali nel CSV e riduce la probabilità di contesa di risorse. Ciascun volume condiviso del cluster (CSV, Cluster Shared Volume) supporta una VM o più VM. Il numero di VM da collocare in un CSV è determinato dal carico di lavoro e dalle preferenze aziendali e dal modo in cui verranno utilizzate funzionalità di storage ONTAP quali snapshot e replica. Collocare più VM in un CSV è un buon punto di partenza nella maggior parte degli scenari di distribuzione. Regola questo approccio per casi di utilizzo specifici per soddisfare i requisiti di performance e protezione dei dati.
+
+Poiché i volumi e le dimensioni di VHDx possono essere facilmente aumentati, se una macchina virtuale ha bisogno di capacità aggiuntiva, non è necessario ridimensionare i volumi CSV più grandi di quanto richiesto. Diskpart può essere utilizzato per estendere le dimensioni CSV o un approccio più semplice è creare un nuovo CSV e migrare le VM richieste al nuovo CSV. Per ottenere prestazioni ottimali, la Best practice consiste nell'aumentare il numero di CSV anziché aumentarne le dimensioni come misura provvisoria.
+
+====
+.Migrazione
+[%collapsible]
+====
+Uno dei casi di utilizzo più comuni nelle attuali condizioni di mercato è la migrazione. I clienti possono utilizzare il fabric VMM o altri strumenti di migrazione di terze parti per migrare le VM. Questi strumenti utilizzano la copia a livello di host per spostare i dati dalla piattaforma di origine alla piattaforma di destinazione, operazione che può richiedere tempo a seconda del numero di macchine virtuali che si trovano nell'ambito della migrazione.
+
+L'utilizzo di ONTAP in tali scenari consente una migrazione più rapida rispetto all'utilizzo di processi di migrazione basati su host. ONTAP consente anche una rapida migrazione delle macchine virtuali da un hypervisor all'altro (ESXi in questo caso in Hyper-V). È possibile convertire un VMDK di qualsiasi dimensione in VHDx in pochi secondi sullo storage NetApp. Questo è il nostro metodo PowerShell: Sfrutta la tecnologia NetApp FlexClone® per la conversione rapida dei dischi rigidi delle VM. Gestisce inoltre la creazione e la configurazione di macchine virtuali di destinazione e di destinazione.
+
+Questo processo consente di ridurre al minimo i tempi di inattività e di migliorare la produttività aziendale. Offre inoltre possibilità di scelta e flessibilità riducendo i costi di licenza, i vincoli e gli impegni nei confronti di un singolo fornitore. Ciò è utile anche per le organizzazioni che desiderano ottimizzare i costi di licenza delle VM ed estendere i budget IT.
+
+Per ulteriori informazioni sulla migrazione con FlexClone e PowerShell, vedere link:#appendix["Appendice A."].
+
+====
+
+
+=== Protezione dei dati
+
+.Eseguire il ripristino utilizzando la snapshot dello storage NetApp
+[%collapsible]
+====
+Il backup delle macchine virtuali e il loro rapido ripristino o clonazione sono tra i principali punti di forza dei volumi ONTAP. Utilizza le copie Snapshot per creare copie FlexClone rapide delle macchine virtuali o anche dell'intero volume CSV, senza alcun impatto sulle performance. Ciò consente di lavorare con i dati di produzione senza il rischio di corruzione dei dati durante il cloning dei volumi dei dati di produzione e il loro montaggio su ambienti di QA, staging e sviluppo. I volumi FlexClone sono utili per effettuare copie di prova dei dati di produzione, senza dover raddoppiare lo spazio richiesto per copiare i dati.
+
+Tenere presente che i nodi Hyper-V assegnano a ciascun disco un ID univoco e l'acquisizione di uno snapshot del volume che ha la rispettiva partizione (MBR o GPT) porterà la stessa identificazione univoca. MBR utilizza le firme dei dischi e GPT utilizza i GUID (Global Unique Identifier). Nel caso di host Hyper-V standalone, il volume FlexClone può essere montato facilmente senza conflitti. Questo perché i server Hyper-V autonomi sono in grado di rilevare automaticamente gli ID disco duplicati e di modificarli in modo dinamico senza l'intervento dell'utente. Questo approccio può essere utilizzato per ripristinare le VM copiando i VHD come richiesto dallo scenario.
+
+Sebbene sia semplice con gli host Hyper-V standalone, la procedura è diversa per i cluster Hyper-V. Il processo di recovery prevede la mappatura del volume FlexClone a un host Hyper-V standalone o l'utilizzo di diskpart per modificare manualmente la firma mappando il volume FlexClone a un host Hyper-V standalone (è importante perché un conflitto di ID del disco comporta l'impossibilità di portare il disco online) e, una volta terminato, mappare il volume FlexClone al cluster.
+
+====
+.Backup e ripristino con soluzioni di terze parti
+[%collapsible]
+====
+
+NOTE: Questa sezione utilizza CommVault, tuttavia ciò si applica ad altre soluzioni di terze parti.
+
+Sfruttando le istantanee ONTAP, CommVault IntelliSnap® crea istantanee basate su hardware
+Della tecnologia Hyper-V. I backup possono essere automatizzati in base alla configurazione di un hypervisor o di un gruppo VM di Hyper-V, oppure manualmente per un gruppo VM o una VM specifica. IntelliSnap consente la protezione rapida degli ambienti Hyper-V con carico minimo sulla farm di virtualizzazione della produzione. L'integrazione della tecnologia IntelliSnap con l'agente server virtuale (VSA) consente all'array NetApp ONTAP di completare i backup con un elevato numero di macchine virtuali e archivi di dati in pochi minuti. L'accesso granulare fornisce il ripristino di singoli file e cartelle dal livello secondario di storage insieme ai file .vhd guest completi.
+
+Prima di configurare l'ambiente di virtualizzazione, installare gli agenti appropriati che richiedono l'integrazione delle snapshot con l'array. Gli ambienti di virtualizzazione Microsoft Hyper-V richiedono i seguenti agenti:
+
+* MediaAgent
+* Agente server virtuale (VSA)
+* Provider hardware VSS (Windows Server 2012 e sistemi operativi più recenti)
+
+
+*Configurare l'array NetApp utilizzando Gestione array*
+
+La seguente procedura illustra come configurare i backup delle macchine virtuali IntelliSnap in un ambiente che utilizza un array ONTAP e Hyper-V.
+
+. Nella barra multifunzione di CommCell Console, fare clic sulla scheda Storage (archiviazione), quindi su Array Management (Gestione array).
+. Viene visualizzata la finestra di dialogo Array Management (Gestione array).
+. Fare clic su Aggiungi.
++
+Viene visualizzata la finestra di dialogo Array Properties (Proprietà matrice).
+
++
+image:hyperv-deploy-image09.png["Immagine della finestra di dialogo Array Properties (Proprietà matrice)"]
+
+. Nella scheda Generale, specificare le seguenti informazioni:
+. Dall'elenco Snap Vendor, selezionare NetApp.
+. Nella casella Nome, immettere il nome host, il nome di dominio completo (FQDN) o l'indirizzo TCP/IP del file server primario.
+. Nella scheda nodi di accesso array, selezionare agenti multimediali disponibili.
+. Nella scheda Configurazione snap, configurare le proprietà di configurazione snapshot in base alle proprie esigenze.
+. Fare clic su OK.
+. Una volta eseguita questa operazione, configurare SVM sullo storage array NetApp utilizzando l'opzione Detect per rilevare automaticamente le Storage Virtual Machine (SVM), quindi scegliere una SVM; con l'opzione add, aggiungere la SVM nel database CommServe come voce per la gestione degli array <Mandatory step>.
++
+image:hyperv-deploy-image10.png["Immagine della configurazione della SVM come voce di gestione degli array"]
+
+. Fare clic su Avanzate (come mostrato nella figura sottostante) e selezionare la casella di controllo "attiva IntelliSnap".
++
+image:hyperv-deploy-image11.png["Immagine che visualizza l'opzione attiva IntelliSnap"]
+
+
+
+Per informazioni dettagliate sulla configurazione dell'array, vedere link:https://documentation.commvault.com/11.20/configuring_netapp_array_using_array_management.html["Configurazione dell'array NetApp"] e. link:https://cvdocssaproduction.blob.core.windows.net/cvdocsproduction/2023e/expert/configuring_storage_virtual_machines_on_netapp_arrays.html["Configurazione di Storage Virtual Machine su array NetApp"]
+
+*Aggiungere Hyper-V come Hypervisor*
+
+Il passaggio successivo consiste nell'aggiungere un hypervisor Hyper-V e un gruppo di macchine virtuali.
+
+Prerequisiti:
+
+* L'hypervisor può essere un cluster Hyper-V, un server Hyper-V in un cluster o un server Hyper-V standalone.
+* L'utente deve appartenere al gruppo di amministratori di Hyper-V per Hyper-V Server 2012 e versioni successive. Per un cluster Hyper-V, l'account utente deve disporre di autorizzazioni complete per il cluster (lettura e controllo completo).
+* Identificare uno o più nodi su cui installare Virtual Server Agent (VSA) per creare nodi di accesso (proxy VSA) per le operazioni di backup e ripristino. Per rilevare i server Hyper-V, sul sistema CommServe deve essere installato VSA.
+* Per utilizzare Changed Block Tracking per Hyper-V 2012 R2, selezionare tutti i nodi nel cluster Hyper-V.
+
+
+Per aggiungere Hyper-V come hypervisor, attenersi alla procedura illustrata di seguito.
+
+. Una volta completata la configurazione di base, nella scheda Protect (protezione), fare clic sul riquadro Virtualization (virtualizzazione).
+. Nella pagina Crea piano di backup del server, digitare un nome per il piano, quindi fornire informazioni sulle pianificazioni di archiviazione, conservazione e backup.
+. Ora viene visualizzata la pagina Aggiungi hypervisor > Seleziona fornitore: Selezionare Hyper-V (immettere l'indirizzo IP o FQDN e le credenziali utente)
+. Per un server Hyper-V, fare clic su rileva nodi. Quando il campo nodi è popolato, selezionare uno o più nodi su cui installare Virtual Server Agent.
++
+image:hyperv-deploy-image12.png["Immagine che mostra la ricerca di nodi Hyper-V."]
+
+. Fare clic su Avanti e selezionare Salva.
++
+image:hyperv-deploy-image13.png["Immagine che mostra i risultati della fase precedente"]
+
+. Nella pagina Add VM group (Aggiungi gruppo VM), selezionare le macchine virtuali da proteggere (Demogrp è il gruppo VM creato in questo caso) e attivare l'opzione IntelliSnap come illustrato di seguito.
++
+image:hyperv-deploy-image14.png["Immagine che mostra la selezione delle VM da proteggere"]
+
++
+
+NOTE: Quando IntelliSnap viene abilitato in un gruppo di macchine virtuali, CommVault crea automaticamente policy di pianificazione per le copie primarie (snap) e di backup.
+
+. Fare clic su Salva.
+
+
+Per informazioni dettagliate sulla configurazione dell'array, vedere link:https://documentation.commvault.com/2023e/essential/guided_setup_for_hyper_v.html["Aggiunta di un hypervisor"].
+
+*Esecuzione di un backup:*
+
+. Dal riquadro di navigazione, andare a Protect > Virtualization (protezione > virtualizzazione). Viene visualizzata la pagina macchine virtuali.
+. Eseguire il backup della VM o del gruppo VM. In questa demo, è selezionato il gruppo VM. Nella riga relativa al gruppo VM, fare clic sul pulsante azione Action_button, quindi selezionare Back up. In questo caso, nimplan è il piano associato a Demogrp e Demogrp01.
++
+image:hyperv-deploy-image15.png["Immagine che mostra la finestra di dialogo per selezionare le VM di cui eseguire il backup"]
+
+. Una volta completato il backup, i punti di ripristino sono disponibili come mostrato nella schermata. Dalla copia snap, è possibile eseguire il ripristino della VM completa e il ripristino di file e cartelle guest.
++
+image:hyperv-deploy-image16.png["Immagine che visualizza i punti di ripristino per un backup"]
+
++
+
+NOTE: Per le macchine virtuali critiche e utilizzate in modo intensivo, è possibile mantenere un numero inferiore di macchine virtuali per CSV
+
+
+
+*Esecuzione di un'operazione di ripristino:*
+
+Ripristino di macchine virtuali complete, file e cartelle guest o file di dischi virtuali tramite i punti di ripristino.
+
+. Dal riquadro di navigazione, andare a Protect > Virtualization (protezione > virtualizzazione), viene visualizzata la pagina Virtual Machines (macchine virtuali).
+. Fare clic sulla scheda gruppi VM.
+. Viene visualizzata la pagina del gruppo VM.
+. Nell'area gruppi VM, fare clic su Ripristina per il gruppo VM che contiene la macchina virtuale.
+. Viene visualizzata la pagina Seleziona tipo di ripristino.
++
+image:hyperv-deploy-image17.png["Immagine che mostra i tipi di ripristino per un backup"]
+
+. Selezionare file guest o macchina virtuale completa a seconda della selezione e attivare il ripristino.
++
+image:hyperv-deploy-image18.png["Immagine che visualizza le opzioni per il ripristino"]
+
+
+
+Per informazioni dettagliate su tutte le opzioni di ripristino supportate, vedere link:https://documentation.commvault.com/2023e/essential/restores_for_hyper_v.html["Ripristini per Hyper-V."].
+
+====
+
+
+=== Opzioni NetApp ONTAP avanzate
+
+NetApp SnapMirror permette una replica efficiente dello storage site-to-site, rendendo il disastro
+ripristino rapido, affidabile e gestibile per adattarsi alle aziende globali moderne. Replicando i dati a velocità elevate su LAN e WAN, SnapMirror fornisce un'elevata disponibilità dei dati e un rapido ripristino per applicazioni mission-critical, nonché eccezionali funzionalità di deduplica dello storage e compressione di rete. Con la tecnologia NetApp SnapMirror, il disaster recovery può proteggere l'intero data center. È possibile eseguire il backup incrementale dei volumi in una posizione off-site. SnapMirror esegue una replica incrementale e basata su blocchi con la frequenza dell'RPO richiesto. Gli update a livello di blocco riducono i requisiti di tempo e larghezza di banda, mentre la coerenza dei dati viene mantenuta nel sito di disaster recovery.
+
+Un passaggio importante è creare un trasferimento baseline una tantum dell'intero set di dati. Ciò è necessario prima di poter eseguire gli aggiornamenti incrementali. Questa operazione include la creazione di una copia Snapshot all'origine e il trasferimento di tutti i blocchi di dati a cui fa riferimento nel file system di destinazione. Una volta completata l'inizializzazione, è possibile che vengano eseguiti aggiornamenti programmati o attivati manualmente. Ogni aggiornamento trasferisce solo i blocchi nuovi e modificati dal file system di origine a quello di destinazione. Questa operazione include la creazione di una copia Snapshot nel volume di origine, il confronto con la copia di base e il trasferimento solo dei blocchi modificati nel volume di destinazione. La nuova copia diventa la copia di base per l'aggiornamento successivo. Poiché la replica è periodica, SnapMirror può consolidare i blocchi modificati e preservare la larghezza di banda della rete. L'impatto sulla velocità di scrittura e sulla latenza di scrittura è minimo.
+
+Il ripristino viene eseguito effettuando le seguenti operazioni:
+
+. Connettersi al sistema storage sul sito secondario.
+. Interrompi la relazione di SnapMirror.
+. Mappare le LUN nel volume SnapMirror al gruppo iniziatore (igroup) per i server Hyper-V sul sito secondario.
+. Una volta mappate le LUN al cluster Hyper-V, renderle online.
+. Utilizzando i cmdlet di PowerShell del cluster di failover, aggiungere i dischi nello storage disponibile e convertirli in CSV.
+. Importare le macchine virtuali nel file CSV in Hyper-V Manager, renderle altamente disponibili e aggiungerle al cluster.
+. Attivare le VM.
+
+
+
+
+== Conclusione
+
+ONTAP è la base di storage condiviso ottimale per implementare una vasta gamma di workload IT. Le piattaforme ONTAP AFF o ASA sono flessibili e scalabili per casi d'utilizzo e applicazioni multipli. Windows Server 2022 e Hyper-V attivati su di esso sono un caso di utilizzo comune come soluzione di virtualizzazione, descritto in questo documento. La flessibilità e la scalabilità dello storage ONTAP e delle funzioni associate consentono ai clienti di iniziare con un layer storage di dimensioni adeguate che può crescere e adattarsi ai propri requisiti di business in continua evoluzione. Nelle attuali condizioni di mercato, Hyper-V offre un'opzione di hypervisor alternativa perfetta, che fornisce la maggior parte delle funzionalità fornite da VMware.
+
+
+
+== Appendice A: Migrazione con FlexClone e PowerShell
+
+.Script PowerShell
+[%collapsible]
+====
+[source, powershell]
+----
+param (
+    [Parameter(Mandatory=$True, HelpMessage="VCenter DNS name or IP Address")]
+    [String]$VCENTER,
+    [Parameter(Mandatory=$True, HelpMessage="NetApp ONTAP NFS Datastore name")]
+    [String]$DATASTORE,
+    [Parameter(Mandatory=$True, HelpMessage="VCenter credentials")]
+    [System.Management.Automation.PSCredential]$VCENTER_CREDS,
+    [Parameter(Mandatory=$True, HelpMessage="The IP Address of the ONTAP Cluster")]
+    [String]$ONTAP_CLUSTER,
+    [Parameter(Mandatory=$True, HelpMessage="NetApp ONTAP VServer/SVM name")]
+    [String]$VSERVER,
+    [Parameter(Mandatory=$True, HelpMessage="NetApp ONTAP NSF,SMB Volume name")]
+    [String]$ONTAP_VOLUME_NAME,
+    [Parameter(Mandatory=$True, HelpMessage="ONTAP NFS/CIFS Volume mount Drive on Hyper-V host")]
+    [String]$ONTAP_NETWORK_SHARE_ADDRESS,
+    [Parameter(Mandatory=$True, HelpMessage="NetApp ONTAP Volume QTree folder name")]
+    [String]$VHDX_QTREE_NAME,
+    [Parameter(Mandatory=$True, HelpMessage="The Credential to connect to the ONTAP Cluster")]
+    [System.Management.Automation.PSCredential]$ONTAP_CREDS,
+    [Parameter(Mandatory=$True, HelpMessage="Hyper-V VM switch name")]
+    [String]$HYPERV_VM_SWITCH
+)
+
+function main {
+
+    ConnectVCenter
+
+    ConnectONTAP
+
+    GetVMList
+
+    GetVMInfo
+
+    #PowerOffVMs
+
+    CreateOntapVolumeSnapshot
+
+    Shift
+
+    ConfigureVMsOnHyperV
+}
+
+function ConnectVCenter {
+    Write-Host "------------------------------------------------------------------------------" -ForegroundColor Cyan
+    Write-Host "Connecting to vCenter $VCENTER" -ForegroundColor Magenta
+    Write-Host "------------------------------------------------------------------------------`n" -ForegroundColor Cyan
+
+    [string]$vmwareModuleName = "VMware.VimAutomation.Core"
+
+    Write-Host "Importing VMware $vmwareModuleName Powershell module"
+    if ((Get-Module|Select-Object -ExpandProperty Name) -notcontains $vmwareModuleName) {
+        Try {
+            Import-Module $vmwareModuleName -ErrorAction Stop
+            Write-Host "$vmwareModuleName imported successfully" -ForegroundColor Green
+        } Catch {
+            Write-Error "Error: $vmwareMdouleName PowerShell module not found"
+			break;
+        }
+    }
+    else {
+        Write-Host "$vmwareModuleName Powershell module already imported" -ForegroundColor Green
+    }
+
+    Write-Host "`nConnecting to vCenter $VCENTER"
+    Try {
+        $connect = Connect-VIServer -Server $VCENTER -Protocol https -Credential $VCENTER_CREDS -ErrorAction Stop
+        Write-Host "Connected to vCenter $VCENTER" -ForegroundColor Green
+    } Catch {
+        Write-Error "Failed to connect to vCenter $VCENTER. Error : $($_.Exception.Message)"
+		break;
+    }
+}
+
+function ConnectONTAP {
+    Write-Host "`n------------------------------------------------------------------------------" -ForegroundColor Cyan
+    Write-Host "Connecting to VSerevr $VSERVER at ONTAP Cluster $ONTAP_CLUSTER" -ForegroundColor Magenta
+    Write-Host "------------------------------------------------------------------------------`n" -ForegroundColor Cyan
+
+    [string]$ontapModuleName = "NetApp.ONTAP"
+
+    Write-Host "Importing NetApp ONTAP $ontapModuleName Powershell module"
+    if ((Get-Module|Select-Object -ExpandProperty Name) -notcontains $ontapModuleName) {
+        Try {
+            Import-Module $ontapModuleName -ErrorAction Stop
+            Write-Host "$ontapModuleName imported successfully" -ForegroundColor Green
+        } Catch {
+            Write-Error "Error: $vmwareMdouleName PowerShell module not found"
+			break;
+        }
+    }
+    else {
+        Write-Host "$ontapModuleName Powershell module already imported" -ForegroundColor Green
+    }
+
+    Write-Host "`nConnecting to ONTAP Cluster $ONTAP_CLUSTER"
+    Try {
+        $connect = Connect-NcController -Name $ONTAP_CLUSTER -Credential $ONTAP_CREDS -Vserver $VSERVER
+        Write-Host "Connected to ONTAP Cluster $ONTAP_CLUSTER" -ForegroundColor Green
+    } Catch {
+        Write-Error "Failed to connect to ONTAP Cluster $ONTAP_CLUSTER. Error : $($_.Exception.Message)"
+		break;
+    }
+}
+
+function GetVMList {
+    Write-Host "`n------------------------------------------------------------------------------" -ForegroundColor Cyan
+    Write-Host "Fetching powered on VMs list with Datastore $DATASTORE" -ForegroundColor Magenta
+    Write-Host "------------------------------------------------------------------------------`n" -ForegroundColor Cyan
+    try {
+        $vmList = VMware.VimAutomation.Core\Get-VM -Datastore $DATASTORE -ErrorAction Stop| Where-Object {$_.PowerState -eq "PoweredOn"} | OUT-GridView -OutputMode Multiple
+        #$vmList = Get-VM -Datastore $DATASTORE -ErrorAction Stop| Where-Object {$_.PowerState -eq "PoweredOn"}
+
+        if($vmList) {
+            Write-Host "Selected VMs for Shift" -ForegroundColor Green
+            $vmList | Format-Table -Property Name
+            $Script:VMList = $vmList
+        }
+        else {
+            Throw "No VMs selected"
+        }
+    }
+    catch {
+        Write-Error "Failed to get VM List. Error : $($_.Exception.Message)"
+        Break;
+    }
+}
+
+function GetVMInfo {
+    Write-Host "------------------------------------------------------------------------------" -ForegroundColor Cyan
+    Write-Host "VM Information" -ForegroundColor Magenta
+    Write-Host "------------------------------------------------------------------------------" -ForegroundColor Cyan
+    $vmObjArray = New-Object System.Collections.ArrayList
+
+    if($VMList) {
+        foreach($vm in $VMList) {
+            $vmObj = New-Object -TypeName System.Object
+
+            $vmObj | Add-Member -MemberType NoteProperty -Name ID -Value $vm.Id
+            $vmObj | Add-Member -MemberType NoteProperty -Name Name -Value $vm.Name
+            $vmObj | Add-Member -MemberType NoteProperty -Name NumCpu -Value $vm.NumCpu
+            $vmObj | Add-Member -MemberType NoteProperty -Name MemoryGB -Value $vm.MemoryGB
+            $vmObj | Add-Member -MemberType NoteProperty -Name Firmware -Value $vm.ExtensionData.Config.Firmware
+
+            $vmDiskInfo = $vm | VMware.VimAutomation.Core\Get-HardDisk
+
+            $vmDiskArray = New-Object System.Collections.ArrayList
+            foreach($disk in $vmDiskInfo) {
+                $diskObj = New-Object -TypeName System.Object
+
+                $diskObj | Add-Member -MemberType NoteProperty -Name Name -Value $disk.Name
+
+                $fileName = $disk.Filename
+                if ($fileName -match '\[(.*?)\]') {
+                    $dataStoreName = $Matches[1]
+                }
+
+                $parts = $fileName -split " "
+                $pathParts = $parts[1] -split "/"
+                $folderName = $pathParts[0]
+                $fileName = $pathParts[1]
+
+                $diskObj | Add-Member -MemberType NoteProperty -Name DataStore -Value $dataStoreName
+                $diskObj | Add-Member -MemberType NoteProperty -Name Folder -Value $folderName
+                $diskObj | Add-Member -MemberType NoteProperty -Name Filename -Value $fileName
+                $diskObj | Add-Member -MemberType NoteProperty -Name CapacityGB -Value $disk.CapacityGB
+
+                $null = $vmDiskArray.Add($diskObj)
+            }
+
+            $vmObj | Add-Member -MemberType NoteProperty -Name PrimaryHardDisk -Value "[$($vmDiskArray[0].DataStore)] $($vmDiskArray[0].Folder)/$($vmDiskArray[0].Filename)"
+            $vmObj | Add-Member -MemberType NoteProperty -Name HardDisks -Value $vmDiskArray
+
+            $null = $vmObjArray.Add($vmObj)
+
+            $vmNetworkArray = New-Object System.Collections.ArrayList
+
+            $vm |
+            ForEach-Object {
+              $VM = $_
+              $VM | VMware.VimAutomation.Core\Get-VMGuest | Select-Object -ExpandProperty Nics |
+              ForEach-Object {
+                $Nic = $_
+                foreach ($IP in $Nic.IPAddress)
+                {
+                  if ($IP.Contains('.'))
+                  {
+                    $networkObj = New-Object -TypeName System.Object
+
+                    $vlanId = VMware.VimAutomation.Core\Get-VirtualPortGroup | Where-Object {$_.Key -eq $Nic.NetworkName}
+                    $networkObj | Add-Member -MemberType NoteProperty -Name VLanID -Value $vlanId
+                    $networkObj | Add-Member -MemberType NoteProperty -Name IPv4Address -Value $IP
+
+                    $null = $vmNetworkArray.Add($networkObj)
+                  }
+                }
+              }
+            }
+
+            $vmObj | Add-Member -MemberType NoteProperty -Name PrimaryIPv4 -Value $vmNetworkArray[0].IPv4Address
+            $vmObj | Add-Member -MemberType NoteProperty -Name PrimaryVLanID -Value $vmNetworkArray.VLanID
+            $vmObj | Add-Member -MemberType NoteProperty -Name Networks -Value $vmNetworkArray
+
+            $guest = $vm.Guest
+            $parts = $guest -split ":"
+            $afterColon = $parts[1]
+
+            $osFullName = $afterColon
+
+            $vmObj | Add-Member -MemberType NoteProperty -Name OSFullName -Value $osFullName
+            $vmObj | Add-Member -MemberType NoteProperty -Name GuestID -Value $vm.GuestId
+        }
+    }
+
+    $vmObjArray | Format-Table -Property ID, Name, NumCpu, MemoryGB, PrimaryHardDisk, PrimaryIPv4, PrimaryVLanID, GuestID, OSFullName, Firmware
+
+    $Script:VMObjList = $vmObjArray
+}
+
+function PowerOffVMs {
+    Write-Host "`n------------------------------------------------------------------------------" -ForegroundColor Cyan
+    Write-Host "Power Off VMs" -ForegroundColor Magenta
+    Write-Host "------------------------------------------------------------------------------`n" -ForegroundColor Cyan
+    foreach($vm in $VMObjList) {
+        try {
+            Write-Host "Powering Off VM $($vm.Name) in vCenter $($VCENTER)"
+            $null = VMware.VimAutomation.Core\Stop-VM -VM $vm.Name -Confirm:$false -ErrorAction Stop
+            Write-Host "Powered Off VM $($vm.Name)" -ForegroundColor Green
+        }
+        catch {
+            Write-Error "Failed to Power Off VM $($vm.Name). Error : $._Exception.Message"
+            Break;
+        }
+        Write-Host "`n"
+    }
+}
+
+function CreateOntapVolumeSnapshot {
+    Write-Host "`n------------------------------------------------------------------------------" -ForegroundColor Cyan
+    Write-Host "Taking ONTAP Snapshot for Volume $ONTAP_VOLUME_NAME" -ForegroundColor Magenta
+    Write-Host "------------------------------------------------------------------------------`n" -ForegroundColor Cyan
+
+    Try {
+        Write-Host "Taking snapshot for Volume $ONTAP_VOLUME_NAME"
+        $timestamp = Get-Date -Format "yyyy-MM-dd_HHmmss"
+        $snapshot = New-NcSnapshot -VserverContext $VSERVER -Volume $ONTAP_VOLUME_NAME -Snapshot "snap.script-$timestamp"
+
+        if($snapshot) {
+            Write-Host "Snapshot ""$($snapshot.Name)"" created for Volume $ONTAP_VOLUME_NAME" -ForegroundColor Green
+            $Script:OntapVolumeSnapshot = $snapshot
+        }
+    } Catch {
+        Write-Error "Failed to create snapshot for Volume $ONTAP_VOLUME_NAME. Error : $_.Exception.Message"
+        Break;
+    }
+}
+
+function Shift {
+    Write-Host "------------------------------------------------------------------------------" -ForegroundColor Cyan
+    Write-Host "VM Shift" -ForegroundColor Magenta
+    Write-Host "------------------------------------------------------------------------------`n" -ForegroundColor Cyan
+
+    $Script:HypervVMList = New-Object System.Collections.ArrayList
+    foreach($vmObj in $VMObjList) {
+
+        Write-Host "***********************************************"
+        Write-Host "Performing VM conversion for $($vmObj.Name)" -ForegroundColor Blue
+        Write-Host "***********************************************"
+
+        $hypervVMObj = New-Object -TypeName System.Object
+
+        $directoryName = "/vol/$($ONTAP_VOLUME_NAME)/$($VHDX_QTREE_NAME)/$($vmObj.HardDisks[0].Folder)"
+
+        try {
+            Write-Host "Creating Folder ""$directoryName"" for VM $($vmObj.Name)"
+            $dir = New-NcDirectory -VserverContext $VSERVER -Path $directoryName -Permission 0777 -Type directory -ErrorAction Stop
+            if($dir) {
+                Write-Host "Created folder ""$directoryName"" for VM $($vmObj.Name)`n" -ForegroundColor Green
+            }
+        }
+        catch {
+            if($_.Exception.Message -eq "[500]: File exists") {
+                Write-Warning "Folder ""$directoryName"" already exists!`n"
+            }
+            Else {
+                Write-Error "Failed to create folder ""$directoryName"" for VM $($vmObj.Name). Error : $($_.Exception.Message)"
+                Break;
+            }
+        }
+
+        $vmDiskArray = New-Object System.Collections.ArrayList
+
+        foreach($disk in $vmObj.HardDisks) {
+            $vmDiskObj = New-Object -TypeName System.Object
+            try {
+                Write-Host "`nConverting $($disk.Name)"
+                Write-Host "--------------------------------"
+
+                $vmdkPath = "/vol/$($ONTAP_VOLUME_NAME)/$($disk.Folder)/$($disk.Filename)"
+                $fileName = $disk.Filename -replace '\.vmdk$', ''
+                $vhdxPath = "$($directoryName)/$($fileName).vhdx"
+
+                Write-Host "Converting ""$($disk.Name)"" VMDK path ""$($vmdkPath)"" to VHDX at Path ""$($vhdxPath)"" for VM $($vmObj.Name)"
+                $convert = ConvertTo-NcVhdx -SourceVmdk $vmdkPath -DestinationVhdx $vhdxPath  -SnapshotName $OntapVolumeSnapshot -ErrorAction Stop -WarningAction SilentlyContinue
+                if($convert) {
+                    Write-Host "Successfully converted VM ""$($vmObj.Name)"" VMDK path ""$($vmdkPath)"" to VHDX at Path ""$($vhdxPath)""" -ForegroundColor Green
+
+                    $vmDiskObj | Add-Member -MemberType NoteProperty -Name Name -Value $disk.Name
+                    $vmDiskObj | Add-Member -MemberType NoteProperty -Name VHDXPath -Value $vhdxPath
+
+                    $null = $vmDiskArray.Add($vmDiskObj)
+                }
+            }
+            catch {
+                Write-Error "Failed to convert ""$($disk.Name)"" VMDK to VHDX for VM $($vmObj.Name). Error : $($_.Exception.Message)"
+                Break;
+            }
+        }
+
+        $hypervVMObj | Add-Member -MemberType NoteProperty -Name Name -Value $vmObj.Name
+        $hypervVMObj | Add-Member -MemberType NoteProperty -Name HardDisks -Value $vmDiskArray
+        $hypervVMObj | Add-Member -MemberType NoteProperty -Name MemoryGB -Value $vmObj.MemoryGB
+        $hypervVMObj | Add-Member -MemberType NoteProperty -Name Firmware -Value $vmObj.Firmware
+        $hypervVMObj | Add-Member -MemberType NoteProperty -Name GuestID -Value $vmObj.GuestID
+
+
+
+        $null = $HypervVMList.Add($hypervVMObj)
+        Write-Host "`n"
+
+    }
+}
+
+function ConfigureVMsOnHyperV {
+    Write-Host "------------------------------------------------------------------------------" -ForegroundColor Cyan
+    Write-Host "Configuring VMs on Hyper-V" -ForegroundColor Magenta
+    Write-Host "------------------------------------------------------------------------------`n" -ForegroundColor Cyan
+
+    foreach($vm in $HypervVMList) {
+        try {
+
+            # Define the original path
+            $originalPath = $vm.HardDisks[0].VHDXPath
+            # Replace forward slashes with backslashes
+            $windowsPath = $originalPath -replace "/", "\"
+
+            # Replace the initial part of the path with the Windows drive letter
+            $windowsPath = $windowsPath -replace "^\\vol\\", "\\$($ONTAP_NETWORK_SHARE_ADDRESS)\"
+
+            $vmGeneration = if ($vm.Firmware -eq "bios") {1} else {2};
+
+            Write-Host "***********************************************"
+            Write-Host "Creating VM $($vm.Name)" -ForegroundColor Blue
+            Write-Host "***********************************************"
+            Write-Host "Creating VM $($vm.Name) with Memory $($vm.MemoryGB)GB, vSwitch $($HYPERV_VM_SWITCH), $($vm.HardDisks[0].Name) ""$($windowsPath)"", Generation $($vmGeneration) on Hyper-V"
+
+            $createVM = Hyper-V\New-VM -Name $vm.Name -VHDPath $windowsPath -SwitchName $HYPERV_VM_SWITCH -MemoryStartupBytes (Invoke-Expression "$($vm.MemoryGB)GB") -Generation $vmGeneration -ErrorAction Stop
+            if($createVM) {
+                Write-Host "VM $($createVM.Name) created on Hyper-V host`n" -ForegroundColor Green
+
+
+                $index = 0
+                foreach($vmDisk in $vm.HardDisks) {
+                    $index++
+                    if ($index -eq 1) {
+                        continue
+                    }
+
+                    Write-Host "`nAttaching $($vmDisk.Name) for VM $($vm.Name)"
+                    Write-Host "---------------------------------------------"
+
+                    $originalPath = $vmDisk.VHDXPath
+
+                    # Replace forward slashes with backslashes
+                    $windowsPath = $originalPath -replace "/", "\"
+
+                    # Replace the initial part of the path with the Windows drive letter
+                    $windowsPath = $windowsPath -replace "^\\vol\\", "\\$($ONTAP_NETWORK_SHARE_ADDRESS)\"
+
+                    try {
+                        $attachDisk = Hyper-v\Add-VMHardDiskDrive -VMName $vm.Name -Path $windowsPath -ErrorAction Stop
+                        Write-Host "Attached $($vmDisk.Name) ""$($windowsPath)"" to VM $($vm.Name)" -ForegroundColor Green
+                    }
+                    catch {
+                        Write-Error "Failed to attach $($vmDisk.Name) $($windowsPath) to VM $($vm.Name): Error : $($_.Exception.Message)"
+                        Break;
+                    }
+                }
+
+                if($vmGeneration -eq 2 -and $vm.GuestID -like "*rhel*") {
+                    try {
+                        Write-Host "`nDisabling secure boot"
+                        Hyper-V\Set-VMFirmware -VMName $createVM.Name -EnableSecureBoot Off -ErrorAction Stop
+                        Write-Host "Secure boot disabled" -ForegroundColor Green
+                    }
+                    catch {
+                        Write-Error "Failed to disable secure boot for VM $($createVM.Name). Error : $($_.Exception.Message)"
+                    }
+                }
+
+                try {
+                    Write-Host "`nStarting VM $($createVM.Name)"
+                    Hyper-v\Start-VM -Name $createVM.Name -ErrorAction Stop
+                    Write-Host "Started VM $($createVM.Name)`n" -ForegroundColor Green
+                }
+                catch {
+                    Write-Error "Failed to start VM $($createVM.Name). Error : $($_.Exception.Message)"
+                    Break;
+                }
+            }
+        }
+        catch {
+            Write-Error "Failed  to create VM $($vm.Name) on Hyper-V. Error : $($_.Exception.Message)"
+            Break;
+        }
+    }
+}
+
+main
+----
+====

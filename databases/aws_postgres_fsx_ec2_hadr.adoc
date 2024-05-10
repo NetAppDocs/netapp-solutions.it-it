@@ -128,7 +128,7 @@ L'implementazione richiede i seguenti prerequisiti.
 . Dalla console AWS EC2, è necessario implementare due istanze EC2 Linux, una come server primario PostgreSQL DB sul primario e una sul sito di DR di standby. Per la ridondanza di calcolo nei siti DR primari e di standby, implementare due istanze EC2 Linux aggiuntive come server PostgreSQL DB in standby. Per ulteriori informazioni sulla configurazione dell'ambiente, vedere il diagramma dell'architettura nella sezione precedente. Esaminare anche il link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html["Guida utente per istanze Linux"] per ulteriori informazioni.
 . Dalla console AWS EC2, implementare due cluster ha di storage FSX ONTAP per ospitare i volumi di database PostgreSQL. Se non si ha familiarità con l'implementazione dello storage FSX, consultare la documentazione link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["Creazione di FSX per file system ONTAP"] per istruzioni dettagliate.
 . Creare una macchina virtuale CentOS Linux per ospitare il controller Ansible. Il controller Ansible può essere collocato on-premise o nel cloud AWS. Se si trova on-premise, è necessario disporre della connettività SSH per VPC, istanze EC2 Linux e cluster di storage FSX.
-. Impostare il controller Ansible come descritto nella sezione "impostazione del nodo di controllo Ansible per le implementazioni CLI su RHEL/CentOS" dalla risorsa link:https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["Introduzione all'automazione delle soluzioni NetApp"].
+. Impostare il controller Ansible come descritto nella sezione "impostazione del nodo di controllo Ansible per le implementazioni CLI su RHEL/CentOS" dalla risorsa link:../automation/getting-started.html["Introduzione all'automazione delle soluzioni NetApp"].
 . Clonare una copia del toolkit di automazione dal sito pubblico NetApp GitHub.
 
 
@@ -386,4 +386,4 @@ link:https://aws.amazon.com/pm/ec2/?trk=36c6da98-7b20-48fa-8225-4784bced9843&sc_
 * Automazione delle soluzioni NetApp
 
 
-link:https://docs.netapp.com/us-en/netapp-solutions/automation/automation_introduction.html["https://docs.netapp.com/us-en/netapp-solutions/automation/automation_introduction.html"^]
+link:../automation/automation_introduction.html["Introduzione"]

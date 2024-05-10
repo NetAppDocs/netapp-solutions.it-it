@@ -142,7 +142,7 @@ Nelle sezioni seguenti vengono fornite procedure dettagliate per l'implementazio
 L'implementazione richiede i seguenti prerequisiti.
 
 . Si presuppone che lo storage array NetApp ASA sia stato installato e configurato. Sono inclusi dominio di broadcast iSCSI, gruppi di interfacce LACP a0a su entrambi i nodi del controller, porte VLAN iSCSI (a0a-<iscsi-a-vlan-id>, a0a-<iscsi-b-vlan-id>) su entrambi i nodi del controller. Il seguente collegamento fornisce istruzioni dettagliate dettagliate, se è necessaria assistenza. link:https://docs.netapp.com/us-en/ontap-systems/asa400/install-detailed-guide.html["Guida dettagliata - ASA A400"^]
-. Provisioning di una VM Linux come nodo di controller Ansible con l'ultima versione di Ansible e Git installata. Fare riferimento al seguente link per i dettagli: link:https://docs.netapp.com/us-en/netapp-solutions/automation/getting-started.html["Introduzione all'automazione delle soluzioni NetApp"^] nella sezione - `Setup the Ansible Control Node for CLI deployments on RHEL / CentOS` oppure `Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`.
+. Provisioning di una VM Linux come nodo di controller Ansible con l'ultima versione di Ansible e Git installata. Fare riferimento al seguente link per i dettagli: link:../automation/getting-started.html["Introduzione all'automazione delle soluzioni NetApp"^] nella sezione - `Setup the Ansible Control Node for CLI deployments on RHEL / CentOS` oppure `Setup the Ansible Control Node for CLI deployments on Ubuntu / Debian`.
 . Clonazione di una copia del toolkit di automazione della distribuzione Oracle di NetApp per iSCSI.
 +
 [source, cli]
@@ -496,7 +496,7 @@ image::automation_ora_asa_em_03.png[Questa immagine fornisce la vista del databa
 
 [%collapsible]
 ====
-Fare riferimento a TR-4979 link:https://docs.netapp.com/us-en/netapp-solutions/databases/aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["Oracle semplificata e autogestita in VMware Cloud su AWS con FSX ONTAP montato su guest"^] sezione `Oracle backup, restore, and clone with SnapCenter` Per informazioni dettagliate su configurazione di SnapCenter ed esecuzione di flussi di lavoro di backup, ripristino e cloning del database.
+Fare riferimento a TR-4979 link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["Oracle semplificata e autogestita in VMware Cloud su AWS con FSX ONTAP montato su guest"^] sezione `Oracle backup, restore, and clone with SnapCenter` Per informazioni dettagliate su configurazione di SnapCenter ed esecuzione di flussi di lavoro di backup, ripristino e cloning del database.
 
 ====
 
