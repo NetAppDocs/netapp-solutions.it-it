@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: ai/aicp_apache_airflow_deployment.html 
 keywords: AI, control plane, apache, airflow 
-summary: 'Questa sezione descrive le attività da completare per implementare il flusso d"aria nel cluster Kubernetes.' 
+summary: 'MLOps open source con NetApp - distribuzione del flusso d"aria Apache' 
 ---
 = Implementazione di Apache Airflow
 :hardbreaks:
@@ -14,7 +14,7 @@ summary: 'Questa sezione descrive le attività da completare per implementare il
 
 
 [role="lead"]
-NetApp consiglia di eseguire Apache Airflow su Kubernetes. Questa sezione descrive le attività da completare per implementare il flusso d'aria nel cluster Kubernetes.
+Questa sezione descrive le attività da completare per implementare il flusso d'aria nel cluster Kubernetes.
 
 
 NOTE: È possibile implementare il flusso d'aria su piattaforme diverse da Kubernetes. L'implementazione del flusso d'aria su piattaforme diverse da Kubernetes non rientra nell'ambito di questa soluzione.
@@ -26,7 +26,7 @@ NOTE: È possibile implementare il flusso d'aria su piattaforme diverse da Kuber
 Prima di eseguire l'esercizio di implementazione descritto in questa sezione, si presuppone che siano già state eseguite le seguenti attività:
 
 . Hai già un cluster Kubernetes funzionante.
-. NetApp Trident è già stato installato e configurato nel cluster Kubernetes, come descritto nella sezione "implementazione e configurazione di NetApp Trident".
+. Hai già installato e configurato NetApp Astra Trident nel tuo cluster Kubernetes. Per ulteriori informazioni su Astra Trident, fare riferimento alla link:https://docs.netapp.com/us-en/trident/index.html["Documentazione di Astra Trident"].
 
 
 
@@ -39,7 +39,7 @@ Il flusso d'aria viene implementato utilizzando Helm, un popolare gestore di pac
 
 == Impostare la classe di storage Kubernetes predefinita
 
-Prima di implementare il flusso d'aria, è necessario specificare un StorageClass predefinito all'interno del cluster Kubernetes. Il processo di implementazione del flusso d'aria tenta di eseguire il provisioning di nuovi volumi persistenti utilizzando la classe di storage predefinita. Se non viene indicato StorageClass come StorageClass predefinito, l'implementazione non riesce. Per designare una StorageClass predefinita all'interno del cluster, seguire le istruzioni riportate nella sezione link:aicp_kubeflow_deployment_overview.html["Implementazione di Kubeflow"]. Se è già stata designata una StorageClass predefinita all'interno del cluster, è possibile saltare questo passaggio.
+Prima di implementare il flusso d'aria, è necessario specificare un StorageClass predefinito all'interno del cluster Kubernetes. Il processo di implementazione del flusso d'aria tenta di eseguire il provisioning di nuovi volumi persistenti utilizzando la classe di storage predefinita. Se non viene indicato StorageClass come StorageClass predefinito, l'implementazione non riesce. Per designare una StorageClass predefinita all'interno del cluster, segui le istruzioni riportate nella link:aicp_kubeflow_deployment_overview.html["Implementazione di Kubeflow"] sezione. Se è già stata designata una StorageClass predefinita all'interno del cluster, è possibile saltare questo passaggio.
 
 
 

@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: ai/aicp_concepts_and_components.html 
 keywords: Trident, DeepOps, ONTAP, FlexClone, containers, AI, Kubernetes, Kubeflow, Jupyter, Airflow 
-summary: Questa pagina contiene informazioni di base su come NetApp può promuovere i progetti ai, incluse informazioni su container, Kubernetes, NetApp Trident e altro ancora. 
+summary: MLOps open source con NetApp - Panoramica sulla tecnologia 
 ---
-= Concetti e componenti
+= Panoramica sulla tecnologia
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -40,39 +40,49 @@ image:aicp_image2.png["Errore: Immagine grafica mancante"]
 
 == Kubernetes
 
-Kubernetes è una piattaforma open source, distribuita e di orchestrazione dei container, originariamente progettata da Google e ora gestita dalla Cloud Native Computing Foundation (CNCF). Kubernetes consente l'automazione delle funzioni di implementazione, gestione e scalabilità per le applicazioni containerizzate. Negli ultimi anni, Kubernetes è emersa come piattaforma dominante per l'orchestrazione di container. Sebbene siano supportati altri formati di packaging dei container e tempi di esecuzione, Kubernetes viene spesso utilizzato come sistema di orchestrazione per i container Docker. Per ulteriori informazioni, visitare il https://kubernetes.io["Sito web di Kubernetes"^].
+Kubernetes è una piattaforma open source, distribuita e di orchestrazione dei container, originariamente progettata da Google e ora gestita dalla Cloud Native Computing Foundation (CNCF). Kubernetes consente l'automazione delle funzioni di implementazione, gestione e scalabilità per le applicazioni containerizzate. Negli ultimi anni, Kubernetes è emersa come piattaforma dominante per l'orchestrazione di container. Per ulteriori informazioni, visitare il https://kubernetes.io["Sito web di Kubernetes"^].
 
 
 
-== Trident di NetApp
+== NetApp Astra Trident
 
-Trident è un orchestratore di storage open source sviluppato e gestito da NetApp che semplifica notevolmente la creazione, la gestione e il consumo dello storage persistente per i carichi di lavoro Kubernetes. Trident, un'applicazione nativa di Kubernetes, viene eseguita direttamente all'interno di un cluster Kubernetes. Con Trident, gli utenti di Kubernetes (sviluppatori, data scientist, amministratori di Kubernetes e così via) possono creare, gestire e interagire con volumi di storage persistenti nel formato standard di Kubernetes che già conoscono. Allo stesso tempo, possono sfruttare le funzionalità avanzate di gestione dei dati di NetApp e un data fabric basato sulla tecnologia NetApp. Trident astratta le complessità dello storage persistente e lo rende semplice da utilizzare. Per ulteriori informazioni, visitare il https://netapp.io/persistent-storage-provisioner-for-kubernetes/["Sito web di Trident"^].
+Astra Trident permette il consumo e la gestione delle risorse di storage in tutte le più apprezzate piattaforme di storage NetApp, nel cloud pubblico o on-premise, incluso ONTAP (AFF, FAS, Select, cloud, Amazon FSX per NetApp ONTAP), software Element (NetApp HCI, SolidFire), servizio Azure NetApp Files e Cloud Volumes Service su Google Cloud. Astra Trident è un orchestrator di storage dinamico conforme a Container Storage Interface (CSI) che si integra in modo nativo con Kubernetes.
 
 
 
-== NVIDIA DeepOps
+== NetApp DataOps Toolkit
 
-DeepOps è un progetto open source di NVIDIA che, utilizzando Ansible, automatizza l'implementazione dei cluster di server GPU in base alle Best practice. DeepOps è modulare e può essere utilizzato per varie attività di implementazione. Per questo documento e per l'esercizio di convalida descritto, DeepOps viene utilizzato per implementare un cluster Kubernetes costituito da nodi di lavoro del server GPU. Per ulteriori informazioni, visitare il https://github.com/NVIDIA/deepops["Sito Web di DeepOps"^].
+Il link:https://github.com/NetApp/netapp-dataops-toolkit["NetApp DataOps Toolkit"] È un tool basato su Python che semplifica la gestione di spazi di lavoro di sviluppo/training e server di inferenza che sono supportati da storage NetApp scale-out dalle performance elevate. Le funzionalità principali includono:
+
+* Fornire rapidamente nuovi spazi di lavoro ad alta capacità supportati dallo storage NetApp scale-out dalle performance elevate.
+* Clonazione quasi istantanea di spazi di lavoro ad alta capacità per consentire la sperimentazione o l'iterazione rapida.
+* Salva quasi istantaneamente le istantanee di spazi di lavoro ad alta capacità per il backup e/o la tracciabilità/baseline.
+* Provisioning, cloning e snapshot near-instataneamente di volumi di dati ad alta capacità e performance elevate.
+
 
 
 
 == Kubeflow
 
-Kubeflow è un toolkit open source ai e ML per Kubernetes sviluppato originariamente da Google. Il progetto Kubeflow rende le implementazioni dei flussi di lavoro ai e ML su Kubernetes semplici, portatili e scalabili. Kubeflow astratta le complessità di Kubernetes, consentendo agli scienziati dei dati di concentrarsi su ciò che conoscono meglio―data science. Vedere la figura seguente per una visualizzazione. Kubeflow ha ottenuto notevoli risultati con la sempre maggiore standardizzazione dei reparti IT aziendali su Kubernetes. Per ulteriori informazioni, visitare il http://www.kubeflow.org/["Sito web di Kubeflow"^].
-
-image:aicp_image3.png["Errore: Immagine grafica mancante"]
+Kubeflow è un toolkit open source ai e ML per Kubernetes sviluppato originariamente da Google. Il progetto Kubeflow rende le implementazioni dei flussi di lavoro ai e ML su Kubernetes semplici, portatili e scalabili. Kubeflow astrae le complicazioni di Kubernetes, consentendo ai data scientist di concentrarsi su ciò che sanno meglio ― data science. Vedere la figura seguente per una visualizzazione. Kubeflow è una buona opzione open-source per le organizzazioni che preferiscono una piattaforma all-in-one MLOps. Per ulteriori informazioni, visitare il http://www.kubeflow.org/["Sito web di Kubeflow"^].
 
 
 
 === Pipeline Kubeflow
 
-Le pipeline Kubeflow sono un componente chiave di Kubeflow. Le pipeline Kubeflow sono una piattaforma e uno standard per la definizione e l'implementazione di flussi di lavoro portatili e scalabili ai e ML. Per ulteriori informazioni, consultare https://www.kubeflow.org/docs/components/pipelines/pipelines/["Documentazione ufficiale del Kubeflow"^].
+Le pipeline Kubeflow sono un componente chiave di Kubeflow. Le pipeline Kubeflow sono una piattaforma e uno standard per la definizione e l'implementazione di flussi di lavoro portatili e scalabili ai e ML. Per ulteriori informazioni, consultare https://www.kubeflow.org/docs/components/pipelines/["Documentazione ufficiale del Kubeflow"^].
 
 
 
 === Jupyter notebook Server
 
 Un Jupyter notebook Server è un'applicazione web open source che consente ai data scientist di creare documenti wiki-like denominati Jupyter Notebooks che contengono codice live e test descrittivi. I notebook Jupyter sono ampiamente utilizzati nella community ai e ML come mezzo per documentare, memorizzare e condividere progetti ai e ML. Kubeflow semplifica il provisioning e l'implementazione di Jupyter notebook Server su Kubernetes. Per ulteriori informazioni sui notebook Jupyter, visitare il http://www.jupyter.org/["Sito web di Jupyter"^]. Per ulteriori informazioni sui notebook Jupyter nel contesto di Kubeflow, vedere https://www.kubeflow.org/docs/components/notebooks/overview/["Documentazione ufficiale del Kubeflow"^].
+
+
+
+=== Katib
+
+Katib è un progetto nativo di Kubernetes per il machine learning (AutoML) automatizzato. Katib supporta la sintonizzazione iperparametrica, l'arresto precoce e la ricerca di architetture neurali (NAS). Katib è il progetto indipendente dai framework di machine learning (ML). È in grado di regolare gli iperparametri delle applicazioni scritte in qualsiasi lingua a scelta degli utenti e supporta in modo nativo molti framework ML, come TensorFlow, MXNet, PyTorch, XGBoost, e altri. Katib supporta molti algoritmi AutoML, come l'ottimizzazione Bayesiana, gli stimatori Tree of Parzen, la ricerca casuale, la strategia di evoluzione dell'adattamento della matrice di covarianza, Hyperband, la ricerca di architettura neurale efficiente, la ricerca di architettura differenziabile e molto altro ancora. Per ulteriori informazioni sui notebook Jupyter nel contesto di Kubeflow, vedere https://www.kubeflow.org/docs/components/katib/overview/["Documentazione ufficiale del Kubeflow"^].
 
 
 
@@ -88,42 +98,44 @@ Nel flusso d'aria, i flussi di lavoro sono denominati diagrammi ad aciclico dire
 
 
 
-== NetApp ONTAP 9
+== NetApp ONTAP
 
-NetApp ONTAP 9 è l'ultima generazione di software per la gestione dello storage NetApp che consente a aziende come la tua di modernizzare l'infrastruttura e di passare a un data center cloud-ready. Grazie alle funzionalità di gestione dei dati leader del settore, ONTAP consente di gestire e proteggere i dati con un singolo set di strumenti, indipendentemente dalla posizione in cui risiedono. Puoi anche spostare liberamente i dati ovunque ti servano: Edge, core o cloud. ONTAP 9 include numerose funzionalità che semplificano la gestione dei dati, accelerano e proteggono i tuoi dati critici e la tua infrastruttura a prova di futuro attraverso architetture di cloud ibrido.
+ONTAP 9, l'ultima generazione di software per la gestione dello storage NetApp, consente alle aziende di modernizzare l'infrastruttura e passare a un data center predisposto per il cloud. Sfruttando le funzionalità di gestione dei dati leader del settore, ONTAP consente la gestione e la protezione dei dati con un singolo set di strumenti, indipendentemente dalla posizione dei dati. Puoi anche spostare liberamente i dati ovunque siano necessari: Edge, core o cloud. ONTAP 9 include numerose funzionalità che semplificano la gestione dei dati, accelerano e proteggono i dati critici e abilitano le funzionalità dell'infrastruttura di nuova generazione nelle architetture di cloud ibrido.
 
 
 
 === Semplifica la gestione dei dati
 
-La gestione dei dati è fondamentale per le operazioni IT aziendali, in modo da poter utilizzare le risorse appropriate per le applicazioni e i set di dati. ONTAP include le seguenti funzionalità per ottimizzare e semplificare le operazioni e ridurre il costo totale delle operazioni:
+La gestione dei dati è fondamentale per le operazioni IT aziendali e per i data scientist, in modo che le risorse appropriate vengano utilizzate per le applicazioni ai e per la formazione dei set di dati ai/ML. Le seguenti informazioni aggiuntive sulle tecnologie NetApp non rientrano nell'ambito di questa convalida, ma potrebbero essere rilevanti a seconda dell'implementazione.
 
-* *Compattazione dei dati inline e deduplica estesa.* la compattazione dei dati riduce lo spazio sprecato all'interno dei blocchi di storage e la deduplica aumenta significativamente la capacità effettiva.
-* *Qualità del servizio (QoS) minima, massima e adattiva.* i controlli QoS granulari aiutano a mantenere i livelli di performance per le applicazioni critiche in ambienti altamente condivisi.
-* *ONTAP FabricPool.* questa funzione offre il tiering automatico dei dati cold per le opzioni di cloud storage pubblico e privato, tra cui Amazon Web Services (AWS), Azure e lo storage basato su oggetti NetApp StorageGRID.
+Il software per la gestione dei dati ONTAP include le seguenti funzionalità per ottimizzare e semplificare le operazioni e ridurre il costo totale delle operazioni:
+
+* Compaction dei dati inline e deduplica estesa. La compattazione dei dati riduce lo spazio sprecato all'interno dei blocchi di storage e la deduplica aumenta significativamente la capacità effettiva. Ciò vale per i dati memorizzati localmente e per i dati a più livelli nel cloud.
+* Qualità del servizio (AQoS) minima, massima e adattativa. I controlli granulari della qualità del servizio (QoS) aiutano a mantenere i livelli di performance per le applicazioni critiche in ambienti altamente condivisi.
+* NetApp FabricPool. Offre il tiering automatico dei dati cold per le opzioni di cloud storage pubblico e privato, tra cui Amazon Web Services (AWS), Azure e la soluzione di storage NetApp StorageGRID. Per ulteriori informazioni su FabricPool, vedere https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598: Best practice FabricPool"^].
 
 
 
 
 === Accelera e proteggi i dati
 
-ONTAP offre livelli superiori di performance e protezione dei dati ed estende queste funzionalità con le seguenti funzionalità:
+ONTAP offre livelli superiori di performance e protezione dei dati ed estende queste funzionalità nei seguenti modi:
 
-* *Prestazioni elevate e bassa latenza.* ONTAP offre il throughput più elevato possibile con la latenza più bassa possibile.
-* *Tecnologia NetApp ONTAP FlexGroup.* Un volume FlexGroup è un container di dati dalle performance elevate che può scalare linearmente fino a 20 PB e 400 miliardi di file, fornendo un singolo namespace che semplifica la gestione dei dati.
-* *Protezione dei dati.* ONTAP offre funzionalità di protezione dei dati integrate con gestione comune su tutte le piattaforme.
-* *Crittografia dei volumi NetApp.* ONTAP offre crittografia nativa a livello di volume con supporto per la gestione delle chiavi sia integrata che esterna.
+* Performance e latenza ridotta. ONTAP offre il throughput più elevato possibile con la latenza più bassa possibile.
+* Protezione dei dati. ONTAP offre funzionalità di protezione dei dati integrate con gestione comune su tutte le piattaforme.
+* NetApp Volume Encryption (NVE). ONTAP offre crittografia nativa a livello di volume con supporto per la gestione delle chiavi sia integrata che esterna.
+* Multi-tenancy e autenticazione a più fattori. ONTAP consente la condivisione delle risorse dell'infrastruttura con i massimi livelli di sicurezza.
 
 
 
 
 === Infrastruttura a prova di futuro
 
-ONTAP 9 aiuta a soddisfare le tue esigenze di business esigenti e in continua evoluzione:
+ONTAP aiuta a soddisfare le esigenze di business esigenti e in continua evoluzione con le seguenti funzionalità:
 
-* *Scalabilità perfetta e operazioni senza interruzioni.* ONTAP supporta l'aggiunta senza interruzioni di capacità ai controller esistenti e ai cluster scale-out. Puoi eseguire l'upgrade alle tecnologie più recenti, come NVMe e 32GB FC, senza costose migrazioni dei dati o interruzioni.
-* *Connessione al cloud.* ONTAP è uno dei software di gestione dello storage più connessi al cloud, con opzioni per lo storage definito tramite software (ONTAP Select) e le istanze native del cloud (NetApp Cloud Volumes Service) in tutti i cloud pubblici.
-* *Integrazione con le applicazioni emergenti.* utilizzando la stessa infrastruttura che supporta le applicazioni aziendali esistenti, ONTAP offre servizi dati di livello Enterprise per piattaforme e applicazioni di prossima generazione come OpenStack, Hadoop e MongoDB.
+* Scalabilità perfetta e operazioni senza interruzioni. ONTAP supporta l'aggiunta senza interruzioni di capacità ai controller esistenti e ai cluster scale-out. I clienti possono eseguire l'upgrade alle tecnologie più recenti, come NVMe e 32GB FC, senza costose migrazioni dei dati o interruzioni.
+* Connessione al cloud. ONTAP è il software per la gestione dello storage più connesso al cloud, con opzioni per storage software-defined e istanze native per il cloud in tutti i cloud pubblici.
+* Integrazione con le applicazioni emergenti. ONTAP offre servizi dati di livello Enterprise per piattaforme e applicazioni di prossima generazione, come veicoli autonomi, città intelligenti e industria 4.0, utilizzando la stessa infrastruttura che supporta le applicazioni aziendali esistenti.
 
 
 
@@ -153,8 +165,6 @@ image:aicp_image5.png["Errore: Immagine grafica mancante"]
 Il software NetApp SnapMirror è una soluzione di replica unificata conveniente e facile da utilizzare per tutto il data fabric. Replica i dati ad alta velocità su LAN o WAN. Offre un'elevata disponibilità dei dati e una rapida replica dei dati per applicazioni di tutti i tipi, incluse le applicazioni business-critical in ambienti virtuali e tradizionali. Quando si replicano i dati su uno o più sistemi storage NetApp e si aggiornano continuamente i dati secondari, i dati vengono mantenuti aggiornati e disponibili quando necessario. Non sono richiesti server di replica esterni. Vedere la figura seguente per un esempio di architettura che sfrutta la tecnologia SnapMirror.
 
 Il software SnapMirror sfrutta le efficienze dello storage NetApp ONTAP inviando solo i blocchi modificati sulla rete. Il software SnapMirror utilizza inoltre la compressione di rete integrata per accelerare i trasferimenti di dati e ridurre l'utilizzo della larghezza di banda di rete fino al 70%. Con la tecnologia SnapMirror, è possibile sfruttare un flusso di dati di replica con risorse limitate per creare un singolo repository che mantiene il mirror attivo e le copie point-in-time precedenti, riducendo il traffico di rete fino al 50%.
-
-image:aicp_image6.png["Errore: Immagine grafica mancante"]
 
 
 
