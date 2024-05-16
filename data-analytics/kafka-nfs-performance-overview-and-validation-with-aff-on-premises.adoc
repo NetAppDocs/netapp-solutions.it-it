@@ -110,7 +110,7 @@ vserver modify -vserver vs1 -v4.1-pnfs enabled -tcp-max-xfer-size 262144
 ....
 sudo bin/benchmark --drivers driver-kafka/kafka-throughput.yaml workloads/1-topic-100-partitions-1kb.yaml
 ....
-. Infine, abbiamo completato le misurazioni utilizzando un backlog per misurare la capacità dei consumatori di recuperare i messaggi più recenti. OMB crea un backlog mettendo in pausa i consumatori durante l'inizio di una misurazione. Ciò produce tre fasi distinte: Creazione di backlog (traffico solo produttore), eliminazione dei backlog (una fase pesante per i consumatori in cui i consumatori si mettono al passo con gli eventi persi in un argomento) e lo stato stazionario. Vedere la sezione "<<Extreme performance,analisi dei limiti dello storage>>" per ulteriori informazioni.
+. Infine, abbiamo completato le misurazioni utilizzando un backlog per misurare la capacità dei consumatori di recuperare i messaggi più recenti. OMB crea un backlog mettendo in pausa i consumatori durante l'inizio di una misurazione. Ciò produce tre fasi distinte: Creazione di backlog (traffico solo produttore), eliminazione dei backlog (una fase pesante per i consumatori in cui i consumatori si mettono al passo con gli eventi persi in un argomento) e lo stato stazionario. Vedere la sezione "<<Performance estreme e analisi dei limiti dello storage>>" per ulteriori informazioni.
 
 
 

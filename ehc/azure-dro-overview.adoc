@@ -14,13 +14,15 @@ summary:
 
 
 [role="lead"]
+Il disaster recovery che utilizza la replica a livello di blocco tra regioni all'interno del cloud è un metodo resiliente e conveniente per proteggere i carichi di lavoro da interruzioni del sito ed eventi di corruzione dei dati (ad esempio ransomware).
+
 Autore: Niyaz Mohamed, NetApp Solutions Engineering
 
 
 
 == Panoramica
 
-Il disaster recovery che utilizza la replica a livello di blocco tra regioni all'interno del cloud è un metodo resiliente e conveniente per proteggere i carichi di lavoro da interruzioni del sito ed eventi di corruzione dei dati (ad esempio ransomware). Con la replica dei volumi Azure NetApp Files (ANF) cross-region, i carichi di lavoro VMware eseguiti su un sito SDDC Azure VMware Solution (AVS) utilizzando i volumi Azure NetApp Files come datastore NFS sul sito AVS primario possono essere replicati in un sito AVS secondario designato nella regione di recupero di destinazione.
+Con la replica dei volumi Azure NetApp Files (ANF) cross-region, i carichi di lavoro VMware eseguiti su un sito SDDC Azure VMware Solution (AVS) utilizzando i volumi Azure NetApp Files come datastore NFS sul sito AVS primario possono essere replicati in un sito AVS secondario designato nella regione di recupero di destinazione.
 
 Disaster Recovery Orchestrator (DRO) (una soluzione basata su script con un'interfaccia utente) può essere utilizzato per ripristinare senza problemi i carichi di lavoro replicati da un SDDC AVS a un altro. DRO automatizza il recovery interrompendo il peering delle repliche e montando il volume di destinazione come datastore, attraverso la registrazione delle macchine virtuali in AVS, sulle mappature di rete direttamente su NSX-T (incluso con tutti i cloud privati AVS).
 

@@ -140,7 +140,7 @@ Quando LDAP è attivato, in scenari specifici si verifica quanto segue.
 
 Anche se i binding LDAP sono crittografati, le query LDAP vengono trasmesse via cavo in testo non crittografato utilizzando la porta LDAP comune 389. Questa porta nota non può essere modificata in Cloud Volumes Service. Di conseguenza, un utente con accesso allo sniffing dei pacchetti nella rete può visualizzare i nomi degli utenti e dei gruppi, gli ID numerici e le appartenenze ai gruppi.
 
-Tuttavia, le macchine virtuali Google Cloud non possono sniff il traffico unicast di altre macchine virtuali. Solo le macchine virtuali che partecipano attivamente al traffico LDAP (ovvero, sono in grado di eseguire il binding) possono visualizzare il traffico proveniente dal server LDAP. Per ulteriori informazioni sullo sniffing dei pacchetti in Cloud Volumes Service, consulta la sezione link:ncvs-gc-cloud-volumes-service-architecture.html#packet-sniffing/trace-considerations[""Considerazioni su sniffing/traccia dei pacchetti"."]
+Tuttavia, le macchine virtuali Google Cloud non possono sniff il traffico unicast di altre macchine virtuali. Solo le macchine virtuali che partecipano attivamente al traffico LDAP (ovvero, sono in grado di eseguire il binding) possono visualizzare il traffico proveniente dal server LDAP. Per ulteriori informazioni sullo sniffing dei pacchetti in Cloud Volumes Service, consulta la sezione link:ncvs-gc-cloud-volumes-service-architecture.html#packet-sniffing[""Considerazioni su sniffing/traccia dei pacchetti"."]
 
 
 

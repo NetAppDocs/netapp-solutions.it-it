@@ -24,7 +24,7 @@ Cloud Volumes Service supporta le versioni SMB 2.1 e 3.x del protocollo.
 
 * Quando un nome utente Windows richiede l'accesso al volume Cloud Volumes Service, Cloud Volumes Service cerca un nome utente UNIX utilizzando i metodi configurati dagli amministratori Cloud Volumes Service.
 * Se viene configurato un provider di identità UNIX esterno (LDAP) e i nomi utente Windows/UNIX sono identici, i nomi utente di Windows verranno mappati 1:1 ai nomi utente UNIX senza alcuna configurazione aggiuntiva. Quando LDAP è attivato, Active Directory viene utilizzato per ospitare gli attributi UNIX per gli oggetti utente e gruppo.
-* Se i nomi Windows e UNIX non corrispondono in modo identico, è necessario configurare LDAP in modo da consentire a Cloud Volumes Service di utilizzare la configurazione di mappatura dei nomi LDAP (vedere la sezione link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap#using-ldap-for-asymmetric-name-mapping[""Utilizzo di LDAP per la mappatura asimmetrica dei nomi""]).
+* Se i nomi Windows e UNIX non corrispondono in modo identico, è necessario configurare LDAP in modo da consentire a Cloud Volumes Service di utilizzare la configurazione di mappatura dei nomi LDAP (vedere la sezione link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#using-ldap-for-asymmetric-name-mapping[""Utilizzo di LDAP per la mappatura asimmetrica dei nomi""]).
 * Se LDAP non è in uso, gli utenti SMB di Windows si associano a un utente UNIX locale predefinito denominato `pcuser` In Cloud Volumes Service. Ciò significa che i file scritti in Windows dagli utenti che eseguono il mapping a `pcuser` Mostra la proprietà UNIX come `pcuser` In ambienti NAS multiprotocollo. `pcuser` qui è effettivamente il `nobody` Utente in ambienti Linux (UID 65534).
 
 
@@ -322,7 +322,7 @@ La seguente tabella contiene un elenco di queste opzioni, le loro funzioni, le c
 | Richiedi crittografia SMB per traffico CIFS in entrata | Richiede la crittografia SMB per tutte le condivisioni. Questa opzione non viene utilizzata da Cloud Volumes Service; impostare invece la crittografia per volume (vedere la sezione "<<SMB condivide le funzionalità di sicurezza>>"). | Falso | No 
 
 
-| Sicurezza della sessione client | Imposta la firma e/o il sealing per la comunicazione LDAP. Questa opzione non è attualmente impostata in Cloud Volumes Service, ma potrebbe essere necessaria nelle versioni future per risolvere . La risoluzione dei problemi di autenticazione LDAP dovuti alla patch di Windows è descritta nella sezione link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap#ldap-channel-binding[""Associazione del canale LDAP"."]. | Nessuno | No 
+| Sicurezza della sessione client | Imposta la firma e/o il sealing per la comunicazione LDAP. Questa opzione non è attualmente impostata in Cloud Volumes Service, ma potrebbe essere necessaria nelle versioni future per risolvere . La risoluzione dei problemi di autenticazione LDAP dovuti alla patch di Windows è descritta nella sezione link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap-channel-binding[""Associazione del canale LDAP"."]. | Nessuno | No 
 
 
 | Abilitazione SMB2 per connessioni DC | Utilizza SMB2 per le connessioni DC. Attivato per impostazione predefinita. | System-default | No 

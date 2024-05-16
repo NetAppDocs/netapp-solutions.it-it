@@ -14,6 +14,10 @@ summary:
 
 
 [role="lead"]
+In questo scenario dimostreremo come implementare e utilizzare il plug-in SnapCenter per VMware vSphere (SCV) per eseguire il backup e il ripristino di VM e datastore in un dominio di carico di lavoro VCF. SCV utilizza la tecnologia Snapshot di ONTAP per eseguire copie di backup veloci ed efficienti dei volumi di storage ONTAP che ospitano i datastore vSphere. Le tecnologie SnapMirror e SnapVault vengono utilizzate per creare backup secondari su un sistema storage separato e con policy di conservazione che simulano il volume originale o possono essere indipendenti dal volume originale per la conservazione a lungo termine.
+
+*ISCSI* viene utilizzato come protocollo storage per il datastore VMFS in questa soluzione.
+
 Autore: Josh Powell
 
 
@@ -23,10 +27,6 @@ Autore: Josh Powell
 
 
 === Panoramica dello scenario
-
-In questo scenario dimostreremo come implementare e utilizzare il plug-in SnapCenter per VMware vSphere (SCV) per eseguire il backup e il ripristino di VM e datastore in un dominio di carico di lavoro VCF. SCV utilizza la tecnologia Snapshot di ONTAP per eseguire copie di backup veloci ed efficienti dei volumi di storage ONTAP che ospitano i datastore vSphere. Le tecnologie SnapMirror e SnapVault vengono utilizzate per creare backup secondari su un sistema storage separato e con policy di conservazione che simulano il volume originale o possono essere indipendenti dal volume originale per la conservazione a lungo termine.
-
-*ISCSI* viene utilizzato come protocollo storage per il datastore VMFS in questa soluzione.
 
 Questo scenario copre i seguenti passaggi di alto livello:
 

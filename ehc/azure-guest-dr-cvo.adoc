@@ -13,14 +13,16 @@ summary: Il disaster recovery nel cloud è un metodo resiliente e conveniente pe
 :imagesdir: ./../media/
 
 
+[role="lead"]
+Il disaster recovery nel cloud è un metodo resiliente e conveniente per proteggere i workload da interruzioni del sito e eventi di corruzione dei dati come ransomware. Con NetApp SnapMirror, è possibile replicare i workload VMware on-premise che utilizzano lo storage connesso con gli ospiti su NetApp Cloud Volumes ONTAP in esecuzione in Azure.
+
 
 
 == Panoramica
 
 Autori: Ravi BCB e Niyaz Mohamed, NetApp
 
-Il disaster recovery nel cloud è un metodo resiliente e conveniente per proteggere i workload da interruzioni del sito e eventi di corruzione dei dati come ransomware. Con NetApp SnapMirror, è possibile replicare i workload VMware on-premise che utilizzano lo storage connesso con gli ospiti su NetApp Cloud Volumes ONTAP in esecuzione in Azure. Ciò riguarda i dati delle applicazioni, ma le macchine virtuali effettive. Il disaster recovery dovrebbe coprire tutti i componenti dipendenti, tra cui macchine virtuali, VMDK, dati applicativi e altro ancora. A tale scopo, SnapMirror e Jetstream possono essere utilizzati per ripristinare perfettamente i carichi di lavoro replicati da on-premise a Cloud Volumes ONTAP utilizzando lo storage vSAN per VM VMDK.
-
+ This covers application data; however, what about the actual VMs themselves. Disaster recovery should cover all dependent components, including virtual machines, VMDKs, application data, and more. To accomplish this, SnapMirror along with Jetstream can be used to seamlessly recover workloads replicated from on-premises to Cloud Volumes ONTAP while using vSAN storage for VM VMDKs.
 Questo documento fornisce un approccio passo per passo per la configurazione e l'esecuzione del disaster recovery che utilizza NetApp SnapMirror, JetStream e Azure VMware Solution (AVS).
 
 image:dr-cvo-avs-image1.png["Errore: Immagine grafica mancante"]
