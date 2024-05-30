@@ -109,6 +109,6 @@ $ runai submit test-ingress -i jupyter/base-notebook -g 1 \
   --interactive --service-type=ingress --port 8888 \
   --args="--NotebookApp.base_url=test-ingress" --command=start-notebook.sh
 ....
-Una volta avviato il container, eseguire `runai list` per visualizzare `SERVICE URL(S)` Con cui accedere al Jupyter notebook. L'URL è composto dall'endpoint di ingresso, dal nome del processo e dalla porta. Ad esempio, vedere https://10.255.174.13/test-ingress-8888[].
+Una volta avviato il container, eseguire `runai list` per visualizzare `SERVICE URL(S)` Con cui accedere al Jupyter notebook. L'URL è composto dall'endpoint di ingresso, dal nome del processo e dalla porta.
 
 Per ulteriori informazioni, vedere https://docs.run.ai/Researcher/Walkthroughs/Walkthrough-Launch-an-Interactive-Build-Workload-with-Connected-Ports/["lancio di un workload di build interattivo con porte connesse"^].

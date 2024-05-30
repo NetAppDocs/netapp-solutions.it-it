@@ -105,26 +105,17 @@ Le sezioni seguenti descrivono le funzionalità di storage importanti per i clie
 
 Con il tiering dello storage Hadoop, è possibile memorizzare file con diversi tipi di storage in conformità con una policy di storage. I tipi di storage includono `hot`, `cold`, `warm`, `all_ssd`, `one_ssd`, e. `lazy_persist`.
 
-<<<<<<< HEAD abbiamo eseguito la convalida del tiering dello storage Hadoop su un controller di storage NetApp AFF e su un controller di storage e-Series con unità SSD e SAS con diverse policy di storage. Il cluster Spark con AFF-A800 ha quattro nodi di lavoro di calcolo, mentre il cluster con e-Series ne ha otto. Questo serve principalmente a confrontare le prestazioni dei dischi a stato solido (SSD) rispetto ai dischi rigidi (HDD).
-
-[]
-====
-Abbiamo eseguito la convalida del tiering dello storage Hadoop su un controller di storage NetApp AFF e su un controller di storage e-Series con unità SSD e SAS con policy di storage diverse. Il cluster Spark con AFF-A800 ha quattro nodi di lavoro di calcolo, mentre il cluster con e-Series ne ha otto. Abbiamo fatto questo principalmente per confrontare le performance dei dischi a stato solido con quelle dei dischi rigidi. >>>>>> a51c9dddf73ca69e1120ce05edc7b0b9607b96eae
+Abbiamo eseguito la convalida del tiering dello storage Hadoop su un controller di storage NetApp AFF e su un controller di storage e-Series con unità SSD e SAS con policy di storage diverse. Il cluster Spark con AFF-A800 ha quattro nodi di lavoro di calcolo, mentre il cluster con e-Series ne ha otto. Questo serve principalmente a confrontare le prestazioni dei dischi a stato solido (SSD) rispetto ai dischi rigidi (HDD).
 
 La figura seguente mostra le performance delle soluzioni NetApp per un SSD Hadoop.
 
 image:apache-spark-image2.png["È il momento di ordinare 1 TB di dati."]
 
-* La configurazione baseline NL-SAS utilizzava otto nodi di calcolo e 96 dischi NL-SAS. Questa configurazione ha generato 1 TB di dati in 4 minuti e 38 secondi. Vedere https://www.netapp.com/media/16420-tr-3969.pdf["TR-3969 soluzione NetApp e-Series per Hadoop"^] per informazioni dettagliate sulla configurazione del cluster e dello storage.
+* La configurazione baseline NL-SAS utilizzava otto nodi di calcolo e 96 dischi NL-SAS. Questa configurazione ha generato 1 TB di dati in 4 minuti e 38 secondi.  Vedere https://www.netapp.com/pdf.html?item=/media/16462-tr-3969.pdf["TR-3969 soluzione NetApp e-Series per Hadoop"^] per informazioni dettagliate sulla configurazione del cluster e dello storage.
 * Utilizzando TeraGen, la configurazione SSD ha generato 1 TB di dati a una velocità di 15,66 volte superiore rispetto alla configurazione NL-SAS. Inoltre, la configurazione SSD utilizzava la metà del numero di nodi di calcolo e la metà del numero di dischi (24 unità SSD in totale). In base al tempo di completamento del lavoro, la velocità era quasi doppia rispetto alla configurazione NL-SAS.
-* Utilizzando TeraSort, la configurazione SSD ha ordinato 1 TB di dati 1138.36 volte più rapidamente della configurazione NL-SAS. Inoltre, la configurazione SSD utilizzava la metà del numero di nodi di calcolo e la metà del numero di dischi (24 unità SSD in totale). Pertanto, per disco, la velocità era circa tre volte superiore rispetto alla configurazione NL-SAS. <<<<<<< TESTA
+* Utilizzando TeraSort, la configurazione SSD ha ordinato 1 TB di dati 1138.36 volte più rapidamente della configurazione NL-SAS. Inoltre, la configurazione SSD utilizzava la metà del numero di nodi di calcolo e la metà del numero di dischi (24 unità SSD in totale). Pertanto, per disco, la velocità era circa tre volte superiore rispetto alla configurazione NL-SAS.
 * La transizione da dischi rotanti a all-flash migliora le performance. Il numero di nodi di calcolo non era il collo di bottiglia. Con lo storage all-flash di NetApp, le performance di runtime sono perfettamente scalabili.
 * Con NFS, i dati erano funzionalmente equivalenti a quelli del pool, il che può ridurre il numero di nodi di calcolo in base al carico di lavoro. Gli utenti del cluster Apache Spark non devono ribilanciare manualmente i dati quando cambiano il numero di nodi di calcolo.
-
-
-====
-* In sintesi, la transizione dai dischi rotanti a all-flash migliora le performance. Il numero di nodi di calcolo non era il collo di bottiglia. Con lo storage all-flash NetApp, le performance di runtime sono perfettamente scalabili.
-* Con NFS, i dati erano funzionalmente equivalenti a quelli del pool, il che può ridurre il numero di nodi di calcolo in base al carico di lavoro. Gli utenti del cluster Apache Spark non devono ribilanciare manualmente i dati quando cambiano il numero di nodi di calcolo. >>>>>> a51c9dddf73ca69e1120ce05edc7b0b9607b96eae
 
 
 
