@@ -14,7 +14,7 @@ summary: Virtualizzazione Red Hat OpenShift con NetApp ONTAP
 
 
 [role="lead"]
-In questa sezione viene descritto come creare una macchina virtuale da un'istantanea con Red Hat OpenShift Virtualization.
+In questa sezione viene illustrato come creare una macchina virtuale da un'istantanea con Red Hat OpenShift Virtualization.
 
 
 
@@ -29,7 +29,7 @@ Per le operazioni Snapshot in OpenShift, è necessario definire le risorse Volum
 * VolumeSnapshotClass consente all'amministratore di specificare attributi diversi per un'istantanea VolumeSnapshot. Consente di avere attributi diversi per diversi snapshot acquisiti dallo stesso volume.
 
 
-image::redhat_openshift_image60.jpg[VM dall'architettura Snapshot]
+image::redhat_openshift_image60.png[VM dall'architettura Snapshot]
 
 Per creare un'istantanea di una macchina virtuale, attenersi alla seguente procedura:
 
@@ -55,7 +55,7 @@ image::redhat_openshift_image62.JPG[Crea snapshot]
 +
 image::redhat_openshift_image63.JPG[Ripristinare Snapshot su un nuovo PVC]
 
-. Quindi, creare una nuova macchina virtuale da questo PVC. Accedere a workload > virtualizzazione > macchine virtuali e fare clic su Create > with YAML (Crea > con YAML).
+. Quindi, creare una nuova macchina virtuale da questo PVC. Accedere a virtualizzazione > macchine virtuali e fare clic su Crea > con YAML.
 . Nella sezione spec > template > spec > Volumes (specifiche > modello > specifiche > volumi), specificare il nuovo PVC creato da Snapshot anziché dal disco container. Fornire tutti gli altri dettagli della nuova macchina virtuale in base alle proprie esigenze.
 +
 [source, cli]

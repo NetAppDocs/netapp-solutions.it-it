@@ -22,23 +22,44 @@ In questa sezione viene descritto come creare una macchina virtuale con Red Hat 
 
 Le VM sono implementazioni stateful che richiedono volumi per ospitare il sistema operativo e i dati. Con CNV, poiché le macchine virtuali vengono eseguite come pod, le macchine virtuali vengono supportate da PVS ospitati su NetApp ONTAP tramite Trident. Questi volumi sono collegati come dischi e memorizzano l'intero file system, inclusa l'origine di boot della macchina virtuale.
 
-image::redhat_openshift_image52.jpg[Creare un'architettura VM]
+image::redhat_openshift_image52.png[Creare un'architettura VM]
 
-Per creare una macchina virtuale sul cluster OpenShift, attenersi alla seguente procedura:
+Per creare rapidamente una macchina virtuale sul cluster OpenShift, attenersi alla seguente procedura:
 
-. Accedere a workload > virtualizzazione > macchine virtuali e fare clic su Crea > con Wizard.
-. Selezionare il sistema operativo desiderato e fare clic su Next (Avanti).
-. Se nel sistema operativo selezionato non è configurata alcuna origine di avvio, è necessario configurarla. Per Boot Source (origine di avvio), selezionare se si desidera importare l'immagine del sistema operativo da un URL o da un registro e fornire i dettagli corrispondenti. Espandere Advanced (Avanzate) e selezionare Trident-Backed StorageClass (StorageClass supportato da Trident). Quindi fare clic su Next (Avanti).
-+
-image::redhat_openshift_image53.JPG[Creare l'origine di boot per la macchina virtuale]
+. Accedere a virtualizzazione > macchine virtuali e fare clic su Crea.
+. Selezionare dal modello.
+. Selezionare il sistema operativo desiderato per il quale è disponibile la sorgente di avvio.
+. Selezionare la casella di controllo Avvia VirtualMachine dopo la creazione.
+. Fare clic su creazione rapida di VirtualMachine.
 
-. Se il sistema operativo selezionato ha già una sorgente di avvio configurata, il passaggio precedente può essere ignorato.
-. Nel riquadro Review and Create (Revisione e creazione), selezionare il progetto in cui si desidera creare la macchina virtuale e fornire i dettagli della macchina virtuale. Assicurarsi che l'origine di boot sia selezionata come Clone (Clona) e boot from CD-ROM (Avvio da CD-ROM) con il PVC appropriato assegnato per il sistema operativo selezionato.
-+
-image::redhat_openshift_image54.JPG[Creare una macchina virtuale]
 
-. Se si desidera personalizzare la macchina virtuale, fare clic su Customize Virtual Machine (Personalizza macchina virtuale) e modificare i parametri richiesti.
+La macchina virtuale viene creata e avviata e passa allo stato *in esecuzione*. Crea automaticamente un PVC e un PV corrispondente per il disco di avvio utilizzando la classe di archiviazione predefinita. Per poter eseguire la migrazione in tempo reale della VM in futuro, è necessario assicurarsi che la classe di archiviazione utilizzata per i dischi supporti i volumi RWX. Questo è un requisito per la migrazione live. ontap-nas e ontap-san (blocco volumeMode per protocolli iSCSI e NVMe/TCP) supportano le modalità di accesso RWX per i volumi creati utilizzando le rispettive classi di storage.
+
+Per configurare la classe storage ontap-san sul cluster, vedere la link:https://docs.netapp.com/us-en/netapp-solutions/containers/rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html["Sezione per la migrazione di una macchina virtuale da VMware a OpenShift Virtualization"].
+
+
+NOTE: È possibile configurare ONTAP NAS o iSCSI come classe di archiviazione predefinita per il cluster. Facendo clic su Quick create VirtualMachine verrà utilizzata la classe di archiviazione predefinita per creare PVC e PV per il disco root avviabile per la VM. Se la classe di storage predefinita non è ontap-nas o ontap-san, è possibile selezionare la classe di storage per il disco, selezionando Customize VirtualMachine > Customize VirtualMachine parameters > Disks e quindi modificando il disco in modo da utilizzare la classe di storage richiesta.
+
+In genere è preferibile la modalità di accesso ai blocchi rispetto ai file system durante il provisioning dei dischi della VM.
+
+Per personalizzare la creazione della macchina virtuale dopo aver selezionato il modello del sistema operativo, fare clic su Customize VirtualMachine invece di Quick create.
+
+. Se l'origine di avvio del sistema operativo selezionato è configurata, è possibile fare clic su *Customize VirtualMachine parameters* (Personalizza parametri VirtualMachine).
+. Se nel sistema operativo selezionato non è configurata alcuna origine di avvio, è necessario configurarla. È possibile visualizzare i dettagli relativi alle procedure illustrate nella link:https://docs.openshift.com/container-platform/4.14/virt/virtual_machines/creating_vms_custom/virt-creating-vms-from-custom-images-overview.html["documentazione"].
+. Dopo aver configurato il disco di avvio, è possibile fare clic su *Customize VirtualMachine parameters*.
+. È possibile personalizzare la VM dalle schede di questa pagina. Ad es. Fare clic sulla scheda *dischi*, quindi fare clic su *Aggiungi disco* per aggiungere un altro disco alla VM.
 . Fare clic su Create Virtual Machine (Crea macchina virtuale) per creare la macchina virtuale; in questo modo viene fatto rotare in background un pod corrispondente.
 
 
-Quando un'origine di avvio viene configurata per un modello o un sistema operativo da un URL o da un registro, crea un PVC in `openshift-virtualization-os-images` Proiettare e scaricare l'immagine guest KVM sul PVC. È necessario assicurarsi che i PVC modello dispongano di spazio di provisioning sufficiente per ospitare l'immagine guest KVM per il sistema operativo corrispondente. Questi PVC vengono quindi clonati e collegati come rootdisk alle macchine virtuali quando vengono creati utilizzando i rispettivi modelli in qualsiasi progetto.
+
+NOTE: Quando un'origine di avvio viene configurata per un modello o un sistema operativo da un URL o da un registro, crea un PVC in `openshift-virtualization-os-images` Proiettare e scaricare l'immagine guest KVM sul PVC. È necessario assicurarsi che i PVC modello dispongano di spazio di provisioning sufficiente per ospitare l'immagine guest KVM per il sistema operativo corrispondente. Questi PVC vengono quindi clonati e collegati come rootdisk a macchine virtuali quando vengono creati utilizzando i rispettivi modelli in un progetto.
+
+image:rh-os-n_use_case_vm_create_1.png[""]
+
+image:rh-os-n_use_case_vm_create_2.png[""]
+
+image:rh-os-n_use_case_vm_create_3.png[""]
+
+image:rh-os-n_use_case_vm_create_4.png[""]
+
+image:rh-os-n_use_case_vm_create_5.png[""]
