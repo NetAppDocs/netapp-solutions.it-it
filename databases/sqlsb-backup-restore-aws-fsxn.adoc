@@ -44,7 +44,7 @@ Per la configurazione di SnapCenter e la protezione delle risorse di Microsoft S
 
 Configurare le credenziali per il backup di SQL Server e ripristinare l'utente con diritti sysadmin.
 
-image:sqlsb-aws-image1.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image1.png[""]
 
 NetApp consiglia di utilizzare RBAC (Role-Based Access Control) per delegare le funzionalità di gestione e protezione dei dati a singoli utenti attraverso gli host SnapCenter e Window. L'utente deve avere accesso a SQL Server che ospita il database. Per più host, il nome utente e la password devono essere identici tra i vari host. Inoltre, per consentire a SnapCenter di distribuire il plug-in richiesto sugli host SQL Server, è necessario registrare le informazioni di dominio per SnapCenter per convalidare le credenziali e gli host.
 
@@ -55,11 +55,11 @@ Espandere le sezioni seguenti per visualizzare le istruzioni dettagliate su come
 ====
 Accedere a *Impostazioni*, selezionare *credenziali* e fare clic su (*+*).
 
-image:sqlsb-aws-image2.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image2.png[""]
 
 Il nuovo utente deve disporre dei diritti di amministratore sull'host di SQL Server.
 
-image:sqlsb-aws-image3.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image3.png[""]
 
 ====
 .Configurare lo storage
@@ -70,15 +70,15 @@ Per configurare lo storage in SnapCenter, attenersi alla seguente procedura:
 . Nell'interfaccia utente di SnapCenter, selezionare *sistemi di storage*. Esistono due tipi di storage, *SVM ONTAP* e *cluster ONTAP*. Per impostazione predefinita, il tipo di storage è *SVM ONTAP*.
 . Fare clic su (*+*) per aggiungere le informazioni sul sistema di storage.
 +
-image:sqlsb-aws-image4.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image4.png[""]
 
 . Fornire l'endpoint *FSX per la gestione ONTAP*.
 +
-image:sqlsb-aws-image5.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image5.png[""]
 
 . La SVM è ora configurata in SnapCenter.
 +
-image:sqlsb-aws-image6.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image6.png[""]
 
 
 
@@ -90,7 +90,7 @@ Per aggiungere un host SQL Server, attenersi alla seguente procedura:
 
 . Dalla scheda host, fare clic su (*+*) per aggiungere l'host Microsoft SQL Server.
 +
-image:sqlsb-aws-image7.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image7.png[""]
 
 . Fornire il nome di dominio completo (FQDN) o l'indirizzo IP dell'host remoto.
 +
@@ -99,17 +99,17 @@ NOTE: Le credenziali vengono popolate per impostazione predefinita.
 
 . Selezionare l'opzione Microsoft Windows e Microsoft SQL Server, quindi inviare.
 +
-image:sqlsb-aws-image8.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image8.png[""]
 
 
 
 I pacchetti di SQL Server sono installati.
 
-image:sqlsb-aws-image9.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image9.png[""]
 
 . Al termine dell'installazione, accedere alla scheda *risorsa* per verificare la presenza di tutti i volumi iSCSI FSX per ONTAP.
 +
-image:sqlsb-aws-image10.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image10.png[""]
 
 
 
@@ -121,25 +121,25 @@ Per configurare una directory del registro host, attenersi alla seguente procedu
 
 . Fare clic sulla casella di controllo. Viene visualizzata una nuova scheda.
 +
-image:sqlsb-aws-image11.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image11.png[""]
 
 . Fare clic sul collegamento *configure log directory*.
 +
-image:sqlsb-aws-image12.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image12.png[""]
 
 . Selezionare l'unità per la directory del log host e la directory del log dell'istanza FCI. Fare clic su *Save* (Salva). Ripetere la stessa procedura per il secondo nodo del cluster. Chiudere la finestra.
 +
-image:sqlsb-aws-image13.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image13.png[""]
 
 
 
 L'host si trova ora in uno stato di esecuzione.
 
-image:sqlsb-aws-image14.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image14.png[""]
 
 . Dalla scheda *risorse*, abbiamo tutti i server e i database.
 +
-image:sqlsb-aws-image15.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image15.png[""]
 
 
 
@@ -159,39 +159,39 @@ Per configurare un criterio di backup per un database FCI, attenersi alla seguen
 
 . Vai a *Impostazioni* e seleziona *Criteri* in alto a sinistra. Quindi fare clic su *nuovo*.
 +
-image:sqlsb-aws-image16.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image16.png[""]
 
 . Immettere il nome e la descrizione del criterio. Fare clic su *Avanti*.
 +
-image:sqlsb-aws-image17.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image17.png[""]
 
 . Selezionare *Backup completo* come tipo di backup.
 +
-image:sqlsb-aws-image18.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image18.png[""]
 
 . Selezionare la frequenza di pianificazione (in base allo SLA aziendale). Fare clic su *Avanti*.
 +
-image:sqlsb-aws-image19.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image19.png[""]
 
 . Configurare le impostazioni di conservazione per il backup.
 +
-image:sqlsb-aws-image20.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image20.png[""]
 
 . Configurare le opzioni di replica.
 +
-image:sqlsb-aws-image21.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image21.png[""]
 
 . Specificare uno script di esecuzione da eseguire prima e dopo l'esecuzione di un processo di backup (se presente).
 +
-image:sqlsb-aws-image22.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image22.png[""]
 
 . Eseguire la verifica in base alla pianificazione del backup.
 +
-image:sqlsb-aws-image23.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image23.png[""]
 
 . La pagina *Summary* fornisce i dettagli della policy di backup. Gli eventuali errori possono essere corretti qui.
 +
-image:sqlsb-aws-image24.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image24.png[""]
 
 
 
@@ -202,26 +202,26 @@ image:sqlsb-aws-image24.png["Errore: Immagine grafica mancante"]
 
 . Impostare la data di inizio e la data di scadenza del criterio di backup.
 +
-image:sqlsb-aws-image25.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image25.png[""]
 
 . Definire la pianificazione del backup. A tale scopo, fare clic su (*+*) per configurare una pianificazione. Inserire la data *inizio* e *scadenza*. Impostare l'ora in base allo SLA dell'azienda.
 +
-image:sqlsb-aws-image26.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image26.png[""]
 
 . Configurare il server di verifica. Dal menu a discesa, selezionare il server.
 +
-image:sqlsb-aws-image27.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image27.png[""]
 
 . Confermare la pianificazione configurata facendo clic sul segno più e confermare.
 . Fornire informazioni per la notifica via email. Fare clic su *Avanti*.
 +
-image:sqlsb-aws-image28.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image28.png[""]
 
 
 
 Il riepilogo dei criteri di backup per il database di SQL Server è ora configurato.
 
-image:sqlsb-aws-image29.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image29.png[""]
 
 
 
@@ -231,15 +231,15 @@ Per creare backup di SQL Server on-demand, attenersi alla seguente procedura:
 
 . Dalla vista *Resource*, selezionare la risorsa e selezionare *Backup now*.
 +
-image:sqlsb-aws-image30.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image30.png[""]
 
 . Nella finestra di dialogo *Backup*, fare clic su *Backup*.
 +
-image:sqlsb-aws-image31.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image31.png[""]
 
 . Viene visualizzata una schermata di conferma. Fare clic su *Sì* per confermare.
 +
-image:sqlsb-aws-image32.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image32.png[""]
 
 
 
@@ -249,10 +249,10 @@ image:sqlsb-aws-image32.png["Errore: Immagine grafica mancante"]
 
 . Dalla scheda *Monitor*, fare clic sul lavoro e selezionare *Dettagli* a destra per visualizzare i lavori.
 +
-image:sqlsb-aws-image33.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image33.png[""]
 
 +
-image:sqlsb-aws-image34.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image34.png[""]
 
 
 
@@ -266,15 +266,15 @@ Per configurare un criterio di backup per più database di SQL Server, creare i 
 
 . Nella scheda *risorse* del menu *Visualizza*, passare a un gruppo di risorse utilizzando il menu a discesa.
 +
-image:sqlsb-aws-image35.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image35.png[""]
 
 . Fare clic su (*+*) per visualizzare un nuovo gruppo di risorse.
 +
-image:sqlsb-aws-image36.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image36.png[""]
 
 . Fornire un nome e un tag. Fare clic su *Avanti*.
 +
-image:sqlsb-aws-image37.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image37.png[""]
 
 . Aggiungere risorse al gruppo di risorse:
 +
@@ -282,47 +282,47 @@ image:sqlsb-aws-image37.png["Errore: Immagine grafica mancante"]
 ** *Tipo di risorsa.* dal menu a discesa, selezionare *Database*.
 ** *Istanza di SQL Server.* selezionare il server.
 +
-image:sqlsb-aws-image38.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image38.png[""]
 
 +
 Per impostazione predefinita, l'opzione *opzione* Auto seleziona tutte le risorse dallo stesso volume di storage*. Deselezionare l'opzione e selezionare solo i database da aggiungere al gruppo di risorse, fare clic sulla freccia per aggiungere e fare clic su *Avanti*.
 
 +
-image:sqlsb-aws-image39.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image39.png[""]
 
 
 
 . Nei criteri, fare clic su (*+*).
 +
-image:sqlsb-aws-image40.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image40.png[""]
 
 . Immettere il nome del criterio del gruppo di risorse.
 +
-image:sqlsb-aws-image41.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image41.png[""]
 
 . Selezionare *Backup completo* e la frequenza di pianificazione in base allo SLA aziendale.
 +
-image:sqlsb-aws-image42.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image42.png[""]
 
 . Configurare le impostazioni di conservazione.
 +
-image:sqlsb-aws-image43.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image43.png[""]
 
 . Configurare le opzioni di replica.
 +
-image:sqlsb-aws-image44.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image44.png[""]
 
 . Configurare gli script da eseguire prima di eseguire un backup. Fare clic su *Avanti*.
 +
-image:sqlsb-aws-image45.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image45.png[""]
 
 . Confermare la verifica per le seguenti pianificazioni di backup.
 +
-image:sqlsb-aws-image46.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image46.png[""]
 
 . Nella pagina *Riepilogo*, verificare le informazioni e fare clic su *fine*.
 +
-image:sqlsb-aws-image47.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image47.png[""]
 
 
 
@@ -332,28 +332,28 @@ image:sqlsb-aws-image47.png["Errore: Immagine grafica mancante"]
 
 . Fare clic sul segno (*+*) per configurare la data di inizio e la data di scadenza.
 +
-image:sqlsb-aws-image48.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image48.png[""]
 
 . Impostare l'ora.
 +
-image:sqlsb-aws-image49.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image49.png[""]
 
 +
-image:sqlsb-aws-image50.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image50.png[""]
 
 . Dalla scheda *verifica*, selezionare il server, configurare la pianificazione e fare clic su *Avanti*.
 +
-image:sqlsb-aws-image51.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image51.png[""]
 
 . Configurare le notifiche per l'invio di un'e-mail.
 +
-image:sqlsb-aws-image52.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image52.png[""]
 
 
 
 Il criterio è ora configurato per il backup di più database SQL Server.
 
-image:sqlsb-aws-image53.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image53.png[""]
 
 
 
@@ -361,20 +361,20 @@ image:sqlsb-aws-image53.png["Errore: Immagine grafica mancante"]
 
 . Dalla scheda *Resource*, selezionare view (Visualizza). Dal menu a discesa, selezionare *Gruppo di risorse*.
 +
-image:sqlsb-aws-image54.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image54.png[""]
 
 . Selezionare il nome del gruppo di risorse.
 . Fare clic su *Backup now* in alto a destra.
 +
-image:sqlsb-aws-image55.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image55.png[""]
 
 . Viene visualizzata una nuova finestra. Fare clic sulla casella di controllo *Verify after backup* (verifica dopo il backup), quindi fare clic su backup.
 +
-image:sqlsb-aws-image56.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image56.png[""]
 
 . Viene visualizzato un messaggio di conferma. Fare clic su *Sì*.
 +
-image:sqlsb-aws-image57.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image57.png[""]
 
 
 
@@ -384,11 +384,11 @@ image:sqlsb-aws-image57.png["Errore: Immagine grafica mancante"]
 
 Dalla barra di navigazione a sinistra, fare clic su *Monitor*, selezionare il processo di backup e fare clic su *Dettagli* per visualizzare l'avanzamento del processo.
 
-image:sqlsb-aws-image58.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image58.png[""]
 
 Fare clic sulla scheda *Resource* per visualizzare il tempo necessario per il completamento del backup.
 
-image:sqlsb-aws-image59.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image59.png[""]
 
 
 
@@ -400,49 +400,49 @@ Per eseguire un backup del log delle transazioni, attenersi alla seguente proced
 
 . Dalla scheda *risorse*, modificare il menu di visualizzazione da *Database* a *Gruppo di risorse*.
 +
-image:sqlsb-aws-image60.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image60.png[""]
 
 . Selezionare il criterio di backup del gruppo di risorse creato.
 . Selezionare *Modify Resource Group* (Modifica gruppo di risorse) in alto a destra.
 +
-image:sqlsb-aws-image61.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image61.png[""]
 
 . Per impostazione predefinita, la sezione *Nome* utilizza il nome e il tag del criterio di backup. Fare clic su *Avanti*.
 +
 La scheda *risorse* evidenzia le basi in cui deve essere configurato il criterio di backup delle transazioni.
 
 +
-image:sqlsb-aws-image62.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image62.png[""]
 
 . Immettere il nome del criterio.
 +
-image:sqlsb-aws-image63.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image63.png[""]
 
 . Selezionare le opzioni di backup di SQL Server.
 . Selezionare log backup (backup registro).
 . Impostare la frequenza di pianificazione in base all'RTO aziendale. Fare clic su *Avanti*.
 +
-image:sqlsb-aws-image64.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image64.png[""]
 
 . Configurare le impostazioni di conservazione del backup del registro. Fare clic su *Avanti*.
 +
-image:sqlsb-aws-image65.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image65.png[""]
 
 . (Facoltativo) configurare le opzioni di replica.
 +
-image:sqlsb-aws-image66.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image66.png[""]
 
 . (Facoltativo) configurare gli script da eseguire prima di eseguire un processo di backup.
 +
-image:sqlsb-aws-image67.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image67.png[""]
 
 . (Facoltativo) configurare la verificazione del backup.
 +
-image:sqlsb-aws-image68.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image68.png[""]
 
 . Nella pagina *Riepilogo*, fare clic su *fine*.
 +
-image:sqlsb-aws-image69.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image69.png[""]
 
 
 
@@ -452,28 +452,28 @@ image:sqlsb-aws-image69.png["Errore: Immagine grafica mancante"]
 
 . Fare clic sul criterio di backup del registro delle transazioni appena creato.
 +
-image:sqlsb-aws-image70.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image70.png[""]
 
 . Impostare la data *inizio* e *scadenza*.
 . Inserire la frequenza del criterio di backup del registro in base a SLA, RTP e RPO. Fare clic su OK.
 +
-image:sqlsb-aws-image71.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image71.png[""]
 
 . È possibile visualizzare entrambi i criteri. Fare clic su *Avanti*.
 +
-image:sqlsb-aws-image72.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image72.png[""]
 
 . Configurare il server di verifica.
 +
-image:sqlsb-aws-image73.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image73.png[""]
 
 . Configurare la notifica via email.
 +
-image:sqlsb-aws-image74.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image74.png[""]
 
 . Nella pagina *Riepilogo*, fare clic su *fine*.
 +
-image:sqlsb-aws-image75.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image75.png[""]
 
 
 
@@ -485,16 +485,16 @@ Per attivare un backup on-demand del log transazionale per più database di SQL 
 
 . Nella pagina policy appena creata, selezionare *Backup now* (Esegui backup ora) in alto a destra nella pagina.
 +
-image:sqlsb-aws-image76.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image76.png[""]
 
 . Dalla finestra a comparsa della scheda *Policy*, selezionare il menu a discesa, selezionare il criterio di backup e configurare il backup del log delle transazioni.
 +
-image:sqlsb-aws-image77.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image77.png[""]
 
 . Fare clic su *Backup*. Viene visualizzata una nuova finestra.
 . Fare clic su *Sì* per confermare la policy di backup.
 +
-image:sqlsb-aws-image78.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image78.png[""]
 
 
 
@@ -504,7 +504,7 @@ image:sqlsb-aws-image78.png["Errore: Immagine grafica mancante"]
 
 Passare alla scheda *Monitoring* e monitorare l'avanzamento del processo di backup.
 
-image:sqlsb-aws-image79.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image79.png[""]
 
 
 
@@ -527,34 +527,34 @@ Per ripristinare un database SQL Server a un punto temporale, attenersi alla seg
 
 . La seguente schermata mostra lo stato iniziale del database SQL Server prima delle tabelle eliminate.
 +
-image:sqlsb-aws-image80.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image80.png[""]
 
 +
 La schermata mostra che 20 righe sono state eliminate dalla tabella.
 
 +
-image:sqlsb-aws-image81.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image81.png[""]
 
 . Accedere al server SnapCenter. Dalla scheda *risorse*, selezionare il database.
 +
-image:sqlsb-aws-image82.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image82.png[""]
 
 . Selezionare il backup più recente.
 . A destra, selezionare *Restore* (Ripristina).
 +
-image:sqlsb-aws-image83.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image83.png[""]
 
 . Viene visualizzata una nuova finestra. Selezionare l'opzione *Restore*.
 . Ripristinare il database sullo stesso host in cui è stato creato il backup. Fare clic su *Avanti*.
 +
-image:sqlsb-aws-image84.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image84.png[""]
 
 . Per il tipo di ripristino, selezionare *All log backups* (tutti i backup del registro). Fare clic su *Avanti*.
 +
-image:sqlsb-aws-image85.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image85.png[""]
 
 +
-image:sqlsb-aws-image86.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image86.png[""]
 
 
 
@@ -562,7 +562,7 @@ image:sqlsb-aws-image86.png["Errore: Immagine grafica mancante"]
 
 . Selezionare l'opzione *sovrascrivere il database con lo stesso nome durante il ripristino*. Fare clic su *Avanti*.
 +
-image:sqlsb-aws-image87.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image87.png[""]
 
 
 
@@ -570,15 +570,15 @@ image:sqlsb-aws-image87.png["Errore: Immagine grafica mancante"]
 
 . Selezionare l'opzione *operativo, ma non disponibile per il ripristino di ulteriori registri delle transazioni*. Fare clic su *Avanti*.
 +
-image:sqlsb-aws-image88.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image88.png[""]
 
 . Fornire le impostazioni e-mail. Fare clic su *Avanti*.
 +
-image:sqlsb-aws-image89.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image89.png[""]
 
 . Nella pagina *Riepilogo*, fare clic su *fine*.
 +
-image:sqlsb-aws-image90.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image90.png[""]
 
 
 
@@ -588,15 +588,15 @@ image:sqlsb-aws-image90.png["Errore: Immagine grafica mancante"]
 
 . Dalla scheda *Monitoring* (monitoraggio), fare clic sui dettagli del processo di ripristino per visualizzare l'avanzamento del processo di ripristino.
 +
-image:sqlsb-aws-image91.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image91.png[""]
 
 . Ripristinare i dettagli del lavoro.
 +
-image:sqlsb-aws-image92.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image92.png[""]
 
 . Torna all'host SQL Server > database > tabella sono presenti.
 +
-image:sqlsb-aws-image93.png["Errore: Immagine grafica mancante"]
+image:sqlsb-aws-image93.png[""]
 
 
 

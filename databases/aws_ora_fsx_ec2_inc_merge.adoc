@@ -161,7 +161,7 @@ vol create -volume ora_01_copy -aggregate aggr1 -size 100G -state online -type R
 ----
 . In alternativa, è possibile eseguire il provisioning del volume dall'interfaccia utente della console AWS FSX con opzioni: Efficienza dello storage `Enabled`, stile di sicurezza `Unix` , Criterio Snapshot `None`E il tiering dello storage `Snapshot Only` come mostrato di seguito.
 +
-image::aws_ora_fsx_ec2_vldb_vol.png[Errore: Immagine grafica mancante]
+image::aws_ora_fsx_ec2_vldb_vol.png[aws ora fsx ec2 vldb vol]
 
 . Crea una policy di snapshot personalizzata per il database oracle con una pianificazione giornaliera e una conservazione di 30 giorni. È necessario modificare la policy in base alle proprie esigenze specifiche in termini di frequenza delle snapshot e finestra di conservazione.
 +

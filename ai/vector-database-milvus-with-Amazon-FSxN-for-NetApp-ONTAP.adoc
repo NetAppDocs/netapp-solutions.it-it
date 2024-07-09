@@ -18,14 +18,14 @@ In questa sezione viene illustrata la configurazione del cluster milvus con Amaz
 
 
 
-=== Milvus con Amazon FSxN per NetApp ONTAP – dualismo di file e oggetti
+== Milvus con Amazon FSxN per NetApp ONTAP – dualismo di file e oggetti
 
 In questa sezione, perché è necessario implementare il database vettoriale nel cloud e i passaggi per distribuire il database vettoriale ( milvus standalone) in Amazon FSxN per NetApp ONTAP all'interno dei contenitori docker.
 
 L'implementazione di un database vettoriale nel cloud offre diversi vantaggi significativi, in particolare per le applicazioni che richiedono la gestione di dati ad alta dimensione e l'esecuzione di ricerche di similarità. Innanzitutto, l'implementazione basata sul cloud offre scalabilità, consentendo una facile regolazione delle risorse in base ai volumi di dati in crescita e ai carichi di query. In questo modo, il database può gestire in modo efficiente l'aumento della domanda mantenendo al contempo prestazioni elevate. In secondo luogo, l'implementazione del cloud offre high Availability e disaster recovery, poiché i dati possono essere replicati in diverse posizioni geografiche, riducendo al minimo il rischio di perdita di dati e garantendo un servizio continuo anche in eventi imprevisti. In terzo luogo, garantisce convenienza, poiché si paga solo per le risorse utilizzate e si può scalare in verticale o in orizzontale in base alla domanda, evitando la necessità di investimenti anticipati sostanziali in hardware. Infine, l'implementazione di un database vettoriale nel cloud può migliorare la collaborazione, poiché i dati possono essere accessibili e condivisi da qualsiasi luogo, facilitando il lavoro di gruppo e il processo decisionale basato sui dati.
 Controllare l'architettura del milvus standalone con Amazon FSxN per NetApp ONTAP utilizzato in questa convalida.
 
-image:Amazon_fsxn_milvus.png["Errore: Immagine grafica mancante"]
+image:Amazon_fsxn_milvus.png[""]
 
 . Creare un'istanza di Amazon FSxN for NetApp ONTAP e annotare i dettagli di VPC, gruppi di sicurezza VPC e subnet. Queste informazioni saranno necessarie quando si crea un'istanza EC2. Puoi trovare ulteriori dettagli qui - https://us-east-1.console.aws.amazon.com/fsx/home?region=us-east-1#file-system-create[]
 . Creare un'istanza EC2, verificando che VPC, gruppi di sicurezza e subnet corrispondano a quelli dell'istanza Amazon FSxN per NetApp ONTAP.

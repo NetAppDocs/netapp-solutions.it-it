@@ -39,7 +39,7 @@ Per la configurazione e l'installazione del cluster AKS, visitare il sito Web al
 .. Aggiungere il nodo di sistema primario denominato `agentpool` su `Standard_DS2_v2` dimensione. Utilizzare i tre nodi predefiniti.
 .. Aggiungi nodo di lavoro `gpupool` con `the Standard_NC6s_v3` dimensioni del pool. Utilizzare almeno tre nodi per i nodi GPU.
 +
-image:runai-ld_image3.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image3.png[""]
 
 +
 
@@ -66,7 +66,7 @@ kubectl get nodes
 NOTE: Se tutti e sei i nodi sono attivi e in esecuzione, il cluster AKS è pronto e connesso all'ambiente locale.
 
 +
-image:runai-ld_image4.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image4.png[""]
 
 
 
@@ -78,15 +78,15 @@ Per creare una subnet delegata per Azure NetApp Files, seguire questa serie di p
 
 . Accedere alle reti virtuali all'interno del portale Azure. Trova la tua rete virtuale appena creata. Dovrebbe avere un prefisso come aks-vnet, come mostrato qui. Fare clic sul nome della rete virtuale.
 +
-image:runai-ld_image5.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image5.png[""]
 
 . Fare clic su subnet e selezionare +Subnet nella barra degli strumenti superiore.
 +
-image:runai-ld_image6.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image6.png[""]
 
 . Specificare un nome per la subnet, ad esempio `ANF.sn` E sotto l'intestazione Subnet Delegation (delega subnet), selezionare Microsoft.NetApp/volumes. Non cambiare altro. Fare clic su OK.
 +
-image:runai-ld_image7.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image7.png[""]
 
 
 
@@ -123,7 +123,9 @@ Quindi, eseguire il peer della rete virtuale AKS con Azure NetApp Files VNET seg
 . Fare clic su +Add (Aggiungi) e inserire le informazioni fornite nella tabella seguente:
 +
 |===
-| Campo | Valore o descrizione 
+
+
+| Campo | Valore o descrizione # 
 
 
 | Nome del collegamento peering | aks-vnet-name_to_an 
@@ -293,7 +295,7 @@ kubectl get sc azurenetappfiles
 L'output dovrebbe essere simile al seguente esempio:
 
 +
-image:runai-ld_image8.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image8.png[""]
 
 
 
@@ -330,7 +332,7 @@ kubectl create -f netapp-volume-snapshot-class.yaml
 L'output dovrebbe essere simile al seguente esempio:
 
 +
-image:runai-ld_image9.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image9.png[""]
 
 . Verificare che la classe di copia Snapshot del volume sia stata creata utilizzando il seguente comando:
 +
@@ -341,7 +343,7 @@ kubectl get volumesnapshotclass
 L'output dovrebbe essere simile al seguente esempio:
 
 +
-image:runai-ld_image10.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image10.png[""]
 
 
 
@@ -354,7 +356,7 @@ Per installare RUN:ai, attenersi alla seguente procedura:
 . https://docs.run.ai/Administrator/Cluster-Setup/cluster-install/["Installare IL cluster RUN:ai su AKS"^].
 . Accedere a app.runai.ai, fare clic su Create New Project (Crea nuovo progetto) e assegnargli il nome di rilevamento della corsia. Verrà creato uno spazio dei nomi su un cluster K8s a partire da `runai`- seguito dal nome del progetto. In questo caso, lo spazio dei nomi creato sarà runai-lane-detection.
 +
-image:runai-ld_image11.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image11.png[""]
 
 . https://docs.run.ai/Administrator/Cluster-Setup/cluster-install/["INSTALLARE RUN:AI CLI"^].
 . Sul terminale, impostare il rilevamento di corsia come UN progetto di default RUN: Ai utilizzando il seguente comando:
@@ -366,7 +368,7 @@ image:runai-ld_image11.png["Errore: Immagine grafica mancante"]
 L'output dovrebbe essere simile al seguente esempio:
 
 +
-image:runai-ld_image12.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image12.png[""]
 
 . Creare ClusterRole e ClusterRoleBinding per lo spazio dei nomi del progetto (ad esempio, `lane-detection)` quindi, l'account di servizio predefinito appartenente a. `runai-lane-detection` lo spazio dei nomi dispone dell'autorizzazione per eseguire le operazioni `volumesnapshot` operazioni durante l'esecuzione del processo:
 +
@@ -379,7 +381,7 @@ kubectl get namespaces
 L'output dovrebbe apparire come nell'esempio seguente:
 
 +
-image:runai-ld_image13.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image13.png[""]
 
 
 
@@ -411,7 +413,7 @@ cd ./lane-detection-SCNN-horovod/data
 ....
 .. Modificare `build_image.sh` shell script e modifica il repository di docker in base al tuo. Ad esempio, sostituire `muneer7589` con il nome del repository di docker. È anche possibile modificare il nome e IL TAG dell'immagine del docker (ad esempio `download-tusimple` e. `1.0`):
 +
-image:runai-ld_image14.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image14.png[""]
 
 .. Eseguire lo script per creare l'immagine del docker e inserirla nel repository del docker utilizzando i seguenti comandi:
 +
@@ -449,7 +451,7 @@ runai submit
 L'output dovrebbe essere simile al seguente esempio:
 
 +
-image:runai-ld_image15.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image15.png[""]
 
 .. Elencare i job RUN:ai inviati.
 +
@@ -457,7 +459,7 @@ image:runai-ld_image15.png["Errore: Immagine grafica mancante"]
 runai list jobs
 ....
 +
-image:runai-ld_image16.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image16.png[""]
 
 .. Controllare i log dei lavori inoltrati.
 +
@@ -465,7 +467,7 @@ image:runai-ld_image16.png["Errore: Immagine grafica mancante"]
 runai logs download-tusimple-data -t 10
 ....
 +
-image:runai-ld_image17.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image17.png[""]
 
 .. Elencare `pvc` creato. Utilizzare questo `pvc` comando per la formazione nella fase successiva.
 +
@@ -476,11 +478,11 @@ kubectl get pvc | grep download-tusimple-data
 L'output dovrebbe essere simile al seguente esempio:
 
 +
-image:runai-ld_image18.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image18.png[""]
 
 .. Controllare il lavoro IN ESECUZIONE: Ai UI (o. `app.run.ai`).
 +
-image:runai-ld_image19.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image19.png[""]
 
 
 
@@ -506,7 +508,7 @@ cd ./lane-detection-SCNN-horovod
 ....
 .. Modificare il `build_image.sh` shell script e modifica il repository di docker in base al tuo (ad esempio, sostituire `muneer7589` con il nome del repository del docker). È anche possibile modificare il nome e IL TAG dell'immagine del docker (`dist-lane-detection` e. `3.1, for example)`.
 +
-image:runai-ld_image20.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image20.png[""]
 
 .. Eseguire lo script per creare l'immagine del docker e passare al repository del docker.
 +
@@ -525,7 +527,7 @@ chmod +x build_image.sh
 kubectl get pvc | grep download-tusimple-data
 ....
 +
-image:runai-ld_image21.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image21.png[""]
 
 .. Applicare la patch al volume e aggiornare la modalità di accesso a ReadWriteMany (sostituire il nome del volume con il proprio nel seguente comando):
 +
@@ -600,7 +602,7 @@ runai submit-mpi
 L'output dovrebbe essere simile al seguente esempio:
 
 +
-image:runai-ld_image22.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image22.png[""]
 
 .. Elencare il lavoro inoltrato.
 +
@@ -608,7 +610,7 @@ image:runai-ld_image22.png["Errore: Immagine grafica mancante"]
 runai list jobs
 ....
 +
-image:runai-ld_image23.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image23.png[""]
 
 .. Log dei lavori inoltrati:
 +
@@ -616,14 +618,14 @@ image:runai-ld_image23.png["Errore: Immagine grafica mancante"]
 runai logs dist-lane-detection-training
 ....
 +
-image:runai-ld_image24.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image24.png[""]
 
 .. Controllare il lavoro di training in CORSO: Ai GUI (o app.runai.ai): RUN: Ai Dashboard, come mostrato nelle figure seguenti. La prima figura descrive in dettaglio tre GPU allocate per il lavoro di training distribuito su tre nodi su AKS e la seconda ESECUZIONE:job ai:
 +
-image:runai-ld_image25.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image25.png[""]
 
 +
-image:runai-ld_image26.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image26.png[""]
 
 .. Al termine del training, controlla la copia Snapshot di NetApp creata e collegata al lavoro RUN: Ai.
 +
@@ -631,7 +633,7 @@ image:runai-ld_image26.png["Errore: Immagine grafica mancante"]
 runai logs dist-lane-detection-training --tail 1
 ....
 +
-image:runai-ld_image27.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image27.png[""]
 
 +
 ....
@@ -659,7 +661,7 @@ cd ./lane-detection-SCNN-horovod
 ....
 . Modificare `restore-snaphot-pvc.yaml` e aggiornare `dataSource` `name` Nella copia Snapshot da cui si desidera ripristinare i dati. È anche possibile modificare il nome PVC in cui verranno ripristinati i dati, in questo esempio ITS `restored-tusimple`.
 +
-image:runai-ld_image29.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image29.png[""]
 
 . Creare un nuovo PVC utilizzando `restore-snapshot-pvc.yaml`.
 +
@@ -670,7 +672,7 @@ kubectl create -f restore-snapshot-pvc.yaml
 L'output dovrebbe essere simile al seguente esempio:
 
 +
-image:runai-ld_image30.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image30.png[""]
 
 . Se si desidera utilizzare i dati appena ripristinati per la formazione, l'invio del lavoro rimane lo stesso di prima; sostituire solo `PVC_NAME` con il ripristinato `PVC_NAME` quando si invia il lavoro di formazione, come indicato nei seguenti comandi:
 +
@@ -706,35 +708,35 @@ Le figure mostrate nel resto di questo documento illustrano esempi di performanc
 
 La figura seguente illustra l'allocazione e l'utilizzo della memoria di 1 GPU.
 
-image:runai-ld_image31.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image31.png[""]
 
 La figura seguente illustra l'utilizzo della GPU a nodo singolo.
 
-image:runai-ld_image32.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image32.png[""]
 
 La figura seguente illustra le dimensioni della memoria a nodo singolo (16 GB).
 
-image:runai-ld_image33.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image33.png[""]
 
 La figura seguente illustra il numero di GPU a nodo singolo (1).
 
-image:runai-ld_image34.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image34.png[""]
 
 La figura seguente illustra l'allocazione della GPU a nodo singolo (%).
 
-image:runai-ld_image35.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image35.png[""]
 
 La figura seguente illustra tre GPU su tre nodi: Allocazione e memoria delle GPU.
 
-image:runai-ld_image36.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image36.png[""]
 
 La figura seguente illustra tre GPU in tre nodi utilizzati (%).
 
-image:runai-ld_image37.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image37.png[""]
 
 La figura seguente illustra tre GPU in tre nodi di utilizzo della memoria (%).
 
-image:runai-ld_image38.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image38.png[""]
 
 
 
@@ -750,11 +752,11 @@ Per modificare il livello di servizio di un volume, attenersi alla seguente proc
 
 . Nella pagina Volumes (volumi), fare clic con il pulsante destro del mouse sul volume di cui si desidera modificare il livello di servizio. Selezionare Cambia pool.
 +
-image:runai-ld_image39.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image39.png[""]
 
 . Nella finestra Change Pool, selezionare il pool di capacità in cui si desidera spostare il volume. Quindi, fare clic su OK.
 +
-image:runai-ld_image40.png["Errore: Immagine grafica mancante"]
+image:runai-ld_image40.png[""]
 
 
 

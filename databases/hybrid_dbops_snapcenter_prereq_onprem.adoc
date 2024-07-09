@@ -41,26 +41,26 @@ Le performance dello storage giocano un ruolo importante nelle performance gener
 
 Il collegamento diretto delle LUN di storage alla macchina virtuale guest tramite NFS o iSCSI per carichi di lavoro di database virtualizzati offre generalmente performance migliori rispetto allo storage allocato tramite VMDK. NetApp consiglia il layout dello storage per un database SQL Server di grandi dimensioni su LUN, illustrato nella figura seguente.
 
-image:storage_layout_sqlsvr_large.PNG["Errore: Immagine grafica mancante"]
+image:storage_layout_sqlsvr_large.PNG[""]
 
 La figura seguente mostra il layout di storage consigliato da NetApp per database SQL Server di piccole o medie dimensioni su LUN.
 
-image:storage_layout_sqlsvr_smallmedium.PNG["Errore: Immagine grafica mancante"]
+image:storage_layout_sqlsvr_smallmedium.PNG[""]
 
 
 NOTE: La directory Log è dedicata a SnapCenter per eseguire il rollup del log delle transazioni per il ripristino del database. Per un database di grandi dimensioni, è possibile allocare più LUN a un volume per migliorare le performance.
 
 Per i carichi di lavoro dei database Oracle, SnapCenter supporta ambienti di database supportati dallo storage ONTAP montato sull'host come dispositivi fisici o virtuali. È possibile ospitare l'intero database su uno o più dispositivi di storage in base alla criticità dell'ambiente. In genere, i clienti isolano i file di dati sullo storage dedicato da tutti gli altri file, ad esempio file di controllo, file di ripristino e file di log di archiviazione. In questo modo, gli amministratori possono eseguire rapidamente il ripristino (ONTAP single-file SnapRestore) o clonare un database critico di grandi dimensioni (scala di petabyte) utilizzando la tecnologia Snapshot in pochi secondi o minuti.
 
-image:storage_layout_oracle_typical.PNG["Errore: Immagine grafica mancante"]
+image:storage_layout_oracle_typical.PNG[""]
 
 Per i carichi di lavoro mission-critical sensibili alla latenza, è necessario implementare un volume di storage dedicato a diversi tipi di file Oracle per ottenere la migliore latenza possibile. Per un database di grandi dimensioni, è necessario allocare più LUN (NetApp consiglia fino a otto) per volume ai file di dati.
 
-image:storage_layout_oracle_dedicated.PNG["Errore: Immagine grafica mancante"]
+image:storage_layout_oracle_dedicated.PNG[""]
 
 Per i database Oracle più piccoli, SnapCenter supporta layout di storage condivisi in cui è possibile ospitare più database o parte di un database sullo stesso volume di storage o LUN. Come esempio di questo layout, è possibile ospitare file di dati per tutti i database su un gruppo di dischi +DATA ASM o un gruppo di volumi. Il resto dei file (redo, log di archiviazione e file di controllo) può essere ospitato su un altro gruppo di dischi o un gruppo di volumi dedicato (LVM). Di seguito viene illustrato uno scenario di implementazione di questo tipo.
 
-image:storage_layout_oracle_shared.PNG["Errore: Immagine grafica mancante"]
+image:storage_layout_oracle_shared.PNG[""]
 
 Per facilitare il trasferimento dei database Oracle, il file binario Oracle deve essere installato su un LUN separato incluso nella normale policy di backup. In questo modo, in caso di trasferimento del database su un nuovo host server, lo stack Oracle può essere avviato per il ripristino senza potenziali problemi dovuti a un binario Oracle non sincronizzato.
 

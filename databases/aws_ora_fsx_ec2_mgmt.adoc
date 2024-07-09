@@ -44,21 +44,21 @@ Un'istantanea completa del database include tutti i file Oracle, inclusi i file 
 
 . Accedere all'interfaccia utente di SnapCenter e fare clic su risorse nel menu a sinistra. Dal menu a discesa View (Visualizza), passare alla vista Resource Group (Gruppo di risorse).
 +
-image:aws_rds_custom_deploy_snp_10.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_10.PNG[""]
 
 . Fare clic sul nome completo della risorsa di backup, quindi fare clic sull'icona Backup Now per avviare un backup add-hoc.
 +
-image:aws_rds_custom_deploy_snp_11.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_11.PNG[""]
 
 . Fare clic su Backup, quindi confermare il backup per avviare un backup completo del database.
 +
-image:aws_rds_custom_deploy_snp_12.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_12.PNG[""]
 
 +
 Dalla visualizzazione delle risorse del database, aprire la pagina delle copie di backup gestite del database per verificare che il backup singolo sia stato completato correttamente. Un backup completo del database crea due snapshot: Una per il volume di dati e una per il volume di log.
 
 +
-image:aws_rds_custom_deploy_snp_13.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_13.PNG[""]
 
 
 
@@ -70,21 +70,21 @@ Viene eseguita una snapshot del log di archiviazione solo per il volume del log 
 
 . Accedere all'interfaccia utente di SnapCenter e fare clic sulla scheda risorse nella barra dei menu a sinistra. Dal menu a discesa View (Visualizza), passare alla vista Resource Group (Gruppo di risorse).
 +
-image:aws_rds_custom_deploy_snp_10.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_10.PNG[""]
 
 . Fare clic sul nome della risorsa di backup del registro, quindi fare clic sull'icona Backup Now per avviare un backup add-hoc per i registri di archiviazione.
 +
-image:aws_rds_custom_deploy_snp_14.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_14.PNG[""]
 
 . Fare clic su Backup, quindi confermare il backup per avviare un backup del registro di archiviazione.
 +
-image:aws_rds_custom_deploy_snp_15.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_15.PNG[""]
 
 +
 Dalla visualizzazione delle risorse del database, aprire la pagina delle copie di backup gestite del database per verificare che il backup del registro di archiviazione una tantum sia stato completato correttamente. Un backup del registro di archiviazione crea uno snapshot per il volume di registro.
 
 +
-image:aws_rds_custom_deploy_snp_16.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_16.PNG[""]
 
 
 
@@ -96,24 +96,23 @@ Il ripristino basato su SnapCenter a un punto temporale viene eseguito sullo ste
 
 . Dalla scheda risorse SnapCenter > visualizzazione database, fare clic sul nome del database per aprire il backup del database.
 +
-image:aws_rds_custom_deploy_snp_17.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_17.PNG[""]
 
 . Selezionare la copia di backup del database e il punto di tempo desiderato da ripristinare. Contrassegnare anche il numero SCN corrispondente al punto temporale. Il ripristino point-in-time può essere eseguito utilizzando Time o SCN.
 +
-image:aws_rds_custom_deploy_snp_18.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_18.PNG[""]
 
 . Evidenziare l'istantanea del volume di log e fare clic sul pulsante Mount (attiva) per montare il volume.
 +
-image:aws_rds_custom_deploy_snp_19.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_19.PNG[""]
 
 . Scegliere l'istanza primaria di EC2 per montare il volume di log.
 +
-image:aws_rds_custom_deploy_snp_20.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_20.PNG[""]
 
 . Verificare che il processo di montaggio sia stato completato correttamente. Controllare anche sull'host dell'istanza EC2 per vedere il volume di log montato e il percorso del punto di montaggio.
 +
-image:aws_rds_custom_deploy_snp_21_1.PNG["Errore: Immagine grafica mancante"]
-image:aws_rds_custom_deploy_snp_21_2.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_21_1.PNG[""] image:aws_rds_custom_deploy_snp_21_2.PNG[""]
 
 . Copiare i log di archiviazione dal volume di log montato alla directory del log di archiviazione corrente.
 +
@@ -123,39 +122,39 @@ image:aws_rds_custom_deploy_snp_21_2.PNG["Errore: Immagine grafica mancante"]
 ----
 . Tornare alla scheda risorse SnapCenter > pagina di backup del database, evidenziare la copia dello snapshot dei dati e fare clic sul pulsante Ripristina per avviare il flusso di lavoro di ripristino del database.
 +
-image:aws_rds_custom_deploy_snp_22.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_22.PNG[""]
 
 . Selezionare "tutti i file di dati" e "Cambia stato del database se necessario per il ripristino e il ripristino", quindi fare clic su Avanti.
 +
-image:aws_rds_custom_deploy_snp_23.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_23.PNG[""]
 
 . Scegliere l'ambito di ripristino desiderato utilizzando SCN o Time. Invece di copiare i registri di archivio montati nella directory di log corrente come illustrato al punto 6, il percorso di log di archivio montato può essere elencato in "specificare le posizioni dei file di log di archivio esterni" per il ripristino.
 +
-image:aws_rds_custom_deploy_snp_24_1.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_24_1.PNG[""]
 
 . Specificare una prescrizione facoltativa da eseguire, se necessario.
 +
-image:aws_rds_custom_deploy_snp_25.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_25.PNG[""]
 
 . Specificare un afterscript opzionale da eseguire, se necessario. Controllare il database aperto dopo il ripristino.
 +
-image:aws_rds_custom_deploy_snp_26.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_26.PNG[""]
 
 . Fornire un server SMTP e un indirizzo e-mail se è necessaria una notifica del processo.
 +
-image:aws_rds_custom_deploy_snp_27.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_27.PNG[""]
 
 . Ripristinare il riepilogo del processo. Fare clic su Finish (fine) per avviare il processo di ripristino.
 +
-image:aws_rds_custom_deploy_snp_28.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_28.PNG[""]
 
 . Convalidare il ripristino da SnapCenter.
 +
-image:aws_rds_custom_deploy_snp_29_1.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_29_1.PNG[""]
 
 . Convalidare il ripristino dall'host dell'istanza EC2.
 +
-image:aws_rds_custom_deploy_snp_29_2.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_29_2.PNG[""]
 
 . Per smontare il volume del registro di ripristino, eseguire le operazioni descritte al punto 4.
 
@@ -168,54 +167,53 @@ Nella sezione seguente viene illustrato come utilizzare il flusso di lavoro dei 
 
 . Eseguire un backup snapshot completo del database primario da SnapCenter utilizzando il gruppo di risorse di backup completo.
 +
-image:aws_rds_custom_deploy_replica_02.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_replica_02.PNG[""]
 
 . Dalla scheda risorse SnapCenter > visualizzazione database, aprire la pagina Gestione backup database per il database principale dal quale deve essere creata la replica.
 +
-image:aws_rds_custom_deploy_replica_04.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_replica_04.PNG[""]
 
 . Montare lo snapshot del volume di log eseguito al punto 4 sull'host di istanza EC2 di standby.
 +
-image:aws_rds_custom_deploy_replica_13.PNG["Errore: Immagine grafica mancante"]
-image:aws_rds_custom_deploy_replica_14.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_replica_13.PNG[""] image:aws_rds_custom_deploy_replica_14.PNG[""]
 
 . Evidenziare la copia snapshot da clonare per la replica e fare clic sul pulsante Clone (Copia) per avviare la procedura di cloning.
 +
-image:aws_rds_custom_deploy_replica_05.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_replica_05.PNG[""]
 
 . Modificare il nome della copia della replica in modo che sia diverso dal nome del database primario. Fare clic su Avanti.
 +
-image:aws_rds_custom_deploy_replica_06.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_replica_06.PNG[""]
 
 . Impostare l'host clone sull'host EC2 di standby, accettare il nome predefinito e fare clic su Next (Avanti).
 +
-image:aws_rds_custom_deploy_replica_07.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_replica_07.PNG[""]
 
 . Modificare le impostazioni home di Oracle in modo che corrispondano a quelle configurate per l'host del server Oracle di destinazione, quindi fare clic su Next (Avanti).
 +
-image:aws_rds_custom_deploy_replica_08.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_replica_08.PNG[""]
 
 . Specificare un punto di ripristino utilizzando Time o SCN e il percorso del log di archiviazione montato.
 +
-image:aws_rds_custom_deploy_replica_15.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_replica_15.PNG[""]
 
 . Se necessario, inviare le impostazioni e-mail SMTP.
 +
-image:aws_rds_custom_deploy_replica_11.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_replica_11.PNG[""]
 
 . Clonare il riepilogo del processo e fare clic su fine per avviare il processo clone.
 +
-image:aws_rds_custom_deploy_replica_12.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_replica_12.PNG[""]
 
 . Convalidare il clone della replica esaminando il log del processo clone.
 +
-image:aws_rds_custom_deploy_replica_17.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_replica_17.PNG[""]
 
 +
 Il database clonato viene registrato immediatamente in SnapCenter.
 
 +
-image:aws_rds_custom_deploy_replica_18.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_replica_18.PNG[""]
 
 . Disattivare la modalità Oracle archive log. Accedere all'istanza EC2 come utente oracle ed eseguire il seguente comando:
 +

@@ -215,7 +215,7 @@ Per i cluster ONTAP di origine e di destinazione, puoi recuperare le informazion
 
 . In Gestore di sistema di ONTAP, accedere alla pagina Panoramica di rete e recuperare gli indirizzi IP di tipo: Intercluster configurati per comunicare con il VPC di AWS su cui è installato FSX.
 +
-image:dr-vmc-aws-image10.png["Errore: Immagine grafica mancante"]
+image:dr-vmc-aws-image10.png[""]
 
 . Per recuperare gli indirizzi IP di Intercluster utilizzando l'interfaccia CLI, eseguire il seguente comando:
 +
@@ -239,7 +239,7 @@ Confirm the passphrase:
 ....
 . Nel cluster di origine, è possibile stabilire la relazione peer del cluster utilizzando Gestore di sistema di ONTAP o l'interfaccia CLI. Da Gestore di sistema di ONTAP, accedere a protezione > Panoramica e selezionare cluster peer.
 +
-image:dr-vmc-aws-image12.png["Errore: Immagine grafica mancante"]
+image:dr-vmc-aws-image12.png[""]
 
 . Nella finestra di dialogo Peer Cluster, inserire le informazioni richieste:
 +
@@ -248,7 +248,7 @@ image:dr-vmc-aws-image12.png["Errore: Immagine grafica mancante"]
 .. Inserire l'indirizzo IP intercluster LIF del cluster ONTAP di destinazione.
 .. Fare clic su Initiate Cluster peering (Avvia peering cluster) per completare il processo.
 +
-image:dr-vmc-aws-image13.png["Errore: Immagine grafica mancante"]
+image:dr-vmc-aws-image13.png[""]
 
 
 
@@ -273,7 +273,7 @@ ONTAP-Dest::> vserver peer create -vserver DestSVM -peer-vserver Backup -peer-cl
 . Dal cluster ONTAP di origine, accettare la relazione di peering con Gestore di sistema ONTAP o CLI.
 . Da Gestore di sistema ONTAP, andare a protezione > Panoramica e selezionare le VM di storage peer in peer di macchine virtuali di storage.
 +
-image:dr-vmc-aws-image15.png["Errore: Immagine grafica mancante"]
+image:dr-vmc-aws-image15.png[""]
 
 . Nella finestra di dialogo Peer Storage VM, compilare i campi obbligatori:
 +
@@ -281,7 +281,7 @@ image:dr-vmc-aws-image15.png["Errore: Immagine grafica mancante"]
 ** Il cluster di destinazione
 ** La VM di storage di destinazione
 +
-image:dr-vmc-aws-image16.png["Errore: Immagine grafica mancante"]
+image:dr-vmc-aws-image16.png[""]
 
 
 
@@ -301,7 +301,7 @@ NOTE: Sullo storage secondario, queste etichette vengono associate alle regole d
 
 L'esempio seguente mostra un'etichetta SnapMirror presente su tutte le snapshot generate come parte di una policy utilizzata per i backup giornalieri del database SQL Server e dei volumi di log.
 
-image:dr-vmc-aws-image17.png["Errore: Immagine grafica mancante"]
+image:dr-vmc-aws-image17.png[""]
 
 Per ulteriori informazioni sulla creazione di criteri SnapCenter per un database SQL Server, vedere https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_create_backup_policies_for_sql_server_databases.html["Documentazione SnapCenter"^].
 

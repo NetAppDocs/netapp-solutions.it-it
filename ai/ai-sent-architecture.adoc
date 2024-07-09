@@ -34,7 +34,7 @@ Nei data center con accelerazione GPU, le aziende possono utilizzare NVIDIA http
 
 Questa soluzione dimostra l'elaborazione dei file audio, il training sul modello NLP, l'apprendimento del trasferimento e le fasi dettagliate della gestione dei dati. La pipeline end-to-end risultante genera un riepilogo dei sentimenti che viene visualizzato in tempo reale sui dashboard degli agenti di supporto umano.
 
-image:ai-sent-image4.png["Errore: Immagine grafica mancante"]
+image:ai-sent-image4.png[""]
 
 
 
@@ -233,12 +233,12 @@ Questa soluzione si applica ai seguenti casi di utilizzo:
 * Analisi del sentimento
 
 
-image:ai-sent-image6.png["Errore: Immagine grafica mancante"]
+image:ai-sent-image6.png[""]
 
 Il caso d'utilizzo del parlato-to-text inizia con l'acquisizione di file audio per i centri di supporto. Questo audio viene quindi elaborato per adattarsi alla struttura richiesta DA RIVA. Se i file audio non sono già stati suddivisi nelle unità di analisi, è necessario eseguire questa operazione prima di passare l'audio a RIVA. Una volta elaborato, il file audio viene trasmesso al server RIVA come chiamata API. Il server utilizza uno dei numerosi modelli che ospita e restituisce una risposta. Questa voce-testo (parte del riconoscimento vocale automatico) restituisce una rappresentazione testuale dell'audio. Da qui, la pipeline passa alla parte di analisi del sentimento.
 
 Per l'analisi del sentimento, l'output di testo del riconoscimento vocale automatico funge da input per la classificazione del testo. Text Classification è il componente NVIDIA per la classificazione del testo in un numero qualsiasi di categorie. Le categorie di sentimento variano da positivo a negativo per le conversazioni del centro di supporto. Le performance dei modelli possono essere valutate utilizzando un set di holdout per determinare il successo della fase di fine tuning.
 
-image:ai-sent-image8.png["Errore: Immagine grafica mancante"]
+image:ai-sent-image8.png[""]
 
 Una pipeline simile viene utilizzata sia per l'analisi del parlato-to-text che per l'analisi del sentimento all'interno del toolkit TAO. La differenza principale è l'utilizzo di etichette necessarie per la messa a punto dei modelli. La pipeline TAO Toolkit inizia con l'elaborazione dei file di dati. Poi i modelli preformati (provenienti da https://ngc.nvidia.com/catalog["Catalogo NGC NVIDIA"^]) vengono perfezionati utilizzando i dati del centro di supporto. I modelli perfezionati vengono valutati in base alle metriche di performance corrispondenti e, se sono più performanti dei modelli preformati, vengono implementati sul server RIVA.

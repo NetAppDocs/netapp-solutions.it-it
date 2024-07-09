@@ -32,7 +32,7 @@ La multi-tenancy consente di gestire in modo sicuro più cloud non strutturati e
 
 StorageGRID Grid Manager è un'interfaccia grafica basata su browser che consente di configurare, gestire e monitorare il sistema StorageGRID in ubicazioni distribuite a livello globale in un unico pannello di controllo.
 
-image:confluent-kafka-image4.png["Errore: Immagine grafica mancante"]
+image:confluent-kafka-image4.png[""]
 
 Con l'interfaccia Gestore griglia di StorageGRID è possibile eseguire le seguenti attività:
 
@@ -74,7 +74,7 @@ StorageGRID dispone di funzionalità QoS integrate. I criteri di classificazione
 
 Apache Kafka è un'implementazione framework di un bus software che utilizza l'elaborazione del flusso scritta in Java e Scala. Il suo scopo è fornire una piattaforma unificata, ad alto throughput e a bassa latenza per la gestione dei feed di dati in tempo reale. Kafka può connettersi a un sistema esterno per l'esportazione e l'importazione dei dati tramite Kafka Connect e fornisce Kafka Streams, una libreria di elaborazione del flusso Java. Kafka utilizza un protocollo binario basato su TCP ottimizzato per l'efficienza e basato su un'astrazione "message set" che raggruppa naturalmente i messaggi per ridurre l'overhead del roundtrip di rete. Ciò consente operazioni su disco sequenziali più grandi, pacchetti di rete più grandi e blocchi di memoria contigui, consentendo a Kafka di trasformare un flusso bursty di scritture casuali di messaggi in scritture lineari. La figura seguente mostra il flusso di dati di base di Apache Kafka.
 
-image:confluent-kafka-image5.png["Errore: Immagine grafica mancante"]
+image:confluent-kafka-image5.png[""]
 
 Kafka memorizza i messaggi chiave-valore che provengono da un numero arbitrario di processi chiamati produttori. I dati possono essere suddivisi in partizioni diverse all'interno di diversi argomenti. All'interno di una partizione, i messaggi vengono ordinati in base agli offset (la posizione di un messaggio all'interno di una partizione) e indicizzati e memorizzati insieme a un indicatore data e ora. Altri processi denominati consumer possono leggere i messaggi dalle partizioni. Per l'elaborazione dei flussi, Kafka offre l'API Streams che consente di scrivere applicazioni Java che consumano dati da Kafka e di riscrivere i risultati a Kafka. Apache Kafka funziona anche con sistemi di elaborazione del flusso esterni come Apache Apex, Apache Flink, Apache Spark, Apache Storm e Apache NiFi.
 
@@ -128,7 +128,7 @@ Confluent Platform ti consente di concentrarti su come ricavare il valore di bus
 
 La figura seguente mostra i componenti della piattaforma Confluent Kafka.
 
-image:confluent-kafka-image6.png["Errore: Immagine grafica mancante"]
+image:confluent-kafka-image6.png[""]
 
 
 

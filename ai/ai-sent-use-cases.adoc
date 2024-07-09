@@ -30,11 +30,11 @@ I seguenti casi di utilizzo sono alla base di questa soluzione. Entrambi i casi 
 
 Per analizzare le interazioni del centro di supporto tra dipendenti e clienti, ogni conversazione con il cliente sotto forma di chiamate audio può essere eseguita attraverso la pipeline per estrarre sentimenti a livello di frase. Tali sentimenti possono quindi essere verificati da un essere umano per giustificare i sentimenti o modificarli in base alle necessità. I dati etichettati vengono quindi trasferiti nella fase di messa a punto per migliorare le previsioni del sentimento. Se esistono già dati di sentimento etichettati, è possibile accelerare la messa a punto del modello. In entrambi i casi, la pipeline è generalizzabile con altre soluzioni che richiedono l'acquisizione di audio e la classificazione delle frasi.
 
-image:ai-sent-image1.png["Errore: Immagine grafica mancante"]
+image:ai-sent-image1.png[""]
 
 Gli output di ai sentiment vengono caricati su un database cloud esterno o su un sistema storage gestito dall'azienda. Gli output del sentimento vengono trasferiti da questo database più grande allo storage locale per l'utilizzo all'interno della dashboard che visualizza l'analisi del sentimento per i manager. La funzionalità principale del dashboard consiste nell'interfacciarsi con il dipendente del servizio clienti in tempo reale. I manager possono valutare e fornire un feedback sui dipendenti durante le loro chiamate con aggiornamenti in tempo reale del sentimento di ciascuna frase, nonché una revisione storica delle performance del dipendente o delle reazioni dei clienti.
 
-image:ai-sent-image2.png["Errore: Immagine grafica mancante"]
+image:ai-sent-image2.png[""]
 
 Il link:https://github.com/NetApp/netapp-dataops-toolkit/releases/tag/v2.0.0["NetApp DataOps Toolkit"^] Può continuare a gestire i sistemi di storage dei dati anche dopo che la pipeline di inferenza RIVA ha generato etichette di sentimento. Questi risultati ai possono essere caricati su un sistema storage gestito dal NetApp DataOps Toolkit. I sistemi di storage dei dati devono essere in grado di gestire centinaia di inserti e selezionare ogni minuto. Il sistema di storage dei dispositivi locali esegue query in tempo reale sull'ampio storage dei dati per l'estrazione. È inoltre possibile eseguire query sull'istanza di storage dei dati più grande per ottenere dati storici per migliorare ulteriormente l'esperienza del dashboard. Il NetApp DataOps Toolkit facilita entrambi questi utilizzi clonando rapidamente i dati e distribuirli in tutte le dashboard che li utilizzano.
 

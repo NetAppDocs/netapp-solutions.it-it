@@ -45,7 +45,7 @@ Argomenti chiave:
 
 Per una configurazione Oracle ad alta disponibilità come illustrato nel diagramma dell'architettura, è necessario abilitare almeno quattro zone di disponibilità in una regione. Le zone di disponibilità multiple possono anche essere situate in diverse regioni per soddisfare le distanze richieste per il disaster recovery.
 
-image:aws_ora_fsx_ec2_inst_01.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_inst_01.PNG[""]
 
 
 
@@ -66,36 +66,35 @@ Le seguenti schermate mostrano l'implementazione di un'istanza di Linux di tipo 
 
 . Dalla dashboard EC2, fare clic sul pulsante giallo Launch Instance (Avvia istanza) per avviare il flusso di lavoro di implementazione dell'istanza EC2.
 +
-image:aws_ora_fsx_ec2_inst_02.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_inst_02.PNG[""]
 
 . Nella fase 1, selezionare "Red Hat Enterprise Linux 8 (HVM), tipo di volume SSD - ami-0b0af3577fe5e3532 (x86 a 64 bit) / ami-01fc429821bf1f4b4 (ARM a 64 bit)".
 +
-image:aws_ora_fsx_ec2_inst_03.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_inst_03.PNG[""]
 
 . Nella fase 2, selezionare un tipo di istanza m5 con l'allocazione di CPU e memoria appropriata in base al carico di lavoro del database Oracle. Fare clic su "Avanti: Configura dettagli istanza".
 +
-image:aws_ora_fsx_ec2_inst_04.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_inst_04.PNG[""]
 
 . Nella fase 3, scegliere il VPC e la subnet in cui collocare l'istanza e abilitare l'assegnazione IP pubblica. Fare clic su "Next: Add Storage" (Avanti: Aggiungi storage).
 +
-image:aws_ora_fsx_ec2_inst_05.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_inst_05.PNG[""]
 
 . Nella fase 4, allocare spazio sufficiente per il disco root. Potrebbe essere necessario lo spazio per aggiungere uno swap. Per impostazione predefinita, l'istanza EC2 assegna zero spazio di swap, che non è ottimale per l'esecuzione di Oracle.
 +
-image:aws_ora_fsx_ec2_inst_06.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_inst_06.PNG[""]
 
 . Nella fase 5, aggiungere un tag per l'identificazione dell'esempio, se necessario.
 +
-image:aws_ora_fsx_ec2_inst_07.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_inst_07.PNG[""]
 
 . Nella fase 6, selezionare un gruppo di sicurezza esistente o crearne uno nuovo con il criterio in entrata e in uscita desiderato per l'istanza.
 +
-image:aws_ora_fsx_ec2_inst_08.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_inst_08.PNG[""]
 
 . Nella fase 7, esaminare il riepilogo della configurazione dell'istanza e fare clic su Launch (Avvia) per avviare la distribuzione dell'istanza. Viene richiesto di creare una coppia di chiavi o di selezionare una coppia di chiavi per accedere all'istanza.
 +
-image:aws_ora_fsx_ec2_inst_09.PNG["Errore: Immagine grafica mancante"]
-image:aws_ora_fsx_ec2_inst_09_1.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_inst_09.PNG[""] image:aws_ora_fsx_ec2_inst_09_1.PNG[""]
 
 . Accedere all'istanza EC2 utilizzando una coppia di chiavi SSH. Apportare le modifiche necessarie al nome della chiave e all'indirizzo IP dell'istanza.
 +
@@ -128,7 +127,7 @@ Considerazioni principali:
 * Backup e manutenzione. Disattivare i backup giornalieri automatici; il backup dello storage del database viene eseguito tramite la pianificazione SnapCenter.
 * Recuperare l'indirizzo IP di gestione SVM e gli indirizzi di accesso specifici del protocollo dalla pagina dei dettagli SVM. Necessario per l'automazione della configurazione FSX.
 +
-image:aws_rds_custom_deploy_fsx_01.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_fsx_01.PNG[""]
 
 
 
@@ -136,35 +135,35 @@ Per la configurazione di un cluster ha FSX primario o di standby, consultare le 
 
 . Dalla console FSX, fare clic su Create file System (Crea file system) per avviare il flusso di lavoro di provisioning FSX.
 +
-image:aws_ora_fsx_ec2_stor_01.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_stor_01.PNG[""]
 
 . Selezionare Amazon FSX per NetApp ONTAP. Quindi fare clic su Next (Avanti).
 +
-image:aws_ora_fsx_ec2_stor_02.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_stor_02.PNG[""]
 
 . Selezionare Standard Create (Crea standard) e, in file System Details (Dettagli file system), assegnare un nome al file system, Multi-AZ ha. In base al carico di lavoro del database, scegli IOPS automatici o con provisioning utente fino a 80,000 IOPS SSD. Lo storage FSX viene fornito con caching NVMe fino a 2 TiB al back-end in grado di offrire IOPS misurati ancora più elevati.
 +
-image:aws_ora_fsx_ec2_stor_03.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_stor_03.PNG[""]
 
 . Nella sezione Network & Security (rete e sicurezza), selezionare VPC, il gruppo di protezione e le subnet. Questi devono essere creati prima dell'implementazione di FSX. In base al ruolo del cluster FSX (primario o standby), posizionare i nodi di storage FSX nelle zone appropriate.
 +
-image:aws_ora_fsx_ec2_stor_04.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_stor_04.PNG[""]
 
 . Nella sezione Security & Encryption (sicurezza e crittografia), accettare l'impostazione predefinita e immettere la password fsxadmin.
 +
-image:aws_ora_fsx_ec2_stor_05.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_stor_05.PNG[""]
 
 . Immettere il nome SVM e la password vsadmin.
 +
-image:aws_ora_fsx_ec2_stor_06.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_stor_06.PNG[""]
 
 . Lasciare vuota la configurazione del volume; a questo punto non è necessario creare un volume.
 +
-image:aws_ora_fsx_ec2_stor_07.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_stor_07.PNG[""]
 
 . Esaminare la pagina Summary (Riepilogo) e fare clic su Create file System (Crea file system) per completare il provisioning del file system FSX.
 +
-image:aws_ora_fsx_ec2_stor_08.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_stor_08.PNG[""]
 
 
 
@@ -188,9 +187,7 @@ Considerazioni principali:
 
 Dalla console AWS FSX è possibile creare tre volumi per lo storage dei file di database Oracle: Uno per il file binario Oracle, uno per i dati Oracle e uno per il log Oracle. Assicurarsi che il nome del volume corrisponda al nome host Oracle (definito nel file hosts nel toolkit di automazione) per un'identificazione corretta. In questo esempio, utilizziamo db1 come nome host EC2 Oracle invece di un tipico nome host basato su indirizzo IP per un'istanza EC2.
 
-image:aws_ora_fsx_ec2_stor_09.PNG["Errore: Immagine grafica mancante"]
-image:aws_ora_fsx_ec2_stor_10.PNG["Errore: Immagine grafica mancante"]
-image:aws_ora_fsx_ec2_stor_11.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_stor_09.PNG[""] image:aws_ora_fsx_ec2_stor_10.PNG[""] image:aws_ora_fsx_ec2_stor_11.PNG[""]
 
 
 NOTE: La creazione di LUN iSCSI non è attualmente supportata dalla console FSX. Per l'implementazione di LUN iSCSI per Oracle, è possibile creare volumi e LUN utilizzando l'automazione per ONTAP con il toolkit di automazione NetApp.
@@ -286,7 +283,7 @@ vserver peer create -vserver primary_vserver_name -peer-vserver standby_vserver_
 ----
 . Verificare che i peering del cluster e del vserver siano impostati correttamente.
 +
-image:aws_ora_fsx_ec2_stor_14.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_stor_14.PNG[""]
 
 . Creare volumi NFS di destinazione nel cluster FSX di standby per ogni volume di origine nel cluster FSX primario. Sostituire il nome del volume in base all'ambiente in uso.
 +
@@ -419,16 +416,16 @@ Segui link:https://docs.netapp.com/ocsc-41/index.jsp?topic=%2Fcom.netapp.doc.ocs
 
 . Dopo l'installazione automatica di SnapCenter, accedere a SnapCenter come utente amministrativo per l'host Windows su cui è installato il server SnapCenter.
 +
-image:aws_rds_custom_deploy_snp_01.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_01.PNG[""]
 
 . Dal menu a sinistra, fare clic su Impostazioni, quindi su credenziale e nuovo per aggiungere le credenziali utente ec2 per l'installazione del plug-in SnapCenter.
 +
-image:aws_rds_custom_deploy_snp_02.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_02.PNG[""]
 
 . Reimpostare la password ec2-user e attivare l'autenticazione SSH della password modificando il `/etc/ssh/sshd_config` File sull'host dell'istanza EC2.
 . Verificare che la casella di controllo "Usa privilegi sudo" sia selezionata. È sufficiente reimpostare la password ec2-user nel passaggio precedente.
 +
-image:aws_rds_custom_deploy_snp_03.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_03.PNG[""]
 
 . Aggiungere il nome del server SnapCenter e l'indirizzo IP al file host dell'istanza EC2 per la risoluzione dei nomi.
 +
@@ -448,31 +445,31 @@ image:aws_rds_custom_deploy_snp_03.PNG["Errore: Immagine grafica mancante"]
 ----
 . Nel menu a sinistra, selezionare host > host gestiti, quindi fare clic su Aggiungi per aggiungere l'host dell'istanza EC2 a SnapCenter.
 +
-image:aws_rds_custom_deploy_snp_04.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_04.PNG[""]
 
 +
 Controllare Oracle Database e, prima di inviare, fare clic su More Options (altre opzioni).
 
 +
-image:aws_rds_custom_deploy_snp_05.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_05.PNG[""]
 
 +
 Selezionare Ignora controlli preinstallazione. Confermare l'omissione dei controlli di preinstallazione, quindi fare clic su Invia dopo il salvataggio.
 
 +
-image:aws_rds_custom_deploy_snp_06.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_06.PNG[""]
 
 +
 Viene richiesto di confermare l'impronta digitale, quindi fare clic su Conferma e Invia.
 
 +
-image:aws_rds_custom_deploy_snp_07.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_07.PNG[""]
 
 +
 Una volta completata la configurazione del plug-in, lo stato generale dell'host gestito viene visualizzato come in esecuzione.
 
 +
-image:aws_rds_custom_deploy_snp_08.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_08.PNG[""]
 
 
 
@@ -497,4 +494,4 @@ Fare riferimento alla sezione Oracle di link:hybrid_dbops_snapcenter_getting_sta
 
 L'immagine seguente mostra un esempio dei gruppi di risorse configurati per il backup di un database Oracle.
 
-image:aws_rds_custom_deploy_snp_09.PNG["Errore: Immagine grafica mancante"]
+image:aws_rds_custom_deploy_snp_09.PNG[""]

@@ -23,22 +23,22 @@ L'agilità del cloud pubblico, il time-to-value e i risparmi sui costi sono tutt
 
 . Accedere a SnapCenter con un ID utente per la gestione del database per Oracle. Accedere alla scheda risorse, che mostra i database Oracle protetti da SnapCenter.
 +
-image:snapctr_ora_clone_01.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_ora_clone_01.PNG[""]
 
 . Fare clic sul nome del database on-premise desiderato per la topologia di backup e la vista dettagliata. Se è attivata una posizione replicata secondaria, vengono visualizzati i backup mirror collegati.
 +
-image:snapctr_ora_clone_02.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_ora_clone_02.PNG[""]
 
 . Per passare alla vista dei backup mirrorati, fare clic su Backup mirrorati. Vengono quindi visualizzati i backup dei mirror secondari.
 +
-image:snapctr_ora_clone_03.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_ora_clone_03.PNG[""]
 
 . Scegliere una copia di backup del database secondario mirrorata da clonare e determinare un punto di ripristino in base all'ora e al numero di modifica del sistema o in base alla SCN. In genere, il punto di ripristino deve essere sottoposto a un periodo di tempo inferiore rispetto al tempo di backup completo del database o alla data SCN da clonare. Dopo aver deciso un punto di ripristino, il backup del file di registro richiesto deve essere montato per il ripristino. Il backup del file di log deve essere montato sul server DB di destinazione in cui deve essere ospitato il database clone.
 +
-image:snapctr_ora_clone_04.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_ora_clone_04.PNG[""]
 
 +
-image:snapctr_ora_clone_05.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_ora_clone_05.PNG[""]
 
 +
 
@@ -46,42 +46,42 @@ NOTE: Se la funzione di eliminazione dei log è attivata e il punto di ripristin
 
 . Evidenziare la copia di backup completa del database da clonare, quindi fare clic sul pulsante clone per avviare il flusso di lavoro del clone del database.
 +
-image:snapctr_ora_clone_06.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_ora_clone_06.PNG[""]
 
 . Scegliere un SID DB clone appropriato per un database container completo o un clone CDB.
 +
-image:snapctr_ora_clone_07.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_ora_clone_07.PNG[""]
 
 . Selezionare l'host clone di destinazione nel cloud e le directory del file di dati, del file di controllo e del log di ripristino vengono create dal flusso di lavoro del clone.
 +
-image:snapctr_ora_clone_08.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_ora_clone_08.PNG[""]
 
 . Il nome della credenziale Nessuno viene utilizzato per l'autenticazione basata sul sistema operativo, rendendo la porta del database irrilevante. Compilare i campi Oracle Home, Oracle OS User e Oracle OS Group appropriati, come configurati nel server DB clone di destinazione.
 +
-image:snapctr_ora_clone_09.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_ora_clone_09.PNG[""]
 
 . Specificare gli script da eseguire prima dell'operazione di clonazione. Cosa ancora più importante, il parametro dell'istanza del database può essere modificato o definito qui.
 +
-image:snapctr_ora_clone_10.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_ora_clone_10.PNG[""]
 
 . Specificare il punto di ripristino in base alla data e all'ora o alla SCN. Fino a quando Annulla ripristina il database fino ai log di archiviazione disponibili. Specificare la posizione del log di archiviazione esterno dall'host di destinazione in cui è montato il volume del log di archiviazione. Se il proprietario del server di destinazione Oracle è diverso dal server di produzione on-premise, verificare che la directory del log di archiviazione sia leggibile dal proprietario del server di destinazione Oracle.
 +
-image:snapctr_ora_clone_11.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_ora_clone_11.PNG[""]
 
 +
-image:snapctr_ora_clone_12.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_ora_clone_12.PNG[""]
 
 . Configurare il server SMTP per la notifica via email, se lo si desidera.
 +
-image:snapctr_ora_clone_13.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_ora_clone_13.PNG[""]
 
 . Riepilogo dei cloni.
 +
-image:snapctr_ora_clone_14.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_ora_clone_14.PNG[""]
 
 . Dopo il cloning, è necessario eseguire la convalida per assicurarsi che il database clonato sia operativo. Alcune attività aggiuntive, come l'avvio del listener o la disattivazione della modalità di archiviazione del registro DB, possono essere eseguite sul database di sviluppo/test.
 +
-image:snapctr_ora_clone_15.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_ora_clone_15.PNG[""]
 
 
 
@@ -91,46 +91,46 @@ image:snapctr_ora_clone_15.PNG["Errore: Immagine grafica mancante"]
 
 . Accedere a SnapCenter con un ID utente per la gestione del database per SQL Server. Accedere alla scheda risorse, che mostra i database degli utenti SQL Server protetti da SnapCenter e un'istanza SQL di standby di destinazione nel cloud pubblico.
 +
-image:snapctr_sql_clone_01.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_sql_clone_01.PNG[""]
 
 . Fare clic sul nome del database utente SQL Server on-premise desiderato per la topologia dei backup e la vista dettagliata. Se è attivata una posizione replicata secondaria, vengono visualizzati i backup mirror collegati.
 +
-image:snapctr_sql_clone_02.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_sql_clone_02.PNG[""]
 
 . Passare alla vista dei backup mirrorati facendo clic su Backup mirrorati. Vengono quindi visualizzati i backup mirror secondari. Poiché SnapCenter esegue il backup del log delle transazioni di SQL Server su un'unità dedicata per il ripristino, vengono visualizzati solo i backup completi del database.
 +
-image:snapctr_sql_clone_03.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_sql_clone_03.PNG[""]
 
 . Scegliere una copia di backup, quindi fare clic sul pulsante Clone (Copia) per avviare il flusso di lavoro Clone from Backup (Copia da backup).
 +
-image:snapctr_sql_clone_04_1.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_sql_clone_04_1.PNG[""]
 
 +
-image:snapctr_sql_clone_04.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_sql_clone_04.PNG[""]
 
 . Selezionare un server cloud come server clone di destinazione, nome istanza clone e nome database clone. Scegliere un punto di montaggio ad assegnazione automatica o un percorso del punto di montaggio definito dall'utente.
 +
-image:snapctr_sql_clone_05.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_sql_clone_05.PNG[""]
 
 . Determinare un punto di ripristino in base all'ora di backup del registro o a una data e un'ora specifiche.
 +
-image:snapctr_sql_clone_06.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_sql_clone_06.PNG[""]
 
 . Specificare gli script opzionali da eseguire prima e dopo l'operazione di cloning.
 +
-image:snapctr_sql_clone_07.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_sql_clone_07.PNG[""]
 
 . Configurare un server SMTP se si desidera inviare una notifica via email.
 +
-image:snapctr_sql_clone_08.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_sql_clone_08.PNG[""]
 
 . Riepilogo dei cloni.
 +
-image:snapctr_sql_clone_09.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_sql_clone_09.PNG[""]
 
 . Monitorare lo stato del processo e verificare che il database utente desiderato sia stato collegato a un'istanza SQL di destinazione nel server clone cloud.
 +
-image:snapctr_sql_clone_10.PNG["Errore: Immagine grafica mancante"]
+image:snapctr_sql_clone_10.PNG[""]
 
 
 

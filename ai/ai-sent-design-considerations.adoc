@@ -22,7 +22,7 @@ In questa sezione vengono descritte le considerazioni di progettazione relative 
 
 A seconda delle restrizioni sulla sicurezza dei dati, tutti i dati devono rimanere all'interno dell'infrastruttura del cliente o in un ambiente sicuro.
 
-image:ai-sent-image9.png["Errore: Immagine grafica mancante"]
+image:ai-sent-image9.png[""]
 
 
 
@@ -46,6 +46,6 @@ Oltre a queste Best practice, i clienti devono dare la priorità alla raccolta d
 
 Questa propagazione degli errori si applica allo stesso modo ai modelli addestrati su questi dati. Se le previsioni del sentimento sono accurate al 100% ma il modello da voce a testo non funziona correttamente, la pipeline finale è limitata dalle trascrizioni audio-testo iniziali. È essenziale che gli sviluppatori considerino le performance di ciascun modello singolarmente e come un componente di una pipeline più ampia. In questo caso specifico, l'obiettivo finale è sviluppare una pipeline in grado di prevedere con precisione il sentimento. Pertanto, la metrica generale su cui valutare la pipeline è la precisione dei sentimenti, che la trascrizione vocale-testuale influisce direttamente.
 
-image:ai-sent-image10.png["Errore: Immagine grafica mancante"]
+image:ai-sent-image10.png[""]
 
 Il NetApp DataOps Toolkit integra la pipeline per il controllo della qualità dei dati attraverso l'utilizzo della sua tecnologia di cloning dei dati quasi istantanea. Ogni file etichettato deve essere valutato e confrontato con i file etichettati esistenti. La distribuzione di questi controlli di qualità nei vari sistemi di storage dei dati garantisce che questi controlli vengano eseguiti in modo rapido ed efficiente.

@@ -40,7 +40,7 @@ Amazon FSX per NetApp ONTAP è in realtà una soluzione di storage completamente
 
 === Ambiente di rete
 
-image:mlops_fsxn_sagemaker_integration_training_0.png["Errore: Ambiente di rete"]
+image:mlops_fsxn_sagemaker_integration_training_0.png["Ambiente di rete"]
 
 FSxN (Amazon FSX per NetApp ONTAP) è un servizio di storage AWS. Include un file system in esecuzione sul sistema NetApp ONTAP e una SVM (System Virtual Machine) gestita da AWS che si connette all'IT. Nel diagramma fornito, il server NetApp ONTAP gestito da AWS si trova all'esterno del VPC. La SVM funge da intermediario tra SageMaker e il sistema NetApp ONTAP, ricevendo le richieste operative da SageMaker e inoltrandole allo storage sottostante. Per accedere a FSxN, SageMaker deve essere collocato nello stesso VPC della distribuzione di FSxN. Questa configurazione garantisce la comunicazione e l'accesso ai dati tra SageMaker e FSxN.
 
@@ -56,7 +56,7 @@ Il processo di lettura dei dati prevede la configurazione di FSxN come bucket S3
 
 == Panoramica sull'integrazione
 
-image:mlops_fsxn_sagemaker_integration_training_1.png["Errore: Flusso di lavoro di formazione"]
+image:mlops_fsxn_sagemaker_integration_training_1.png["Flusso di lavoro di formazione"]
 
 Il flusso di lavoro di utilizzo dei dati di formazione in FSxN per creare un modello di apprendimento approfondito in SageMaker può essere riassunto in tre fasi principali: Definizione del caricatore dati, formazione del modello e distribuzione. Ad alto livello, questi passaggi costituiscono la base di una pipeline MLOps. Tuttavia, ogni fase prevede diverse fasi secondarie dettagliate per un'implementazione completa. Queste fasi secondarie comprendono varie attività come la pre-elaborazione dei dati, la suddivisione del dataset, la configurazione del modello, la regolazione dell'iperparametro, la valutazione del modello, e distribuzione dei modelli. Questi passaggi garantiscono un processo completo ed efficace per la creazione e l'implementazione di modelli di apprendimento approfondito utilizzando i dati di formazione di FSxN all'interno dell'ambiente SageMaker.
 

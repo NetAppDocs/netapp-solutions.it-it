@@ -18,7 +18,7 @@ On-premise, abbiamo utilizzato il controller di storage NetApp AFF A900 con ONTA
 
 Abbiamo utilizzato Confluent Kafka 6.2.0 per valutare AFF A900. Il cluster include otto nodi di broker e tre nodi di zookeeper. Per il test delle performance, abbiamo utilizzato cinque nodi di lavoro OMB.
 
-image:kafka-nfs-image32.png["Errore: Immagine grafica mancante"]
+image:kafka-nfs-image32.png[""]
 
 
 
@@ -137,7 +137,7 @@ Per comprendere le limitazioni dello storage sul throughput consumer in questa c
 
 Durante la parte solo produttore di questa misurazione, abbiamo riscontrato un throughput elevato che ha spinto i limiti delle performance di A900 (quando le altre risorse di broker non erano sature e il traffico consumer e dei produttori).
 
-image:kafka-nfs-image35.png["Errore: Immagine grafica mancante"]
+image:kafka-nfs-image35.png[""]
 
 
 NOTE: Abbiamo aumentato le dimensioni del messaggio a 16.000 per questa misurazione per limitare le spese generali per messaggio e massimizzare il throughput dello storage ai punti di montaggio NFS.

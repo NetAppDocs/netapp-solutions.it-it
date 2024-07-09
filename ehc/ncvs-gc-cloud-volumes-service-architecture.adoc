@@ -18,7 +18,7 @@ In modo simile ad altri servizi nativi di Google Cloud come CloudSQL, Google Clo
 
 La figura seguente, a cui si fa riferimento da https://cloud.google.com/architecture/partners/netapp-cloud-volumes/architecture?hl=en_US["sezione architettura"^] Della documentazione di Cloud Volumes Service, mostra una vista di alto livello.
 
-image:ncvs-gc-image1.png["Errore: Immagine grafica mancante"]
+image:ncvs-gc-image1.png[""]
 
 La parte sopra la linea tratteggiata mostra il piano di controllo del servizio, che controlla il ciclo di vita del volume. La parte sotto la linea tratteggiata mostra il piano dati. La casella blu a sinistra rappresenta l'utente VPC (consumatore di servizi), la casella blu a destra rappresenta il produttore di servizi fornito da NetApp. Entrambi sono connessi tramite peering VPC.
 
@@ -58,16 +58,16 @@ Le acquisizioni di pacchetti possono essere utili per la risoluzione di problemi
 
 Quando si utilizzano VPC condivisi, la crittografia in-flight con NFS Kerberos e/o link:ncvs-gc-data-encryption-in-transit.html#smb-encryption["Crittografia SMB"] può mascherare gran parte delle informazioni raccolte dalle tracce. Tuttavia, parte del traffico viene ancora inviato in formato non crittografato, ad esempio link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#dns["DNS"] e. link:ncvs-gc-other-nas-infrastructure-service-dependencies.html#ldap-queries["Query LDAP"]. La figura seguente mostra un'acquisizione di pacchetti da una query LDAP non crittografata proveniente da Cloud Volumes Service e le potenziali informazioni di identificazione esposte. Le query LDAP in Cloud Volumes Service attualmente non supportano la crittografia o LDAP su SSL. CVS-Performance supporta la firma LDAP, se richiesto da Active Directory. CVS-SW non supporta la firma LDAP.
 
-image:ncvs-gc-image2.png["Errore: Immagine grafica mancante"]
+image:ncvs-gc-image2.png[""]
 
 
 NOTE: UnixUserPassword viene interrogata da LDAP e non viene inviata in testo non crittografato, ma in un hash con salatura. Per impostazione predefinita, Windows LDAP non compila i campi unixUserPassword. Questo campo è necessario solo se è necessario sfruttare Windows LDAP per gli accessi interattivi tramite LDAP ai client. Cloud Volumes Service non supporta gli accessi LDAP interattivi alle istanze.
 
 La figura seguente mostra un'acquisizione di pacchetti da una conversazione Kerberos NFS accanto a un'acquisizione di NFS su AUTH_SYS. Si noti come le informazioni disponibili in una traccia siano diverse tra le due e come l'abilitazione della crittografia in-flight offra una maggiore sicurezza generale per il traffico NAS.
 
-image:ncvs-gc-image3.png["Errore: Immagine grafica mancante"]
+image:ncvs-gc-image3.png[""]
 
-image:ncvs-gc-image4.png["Errore: Immagine grafica mancante"]
+image:ncvs-gc-image4.png[""]
 
 
 

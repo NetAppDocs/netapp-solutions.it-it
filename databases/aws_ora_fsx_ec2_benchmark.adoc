@@ -33,7 +33,7 @@ Le sezioni seguenti forniscono informazioni dettagliate sull'installazione e sui
 
 Abbiamo implementato un'istanza EC2 M5 con 8vCPU, 32G RAM e 10Gps di larghezza di banda di rete.
 
-image:aws_ora_fsx_ec2_inst_10.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_inst_10.PNG[""]
 
 
 
@@ -48,7 +48,7 @@ Abbiamo creato tre volumi di database e montato i volumi con NFS su un'istanza E
 
 Abbiamo conservato due copie di un file di controllo critico per la ridondanza.
 
-image:aws_ora_fsx_ec2_stor_15.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_stor_15.PNG[""]
 
 Il file system FSX è configurato con una capacità di 80,000 IOPS e un throughput i/o di 2 GiBps.
 
@@ -60,7 +60,7 @@ Oracle versione 19c è stato installato con la patch RU 19.8. DNFS è stato atti
 
 Il database è stato implementato come database containerizzato con tre PDB. Abbiamo utilizzato un'istanza PDB per il test delle performance. La figura seguente mostra il dimensionamento dello storage Oracle sui punti di montaggio NFS.
 
-image:aws_ora_fsx_ec2_inst_11.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_inst_11.PNG[""]
 
 
 
@@ -72,7 +72,7 @@ Il fattore di scala dello schema utilizzato era 50, che forniva una dimensione i
 
 La schermata seguente mostra il profilo del carico di lavoro e le metriche di esecuzione transazionali tipiche dell'interfaccia utente di Swingbench Windows.
 
-image:aws_ora_fsx_ec2_swin_01.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_swin_01.PNG[""]
 
 Come mostra questo grafico, il livello di transazione è stato mantenuto allo stesso livello durante l'esecuzione del test.
 
@@ -88,17 +88,16 @@ Dal lato server Oracle, abbiamo analizzato il report AWR di Oracle per determina
 
 Abbiamo registrato il volume della transazione utente, il tempo di risposta dell'utente e gli eventi top wait Oracle rispetto al numero di utenti simultanei durante l'esecuzione di una transazione. I risultati sono mostrati di seguito:
 
-image:aws_ora_fsx_ec2_swin_02.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_swin_02.PNG[""]
 
 Questi risultati indicano che potremmo aumentare costantemente i volumi delle transazioni degli utenti con un numero maggiore di utenti simultanei, mantenendo una latenza i/o costantemente bassa e tempi di risposta degli utenti, che rappresentano le performance appropriate per un'applicazione Oracle.
 
 La latenza di i/o e il tempo di risposta dell'utente hanno iniziato ad aumentare leggermente quando abbiamo raggiunto 128 utenti simultanei. Ciò è previsto perché l'istanza EC2 si sta avvicinando alla capacità completa del server, come mostrato nel diagramma seguente:
 
-image:aws_ora_fsx_ec2_swin_03.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_swin_03.PNG[""]
 
 Allo stesso modo, il diagramma seguente mostra i corrispondenti IOPS FSX e il throughput durante l'esecuzione dei volumi delle transazioni utente in quel momento.
 
-image:aws_ora_fsx_ec2_swin_04.PNG["Errore: Immagine grafica mancante"]
-image:aws_ora_fsx_ec2_swin_05.PNG["Errore: Immagine grafica mancante"]
+image:aws_ora_fsx_ec2_swin_04.PNG[""] image:aws_ora_fsx_ec2_swin_05.PNG[""]
 
 Non abbiamo raggiunto la capacità dello storage FSX con provisioning in IOPS o throughput quando l'istanza EC2 del server Oracle è diventata il fattore limitante. Pertanto, è necessario dimensionare correttamente il calcolo e lo storage in base al volume di transazioni a livello di applicazione dell'utente, come dimostrato nella sezione link:aws_ora_fsx_ec2_factors.html["Fattori da considerare per l'implementazione del database Oracle."]

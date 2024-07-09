@@ -65,7 +65,7 @@ A scopo di test, l'ambiente di laboratorio on-premise utilizzato per questa conv
 
 L'immagine seguente mostra l'architettura di alto livello.
 
-image:fsx-hcx-image1.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image1.png[""]
 
 ====
 
@@ -87,7 +87,7 @@ Per eseguire l'installazione, attenersi alla seguente procedura:
 NOTE: Il completamento di questa fase richiede fino a 25 minuti.
 
 +
-image:fsx-hcx-image2.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image2.png[""]
 
 . Una volta completata l'implementazione, convalidare l'implementazione confermando che HCX Manager e i relativi plug-in associati sono disponibili in vCenter Console.
 . Creare i firewall di Management Gateway appropriati per aprire le porte necessarie per accedere A HCX Cloud Manager.HCX Cloud Manager è ora pronto per le operazioni HCX.
@@ -102,7 +102,7 @@ Affinché il connettore on-premise comunichi con HCX Manager in VMC, assicurarsi
 . Dalla console VMC, accedere alla dashboard HCX, accedere a Administration (Amministrazione) e selezionare la scheda Systems Update (aggiornamento sistemi). Fare clic su Request a Download link for the HCX Connector OVA image (Richiedi un link di download per l'immagine OVA
 . Dopo aver scaricato HCX Connector, implementare OVA nel server vCenter on-premise. Fare clic con il pulsante destro del mouse su vSphere Cluster e selezionare l'opzione Deploy OVF Template.
 +
-image:fsx-hcx-image5.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image5.png[""]
 
 . Inserire le informazioni richieste nella procedura guidata Deploy OVF Template (implementazione modello OVF), fare clic su Next (Avanti), quindi su Finish (fine) per implementare VMware HCX Connector OVA.
 . Accendere manualmente l'appliance virtuale.per istruzioni dettagliate, visitare il sito Web https://docs.vmware.com/en/VMware-HCX/services/user-guide/GUID-BFD7E194-CFE5-4259-B74B-991B26A51758.html["Guida utente di VMware HCX"^].
@@ -117,7 +117,7 @@ Dopo aver implementato VMware HCX Connector OVA on-premise e avviato l'appliance
 . Da VMware Cloud Console, accedere a Inventory (inventario), selezionare SDDC e fare clic su View Details (Visualizza dettagli). Dalla scheda Add Ons (Aggiungi servizio), nel riquadro VMware HCX, fare clic su Open HCX (Apri HCX).
 . Dalla scheda Activation Keys (chiavi di attivazione), fare clic su Create Activation Key (Crea chiave di Selezionare il tipo di sistema come connettore HCX e fare clic su Confirm (Conferma) per generare la chiave. Copiare la chiave di attivazione.
 +
-image:fsx-hcx-image7.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image7.png[""]
 
 +
 
@@ -154,7 +154,7 @@ NOTE: Questo processo richiede circa 10–20 minuti e l'aggiunta del plug-in al 
 
 
 
-image:fsx-hcx-image8.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image8.png[""]
 
 ====
 .Fase 4: Associazione on-premise di VMware HCX Connector con VMC HCX Cloud Manager
@@ -162,21 +162,21 @@ image:fsx-hcx-image8.png["Errore: Immagine grafica mancante"]
 ====
 . Per creare una coppia di siti tra vCenter Server on-premise e VMC SDDC, accedere al vCenter Server on-premise e al plug-in del client Web HCX vSphere.
 +
-image:fsx-hcx-image9.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image9.png[""]
 
 . In infrastruttura, fare clic su Aggiungi associazione sito. Per autenticare il sito remoto, immettere l'URL o l'indirizzo IP di VMC HCX Cloud Manager e le credenziali per il ruolo CloudAdmin.
 +
-image:fsx-hcx-image10.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image10.png[""]
 
 +
 
 NOTE: Le informazioni HCX possono essere recuperate dalla pagina Impostazioni SDDC.
 
 +
-image:fsx-hcx-image11.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image11.png[""]
 
 +
-image:fsx-hcx-image12.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image12.png[""]
 
 . Per avviare l'associazione del sito, fare clic su Connect (Connetti).
 +
@@ -201,7 +201,7 @@ NOTE: I profili di calcolo contengono i parametri di calcolo, storage e implemen
 Per istruzioni dettagliate, vedere https://docs.vmware.com/en/VMware-HCX/4.4/hcx-user-guide/GUID-BBAC979E-8899-45AD-9E01-98A132CE146E.html["Creazione di un profilo di calcolo"^].
 
 +
-image:fsx-hcx-image13.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image13.png[""]
 
 . Una volta creato il profilo di calcolo, creare il profilo di rete selezionando Mesh servizio multi-sito > profili di rete > Crea profilo di rete.
 . Il profilo di rete definisce un intervallo di indirizzi IP e reti che VERRANNO utilizzati DA HCX per le proprie appliance virtuali.
@@ -210,7 +210,7 @@ image:fsx-hcx-image13.png["Errore: Immagine grafica mancante"]
 NOTE: Questo richiede due o più indirizzi IP. Questi indirizzi IP verranno assegnati dalla rete di gestione alle appliance virtuali.
 
 +
-image:fsx-hcx-image14.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image14.png[""]
 
 +
 Per istruzioni dettagliate, vedere https://docs.vmware.com/en/VMware-HCX/4.4/hcx-user-guide/GUID-184FCA54-D0CB-4931-B0E8-A81CD6120C52.html["Creazione di un profilo di rete"^].
@@ -224,7 +224,7 @@ NOTE: Se si effettua la connessione a una SD-WAN tramite Internet, è necessario
 La mesh del servizio stabilisce una coppia di profili di rete e di calcolo locale e remoto.
 
 +
-image:fsx-hcx-image15.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image15.png[""]
 
 +
 
@@ -232,11 +232,11 @@ NOTE: Parte di questo processo prevede l'implementazione di appliance HCX che ve
 
 . Selezionare i profili di calcolo di origine e remoti e fare clic su Continue (continua).
 +
-image:fsx-hcx-image16.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image16.png[""]
 
 . Selezionare il servizio da attivare e fare clic su Continue (continua).
 +
-image:fsx-hcx-image17.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image17.png[""]
 
 +
 
@@ -244,7 +244,7 @@ NOTE: Per la migrazione vMotion assistita da replica, l'integrazione SRM e la mi
 
 . Creare un nome per la mesh del servizio e fare clic su Finish (fine) per avviare il processo di creazione. Il completamento dell'implementazione richiede circa 30 minuti. Dopo aver configurato la mesh del servizio, sono state create l'infrastruttura virtuale e il networking necessari per migrare le VM dei carichi di lavoro.
 +
-image:fsx-hcx-image18.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image18.png[""]
 
 
 
@@ -261,7 +261,7 @@ L'appliance HCX-IX utilizza il servizio Mobility Agent per eseguire migrazioni v
 
 NOTE: L'appliance HCX-IX aggiunge il servizio Mobility Agent come oggetto host in vCenter Server. Il processore, la memoria, lo storage e le risorse di rete visualizzati su questo oggetto non rappresentano il consumo effettivo dell'hypervisor fisico che ospita l'appliance IX.
 
-image:fsx-hcx-image19.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image19.png[""]
 
 .VMware HCX vMotion
 [%collapsible]
@@ -273,15 +273,15 @@ NOTE: Network Extension deve essere installato (per il gruppo di porte a cui è 
 
 . Dal client vSphere on-premise, accedere a Inventory (inventario), fare clic con il pulsante destro del mouse sulla macchina virtuale da migrare e selezionare HCX Actions (azioni HCX) > Migrate to HCX Target Site (Migra al sito di destinazione HCX).
 +
-image:fsx-hcx-image20.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image20.png[""]
 
 . Nella procedura guidata Migrate Virtual Machine, selezionare Remote Site Connection (SDDC VMC di destinazione).
 +
-image:fsx-hcx-image21.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image21.png[""]
 
 . Aggiungere un nome di gruppo e, in Transfer and Placement (trasferimento e posizionamento), aggiornare i campi obbligatori (Cluster, Storage e Destination Network), quindi fare clic su Validate (convalida).
 +
-image:fsx-hcx-image22.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image22.png[""]
 
 . Al termine dei controlli di convalida, fare clic su Go (Vai) per avviare la migrazione.
 +
@@ -290,7 +290,7 @@ NOTE: Il trasferimento vMotion acquisisce la memoria attiva della macchina virtu
 
 . È possibile monitorare l'avanzamento e il completamento di vMotion dalla dashboard HCX > Migration (HCX > migrazione).
 +
-image:fsx-hcx-image23.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image23.png[""]
 
 
 
@@ -302,11 +302,11 @@ Come si può notare dalla documentazione VMware, VMware HCX Replication Assisted
 
 La seguente schermata mostra il profilo di migrazione come Replication Assisted vMotion.
 
-image:fsx-hcx-image24.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image24.png[""]
 
 La durata della replica potrebbe essere maggiore rispetto al vMotion di un numero ridotto di macchine virtuali. Con RAV, sincronizzare solo i delta e includere i contenuti della memoria. Di seguito viene riportata una schermata dello stato della migrazione, che mostra come l'ora di inizio della migrazione sia la stessa e l'ora di fine sia diversa per ciascuna macchina virtuale.
 
-image:fsx-hcx-image25.png["Errore: Immagine grafica mancante"]
+image:fsx-hcx-image25.png[""]
 
 =====
 Per ulteriori informazioni sulle opzioni di migrazione HCX e su come migrare i carichi di lavoro da on-premise a VMware Cloud su AWS utilizzando HCX, consulta la https://docs.vmware.com/en/VMware-HCX/4.4/hcx-user-guide/GUID-14D48C15-3D75-485B-850F-C5FCB96B5637.html["Guida utente di VMware HCX"^].

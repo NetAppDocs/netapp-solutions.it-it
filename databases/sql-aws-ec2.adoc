@@ -147,15 +147,15 @@ Per creare volumi e LUN per SQL Server, attenersi alla seguente procedura:
 . Aprire la console Amazon FSX all'indirizzo https://console.aws.amazon.com/fsx/[]
 . Creare un file system Amazon FSX per NetApp ONTAP utilizzando l'opzione di creazione standard nel metodo di creazione. In questo modo è possibile definire le credenziali FSxadmin e vsadmin.
 +
-image:sql-awsec2-image1.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image1.png[""]
 
 . Specificare la password per fsxadmin.
 +
-image:sql-awsec2-image2.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image2.png[""]
 
 . Specificare la password per le SVM.
 +
-image:sql-awsec2-image3.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image3.png[""]
 
 . Creare i volumi seguendo la procedura indicata nella https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-volumes.html["Creazione di un volume su FSX per NetApp ONTAP"^].
 +
@@ -193,7 +193,7 @@ Set-Service -Name msiscsi -StartupType Automatic
 Get-InitiatorPort | select NodeAddress
 ....
 +
-image:sql-awsec2-image4.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image4.png[""]
 
 . Connettersi alle macchine virtuali di storage (SVM) utilizzando PuTTY e creare un iGroup.
 +
@@ -206,7 +206,7 @@ igroup create -igroup igrp_ws2019sql1 -protocol iscsi -ostype windows -initiator
 lun create -path /vol/vol_awssqlprod01_data/lun_awssqlprod01_data -size 700GB -ostype windows_2008 -space-allocation enabled lun create -path /vol/vol_awssqlprod01_log/lun_awssqlprod01_log -size 100GB -ostype windows_2008 -space-allocation enabled
 ....
 +
-image:sql-awsec2-image5.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image5.png[""]
 
 . Per ottenere l'allineamento i/o con lo schema di partizione del sistema operativo, utilizzare Windows_2008 come tipo di LUN consigliato. Fare riferimento a. https://docs.netapp.com/us-en/ontap/san-admin/io-misalignments-properly-aligned-luns-concept.html["qui"^] per ulteriori informazioni.
 . Utilizzare il seguente comando SSH per mappare i LUN appena creati.
@@ -216,21 +216,21 @@ lun show
 lun map -path /vol/vol_awssqlprod01_data/lun_awssqlprod01_data -igroup igrp_awssqlprod01lun map -path /vol/vol_awssqlprod01_log/lun_awssqlprod01_log -igroup igrp_awssqlprod01
 ....
 +
-image:sql-awsec2-image6.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image6.png[""]
 
 . Per un disco condiviso che utilizza il cluster di failover di Windows, eseguire un comando SSH per mappare lo stesso LUN all'igroup che appartiene a tutti i server che fanno parte del cluster di failover di Windows.
 . Connessione di Windows Server a una SVM con una destinazione iSCSI. Individuare l'indirizzo IP di destinazione da AWS Portal.
 +
-image:sql-awsec2-image7.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image7.png[""]
 
 . Da Server Manager (Gestione server) e dal menu Tools (Strumenti), selezionare iSCSI Initiator (iniziatore iSCSI). Selezionare la scheda Discovery (rilevamento), quindi Discover Portal (Scopri portale). Fornire l'indirizzo IP iSCSI indicato nella fase precedente e selezionare Advanced (Avanzate). Da Local Adapter, selezionare Microsoft iSCSI Initiator. Da Initiator IP (IP iniziatore), selezionare l'IP del server. Quindi selezionare OK per chiudere tutte le finestre.
 +
-image:sql-awsec2-image8.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image8.png[""]
 
 . Ripetere il punto 12 per il secondo IP iSCSI da SVM.
 . Selezionare la scheda *targets*, selezionare *Connect* e selezionare *Enable muti-path*.
 +
-image:sql-awsec2-image9.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image9.png[""]
 
 . Per ottenere performance ottimali, aggiungere altre sessioni; NetApp consiglia di creare cinque sessioni iSCSI. Selezionare *Proprietà *> *Aggiungi sessione *> *Avanzate* e ripetere il punto 12.
 +
@@ -239,7 +239,7 @@ $TargetPortals = ('10.2.1.167', '10.2.2.12')
 foreach ($TargetPortal in $TargetPortals) {New-IscsiTargetPortal -TargetPortalAddress $TargetPortal}
 ....
 +
-image:sql-awsec2-image10.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image10.png[""]
 
 
 
@@ -259,7 +259,7 @@ Connect-IscsiTarget -IsMultipathEnabled $true -NodeAddress $target.NodeAddress -
 }
 ....
 +
-image:sql-awsec2-image11.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image11.png[""]
 
 .. Inizializzare i dischi con il seguente comando PowerShell.
 +
@@ -268,7 +268,7 @@ $disks = Get-Disk | where PartitionStyle -eq raw
 foreach ($disk in $disks) {Initialize-Disk $disk.Number}
 ....
 +
-image:sql-awsec2-image12.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image12.png[""]
 
 .. Eseguire i comandi Create Partition (Crea partizione) e Format Disk (Formatta disco) con PowerShell.
 +
@@ -350,7 +350,7 @@ Per informazioni sulla compatibilità delle versioni, consultare https://mysuppo
 ====
 La figura seguente illustra alcune considerazioni relative alla creazione del layout di storage del database Microsoft SQL Server durante il backup con SnapCenter.
 
-image:sql-awsec2-image13.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image13.png[""]
 
 *Best practice*
 
@@ -383,15 +383,15 @@ Dopo aver installato SnapCenter, completare la seguente procedura per configurar
 
 . Per impostare le credenziali, selezionare *Impostazioni* > *nuovo*, quindi immettere le informazioni sulle credenziali.
 +
-image:sql-awsec2-image14.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image14.png[""]
 
 . Aggiungere il sistema di storage selezionando sistemi di storage > nuovo e fornire l'FSX appropriato per le informazioni di storage ONTAP.
 +
-image:sql-awsec2-image15.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image15.png[""]
 
 . Aggiungere gli host selezionando *hosts* > *Add*, quindi fornire le informazioni sull'host. SnapCenter installa automaticamente il plug-in di Windows e SQL Server. Questo processo potrebbe richiedere del tempo.
 +
-image:sql-awsec2-image16.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image16.png[""]
 
 
 
@@ -409,13 +409,13 @@ La formula di dimensionamento della directory del log host presuppone quanto seg
 * Backup del database di sistema che non include il database tempdb
 * Uno spazio di overhead del LUN del 10%: Consente di creare una directory di log host su un volume dedicato o su un LUN. La quantità di dati nella directory del registro host dipende dalle dimensioni dei backup e dal numero di giorni in cui i backup vengono conservati.
 +
-image:sql-awsec2-image17.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image17.png[""]
 
 +
 Se il provisioning dei LUN è già stato eseguito, è possibile selezionare il punto di montaggio per rappresentare la directory del registro host.
 
 +
-image:sql-awsec2-image18.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image18.png[""]
 
 
 
@@ -435,23 +435,23 @@ Dopo aver inserito il database e i file di log nelle LUN ONTAP FSX, è possibile
 +
 .. Selezionare *risorse*, quindi selezionare *Microsoft SQL Server *dal menu a discesa in alto a sinistra. Selezionare *Aggiorna risorse*.
 +
-image:sql-awsec2-image19.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image19.png[""]
 
 .. Selezionare il database da sottoporre a backup, quindi selezionare *Avanti* e (**) per aggiungere il criterio se non è stato creato. Seguire la *New SQL Server Backup Policy* per creare un nuovo criterio.
 +
-image:sql-awsec2-image20.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image20.png[""]
 
 .. Se necessario, selezionare il server di verifica. Questo server è il server che SnapCenter esegue DBCC CHECKDB dopo la creazione di un backup completo. Fare clic su *Avanti* per la notifica, quindi selezionare *Riepilogo* per la revisione. Dopo la revisione, fare clic su *fine*.
 +
-image:sql-awsec2-image21.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image21.png[""]
 
 .. Fare clic su *Backup Now* per verificare il backup. Nelle finestre a comparsa, selezionare *Backup*.
 +
-image:sql-awsec2-image22.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image22.png[""]
 
 .. Selezionare *Monitor* per verificare che il backup sia stato completato.
 +
-image:sql-awsec2-image23.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image23.png[""]
 
 
 
@@ -473,13 +473,13 @@ Completare i seguenti passaggi per ripristinare un singolo database a un punto s
 
 . Selezionare Resources (risorse), quindi selezionare il database che si desidera ripristinare.
 +
-image:sql-awsec2-image24.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image24.png[""]
 
 . Selezionare il nome del backup da cui deve essere ripristinato il database, quindi selezionare Restore (Ripristina).
 . Seguire le finestre a comparsa *Restore* per ripristinare il database.
 . Selezionare *Monitor* per verificare che il processo di ripristino abbia esito positivo.
 +
-image:sql-awsec2-image25.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image25.png[""]
 
 
 
@@ -550,12 +550,12 @@ La seguente procedura viene utilizzata per clonare i database nella nuova istanz
 . Selezionare risorse, quindi il database che si desidera clonare.
 . Selezionare il nome del backup che si desidera clonare, quindi selezionare Clone (Clona).
 +
-image:sql-awsec2-image26.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image26.png[""]
 
 . Seguire le istruzioni Clone from Backup fornendo la nuova istanza di SQL Server su EC2 e il nome dell'istanza per completare il processo di clonazione.
 . Selezionare Monitor per assicurarsi che la clonazione sia stata completata.
 +
-image:sql-awsec2-image27.png["Errore: Immagine grafica mancante"]
+image:sql-awsec2-image27.png[""]
 
 
 
