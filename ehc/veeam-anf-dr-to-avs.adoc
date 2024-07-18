@@ -38,7 +38,7 @@ Questo meccanismo di replica garantisce che i carichi di lavoro possano avviarsi
 
 Il processo di replica in Veeam Backup & Replication è basato sul processo, il che significa che la replica viene eseguita configurando i processi di replica. In caso di evento di emergenza, è possibile attivare il failover per ripristinare le macchine virtuali con failover sulla copia di replica. Una volta eseguito il failover, una VM replicata assume il ruolo della VM originale. Il failover può essere eseguito allo stato più recente di una replica o a uno dei suoi punti di ripristino noti. Ciò abilita recovery dal ransomware o test isolati, se necessario. Veeam Backup & Replication offre diverse opzioni per gestire diversi scenari di disaster recovery.
 
-image:dr-veeam-anf-image1.png[""]
+image::dr-veeam-anf-image1.png[dr. veeam anf image1]
 
 
 
@@ -88,41 +88,41 @@ Per replicare le VM, attenersi alla seguente procedura:
 *Selezionare la casella di controllo Network remapping (per i siti AVS SDDC con reti diverse) se i segmenti della soluzione Azure VMware SDDC non corrispondono a quelli delle reti dei siti in sede.
 ** Se lo schema di indirizzamento IP nel sito di produzione locale differisce dallo schema nel sito AVS di destinazione, selezionare la casella di controllo Replica re-IP (per siti DR con schema di indirizzamento IP diverso).
 +
-image:dr-veeam-anf-image2.png[""]
+image::dr-veeam-anf-image2.png[dr. veeam anf image2]
 
 
 
 . Selezionare le VM da replicare nel datastore Azure NetApp Files collegato a un SDDC della soluzione Azure VMware nel passaggio *macchine virtuali**. Le macchine virtuali possono essere posizionate su vSAN per riempire la capacità del datastore vSAN disponibile. In un cluster spia pilota, la capacità utilizzabile di un cluster a 3 nodi sarà limitata. Il resto dei dati può essere posizionato facilmente nei datastore Azure NetApp Files, in modo che sia possibile ripristinare le macchine virtuali e espandere il cluster per soddisfare i requisiti di CPU/mem. Fare clic su *Aggiungi*, quindi nella finestra *Aggiungi oggetto* selezionare le VM o i contenitori VM necessari e fare clic su *Aggiungi*. Fare clic su *Avanti*.
 +
-image:dr-veeam-anf-image3.png[""]
+image::dr-veeam-anf-image3.png[dr. veeam anf image3]
 
 . Quindi, seleziona la destinazione come cluster/host SDDC della soluzione Azure VMware e il pool di risorse, la cartella VM e il datastore FSX per le repliche delle VM di ONTAP. Quindi fare clic su *Avanti*.
 +
-image:dr-veeam-anf-image4.png[""]
+image::dr-veeam-anf-image4.png[dr. veeam anf image4]
 
 . Nel passaggio successivo, creare la mappatura tra la rete virtuale di origine e di destinazione secondo necessità.
 +
-image:dr-veeam-anf-image5.png[""]
+image::dr-veeam-anf-image5.png[dr. veeam anf image5]
 
 . Nel passaggio *Impostazioni processo*, specificare il repository di backup che memorizzerà i metadati per le repliche della VM, i criteri di conservazione e così via.
 . Aggiornare i server proxy *Source* e *Target* nel passo *trasferimento dati* e lasciare selezionata l'opzione *Automatic* (impostazione predefinita) e mantenere l'opzione *Direct* (diretto) e fare clic su *Next* (Avanti).
 . Nel passaggio *elaborazione guest*, selezionare *attiva elaborazione in base alle esigenze dell'applicazione*. Fare clic su *Avanti*.
 +
-image:dr-veeam-anf-image6.png[""]
+image::dr-veeam-anf-image6.png[dr. veeam anf image6]
 
 . Scegliere la pianificazione di replica per eseguire regolarmente il processo di replica.
 +
-image:dr-veeam-anf-image7.png[""]
+image::dr-veeam-anf-image7.png[dr. veeam anf image7]
 
 . Nel passo *Riepilogo* della procedura guidata, esaminare i dettagli del processo di replica. Per avviare il lavoro subito dopo la chiusura della procedura guidata, selezionare la casella di controllo *Esegui il lavoro quando si fa clic su fine*, altrimenti lasciare deselezionata la casella di controllo. Quindi fare clic su *fine* per chiudere la procedura guidata.
 +
-image:dr-veeam-anf-image8.png[""]
+image::dr-veeam-anf-image8.png[dr. veeam anf image8]
 
 
 
 Una volta avviato il processo di replica, le macchine virtuali con il suffisso specificato verranno popolate nel cluster/host AVS SDDC di destinazione.
 
-image:dr-veeam-anf-image9.png[""]
+image::dr-veeam-anf-image9.png[dr. veeam anf image9]
 
 Per ulteriori informazioni sulla replica Veeam, fare riferimento link:https://helpcenter.veeam.com/docs/backup/vsphere/replication_process.html?ver=120["Come funziona la replica"]
 
@@ -147,15 +147,15 @@ Per creare il *piano di failover*, procedere come segue:
 
 . Nella vista Home. Fare clic con il pulsante destro del mouse sul nodo repliche e selezionare piani di failover > piano di failover > VMware vSphere.
 +
-image:dr-veeam-anf-image10.png[""]
+image::dr-veeam-anf-image10.png[dr. veeam anf image10]
 
 . Fornire quindi un nome e una descrizione del piano. Gli script pre e post-failover possono essere aggiunti secondo necessità. Ad esempio, eseguire uno script per arrestare le macchine virtuali prima di avviare le macchine virtuali replicate.
 +
-image:dr-veeam-anf-image11.png[""]
+image::dr-veeam-anf-image11.png[dr. veeam anf image11]
 
 . Aggiungere le VM al piano e modificare l'ordine di avvio delle VM e i ritardi di avvio per soddisfare le dipendenze delle applicazioni.
 +
-image:dr-veeam-anf-image12.png[""]
+image::dr-veeam-anf-image12.png[dr. veeam anf image12]
 
 
 
@@ -172,17 +172,17 @@ NOTE: Assicurarsi che la segmentazione della rete sia attiva per evitare conflit
 
 Per avviare il piano di failover, è sufficiente fare clic sulla scheda *piani di failover* e fare clic con il pulsante destro del mouse sul piano di failover. Selezionare **Avvia*. Il failover viene eseguito utilizzando gli ultimi punti di ripristino delle repliche della VM. Per eseguire il failover su punti di ripristino specifici delle repliche della VM, selezionare *Avvia a*.
 
-image:dr-veeam-anf-image13.png[""]
+image::dr-veeam-anf-image13.png[dr. veeam anf image13]
 
-image:dr-veeam-anf-image14.png[""]
+image::dr-veeam-anf-image14.png[dr. veeam anf image14]
 
 Lo stato della replica della macchina virtuale cambia da Pronto a failover e le macchine virtuali vengono avviate sul cluster/host SDDC di Azure VMware Solution (AVS) di destinazione.
 
-image:dr-veeam-anf-image15.png[""]
+image::dr-veeam-anf-image15.png[dr. veeam anf image15]
 
 Una volta completato il failover, lo stato delle macchine virtuali passa a "failover".
 
-image:dr-veeam-anf-image16.png[""]
+image::dr-veeam-anf-image16.png[dr. veeam anf image16]
 
 
 NOTE: Veeam Backup & Replication interrompe tutte le attività di replica per la VM di origine fino a quando la replica non viene riportata allo stato Ready.
@@ -207,23 +207,23 @@ NOTE: Quando si esegue il failback, le modifiche vengono solo trasferite ma non 
 
 In questa demo, è stato scelto il failback in produzione. Il failback alla macchina virtuale originale è stato selezionato durante la fase di destinazione della procedura guidata ed è stata attivata la casella di controllo "accensione della macchina virtuale dopo il ripristino".
 
-image:dr-veeam-anf-image17.png[""]
+image::dr-veeam-anf-image17.png[dr. veeam anf image17]
 
-image:dr-veeam-anf-image18.png[""]
+image::dr-veeam-anf-image18.png[dr. veeam anf image18]
 
-image:dr-veeam-anf-image19.png[""]
+image::dr-veeam-anf-image19.png[dr. veeam anf image19]
 
-image:dr-veeam-anf-image20.png[""]
+image::dr-veeam-anf-image20.png[dr. veeam anf image20]
 
 Il commit di failback è uno dei modi per finalizzare l'operazione di failback. Quando il failback viene eseguito, conferma che le modifiche inviate alla VM che ha avuto esito negativo (la VM di produzione) funzionano come previsto. Dopo l'operazione di commit, Veeam Backup & Replication riprende le attività di replica per la VM di produzione.
 
 Per informazioni dettagliate sul processo di failback, fare riferimento alla documentazione Veeam per link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_failback.html?ver=120["Failover e failback per la replica"].
 
-image:dr-veeam-anf-image21.png[""]
+image::dr-veeam-anf-image21.png[dr. veeam anf image21]
 
 Una volta eseguito il failback in produzione, le macchine virtuali vengono tutte ripristinate nel sito di produzione originale.
 
-image:dr-veeam-anf-image22.png[""]
+image::dr-veeam-anf-image22.png[dr. veeam anf image22]
 
 ====
 

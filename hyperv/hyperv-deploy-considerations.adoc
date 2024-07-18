@@ -68,18 +68,18 @@ Le condivisioni di file SMB 3,0 possono essere utilizzate come storage condiviso
 . Verificare che le opzioni richieste di server CIFS siano abilitate sulla Storage Virtual Machine (SVM)
 . Le seguenti opzioni devono essere impostate su true: SMB2 abilitato smb3 copy-offload abilitato shadowcopy-Enabled is-multicanale-Enabled è-Large-mtu-Enabled
 +
-image:hyperv-deploy-image03.png["Immagine delle impostazioni della colonna SMB"]
+image::hyperv-deploy-image03.png[Immagine delle impostazioni della colonna SMB]
 
 . Creare volumi di dati NTFS sulla Storage Virtual Machine (SVM) e configurare le condivisioni continuamente disponibili da utilizzare con Hyper-V.
 +
-image:hyperv-deploy-image04.png["Immagine delle impostazioni del volume di dati NTFS"]
+image::hyperv-deploy-image04.png[Immagine delle impostazioni del volume di dati NTFS]
 
 +
 *Nota*: Le operazioni senza interruzioni per Hyper-V su SMB non funzionano correttamente, a meno che i volumi utilizzati nella configurazione non vengano creati come volumi in stile di sicurezza NTFS.
 
 . Abilitare la disponibilità continua e configurare le autorizzazioni NTFS sulla condivisione in modo da includere i nodi Hyper-V con controllo completo.
 +
-image:hyperv-deploy-image05.png["Immagine delle impostazioni delle autorizzazioni NTFS"]
+image::hyperv-deploy-image05.png[Immagine delle impostazioni delle autorizzazioni NTFS]
 
 
 
@@ -127,7 +127,7 @@ Per eseguire il provisioning del volume ISCSI, verificare che siano soddisfatti 
 . Sfogliare e selezionare la SVM designata in cui vengono visualizzate le LUN da creare e la procedura guidata Create LUN Wizard.
 . Nella pagina General Properties, selezionare Hyper-V per i LUN che contengono hard disk virtuali (VHD) per macchine virtuali Hyper-V.
 +
-image:hyperv-deploy-image06.png["Immagine della pagina Proprietà generali per la creazione di LUN Hyper-V."]
+image::hyperv-deploy-image06.png[Immagine della pagina Proprietà generali per la creazione di LUN Hyper-V.]
 
 . <fare clic su altre opzioni> nella pagina del container LUN, selezionare un volume FlexVol esistente per evitare che venga creato un nuovo volume.
 . <fare clic su altre opzioni> nella pagina Mapping iniziatori, fare clic su Aggiungi gruppo iniziatori, immettere le informazioni richieste nella scheda Generale, quindi nella scheda iniziatori, immettere il nome del nodo iniziatore iSCSI degli host.
@@ -146,7 +146,7 @@ Una volta creata la LUN, passare a failover Cluster Manager. Per aggiungere un d
 . I dischi vengono ora assegnati al gruppo archiviazione disponibile.
 . Al termine, selezionare il disco appena assegnato allo storage disponibile, fare clic con il pulsante destro del mouse sulla selezione, quindi selezionare Aggiungi a volumi condivisi cluster.
 +
-image:hyperv-deploy-image07.png["Immagine dell'interfaccia Add to Cluster Shared Volumes (Aggiungi a volumi condivisi cluster)"]
+image::hyperv-deploy-image07.png[Immagine dell'interfaccia Add to Cluster Shared Volumes (Aggiungi a volumi condivisi cluster)]
 
 . I dischi vengono ora assegnati al gruppo Cluster Shared Volume nel cluster. I dischi sono esposti a ciascun nodo del cluster come volumi numerati (punti di montaggio) nella cartella %SystemDrive%ClusterStorage. I volumi vengono visualizzati nel file system CSVFS.
 

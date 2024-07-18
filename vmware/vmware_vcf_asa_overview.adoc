@@ -65,7 +65,7 @@ La soluzione VCF supporta sia i workload Kubernetes nativi che quelli basati su 
 
 VCF è costituito da un singolo dominio di gestione e fino a 24 domini di workload VI che rappresentano ciascuno un'unità di infrastruttura predisposta per le applicazioni. Un dominio del carico di lavoro è costituito da uno o più cluster vSphere gestiti da una singola istanza vCenter.
 
-image:vmware-vcf-aff-image02.png["Architettura VCF"]
+image::vmware-vcf-aff-image02.png[Architettura VCF]
 
 Per ulteriori informazioni sull'architettura e la pianificazione di VCF, fare riferimento a. link:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-design/GUID-A550B597-463F-403F-BE9A-BFF3BECB9523.html["Modelli di architettura e tipi di dominio del carico di lavoro in VMware Cloud Foundation"].
 
@@ -77,7 +77,7 @@ Per ulteriori informazioni sull'architettura e la pianificazione di VCF, fare ri
 
 VMware divide le opzioni di storage per VCF in *Principal* e *integrative*. Il dominio di gestione VCF deve utilizzare vSAN come storage principale. Tuttavia, esistono molte opzioni di storage supplementari per il dominio di gestione e per le opzioni di storage principale e supplementare disponibili per i domini del carico di lavoro VI.
 
-image:vmware-vcf-aff-image01.png["Opzioni di archiviazione VCF"]
+image::vmware-vcf-aff-image01.png[Opzioni di archiviazione VCF]
 
 *Archiviazione principale per i domini del carico di lavoro*
 Lo storage principale si riferisce a qualsiasi tipo di storage che può essere direttamente connesso a un dominio del carico di lavoro VI durante il processo di installazione in SDDC Manager. Lo storage principale viene implementato con il manager SDDC nell'ambito dell'orchestrazione per la creazione del cluster ed è il primo datastore configurato per un dominio del carico di lavoro. Include vSAN, vVol (VMFS), NFS e VMFS su Fibre Channel.

@@ -37,7 +37,7 @@ I container sono istanze isolate dello spazio utente eseguite su un kernel del s
 
 I container consentono inoltre un efficiente packaging delle dipendenze delle applicazioni, dei tempi di esecuzione e così via, direttamente con un'applicazione. Il formato di packaging dei container più comunemente utilizzato è Docker Container. Un'applicazione che è stata containerizzata nel formato Docker container può essere eseguita su qualsiasi computer in grado di eseguire i container Docker. Ciò è vero anche se le dipendenze dell'applicazione non sono presenti sul computer perché tutte le dipendenze sono contenute nel container stesso. Per ulteriori informazioni, visitare il https://www.docker.com["Sito web di Docker"^].
 
-image:aicp_image2.png[""]
+image::aicp_image2.png[aicp image2]
 
 
 
@@ -151,7 +151,7 @@ Le copie Snapshot devono la loro efficienza alla tecnologia di virtualizzazione 
 
 È possibile utilizzare una copia Snapshot per ripristinare singoli file o LUN o per ripristinare l'intero contenuto di un volume. ONTAP confronta le informazioni del puntatore nella copia Snapshot con i dati su disco per ricostruire l'oggetto mancante o danneggiato, senza downtime o costi di performance significativi.
 
-image:aicp_image4.png[""]
+image::aicp_image4.png[aicp image4]
 
 
 
@@ -159,7 +159,7 @@ image:aicp_image4.png[""]
 
 La tecnologia NetApp FlexClone fa riferimento ai metadati Snapshot per creare copie scrivibili point-in-time di un volume. Le copie condividono i blocchi di dati con i genitori, senza consumare storage, ad eccezione di quanto richiesto per i metadati fino a quando le modifiche non vengono scritte nella copia, come illustrato nella figura seguente. Il software FlexClone consente di copiare quasi istantaneamente anche i set di dati più grandi, anche se le copie tradizionali richiedono pochi minuti o persino ore. Ciò lo rende ideale per situazioni in cui sono necessarie più copie di set di dati identici (ad esempio un'area di lavoro di sviluppo) o copie temporanee di un set di dati (test di un'applicazione rispetto a un set di dati di produzione).
 
-image:aicp_image5.png[""]
+image::aicp_image5.png[aicp image5]
 
 
 
@@ -202,4 +202,4 @@ Un volume FlexGroup è un singolo namespace che comprende più volumi membri cos
 * Supportano operazioni parallelizzate nei carichi di lavoro NAS tra CPU, nodi, aggregati e volumi FlexVol costitutivi.
 
 
-image:aicp_image7.png[""]
+image::aicp_image7.png[aicp image7]

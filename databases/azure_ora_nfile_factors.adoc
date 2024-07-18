@@ -74,7 +74,7 @@ Il limite di throughput per un volume di database Oracle è determinato da una c
 
 Il seguente diagramma mostra come viene calcolato il limite di throughput per un volume di database Oracle.
 
-image:db_ora_azure_anf_factors_01.PNG["Questa immagine mostra l'equazione applicata ai tre livelli di capacità per determinare il throughput lordo."]
+image::db_ora_azure_anf_factors_01.PNG[Questa immagine mostra l'equazione applicata ai tre livelli di capacità per determinare il throughput lordo.]
 
 Nell'esempio 1, a un volume proveniente da un pool di capacità con il Tier di storage Premium assegnato a 2 TiB di quota viene assegnato un limite di throughput di 128 MiBps (2TiB * 64 MiBps). Questo scenario si applica indipendentemente dalle dimensioni del pool di capacità o dal consumo effettivo del volume.
 
@@ -90,11 +90,11 @@ NetApp consiglia il seguente layout di storage:
 
 * Per database di piccole dimensioni, utilizzando il layout di un singolo volume per tutti i file Oracle.
 +
-image:db_ora_azure_anf_factors_02.PNG["Questa immagine mostra tre database (DB1, DB2 e DB3) contenenti ciascuno datafile, log di ripristino, log di archiviazione e file di controllo all'interno di un singolo pool di capacità."]
+image::db_ora_azure_anf_factors_02.PNG[Questa immagine mostra tre database (DB1, DB2 e DB3) contenenti ciascuno datafile, log di ripristino, log di archiviazione e file di controllo all'interno di un singolo pool di capacità.]
 
 * Per i database di grandi dimensioni, il layout di volume consigliato è costituito da più volumi: Uno per i dati Oracle e un file di controllo duplicato e uno per il log attivo Oracle, il log archiviato e il file di controllo. NetApp consiglia vivamente di allocare un volume per il file binario Oracle anziché per il disco locale in modo che il database possa essere trasferito su un nuovo host e ripristinato rapidamente.
 +
-image:db_ora_azure_anf_factors_03.PNG["Questa immagine mostra due database con due volumi ciascuno. Il primo volume contiene i file di dati, mentre il secondo volume di ogni database contiene i log di ripristino, i log di archiviazione e i file di controllo. Il tutto in un singolo pool di capacità."]
+image::db_ora_azure_anf_factors_03.PNG[Questa immagine mostra due database con due volumi ciascuno. Il primo volume contiene i file di dati, mentre il secondo volume di ogni database contiene i log di ripristino, i log di archiviazione e i file di controllo. Il tutto in un singolo pool di capacità.]
 
 
 
@@ -108,7 +108,7 @@ Utilizzando DNFS (disponibile a partire da Oracle 11g), un database Oracle in es
 
 Il seguente diagramma illustra il benchmark SLOB su Azure NetApp Files con Oracle DNFS.
 
-image:db_ora_azure_anf_factors_04.PNG["Questo grafico dimostra in modo significativo che DNFS migliora la latenza del file sequenziale DB (ms) su KNFS."]
+image::db_ora_azure_anf_factors_04.PNG[Questo grafico dimostra in modo significativo che DNFS migliora la latenza del file sequenziale DB (ms) su KNFS.]
 
 Altri fattori da considerare:
 
@@ -123,7 +123,7 @@ sysctl -a | grep tcp.*.slot_table
 ----
 * La seguente tabella fornisce le opzioni di montaggio NFS consigliate per una singola istanza di Linux NFSv3.
 +
-image:aws_ora_fsx_ec2_nfs_01.PNG["Questa tabella mostra le opzioni di montaggio NFS dettagliate per i seguenti tipi di file, file di controllo, file di dati, log di ripristino, ORACLE_HOME, E ORACLE_BASE."]
+image::aws_ora_fsx_ec2_nfs_01.PNG[Questa tabella mostra le opzioni di montaggio NFS dettagliate per i seguenti tipi di file, file di controllo, file di dati, log di ripristino, ORACLE_HOME, E ORACLE_BASE.]
 
 
 

@@ -74,8 +74,9 @@ NOTE: Durante la configurazione del backup `azacsnap.json` file di configurazion
 
 Accedere al portale Azure > Azure NetApp Files/Volumes per verificare se le snapshot sono state create correttamente.
 
-image:db_ora_azure_anf_snap_01.PNG["Questa schermata mostra due file nell'elenco di snapshot."]
-image:db_ora_azure_anf_snap_02.PNG["Questa schermata mostra otto file nell'elenco di snapshot."]
+image::db_ora_azure_anf_snap_01.PNG[Questa schermata mostra due file nell'elenco di snapshot.]
+
+image::db_ora_azure_anf_snap_02.PNG[Questa schermata mostra otto file nell'elenco di snapshot.]
 
 
 
@@ -167,19 +168,19 @@ Version 19.8.0.0.0
 ----
 . Dalla dashboard di Azure NetApp Files, ripristinare il volume di registro all'ultimo snapshot disponibile. Scegliere *Volume di revert*.
 +
-image:db_ora_azure_anf_restore_01.PNG["Questa schermata mostra il metodo di revversion dello snapshot per i volumi nel dashboard ANF."]
+image::db_ora_azure_anf_restore_01.PNG[Questa schermata mostra il metodo di revversion dello snapshot per i volumi nel dashboard ANF.]
 
 . Confermare il volume di revert e fare clic su *Ripristina* per completare la reversione del volume all'ultimo backup disponibile.
 +
-image:db_ora_azure_anf_restore_02.PNG["Il messaggio \"are you sure you want to do this?\" (sei sicuro di voler eseguire questa operazione?) pagina per la revisione dello snapshot."]
+image::db_ora_azure_anf_restore_02.PNG[Il messaggio "are you sure you want to do this?" (sei sicuro di voler eseguire questa operazione?) pagina per la revisione dello snapshot.]
 
 . Ripetere la stessa procedura per il volume di dati e assicurarsi che il backup contenga la tabella da ripristinare.
 +
-image:db_ora_azure_anf_restore_03.PNG["Questa schermata mostra il metodo di revversion dello snapshot per i volumi di dati nel dashboard ANF."]
+image::db_ora_azure_anf_restore_03.PNG[Questa schermata mostra il metodo di revversion dello snapshot per i volumi di dati nel dashboard ANF.]
 
 . Confermare nuovamente la reversione del volume e fare clic su "Ripristina".
 +
-image:db_ora_azure_anf_restore_04.PNG["Il messaggio \"are you sure you want to do this?\" (sei sicuro di voler eseguire questa operazione?) pagina per la revisione delle snapshot del volume di dati."]
+image::db_ora_azure_anf_restore_04.PNG[Il messaggio "are you sure you want to do this?" (sei sicuro di voler eseguire questa operazione?) pagina per la revisione delle snapshot del volume di dati.]
 
 . Sincronizzare nuovamente i file di controllo se si dispone di più copie e sostituire il vecchio file di controllo con l'ultima copia disponibile.
 +

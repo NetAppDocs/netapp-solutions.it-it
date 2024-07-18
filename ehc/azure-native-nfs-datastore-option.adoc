@@ -41,7 +41,7 @@ NOTE: Contatta Azure e NetApp Solution Architect per pianificare e dimensionare 
 
 Da un punto di vista di alto livello, questa architettura descrive come ottenere connettività del cloud ibrido e portabilità delle applicazioni in ambienti on-premise e Azure. Descrive inoltre l'utilizzo di Azure NetApp Files come datastore NFS supplementare e come opzione di storage in-guest per le macchine virtuali guest ospitate sulla soluzione VMware Azure.
 
-image:vmware-dr-image1.png[""]
+image::vmware-dr-image1.png[dr vmware image1]
 
 
 
@@ -151,12 +151,12 @@ az extension add --name vmware
 . Accedere al portale Azure e a Azure NetApp Files. Verificare l'accesso al servizio Azure NetApp Files e registrare il provider di risorse Azure NetApp Files utilizzando `az provider register` `--namespace Microsoft.NetApp –wait` comando. Dopo la registrazione, creare un account NetApp. Fare riferimento a questo https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["collegamento"^] per i passaggi dettagliati.
 
 
-image:vmware-dr-image2.png[""]
+image::vmware-dr-image2.png[dr vmware image2]
 
 . Dopo aver creato un account NetApp, impostare i pool di capacità con il livello e le dimensioni di servizio richiesti. Per informazioni dettagliate, fare riferimento a questa sezione https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-set-up-capacity-pool["collegamento"^].
 
 
-image:vmware-dr-image3.png[""]
+image::vmware-dr-image3.png[dr vmware image3]
 
 |===
 | Punti da ricordare 
@@ -172,7 +172,7 @@ image:vmware-dr-image3.png[""]
 . Aggiungere un volume NFS per il datastore utilizzando il blade Volumes sotto il blade Capacity Pools.
 
 
-image:vmware-dr-image4.png[""]
+image::vmware-dr-image4.png[dr vmware image4]
 
 Per ulteriori informazioni sulle prestazioni dei volumi Azure NetApp Files in base alle dimensioni o alla quota, vedere link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-performance-considerations["Considerazioni sulle performance per Azure NetApp Files"^].
 
@@ -212,7 +212,7 @@ C:\Users\niyaz>az vmware datastore netapp-volume create --name ANFRecoDSU002 --r
 . Una volta installata la connettività necessaria, i volumi vengono montati come datastore.
 
 
-image:vmware-dr-image5.png[""]
+image::vmware-dr-image5.png[dr vmware image5]
 
 ====
 
@@ -226,7 +226,7 @@ Azure NetApp Files supporta tre livelli di servizio: Standard (16 Mbps per terab
 * Il tipo di qualità del servizio (QoS) (automatico o manuale) del pool di capacità
 
 
-image:vmware-dr-image6.png[""]
+image::vmware-dr-image6.png[dr vmware image6]
 
 Per ulteriori informazioni, vedere https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-service-levels["Livelli di servizio per Azure NetApp Files"^].
 
@@ -319,7 +319,7 @@ I criteri di installazione e protezione possono essere installati completando la
 
 NOTE: Con la tecnologia Snapshot di Azure NetApp Files, i backup e i ripristini sono molto veloci.
 
-image:vmware-dr-image7.png[""]
+image::vmware-dr-image7.png[dr vmware image7]
 
 =====
 .Disaster recovery con Azure NetApp Files, JetStream DR e Azure VMware Solution

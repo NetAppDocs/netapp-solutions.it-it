@@ -116,7 +116,7 @@ L'output dovrebbe essere simile al seguente esempio:
 $tridentctl create backend -f anf-backend.json -n trident
 ....
 +
-image:aks-anf_image8.png[""]
+image::aks-anf_image8.png[aks anf image8]
 
 . Creare una classe di storage. Kubernetes consente agli utenti di eseguire il provisioning dei volumi utilizzando PVC che specificano una classe di storage in base al nome. Chiedere a K8s di creare una classe di storage `azurenetappfiles` Che fa riferimento al backend Trident creato nel passaggio precedente.
 . Creare un YAML (`anf-storage-class.yaml`) per la copia e la classe di storage.
@@ -138,4 +138,4 @@ kubectl get sc azurenetappfiles
 ....
 
 
-image:aks-anf_image9.png[""]
+image::aks-anf_image9.png[aks anf image9]

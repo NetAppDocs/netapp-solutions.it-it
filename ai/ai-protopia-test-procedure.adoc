@@ -77,29 +77,29 @@ To access workspace, navigate to http://192.168.0.152:32721
 ....
 . Accedere all'area di lavoro di JupyterLab utilizzando l'URL specificato nell'output di `create jupyterlab` comando. La directory dei dati rappresenta il volume persistente montato nell'area di lavoro.
 +
-image:ai-protopia-image3.png[""]
+image::ai-protopia-image3.png[protocollo ai image3]
 
 . Aprire `data` directory e caricare i file su cui eseguire la deduzione. Quando i file vengono caricati nella directory dei dati, vengono memorizzati automaticamente sul volume persistente montato nell'area di lavoro. Per caricare i file, fare clic sull'icona Upload Files (carica file), come mostrato nell'immagine seguente.
 +
-image:ai-protopia-image4.png[""]
+image::ai-protopia-image4.png[protocollo ai image4]
 
 . Tornare alla directory di livello superiore e creare un nuovo notebook.
 +
-image:ai-protopia-image5.png[""]
+image::ai-protopia-image5.png[protocollo ai image5]
 
 . Aggiungere il codice di deduzione al notebook. L'esempio seguente mostra il codice di deduzione per un caso d'uso di rilevamento dell'immagine.
 +
-image:ai-protopia-image6.png[""]
+image::ai-protopia-image6.png[protocollo ai image6]
 
 +
-image:ai-protopia-image7.png[""]
+image::ai-protopia-image7.png[protocollo ai image7]
 
 . Aggiungi l'offuscamento di Protopia al tuo codice di deduzione. Protopia collabora direttamente con i clienti per fornire documentazione specifica per il caso d'utilizzo e non rientra nell'ambito di questo report tecnico. Nell'esempio seguente viene illustrato il codice di deduzione per un caso di utilizzo del rilevamento dell'immagine con l'aggiunta dell'offuscamento di Protopia.
 +
-image:ai-protopia-image8.png[""]
+image::ai-protopia-image8.png[protocollo ai image8]
 
 +
-image:ai-protopia-image9.png[""]
+image::ai-protopia-image9.png[protocollo ai image9]
 
 
 
@@ -147,7 +147,7 @@ spec:
           medium: Memory
       containers:
       - name: inference
-        image: netapp-protopia-inference:latest
+        image:: netapp-protopia-inference:latest
         imagePullPolicy: IfNotPresent
         command: ["python3", "run-accuracy-measurement.py", "--dataset", "/data/netapp-face-detection/FDDB"]
         resources:
@@ -209,7 +209,7 @@ spec:
           medium: Memory
       containers:
       - name: inference
-        image: netapp-protopia-inference:latest
+        image:: netapp-protopia-inference:latest
         imagePullPolicy: IfNotPresent
         env:
         - name: ALPHA

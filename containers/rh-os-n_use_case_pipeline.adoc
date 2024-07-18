@@ -24,12 +24,12 @@ Per creare le risorse necessarie per l'implementazione dell'applicazione Jenkins
 
 . Crea un nuovo progetto chiamato Jenkins.
 +
-image:redhat_openshift_image15.jpeg[""]
+image::redhat_openshift_image15.jpeg[redhat openshift image15]
 
 . In questo esempio, abbiamo implementato Jenkins con storage persistente. Per supportare la build Jenkins, creare il PVC. Selezionare Storage > Persistent Volume Claims (Storage > Reclami volumi persistenti) e fare clic su Create Persistent Selezionare la classe di storage creata, assicurarsi che il nome della richiesta di rimborso del volume persistente sia jenkins, selezionare la dimensione e la modalità di accesso appropriate, quindi fare clic su Create (Crea).
 
 
-image:redhat_openshift_image16.png[""]
+image::redhat_openshift_image16.png[redhat openshift image16]
 
 
 
@@ -39,54 +39,54 @@ Per implementare Jenkins con lo storage persistente, attenersi alla seguente pro
 
 . Nell'angolo in alto a sinistra, modificare il ruolo da Amministratore a sviluppatore. Fare clic su +Add (Aggiungi) e selezionare From Catalog (dal catalogo) Nella barra Filtra per parola chiave, cercare jenkins. Selezionare Servizio Jenkins con storage persistente.
 +
-image:redhat_openshift_image17.png[""]
+image::redhat_openshift_image17.png[redhat openshift image17]
 
 . Fare clic su `Instantiate Template`.
 +
-image:redhat_openshift_image18.png[""]
+image::redhat_openshift_image18.png[redhat openshift image18]
 
 . Per impostazione predefinita, i dettagli dell'applicazione Jenkins vengono popolati. In base alle proprie esigenze, modificare i parametri e fare clic su Create (Crea). Questo processo crea tutte le risorse necessarie per supportare Jenkins su OpenShift.
 +
-image:redhat_openshift_image19.jpeg[""]
+image::redhat_openshift_image19.jpeg[redhat openshift image19]
 
 . I pod Jenkins impiegano circa 10 - 12 minuti per entrare nello stato Pronta.
 +
-image:redhat_openshift_image20.png[""]
+image::redhat_openshift_image20.png[redhat openshift image20]
 
 . Una volta creata l'istanza dei pod, accedere a Networking > routes (rete > percorsi). Per aprire la pagina Web di Jenkins, fare clic sull'URL fornito per il percorso jenkins.
 +
-image:redhat_openshift_image21.png[""]
+image::redhat_openshift_image21.png[redhat openshift image21]
 
 . Poiché OpenShift OAuth è stato utilizzato durante la creazione dell'applicazione Jenkins, fare clic su Accedi con OpenShift.
 +
-image:redhat_openshift_image22.jpeg[""]
+image::redhat_openshift_image22.jpeg[redhat openshift image22]
 
 . Autorizzare l'account del servizio Jenkins ad accedere agli utenti OpenShift.
 +
-image:redhat_openshift_image23.jpeg[""]
+image::redhat_openshift_image23.jpeg[redhat openshift image23]
 
 . Viene visualizzata la pagina di benvenuto di Jenkins. Poiché stiamo utilizzando una build Maven, completare prima l'installazione di Maven. Accedere a Manage Jenkins > Global Tool Configuration (Gestisci Jenkins > Configurazione globale strumenti), quindi fare clic su Add Maven (Aggiungi Maven) nella sottotesta di Maven. Immettere il nome desiderato e assicurarsi che l'opzione Installa automaticamente sia selezionata. Fare clic su Salva.
 +
-image:redhat_openshift_image24.png[""]
+image::redhat_openshift_image24.png[redhat openshift image24]
 
 . È ora possibile creare una pipeline per dimostrare il flusso di lavoro ci/CD. Nella home page, fare clic su Create New Jobs (Crea nuovi lavori) o New Item (nuovo elemento) dal menu a sinistra.
 +
-image:redhat_openshift_image25.jpeg[""]
+image::redhat_openshift_image25.jpeg[redhat openshift image25]
 
 . Nella pagina Create Item (Crea elemento), immettere il nome desiderato, selezionare Pipeline e fare clic su OK.
 +
-image:redhat_openshift_image26.png[""]
+image::redhat_openshift_image26.png[redhat openshift image26]
 
 . Selezionare la scheda pipeline. Dal menu a discesa Try Sample Pipeline, selezionare Github + Maven. Il codice viene compilato automaticamente. Fare clic su Salva.
 +
-image:redhat_openshift_image27.png[""]
+image::redhat_openshift_image27.png[redhat openshift image27]
 
 . Fare clic su Build Now (Crea ora) per avviare lo sviluppo attraverso la fase di preparazione, creazione e test. Il completamento dell'intero processo di creazione e la visualizzazione dei risultati della creazione possono richiedere alcuni minuti.
 +
-image:redhat_openshift_image28.png[""]
+image::redhat_openshift_image28.png[redhat openshift image28]
 
 . Ogni volta che si verifica una modifica del codice, la pipeline può essere ricostruita per applicare patch alla nuova versione del software, consentendo un'integrazione continua e un'erogazione continua. Fare clic su Recent Changes (modifiche recenti) per tenere traccia delle modifiche rispetto alla versione precedente.
 +
-image:redhat_openshift_image29.png[""]
+image::redhat_openshift_image29.png[redhat openshift image29]
 
 

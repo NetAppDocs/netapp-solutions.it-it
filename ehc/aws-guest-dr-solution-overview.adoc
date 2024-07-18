@@ -26,7 +26,7 @@ NetApp vanta una lunga storia di integrazione con VMware, come dimostrano le dec
 
 Nello storage connesso agli ospiti, il VMDK guest viene implementato su un datastore con provisioning VMware e i dati delle applicazioni vengono memorizzati su iSCSI o NFS e mappati direttamente sulla macchina virtuale. Le applicazioni Oracle e MS SQL vengono utilizzate per dimostrare uno scenario di DR, come illustrato nella figura seguente.
 
-image:dr-vmc-aws-image1.png[""]
+image::dr-vmc-aws-image1.png[dr vmc aws image1]
 
 
 
@@ -66,7 +66,7 @@ Per il sistema ONTAP di origine residente on-premise, è possibile recuperare le
 
 . In Gestore di sistema di ONTAP, accedere alla pagina Panoramica di rete e recuperare gli indirizzi IP di tipo: Intercluster configurati per comunicare con il VPC di AWS su cui è installato FSX.
 +
-image:dr-vmc-aws-image10.png[""]
+image::dr-vmc-aws-image10.png[dr vmc aws image10]
 
 . Per recuperare gli indirizzi IP dell'Intercluster per FSX, accedere alla CLI ed eseguire il seguente comando:
 +
@@ -74,7 +74,7 @@ image:dr-vmc-aws-image10.png[""]
 FSx-Dest::> network interface show -role intercluster
 ....
 +
-image:dr-vmc-aws-image11.png[""]
+image::dr-vmc-aws-image11.png[dr vmc aws image11]
 
 
 
@@ -93,7 +93,7 @@ Confirm the passphrase:
 ....
 . Nel cluster di origine, è possibile stabilire la relazione peer del cluster utilizzando Gestore di sistema di ONTAP o l'interfaccia CLI. Da Gestore di sistema di ONTAP, accedere a protezione > Panoramica e selezionare cluster peer.
 +
-image:dr-vmc-aws-image12.png[""]
+image::dr-vmc-aws-image12.png[dr vmc aws image12]
 
 . Nella finestra di dialogo Peer Cluster, inserire le informazioni richieste:
 +
@@ -102,7 +102,7 @@ image:dr-vmc-aws-image12.png[""]
 .. Inserire gli indirizzi IP LIF dell'intercluster del cluster FSX di destinazione.
 .. Fare clic su Initiate Cluster peering (Avvia peering cluster) per completare il processo.
 +
-image:dr-vmc-aws-image13.png[""]
+image::dr-vmc-aws-image13.png[dr vmc aws image13]
 
 
 
@@ -112,7 +112,7 @@ image:dr-vmc-aws-image13.png[""]
 FSx-Dest::> cluster peer show
 ....
 +
-image:dr-vmc-aws-image14.png[""]
+image::dr-vmc-aws-image14.png[dr vmc aws image14]
 
 
 
@@ -130,7 +130,7 @@ FSx-Dest::> vserver peer create -vserver DestSVM -peer-vserver Backup -peer-clus
 . Dal cluster ONTAP di origine, accettare la relazione di peering con Gestore di sistema ONTAP o CLI.
 . Da Gestore di sistema ONTAP, andare a protezione > Panoramica e selezionare le VM di storage peer in peer di macchine virtuali di storage.
 +
-image:dr-vmc-aws-image15.png[""]
+image::dr-vmc-aws-image15.png[dr vmc aws image15]
 
 . Nella finestra di dialogo Peer Storage VM, compilare i campi obbligatori:
 +
@@ -138,7 +138,7 @@ image:dr-vmc-aws-image15.png[""]
 ** Il cluster di destinazione
 ** La VM di storage di destinazione
 +
-image:dr-vmc-aws-image16.png[""]
+image::dr-vmc-aws-image16.png[dr vmc aws image16]
 
 
 
@@ -158,7 +158,7 @@ NOTE: Sullo storage secondario, queste etichette vengono associate alle regole d
 
 L'esempio seguente mostra un'etichetta SnapMirror presente su tutte le snapshot generate come parte di una policy utilizzata per i backup giornalieri del database SQL Server e dei volumi di log.
 
-image:dr-vmc-aws-image17.png[""]
+image::dr-vmc-aws-image17.png[dr vmc aws image17]
 
 Per ulteriori informazioni sulla creazione di criteri SnapCenter per un database SQL Server, vedere https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_create_backup_policies_for_sql_server_databases.html["Documentazione SnapCenter"^].
 
@@ -240,15 +240,15 @@ Per aggiungere controller di storage a SnapCenter, attenersi alla seguente proce
 
 . Dal menu a sinistra, selezionare sistemi storage, quindi fare clic su nuovo per avviare il processo di aggiunta dei controller storage a SnapCenter.
 +
-image:dr-vmc-aws-image18.png[""]
+image::dr-vmc-aws-image18.png[dr vmc aws image18]
 
 . Nella finestra di dialogo Aggiungi sistema di storage, aggiungere l'indirizzo IP di gestione del cluster ONTAP locale on-premise e il nome utente e la password. Quindi fare clic su Submit (Invia) per avviare il rilevamento del sistema storage.
 +
-image:dr-vmc-aws-image19.png[""]
+image::dr-vmc-aws-image19.png[dr vmc aws image19]
 
 . Ripetere questa procedura per aggiungere il sistema FSX ONTAP a SnapCenter. In questo caso, selezionare More Options (altre opzioni) nella parte inferiore della finestra Add Storage System (Aggiungi sistema di storage) e fare clic sulla casella di controllo Secondary (secondario) per designare il sistema FSX come sistema di storage secondario aggiornato con le copie SnapMirror o le snapshot di backup primarie.
 +
-image:dr-vmc-aws-image20.png[""]
+image::dr-vmc-aws-image20.png[dr vmc aws image20]
 
 
 
@@ -263,11 +263,11 @@ Il passaggio successivo consiste nell'aggiungere server applicazioni host a Snap
 . Dal menu a sinistra, selezionare host, quindi fare clic su Aggiungi per avviare il processo di aggiunta dei controller di storage a SnapCenter.
 . Nella finestra Add hosts (Aggiungi host), aggiungere il tipo di host, il nome host e le credenziali del sistema host. Selezionare il tipo di plug-in. Per SQL Server, selezionare il plug-in Microsoft Windows e Microsoft SQL Server.
 +
-image:dr-vmc-aws-image21.png[""]
+image::dr-vmc-aws-image21.png[dr vmc aws image21]
 
 . Per Oracle, compilare i campi obbligatori nella finestra di dialogo Add host (Aggiungi host) e selezionare la casella di controllo per il plug-in Oracle Database. Fare clic su Submit (Invia) per avviare il processo di rilevamento e aggiungere l'host a SnapCenter.
 +
-image:dr-vmc-aws-image22.png[""]
+image::dr-vmc-aws-image22.png[dr vmc aws image22]
 
 
 
@@ -279,7 +279,7 @@ I criteri stabiliscono le regole specifiche da seguire per un processo di backup
 
 È possibile accedere ai criteri nella sezione Impostazioni del client Web di SnapCenter.
 
-image:dr-vmc-aws-image23.png[""]
+image::dr-vmc-aws-image23.png[dr vmc aws image23]
 
 Per informazioni complete sulla creazione di criteri per i backup di SQL Server, vedere https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_create_backup_policies_for_sql_server_databases.html["Documentazione SnapCenter"^].
 
@@ -294,7 +294,7 @@ Per informazioni complete sulla creazione di policy per i backup Oracle, vedere 
 
 L'immagine seguente mostra le opzioni precedenti e l'aspetto della procedura guidata dei criteri di backup.
 
-image:dr-vmc-aws-image24.png[""]
+image::dr-vmc-aws-image24.png[dr vmc aws image24]
 
 ====
 .Creare gruppi di risorse SnapCenter
@@ -306,7 +306,7 @@ I gruppi di risorse consentono di selezionare le risorse di database che si desi
 . Nella parte superiore della finestra, selezionare il tipo di risorsa da utilizzare (in questo caso Microsoft SQL Server), quindi fare clic su New Resource Group (nuovo gruppo di risorse).
 
 
-image:dr-vmc-aws-image25.png[""]
+image::dr-vmc-aws-image25.png[dr vmc aws image25]
 
 La documentazione di SnapCenter illustra i dettagli passo-passo per la creazione di gruppi di risorse per database SQL Server e Oracle.
 
@@ -339,32 +339,32 @@ Innanzitutto, aggiungere il cluster di storage ONTAP e il relativo file system S
 
 . Aprire la console Veeam ed effettuare l'accesso. Accedere a Storage Infrastructure (infrastruttura storage) e selezionare Add Storage (Aggiungi storage).
 +
-image:dr-vmc-aws-image26.png[""]
+image::dr-vmc-aws-image26.png[dr vmc aws image26]
 
 . Nella procedura guidata Aggiungi storage, selezionare NetApp come vendor dello storage, quindi selezionare Data ONTAP.
 . Inserire l'indirizzo IP di gestione e selezionare la casella NAS Filer (Filer NAS). Fare clic su Avanti.
 +
-image:dr-vmc-aws-image27.png[""]
+image::dr-vmc-aws-image27.png[dr vmc aws image27]
 
 . Aggiungere le credenziali per accedere al cluster ONTAP.
 +
-image:dr-vmc-aws-image28.png[""]
+image::dr-vmc-aws-image28.png[dr vmc aws image28]
 
 . Nella pagina NAS Filer (Filer NAS), scegliere i protocolli desiderati per la scansione e selezionare Next (Avanti).
 +
-image:dr-vmc-aws-image29.png[""]
+image::dr-vmc-aws-image29.png[dr vmc aws image29]
 
 . Completare le pagine Apply (Applica) e Summary (Riepilogo) della procedura guidata e fare clic su Finish (fine) per avviare il processo di rilevamento dello storage. Al termine della scansione, il cluster ONTAP viene aggiunto insieme ai filer NAS come risorse disponibili.
 +
-image:dr-vmc-aws-image30.png[""]
+image::dr-vmc-aws-image30.png[dr vmc aws image30]
 
 . Creare un repository di backup utilizzando le condivisioni NAS appena rilevate. Da Backup Infrastructure (infrastruttura di backup), selezionare Backup Repository (repository di backup) e fare clic sulla voce di menu Add Repository (Aggiungi repository).
 +
-image:dr-vmc-aws-image31.png[""]
+image::dr-vmc-aws-image31.png[dr vmc aws image31]
 
 . Seguire tutti i passaggi della procedura guidata nuovo repository di backup per creare il repository. Per informazioni dettagliate sulla creazione di repository di backup Veeam, vedere https://www.veeam.com/documentation-guides-datasheets.html["Documentazione Veeam"^].
 +
-image:dr-vmc-aws-image32.png[""]
+image::dr-vmc-aws-image32.png[dr vmc aws image32]
 
 
 
@@ -376,16 +376,16 @@ Il passaggio successivo consiste nell'aggiungere lo storage Amazon S3 come repos
 
 . Accedere a infrastruttura di backup > Repository di backup. Fare clic su Add Repository (Aggiungi repository).
 +
-image:dr-vmc-aws-image33.png[""]
+image::dr-vmc-aws-image33.png[dr vmc aws image33]
 
 . Nella procedura guidata Aggiungi repository di backup, selezionare Archivio oggetti, quindi Amazon S3. Viene avviata la procedura guidata nuovo archivio oggetti.
 +
-image:dr-vmc-aws-image34.png[""]
+image::dr-vmc-aws-image34.png[dr vmc aws image34]
 
 . Fornire un nome per il repository di storage a oggetti e fare clic su Next (Avanti).
 . Nella sezione successiva, fornire le credenziali. Sono necessari una chiave di accesso AWS e una chiave segreta.
 +
-image:dr-vmc-aws-image35.png[""]
+image::dr-vmc-aws-image35.png[dr vmc aws image35]
 
 . Una volta caricata la configurazione Amazon, scegliere il data center, il bucket e la cartella e fare clic su Apply (Applica). Infine, fare clic su fine per chiudere la procedura guidata.
 
@@ -398,17 +398,17 @@ Ora che abbiamo aggiunto i nostri repository di storage a Veeam, possiamo creare
 
 . Da Backup Infrastructure (infrastruttura di backup), selezionare Scale-out Repository (repository scale-out), quindi fare clic sulla voce di menu Add Scale-out Repository (Aggiungi repository scale-out).
 +
-image:dr-vmc-aws-image37.png[""]
+image::dr-vmc-aws-image37.png[dr vmc aws image37]
 
 . Nel nuovo repository di backup scale-out, immettere un nome per il SOBR e fare clic su Avanti.
 . Per il livello di performance, scegliere il repository di backup che contiene la condivisione SMB che risiede nel cluster ONTAP locale.
 +
-image:dr-vmc-aws-image38.png[""]
+image::dr-vmc-aws-image38.png[dr vmc aws image38]
 
 . Per la policy di posizionamento, scegli la localizzazione dei dati o le performance in base ai tuoi requisiti. Selezionare Avanti.
 . Per il livello di capacità estendiamo il SOBR con lo storage a oggetti Amazon S3. Ai fini del disaster recovery, selezionare Copy Backup to Object Storage (Copia backup su storage a oggetti) non appena vengono creati per garantire la consegna tempestiva dei backup secondari.
 +
-image:dr-vmc-aws-image39.png[""]
+image::dr-vmc-aws-image39.png[dr vmc aws image39]
 
 . Infine, selezionare Apply (Applica) e Finish (fine) per finalizzare la creazione del SOBR.
 
@@ -520,19 +520,19 @@ Una volta aperta la pagina Swagger, è necessario recuperare un token di autoriz
 
 . Accedere alla pagina Web dell'API di swagger SnapCenter all'indirizzo _/https://<SnapCenter Server IP>:8146/swagger/_.
 +
-image:dr-vmc-aws-image40.png[""]
+image::dr-vmc-aws-image40.png[dr vmc aws image40]
 
 . Espandere la sezione Auth e fare clic su Provalo.
 +
-image:dr-vmc-aws-image41.png[""]
+image::dr-vmc-aws-image41.png[dr vmc aws image41]
 
 . Nell'area UserOperationContext, inserire le credenziali e il ruolo SnapCenter e fare clic su Esegui.
 +
-image:dr-vmc-aws-image42.png[""]
+image::dr-vmc-aws-image42.png[dr vmc aws image42]
 
 . Nel corpo di risposta riportato di seguito, è possibile visualizzare il token. Copiare il testo del token per l'autenticazione durante l'esecuzione del processo di backup.
 +
-image:dr-vmc-aws-image43.png[""]
+image::dr-vmc-aws-image43.png[dr vmc aws image43]
 
 
 
@@ -544,11 +544,11 @@ Quindi, accedere all'area Disaster Recovery della pagina Swagger per avviare il 
 
 . Espandere l'area Disaster Recovery facendo clic su di essa.
 +
-image:dr-vmc-aws-image44.png[""]
+image::dr-vmc-aws-image44.png[dr vmc aws image44]
 
 . Espandere `/4.6/disasterrecovery/server/backup` E fare clic su Provalo.
 +
-image:dr-vmc-aws-image45.png[""]
+image::dr-vmc-aws-image45.png[dr vmc aws image45]
 
 . Nella sezione SmDRBackupRequest, aggiungere il percorso di destinazione locale corretto e selezionare Execute (Esegui) per avviare il backup del database e della configurazione di SnapCenter.
 +
@@ -556,7 +556,7 @@ image:dr-vmc-aws-image45.png[""]
 NOTE: Il processo di backup non consente il backup diretto su una condivisione file NFS o CIFS.
 
 +
-image:dr-vmc-aws-image46.png[""]
+image::dr-vmc-aws-image46.png[dr vmc aws image46]
 
 
 
@@ -566,7 +566,7 @@ image:dr-vmc-aws-image46.png[""]
 =====
 Accedere a SnapCenter per esaminare i file di registro quando si avvia il processo di ripristino del database. Nella sezione Monitor, è possibile visualizzare i dettagli del backup di disaster recovery del server SnapCenter.
 
-image:dr-vmc-aws-image47.png[""]
+image::dr-vmc-aws-image47.png[dr vmc aws image47]
 
 =====
 .Utilizzare l'utility XCOPY per copiare il file di backup del database nella condivisione SMB
@@ -619,19 +619,19 @@ Per avviare il processo di ripristino, attenersi alla seguente procedura:
 . Accedere alla pagina Web API Swagger per il server SnapCenter secondario e seguire le istruzioni precedenti per ottenere un token di autorizzazione.
 . Accedere alla sezione Disaster Recovery della pagina Swagger e selezionare `/4.6/disasterrecovery/server/restore`E fare clic su Provalo.
 +
-image:dr-vmc-aws-image48.png[""]
+image::dr-vmc-aws-image48.png[dr vmc aws image48]
 
 . Incollare il token di autorizzazione e, nella sezione SmDRResterRequest, incollare il nome del backup e la directory locale sul server SnapCenter secondario.
 +
-image:dr-vmc-aws-image49.png[""]
+image::dr-vmc-aws-image49.png[dr vmc aws image49]
 
 . Selezionare il pulsante Execute (Esegui) per avviare il processo di ripristino.
 . Da SnapCenter, accedere alla sezione Monitor per visualizzare l'avanzamento del processo di ripristino.
 +
-image:dr-vmc-aws-image50.png[""]
+image::dr-vmc-aws-image50.png[dr vmc aws image50]
 
 +
-image:dr-vmc-aws-image51.png[""]
+image::dr-vmc-aws-image51.png[dr vmc aws image51]
 
 . Per abilitare i ripristini di SQL Server dallo storage secondario, è necessario attivare la modalità di disaster recovery nel database SnapCenter. Questa operazione viene eseguita come operazione separata e avviata sulla pagina Web API di Swagger.
 +
@@ -640,7 +640,7 @@ image:dr-vmc-aws-image51.png[""]
 .. Nella sezione SmSetDisasterRecoverySettingsRequest, modificare `EnableDisasterRecover` a. `true`.
 .. Fare clic su Execute (Esegui) per attivare la modalità di disaster recovery per SQL Server.
 +
-image:dr-vmc-aws-image52.png[""]
+image::dr-vmc-aws-image52.png[dr vmc aws image52]
 
 +
 
@@ -664,23 +664,23 @@ Per importare i backup dall'oggetto S3 che faceva parte del repository di backup
 
 . Accedere a Backup Repository e fare clic su Add Repository (Aggiungi repository) nel menu in alto per avviare la procedura guidata Add Backup Repository (Aggiungi repository di backup). Nella prima pagina della procedura guidata, selezionare Object Storage come tipo di repository di backup.
 +
-image:dr-vmc-aws-image53.png[""]
+image::dr-vmc-aws-image53.png[dr vmc aws image53]
 
 . Selezionare Amazon S3 come tipo di storage a oggetti.
 +
-image:dr-vmc-aws-image54.png[""]
+image::dr-vmc-aws-image54.png[dr vmc aws image54]
 
 . Dall'elenco di Amazon Cloud Storage Services, selezionare Amazon S3.
 +
-image:dr-vmc-aws-image55.png[""]
+image::dr-vmc-aws-image55.png[dr vmc aws image55]
 
 . Selezionare le credenziali preinserite dall'elenco a discesa o aggiungere una nuova credenziale per accedere alla risorsa di storage cloud. Fare clic su Next (Avanti) per continuare.
 +
-image:dr-vmc-aws-image56.png[""]
+image::dr-vmc-aws-image56.png[dr vmc aws image56]
 
 . Nella pagina bucket, inserire il data center, il bucket, la cartella e le opzioni desiderate. Fare clic su Applica.
 +
-image:dr-vmc-aws-image57.png[""]
+image::dr-vmc-aws-image57.png[dr vmc aws image57]
 
 . Infine, selezionare fine per completare il processo e aggiungere il repository.
 
@@ -693,15 +693,15 @@ Per importare i backup dal repository S3 aggiunto nella sezione precedente, atte
 
 . Dal repository di backup S3, selezionare Importa backup per avviare la procedura guidata di importazione dei backup.
 +
-image:dr-vmc-aws-image58.png[""]
+image::dr-vmc-aws-image58.png[dr vmc aws image58]
 
 . Dopo aver creato i record del database per l'importazione, selezionare Avanti, quindi fine nella schermata di riepilogo per avviare il processo di importazione.
 +
-image:dr-vmc-aws-image59.png[""]
+image::dr-vmc-aws-image59.png[dr vmc aws image59]
 
 . Una volta completata l'importazione, è possibile ripristinare le macchine virtuali nel cluster VMware Cloud.
 +
-image:dr-vmc-aws-image60.png[""]
+image::dr-vmc-aws-image60.png[dr vmc aws image60]
 
 
 
@@ -713,30 +713,30 @@ Per ripristinare le macchine virtuali SQL e Oracle su VMware Cloud su cluster/do
 
 . Dalla home page di Veeam, selezionare lo storage a oggetti contenente i backup importati, selezionare le macchine virtuali da ripristinare, quindi fare clic con il pulsante destro del mouse e selezionare Restore entire VM (Ripristina intera macchina virtuale).
 +
-image:dr-vmc-aws-image61.png[""]
+image::dr-vmc-aws-image61.png[dr vmc aws image61]
 
 . Nella prima pagina della procedura guidata di ripristino completo della macchina virtuale, modificare le macchine virtuali per il backup, se necessario, e selezionare Avanti.
 +
-image:dr-vmc-aws-image62.png[""]
+image::dr-vmc-aws-image62.png[dr vmc aws image62]
 
 . Nella pagina Restore Mode (modalità ripristino), selezionare Restore to a New Location (Ripristina in una nuova posizione) o with different Settings (con impostazioni diverse).
 +
-image:dr-vmc-aws-image63.png[""]
+image::dr-vmc-aws-image63.png[dr vmc aws image63]
 
 . Nella pagina host, selezionare l'host o il cluster ESXi di destinazione su cui ripristinare la macchina virtuale.
 +
-image:dr-vmc-aws-image64.png[""]
+image::dr-vmc-aws-image64.png[dr vmc aws image64]
 
 . Nella pagina datastore, selezionare la posizione del datastore di destinazione per i file di configurazione e il disco rigido.
 +
-image:dr-vmc-aws-image65.png[""]
+image::dr-vmc-aws-image65.png[dr vmc aws image65]
 
 . Nella pagina Network (rete), mappare le reti originali sulla macchina virtuale alle reti nella nuova posizione di destinazione.
 +
-image:dr-vmc-aws-image66.png[""]
+image::dr-vmc-aws-image66.png[dr vmc aws image66]
 
 +
-image:dr-vmc-aws-image67.png[""]
+image::dr-vmc-aws-image67.png[dr vmc aws image67]
 
 . Selezionare se eseguire la scansione della macchina virtuale ripristinata alla ricerca di malware, esaminare la pagina di riepilogo e fare clic su Finish (fine) per avviare il ripristino.
 
@@ -802,22 +802,22 @@ FSx-Dest::> lun mapping create -vserver DestSVM -path LUNPath igroup igroupName
 . Aprire l'utility iSCSI Initiator Properties (Proprietà iSCSI Initiator) e cancellare le vecchie impostazioni di connettività nelle schede Discovery (rilevamento), Favorite Targets (destinazioni preferite) e Targets (destinazioni).
 . Individuare gli indirizzi IP per l'accesso all'interfaccia logica iSCSI sull'istanza/cluster FSX. Questa opzione si trova nella console AWS in Amazon FSX > ONTAP > Storage Virtual Machines (Impostazioni > macchine virtuali di storage).
 +
-image:dr-vmc-aws-image68.png[""]
+image::dr-vmc-aws-image68.png[dr vmc aws image68]
 
 . Dalla scheda Discovery (rilevamento), fare clic su Discover Portal (Scopri portale) e inserire gli indirizzi IP per le destinazioni iSCSI FSX.
 +
-image:dr-vmc-aws-image69.png[""]
+image::dr-vmc-aws-image69.png[dr vmc aws image69]
 
 +
-image:dr-vmc-aws-image70.png[""]
+image::dr-vmc-aws-image70.png[dr vmc aws image70]
 
 . Nella scheda Target, fare clic su Connect (Connetti), selezionare Enable Multi-Path (attiva percorso multiplo) se appropriato per la configurazione, quindi fare clic su OK per connettersi alla destinazione.
 +
-image:dr-vmc-aws-image71.png[""]
+image::dr-vmc-aws-image71.png[dr vmc aws image71]
 
 . Aprire l'utility Gestione computer e portare i dischi in linea. Verificare che conservino le stesse lettere di unità in precedenza.
 +
-image:dr-vmc-aws-image72.png[""]
+image::dr-vmc-aws-image72.png[dr vmc aws image72]
 
 
 
@@ -827,16 +827,16 @@ image:dr-vmc-aws-image72.png[""]
 ====
 . Da SQL Server VM, aprire Microsoft SQL Server Management Studio e selezionare Allega per avviare il processo di connessione al database.
 +
-image:dr-vmc-aws-image73.png[""]
+image::dr-vmc-aws-image73.png[dr vmc aws image73]
 
 . Fare clic su Add (Aggiungi) e accedere alla cartella contenente il file di database primario di SQL Server, selezionarlo e fare clic su OK.
 +
-image:dr-vmc-aws-image74.png[""]
+image::dr-vmc-aws-image74.png[dr vmc aws image74]
 
 . Se i log delle transazioni si trovano su un'unità separata, scegliere la cartella che contiene il log delle transazioni.
 . Al termine, fare clic su OK per allegare il database.
 +
-image:dr-vmc-aws-image75.png[""]
+image::dr-vmc-aws-image75.png[dr vmc aws image75]
 
 
 
@@ -854,7 +854,7 @@ Una volta ripristinato lo stato precedente, il database SnapCenter rileva automa
 
 Per verificare che SnapCenter sia in modalità di disaster recovery, accedere a Impostazioni dal client Web di SnapCenter. Accedere alla scheda Global Settings (Impostazioni globali) e fare clic su Disaster Recovery (Ripristino di emergenza). Assicurarsi che la casella di controllo Enable Disaster Recovery (attiva Disaster Recovery) sia attivata.
 
-image:dr-vmc-aws-image76.png[""]
+image::dr-vmc-aws-image76.png[dr vmc aws image76]
 
 ====
 
@@ -880,7 +880,7 @@ Per rendere accessibili ai server Oracle i volumi di storage secondari ospitati 
 FSx-Dest::> volume show -volume VolumeName*
 ....
 +
-image:dr-vmc-aws-image77.png[""]
+image::dr-vmc-aws-image77.png[dr vmc aws image77]
 
 . Eseguire il seguente comando per interrompere le relazioni SnapMirror esistenti.
 +
@@ -888,15 +888,15 @@ image:dr-vmc-aws-image77.png[""]
 FSx-Dest::> snapmirror break -destination-path DestSVM:DestVolName
 ....
 +
-image:dr-vmc-aws-image78.png[""]
+image::dr-vmc-aws-image78.png[dr vmc aws image78]
 
 . Aggiornare il percorso di giunzione nel client Web Amazon FSX:
 +
-image:dr-vmc-aws-image79.png[""]
+image::dr-vmc-aws-image79.png[dr vmc aws image79]
 
 . Aggiungere il nome del percorso di giunzione e fare clic su Update (Aggiorna). Specificare questo percorso di giunzione quando si monta il volume NFS dal server Oracle.
 +
-image:dr-vmc-aws-image80.png[""]
+image::dr-vmc-aws-image80.png[dr vmc aws image80]
 
 
 
@@ -908,14 +908,14 @@ In Cloud Manager, è possibile ottenere il comando mount con l'indirizzo IP NFS 
 
 . In Cloud Manager, accedi all'elenco dei volumi per il cluster FSX.
 +
-image:dr-vmc-aws-image81.png[""]
+image::dr-vmc-aws-image81.png[dr vmc aws image81]
 
 . Dal menu delle azioni, selezionare Mount Command per visualizzare e copiare il comando mount da utilizzare sul server Oracle Linux.
 +
-image:dr-vmc-aws-image82.png[""]
+image::dr-vmc-aws-image82.png[dr vmc aws image82]
 
 +
-image:dr-vmc-aws-image83.png[""]
+image::dr-vmc-aws-image83.png[dr vmc aws image83]
 
 . Montare il file system NFS su Oracle Linux Server. Le directory per il montaggio della condivisione NFS esistono già sull'host Oracle Linux.
 . Dal server Oracle Linux, utilizzare il comando mount per montare i volumi NFS.

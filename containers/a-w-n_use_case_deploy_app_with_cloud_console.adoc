@@ -36,23 +36,23 @@ Per implementare un'applicazione in questo modo, attenersi alla seguente procedu
 
 . Verificare che il cluster a cui si desidera eseguire l'implementazione sia accessibile in Google Cloud Console.
 +
-image:a-w-n_use_case_deploy_app-10.png["Cluster registrati"]
+image::a-w-n_use_case_deploy_app-10.png[Cluster registrati]
 
 . Selezionare applicazioni dal menu a sinistra, selezionare il menu delle opzioni a tre punti in alto e scegliere Deploy from Marketplace, che apre una nuova finestra dalla quale selezionare un'applicazione da Google Cloud Marketplace.
 +
-image:a-w-n_use_case_deploy_app-09.png["Application Marketplace"]
+image::a-w-n_use_case_deploy_app-09.png[Application Marketplace]
 
 . Cercare l'applicazione che si desidera installare, in questo caso WordPress.
 +
-image:a-w-n_use_case_deploy_app-08.png["Cerca in WordPress"]
+image::a-w-n_use_case_deploy_app-08.png[Cerca in WordPress]
 
 . Dopo aver selezionato l'applicazione WordPress, viene visualizzata una schermata di panoramica. Fare clic sul pulsante Configure (Configura).
 +
-image:a-w-n_use_case_deploy_app-07.png["Schermata Panoramica di WordPress"]
+image::a-w-n_use_case_deploy_app-07.png[Schermata Panoramica di WordPress]
 
 . Nella pagina successiva è necessario selezionare il cluster in cui eseguire l'implementazione, nel nostro caso Demo-Cluster. Selezionare o creare un nuovo namespace e un nuovo nome di istanza dell'applicazione, quindi selezionare le classi di storage e le dimensioni dei volumi persistenti necessarie per l'applicazione WordPress e il relativo database MariaDB di supporto. In entrambi i casi, abbiamo scelto la classe di storage ONTAP-NAS-CSI.
 +
-image:a-w-n_use_case_deploy_app-06.png["Configurazione di WordPress"]
+image::a-w-n_use_case_deploy_app-06.png[Configurazione di WordPress]
 
 +
 
@@ -60,11 +60,11 @@ NOTE: Non selezionare Enable public IP Access (attiva accesso IP pubblico). In q
 
 . Dopo aver fatto clic sul pulsante Deploy (implementa), viene visualizzata una pagina contenente i dettagli dell'applicazione. È possibile aggiornare questa pagina o accedere al cluster utilizzando la CLI per controllare lo stato dell'implementazione.
 +
-image:a-w-n_use_case_deploy_app-05.png["Dettagli dell'applicazione"]
+image::a-w-n_use_case_deploy_app-05.png[Dettagli dell'applicazione]
 
 . La CLI può essere utilizzata per controllare lo stato dell'applicazione durante la distribuzione eseguendo il comando per recuperare le informazioni sul pod nello spazio dei nomi dell'applicazione: `kubectl get pods -n anthos-wp`.
 +
-image:a-w-n_use_case_deploy_app-04.png["Kubectl ottiene i pod"]
+image::a-w-n_use_case_deploy_app-04.png[Kubectl ottiene i pod]
 
 +
 
@@ -72,7 +72,7 @@ NOTE: Notare in questa schermata che esiste un pod deployer in uno stato di erro
 
 . Dopo alcuni istanti, verificare che l'applicazione sia in esecuzione.
 +
-image:a-w-n_use_case_deploy_app-03.png["Applicazione in esecuzione"]
+image::a-w-n_use_case_deploy_app-03.png[Applicazione in esecuzione]
 
 
 
@@ -90,22 +90,22 @@ Una volta implementata l'applicazione, è possibile assegnarla a un IP raggiungi
 
 . In Google Cloud Console, fare clic su Services and Ingress (servizi e ingresso) nel menu a sinistra.
 +
-image:a-w-n_use_case_deploy_app-11.png["Services e Ingress"]
+image::a-w-n_use_case_deploy_app-11.png[Services e Ingress]
 
 . Fare clic su `wordpress-wordpress-svc` servizio. Viene visualizzata la schermata Dettagli servizio. Fare clic sul pulsante Edit (Modifica) nella parte superiore.
 +
-image:a-w-n_use_case_deploy_app-12.png["Modificare i dettagli del servizio"]
+image::a-w-n_use_case_deploy_app-12.png[Modificare i dettagli del servizio]
 
 . Viene visualizzata la pagina editing Service Details contenente le informazioni YAML relative al servizio. Scorrere verso il basso fino a visualizzare `spec:` e il `type:` valore, impostato su `ClusterIP`. Impostare questo valore su `LoadBalancer` E fare clic sul pulsante Save (Salva).
 +
-image:a-w-n_use_case_deploy_app-13.png["Digitare ClusterIP value (valore IP cluster)"]
+image::a-w-n_use_case_deploy_app-13.png[Digitare ClusterIP value (valore IP cluster)]
 
 +
-image:a-w-n_use_case_deploy_app-14.png["Digitare LoadBalancer value"]
+image::a-w-n_use_case_deploy_app-14.png[Digitare LoadBalancer value]
 
 . Quando si torna alla pagina Service Details (Dettagli servizio), il `Type:` ora gli elenchi `LoadBalancer` e a. `External endpoints:` Il campo elenca un indirizzo IP assegnato dal pool di MetalLB e la porta attraverso la quale l'applicazione è accessibile.
 +
-image:a-w-n_use_case_deploy_app-15.png["Dettagli del servizio finali"]
+image::a-w-n_use_case_deploy_app-15.png[Dettagli del servizio finali]
 
 
 
@@ -117,7 +117,7 @@ image:a-w-n_use_case_deploy_app-15.png["Dettagli del servizio finali"]
 
 . Elencare i servizi associati ai pod nello spazio dei nomi con `kubectl get services -n anthos-wp` comando.
 +
-image:a-w-n_use_case_deploy_app-02.png["List Services (servizi elenco)"]
+image::a-w-n_use_case_deploy_app-02.png[List Services (servizi elenco)]
 
 . Modificare il tipo di servizio da `ClusterIP` per digitare `Loadbalancer` utilizzando il seguente comando:
 +
@@ -129,7 +129,7 @@ kubectl patch svc wordpress-wordpress-svc -p '{"spec": {"type": "LoadBalancer"}}
 A questo nuovo tipo di servizio viene assegnato automaticamente un indirizzo IP disponibile dal pool di MetalLB.
 
 +
-image:a-w-n_use_case_deploy_app-01.png["Servizio di patch per il bilanciamento del carico di lavoro"]
+image::a-w-n_use_case_deploy_app-01.png[Servizio di patch per il bilanciamento del carico di lavoro]
 
 
 
@@ -139,4 +139,4 @@ image:a-w-n_use_case_deploy_app-01.png["Servizio di patch per il bilanciamento d
 
 Ora che l'applicazione è esposta con un indirizzo IP pubblicamente raggiungibile, è possibile visitare la propria istanza di WordPress utilizzando un browser.
 
-image:a-w-n_use_case_deploy_app-00.png["Wordpress nel browser"]
+image::a-w-n_use_case_deploy_app-00.png[Wordpress nel browser]

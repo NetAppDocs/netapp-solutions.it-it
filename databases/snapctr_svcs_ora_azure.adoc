@@ -153,43 +153,43 @@ L'implementazione richiede i seguenti prerequisiti.
 ====
 . Accedi alla console BlueXP.
 +
-image:snapctr_svcs_connector_02-canvas.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_connector_02-canvas.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Fare clic sulla freccia a discesa *connettore* e *Aggiungi connettore* per avviare il flusso di lavoro di provisioning del connettore.
 +
-image:snapctr_svcs_connector_03-addc.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_connector_03-addc.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Scegli il tuo cloud provider (in questo caso, *Microsoft Azure*).
 +
-image:snapctr_svcs_connector_04-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_connector_04-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Saltare i passaggi *Permission*, *Authentication* e *Networking* se sono già stati configurati nell'account Azure. In caso contrario, è necessario configurarli prima di procedere. Da qui, è anche possibile recuperare le autorizzazioni per la policy di Azure a cui si fa riferimento nella sezione precedente "<<Preparazione al BlueXP>>."
 +
-image:snapctr_svcs_connector_05-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_connector_05-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Fare clic su *Salta a distribuzione* per configurare il connettore *autenticazione macchina virtuale*. Aggiungi la coppia di chiavi SSH che hai creato nel gruppo di risorse Azure durante l'onboarding alla preparazione BlueXP per l'autenticazione del sistema operativo del connettore.
 +
-image:snapctr_svcs_connector_06-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_connector_06-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Fornire un nome per l'istanza del connettore, selezionare *Crea* e accettare il *Nome ruolo* predefinito in *Dettagli*, quindi scegliere l'abbonamento per l'account Azure.
 +
-image:snapctr_svcs_connector_07-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_connector_07-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Configurare la rete con *VNET*, *Subnet* e disattivare *Public IP*, ma assicurarsi che il connettore disponga dell'accesso a Internet nell'ambiente Azure.
 +
-image:snapctr_svcs_connector_08-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_connector_08-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Configurare il *Gruppo di sicurezza* per il connettore che consente l'accesso HTTP, HTTPS e SSH.
 +
-image:snapctr_svcs_connector_09-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_connector_09-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Esaminare la pagina di riepilogo e fare clic su *Aggiungi* per avviare la creazione del connettore. In genere occorrono circa 10 minuti per completare l'implementazione. Una volta completata l'operazione, la VM di istanza del connettore viene visualizzata nel portale di Azure.
 +
-image:snapctr_svcs_connector_10-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_connector_10-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Dopo l'attivazione del connettore, il connettore appena creato viene visualizzato nell'elenco a discesa *connettore*.
 +
-image:snapctr_svcs_connector_11-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_connector_11-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 
 
@@ -202,20 +202,18 @@ image:snapctr_svcs_connector_11-azure.png["Schermata che mostra questo passaggio
 ====
 . Fare clic sull'icona delle impostazioni nell'angolo superiore destro della console BlueXP per aprire la pagina *credenziali account*, fare clic su *Aggiungi credenziali* per avviare il flusso di lavoro di configurazione delle credenziali.
 +
-image:snapctr_svcs_credential_01-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_credential_01-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Scegliere la posizione delle credenziali come - *Microsoft Azure - BlueXP*.
 +
-image:snapctr_svcs_credential_02-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_credential_02-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Definisci le credenziali di Azure con *Client Secret*, *Client ID* e *Tenant ID* appropriati, che dovrebbero essere state raccolte durante il precedente processo di onboarding di BlueXP.
 +
-image:snapctr_svcs_credential_03-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_credential_03-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
-. Rivedi e *Aggiungi*.
-image:snapctr_svcs_credential_04-azure.png["Schermata che mostra questo passaggio nella GUI."]
-. Potrebbe inoltre essere necessario associare un abbonamento *Marketplace* alla credenziale.
-image:snapctr_svcs_credential_05-azure.png["Schermata che mostra questo passaggio nella GUI."]
+. Rivedi e *Aggiungi*. Immagine::snapctr_svcs_credential_04-Azure.png["schermata che mostra questo passaggio nella GUI."]
+. Potrebbe inoltre essere necessario associare un abbonamento *Marketplace* alla credenziale. Immagine::snapctr_svcs_credential_05-Azure.png["schermata che mostra questo passaggio nella GUI."]
 
 
 ====
@@ -229,52 +227,54 @@ Con la credenziale Azure configurata, i servizi SnapCenter possono ora essere co
 
 . Torna alla pagina Canvas, da *ambiente di lavoro* fare clic su *Aggiungi ambiente di lavoro* per scoprire Azure NetApp Files distribuito in Azure.
 +
-image:snapctr_svcs_connector_11-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_connector_11-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Scegliere *Microsoft Azure* come percorso e fare clic su *Scopri*.
 +
-image:snapctr_svcs_setup_02-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_setup_02-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Nome *ambiente di lavoro* e scegliere *Nome credenziale* creato nella sezione precedente, quindi fare clic su *continua*.
 +
-image:snapctr_svcs_setup_03-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_setup_03-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . La console BlueXP torna a *i miei ambienti di lavoro* e Azure NetApp Files rilevato da Azure ora appare su *Canvas*.
 +
-image:snapctr_svcs_setup_04-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_setup_04-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Fare clic sull'icona *Azure NetApp Files*, quindi *Inserisci ambiente di lavoro* per visualizzare i volumi di database Oracle distribuiti nello storage Azure NetApp Files.
 +
-image:snapctr_svcs_setup_05-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_setup_05-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Dalla barra laterale sinistra della console, passare il mouse sull'icona di protezione, quindi fare clic su *protezione* > *applicazioni* per aprire la pagina di avvio delle applicazioni. Fare clic su *Scopri applicazioni*.
 +
-image:snapctr_svcs_setup_09-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_setup_09-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Selezionare *Cloud Native* come tipo di origine dell'applicazione.
 +
-image:snapctr_svcs_setup_10-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_setup_10-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Scegliere *Oracle* per il tipo di applicazione, fare clic su *Avanti* per aprire la pagina dei dettagli dell'host.
 +
-image:snapctr_svcs_setup_13-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_setup_13-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Selezionare *usando SSH* e fornire i dettagli di Oracle Azure VM come *indirizzo IP*, *connettore*, gestione di Azure VM *Nome utente* come azureuser. Fare clic su *Aggiungi chiave privata SSH* per incollare la coppia di chiavi SSH utilizzata per implementare la VM Oracle Azure. Verrà inoltre richiesto di confermare l'impronta digitale.
 +
-image:snapctr_svcs_setup_15-azure.png["Schermata che mostra questo passaggio nella GUI."]
-image:snapctr_svcs_setup_16-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_setup_15-azure.png[Schermata che mostra questo passaggio nella GUI.]
+
++
+image::snapctr_svcs_setup_16-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Passare alla pagina successiva *Configurazione* per impostare l'accesso sudocer su Oracle Azure VM.
 +
-image:snapctr_svcs_setup_17-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_setup_17-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Rivedere e fare clic su *Scopri applicazioni* per installare un plug-in su Oracle Azure VM e scoprire il database Oracle sulla VM in un'unica fase.
 +
-image:snapctr_svcs_setup_18-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_setup_18-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . I database Oracle rilevati su Azure VM vengono aggiunti a *applicazioni*, mentre la pagina *applicazioni* elenca il numero di host e di database Oracle all'interno dell'ambiente. Il database *Stato di protezione* viene inizialmente visualizzato come *non protetto*.
 +
-image:snapctr_svcs_setup_19-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_setup_19-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 
 
@@ -313,27 +313,27 @@ tmpfs                      1.6G     0  1.6G   0% /run/user/1000
 ....
 . Per proteggere il database, fare clic sui tre punti accanto al database *Stato protezione*, quindi fare clic su *Assegna criterio* per visualizzare i criteri di protezione predefiniti precaricati o definiti dall'utente che possono essere applicati ai database Oracle. In *Impostazioni* - *Criteri*, è possibile creare criteri personalizzati con una frequenza di backup personalizzata e una finestra di conservazione dei dati di backup.
 +
-image:snapctr_svcs_bkup_01-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_bkup_01-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Quando si è soddisfatti della configurazione dei criteri, è possibile *assegnare* il criterio scelto per proteggere il database.
 +
-image:snapctr_svcs_bkup_02-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_bkup_02-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Una volta applicato il criterio, lo stato di protezione del database è cambiato in *Protected* con un segno di spunta verde. BlueXP esegue il backup snapshot in base al programma definito. Inoltre, *Backup SU richiesta* è disponibile dal menu a discesa a tre punti, come mostrato di seguito.
 +
-image:snapctr_svcs_bkup_03-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_bkup_03-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Dalla scheda *Job Monitoring* è possibile visualizzare i dettagli del processo di backup. I risultati del test hanno dimostrato che il backup di un database Oracle ha richiesto circa 4 minuti e circa 1,6 TiB.
 +
-image:snapctr_svcs_bkup_04-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_bkup_04-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Dal menu a discesa a tre punti *Visualizza dettagli*, è possibile visualizzare i set di backup creati dal backup snapshot.
 +
-image:snapctr_svcs_bkup_05-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_bkup_05-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . I dettagli del backup del database includono *Backup Name*, *Backup Type*, *SCN*, *RMAN Catalog* e *Backup Time*. Un set di backup contiene snapshot coerenti con l'applicazione per il volume di dati e il volume di log, rispettivamente. Uno snapshot del volume di registro viene eseguito subito dopo uno snapshot del volume dei dati del database. È possibile applicare un filtro se si sta cercando un particolare backup nell'elenco di backup.
 +
-image:snapctr_svcs_bkup_06-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_bkup_06-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 
 
@@ -346,27 +346,27 @@ image:snapctr_svcs_bkup_06-azure.png["Schermata che mostra questo passaggio nell
 ====
 . Per il ripristino di un database, fare clic sul menu a discesa a tre punti per il database specifico da ripristinare in *applicazioni*, quindi fare clic su *Ripristina* per avviare il flusso di lavoro di ripristino e ripristino del database.
 +
-image:snapctr_svcs_restore_01-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_restore_01-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Scegliere il *punto di ripristino* in base all'indicazione dell'ora. Ogni indicatore orario nell'elenco rappresenta un set di backup del database disponibile.
 +
-image:snapctr_svcs_restore_02-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_restore_02-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Scegliere *Restore Location* to *Original Location* (posizione di ripristino* in *posizione originale*) per il ripristino e il ripristino di un database Oracle.
 +
-image:snapctr_svcs_restore_03-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_restore_03-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Definire *ambito di ripristino* e *ambito di ripristino*. Tutti i registri indicano un ripristino completo aggiornato, inclusi i registri correnti.
 +
-image:snapctr_svcs_restore_04-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_restore_04-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Rivedere e *Restore* per avviare il ripristino e il ripristino del database.
 +
-image:snapctr_svcs_restore_05-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_restore_05-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 . Dalla scheda *Job Monitoring*, abbiamo osservato che sono stati necessari 2 minuti per eseguire un ripristino completo del database e un ripristino aggiornato.
 +
-image:snapctr_svcs_restore_06-azure.png["Schermata che mostra questo passaggio nella GUI."]
+image::snapctr_svcs_restore_06-azure.png[Schermata che mostra questo passaggio nella GUI.]
 
 
 
@@ -384,35 +384,35 @@ NOTE: Verificare che il sistema di storage file Azure NetApp disponga di capacit
 
 . Fare clic sul menu a discesa a tre punti per il database specifico da clonare in *applicazioni*, quindi fare clic su *Ripristina* per avviare il flusso di lavoro di clonazione.
 +
-image:snapctr_svcs_restore_01-azure.png[""]
+image::snapctr_svcs_restore_01-azure.png[snapctr svcs ripristinare 01 azure]
 
 . Selezionare *Restore Point* e selezionare *Restore to Alternate Location*.
 +
-image:snapctr_svcs_clone_01-azure.png[""]
+image::snapctr_svcs_clone_01-azure.png[snapctr svcs clone 01 azure]
 
 . Nella pagina successiva *Configurazione*, impostare alternativo *host*, nuovo database *SID* e *Oracle Home* come configurato in alternativa ad Azure VM.
 +
-image:snapctr_svcs_clone_02-azure.png[""]
+image::snapctr_svcs_clone_02-azure.png[snapctr svcs clone 02 azure]
 
 . La pagina Review *General* (Revisione *Generale*) mostra i dettagli del database clonato, come SID, host alternativo, posizioni dei file di dati, ambito di ripristino e così via
 +
-image:snapctr_svcs_clone_03-azure.png[""]
+image::snapctr_svcs_clone_03-azure.png[snapctr svcs clone 03 azure]
 
 . Nella pagina Review *Database parameters* sono riportati i dettagli della configurazione clonata del database e alcune impostazioni dei parametri del database.
 +
-image:snapctr_svcs_clone_04-azure.png[""]
+image::snapctr_svcs_clone_04-azure.png[snapctr svcs clone 04 azure]
 
 . Monitorare lo stato del lavoro di clonazione dalla scheda *Job Monitoring*, abbiamo osservato che sono stati necessari 8 minuti per clonare un database Oracle 1,6 TiB.
 +
-image:snapctr_svcs_clone_05-azure.png[""]
+image::snapctr_svcs_clone_05-azure.png[snapctr svcs clone 05 azure]
 
 . Convalidare il database clonato nella pagina BlueXP *Applications* che indicava che il database clonato è stato registrato immediatamente con BlueXP.
 +
-image:snapctr_svcs_clone_06-azure.png[""]
+image::snapctr_svcs_clone_06-azure.png[snapctr svcs clone 06 azure]
 
 . Convalidare il database clonato su Oracle Azure VM che indicava l'esecuzione del database clonato come previsto.
 +
-image:snapctr_svcs_clone_07-azure.png[""]
+image::snapctr_svcs_clone_07-azure.png[snapctr svcs clone 07 azure]
 
 
 

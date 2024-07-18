@@ -165,7 +165,7 @@ git clone https://github.com/NetApp-Automation/na_aws_fsx_ec2_deploy.git
 ....
 . Crea macchine virtuali in VMware SDDC su AWS per l'hosting del tuo ambiente Oracle da implementare in VMC. Nella nostra dimostrazione, abbiamo costruito due macchine virtuali Linux come server Oracle DB, un server Windows per il server SnapCenter e un server Linux opzionale come controller Ansible per l'installazione o la configurazione automatizzata di Oracle, se desiderato. Di seguito è riportata un'istantanea dell'ambiente di laboratorio per la convalida della soluzione.
 +
-image:aws_ora_fsx_vmc_vm_08.png["Schermata che mostra l'ambiente di test VMC SDDC."]
+image::aws_ora_fsx_vmc_vm_08.png[Schermata che mostra l'ambiente di test VMC SDDC.]
 
 . In via opzionale, NetApp fornisce anche diversi toolkit di automazione per eseguire l'implementazione e la configurazione di Oracle, se pertinente. Fare riferimento a. link:index.html["Kit di strumenti per automazione DB"^] per ulteriori informazioni.
 
@@ -1488,23 +1488,23 @@ NOTE: Se il server Windows è distribuito in un ambiente di dominio, aggiungere 
 . Accedere all'interfaccia utente di SnapCenter tramite la porta HTTPS 8846 come utente di installazione per configurare SnapCenter per Oracle.
 . Aggiornare `Hypervisor Settings` in impostazioni globali.
 +
-image:aws_ora_fsx_vmc_snapctr_01.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_01.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Creare criteri di backup dei database Oracle. Idealmente, creare un criterio di backup del registro di archivio separato per consentire intervalli di backup più frequenti per ridurre al minimo la perdita di dati in caso di errore.
 +
-image:aws_ora_fsx_vmc_snapctr_02.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_02.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Aggiungi server database `Credential` Per accesso SnapCenter a DB VM. La credenziale deve avere il privilegio sudo su una VM Linux o il privilegio di amministratore su una VM Windows.
 +
-image:aws_ora_fsx_vmc_snapctr_03.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_03.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Aggiungi il cluster di storage FSX ONTAP a. `Storage Systems` Con IP di gestione cluster e autenticato tramite ID utente fsxadmin.
 +
-image:aws_ora_fsx_vmc_snapctr_04.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_04.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Aggiungi macchina virtuale del database Oracle in VMC a. `Hosts` con la credenziale del server creata nel passaggio precedente 6.
 +
-image:aws_ora_fsx_vmc_snapctr_05.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_05.png[Schermata che mostra la configurazione di SnapCenter.]
 
 
 
@@ -1522,27 +1522,27 @@ SnapCenter sfrutta lo snapshot di volume FSX ONTAP per backup, ripristino o clon
 
 . Dal `Resources` Tutti i database sulla VM vengono rilevati automaticamente dopo l'aggiunta della VM a SnapCenter. Inizialmente, lo stato del database viene visualizzato come `Not protected`.
 +
-image:aws_ora_fsx_vmc_snapctr_06.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_06.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Creare un gruppo di risorse per eseguire il backup del database in un raggruppamento logico, ad esempio in base a DB VM, ecc. In questo esempio, abbiamo creato un gruppo ora_02_data per eseguire un backup completo del database online per tutti i database su VM ora_02. Il gruppo di risorse ora_02_log esegue il backup dei registri archiviati solo sulla VM. La creazione di un gruppo di risorse definisce anche una pianificazione per l'esecuzione del backup.
 +
-image:aws_ora_fsx_vmc_snapctr_07.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_07.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Il backup del gruppo di risorse può anche essere attivato manualmente facendo clic su `Back up Now` ed eseguire il backup con il criterio definito nel gruppo di risorse.
 +
-image:aws_ora_fsx_vmc_snapctr_08.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_08.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Il processo di backup può essere monitorato in `Monitor` facendo clic sul processo in esecuzione.
 +
-image:aws_ora_fsx_vmc_snapctr_09.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_09.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Dopo un backup riuscito, lo stato del database mostra lo stato del processo e l'ora di backup più recente.
 +
-image:aws_ora_fsx_vmc_snapctr_10.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_10.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Fare clic sul database per esaminare i set di backup per ciascun database.
 +
-image:aws_ora_fsx_vmc_snapctr_11.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_11.png[Schermata che mostra la configurazione di SnapCenter.]
 
 
 
@@ -1651,39 +1651,39 @@ ORA-00942: table or view does not exist
 ....
 . Dal set di backup creato dall'ultimo passaggio, prendere nota del numero SCN di backup del registro. Fare clic su `Restore` per avviare il flusso di lavoro di ripristino e ripristino.
 +
-image:aws_ora_fsx_vmc_snapctr_12.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_12.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Scegliere l'ambito di ripristino.
 +
-image:aws_ora_fsx_vmc_snapctr_13.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_13.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Scegliere l'ambito di ripristino fino al codice SCN del registro dall'ultimo backup completo del database.
 +
-image:aws_ora_fsx_vmc_snapctr_14.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_14.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Specificare eventuali pre-script opzionali da eseguire.
 +
-image:aws_ora_fsx_vmc_snapctr_15.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_15.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Specificare qualsiasi after-script opzionale da eseguire.
 +
-image:aws_ora_fsx_vmc_snapctr_16.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_16.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Se lo si desidera, inviare un rapporto lavoro.
 +
-image:aws_ora_fsx_vmc_snapctr_17.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_17.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Rivedere il riepilogo e fare clic su `Finish` per avviare il ripristino e il recupero.
 +
-image:aws_ora_fsx_vmc_snapctr_18.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_18.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Da Oracle Restart Grid Control, osserviamo che mentre cdb3 è in fase di ripristino e il ripristino cdb4 è online e disponibile.
 +
-image:aws_ora_fsx_vmc_snapctr_19.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_19.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Da `Monitor` aprire il processo per esaminare i dettagli.
 +
-image:aws_ora_fsx_vmc_snapctr_20.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_20.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Da DB VM ora_02, convalidare che la tabella eliminata sia stata ripristinata dopo un ripristino riuscito.
 +
@@ -1754,39 +1754,39 @@ In questo esempio, gli stessi set di backup vengono utilizzati per clonare un da
 
 . Aprire l'elenco di backup del database cdb3. Da un backup dei dati scelto, fare clic su `Clone` per avviare il flusso di lavoro dei cloni del database.
 +
-image:aws_ora_fsx_vmc_snapctr_21.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_21.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Assegnare un nome al SID del database clone.
 +
-image:aws_ora_fsx_vmc_snapctr_22.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_22.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Selezionare una macchina virtuale in VMC come host del database di destinazione. Sull'host deve essere installata e configurata una versione identica di Oracle.
 +
-image:aws_ora_fsx_vmc_snapctr_23.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_23.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Selezionare ORACLE_HOME, l'utente e il gruppo corretti sull'host di destinazione. Mantenere la credenziale per impostazione predefinita.
 +
-image:aws_ora_fsx_vmc_snapctr_24.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_24.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Modificare i parametri del database clone per soddisfare i requisiti di configurazione o risorse per il database clone.
 +
-image:aws_ora_fsx_vmc_snapctr_25.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_25.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Scegliere l'ambito di ripristino. `Until Cancel` recupera il clone fino all'ultimo file di registro disponibile nel set di backup.
 +
-image:aws_ora_fsx_vmc_snapctr_26.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_26.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Esaminare il riepilogo e avviare il processo di clonazione.
 +
-image:aws_ora_fsx_vmc_snapctr_27.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_27.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Monitorare l'esecuzione del processo clone da `Monitor` scheda.
 +
-image:aws_ora_fsx_vmc_snapctr_28.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_28.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Il database clonato viene registrato immediatamente in SnapCenter.
 +
-image:aws_ora_fsx_vmc_snapctr_29.png["Schermata che mostra la configurazione di SnapCenter."]
+image::aws_ora_fsx_vmc_snapctr_29.png[Schermata che mostra la configurazione di SnapCenter.]
 
 . Da DB VM ora_02, il database clonato viene registrato anche nel controllo griglia Oracle Restart e la tabella dei test eliminati viene recuperata nel database clonato cdb3tst, come illustrato di seguito.
 +

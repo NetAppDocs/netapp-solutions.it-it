@@ -32,14 +32,14 @@ Per creare e montare il file system Amazon FSX per NetApp ONTAP, attenersi alla 
 . Aprire la console Amazon FSX all'indirizzo `https://console.aws.amazon.com/fsx/` E scegliere *Crea file system* per avviare la procedura guidata *creazione file system*.
 . Nella pagina Seleziona tipo di file system, selezionare *Amazon FSX per NetApp ONTAP*, quindi fare clic su *Avanti*. Viene visualizzata la pagina *Create file System* (Crea file system).
 +
-image:fsx-nfs-image2.png[""]
+image::fsx-nfs-image2.png[fsx nfs image2]
 
 . Per il metodo di creazione, scegliere *Standard Create*.
 +
-image:fsx-nfs-image3.png[""]
+image::fsx-nfs-image3.png[fsx nfs image3]
 
 +
-image:fsx-nfs-image4.png[""]
+image::fsx-nfs-image4.png[fsx nfs image4]
 
 +
 
@@ -55,11 +55,11 @@ NOTE: Assicurarsi che si tratti di un nuovo VPC designato e non del VPC collegat
 NOTE: Per impostazione predefinita, FSX per ONTAP utilizza 198.19.0.0/16 come intervallo di indirizzi IP dell'endpoint predefinito per il file system. Assicurarsi che l'intervallo di indirizzi IP degli endpoint non sia in conflitto con il VMC sull'SDDC AWS, le subnet VPC associate e l'infrastruttura on-premise. In caso di dubbi, utilizzare un intervallo non sovrapposto senza conflitti.
 
 +
-image:fsx-nfs-image5.png[""]
+image::fsx-nfs-image5.png[fsx nfs image5]
 
 . Nella sezione *sicurezza e crittografia* della chiave di crittografia, scegliere la chiave di crittografia AWS Key Management Service (AWS KMS) che protegge i dati del file system inattivi. Per la *Password amministrativa del file system*, immettere una password sicura per l'utente fsxadmin.
 +
-image:fsx-nfs-image6.png[""]
+image::fsx-nfs-image6.png[fsx nfs image6]
 
 . Nella sezione *Default Storage Virtual Machine Configuration*, specificare il nome della SVM.
 +
@@ -67,7 +67,7 @@ image:fsx-nfs-image6.png[""]
 NOTE: A partire da GA, sono supportati quattro datastore NFS.
 
 +
-image:fsx-nfs-image7.png[""]
+image::fsx-nfs-image7.png[fsx nfs image7]
 
 . Nella sezione *Default Volume Configuration* (Configurazione volume predefinita), specificare il nome e le dimensioni del volume richiesti per l'archivio dati e fare clic su *Next* (Avanti). Si tratta di un volume NFSv3. Per *efficienza dello storage*, scegliere *abilitato* per attivare le funzionalità di efficienza dello storage ONTAP (compressione, deduplica e compattazione). Dopo la creazione, utilizzare la shell per modificare i parametri del volume utilizzando *_volume modify_* come segue:
 +
@@ -123,10 +123,10 @@ volume modify -vserver FSxONTAPDatastoreSVM -volume DemoDS002 -space-mgmt-try-fi
 volume modify -vserver FSxONTAPDatastoreSVM -volume DemoDS002 -autosize-mode grow
 ....
 +
-image:fsx-nfs-image8.png[""]
+image::fsx-nfs-image8.png[fsx nfs image8]
 
 +
-image:fsx-nfs-image9.png[""]
+image::fsx-nfs-image9.png[fsx nfs image9]
 
 +
 
@@ -135,10 +135,10 @@ NOTE: Durante lo scenario di migrazione iniziale, il criterio di snapshot predef
 . Esaminare la configurazione del file system mostrata nella pagina *Create file System*.
 . Fare clic su *Create file System* (Crea file system).
 +
-image:fsx-nfs-image10.png[""]
+image::fsx-nfs-image10.png[fsx nfs image10]
 
 +
-image:fsx-nfs-image11.png[""]
+image::fsx-nfs-image11.png[fsx nfs image11]
 
 +
 
@@ -159,11 +159,11 @@ Una volta creati i file system e le SVM, utilizzare VMware Console per creare un
 . Nella scheda *gruppi SDDC*, fare clic su *AZIONI* e selezionare *Crea gruppo SDDC*. Per scopi dimostrativi, viene chiamato il gruppo SDDC `FSxONTAPDatastoreGrp`.
 . Nella griglia Membership (appartenenza), selezionare gli SDDC da includere come membri del gruppo.
 +
-image:fsx-nfs-image12.png[""]
+image::fsx-nfs-image12.png[fsx nfs image12]
 
 . Verificare che l'opzione "la configurazione di VMware Transit Connect per il proprio gruppo comporta costi per allegato e trasferimento dati" sia selezionata, quindi selezionare *Crea gruppo*. Il completamento del processo può richiedere alcuni minuti.
 +
-image:fsx-nfs-image13.png[""]
+image::fsx-nfs-image13.png[fsx nfs image13]
 
 
 
@@ -173,7 +173,7 @@ image:fsx-nfs-image13.png[""]
 ====
 . Collegare il VPC designato appena creato al gruppo SDDC. Selezionare la scheda *External VPC* (VPC esterno) e seguire le istruzioni https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["Istruzioni per il collegamento di un VPC esterno al gruppo"^]. Il completamento di questo processo può richiedere 10-15 minuti.
 +
-image:fsx-nfs-image14.png[""]
+image::fsx-nfs-image14.png[fsx nfs image14]
 
 . Fare clic su *Aggiungi account*.
 +
@@ -183,7 +183,7 @@ image:fsx-nfs-image14.png[""]
 
 . Nella console AWS, accedere allo stesso account AWS e accedere alla pagina del servizio *Resource Access Manager*. È disponibile un pulsante per accettare la condivisione delle risorse.
 +
-image:fsx-nfs-image15.png[""]
+image::fsx-nfs-image15.png[fsx nfs image15]
 
 +
 
@@ -191,7 +191,7 @@ NOTE: Come parte del processo VPC esterno, tramite la console AWS viene richiest
 
 . Fare clic su *Accetta condivisione risorse*.
 +
-image:fsx-nfs-image16.png[""]
+image::fsx-nfs-image16.png[fsx nfs image16]
 
 . Nella console VMC, ora si vede che il VPC esterno si trova in uno stato associato. Questa operazione può richiedere alcuni minuti.
 
@@ -203,18 +203,18 @@ image:fsx-nfs-image16.png[""]
 . Nella console AWS, accedere alla pagina del servizio VPC e accedere al VPC utilizzato per il provisioning del file system FSX. In questo punto, è possibile creare un allegato del gateway di transito facendo clic su *Transit Gateway Attachment* (collegamento gateway di transito) nel riquadro di navigazione a destra.
 . Nella sezione *allegato VPC*, assicurarsi che sia selezionata l'opzione supporto DNS e selezionare il VPC in cui è stato implementato FSX per ONTAP.
 +
-image:fsx-nfs-image17.png[""]
+image::fsx-nfs-image17.png[fsx nfs image17]
 
 . Fare clic su *Create* *Transit gateway Attachment*.
 +
-image:fsx-nfs-image18.png[""]
+image::fsx-nfs-image18.png[fsx nfs image18]
 
 . Tornare alla console di VMware Cloud e tornare alla scheda Gruppo SDDC > VPC esterno. Selezionare l'ID account AWS utilizzato per FSX, fare clic sul VPC e fare clic su *Accept* (Accetta).
 +
-image:fsx-nfs-image19.png[""]
+image::fsx-nfs-image19.png[fsx nfs image19]
 
 +
-image:fsx-nfs-image20.png[""]
+image::fsx-nfs-image20.png[fsx nfs image20]
 
 +
 
@@ -225,10 +225,10 @@ NOTE: La visualizzazione di questa opzione potrebbe richiedere alcuni minuti.
 ** Un percorso per l'intervallo IP mobile per Amazon FSX per gli IP mobili NetApp ONTAP.
 ** Un percorso per lo spazio di indirizzi VPC esterno appena creato.
 +
-image:fsx-nfs-image21.png[""]
+image::fsx-nfs-image21.png[fsx nfs image21]
 
 +
-image:fsx-nfs-image22.png[""]
+image::fsx-nfs-image22.png[fsx nfs image22]
 
 
 
@@ -241,16 +241,16 @@ image:fsx-nfs-image22.png[""]
 . Nella console AWS, creare il percorso di ritorno a SDDC individuando il VPC nella pagina di servizio VPC e selezionare la tabella di percorso *main* per il VPC.
 . Individuare la tabella dei percorsi nel pannello inferiore e fare clic su *Edit routes* (Modifica percorsi).
 +
-image:fsx-nfs-image23.png[""]
+image::fsx-nfs-image23.png[fsx nfs image23]
 
 . Nel pannello *Edit routes* (Modifica percorsi), fare clic su *Add route* (Aggiungi percorso) e immettere il CIDR per l'infrastruttura SDDC selezionando *Transit Gateway* (Gateway di transito) e l'ID TGW associato. Fare clic su *Save Changes* (Salva modifiche).
 +
-image:fsx-nfs-image24.png[""]
+image::fsx-nfs-image24.png[fsx nfs image24]
 
 . Il passo successivo consiste nel verificare che il gruppo di sicurezza nel VPC associato sia aggiornato con le regole in entrata corrette per il CIDR del gruppo SDDC.
 . Aggiornare la regola inbound con il blocco CIDR dell'infrastruttura SDDC.
 +
-image:fsx-nfs-image25.png[""]
+image::fsx-nfs-image25.png[fsx nfs image25]
 
 +
 
@@ -272,7 +272,7 @@ Dopo aver eseguito il provisioning del file system e aver attivato la connettivi
 
 . Nella console VMC, aprire la scheda *Storage* del controller SDDC.
 +
-image:fsx-nfs-image27.png[""]
+image::fsx-nfs-image27.png[fsx nfs image27]
 
 . Fare clic su *ATTACH DATASTORE* e inserire i valori richiesti.
 +
@@ -280,15 +280,15 @@ image:fsx-nfs-image27.png[""]
 NOTE: L'indirizzo del server NFS è l'indirizzo IP NFS che si trova in FSX > scheda Storage virtual machine > Endpoints all'interno della console AWS.
 
 +
-image:fsx-nfs-image28.png[""]
+image::fsx-nfs-image28.png[fsx nfs image28]
 
 . Fare clic su *ATTACH DATASTORE* per collegare il datastore al cluster.
 +
-image:fsx-nfs-image29.png[""]
+image::fsx-nfs-image29.png[fsx nfs image29]
 
 . Validare il datastore NFS accedendo a vCenter come mostrato di seguito:
 +
-image:fsx-nfs-image30.png[""]
+image::fsx-nfs-image30.png[fsx nfs image30]
 
 
 

@@ -58,29 +58,29 @@ NOTE: Per scaricare l'appliance, l'utente deve registrarsi con F5. Forniscono un
 
 . Fare clic con il pulsante destro del mouse su Infrastructure Resource Pool e selezionare Deploy OVF Template (implementa modello OVF Viene avviata una procedura guidata che consente di selezionare il file OVA appena scaricato nella fase 1. Fare clic su Avanti.
 +
-image:deploy-big_ip_1.PNG["Implementazione di appliance Big-IP"]
+image::deploy-big_ip_1.PNG[Implementazione di appliance Big-IP]
 
 . Fare clic su Next (Avanti) per continuare con ogni passaggio e accettare i valori predefiniti per ciascuna schermata visualizzata fino a quando non viene visualizzata la schermata di selezione della memoria. Selezionare il VM_Datastore in cui si desidera implementare la macchina virtuale, quindi fare clic su Avanti.
 . La schermata successiva presentata dalla procedura guidata consente di personalizzare le reti virtuali per l'utilizzo nell'ambiente. Selezionare VM_Network per il campo External (esterno) e Management_Network per il campo Management (Gestione). Interni e ha vengono utilizzati per le configurazioni avanzate dell'appliance F5 Big-IP e non sono configurati. Questi parametri possono essere lasciati soli oppure possono essere configurati per connettersi a gruppi di porte distribuiti non infrastrutturali. Fare clic su Avanti.
 +
-image:deploy-big_ip_2.PNG["Implementazione dell'appliance Big_IP, parte 2"]
+image::deploy-big_ip_2.PNG[Implementa un'appliance Big_IP]
 
 . Esaminare la schermata di riepilogo dell'appliance e, se tutte le informazioni sono corrette, fare clic su fine per avviare l'implementazione.
 . Una volta implementata l'appliance virtuale, fare clic con il pulsante destro del mouse e accenderla. Dovrebbe ricevere un indirizzo DHCP sulla rete di gestione. L'appliance è basata su Linux e dispone di VMware Tools, in modo da poter visualizzare l'indirizzo DHCP ricevuto nel client vSphere.
 +
-image:deploy-big_ip_3.PNG["Implementazione dell'appliance Big-IP, parte 3"]
+image::deploy-big_ip_3.PNG[Implementazione di appliance Big-IP]
 
 . Aprire un browser Web e connettersi all'appliance utilizzando l'indirizzo IP indicato nella fase precedente. L'accesso predefinito è admin/admin e, dopo il primo accesso, l'appliance richiede immediatamente di modificare la password admin. Viene quindi visualizzata una schermata in cui è necessario accedere con le nuove credenziali.
 +
-image:big-IP_config_1.PNG["Configurazione Big-IP"]
+image::big-IP_config_1.PNG[Configurazione Big-IP]
 
 . La prima schermata richiede all'utente di completare l'utilità di configurazione. Avviare l'utility facendo clic su Next (Avanti).
 +
-image:big-IP_config_2.PNG["Configurazione Big-IP, parte 2"]
+image::big-IP_config_2.PNG[Configurazione Big-IP]
 
 . La schermata successiva richiede l'attivazione della licenza per l'appliance. Fare clic su Activate (attiva) per iniziare. Quando richiesto nella pagina successiva, incollare la chiave di licenza di valutazione di 30 giorni ricevuta al momento della registrazione per il download o la licenza permanente acquistata al momento dell'acquisto dell'appliance. Fare clic su Avanti.
 +
-image:big-IP_config_3.PNG["Configurazione Big-IP, parte 3"]
+image::big-IP_config_3.PNG[Configurazione Big-IP]
 
 +
 
@@ -89,7 +89,7 @@ NOTE: Affinché il dispositivo esegua l'attivazione, la rete definita nell'inter
 . Nella schermata successiva, viene visualizzato il Contratto di licenza con l'utente finale (EULA). Se i termini della licenza sono accettabili, fare clic su Accept (Accetta).
 . La schermata successiva conta il tempo trascorso durante la verifica delle modifiche di configurazione apportate finora. Fare clic su Continue (continua) per riprendere la configurazione iniziale.
 +
-image:big-IP_config_4.PNG["Configurazione Big-IP, parte 4"]
+image::big-IP_config_4.PNG[Configurazione Big-IP]
 
 . La finestra Modifica configurazione si chiude e l'Utilità di configurazione visualizza il menu Provisioning risorse. Questa finestra elenca le funzionalità attualmente concesse in licenza e le allocazioni delle risorse correnti per l'appliance virtuale e ciascun servizio in esecuzione.
 +
@@ -97,15 +97,15 @@ image::big-IP_config_5.png[Configurazione Big-IP]
 
 . Facendo clic sull'opzione di menu Platform (piattaforma) a sinistra è possibile apportare ulteriori modifiche alla piattaforma. Le modifiche includono l'impostazione dell'indirizzo IP di gestione configurato con DHCP, l'impostazione del nome host e del fuso orario in cui è installato l'appliance e la protezione dell'appliance dall'accessibilità SSH.
 +
-image:big-IP_config_6.PNG["Configurazione Big-IP, parte 6"]
+image::big-IP_config_6.PNG[Configurazione Big-IP]
 
 . Fare clic sul menu Network (rete), che consente di configurare le funzioni di rete standard. Fare clic su Next (Avanti) per avviare la Configurazione di rete standard.
 +
-image:big-IP_config_7.PNG["Configurazione Big-IP, parte 7"]
+image::big-IP_config_7.PNG[Configurazione Big-IP]
 
 . La prima pagina della procedura guidata configura la ridondanza; lasciare le impostazioni predefinite e fare clic su Avanti. La pagina successiva consente di configurare un'interfaccia interna sul bilanciamento del carico. L'interfaccia 1.1 viene mappata alla VMNIC etichettata Internal nella procedura guidata di implementazione di OVF.
 +
-image:big-IP_config_8.PNG["Configurazione Big-IP, parte 8"]
+image::big-IP_config_8.PNG[Configurazione Big-IP]
 
 +
 
@@ -113,21 +113,21 @@ NOTE: Gli spazi in questa pagina per l'indirizzo IP automatico, la netmask e l'i
 
 . La pagina successiva consente di configurare una rete esterna utilizzata per mappare i servizi ai pod implementati in Kubernetes. Selezionare un IP statico dall'intervallo VM_Network, la subnet mask appropriata e un IP mobile dello stesso intervallo. L'interfaccia 1.2 viene mappata alla VMNIC etichettata External nella procedura guidata di implementazione di OVF.
 +
-image:big-IP_config_9.PNG["Configurazione Big-IP, parte 9"]
+image::big-IP_config_9.PNG[Configurazione Big-IP]
 
 . Nella pagina successiva, è possibile configurare una rete ha interna se si stanno implementando più appliance virtuali nell'ambiente. Per procedere, è necessario compilare i campi Self-IP Address (Indirizzo IP automatico) e Netmask (maschera di rete) e selezionare Interface 1.3 (interfaccia VLAN), che viene mappata alla rete ha definita dalla creazione guidata dei modelli OVF.
 +
-image:big-IP_config_10.png["Configurazione Big-IP, parte 10"]
+image::big-IP_config_10.png[Configurazione Big-IP]
 
 . La pagina successiva consente di configurare i server NTP. Fare clic su Next (Avanti) per continuare con la configurazione del DNS. I server DNS e l'elenco di ricerca dei domini devono essere già popolati dal server DHCP. Fare clic su Next (Avanti) per accettare le impostazioni predefinite e continuare.
 . Per il resto della procedura guidata, fare clic su Next (Avanti) per continuare con la configurazione avanzata del peering, la cui configurazione non rientra nell'ambito di questo documento. Quindi fare clic su fine per uscire dalla procedura guidata.
 . Creare singole partizioni per il cluster di amministrazione anthos e per ciascun cluster utente implementato nell'ambiente. Fare clic su System (sistema) nel menu a sinistra, selezionare Users (utenti) e fare clic su Partition List (elenco partizioni).
 +
-image:big-IP_config_11.PNG["Configurazione Big-IP, parte 11"]
+image::big-IP_config_11.PNG[Configurazione Big-IP]
 
 . La schermata visualizzata mostra solo la partizione comune corrente. Fare clic su Create (Crea) a destra per creare la prima partizione aggiuntiva e assegnarle un nome `GKE-Admin`. Quindi fare clic su Repeat (Ripeti) e assegnare un nome alla partizione `User-Cluster-1`. Fare nuovamente clic sul pulsante Repeat (Ripeti) per assegnare un nome alla partizione successiva `User-Cluster-2`. Infine, fare clic su fine per completare la procedura guidata. Viene visualizzata nuovamente la schermata elenco partizioni con tutte le partizioni elencate.
 +
-image:big-IP_config_12.PNG["Configurazione Big-IP, parte 12"]
+image::big-IP_config_12.PNG[Configurazione Big-IP]
 
 
 

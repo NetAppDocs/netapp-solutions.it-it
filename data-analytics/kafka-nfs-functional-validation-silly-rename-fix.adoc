@@ -43,7 +43,7 @@ La configurazione viene eseguita su AWS. La seguente tabella mostra i diversi co
 |===
 La figura seguente mostra la configurazione architetturale per questa soluzione.
 
-image:kafka-nfs-image1.png["Queste immagini mostrano la topologia AWS contenente un VPC contenente tre subnet private con un produttore swarm, il cluster Kafka e l'istanza CVO rispettivamente."]
+image::kafka-nfs-image1.png[Queste immagini mostrano la topologia AWS contenente un VPC contenente tre subnet private con un produttore swarm, il cluster Kafka e l'istanza CVO rispettivamente.]
 
 
 
@@ -78,13 +78,13 @@ aws-shantanclastrecall-aws::*> volume create -vserver kafka_svm -volume kafka_fg
 Cluster 1:
 
 +
-image:kafka-nfs-image2.png["Questa schermata mostra l'argomento demo creato sul cluster 1."]
+image::kafka-nfs-image2.png[Questa schermata mostra l'argomento demo creato sul cluster 1.]
 
 +
 Cluster 2:
 
 +
-image:kafka-nfs-image3.png["Questa schermata mostra l'argomento della demo creato sul cluster 2."]
+image::kafka-nfs-image3.png[Questa schermata mostra l'argomento della demo creato sul cluster 2.]
 
 . I dati sono stati caricati in questi nuovi argomenti creati per entrambi i cluster. Questa operazione è stata eseguita utilizzando il toolkit Producer-perf-test incluso nel pacchetto predefinito di Kafka:
 +
@@ -99,7 +99,7 @@ image:kafka-nfs-image3.png["Questa schermata mostra l'argomento della demo creat
 Nella schermata successiva viene mostrato un controllo dello stato di salute dei broker su entrambi i cluster:
 
 +
-image:kafka-nfs-image4.png["Questa schermata mostra la lettura per un controllo dello stato di salute riuscito su entrambi i broker."]
+image::kafka-nfs-image4.png[Questa schermata mostra la lettura per un controllo dello stato di salute riuscito su entrambi i broker.]
 
 
 
@@ -120,7 +120,7 @@ kafka-reassign-partitions --bootstrap-server=172.30.0.198:9092,172.30.0.163:9092
 
 . Dopo alcuni minuti di completamento della riassegnazione, un altro controllo dello stato di salute dei broker ha dimostrato che il cluster che utilizza volumi di storage NFSv3 ha riscontrato un problema di ridenominazione sciocco e si è bloccato, mentre il cluster 1 utilizza volumi di storage NetApp ONTAP NFSv4.1 con la correzione delle operazioni senza interruzioni.
 +
-image:kafka-nfs-image5.png["Questa schermata mostra l'output di un broker bloccato."]
+image::kafka-nfs-image5.png[Questa schermata mostra l'output di un broker bloccato.]
 
 +
 ** Cluster1-Broker-1 è attivo.
@@ -129,12 +129,12 @@ image:kafka-nfs-image5.png["Questa schermata mostra l'output di un broker blocca
 
 . Dopo aver controllato le directory di log di Kafka, era chiaro che il cluster 1 che utilizzava i volumi di storage NetApp ONTAP NFSv4.1 con la correzione aveva un'assegnazione pulita delle partizioni, mentre il cluster 2 utilizzava lo storage NFSv3 generico non era dovuto a problemi di ridenominazione sciocco, che hanno portato al crash. La figura seguente mostra il ribilanciamento delle partizioni del cluster 2, che ha causato un problema di ridenominazione sciocco sullo storage NFSv3.
 +
-image:kafka-nfs-image6.png["Questa schermata mostra l'output del log per il blocco del cluster 2."]
+image::kafka-nfs-image6.png[Questa schermata mostra l'output del log per il blocco del cluster 2.]
 
 +
 La figura seguente mostra un ribilanciamento pulito delle partizioni del cluster 1 utilizzando lo storage NetApp NFSv4.1.
 
 +
-image:kafka-nfs-image7.png["Questa schermata mostra l'output del log per un'assegnazione corretta della partizione pulita per il cluster 1, mentre"]
+image::kafka-nfs-image7.png[Questa schermata mostra l'output del log per un'assegnazione corretta della partizione pulita per il cluster 1, mentre]
 
 

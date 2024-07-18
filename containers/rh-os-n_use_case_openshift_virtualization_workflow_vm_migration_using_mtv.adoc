@@ -28,7 +28,7 @@ Il seguente video mostra una dimostrazione della migrazione di una macchina virt
 video::bac58645-dd75-4e92-b5fe-b12b015dc199[panopto,width=360]
 Il diagramma seguente mostra una vista di alto livello della migrazione di una VM da VMware a Red Hat OpenShift Virtualization.
 
-image:rh-os-n_use_case_vm_migration_using_mtv.png[""]
+image::rh-os-n_use_case_vm_migration_using_mtv.png[rh os n utilizzare la migrazione di vm caso utilizzando mtv]
 
 
 
@@ -200,7 +200,7 @@ Per creare il provider di origine VMware sono necessari i seguenti elementi:
 
 Creazione del provider di origine campione:
 
-image:rh-os-n_use_case_vm_migration_source_provider.png[""]
+image::rh-os-n_use_case_vm_migration_source_provider.png[rh os n utilizzare caso vm fornitore origine migrazione]
 
 
 NOTE: MTV (Migration Toolkit for Virtualization) utilizza VMware Virtual Disk Development Kit (VDDK) SDK per accelerare il trasferimento dei dischi virtuali da VMware vSphere. Pertanto, si consiglia vivamente di creare un'immagine VDDK, anche se facoltativa.
@@ -223,11 +223,11 @@ Durante la creazione di un piano, è necessario creare quanto segue se non è gi
 Una volta creato il piano di migrazione, lo stato del piano dovrebbe mostrare *Ready* e si dovrebbe ora essere in grado di *Start* il piano.
 
 
-image:rh-os-n_use_case_vm_migration_using_mtv_plan_ready.png[""]
+image::rh-os-n_use_case_vm_migration_using_mtv_plan_ready.png[rh os n utilizzare la migrazione vm caso utilizzando mtv piano pronto]
 
 Facendo clic su *Start* verrà eseguita una sequenza di passaggi per completare la migrazione della VM.
 
-image:rh-os-n_use_case_vm_migration_using_mtv_plan_complete.png[""]
+image::rh-os-n_use_case_vm_migration_using_mtv_plan_complete.png[rh os n caso di utilizzo migrazione vm utilizzando piano mtv completato]
 
 Al termine di tutte le fasi, è possibile visualizzare le VM migrate facendo clic su *macchine virtuali* in *virtualizzazione* nel menu di navigazione a sinistra.
 Vengono fornite le istruzioni per accedere alle macchine virtuali link:https://docs.openshift.com/container-platform/4.13/virt/virtual_machines/virt-accessing-vm-consoles.html["qui"].

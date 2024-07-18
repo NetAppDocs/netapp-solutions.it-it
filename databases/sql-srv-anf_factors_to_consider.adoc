@@ -84,7 +84,7 @@ Crea condivisioni continuamente disponibili con il portale Azure o Azure CLI. Ne
 * Non è possibile attivare una proprietà a disponibilità continua sui volumi SMB esistenti. Per convertire un volume esistente in modo da utilizzare una condivisione continuamente disponibile, utilizza la tecnologia NetApp Snapshot. Per ulteriori informazioni, vedere https://docs.microsoft.com/en-us/azure/azure-netapp-files/convert-smb-continuous-availability["Converti i volumi SMB esistenti per utilizzare la disponibilità continua"^].
 
 
-image:sql-srv-anf_image1.png[""]
+image::sql-srv-anf_image1.png[sql srv anf image1]
 
 
 
@@ -99,7 +99,7 @@ Azure NetApp Files supporta tre livelli di servizio: Standard (16 Mbps per terab
 
 Per ulteriori informazioni, vedere https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-service-levels["Livelli di servizio per Azure NetApp Files"^].
 
-image:sql-srv-anf_image2.png[""]
+image::sql-srv-anf_image2.png[sql srv anf image2]
 
 
 
@@ -109,7 +109,7 @@ Come per qualsiasi implementazione, il test della macchina virtuale e dello stor
 
 Per mostrare le performance, è stato eseguito un rapido test su un volume utilizzando livelli di servizio premium. In questo test, le dimensioni del volume sono state aumentate da 100 GB a 2 TB in tempo reale senza alcuna interruzione dell'accesso alle applicazioni e senza alcuna migrazione dei dati.
 
-image:sql-srv-anf_image3.png[""]
+image::sql-srv-anf_image3.png[sql srv anf image3]
 
 Ecco un altro esempio di test delle performance in tempo reale con HammerDB eseguito per l'implementazione trattata in questo documento. Per questo test, abbiamo utilizzato una piccola istanza con otto vCPU, un SSD Premium da 500 GB e un volume Azure NetApp Files SMB da 500 GB. HammerDB è stato configurato con 80 warehouse e otto utenti.
 
@@ -117,7 +117,7 @@ Il grafico seguente mostra che Azure NetApp Files è stato in grado di offrire u
 
 Un test aggiuntivo è stato eseguito ridimensionando in un'istanza più grande con 32x vCPU e un volume Azure NetApp Files da 16 TB. Si è verificato un aumento significativo delle transazioni al minuto con una latenza costante di 1 ms. HammerDB è stato configurato con 80 warehouse e 64 utenti per questo test.
 
-image:sql-srv-anf_image4.png[""]
+image::sql-srv-anf_image4.png[sql srv anf image4]
 
 
 

@@ -37,11 +37,11 @@ NetApp consiglia il seguente layout di storage:
 
 * Per lo storage NFS, il layout del volume consigliato è di tre volumi: Uno per il binario Oracle, uno per i dati Oracle e un file di controllo duplicato e uno per il log attivo Oracle, il log archiviato e il file di controllo.
 +
-image:aws_ora_fsx_ec2_stor_12.PNG[""]
+image::aws_ora_fsx_ec2_stor_12.PNG[aws ora fsx ec2 stor 12]
 
 * Per lo storage iSCSI, il layout del volume consigliato è di tre volumi: Uno per il binario Oracle, uno per i dati Oracle e un file di controllo duplicato e uno per il log attivo Oracle, il log archiviato e il file di controllo. Tuttavia, ogni volume di dati e log dovrebbe contenere idealmente quattro LUN. I LUN sono idealmente bilanciati sui nodi del cluster ha.
 +
-image:aws_ora_fsx_ec2_stor_13.PNG[""]
+image::aws_ora_fsx_ec2_stor_13.PNG[aws ora fsx ec2 stor 13]
 
 * Per gli IOPS e il throughput dello storage, è possibile scegliere la soglia per gli IOPS e il throughput forniti per il cluster di storage FSX e questi parametri possono essere regolati in modo immediato in qualsiasi momento del cambiamento del carico di lavoro.
 +
@@ -74,7 +74,7 @@ sysctl -a | grep tcp.*.slot_table
 ----
 * La seguente tabella fornisce le opzioni di montaggio NFS consigliate per Linux NFSv3 - istanza singola.
 +
-image:aws_ora_fsx_ec2_nfs_01.PNG[""]
+image::aws_ora_fsx_ec2_nfs_01.PNG[aws ora fsx ec2 nfs 01]
 
 
 

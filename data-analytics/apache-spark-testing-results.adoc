@@ -156,7 +156,7 @@ sys4m46.173s
 ....
 Come mostrato nella figura seguente, il parallelismo dei dati e dei modelli ha migliorato l'elaborazione dei dati e la velocità di deduzione del modello TensorFlow distribuito. La posizione dei dati in NFS ha prodotto un runtime leggermente migliore perché il collo di bottiglia del workflow è il download di modelli preformati. Se aumentiamo le dimensioni del set di dati delle trascrizioni, il vantaggio di NFS è più evidente.
 
-image:apache-spark-image11.png["Runtime del workflow end-to-end per l'analisi del sentimento di SPARK NLP."]
+image::apache-spark-image11.png[Runtime del workflow end-to-end per l'analisi del sentimento di SPARK NLP.]
 
 
 
@@ -232,7 +232,7 @@ sys  1m5.615s
 ....
 Si è verificato un ulteriore velocismo di 1,43 volte, come mostrato nella figura seguente. Pertanto, con uno storage all-flash NetApp collegato al cluster, i clienti possono usufruire dei vantaggi di un rapido trasferimento e distribuzione dei dati per i flussi di lavoro di Horovod Spark, ottenendo una velocità di 7,55 volte superiore rispetto all'esecuzione su un singolo nodo.
 
-image:apache-spark-image12.png["Horovod Spark Workflow Runtime."]
+image::apache-spark-image12.png[Horovod Spark Workflow Runtime.]
 
 
 
@@ -350,4 +350,4 @@ test AUC 0.6337
 ....
 In modo simile ai casi di utilizzo precedenti, abbiamo confrontato il runtime del workflow Spark con i dati che risiedono in posizioni diverse. La figura seguente mostra un confronto della previsione CTR di apprendimento approfondito per un runtime di workflow Spark.
 
-image:apache-spark-image13.png["Confronto della previsione CTR di deep learning per un runtime di workflow Spark."]
+image::apache-spark-image13.png[Confronto della previsione CTR di deep learning per un runtime di workflow Spark.]
