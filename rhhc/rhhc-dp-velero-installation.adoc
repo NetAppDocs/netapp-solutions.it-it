@@ -1,0 +1,200 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-dp-velero-installation.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OADP operator, Openshift Data Protection Application operator, Velero 
+summary: Protezione dei dati applicativi Red Hat OpenShift Container con NetApp ONTAP 
+---
+= Installazione dell'operatore OpenShift API for Data Protection (OADP)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+In questa sezione viene descritta l'installazione dell'operatore OpenShift API for Data Protection (OADP).
+
+
+
+== Prerequisiti
+
+* Un cluster Red Hat OpenShift (versione successiva alla 4,12) installato in un'infrastruttura bare-metal con nodi di lavoro RHCOS
+* Un cluster NetApp ONTAP integrato con il cluster utilizzando Astra Trident
+* Un backend Trident configurato con una SVM sul cluster ONTAP
+* StorageClass configurato sul cluster OpenShift con Astra Trident come provisioner
+* Classe Snapshot Trident creata nel cluster
+* Accesso cluster-admin al cluster Red Hat OpenShift
+* Accesso amministrativo al cluster NetApp ONTAP
+* Un'applicazione, ad esempio postgresql, distribuita sul cluster
+* Una workstation di amministrazione con tridentctl e oc tools installati e aggiunti al percorso dei dollari
+
+
+
+
+== Procedura per l'installazione dell'operatore OADP
+
+. Andare all'Operator Hub del cluster e selezionare Red Hat OADP operator. Nella pagina Installa, utilizzare tutte le selezioni predefinite e fare clic su Installa. Nella pagina successiva, utilizzare nuovamente tutte le impostazioni predefinite e fare clic su Installa. L'operatore OADP sarà installato nello spazio dei nomi openshift-adp.
+
+
+image::redhat_openshift_OADP_install_image1.jpg[API OpenShift per la protezione dei dati in Operator Hub]
+
+image::redhat_openshift_OADP_install_image2.jpg[OpenShift API per l'installazione dell'operatore di protezione dei dati]
+
+image::redhat_openshift_OADP_install_image3.jpg[OpenShift API per Data Protection Operator installato]
+
+
+
+=== Prerequisiti per la configurazione di Velero con i dettagli di ONTAP S3
+
+Una volta completata l'installazione dell'operatore, configurare l'istanza di Velero.
+Velero può essere configurato per utilizzare l'archiviazione oggetti compatibile con S3. Configurare ONTAP S3 utilizzando le procedure illustrate nella link:https://docs.netapp.com/us-en/ontap/object-storage-management/index.html["Sezione Gestione dello storage a oggetti della documentazione di ONTAP"]. Per l'integrazione con Velero, sono necessarie le seguenti informazioni della configurazione di ONTAP S3.
+
+* Un'interfaccia logica (LIF) che può essere usata per accedere a S3
+* Credenziali utente per accedere a S3 che include la chiave di accesso e la chiave di accesso segreta
+* Un nome bucket in S3 per i backup con autorizzazioni di accesso per l'utente
+* Per un accesso sicuro all'archiviazione a oggetti, è necessario installare il certificato TLS sul server di archiviazione a oggetti.
+
+
+
+
+=== Prerequisiti per la configurazione di Velero con i dettagli di StorageGRID S3
+
+Velero può essere configurato per utilizzare l'archiviazione oggetti compatibile con S3. È possibile configurare StorageGRID S3 utilizzando le procedure illustrate nella link:https://docs.netapp.com/us-en/storagegrid-116/s3/configuring-tenant-accounts-and-connections.html["Documentazione StorageGRID"]. Per l'integrazione con Velero, sono necessarie le seguenti informazioni della configurazione di StorageGRID S3.
+
+* L'endpoint che può essere utilizzato per accedere a S3
+* Credenziali utente per accedere a S3 che include la chiave di accesso e la chiave di accesso segreta
+* Un nome bucket in S3 per i backup con autorizzazioni di accesso per l'utente
+* Per un accesso sicuro all'archiviazione a oggetti, è necessario installare il certificato TLS sul server di archiviazione a oggetti.
+
+
+
+
+=== Procedura di configurazione di Velero
+
+* Innanzitutto, creare un segreto per una credenziale utente ONTAP S3 o per le credenziali utente StorageGRID tenant. Verrà utilizzato per configurare Velero in un secondo momento. È possibile creare un segreto dall'interfaccia CLI o dalla console Web.
+Per creare un segreto dalla console Web, selezionare segreti, quindi fare clic su chiave/valore segreto. Fornire i valori per il nome della credenziale, la chiave e il valore come mostrato. Assicurarsi di utilizzare l'ID chiave di accesso e la chiave di accesso segreta dell'utente S3. Assegnare un nome appropriato al segreto. Nell'esempio seguente, viene creato un segreto con credenziali utente di ONTAP S3 denominato credenziali ontap-S3.
+
+
+image::redhat_openshift_OADP_install_image4.png[Segreto per S3 credenziali utente]
+
+image::redhat_openshift_OADP_install_image5.png[Crea segreto per le credenziali utente S3]
+
+Per creare un segreto denominato sg-S3-credenziali dall'interfaccia CLI, è possibile utilizzare il seguente comando.
+
+image::redhat_openshift_OADP_install_image6.png[Creare un segreto per le credenziali utente di Storage Grid S3 utilizzando CLI]
+
+* Quindi, per configurare Velero, selezionare Installed Operators dalla voce di menu in Operators, fare clic sull'operatore OADP, quindi selezionare la scheda **DataProtectionApplication**.
+
+
+image::redhat_openshift_OADP_install_image7.jpg[DataProtectionApplication]
+
+Fare clic su Create DataProtectionApplication. Nella vista modulo, specificare un nome per l'applicazione DataProtection o utilizzare il nome predefinito.
+
+image::redhat_openshift_OADP_install_image8.jpg[Creare DataProtectionApplication]
+
+Passare ora alla visualizzazione YAML e sostituire le informazioni sulle specifiche come mostrato negli esempi di file yaml riportati di seguito.
+
+**Esempio di file yaml per la configurazione di Velero con ONTAP S3 come backupLocation**
+
+....
+spec:
+  backupLocations:
+    - velero:
+        config:
+          insecureSkipTLSVerify: 'false' ->use this for https communication with ONTAP S3
+          profile: default
+          region: us-east-1
+          s3ForcePathStyle: 'true'  ->This allows use of IP in s3URL
+          s3Url: 'https://10.61.181.161' ->Ensure TLS certificate for S3 is configured
+        credential:
+          key: cloud
+          name: ontap-s3-credentials -> previously created secret
+        default: true
+        objectStorage:
+          bucket: velero -> Your bucket name previously created in S3 for backups
+          prefix: container-demo-backup ->The folder that will be created in the bucket
+          caCert: <base64 encoded CA Certificate installed on ONTAP Cluster with the SVM Scope where the bucker exists>
+        provider: aws
+  configuration:
+    nodeAgent:
+      enable: true
+      uploaderType: kopia
+      #default Data Mover uses Kopia to move snapshots to Object Storage
+    velero:
+      defaultPlugins:
+        - csi ->This plugin to use CSI snapshots
+        - openshift
+        - aws
+        - kubevirt -> This plugin to use Velero with OIpenShift Virtualization
+....
+**Esempio di file yaml per la configurazione di Velero con StorageGRID S3 come backupLocation**
+
+....
+spec:
+  backupLocations:
+    - velero:
+        config:
+          insecureSkipTLSVerify: 'true'
+          profile: default
+          region: us-east-1 ->region of your StorageGrid system
+          s3ForcePathStyle: 'True'
+          s3Url: 'https://172.21.254.25:10443' ->the IP used to access S3
+        credential:
+          key: cloud
+          name: sg-s3-credentials ->secret created earlier
+        default: true
+        objectStorage:
+          bucket: velero
+          prefix: demobackup
+        provider: aws
+  configuration:
+    nodeAgent:
+      enable: true
+      uploaderType: kopia
+    velero:
+      defaultPlugins:
+        - csi
+        - openshift
+        - aws
+        - kubevirt
+....
+La sezione delle specifiche nel file yaml deve essere configurata in modo appropriato per i seguenti parametri, come nell'esempio precedente
+
+**BackupLocations**
+ONTAP S3 o StorageGRID S3 (con le relative credenziali e altre informazioni come mostrato in yaml) è configurato come BackupLocation predefinito per velero.
+
+**SnapshotLocations**
+Se si utilizzano gli snapshot Container Storage Interface (CSI), non è necessario specificare una posizione dello snapshot perché si creerà un VolumeSnapshotClass CR per registrare il driver CSI. Nel nostro esempio, si utilizza Astra Trident CSI e in precedenza si è creato VolumeSnapShotClass CR utilizzando il driver Trident CSI.
+
+**Attiva plugin CSI**
+Aggiungere csi ai prefaultPlugin per Velero per eseguire il backup dei volumi persistenti con gli snapshot CSI.
+I plug-in di Velero CSI, per eseguire il backup dei PVC supportati da CSI, sceglieranno VolumeSnapshotClass nel cluster su cui è impostata l'etichetta **velero.io/csi-volumesnapshot-class**. Per questo
+
+* È necessario creare il tridente VolumeSnapshotClass.
+* Modificare l'etichetta della classe trident-snapshotclass e impostarla su
+**velero.io/csi-volumesnapshot-class=true** come mostrato di seguito.
+
+
+image::redhat_openshift_OADP_install_image9.jpg[Etichetta classe istantanea Trident]
+
+Verificare che gli snapshot possano persistere anche se gli oggetti VolumeSnapshot vengono eliminati. A tale scopo, impostare *deletionPolicy* su Retain. In caso contrario, l'eliminazione di uno spazio dei nomi perderà completamente tutti i PVC di cui è stato eseguito il backup.
+
+....
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: trident-snapshotclass
+driver: csi.trident.netapp.io
+deletionPolicy: Retain
+....
+image::redhat_openshift_OADP_install_image10.jpg[Il criterio di eliminazione VolumeSnapshotClass deve essere impostato su Retain]
+
+Verificare che DataProtectionApplication sia stato creato e che sia in condizioni:riconciliato.
+
+image::redhat_openshift_OADP_install_image11.png[L'oggetto DataProtectionApplication viene creato]
+
+L'operatore OADP creerà un BackupStorageLocation corrispondente. Questo verrà utilizzato durante la creazione di un backup.
+
+image::redhat_openshift_OADP_install_image12.png[BackupStorageLocation viene creato]

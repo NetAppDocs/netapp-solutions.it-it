@@ -81,13 +81,13 @@ Velero può essere configurato per utilizzare l'archiviazione oggetti compatibil
 Per creare un segreto dalla console Web, selezionare segreti, quindi fare clic su chiave/valore segreto. Fornire i valori per il nome della credenziale, la chiave e il valore come mostrato. Assicurarsi di utilizzare l'ID chiave di accesso e la chiave di accesso segreta dell'utente S3. Assegnare un nome appropriato al segreto. Nell'esempio seguente, viene creato un segreto con credenziali utente di ONTAP S3 denominato credenziali ontap-S3.
 
 
-image::redhat_openshift_OADP_install_image4.jpg[Segreto per S3 credenziali utente]
+image::redhat_openshift_OADP_install_image4.png[Segreto per S3 credenziali utente]
 
-image::redhat_openshift_OADP_install_image5.jpg[Crea segreto per le credenziali utente S3]
+image::redhat_openshift_OADP_install_image5.png[Crea segreto per le credenziali utente S3]
 
 Per creare un segreto denominato sg-S3-credenziali dall'interfaccia CLI, è possibile utilizzare il seguente comando.
 
-image::redhat_openshift_OADP_install_image6.jpg[Crea segreto per le credenziali utente S3 utilizzando CLI]
+image::redhat_openshift_OADP_install_image6.png[Crea segreto per le credenziali utente S3 utilizzando CLI]
 
 * Quindi, per configurare Velero, selezionare Installed Operators dalla voce di menu in Operators, fare clic sull'operatore OADP, quindi selezionare la scheda DataProtectionApplication.
 
@@ -107,11 +107,11 @@ spec:
   backupLocations:
     - velero:
         config:
-          insecureSkipTLSVerify: 'true' ->use this for https communication with ONTAP S3
+          insecureSkipTLSVerify: 'false' ->use this for https communication with ONTAP S3
           profile: default
-          region: us-east
+          region: us-east-1
           s3ForcePathStyle: 'True' ->This allows use of IP in s3URL
-          s3Url: 'https://10.xx.xx.xx' ->Ensure TLS certificate for S3 is configured
+          s3Url: 'https://10.xx.xx.xx' ->LIF to access S3. Ensure TLS certificate for S3 is configured
         credential:
           key: cloud
           name: ontap-s3-credentials ->previously created secret

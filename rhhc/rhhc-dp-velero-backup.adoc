@@ -1,0 +1,77 @@
+---
+sidebar: sidebar 
+permalink: rhhc/rhhc-dp-velero-backup.html 
+keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OADP operator, Openshift Data Protection Application operator, Velero 
+summary: Protezione dei dati applicativi Red Hat OpenShift Container con NetApp ONTAP 
+---
+= Creazione di backup on-demand per le app in OpenShift Container Platform
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+In questa sezione viene descritto come creare backup su richiesta per le VM in OpenShift Virtualization.
+
+
+
+== Procedura per creare un backup di un'applicazione
+
+Per creare un backup su richiesta di un'app (metadati dell'app e volumi persistenti dell'app), fare clic sulla scheda **Backup** per creare una CR (Backup Custom Resource). Viene fornito un yaml di esempio per creare la CR di backup. Utilizzando questo yaml, verrà eseguito il backup dell'app e del relativo spazio dei nomi persistente nello spazio dei nomi specificato. È possibile impostare parametri aggiuntivi come illustrato nella link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/oadp-creating-backup-cr.html["documentazione"].
+
+Un'istantanea dei volumi persistenti e delle risorse dell'app nello spazio dei nomi specificato verrà creata dal CSI. Questa istantanea verrà memorizzata nella posizione di backup specificata in yaml. Il backup rimarrà nel sistema per 30 giorni come specificato nel ttl.
+
+....
+spec:
+  csiSnapshotTimeout: 10m0s
+  defaultVolumesToFsBackup: false
+  includedNamespaces:
+    - postgresql ->namespace of the app
+  itemOperationTimeout: 4h0m0s
+  snapshotMoveData: false
+  storageLocation: velero-container-backup-ontap-1 -->this is the backupStorageLocation previously created when Velero is configured.
+  ttl: 720h0m0s
+....
+Una volta completato il backup, la sua fase viene visualizzata come completata.
+
+image::redhat_openshift_OADP_backup_image1.png[Backup completato]
+
+È possibile esaminare il backup nell'archiviazione a oggetti con l'aiuto di un'applicazione browser S3. Il percorso del backup viene visualizzato nel bucket configurato con il nome del prefisso (velero/container-demo-backup). Il contenuto del backup comprende snapshot del volume, log e altri metadati dell'applicazione.
+
+
+NOTE: In StorageGRID, è anche possibile utilizzare la console S3 disponibile in Gestione tenant per visualizzare gli oggetti di backup.
+
+image::redhat_openshift_OADP_backup_image2.png[Oggetti di backup in S3]
+
+
+
+== Creazione di backup pianificati per le applicazioni
+
+Per creare backup in base a una pianificazione, è necessario creare una pianificazione CR. La pianificazione è semplicemente un'espressione Cron che consente di specificare l'ora in cui si desidera creare il backup. Di seguito è riportato un esempio di yaml per la creazione di una pianificazione CR.
+
+....
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: schedule1
+  namespace: openshift-adp
+spec:
+  schedule: 0 7 * * *
+  template:
+    includedNamespaces:
+      - postgresql
+    storageLocation: velero-container-backup-ontap-1
+....
+Cron Expression 0 7 * * * significa che ogni giorno verrà creato un backup alle 7:00:00.
+Vengono inoltre specificati gli spazi dei nomi da includere nel backup e la posizione di archiviazione per il backup. Quindi, invece di un CR di backup, il CR di pianificazione viene utilizzato per creare un backup all'ora e alla frequenza specificate.
+
+Una volta creata, la pianificazione viene attivata.
+
+image::redhat_openshift_OADP_backup_image3.png[Pianificazione creata]
+
+I backup verranno creati in base a questa pianificazione e possono essere visualizzati dalla scheda Backup.
+
+image::redhat_openshift_OADP_backup_image4.png[Backup pianificato completato]
