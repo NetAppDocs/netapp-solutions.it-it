@@ -103,10 +103,7 @@ Per gli ambienti AWX/tower, viene fornita una guida alla creazione di un inventa
 | VLAN NFS e ifgrp create 
 
 
-.6+| *Server Oracle* |  
-
-
-| RHEL 7/8 
+.5+| *Server Oracle* | RHEL 7/8 
 
 
 | Oracle Linux 7/8 
@@ -121,13 +118,16 @@ Per gli ambienti AWX/tower, viene fornita una guida alla creazione di un inventa
 | Impostare lo spazio di swap appropriato sull'istanza Oracle EC2, per impostazione predefinita alcune istanze EC2 sono implementate con 0 swap 
 
 
-.3+| *Cloud Manager/AWS* | Chiave segreta/accesso AWS 
+.4+| *Cloud Manager/AWS* | Chiave segreta/accesso AWS 
 
 
 | NetApp Cloud Manager 
 
 
 | Token di aggiornamento di NetApp Cloud Manager 
+
+
+| Aggiungere lifs intercluster di origine al gruppo AWS Security 
 |===
 --
 ====
@@ -137,7 +137,7 @@ Per gli ambienti AWX/tower, viene fornita una guida alla creazione di un inventa
 
 [role="tabbed-block"]
 ====
-.<strong class="big"> oN-</strong> <strong>|</strong>
+.<strong class="big"> </strong>
 --
 Questa implementazione automatica è progettata con un singolo playbook Ansible che consiste di tre ruoli separati. I ruoli sono per le configurazioni ONTAP, Linux e Oracle. La seguente tabella descrive le attività automatizzate.
 
