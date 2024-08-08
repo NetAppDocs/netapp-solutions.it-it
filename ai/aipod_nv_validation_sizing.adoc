@@ -23,19 +23,45 @@ Questa sezione è incentrata sulla convalida della soluzione e sulle linee guida
 La configurazione dello storage in questa soluzione è stata convalidata utilizzando una serie di carichi di lavoro sintetici utilizzando il tool open-source FIO. Questi test includono modelli di i/o in lettura e scrittura ideati per simulare il carico di lavoro dello storage generato dai sistemi DGX che eseguono lavori di training di deep learning. La configurazione dello storage è stata convalidata utilizzando un cluster di server CPU a 2 socket che eseguono contemporaneamente i carichi di lavoro FIO per simulare un cluster di sistemi DGX. Ciascun client è stato configurato con la stessa configurazione di rete descritta in precedenza, con l'aggiunta dei seguenti dettagli.
 
 Per questa convalida sono state utilizzate le seguenti opzioni di montaggio:
-• vers=4,1 # abilita pNFS per l'accesso parallelo a più nodi storage
-• proto=rdma # Imposta il protocollo di trasferimento su RDMA invece del TCP predefinito
-porta •=20049 # specificare la porta corretta per il servizio NFS RDMA
-• max_connect=16 # consente il trunking di sessione NFS per aggregare la larghezza di banda delle porte di storage
-• write=desideroso # migliora le prestazioni di scrittura delle scritture bufferizzate
-• Rsize=262144,wsize=262144 # imposta la dimensione di trasferimento i/o su 256k
 
+[cols="30%, 70%"]
+|===
+
+
+| vers=4,1 | Abilita pNFS per l'accesso parallelo a più nodi storage 
+
+
+| proto=rdma | Consente di impostare il protocollo di trasferimento su RDMA anziché sul TCP predefinito 
+
+
+| porta=20049 | Specificare la porta corretta per il servizio NFS RDMA 
+
+
+| max_connect=16 | Abilita il trunking di sessione NFS per aggregare la larghezza di banda delle porte di storage 
+
+
+| write=desideroso | migliora le prestazioni di scrittura delle scritture bufferizzate 
+
+
+| rsize=262144,wsize=262144 | Imposta le dimensioni di trasferimento i/o su 256k 
+|===
 Inoltre, i client sono stati configurati con un valore NFS max_session_slot pari a 1024. Quando la soluzione è stata collaudata con NFS su RDMA, le porte di storage network sono state configurate con un legame attivo/passivo. Per questa convalida sono stati utilizzati i seguenti parametri di legame:
-• mode=active-backup # imposta il legame in modalità attiva/passiva
-• primario=<interface name> # le interfacce primarie per tutti i client sono state distribuite tra gli switch
-• intervallo-monitor-mii=100 # specifica l'intervallo di monitoraggio di 100ms
-• fail-over-mac-policy=attivo # specifica che l'indirizzo MAC del collegamento attivo è il MAC del collegamento. Ciò è necessario per il corretto funzionamento di RDMA sull'interfaccia collegata.
 
+[cols="30%, 70%"]
+|===
+
+
+| mode=backup attivo | imposta il legame in modalità attiva/passiva 
+
+
+| primary (primario) = <interface name> | le interfacce primarie per tutti i client sono state distribuite tra gli switch 
+
+
+| intervallo-monitor-mii=100 | specifica l'intervallo di monitoraggio di 100ms 
+
+
+| fail-over-mac-policy=attivo | Specifica che l'indirizzo MAC del collegamento attivo è il MAC del collegamento. Ciò è necessario per il corretto funzionamento di RDMA sull'interfaccia collegata. 
+|===
 Il sistema storage è stato configurato come descritto con due coppie ha A900 (4 controller) con due shelf di dischi NS224 da 24 1,9TB dischi NVMe collegati a ciascuna coppia ha. Come indicato nella sezione "architettura", la capacità dello storage di tutti i controller è stata combinata con un volume FlexGroup, distribuendo i dati di tutti i client in tutti i controller del cluster.
 
 
@@ -44,4 +70,6 @@ Il sistema storage è stato configurato come descritto con due coppie ha A900 (4
 
 NetApp ha completato con successo la certificazione DGX BasePOD, e le due coppie ha A900 testate possono supportare facilmente un cluster di otto sistemi DGX H100. Per implementazioni più estese con requisiti di performance dello storage più elevati, è possibile aggiungere sistemi AFF al cluster NetApp ONTAP fino a 12 coppie ha (24 nodi) in un singolo cluster. Utilizzando la tecnologia FlexGroup descritta in questa soluzione, un cluster a 24 nodi può offrire oltre 40 PB e un throughput fino a 300 Gbps in un singolo namespace. Altri sistemi storage NetApp come AFF A400, A250 e C800 offrono performance e/o capacità superiori per implementazioni più piccole a prezzi inferiori. Poiché ONTAP 9 supporta cluster di modelli misti, i clienti possono partire con un impatto iniziale minore e aggiungere al cluster più sistemi storage o più grandi man mano che crescono i requisiti di capacità e performance. La tabella seguente mostra una stima approssimativa del numero di GPU A100 e H100 supportate su ciascun modello AFF.
 
-_Guida al dimensionamento del sistema di archiviazione NetApp_ immagine::aipod_nv_sizing_new.png[]
+_Guida al dimensionamento del sistema storage NetApp_
+
+image::aipod_nv_sizing_new.png[dimensioni nv aipod nuovo]
