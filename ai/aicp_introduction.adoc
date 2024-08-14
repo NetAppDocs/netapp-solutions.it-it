@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ai/aicp_introduction.html 
-keywords: tr-4798, tr4798, 4798, NetApp AI, Machine, Deep learning, introduction 
+keywords: tr-4798, tr4798, 4798, MLOps, Trident, ONTAP, containers, AI, Kubernetes, Kubeflow, Jupyter, Airflow, MLflow, JupyterHub 
 summary: Questa soluzione ha lo scopo di dimostrare diversi strumenti e framework open-source che possono essere incorporati in un flusso di lavoro MLOps. Questi tool e framework diversi possono essere utilizzati insieme o da soli a seconda dei requisiti e dei casi di utilizzo. 
 ---
 = MLOps open source con NetApp
@@ -13,18 +13,33 @@ summary: Questa soluzione ha lo scopo di dimostrare diversi strumenti e framewor
 :imagesdir: ./../media/
 
 
-Mike Oglesby, NetApp
-Mohan Acharya, NetApp
+NetApp, NetApp, NetApp, NetApp
 
 [role="lead"]
-Aziende e organizzazioni di ogni dimensione e in molti settori stanno passando all'intelligenza artificiale (ai), all'apprendimento automatico (ML) e al deep learning (DL) per risolvere problemi reali, offrire prodotti e servizi innovativi e ottenere un vantaggio in un mercato sempre più competitivo. Man mano che le organizzazioni aumentano l'utilizzo di ai, ML e DL, devono affrontare molte sfide, tra cui la scalabilità dei workload e la disponibilità dei dati. Questa soluzione dimostra come affrontare queste sfide abbinando le funzionalità di gestione dei dati di NetApp ai più diffusi strumenti e framework open-source.
+Le aziende e le organizzazioni di tutte le dimensioni e di molti settori si stanno rivolgendo all'intelligenza artificiale (ai) per risolvere problemi reali, fornire prodotti e servizi innovativi e ottenere un vantaggio in un marketplace sempre più competitivo. Molte organizzazioni si stanno rivolgendo a strumenti MLOps open-source per restare al passo con il rapido ritmo di innovazione del settore. Questi strumenti open source offrono funzionalità avanzate e funzioni all'avanguardia, ma spesso non tengono conto della disponibilità e della sicurezza dei dati. Sfortunatamente, ciò significa che i data scientist altamente qualificati sono costretti a trascorrere una significativa quantità di tempo in attesa di ottenere l'accesso ai dati o in attesa del completamento di rudimentali operazioni relative ai dati. Abbinando popolari strumenti MLOps open-source a un'infrastruttura dati intelligente di NetApp, le organizzazioni possono accelerare la propria pipeline di dati, che, a sua volta, accelera le proprie iniziative ai. Possono liberare valore dai propri dati garantendo al contempo protezione e sicurezza. Questa soluzione dimostra l'abbinamento delle funzionalità di gestione dei dati di NetApp con i diversi framework e tool open-source più diffusi per affrontare queste sfide.
 
-Questa soluzione ha lo scopo di dimostrare diversi strumenti e framework open-source che possono essere incorporati in un flusso di lavoro MLOps. Questi tool e framework diversi possono essere utilizzati insieme o da soli a seconda dei requisiti e dei casi di utilizzo.
+Il seguente elenco evidenzia alcune funzionalità chiave abilitate da questa soluzione:
 
-In questa soluzione vengono trattati i seguenti strumenti/framework:
-
-* link:https://airflow.apache.org["Flusso d'aria Apache"]
-* link:https://www.kubeflow.org["Kubeflow"]
+* Gli utenti possono eseguire rapidamente il provisioning di nuovi volumi di dati a elevata capacità e spazi di lavoro di sviluppo supportati dallo storage NetApp scale-out dalle performance elevate.
+* Gli utenti possono clonare near-Instant volumi di dati a elevata capacità e spazi di lavoro di sviluppo per consentire sperimentazione o iterazione rapida.
+* Gli utenti possono risparmiare in modo quasi istantaneo snapshot di volumi di dati a elevata capacità e spazi di lavoro di sviluppo per il backup e/o tracciabilità/baseline.
 
 
 image::aicp_image1.png[aicp image1]
+
+Un flusso di lavoro MLOps tipico include spazi di lavoro di sviluppo, in genere sotto forma di link:https://jupyter.org["Notebook Jupyter"^]; tracciamento degli esperimenti; pipeline di training automatizzate; pipeline di dati; inferenza/implementazione. Questa soluzione mette in evidenza diversi strumenti e framework che possono essere utilizzati in modo indipendente o congiunto per affrontare i diversi aspetti del flusso di lavoro. Viene inoltre illustrata l'associazione delle funzioni di gestione dei dati di NetApp con ciascuno di questi strumenti. Questa soluzione ha lo scopo di offrire elementi di base dai quali un'organizzazione può creare un flusso di lavoro MLOps personalizzato, specifico per i loro casi d'uso e requisiti.
+
+In questa soluzione vengono trattati i seguenti strumenti/framework:
+
+* link:https://airflow.apache.org["Flusso d'aria Apache"^]
+* link:https://jupyter.org/hub["JupyterHub"^]
+* link:https://www.kubeflow.org["Kubeflow"^]
+* link:https://www.mlflow.org["MLflow"^]
+
+
+Nel seguente elenco vengono descritti i modelli comuni per la distribuzione di questi strumenti in modo indipendente o congiunto.
+
+* Distribuire JupyterHub, MLflow e Apache Airflow in combinazione - JupyterHub per , MLflow per link:https://jupyter.org["Notebook Jupyter"^]il tracciamento degli esperimenti e Apache Airflow per la formazione automatizzata e le pipeline di dati.
+* Implementare Kubeflow e Apache Airflow in combinazione - Kubeflow per link:https://jupyter.org["Notebook Jupyter"^], tracciamento degli esperimenti, pipeline di training automatizzate e inferenza; e flusso d'aria Apache per pipeline di dati.
+* Implementare Kubeflow come soluzione di piattaforma all-in-one MLOps per link:https://jupyter.org["Notebook Jupyter"^], tracciamento degli esperimenti, formazione automatizzata e pipeline di dati e inferenza.
+

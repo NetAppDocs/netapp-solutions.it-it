@@ -1,0 +1,102 @@
+---
+sidebar: sidebar 
+permalink: ai/aicp_mlflow_deployment.html 
+keywords: AI, control plane, MLOps, MLflow 
+summary: MLOps open source con NetApp - implementazione MLflow 
+---
+= Distribuzione MLflow
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+Questa sezione descrive le attività che è necessario completare per implementare MLflow nel cluster Kubernetes.
+
+
+NOTE: È possibile implementare MLflow su piattaforme diverse da Kubernetes. L'implementazione di MLflow su piattaforme diverse da Kubernetes non rientra nell'ambito di questa soluzione.
+
+
+
+== Prerequisiti
+
+Prima di eseguire l'esercizio di implementazione descritto in questa sezione, si presuppone che siano già state eseguite le seguenti attività:
+
+. Hai già un cluster Kubernetes funzionante.
+. Hai già installato e configurato NetApp Astra Trident nel tuo cluster Kubernetes. Per ulteriori informazioni su Astra Trident, fare riferimento alla link:https://docs.netapp.com/us-en/trident/index.html["Documentazione di Astra Trident"^].
+
+
+
+
+== Installare Helm
+
+MLflow è implementato usando Helm, un noto gestore di pacchetti per Kubernetes. Prima di implementare MLflow, è necessario installare Helm sul nodo di controllo Kubernetes. Per installare Helm, seguire la https://helm.sh/docs/intro/install/["istruzioni per l'installazione"^] nella documentazione ufficiale di Helm.
+
+
+
+== Impostare la classe di storage Kubernetes predefinita
+
+Prima di implementare MLflow, devi indicare una classe storage predefinita all'interno del cluster Kubernetes. Per designare una StorageClass predefinita all'interno del cluster, segui le istruzioni riportate nella link:aicp_kubeflow_deployment_overview.html["Implementazione di Kubeflow"] sezione. Se è già stata designata una StorageClass predefinita all'interno del cluster, è possibile saltare questo passaggio.
+
+
+
+== Distribuire MLflow
+
+Una volta soddisfatti i prerequisiti, è possibile iniziare con la distribuzione di MLflow utilizzando il grafico del timone.
+
+
+
+=== Configurare la distribuzione di MLflow Helm Chart.
+
+Prima di distribuire MLflow utilizzando il grafico Helm, è possibile configurare la distribuzione in modo che utilizzi la classe di archiviazione NetApp Trident e modificare altri parametri in base alle proprie esigenze utilizzando un file *config.yaml*. Un esempio di file *config.yaml* è disponibile all'indirizzo: https://github.com/bitnami/charts/blob/main/bitnami/mlflow/values.yaml[]
+
+
+NOTE: È possibile impostare Trident storageClass nel parametro *global.defaultStorageClass* del file config.yaml (ad esempio storageClass: "ontap-flexvol").
+
+
+
+=== Installazione della Helm Chart
+
+Il grafico Helm può essere installato con il file personalizzato *config.yaml* per MLflow utilizzando il seguente comando:
+
+[source, shell]
+----
+helm install oci://registry-1.docker.io/bitnamicharts/mlflow -f config.yaml --generate-name --namespace jupyterhub
+----
+
+NOTE: Il comando implementa MLflow sul cluster Kubernetes nella configurazione personalizzata tramite il file *config.yaml* fornito. MLflow viene distribuito nello spazio dei nomi specificato e un nome di release casuale viene assegnato tramite kuPensioni per la release.
+
+
+
+=== Controllare distribuzione
+
+Una volta completata la distribuzione del grafico Helm, è possibile verificare se il servizio è accessibile utilizzando:
+
+[source, shell]
+----
+kubectl get service -n jupyterhub
+----
+
+NOTE: Sostituire *jupyterhub* con lo spazio dei nomi utilizzato durante la distribuzione.
+
+Vengono visualizzati i seguenti servizi:
+
+[source, shell]
+----
+NAME                              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)           AGE
+mlflow-1719843029-minio           ClusterIP   10.233.22.4     <none>        80/TCP,9001/TCP   25d
+mlflow-1719843029-postgresql      ClusterIP   10.233.5.141    <none>        5432/TCP          25d
+mlflow-1719843029-postgresql-hl   ClusterIP   None            <none>        5432/TCP          25d
+mlflow-1719843029-tracking        NodePort    10.233.2.158    <none>        30002:30002/TCP   25d
+----
+
+NOTE: Il file config.yaml è stato modificato per utilizzare il servizio NodePort per accedere a MLflow sulla porta 30002.
+
+
+
+=== Accesso a MLflow
+
+Una volta che tutti i servizi relativi a MLflow sono in funzione, è possibile accedervi utilizzando l'indirizzo IP di NodePort o LoadBalancer specificato (ad es. http://10.61.181.109:30002[])
