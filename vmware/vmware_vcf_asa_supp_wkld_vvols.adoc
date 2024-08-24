@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-In questo scenario dimostreremo come implementare e utilizzare ONTAP Tools per VMware vSphere (OTV) per configurare un datastore *vVol* per un dominio del carico di lavoro VCF.
+In questo scenario verrà illustrato come distribuire e utilizzare ONTAP Tools per VMware vSphere per configurare un datastore *vVol* per un dominio del carico di lavoro VCF.
 
 *ISCSI* viene utilizzato come protocollo storage per il datastore vVol.
 
@@ -213,16 +213,16 @@ image::vmware-vcf-asa-image34.png[Esaminare le selezioni di VMkernel]
 
 ==== Implementazione e utilizzo degli strumenti di ONTAP per configurare lo storage
 
-I seguenti passaggi vengono eseguiti sul cluster del dominio di gestione VCF utilizzando il client vSphere e prevedono la distribuzione di OTV, la creazione di un datastore iSCSI vVol e la migrazione delle VM di gestione al nuovo datastore.
+I seguenti passaggi vengono eseguiti sul cluster del dominio di gestione VCF utilizzando il client vSphere e prevedono la distribuzione di strumenti ONTAP, la creazione di un datastore iSCSI vVol e la migrazione delle VM di gestione al nuovo datastore.
 
-Per i domini di carico di lavoro VI, OTV viene installato nel cluster di gestione VCF ma registrato con vCenter associato al dominio del carico di lavoro VI.
+Per i domini del carico di lavoro VI, ONTAP Tools viene installato nel cluster di gestione VCF ma registrato con vCenter associato al dominio del carico di lavoro VI.
 
 Per ulteriori informazioni sulla distribuzione e l'utilizzo degli strumenti ONTAP in un ambiente vCenter multiplo, fare riferimento a. link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/configure/concept_requirements_for_registering_vsc_in_multiple_vcenter_servers_environment.html["Requisiti per la registrazione degli strumenti ONTAP in più ambienti vCenter Server"].
 
 .Implementa i tool ONTAP per VMware vSphere
 [%collapsible]
 ====
-I tool ONTAP per VMware vSphere (OTV) vengono implementati come appliance delle macchine virtuali e forniscono un'interfaccia utente vCenter integrata per la gestione dello storage ONTAP.
+I tool ONTAP per VMware vSphere vengono implementati come appliance VM e forniscono un'interfaccia utente vCenter integrata per la gestione dello storage ONTAP.
 
 Completa quanto segue per implementare i tool ONTAP per VMware vSphere:
 
@@ -259,10 +259,10 @@ image::vmware-vcf-aff-image24.png[Selezionare la rete]
 
 . Nella pagina Personalizza modello compilare tutte le informazioni richieste:
 +
-** Password da utilizzare per l'accesso amministrativo a OTV.
+** Password da utilizzare per l'accesso amministrativo agli strumenti ONTAP.
 ** Indirizzo IP del server NTP.
-** Password dell'account di manutenzione OTV.
-** Password DB Derby OTV.
+** Password dell'account di manutenzione degli strumenti ONTAP.
+** Password database derby strumenti ONTAP.
 ** Non selezionare la casella di controllo *Abilita VMware Cloud Foundation (VCF)*. La modalità VCF non è richiesta per distribuire lo storage supplementare.
 ** FQDN o indirizzo IP dell'appliance vCenter per *VI workload Domain*
 ** Credenziali per l'appliance vCenter del *VI workload Domain*
@@ -281,7 +281,7 @@ image::vmware-vcf-asa-image35.png[Personalizzare il modello OTV 2]
 
 
 
-. Leggere tutte le informazioni sulla pagina Pronto per il completamento e fare clic su fine per iniziare a implementare l'apparecchio OTV.
+. Leggere tutte le informazioni sulla pagina Pronto per il completamento e fare clic su fine per iniziare a distribuire l'appliance ONTAP Tools.
 
 
 ====
@@ -295,7 +295,7 @@ image::vmware-asa-image6.png[Strumenti NetApp ONTAP]
 +
 {nbsp}
 
-. Dal menu a discesa *INSTANCE* nell'interfaccia dello strumento ONTAP, selezionare l'istanza OTV associata al dominio del carico di lavoro da gestire.
+. Dal menu a discesa *INSTANCE* nell'interfaccia dello strumento ONTAP, selezionare l'istanza Strumenti ONTAP associata al dominio del carico di lavoro da gestire.
 +
 image::vmware-vcf-asa-image36.png[Scegliere istanza OTV]
 
