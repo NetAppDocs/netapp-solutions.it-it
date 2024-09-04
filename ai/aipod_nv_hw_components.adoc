@@ -31,7 +31,9 @@ NetApp AFF A900, basato sul software per la gestione dei dati NetApp ONTAP, offr
 • Sicurezza dei dati senza compromessi
 • Aggiornamenti semplificati senza interruzioni
 
-_Sistema di archiviazione NetApp AFF A900_ immagine::aipod_nv_A900.png[]
+_Sistema storage NetApp AFF A900_
+
+image::aipod_nv_A900.png[Aipod nv A900]
 
 
 
@@ -59,7 +61,9 @@ Per le implementazioni più grandi, i sistemi AFF A900 offrono le opzioni più e
 
 NVIDIA DGX BasePOD è una soluzione integrata che consiste di componenti hardware e software NVIDIA, soluzioni MLOps e storage di terze parti. Sfruttando le Best practice della progettazione di sistemi scale-out con i prodotti NVIDIA e le soluzioni validate dei partner, i clienti possono implementare una piattaforma efficiente e gestibile per lo sviluppo dell'intelligenza artificiale. La Figura 1 evidenzia i vari componenti di NVIDIA DGX BasePOD.
 
-_NVIDIA DGX BasePOD Solution_ immagine::aipod_nv_basepod_layers.png[]
+_Soluzione NVIDIA DGX BasePOD_
+
+image::aipod_nv_basepod_layers.png[aipod nv strati di base]
 
 
 
@@ -67,7 +71,9 @@ _NVIDIA DGX BasePOD Solution_ immagine::aipod_nv_basepod_layers.png[]
 
 Il sistema NVIDIA DGX H100&#8482; è la potenza dell'ai che viene accelerata dalle rivoluzionarie performance della GPU NVIDIA H100 Tensor Core.
 
-_Immagine sistema NVIDIA DGX H100_::aipod_nv_H100_3D.png[]
+_SISTEMA NVIDIA DGX H100_
+
+image::aipod_nv_H100_3D.png[Aipod nv H100 3D]
 
 Le specifiche chiave del sistema DGX H100 sono:
 • Otto GPU NVIDIA H100.
@@ -80,7 +86,9 @@ Le specifiche chiave del sistema DGX H100 sono:
 • 10,2 kW di potenza massima.
 Le porte posteriori del vassoio CPU DGX H100 sono mostrate di seguito. Quattro delle porte OSFP servono otto adattatori ConnectX-7 per il fabric di calcolo InfiniBand. Ogni coppia di adattatori ConnectX-7 dual-port fornisce percorsi paralleli ai fabric di storage e gestione. La porta out-of-band viene utilizzata per l'accesso a BMC.
 
-_Immagine pannello posteriore NVIDIA DGX H100_::aipod_nv_H100_REAR.png[]
+_Pannello posteriore NVIDIA DGX H100_
+
+image::aipod_nv_H100_rear.png[Supporto nv H100 posteriore]
 
 
 
@@ -90,7 +98,9 @@ _Immagine pannello posteriore NVIDIA DGX H100_::aipod_nv_H100_REAR.png[]
 
 ==== Switch NVIDIA Quantum-2 QM9700
 
-_Switch InfiniBand NVIDIA Quantum-2 QM9700_ immagine::aipod_nv_QM9700.png[]
+_Switch InfiniBand NVIDIA Quantum-2 QM9700_
+
+image::aipod_nv_QM9700.png[Aipod nv QM9700]
 
 Gli switch NVIDIA Quantum-2 QM9700 con connettività InfiniBand da 400GB GB/s alimentano il fabric di calcolo nelle configurazioni NVIDIA Quantum-2 InfiniBand BasePOD. Gli adattatori a porta singola ConnectX-7 vengono utilizzati per il fabric di calcolo InfiniBand. Ogni sistema NVIDIA DGX ha doppie connessioni a ogni switch QM9700, offrendo percorsi multipli a elevata larghezza di banda e bassa latenza tra i sistemi.
 
@@ -98,7 +108,9 @@ Gli switch NVIDIA Quantum-2 QM9700 con connettività InfiniBand da 400GB GB/s al
 
 ==== Switch NVIDIA Spectrum-3 SN4600
 
-_NVIDIA Spectrum-3 SN4600 switch_ image::aipod_nv_SN4600_hires_minimal.png[]
+_Switch NVIDIA Spectrum-3 SN4600_
+
+image::aipod_nv_SN4600_hires_smallest.png[Aipod nv SN4600 noleggi più piccoli]
 
 Gli switch NVIDIA Spectrum-3 SN4600 offrono un totale di 128 porte (64 per switch) per fornire connettività ridondante per la gestione in banda dei sistemi DGX BasePOD. Lo switch NVIDIA SN4600 è in grado di fornire velocità comprese tra 1 GbE e 200 GbE. Per le appliance di storage collegate tramite Ethernet, vengono utilizzati anche gli switch NVIDIA SN4600. Le porte degli adattatori NVIDIA DGX dual-port ConnectX-7 sono utilizzate sia per la gestione in banda che per la connettività dello storage.
 
@@ -106,7 +118,9 @@ Gli switch NVIDIA Spectrum-3 SN4600 offrono un totale di 128 porte (64 per switc
 
 ==== Switch NVIDIA Spectrum SN2201 GbE
 
-_NVIDIA Spectrum SN2201 switch_ immagine::aipod_nv_SN2201.png[]
+_Switch NVIDIA Spectrum SN2201_
+
+image::aipod_nv_SN2201.png[Aipod nv SN2201]
 
 Gli switch NVIDIA Spectrum SN2201 offrono 48 porte per fornire connettività per la gestione fuori banda. La gestione out-of-band fornisce una connettività di gestione consolidata per tutti i componenti in DGX BasePOD.
 
@@ -114,6 +128,8 @@ Gli switch NVIDIA Spectrum SN2201 offrono 48 porte per fornire connettività per
 
 ==== Adattatore NVIDIA ConnectX-7
 
-_Scheda NVIDIA ConnectX-7_ immagine::aipod_nv_CX7.png[]
+_Adattatore NVIDIA ConnectX-7_
+
+image::aipod_nv_CX7.png[Aipod nv CX7]
 
 L'adattatore NVIDIA ConnectX-7 è in grado di fornire un throughput di 25 GB/400G GB/100 GB/200 GB/50 GB. I sistemi NVIDIA DGX utilizzano gli adattatori ConnectX-7 a porta singola e doppia per garantire la flessibilità nelle implementazioni DGX BasePOD con InfiniBand da 400GB GB/s ed Ethernet 100/200GB.
