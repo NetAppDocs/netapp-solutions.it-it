@@ -20,11 +20,7 @@ Autore: Josh Powell
 
 
 
-== Utilizzare gli strumenti di ONTAP per configurare l'archiviazione supplementare per i domini di gestione VCF
-
-
-
-=== Panoramica dello scenario
+== Panoramica dello scenario
 
 Questo scenario copre i seguenti passaggi di alto livello:
 
@@ -37,7 +33,7 @@ Questo scenario copre i seguenti passaggi di alto livello:
 
 
 
-=== Prerequisiti
+== Prerequisiti
 
 Questo scenario richiede i seguenti componenti e configurazioni:
 
@@ -62,13 +58,13 @@ TIP: Nelle situazioni in cui più adattatori VMkernel sono configurati sulla ste
 
 
 
-=== Fasi di implementazione
+== Fasi di implementazione
 
 Per distribuire ONTAP Tools e utilizzarlo per creare un datastore VMFS nel dominio di gestione VCF, attenersi alla seguente procedura:
 
 
 
-==== Crea SVM e LIF su un sistema storage ONTAP
+=== Crea SVM e LIF su un sistema storage ONTAP
 
 Il passaggio seguente viene eseguito in Gestione di sistema di ONTAP.
 
@@ -105,7 +101,7 @@ image::vmware-vcf-asa-image04.png[Attiva account SVM e fine]
 ====
 
 
-==== Configurare il networking per iSCSI sugli host ESXi
+=== Configurare il networking per iSCSI sugli host ESXi
 
 I seguenti passaggi vengono eseguiti sul cluster del dominio di gestione VCF utilizzando il client vSphere.
 
@@ -202,7 +198,7 @@ image::vmware-vcf-asa-image12.png[Esaminare le selezioni di VMkernel]
 ====
 
 
-==== Implementazione e utilizzo degli strumenti di ONTAP per configurare lo storage
+=== Implementazione e utilizzo degli strumenti di ONTAP per configurare lo storage
 
 I seguenti passaggi vengono eseguiti sul cluster del dominio di gestione VCF utilizzando il client vSphere e prevedono la distribuzione di OTV, la creazione di un datastore iSCSI VMFS e la migrazione delle VM di gestione al nuovo datastore.
 
@@ -340,7 +336,7 @@ image::vmware-vcf-asa-image21.png[Riquadro attività recenti del client vSphere]
 ====
 
 
-=== Ulteriori informazioni
+== Ulteriori informazioni
 
 Per informazioni sulla configurazione dei sistemi storage ONTAP, consultare la link:https://docs.netapp.com/us-en/ontap["Documentazione di ONTAP 9"] centro.
 
@@ -348,7 +344,7 @@ Per informazioni sulla configurazione di VCF, fare riferimento a. link:https://d
 
 
 
-=== Video dimostrativo per questa soluzione
+== Video dimostrativo per questa soluzione
 
 .Archivi dati iSCSI come archiviazione supplementare per i domini di gestione VCF
 video::1d0e1af1-40ae-483a-be6f-b156015507cc[panopto,width=360]

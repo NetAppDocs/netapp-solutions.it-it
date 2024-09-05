@@ -20,11 +20,7 @@ Autore: Josh Powell
 
 
 
-== Configurare lo storage supplementare NVMe/TCP per i domini del carico di lavoro VCF
-
-
-
-=== Panoramica dello scenario
+== Panoramica dello scenario
 
 Questo scenario copre i seguenti passaggi di alto livello:
 
@@ -37,7 +33,7 @@ Questo scenario copre i seguenti passaggi di alto livello:
 
 
 
-=== Prerequisiti
+== Prerequisiti
 
 Questo scenario richiede i seguenti componenti e configurazioni:
 
@@ -58,13 +54,13 @@ Per ulteriori informazioni sulle considerazioni sulla progettazione NVMe per i s
 
 
 
-=== Fasi di implementazione
+== Fasi di implementazione
 
 Per creare un datastore VMFS su un dominio di carico di lavoro VCF utilizzando NVMe/TCP, completa i seguenti passaggi.
 
 
 
-==== Crea SVM, LIF e namespace NVMe su un sistema storage ONTAP
+=== Crea SVM, LIF e namespace NVMe su un sistema storage ONTAP
 
 Il passaggio seguente viene eseguito in Gestione di sistema di ONTAP.
 
@@ -144,7 +140,7 @@ Fare clic su *altre opzioni* per configurare elementi aggiuntivi come il criteri
 ====
 
 
-==== Configurare le schede di rete e il software NVMe sugli host ESXi
+=== Configurare le schede di rete e il software NVMe sugli host ESXi
 
 I seguenti passaggi vengono eseguiti sul cluster di dominio del carico di lavoro VI utilizzando il client vSphere. In questo caso viene utilizzato vCenter Single Sign-on, pertanto il client vSphere è comune sia ai domini di gestione che ai domini di workload.
 
@@ -334,7 +330,7 @@ image::vmware-vcf-asa-image107.png[Host connessi al datastore]
 ====
 
 
-=== Ulteriori informazioni
+== Ulteriori informazioni
 
 Per informazioni sulla configurazione dei sistemi storage ONTAP, consultare la link:https://docs.netapp.com/us-en/ontap["Documentazione di ONTAP 9"] centro.
 

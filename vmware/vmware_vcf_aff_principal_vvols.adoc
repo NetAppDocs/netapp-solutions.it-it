@@ -20,11 +20,7 @@ Autore: Josh Powell, Ravi BCB
 
 
 
-== Datastore VVol come storage principale per i domini del carico di lavoro VI
-
-
-
-=== Panoramica dello scenario
+== Panoramica dello scenario
 
 Se necessario, si farà riferimento alla documentazione esterna per le operazioni che devono essere eseguite in SDDC Manager di VCF e si tratterà solo delle operazioni specifiche per la parte relativa alla configurazione dello storage.
 
@@ -46,7 +42,7 @@ Questo scenario copre i seguenti passaggi di alto livello:
 
 
 
-=== Prerequisiti
+== Prerequisiti
 
 Questo scenario richiede i seguenti componenti e configurazioni:
 
@@ -68,13 +64,13 @@ Per informazioni sulla configurazione di VCF, fare riferimento a. link:https://d
 
 
 
-=== Fasi di implementazione
+== Fasi di implementazione
 
 La procedura per implementare un dominio del carico di lavoro VI con un datastore vVol come storage principale può essere divisa in due gruppi separati. Passaggi relativi alla creazione di un container vVol con ONTAP Tools per VMware vSphere e passaggi da completare in VCF SDDC Manager.
 
 
 
-==== Creare il contenitore vVol con gli strumenti ONTAP
+=== Creare il contenitore vVol con gli strumenti ONTAP
 
 Completare i seguenti passaggi per creare un contenitore vVol sul sistema di storage ONTAP.
 
@@ -226,6 +222,6 @@ image::vmware-vcf-aff-image34.png[Modulo di richiesta containerizzazione vvol]
 ====
 
 
-==== Distribuire VI workload Domain con vVol come storage principale
+=== Distribuire VI workload Domain con vVol come storage principale
 
 Completare i seguenti passaggi in SDDC Manager per distribuire un dominio del carico di lavoro VI con vVol come storage principale.

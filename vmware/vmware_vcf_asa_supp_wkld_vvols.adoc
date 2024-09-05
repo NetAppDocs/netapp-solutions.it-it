@@ -22,11 +22,7 @@ Autore: Josh Powell
 
 
 
-== Utilizzare gli strumenti di ONTAP per configurare l'archiviazione supplementare (vVol) per i domini del carico di lavoro VCF
-
-
-
-=== Panoramica dello scenario
+== Panoramica dello scenario
 
 Questo scenario copre i seguenti passaggi di alto livello:
 
@@ -39,7 +35,7 @@ Questo scenario copre i seguenti passaggi di alto livello:
 
 
 
-=== Prerequisiti
+== Prerequisiti
 
 Questo scenario richiede i seguenti componenti e configurazioni:
 
@@ -65,13 +61,13 @@ Per ulteriori informazioni sull'utilizzo degli archivi dati iSCSI VMFS con VMwar
 
 
 
-=== Fasi di implementazione
+== Fasi di implementazione
 
 Per distribuire ONTAP Tools e utilizzarlo per creare un datastore vVol nel dominio di gestione VCF, completare i seguenti passaggi:
 
 
 
-==== Crea SVM e LIF su un sistema storage ONTAP
+=== Crea SVM e LIF su un sistema storage ONTAP
 
 Il passaggio seguente viene eseguito in Gestione di sistema di ONTAP.
 
@@ -114,7 +110,7 @@ image::vmware-vcf-asa-image04.png[Attiva account SVM e fine]
 ====
 
 
-==== Configurare il networking per iSCSI sugli host ESXi
+=== Configurare il networking per iSCSI sugli host ESXi
 
 I seguenti passaggi vengono eseguiti sul cluster VI workload Domain utilizzando il client vSphere. In questo caso viene utilizzato vCenter Single Sign-on, pertanto il client vSphere è comune nei domini di gestione e carico di lavoro.
 
@@ -211,7 +207,7 @@ image::vmware-vcf-asa-image34.png[Esaminare le selezioni di VMkernel]
 ====
 
 
-==== Implementazione e utilizzo degli strumenti di ONTAP per configurare lo storage
+=== Implementazione e utilizzo degli strumenti di ONTAP per configurare lo storage
 
 I seguenti passaggi vengono eseguiti sul cluster del dominio di gestione VCF utilizzando il client vSphere e prevedono la distribuzione di strumenti ONTAP, la creazione di un datastore iSCSI vVol e la migrazione delle VM di gestione al nuovo datastore.
 
@@ -388,7 +384,7 @@ image::vmware-vcf-asa-image45.png[Pagina di riepilogo]
 ====
 
 
-=== Ulteriori informazioni
+== Ulteriori informazioni
 
 Per informazioni sulla configurazione dei sistemi storage ONTAP, consultare la link:https://docs.netapp.com/us-en/ontap["Documentazione di ONTAP 9"] centro.
 

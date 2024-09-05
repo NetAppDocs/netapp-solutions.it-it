@@ -13,10 +13,6 @@ summary:
 :imagesdir: ./../media/
 
 
-
-
-== Utilizza i tool ONTAP 10 per configurare datastore NFS per vSphere 8
-
 [role="lead"]
 I tool ONTAP per VMware vSphere 10 offrono un'architettura di nuova generazione che offre High Availability e scalabilità native per il provider VASA (con supporto di vVol iSCSI e NFS). In questo modo è possibile semplificare la gestione di più server VMware vCenter e cluster ONTAP.
 
@@ -24,7 +20,7 @@ In questo scenario dimostreremo come implementare e utilizzare gli strumenti ONT
 
 
 
-=== Panoramica della soluzione
+== Panoramica della soluzione
 
 Questo scenario copre i seguenti passaggi di alto livello:
 
@@ -37,7 +33,7 @@ Questo scenario copre i seguenti passaggi di alto livello:
 
 
 
-=== Architettura
+== Architettura
 
 Il diagramma seguente mostra i componenti architetturali di un tool ONTAP per l'implementazione di VMware vSphere 10.
 
@@ -45,7 +41,7 @@ image::vmware-nfs-otv10-image29.png[architettura otv10]
 
 
 
-=== Prerequisiti
+== Prerequisiti
 
 Questa soluzione richiede i seguenti componenti e configurazioni:
 
@@ -64,13 +60,13 @@ Strumenti ONTAP completi 10 risorse sono disponibili https://www.netapp.com/supp
 
 
 
-=== Fasi di implementazione
+== Fasi di implementazione
 
 Per implementare ONTAP Tools 10 e utilizzarlo per creare un archivio dati NFS nel dominio di gestione VCF, attenersi alla seguente procedura:
 
 
 
-==== Crea SVM e LIF su un sistema storage ONTAP
+=== Crea SVM e LIF su un sistema storage ONTAP
 
 Il passaggio seguente viene eseguito in Gestione di sistema di ONTAP.
 
@@ -110,7 +106,7 @@ image::vmware-vcf-asa-image04.png[Attiva account SVM e fine]
 ====
 
 
-==== Configurare il networking per NFS sugli host ESXi
+=== Configurare il networking per NFS sugli host ESXi
 
 I seguenti passaggi vengono eseguiti sul cluster VI workload Domain utilizzando il client vSphere. In questo caso viene utilizzato vCenter Single Sign-on, pertanto il client vSphere è comune nei domini di gestione e carico di lavoro.
 
@@ -196,7 +192,7 @@ image::vmware-nfs-otv10-image06.png[Esaminare le selezioni di VMkernel]
 ====
 
 
-==== Implementare e utilizzare gli strumenti ONTAP 10 per configurare lo storage
+=== Implementare e utilizzare gli strumenti ONTAP 10 per configurare lo storage
 
 I seguenti passaggi vengono eseguiti sul cluster vSphere 8 utilizzando il client vSphere e prevedono la distribuzione di OTV, la configurazione di ONTAP Tools Manager e la creazione di un datastore vVol NFS.
 
@@ -441,7 +437,7 @@ image::vmware-nfs-otv10-image32.png[Riquadro attività recenti]
 ====
 
 
-=== Ulteriori informazioni
+== Ulteriori informazioni
 
 Per un elenco completo dei tool ONTAP per le risorse di VMware vSphere 10, consultare https://www.netapp.com/support-and-training/documentation/ontap-tools-for-vmware-vsphere-documentation/["Strumenti ONTAP per le risorse di documentazione di VMware vSphere"] .
 
