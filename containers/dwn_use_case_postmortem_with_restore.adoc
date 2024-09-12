@@ -24,7 +24,7 @@ In link:dwn_use_case_integrated_data_protection.html["primo caso di utilizzo"], 
 
 In un workflow tradizionale, dopo aver riscontrato un errore quando l'applicazione viene aggiornata a una nuova versione, il team di sviluppo tentava di risolvere il problema in tempo reale in base ai report di bug forniti dai clienti. In alternativa, al primo segnale di problemi, il team potrebbe tentare di ridistribuire l'applicazione in un ambiente di debug parallelo per portare il processo offline. Potevano ridistribuire una base di codice precedente da una versione precedente in produzione, ripristinando l'applicazione in ordine di lavoro.
 
-image::dwn_image9.jpg[Workflow tradizionale]
+image:dwn_image9.jpg["Workflow tradizionale"]
 
 Anche se questo approccio funziona, il team dovrebbe assicurarsi che lo stato dell'applicazione di produzione guasta corrisponda a quello della versione vista in produzione quando si sono verificati i problemi. Inoltre, dovrebbero dedicare del tempo alla promozione della build sicuramente funzionante in produzione, recuperando il codice dal repository e ridistribuendo le immagini della macchina per ripristinare l'applicazione a un buon stato di esecuzione. Inoltre, in questo scenario, non abbiamo considerato se il database di produzione stesso fosse corrotto dal codice difettoso. Idealmente, esistono processi di backup separati per i dati del database, ma dobbiamo presumere che siano coerenti con lo stato dell'applicazione così come è stata pubblicata? È qui che i benefici di backup, ripristini e cloni stateful e coerenti con l'applicazione con Astra Control dimostrano davvero il loro valore.
 
@@ -32,7 +32,7 @@ Innanzitutto, possiamo utilizzare Astra Control per facilitare l'analisi post-mo
 
 Inoltre, Astra Control supporta la funzionalità di ripristino in-place che consente di ripristinare l'applicazione di produzione a un ultimo backup accettabile (che ha preceduto la versione del codice interessata). La versione ripristinata assume la posizione dell'applicazione di produzione precedente, in modo coerente e stateful con l'applicazione, incluso l'IP di ingresso precedentemente assegnato. Di conseguenza, i clienti che accedono al front-end non sarebbero a conoscenza della transizione alla versione di backup.
 
-image::dwn_image10.jpg[Workflow post-mortem]
+image:dwn_image10.jpg["Workflow post-mortem"]
 
 
 
@@ -57,7 +57,7 @@ I seguenti strumenti o piattaforme sono stati implementati e configurati come pr
 
 Considerando che l'applicazione è stata aggiornata a una nuova versione, l'applicazione nell'ambiente di produzione (`magento-prod`) non si comporta come previsto dopo l'aggiornamento. Supponiamo che i dati restituiti dalle query front-end non corrispondano alla richiesta o che il database sia stato effettivamente danneggiato. Per clonare e ripristinare la pipeline, attenersi alla seguente procedura:
 
-image::dwn_image12.jpg[App non riuscita]
+image:dwn_image12.jpg["App non riuscita"]
 
 . Accedere a Jenkins e creare una pipeline facendo clic su New Item (nuovo elemento), quindi su Pipeline (pipeline).
 . Copiare la pipeline dal file Jenkinsfile https://github.com/NetApp/netapp-astra-toolkits/blob/main/ci_cd_examples/jenkins_pipelines/clone_for_postmortem_and_restore/Jenkinsfile["qui"^].
@@ -79,15 +79,15 @@ DEBUG_KUBERNETES_CLUSTER = 'ocp-vmw'
 ----
 . Fare clic su Crea ora. La pipeline inizia a essere eseguita e procede attraverso le fasi. L'applicazione viene prima clonata nello stato corrente in un ambiente di debug e quindi ripristinata al backup funzionante.
 +
-image::dwn_image15.jpg[Pipeline post-mortem]
+image:dwn_image15.jpg["Pipeline post-mortem"]
 
 . Verificare che l'applicazione clonata sia la versione contenente bug.
 +
-image::dwn_image13.jpg[Applicazione clonata non riuscita]
+image:dwn_image13.jpg["Applicazione clonata non riuscita"]
 
 . Verificare che l'ambiente di produzione sia ripristinato a un backup funzionante e che l'applicazione in produzione funzioni come previsto.
 +
-image::dwn_image14.jpg[Ripristinata l'app Prod]
+image:dwn_image14.jpg["Ripristinata l'app Prod"]
 
 
 

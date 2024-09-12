@@ -41,11 +41,11 @@ Per ulteriori informazioni su FSxN, si prega di dare un'occhiata a questa presen
 
 . Apri la console AWS. Nel pannello di ricerca, cerca SageMaker e fai clic sul servizio *Amazon SageMaker*.
 +
-image::mlops_fsxn_s3_integration_0.png[Apri la console AWS]
+image:mlops_fsxn_s3_integration_0.png["Apri la console AWS"]
 
 . Aprire *istanze notebook* nella scheda notebook, fare clic sul pulsante arancione *Crea istanza notebook*.
 +
-image::mlops_fsxn_s3_integration_1.png[Console istanza notebook AWS SageMaker]
+image:mlops_fsxn_s3_integration_1.png["Console istanza notebook AWS SageMaker"]
 
 . Nella pagina di creazione,
 Immettere il *nome istanza notebook*
@@ -53,7 +53,7 @@ Espandere il pannello *rete*
 Lasciare le altre voci predefinite e selezionare i gruppi *VPC*, *Subnet* e *protezione*. (Questa *VPC* e *sottorete* verranno utilizzate per creare il file system FSxN in un secondo momento)
 Fare clic sul pulsante arancione *Crea istanza notebook* in basso a destra.
 +
-image::mlops_fsxn_s3_integration_2.png[Creare l'istanza del notebook]
+image:mlops_fsxn_s3_integration_2.png["Creare l'istanza del notebook"]
 
 
 
@@ -63,47 +63,47 @@ image::mlops_fsxn_s3_integration_2.png[Creare l'istanza del notebook]
 
 . Apri la console AWS. Nel pannello di ricerca, cercate FSX e fate clic sul servizio *FSX*.
 +
-image::mlops_fsxn_s3_integration_3.png[Pannello FSX]
+image:mlops_fsxn_s3_integration_3.png["Pannello FSX"]
 
 . Fare clic su *Crea file system*.
 +
-image::mlops_fsxn_s3_integration_4.png[Creare il file system]
+image:mlops_fsxn_s3_integration_4.png["Creare il file system"]
 
 . Selezionare la prima scheda *FSX per NetApp ONTAP* e fare clic su *Avanti*.
 +
-image::mlops_fsxn_s3_integration_5.png[Selezionare il tipo di file system]
+image:mlops_fsxn_s3_integration_5.png["Selezionare il tipo di file system"]
 
 . Nella pagina di configurazione dei dettagli.
 +
 .. Selezionare l'opzione *creazione standard*.
 +
-image::mlops_fsxn_s3_integration_6.png[Pannello Crea file system]
+image:mlops_fsxn_s3_integration_6.png["Pannello Crea file system"]
 
 .. Immettere il *nome del file system* e la *capacità di archiviazione SSD*.
 +
-image::mlops_fsxn_s3_integration_7.png[Specificare i dettagli del file system]
+image:mlops_fsxn_s3_integration_7.png["Specificare i dettagli del file system"]
 
 .. Assicurarsi di utilizzare *VPC* e *subnet* uguali all'istanza *SageMaker notebook*.
 +
-image::mlops_fsxn_s3_integration_8.png[Configurazione di rete e sicurezza]
+image:mlops_fsxn_s3_integration_8.png[" di rete; configurazione di sicurezza"]
 
 .. Immettere il nome *Storage Virtual Machine* e *specificare una password* per la SVM (Storage Virtual Machine).
 +
-image::mlops_fsxn_s3_integration_9.png[Configurazione predefinita della macchina virtuale di storage]
+image:mlops_fsxn_s3_integration_9.png["Configurazione predefinita della macchina virtuale di storage"]
 
 .. Lasciare le altre voci predefinite e fare clic sul pulsante arancione *Avanti* in basso a destra.
 +
-image::mlops_fsxn_s3_integration_10.png[Confermare la configurazione]
+image:mlops_fsxn_s3_integration_10.png["Confermare la configurazione"]
 
 .. Fare clic sul pulsante arancione *Crea file system* in basso a destra nella pagina di revisione.
 +
-image::mlops_fsxn_s3_integration_11.png[Esaminare la configurazione e confermare la creazione]
+image:mlops_fsxn_s3_integration_11.png["Esaminare la configurazione e confermare la creazione"]
 
 
 
 . L'accelerazione del file system FSX può richiedere circa *20-40 minuti*.
 +
-image::mlops_fsxn_s3_integration_12.png[Esaminare la console FSX]
+image:mlops_fsxn_s3_integration_12.png["Esaminare la console FSX"]
 
 
 
@@ -117,24 +117,24 @@ image::mlops_fsxn_s3_integration_12.png[Esaminare la console FSX]
 
 . Aprire il file system FSX creato. Assicurarsi che lo stato sia *disponibile*.
 +
-image::mlops_fsxn_s3_integration_13.png[Attendere la creazione del backend]
+image:mlops_fsxn_s3_integration_13.png["Attendere la creazione del backend"]
 
 . Selezionare la scheda *Amministrazione* e mantenere *endpoint di gestione - indirizzo IP* e *nome utente amministratore ONTAP*.
 +
-image::mlops_fsxn_s3_integration_14.png[Console dei dettagli del file system]
+image:mlops_fsxn_s3_integration_14.png["Console dei dettagli del file system"]
 
 . Aprire l'istanza creata *SageMaker notebook* e fare clic su *Apri JupyterLab*.
 +
-image::mlops_fsxn_s3_integration_15.png[Console istanza notebook AWS SageMaker]
+image:mlops_fsxn_s3_integration_15.png["Console istanza notebook AWS SageMaker"]
 
 . Nella pagina Jupyter Lab, aprire un nuovo *terminale*.
 +
-image::mlops_fsxn_s3_integration_16.png[Pagina di benvenuto di Jupyter Lab]
+image:mlops_fsxn_s3_integration_16.png["Pagina di benvenuto di Jupyter Lab"]
 
 . Inserisci il comando ssh ssh <nome utente admin>@<IP server ONTAP> per accedere al file system FSxN ONTAP. (Il nome utente e l'indirizzo IP sono recuperati dalla fase 2)
 Utilizzare la password utilizzata durante la creazione della *Storage Virtual Machine*.
 +
-image::mlops_fsxn_s3_integration_17.png[Terminale Jupyter Lab]
+image:mlops_fsxn_s3_integration_17.png["Terminale Jupyter Lab"]
 
 . Eseguire i comandi nel seguente ordine.
 Utilizziamo *fsxn-ontap* come nome per il *nome bucket S3 privato FSxN*.
@@ -151,7 +151,7 @@ vserver object-store-server group create -name s3group -users s3user -policies F
 vserver object-store-server bucket create fsxn-ontap -vserver fsxn-svm-demo -type nas -nas-path /vol1
 ----
 +
-image::mlops_fsxn_s3_integration_18.png[Uscita terminale Jupyter Lab]
+image:mlops_fsxn_s3_integration_18.png["Uscita terminale Jupyter Lab"]
 
 . Eseguire i seguenti comandi per recuperare l'IP dell'endpoint e le credenziali per FSxN private S3.
 +
@@ -165,7 +165,7 @@ vserver object-store-server user show
 ----
 . Conservare l'IP dell'endpoint e le credenziali per un utilizzo futuro.
 +
-image::mlops_fsxn_s3_integration_19.png[Terminale Jupyter Lab]
+image:mlops_fsxn_s3_integration_19.png["Terminale Jupyter Lab"]
 
 
 
@@ -175,7 +175,7 @@ image::mlops_fsxn_s3_integration_19.png[Terminale Jupyter Lab]
 
 . Nell'istanza di notebook SageMaker, creare un nuovo notebook Jupyter.
 +
-image::mlops_fsxn_s3_integration_20.png[Aprire un nuovo notebook Jupyter]
+image:mlops_fsxn_s3_integration_20.png["Aprire un nuovo notebook Jupyter"]
 
 . Utilizzare il codice riportato di seguito come soluzione alternativa per caricare i file nel bucket S3 privato di FSxN.
 Per un esempio di codice completo, fare riferimento a questo notebook.

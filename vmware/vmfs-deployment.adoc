@@ -48,7 +48,7 @@ NOTE: Il tool per la valutazione del TCO è accessibile solo ai partner e ai tea
 
 Ecco uno screenshot dello strumento per la valutazione del TCO.
 
-image::vmfs-deploy-image1.png[distribuzione di vmfs image1]
+image:vmfs-deploy-image1.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -58,9 +58,9 @@ Una volta che lo stimatore mostra i risparmi possibili (situazione tipica di qua
 
 Di seguito sono riportati gli screenshot di Cloud Insights.
 
-image::vmfs-deploy-image2.png[distribuzione di vmfs image2]
+image:vmfs-deploy-image2.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-image::vmfs-deploy-image3.png[distribuzione di vmfs image3]
+image:vmfs-deploy-image3.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 NOTE: Condurre valutazioni regolari per individuare le risorse sottoutilizzate, aumentare la densità delle macchine virtuali e utilizzare i cluster VMware per controllare i costi crescenti associati alle nuove licenze in abbonamento. È consigliabile ridurre il numero di core per CPU a 16 per gli acquisti di nuovi server, in modo da allinearlo alle modifiche dei modelli di licenza VMware.
@@ -100,26 +100,26 @@ NOTE: Sono richiesti tre indirizzi IP per l'implementazione - un indirizzo IP pe
 NOTE: In questa procedura dettagliata viene utilizzata l'opzione di distribuzione semplificata.
 
 +
-image::vmfs-deploy-image4.png[distribuzione di vmfs image4]
+image:vmfs-deploy-image4.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Scegliere il datastore per implementare l'OVA e la rete di origine e di destinazione. Al termine, selezionare Avanti.
 . È ora di personalizzare il modello > finestra di configurazione del sistema.
 +
-image::vmfs-deploy-image5.png[distribuzione di vmfs image5]
+image:vmfs-deploy-image5.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
-image::vmfs-deploy-image6.png[distribuzione di vmfs image6]
+image:vmfs-deploy-image6.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
-image::vmfs-deploy-image7.png[distribuzione di vmfs image7]
+image:vmfs-deploy-image7.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
 Una volta completata l'installazione, la console Web mostra lo stato degli strumenti ONTAP per VMware vSphere.
 
-image::vmfs-deploy-image8.png[distribuzione di vmfs image8]
+image:vmfs-deploy-image8.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-image::vmfs-deploy-image9.png[distribuzione di vmfs image9]
+image:vmfs-deploy-image9.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 NOTE: La procedura guidata per la creazione di datastore supporta il provisioning di datastore VMFS, NFS e vVol.
@@ -129,27 +129,27 @@ Per questa procedura dettagliata, è giunto il momento di eseguire il provisioni
 . Accedere al client vSphere utilizzando https://vcenterip/ui[]
 . Fare clic con il pulsante destro del mouse su un host o un cluster host o un datastore, quindi selezionare Strumenti NetApp ONTAP > Crea archivio dati.
 +
-image::vmfs-deploy-image10.png[distribuzione di vmfs image10]
+image:vmfs-deploy-image10.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nel riquadro tipo, selezionare VMFS in tipo datastore.
 +
-image::vmfs-deploy-image11.png[distribuzione di vmfs image11]
+image:vmfs-deploy-image11.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nel riquadro Nome e protocollo, immettere il nome del datastore, le dimensioni e le informazioni sul protocollo. Nella sezione Opzioni avanzate del riquadro, selezionare il cluster di datastore se si desidera aggiungere questo datastore.
 +
-image::vmfs-deploy-image12.png[distribuzione di vmfs image12]
+image:vmfs-deploy-image12.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare piattaforma e VM di archiviazione nel riquadro archiviazione. Specificare il nome del gruppo iniziatore personalizzato nella sezione Opzioni avanzate del riquadro (facoltativo). È possibile scegliere un igroup esistente per l'archivio dati o creare un nuovo igroup con un nome personalizzato.
 +
-image::vmfs-deploy-image13.png[distribuzione di vmfs image13]
+image:vmfs-deploy-image13.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nel riquadro degli attributi dello storage, selezionare aggregate dal menu a discesa. Selezionare Space Reserve (riserva di spazio), Volume Options (opzione volume) e Enable QoS Options (attiva opzioni QoS) come richiesto dalla sezione Advanced Options (Opzioni avanzate).
 +
-image::vmfs-deploy-image14.png[distribuzione di vmfs image14]
+image:vmfs-deploy-image14.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Esaminare i dettagli del datastore nel riquadro Riepilogo e fare clic su fine. Il datastore VMFS viene creato e montato su tutti gli host.
 +
-image::vmfs-deploy-image15.png[distribuzione di vmfs image15]
+image:vmfs-deploy-image15.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -168,7 +168,7 @@ Le primitive VAAI vengono utilizzate nelle operazioni vSphere di routine, come c
 * Bonifica dello spazio
 
 
-image::vmfs-deploy-image16.png[distribuzione di vmfs image16]
+image:vmfs-deploy-image16.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 NOTE: Verificare che HardwareAcceleratedMove sia attivato tramite le opzioni di configurazione avanzate ESX.
@@ -176,12 +176,12 @@ NOTE: Verificare che HardwareAcceleratedMove sia attivato tramite le opzioni di 
 
 NOTE: Assicurarsi che il LUN abbia attivato la "allocazione dello spazio". Se non è attivata, attivare l'opzione ed eseguire nuovamente la scansione di tutti gli HBA.
 
-image::vmfs-deploy-image17.png[distribuzione di vmfs image17]
+image:vmfs-deploy-image17.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 NOTE: Questi valori sono facilmente impostabili utilizzando gli strumenti ONTAP per VMware vSphere. Dal dashboard Panoramica, accedere alla scheda di conformità dell'host ESXi e selezionare l'opzione Applica impostazioni consigliate. Nella finestra Apply Recommended host settings (Applica impostazioni host consigliate), selezionare gli host e fare clic su Next (Avanti) per applicare le impostazioni dell'host consigliate da NetApp.
 
-image::vmfs-deploy-image18.png[distribuzione di vmfs image18]
+image:vmfs-deploy-image18.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Visualizzare le istruzioni dettagliate per link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-settings.html["Host ESXi consigliato e altre impostazioni ONTAP"].
 
@@ -191,7 +191,7 @@ Visualizzare le istruzioni dettagliate per link:https://docs.netapp.com/us-en/on
 
 Un backup efficiente delle macchine virtuali sul datastore VMFS e un loro rapido recupero sono alcuni dei vantaggi chiave di ONTAP per vSphere. Grazie all'integrazione con vCenter, il software NetApp SnapCenter® offre un'ampia gamma di funzionalità di backup e ripristino per le macchine virtuali. Offre operazioni di backup e ripristino rapide, efficienti in termini di spazio, coerenti con i crash e coerenti con le VM per VM, datastore e VMDK. Funziona anche con SnapCenter Server per supportare operazioni di backup e ripristino basate sull'applicazione in ambienti VMware utilizzando i plug-in specifici delle applicazioni di SnapCenter. L'utilizzo delle copie Snapshot consente di eseguire copie rapide della macchina virtuale o del datastore senza alcun impatto sulle prestazioni e di utilizzare la tecnologia NetApp SnapMirror® o NetApp SnapVault® per la protezione dei dati off-site a lungo termine.
 
-image::vmfs-deploy-image19.png[distribuzione di vmfs image19]
+image:vmfs-deploy-image19.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Il flusso di lavoro è semplice. Aggiungi sistemi di storage primario e SVM (e secondario se richiesto SnapMirror/SnapVault).
 
@@ -223,11 +223,11 @@ La procedura di distribuzione è la seguente:
 . Attendere il completamento delle attività di importazione e distribuzione di OVF.
 . Una volta implementato con successo il plug-in SnapCenter per VMware, questo verrà registrato in vCenter. Lo stesso può essere verificato accedendo a Administration > Client Plugin
 +
-image::vmfs-deploy-image20.png[distribuzione di vmfs image20]
+image:vmfs-deploy-image20.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Per accedere al plug-in, spostarsi sul sidecar sinistro della pagina del client web vCenter, selezionare Plug-in SnapCenter per VMware.
 +
-image::vmfs-deploy-image21.png[distribuzione di vmfs image21]
+image:vmfs-deploy-image21.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -248,10 +248,10 @@ Il processo è diretto.
 . Selezionare Aggiungi per aggiungere le informazioni relative allo "storage".
 . Utilizzare le credenziali come metodo di autenticazione e immettere il nome utente e la relativa password, quindi fare clic su Aggiungi per salvare le impostazioni.
 +
-image::vmfs-deploy-image22.png[distribuzione di vmfs image22]
+image:vmfs-deploy-image22.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
-image::vmfs-deploy-image23.png[distribuzione di vmfs image23]
+image:vmfs-deploy-image23.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -266,7 +266,7 @@ Prima di eseguire il backup delle macchine virtuali e dei datastore, è necessar
 . Nel riquadro di sinistra del Navigator del plug-in SnapCenter per VMware, fare clic su Criteri.
 . Nella pagina Policy, fare clic su Create (Crea) per avviare la procedura guidata.
 +
-image::vmfs-deploy-image24.png[distribuzione di vmfs image24]
+image:vmfs-deploy-image24.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nella pagina New Backup Policy (nuovo criterio di backup), immettere il nome del criterio.
 . Specificare la conservazione, le impostazioni di frequenza e la replica.
@@ -279,7 +279,7 @@ NOTE: Per replicare le copie Snapshot in un sistema storage secondario mirror o 
 NOTE: Per consentire backup coerenti con le VM, è necessario installare ed eseguire gli strumenti VMware. Quando la casella coerenza VM è selezionata, le VM vengono prima disattivate, quindi VMware esegue uno snapshot coerente della VM (memoria esclusa), quindi il plug-in SnapCenter per VMware esegue l'operazione di backup, quindi le operazioni della VM vengono ripristinate.
 
 +
-image::vmfs-deploy-image25.png[distribuzione di vmfs image25]
+image:vmfs-deploy-image25.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
 Una volta creato il criterio, il passaggio successivo consiste nel creare il gruppo di risorse che definirà gli archivi dati iSCSI e le macchine virtuali di cui eseguire il backup. Una volta creato il gruppo di risorse, è il momento di attivare i backup.
@@ -300,24 +300,24 @@ Per creare un gruppo di risorse, procedere come segue.
 Un'altra opzione per creare un gruppo di risorse consiste nel selezionare rispettivamente la singola macchina virtuale o il datastore e nel creare un gruppo di risorse.
 
 +
-image::vmfs-deploy-image26.png[distribuzione di vmfs image26]
+image:vmfs-deploy-image26.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nella pagina risorse, selezionare l'ambito (macchine virtuali o datastore) e il data center.
 +
-image::vmfs-deploy-image27.png[distribuzione di vmfs image27]
+image:vmfs-deploy-image27.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nella pagina Spanning Disks (dischi di spanning), selezionare un'opzione per macchine virtuali con più VMDK in più datastore
 . Il passo successivo consiste nell'associare un criterio di backup. Selezionare un criterio esistente o creare un nuovo criterio di backup.
 . Nella pagina Pianificazioni, configurare la pianificazione di backup per ciascun criterio selezionato.
 +
-image::vmfs-deploy-image28.png[distribuzione di vmfs image28]
+image:vmfs-deploy-image28.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Una volta effettuate le selezioni appropriate, fare clic su Finish (fine).
 +
 In questo modo si crea un nuovo gruppo di risorse e si aggiunge all'elenco dei gruppi di risorse.
 
 +
-image::vmfs-deploy-image29.png[distribuzione di vmfs image29]
+image:vmfs-deploy-image29.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -329,12 +329,12 @@ Ora è il momento di attivare un backup. Le operazioni di backup vengono eseguit
 
 . Nell'area di navigazione a sinistra della pagina del client Web vCenter, selezionare Plug-in SnapCenter per VMware > gruppi di risorse, quindi selezionare il gruppo di risorse designato. Selezionare Esegui ora per avviare il backup ad-hoc.
 +
-image::vmfs-deploy-image30.png[distribuzione di vmfs image30]
+image:vmfs-deploy-image30.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Se il gruppo di risorse dispone di più criteri configurati, selezionare il criterio per l'operazione di backup nella finestra di dialogo Esegui backup ora.
 . Selezionare OK per avviare il backup.
 +
-image::vmfs-deploy-image31.png[distribuzione di vmfs image31]
+image:vmfs-deploy-image31.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
 Monitorare l'avanzamento dell'operazione selezionando attività recenti nella parte inferiore della finestra o in Job Monitor del dashboard per ulteriori dettagli.
@@ -350,23 +350,23 @@ Il plug-in di SnapCenter per VMware consente di ripristinare le macchine virtual
 . Nella GUI del client web VMware vSphere, selezionare Menu nella barra degli strumenti. Selezionare inventario, quindi macchine virtuali e modelli.
 . Nella barra di navigazione a sinistra, selezionare la macchina virtuale, quindi selezionare la scheda Configura, selezionare Backup in Plug-in SnapCenter per VMware. Fare clic sul processo di backup da cui deve essere ripristinata la VM.
 +
-image::vmfs-deploy-image32.png[distribuzione di vmfs image32]
+image:vmfs-deploy-image32.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare la VM da ripristinare dal backup.
 +
-image::vmfs-deploy-image33.png[distribuzione di vmfs image33]
+image:vmfs-deploy-image33.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nella pagina Select Scope (Seleziona ambito), selezionare Whole Virtual Machine (intera macchina virtuale) nel campo Restore Scope (Ripristina ambito), quindi selezionare Restore location (Ripristina posizione) e immettere le informazioni ESXi di destinazione in cui montare il backup. Attivare la casella di controllo Riavvia VM se la VM deve essere accesa dopo l'operazione di ripristino.
 +
-image::vmfs-deploy-image34.png[distribuzione di vmfs image34]
+image:vmfs-deploy-image34.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nella pagina Seleziona posizione, selezionare la posizione per la posizione principale.
 +
-image::vmfs-deploy-image35.png[distribuzione di vmfs image35]
+image:vmfs-deploy-image35.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Esaminare la pagina Riepilogo, quindi selezionare fine.
 +
-image::vmfs-deploy-image36.png[distribuzione di vmfs image36]
+image:vmfs-deploy-image36.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
 Monitorare l'avanzamento dell'operazione selezionando attività recenti nella parte inferiore dello schermo.
@@ -378,7 +378,7 @@ NOTE: Sebbene le VM vengano ripristinate, non vengono aggiunte automaticamente a
 
 Cosa succederebbe se la VM originale venisse eliminata. Con il plug-in SnapCenter per VMware, è semplice. L'operazione di ripristino di una VM eliminata può essere eseguita a livello di datastore. Andare al datastore corrispondente > Configura > Backup e selezionare la VM eliminata, quindi selezionare Ripristina.
 
-image::vmfs-deploy-image37.png[distribuzione di vmfs image37]
+image:vmfs-deploy-image37.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 In sintesi, quando si utilizza lo storage ONTAP ASA per ottimizzare il TCO per un'implementazione VMware, utilizzare il plug-in SnapCenter per VMware come metodo semplice ed efficiente per il backup delle macchine virtuali. Consente di eseguire il backup e il ripristino delle VM in modo perfetto e veloce, poiché il completamento dei backup snapshot richiede letteralmente pochi secondi.
 
@@ -386,7 +386,7 @@ Fai riferimento link:https://docs.netapp.com/us-en/netapp-solutions/ehc/bxp-scv-
 
 Per ridurre i costi di storage, è possibile abilitare il tiering dei volumi FabricPool per spostare automaticamente i dati per le copie Snapshot in un Tier di storage a costi inferiori. Le copie Snapshot utilizzano in genere oltre il 10% dello storage allocato. Anche se importanti per la protezione dei dati e il disaster recovery, queste copie point-in-time sono raramente utilizzate e non costituiscono un utilizzo efficiente dello storage dalle performance elevate. Con la policy "solo Snapshot" per FabricPool, puoi facilmente liberare spazio sullo storage ad alte performance. Quando questa policy è abilitata, i blocchi di copia degli snapshot inattivi nel volume che non sono utilizzati dal file system attivo vengono spostati nel Tier di oggetti e, una volta letti, la copia Snapshot viene spostata nel Tier locale per ripristinare una macchina virtuale o un intero datastore. Questo Tier di oggetti può essere sotto forma di cloud privato (come NetApp StorageGRID) o cloud pubblico (come AWS o Azure).
 
-image::vmfs-deploy-image38.png[distribuzione di vmfs image38]
+image:vmfs-deploy-image38.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Visualizzare le istruzioni dettagliate per link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-overview.html["VMware vSphere con ONTAP"].
 
@@ -398,7 +398,7 @@ Uno dei modi più efficaci per la protezione dagli attacchi ransomware è tramit
 
 Gli attacchi ransomware puntano sempre più ai backup e ai recovery point snapshot, cercando di eliminarli prima di iniziare a crittografare i file. Tuttavia, con ONTAP questo può essere evitato creando snapshot antimanomissione su sistemi primari o secondari con link:https://docs.netapp.com/us-en/ontap/snaplock/snapshot-lock-concept.html["Blocco copia NetApp Snapshot™"] in ONTAP. Questi Snapshot non possono essere eliminati o modificati da autori di attacchi ransomware o amministratori fuori controllo, in modo che siano disponibili anche in seguito a un attacco. È possibile ripristinare i dati della macchina virtuale in pochi secondi, riducendo al minimo i tempi di inattività dell'organizzazione. Inoltre, puoi scegliere la pianificazione e la durata di blocco delle snapshot più adatte alla tua organizzazione.
 
-image::vmfs-deploy-image39.png[distribuzione di vmfs image39]
+image:vmfs-deploy-image39.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Come parte dell'approccio a più layer, esiste anche una soluzione ONTAP nativa integrata per la protezione della cancellazione non autorizzata delle copie Snapshot di backup. È noto come verifica multiamministratore o MAV, disponibile in ONTAP 9.11,1 e versioni successive. L'approccio ideale sarà quello di utilizzare query per operazioni specifiche MAV.
 

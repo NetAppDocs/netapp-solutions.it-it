@@ -60,12 +60,12 @@ Questo notebook crea due immagini che utilizziamo in pipeline.
 * `iguazio/netapp.` Utilizzato per gestire le attività ML.
 
 
-image::mlrun_image13.png[mlrun image13]
+image:mlrun_image13.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 * `netapp/pipeline`. Contiene utility per gestire le copie Snapshot di NetApp.
 
 
-image::mlrun_image14.png[mlrun image14]
+image:mlrun_image14.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -98,7 +98,7 @@ Abbiamo utilizzato diversi notebook per costruire LA pipeline ML. Ogni notebook 
 
 Il risultato desiderato è una pipeline che forma un modello basato su una copia Snapshot dei dati e implementa il modello per l'inferenza. Un diagramma a blocchi di una pipeline MLRun completa viene mostrato nell'immagine seguente.
 
-image::mlrun_image15.png[mlrun image15]
+image:mlrun_image15.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -331,26 +331,26 @@ prep = data_prep.as_step(name='data-prep', handler='handler',params=params,
 |===
 Puoi correre `pipeline.ipynb` dall'alto verso il basso. È quindi possibile accedere alla scheda Pipeline dalla dashboard di Iguazio per monitorare l'avanzamento, come mostrato nella scheda Pipeline della dashboard di Iguazio.
 
-image::mlrun_image16.png[mlrun image16]
+image:mlrun_image16.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Poiché abbiamo registrato la precisione delle fasi di training in ogni sessione, abbiamo una registrazione di accuratezza per ogni esperimento, come mostrato nella documentazione relativa alla precisione del training.
 
-image::mlrun_image17.png[mlrun image17]
+image:mlrun_image17.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Se si seleziona la fase Snapshot, è possibile visualizzare il nome della copia Snapshot utilizzata per eseguire questo esperimento.
 
-image::mlrun_image18.png[mlrun image18]
+image:mlrun_image18.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 La fase descritta presenta artefatti visivi per esplorare le metriche utilizzate. È possibile espandere per visualizzare il grafico completo come mostrato nell'immagine seguente.
 
-image::mlrun_image19.png[mlrun image19]
+image:mlrun_image19.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Il database API di MLRun tiene traccia anche di input, output e artefatti per ogni esecuzione organizzata per progetto. Un esempio di input, output e artefatti per ciascuna seriografia può essere visualizzato nell'immagine seguente.
 
-image::mlrun_image20.png[mlrun image20]
+image:mlrun_image20.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Per ogni lavoro, memorizziamo ulteriori dettagli.
 
-image::mlrun_image21.png[mlrun image21]
+image:mlrun_image21.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 In questo documento sono disponibili ulteriori informazioni su MLRun. Gli artefatti di al, inclusa la definizione delle fasi e delle funzioni, possono essere salvati nel database API, con versione e richiamati singolarmente o come progetto completo. I progetti possono anche essere salvati e inviati a Git per un utilizzo successivo. Ti invitiamo a scoprire di più su https://github.com/mlrun/mlrun["Sito MLRun GitHub"^].

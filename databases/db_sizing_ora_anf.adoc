@@ -101,30 +101,27 @@ Il toolkit è costituito da un parser HTML basato sul Web e da due script SQL pe
 ====
 . Aprire il modulo AWR del parser HTML.
 +
-image::db_sizing_ora_parser_01.png[Questa immagine fornisce la schermata del parser HTML per il dimensionamento di Oracle]
+image:db_sizing_ora_parser_01.png["Questa immagine fornisce la schermata del parser HTML per il dimensionamento di Oracle"]
 
 . Verificare il formato di output come .csv e fare clic su `Upload files` per caricare il report awr. Il parser restituisce risultati in una pagina HTML con un riepilogo di tabella e un file output.csv in `Download` cartella.
 +
-image::db_sizing_ora_parser_02.png[Questa immagine fornisce la schermata del parser HTML per il dimensionamento di Oracle]
+image:db_sizing_ora_parser_02.png["Questa immagine fornisce la schermata del parser HTML per il dimensionamento di Oracle"]
 
 . Aprire il file di modello excel e copiare il contenuto csv nella colonna A e nella cella 1 per generare le informazioni di dimensionamento del server database.
 +
-image::db_sizing_ora_parser_03_anf.png[Questa immagine fornisce uno screenshot del modello excel per il dimensionamento di Oracle]
+image:db_sizing_ora_parser_03_anf.png["Questa immagine fornisce uno screenshot del modello excel per il dimensionamento di Oracle"]
 
 . Evidenziare la colonna A e i campi 1 e 2, quindi fare clic su `Data`, allora `Text to Columns` Per aprire la procedura guidata testo. Scegliere `Delimited`, allora `Next` alla schermata successiva.
 +
-image::db_sizing_ora_parser_04_anf.png[Questa immagine fornisce uno screenshot del modello excel per il dimensionamento di Oracle]
+image:db_sizing_ora_parser_04_anf.png["Questa immagine fornisce uno screenshot del modello excel per il dimensionamento di Oracle"]
 
 . Controllare `Other`, quindi immettere '=' come `Delimiters`. Fare clic su `Next` alla schermata successiva.
 +
-image::db_sizing_ora_parser_05_anf.png[Questa immagine fornisce uno screenshot del modello excel per il dimensionamento di Oracle]
+image:db_sizing_ora_parser_05_anf.png["Questa immagine fornisce uno screenshot del modello excel per il dimensionamento di Oracle"]
 
 . Fare clic su `Finish` per completare la conversione della stringa in formato di colonna leggibile. Nota i campi di dimensionamento VM e ANF sono stati compilati con i dati recuperati dal report Oracle AWR.
 +
-image::db_sizing_ora_parser_06_anf.png[Questa immagine fornisce uno screenshot del modello excel per il dimensionamento di Oracle]
-
-+
-image::db_sizing_ora_parser_07_anf.png[Questa immagine fornisce uno screenshot del modello excel per il dimensionamento di Oracle]
+image:db_sizing_ora_parser_06_anf.png["Questa immagine fornisce uno screenshot del modello excel per il dimensionamento di Oracle"] image:db_sizing_ora_parser_07_anf.png["Questa immagine fornisce uno screenshot del modello excel per il dimensionamento di Oracle"]
 
 . Eseguire lo script ora_db_data_size.sql, ora_db_logs_size.sql come DBA in sqlplus per recuperare le dimensioni dei dati del database Oracle esistenti e le dimensioni dei registri archiviati con il numero di giorni della finestra di conservazione.
 +
@@ -167,7 +164,7 @@ NOTE: Le informazioni di dimensionamento del database recuperate utilizzando gli
 
 . Immettere il risultato nel file excel per completare l'output della guida di dimensionamento.
 +
-image::db_sizing_ora_parser_08_anf.png[Questa immagine fornisce uno screenshot del modello excel per il dimensionamento di Oracle]
+image:db_sizing_ora_parser_08_anf.png["Questa immagine fornisce uno screenshot del modello excel per il dimensionamento di Oracle"]
 
 . ANF utilizza un livello di servizio di tre livelli (Standard, Premium, Ultra) per gestire il limite di throughput del volume di database. Fare riferimento a. link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-service-levels["Livelli di servizio per Azure NetApp Files"^] per ulteriori informazioni. In base all'output della guida al dimensionamento, scegliere un livello di servizio ANF che fornisca throughput che soddisfi i requisiti per il database.
 

@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+keywords: Cyber vault, cybervault, cyber-vault, data protection, security, ransomware, ONTAP, hardening 
+permalink: /cyber-vault/ontap-cyber-vault-hardening.html 
+summary: Ulteriori passaggi consigliati per rafforzare un cyber vault per ONTAP 
+---
+= Protezione da vault Cyber
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questi sono i consigli aggiuntivi per rafforzare un cyber-vault di ONTAP. Per ulteriori consigli e procedure, consultare la guida alla tempra ONTAP riportata di seguito.
+
+
+
+== Raccomandazioni per la protezione dei dati informatici
+
+* Isolare i piani di gestione del cyber vault
+* Non abilitare le LIF dati sul cluster di destinazione perché rappresentano un ulteriore vettore di attacco
+* Nel cluster di destinazione, limitare l'accesso intercluster LIF al cluster di origine con una policy di servizio
+* Segmentare la LIF di gestione nel cluster di destinazione per l'accesso limitato con una policy di servizio e un host Bastion
+* Limitare tutto il traffico di dati dal cluster di origine al cyber vault per consentire solo le porte necessarie per il traffico SnapMirror
+* Se possibile, disattivare eventuali metodi di accesso alla gestione non necessari all'interno di ONTAP per ridurre la superficie di attacco
+* Abilitare la registrazione degli audit e lo storage remoto dei log
+* Abilita la verifica con amministratori multipli e richiede la verifica da parte di un amministratore esterno ai normali amministratori dello storage (ad esempio, staff CISO)
+* Implementare il controllo degli accessi in base al ruolo
+* Richiede l'autenticazione a più fattori amministrativa per System Manager e ssh
+* Utilizzare l'autenticazione basata su token per script e chiamate API REST
+
+
+Fare riferimento a link:../../ontap/ontap-security-hardening/security-hardening-overview.html["Guida alla tempra ONTAP"], link:../../ontap/multi-admin-verify/index.html["Panoramica sulla verifica multi-admin"^] e link:https://www.netapp.com/media/17055-tr4647.pdf["Guida all'autenticazione multifattore di ONTAP"^] per informazioni su come eseguire queste operazioni di indurimento.

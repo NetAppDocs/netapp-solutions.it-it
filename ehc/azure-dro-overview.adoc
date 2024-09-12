@@ -26,7 +26,7 @@ Con la replica dei volumi Azure NetApp Files (ANF) cross-region, i carichi di la
 
 Disaster Recovery Orchestrator (DRO) (una soluzione basata su script con un'interfaccia utente) può essere utilizzato per ripristinare senza problemi i carichi di lavoro replicati da un SDDC AVS a un altro. DRO automatizza il recovery interrompendo il peering delle repliche e montando il volume di destinazione come datastore, attraverso la registrazione delle macchine virtuali in AVS, sulle mappature di rete direttamente su NSX-T (incluso con tutti i cloud privati AVS).
 
-image::azure-dro-image1.png[azure dro image1]
+image:azure-dro-image1.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -69,7 +69,7 @@ https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-in
 
 Il primo passaggio consiste nell'impostare la replica cross-region per i volumi del datastore desiderati dal sito primario AVS al sito secondario AVS con le frequenze e le ritention appropriate.
 
-image::azure-dro-image2.png[azure dro image2]
+image:azure-dro-image2.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Seguire la procedura descritta in questa sezione https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering["collegamento"^] per impostare la replica tra regioni creando il peering delle repliche. Il livello di servizio per il pool di capacità di destinazione può corrispondere a quello del pool di capacità di origine. Tuttavia, per questo caso di utilizzo specifico, è possibile selezionare il livello di servizio standard, quindi https://learn.microsoft.com/en-us/azure/azure-netapp-files/dynamic-change-volume-service-level["modificare il livello di servizio"^] In caso di disastro reale o di simulazioni di DR.
 
@@ -123,7 +123,7 @@ sudo sh deploy.sh
 ** Nome utente: `admin`
 ** Password: `admin`
 +
-image::azure-dro-image3.png[azure dro image3]
+image:azure-dro-image3.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -156,7 +156,7 @@ Queste informazioni dovrebbero essere state acquisite al momento della creazione
 
 . Confermare i dettagli relativi alle nuove credenziali e fare clic su Add Credential (Aggiungi credenziale).
 +
-image::azure-dro-image4.png[azure dro image4]
+image:azure-dro-image4.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
 Dopo aver aggiunto le credenziali, è il momento di individuare e aggiungere i siti AVS primari e secondari (sia vCenter che l'account storage Azure NetApp Files) a DRO. Per aggiungere il sito di origine e di destinazione, attenersi alla seguente procedura:
@@ -174,7 +174,7 @@ Dopo aver aggiunto le credenziali, è il momento di individuare e aggiungere i s
 ** VCenter SDDC
 ** Account storage Azure NetApp Files
 +
-image::azure-dro-image5.png[azure dro image5]
+image:azure-dro-image5.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -187,18 +187,18 @@ NOTE: A scopo dimostrativo, l'aggiunta di un sito di origine viene trattata in q
 . IL DRO elenca tutti gli SDDC disponibili all'interno della regione. Selezionare l'URL del cloud privato designato dal menu a discesa.
 . Inserire il `cloudadmin@vsphere.local` credenziali dell'utente. È possibile accedervi dal portale Azure. Seguire la procedura indicata in questo https://learn.microsoft.com/en-us/azure/azure-vmware/tutorial-access-private-cloud["collegamento"^]. Al termine, fare clic su *Continue* (continua).
 +
-image::azure-dro-image6.png[azure dro image6]
+image:azure-dro-image6.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare i dettagli dell'archiviazione di origine (ANF) selezionando il gruppo Azure Resource e l'account NetApp.
 . Fare clic su *Create Site* (Crea sito).
 +
-image::azure-dro-image7.png[azure dro image7]
+image:azure-dro-image7.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
 Una volta aggiunto, DRO esegue il rilevamento automatico e visualizza le macchine virtuali con repliche tra regioni corrispondenti dal sito di origine al sito di destinazione. DRO rileva automaticamente le reti e i segmenti utilizzati dalle macchine virtuali e li popola.
 
-image::azure-dro-image8.png[azure dro image8]
+image:azure-dro-image8.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Il passaggio successivo consiste nel raggruppare le macchine virtuali richieste nei rispettivi gruppi funzionali come gruppi di risorse.
 
@@ -212,7 +212,7 @@ Per iniziare a creare gruppi di risorse, fare clic sulla voce di menu *Crea nuov
 
 . Accedere a *Resource Grou*ps e fare clic su *Create New Resource Group* (Crea nuovo gruppo di risorse).
 +
-image::azure-dro-image9.png[azure dro image9]
+image:azure-dro-image9.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . In New Resource Group (nuovo gruppo di risorse), selezionare il sito di origine dal menu a discesa e fare clic su *Create* (Crea).
 . Fornire i dettagli del gruppo di risorse e fare clic su *continua*.
@@ -223,13 +223,13 @@ image::azure-dro-image9.png[azure dro image9]
 ** Predefinito
 ** L'ultima macchina virtuale ad accenderlo
 +
-image::azure-dro-image10.png[azure dro image10]
+image:azure-dro-image10.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
 . Fare clic su *Crea gruppo di risorse*.
 +
-image::azure-dro-image11.png[azure dro image11]
+image:azure-dro-image11.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -243,15 +243,15 @@ Per iniziare a creare un piano di replica, attenersi alla seguente procedura:
 
 . Selezionare *Replication Plans* (piani di replica) e fare clic su *Create New Replication Plan* (Crea nuovo piano di replica
 +
-image::azure-dro-image12.png[azure dro image12]
+image:azure-dro-image12.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . In *New Replication Plan*, fornire un nome per il piano e aggiungere i mapping di ripristino selezionando Source Site (Sito di origine), Associated vCenter (vCenter associato), Destination Site (Sito di destinazione) e Associated vCenter (vCenter associato).
 +
-image::azure-dro-image13.png[azure dro image13]
+image:azure-dro-image13.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Una volta completata la mappatura di ripristino, selezionare *Cluster Mapping* (mappatura cluster).
 +
-image::azure-dro-image14.png[azure dro image14]
+image:azure-dro-image14.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare *Dettagli gruppo di risorse* e fare clic su *continua*.
 . Impostare l'ordine di esecuzione per il gruppo di risorse. Questa opzione consente di selezionare la sequenza di operazioni quando esistono più gruppi di risorse.
@@ -262,39 +262,39 @@ image::azure-dro-image14.png[azure dro image14]
 NOTE: La replica cross-region (CRR) è a livello di volume. Pertanto, tutte le macchine virtuali che risiedono sul rispettivo volume vengono replicate nella destinazione CRR. Assicurarsi di selezionare tutte le macchine virtuali che fanno parte del datastore, in quanto vengono elaborate solo le macchine virtuali che fanno parte del piano di replica.
 
 +
-image::azure-dro-image15.png[azure dro image15]
+image:azure-dro-image15.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . In VM details (Dettagli VM), è possibile ridimensionare i parametri della CPU e della RAM delle macchine virtuali. Questo può essere molto utile quando si ripristinano ambienti di grandi dimensioni in cluster di destinazione più piccoli o quando si eseguono test di DR senza dover eseguire il provisioning di un'infrastruttura fisica VMware uno a uno. Inoltre, modificare l'ordine di avvio e il ritardo di avvio (sec) per tutte le macchine virtuali selezionate nei gruppi di risorse. Esiste un'opzione aggiuntiva per modificare l'ordine di avvio se sono necessarie modifiche da ciò che è stato selezionato durante la selezione dell'ordine di avvio del gruppo di risorse. Per impostazione predefinita, viene utilizzato l'ordine di avvio selezionato durante la selezione del gruppo di risorse, tuttavia in questa fase è possibile eseguire qualsiasi modifica.
 +
-image::azure-dro-image16.png[azure dro image16]
+image:azure-dro-image16.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Fare clic su *Create Replication Plan* (Crea piano di replica). Una volta creato il piano di replica, è possibile eseguire il failover, il failover di test o le opzioni di migrazione in base ai requisiti.
 +
-image::azure-dro-image17.png[azure dro image17]
+image:azure-dro-image17.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
 Durante le opzioni di failover e test di failover, viene utilizzato lo snapshot più recente oppure è possibile selezionare uno snapshot specifico da uno snapshot point-in-time. L'opzione point-in-time può essere molto vantaggiosa se si sta affrontando un evento di corruzione come ransomware, in cui le repliche più recenti sono già compromesse o crittografate. DRO mostra tutti i tempi di rilevazione disponibili.
 
-image::azure-dro-image18.png[azure dro image18]
+image:azure-dro-image18.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Per attivare il failover o verificare il failover con la configurazione specificata nel piano di replica, fare clic su *failover* o *Test failover*. È possibile monitorare il piano di replica nel menu delle attività.
 
-image::azure-dro-image19.png[azure dro image19]
+image:azure-dro-image19.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Dopo l'attivazione del failover, gli elementi ripristinati possono essere visualizzati nel sito secondario AVS SDDC vCenter (VM, reti e datastore). Per impostazione predefinita, le macchine virtuali vengono ripristinate nella cartella workload.
 
-image::azure-dro-image20.png[azure dro image20]
+image:azure-dro-image20.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Il failback può essere attivato a livello di piano di replica. In caso di failover di test, l'opzione di strappo può essere utilizzata per eseguire il rollback delle modifiche e rimuovere il volume appena creato. I fallback relativi al failover sono un processo in due fasi. Selezionare il piano di replica e selezionare *Reverse Data Sync*.
 
-image::azure-dro-image21.png[azure dro image21]
+image:azure-dro-image21.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Al termine di questa fase, attivare il failback per tornare al sito AVS primario.
 
-image::azure-dro-image22.png[azure dro image22]
+image:azure-dro-image22.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-image::azure-dro-image23.png[azure dro image23]
+image:azure-dro-image23.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Dal portale Azure, possiamo vedere che lo stato di salute della replica è stato interrotto per i volumi appropriati che sono stati mappati al sito secondario AVS SDDC come volumi di lettura/scrittura. Durante il failover di test, DRO non esegue il mapping del volume di destinazione o di replica. Al contrario, crea un nuovo volume dello snapshot di replica cross-region richiesto ed espone il volume come datastore, che consuma ulteriore capacità fisica dal pool di capacità e garantisce che il volume di origine non venga modificato. In particolare, i processi di replica possono continuare durante i test di DR o i flussi di lavoro di triage. Inoltre, questo processo garantisce che il ripristino possa essere ripulito senza il rischio che la replica venga distrutta in caso di errori o di ripristino di dati corrotti.
 

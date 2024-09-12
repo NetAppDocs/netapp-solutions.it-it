@@ -24,11 +24,11 @@ Un'istantanea di un'applicazione crea una copia Snapshot di ONTAP e una copia de
 
 . Per creare un'istantanea dell'applicazione, accedere alla scheda applicazioni > gestite e fare clic sull'applicazione di cui si desidera creare una copia Snapshot. Fare clic sul menu a discesa accanto al nome dell'applicazione e fare clic su Snapshot.
 +
-image::vtwn_image18.jpg[Pulsante Astra Control Center snapshot]
+image:vtwn_image18.jpg["Pulsante Astra Control Center snapshot"]
 
 . Inserire i dettagli dell'istantanea, fare clic su Next (Avanti), quindi su Snapshot (istantanea). La creazione dello snapshot richiede circa un minuto e lo stato diventa disponibile dopo la creazione dello snapshot.
 +
-image::vtwn_image19.jpg[Astra Control Center crea snapshot]
+image:vtwn_image19.jpg["Astra Control Center crea snapshot"]
 
 
 
@@ -47,12 +47,12 @@ ONTAP::> export-policy rule modify -policyname default -ruleindex 1 -anon 65534 
 ----
 . Per creare un backup dell'applicazione gestita in Astra Control Center, accedere alla scheda Apps (applicazioni) > Managed (gestite) e fare clic sull'applicazione di cui si desidera eseguire il backup. Fare clic sul menu a discesa accanto al nome dell'applicazione e fare clic su Backup.
 +
-image::vtwn_image18.jpg[Pulsante di backup di Astra Control Center]
+image:vtwn_image18.jpg["Pulsante di backup di Astra Control Center"]
 
 . Inserire i dettagli del backup, selezionare il bucket di storage a oggetti in cui memorizzare i file di backup, fare clic su Next (Avanti) e, dopo aver esaminato i dettagli, fare clic su Backup (Backup). A seconda delle dimensioni dell'applicazione e dei dati, il backup può richiedere alcuni minuti e lo stato del backup diventa disponibile una volta completato correttamente il backup.
 
 
-image::vtwn_image20.jpg[Astra Control Center crea backup]
+image:vtwn_image20.jpg["Astra Control Center crea backup"]
 
 
 
@@ -62,20 +62,20 @@ Con la semplice pressione di un pulsante, è possibile ripristinare un'applicazi
 
 . Per ripristinare un'applicazione, accedere alla scheda applicazioni > gestite e fare clic sull'applicazione in questione. Fare clic sul menu a discesa accanto al nome dell'applicazione e fare clic su Restore (Ripristina).
 +
-image::vtwn_image18.jpg[Pulsante clone di Astra Control Center]
+image:vtwn_image18.jpg["Pulsante clone di Astra Control Center"]
 
 . Immettere il nome dello spazio dei nomi di ripristino, selezionare il cluster in cui si desidera ripristinarlo e scegliere se si desidera ripristinarlo da uno snapshot esistente o da un backup dell'applicazione. Fare clic su Avanti.
 +
-image::vtwn_image21.jpg[Ripristino di Astra Control Center]
+image:vtwn_image21.jpg["Ripristino di Astra Control Center"]
 
 . Nel riquadro di revisione, immettere `restore` E fare clic su Restore (Ripristina) dopo aver esaminato i dettagli.
 +
-image::vtwn_image22.jpg[Revisione del ripristino di Astra Control Center]
+image:vtwn_image22.jpg["Revisione del ripristino di Astra Control Center"]
 
 . La nuova applicazione passa allo stato di ripristino mentre Astra Control Center ripristina l'applicazione sul cluster selezionato. Una volta installate e rilevate tutte le risorse dell'applicazione da Astra, l'applicazione passa allo stato Available (disponibile).
 
 
-image::vtwn_image17.jpg[Scoperta della nuova app di Astra Control Center]
+image:vtwn_image17.jpg["Scoperta della nuova app di Astra Control Center"]
 
 
 
@@ -85,14 +85,14 @@ image::vtwn_image17.jpg[Scoperta della nuova app di Astra Control Center]
 
 . Per clonare un'applicazione, accedere alla scheda applicazioni > gestite e fare clic sull'applicazione in questione. Fare clic sul menu a discesa accanto al nome dell'applicazione e fare clic su Clone (Clona).
 +
-image::vtwn_image18.jpg[Pulsante clone di Astra Control Center]
+image:vtwn_image18.jpg["Pulsante clone di Astra Control Center"]
 
 . Immettere i dettagli del nuovo spazio dei nomi, selezionare il cluster in cui si desidera clonarlo e scegliere se clonarlo da uno snapshot esistente, da un backup o dallo stato corrente dell'applicazione. Fare clic su Next (Avanti), quindi su Clone (Clona) nel riquadro di revisione dopo aver esaminato i dettagli.
 +
-image::vtwn_image23.jpg[Ripristino di Astra Control Center]
+image:vtwn_image23.jpg["Ripristino di Astra Control Center"]
 
 . La nuova applicazione passa allo stato di rilevamento mentre Astra Control Center crea l'applicazione sul cluster selezionato. Una volta installate e rilevate tutte le risorse dell'applicazione da Astra, l'applicazione passa allo stato Available (disponibile).
 +
-image::vtwn_image24.jpg[Scoperta della nuova app di Astra Control Center]
+image:vtwn_image24.jpg["Scoperta della nuova app di Astra Control Center"]
 
 

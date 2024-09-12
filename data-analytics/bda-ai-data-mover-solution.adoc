@@ -18,7 +18,7 @@ In un cluster di big data, i dati vengono memorizzati in HDFS o HCFS, come MapR-
 
 Il seguente diagramma illustra il tipico spostamento dei dati da un cluster Spark in esecuzione con storage HDFS a un volume NFS NetApp ONTAP in modo che NVIDIA possa elaborare le operazioni ai.
 
-image::bda-ai-image3.png[bda ai image3]
+image:bda-ai-image3.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Il `hadoop distcp` Il comando utilizza il programma MapReduce per copiare i dati. NIPAM lavora con MapReduce per fungere da driver per il cluster Hadoop durante la copia dei dati. NIPAM può distribuire un carico su più interfacce di rete per una singola esportazione. Questo processo massimizza il throughput di rete distribuendo i dati tra più interfacce di rete quando si copiano i dati da HDFS o HCFS a NFS.
 

@@ -199,7 +199,7 @@ Per creare una soluzione di DR con VMware e ONTAP on-premise e VMware Cloud su A
 ====
 L'ambiente virtuale VMware include licenze per host ESXi, VMware vCenter Server, reti NSX e altri componenti, come illustrato nella figura seguente. Tutte le licenze sono diverse ed è importante comprendere come i componenti sottostanti consumano la capacità disponibile concessa in licenza.
 
-image::dr-vmc-aws-image2.png[dr vmc aws image2]
+image:dr-vmc-aws-image2.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 .Host ESXi
 [%collapsible]
@@ -493,7 +493,7 @@ NOTE: Se il tunnel VPN IPSec non viene creato sul gateway predefinito, i percors
 
 La figura seguente mostra le opzioni di connessione VPN tipiche.
 
-image::dr-vmc-aws-image3.png[dr vmc aws image3]
+image:dr-vmc-aws-image3.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 =====
 .Connessione diretta
@@ -505,7 +505,7 @@ I clienti devono disporre dell'apparecchiatura router in una sede AWS Direct Con
 
 La figura seguente mostra le opzioni dell'interfaccia Direct Connect.
 
-image::dr-vmc-aws-image4.png[dr vmc aws image4]
+image:dr-vmc-aws-image4.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 =====
 .Gateway di transito
@@ -529,7 +529,7 @@ VMware Cloud SDDC può essere implementato in una singola zona di disponibilità
 
 Per ridurre al minimo i costi di trasferimento dei dati, mantenere le istanze o i servizi di VMware Cloud SDDC e AWS nella stessa zona di disponibilità. È meglio corrispondere con un ID di zona di disponibilità piuttosto che con un nome, perché AWS fornisce l'elenco di ordini AZ specifico per l'account per distribuire il carico tra le zone di disponibilità. Ad esempio, un account (US-East-1a) potrebbe indicare l'ID AZ 1, mentre un altro account (US-East-1c) potrebbe indicare l'ID AZ 1. L'ID della zona di disponibilità può essere recuperato in diversi modi. Nell'esempio seguente, è stato recuperato l'ID AZ dalla subnet VPC.
 
-image::dr-vmc-aws-image5.png[dr vmc aws image5]
+image:dr-vmc-aws-image5.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 In VMware Cloud SDDC, il networking viene gestito con NSX e l'edge gateway (router Tier-0) che gestisce la porta di uplink del traffico nord-sud viene connesso ad AWS VPC. Il gateway di calcolo e i gateway di gestione (router Tier-1) gestiscono il traffico est-ovest. Se le porte di uplink dell'edge vengono utilizzate in modo massiccio, è possibile creare gruppi di traffico da associare a specifici IP host o sottoreti. La creazione di un gruppo di traffico crea nodi edge aggiuntivi per separare il traffico. Controllare https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-networking-security/GUID-306D3EDC-F94E-4216-B306-413905A4A784.html["Documentazione VMware"^] Sul numero minimo di host vSphere necessari per utilizzare una configurazione multi-edge.
 
@@ -540,7 +540,7 @@ Quando si esegue il provisioning di VMware Cloud SDDC, le porte VMkernel sono gi
 
 La figura seguente mostra informazioni di esempio sul VMkernel host.
 
-image::dr-vmc-aws-image6.png[dr vmc aws image6]
+image:dr-vmc-aws-image6.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 =====
 .Reti di storage con provisioning (iSCSI, NFS)
@@ -573,7 +573,7 @@ Abbiamo utilizzato lo storage ONTAP per gli archivi dati VMware che ospitavano l
 
 La seguente figura illustra le opzioni di storage VMware.
 
-image::dr-vmc-aws-image7.png[dr vmc aws image7]
+image:dr-vmc-aws-image7.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 I volumi ONTAP sono stati utilizzati per lo storage connesso a iSCSI e NFS guest per le nostre macchine virtuali applicative. Per i dati applicativi abbiamo utilizzato i seguenti protocolli di storage:
 
@@ -622,7 +622,7 @@ Dopo aver implementato FSX ONTAP, trascinare le istanze di ONTAP on-premise in F
 
 La figura seguente illustra l'ambiente FSX ONTAP.
 
-image::dr-vmc-aws-image8.png[dr vmc aws image8]
+image:dr-vmc-aws-image8.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 =====
 .Interfacce di rete create
@@ -657,7 +657,7 @@ Abbiamo implementato 10 macchine virtuali Windows Server 2019 con SQL Server 201
 ====
 Abbiamo implementato un SDDC in VMware Cloud su AWS con due host per fornire risorse adeguate per eseguire le macchine virtuali ripristinate dal nostro sito primario.
 
-image::dr-vmc-aws-image9.png[dr vmc aws image9]
+image:dr-vmc-aws-image9.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 ====
 

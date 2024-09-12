@@ -1,0 +1,48 @@
+---
+sidebar: sidebar 
+keywords: Cyber vault, cybervault, cyber-vault, data protection, security, ransomware, ONTAP 
+permalink: /cyber-vault/ontap-cyber-vault-overview.html 
+summary: Questa è una panoramica della soluzione di cyber vault di NetApp ONTAP, basata su SnapLock Compliance per una data retention immutabile e indelebile. 
+---
+= Panoramica del cyber vault di ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+La principale minaccia che rende necessaria l'implementazione del cyber-vaulting è la crescente prevalenza e la crescente sofisticazione degli attacchi informatici, in particolare le violazioni di dati e ransomware. link:https://www.verizon.com/business/resources/reports/dbir/["Con un aumento del phishing"^] inoltre, metodi sempre più sofisticati per il furto di credenziali, è possibile utilizzare le credenziali per avviare un attacco ransomware per accedere ai sistemi dell'infrastruttura. In questi casi, anche i sistemi infrastrutturali più robusti sono a rischio di attacco. L'unica difesa di un sistema compromesso è la protezione e l'isolamento dei dati in un vault informatico.
+
+
+NOTE: A partire da luglio 2024, il contenuto dei report tecnici precedentemente pubblicati come PDF è stato integrato nella documentazione del prodotto ONTAP. Inoltre, i nuovi report tecnici (TR) come questo documento non riceveranno più i numeri TR.
+
+
+
+== Che cos'è il cyber vaulting?
+
+Il vaulting informatico è una tecnica specifica di protezione dei dati che prevede lo storage di dati critici in un ambiente isolato e separato dall'infrastruttura IT primaria.
+
+Repository di dati "air gapped", * immutabile* e * indelebile* immune alle minacce che colpiscono la rete principale, come malware, ransomware o persino minacce interne. Il vaulting Cyber può essere realizzato con istantanee *immutabili* e *indelebili*.
+
+I backup ad aria che utilizzano metodi tradizionali implicano la creazione di spazio e la separazione fisica dei supporti primari e secondari. Spostando i supporti fuori sede e/o interrompendo la connettività, i malintenzionati non hanno accesso ai dati. Questo protegge i dati, ma può causare tempi di ripristino più lenti.
+
+
+
+== L'approccio di NetApp al cyber vaulting
+
+Le funzionalità principali dell'architettura di riferimento NetApp per il cyber-vaulting includono:
+
+* Infrastruttura di stoccaggio sicura e isolata (ad esempio, sistemi di stoccaggio a zappatura d'aria)
+* Le copie dei dati devono essere sia *immutabili* sia *indelebili* senza eccezioni
+* Rigorosi controlli degli accessi e autenticazione a più fattori
+* Funzionalità di ripristino rapido dei dati
+
+
+È possibile utilizzare lo storage NetApp con ONTAP come un cyber vault a mappatura aerea sfruttando link:../../ontap/snaplock/commit-snapshot-copies-worm-concept.html["SnapLock Compliance per proteggere le copie Snapshot in modo WORM"^]. È possibile eseguire tutte le attività di base di SnapLock Compliance sul vault Cyber. Una volta configurati, i volumi dei vault Cyber sono protetti automaticamente, eliminando la necessità di assegnare manualmente le copie Snapshot a WORM. Maggiori informazioni sul gapping logico possono essere trovate in questo link:https://www.netapp.com/blog/ransomware-protection-snaplock/["blog"^]
+
+SnapLock Compliance viene utilizzato per conformarsi alle normative bancarie e finanziarie SEC 70-a-4(f), FINRA 4511(c) e CFTC 1,31(c)-(d). È stato certificato da Cohasset Associates per aderire a queste norme (rapporto di controllo disponibile su richiesta). Utilizzando SnapLock Compliance con questa certificazione si ottiene un meccanismo rafforzato per la cattura aerea dei tuoi dati che viene fatto affidamento sui più grandi istituti finanziari del mondo per garantire sia la conservazione che il recupero dei record bancari.
+
+image:ontap-cyber-vault-logical-air-gap.png["Cyber vault a mappatura di aria logica con NetApp ONTAP"]

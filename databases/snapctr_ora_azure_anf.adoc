@@ -54,7 +54,7 @@ Il test e la convalida di questa soluzione sono stati eseguiti in un laboratorio
 
 === Architettura
 
-image::automation_ora_anf_nfs_archit.png[Questa immagine fornisce un quadro dettagliato della configurazione di implementazione di Oracle nel cloud pubblico AWS con iSCSI e ASM.]
+image:automation_ora_anf_nfs_archit.png["Questa immagine fornisce un quadro dettagliato della configurazione di implementazione di Oracle nel cloud pubblico AWS con iSCSI e ASM."]
 
 
 
@@ -204,58 +204,43 @@ Si consiglia di accedere online link:https://docs.netapp.com/us-en/snapcenter/in
 . Dal server Windows SnapCenter, scaricare e installare la versione più recente (attualmente 5,0) del file eseguibile di installazione SnapCenter dal sito di supporto NetApp: link:https://mysupport.netapp.com/site/["NetApp | Assistenza"^].
 . Dopo l'installazione del server SnapCenter, avviare il browser per accedere a SnapCenter con le credenziali dell'utente amministratore locale o dell'utente di dominio Windows tramite la porta 8146.
 +
-image::snapctr_ora_azure_anf_setup_01.png[Questa immagine fornisce la schermata di accesso per il server SnapCenter]
+image:snapctr_ora_azure_anf_setup_01.png["Questa immagine fornisce la schermata di accesso per il server SnapCenter"]
 
 . Revisione `Get Started` menu online.
 +
-image::snapctr_ora_azure_anf_setup_02.png[Questa immagine fornisce un menu online per il server SnapCenter]
+image:snapctr_ora_azure_anf_setup_02.png["Questa immagine fornisce un menu online per il server SnapCenter"]
 
 . Poll `Settings-Global Settings`, controllo `Hypervisor Settings` E fare clic su Aggiorna.
 +
-image::snapctr_ora_azure_anf_setup_03.png[Questa immagine fornisce le impostazioni di Hypervisor per il server SnapCenter]
+image:snapctr_ora_azure_anf_setup_03.png["Questa immagine fornisce le impostazioni di Hypervisor per il server SnapCenter"]
 
 . Se necessario, regolare `Session Timeout` Per l'interfaccia utente di SnapCenter all'intervallo desiderato.
 +
-image::snapctr_ora_azure_anf_setup_04.png[Questa immagine fornisce il timeout della sessione per il server SnapCenter]
+image:snapctr_ora_azure_anf_setup_04.png["Questa immagine fornisce il timeout della sessione per il server SnapCenter"]
 
 . Se necessario, aggiungere altri utenti a SnapCenter.
 +
-image::snapctr_ora_azure_anf_setup_06.png[Questa immagine fornisce impostazioni-utenti e accesso per il server SnapCenter]
+image:snapctr_ora_azure_anf_setup_06.png["Questa immagine fornisce impostazioni-utenti e accesso per il server SnapCenter"]
 
 . Il `Roles` Elenca i ruoli incorporati che possono essere assegnati a diversi utenti SnapCenter. I ruoli personalizzati possono anche essere creati dall'utente amministratore con i privilegi desiderati.
 +
-image::snapctr_ora_azure_anf_setup_07.png[Questa immagine fornisce i ruoli per il server SnapCenter]
+image:snapctr_ora_azure_anf_setup_07.png["Questa immagine fornisce i ruoli per il server SnapCenter"]
 
 . Da `Settings-Credential`, Creare le credenziali per gli obiettivi di gestione SnapCenter. In questo caso di utilizzo dimostrativo, sono utenti linux per l'accesso ad Azure VM e credenziali ANF per l'accesso al pool di capacità.
 +
-image::snapctr_ora_azure_anf_setup_08.png[Questa immagine fornisce le credenziali per il server SnapCenter]
-
-+
-image::snapctr_ora_azure_anf_setup_09.png[Questa immagine fornisce le credenziali per il server SnapCenter]
-
-+
-image::snapctr_ora_azure_anf_setup_10.png[Questa immagine fornisce le credenziali per il server SnapCenter]
+image:snapctr_ora_azure_anf_setup_08.png["Questa immagine fornisce le credenziali per il server SnapCenter"] image:snapctr_ora_azure_anf_setup_09.png["Questa immagine fornisce le credenziali per il server SnapCenter"] image:snapctr_ora_azure_anf_setup_10.png["Questa immagine fornisce le credenziali per il server SnapCenter"]
 
 . Da `Storage Systems` scheda, aggiungi `Azure NetApp Files` con la credenziale creata in precedenza.
 +
-image::snapctr_ora_azure_anf_setup_11.png[Questa immagine fornisce Azure NetApp Files per il server SnapCenter]
-
-+
-image::snapctr_ora_azure_anf_setup_12.png[Questa immagine fornisce Azure NetApp Files per il server SnapCenter]
+image:snapctr_ora_azure_anf_setup_11.png["Questa immagine fornisce Azure NetApp Files per il server SnapCenter"] image:snapctr_ora_azure_anf_setup_12.png["Questa immagine fornisce Azure NetApp Files per il server SnapCenter"]
 
 . Da `Hosts` Tab, Aggiungi Azure DB VM, che installa il plug-in SnapCenter per Oracle su Linux.
 +
-image::snapctr_ora_azure_anf_setup_13.png[Questa immagine fornisce host per il server SnapCenter]
-
-+
-image::snapctr_ora_azure_anf_setup_14.png[Questa immagine fornisce host per il server SnapCenter]
-
-+
-image::snapctr_ora_azure_anf_setup_15.png[Questa immagine fornisce host per il server SnapCenter]
+image:snapctr_ora_azure_anf_setup_13.png["Questa immagine fornisce host per il server SnapCenter"] image:snapctr_ora_azure_anf_setup_14.png["Questa immagine fornisce host per il server SnapCenter"] image:snapctr_ora_azure_anf_setup_15.png["Questa immagine fornisce host per il server SnapCenter"]
 
 . Una volta installato il plug-in host sulla VM del server DB, i database sull'host vengono rilevati automaticamente e visibili in `Resources` scheda. Torna a. `Settings-Polices`, Creare criteri di backup per il backup online completo del database Oracle e il backup solo dei registri di archivio. Consultare questo documento link:https://docs.netapp.com/us-en/snapcenter/protect-sco/task_create_backup_policies_for_oracle_database.html["Creare policy di backup per i database Oracle"^] per le procedure dettagliate.
 +
-image::snapctr_ora_azure_anf_setup_05.png[Questa immagine fornisce le impostazioni-Criteri per il server SnapCenter]
+image:snapctr_ora_azure_anf_setup_05.png["Questa immagine fornisce le impostazioni-Criteri per il server SnapCenter"]
 
 
 
@@ -270,57 +255,51 @@ Il backup di uno snapshot NetApp crea un'immagine point-in-time dei volumi di da
 
 . Navigazione verso `Resources` Che elenca i database rilevati dopo l'installazione del plugin SnapCenter sulla VM del database. Inizialmente, il `Overall Status` del database viene visualizzato come `Not protected`.
 +
-image::snapctr_ora_azure_anf_bkup_01.png[Questa immagine fornisce il backup del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_bkup_01.png["Questa immagine fornisce il backup del database per il server SnapCenter"]
 
 . Fare clic su `View` a discesa per passare a. `Resource Group`. Fare clic su `Add` Accedere a destra per aggiungere un gruppo di risorse.
 +
-image::snapctr_ora_azure_anf_bkup_02.png[Questa immagine fornisce il backup del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_bkup_02.png["Questa immagine fornisce il backup del database per il server SnapCenter"]
 
 . Assegnare un nome al gruppo di risorse, ai tag e a qualsiasi denominazione personalizzata.
 +
-image::snapctr_ora_azure_anf_bkup_03.png[Questa immagine fornisce il backup del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_bkup_03.png["Questa immagine fornisce il backup del database per il server SnapCenter"]
 
 . Aggiungere risorse al `Resource Group`. Il raggruppamento di risorse simili può semplificare la gestione dei database in un ambiente di grandi dimensioni.
 +
-image::snapctr_ora_azure_anf_bkup_04.png[Questa immagine fornisce il backup del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_bkup_04.png["Questa immagine fornisce il backup del database per il server SnapCenter"]
 
 . Selezionare il criterio di backup e impostare una pianificazione facendo clic sul segno "+" in `Configure Schedules`.
 +
-image::snapctr_ora_azure_anf_bkup_05.png[Questa immagine fornisce il backup del database per il server SnapCenter]
-
-+
-image::snapctr_ora_azure_anf_bkup_06.png[Questa immagine fornisce il backup del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_bkup_05.png["Questa immagine fornisce il backup del database per il server SnapCenter"] image:snapctr_ora_azure_anf_bkup_06.png["Questa immagine fornisce il backup del database per il server SnapCenter"]
 
 . Se la verifica del backup non è configurata nel criterio, lasciare la pagina di verifica così com'è.
 +
-image::snapctr_ora_azure_anf_bkup_07.png[Questa immagine fornisce il backup del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_bkup_07.png["Questa immagine fornisce il backup del database per il server SnapCenter"]
 
 . Per inviare un report di backup e una notifica tramite e-mail, è necessario un server di posta SMTP nell'ambiente. Oppure lasciarla nera se un server di posta non è configurato.
 +
-image::snapctr_ora_azure_anf_bkup_08.png[Questa immagine fornisce il backup del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_bkup_08.png["Questa immagine fornisce il backup del database per il server SnapCenter"]
 
 . Riepilogo del nuovo gruppo di risorse.
 +
-image::snapctr_ora_azure_anf_bkup_09.png[Questa immagine fornisce il backup del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_bkup_09.png["Questa immagine fornisce il backup del database per il server SnapCenter"]
 
 . Ripetere le procedure descritte sopra per creare un backup solo del registro di archivio del database con i criteri di backup corrispondenti.
 +
-image::snapctr_ora_azure_anf_bkup_10_1.png[Questa immagine fornisce il backup del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_bkup_10_1.png["Questa immagine fornisce il backup del database per il server SnapCenter"]
 
 . Fare clic su un gruppo di risorse per visualizzare le risorse incluse. Oltre al processo di backup pianificato, è possibile attivare un backup singolo facendo clic su `Backup Now`.
 +
-image::snapctr_ora_azure_anf_bkup_10.png[Questa immagine fornisce il backup del database per il server SnapCenter]
-
-+
-image::snapctr_ora_azure_anf_bkup_11.png[Questa immagine fornisce il backup del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_bkup_10.png["Questa immagine fornisce il backup del database per il server SnapCenter"] image:snapctr_ora_azure_anf_bkup_11.png["Questa immagine fornisce il backup del database per il server SnapCenter"]
 
 . Fare clic sul lavoro in esecuzione per aprire una finestra di monitoraggio che consente all'operatore di tenere traccia dell'avanzamento del lavoro in tempo reale.
 +
-image::snapctr_ora_azure_anf_bkup_12.png[Questa immagine fornisce il backup del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_bkup_12.png["Questa immagine fornisce il backup del database per il server SnapCenter"]
 
 . Una volta completato un processo di backup, viene visualizzato un set di backup snapshot nella topologia del database. Un set di backup completo del database include uno snapshot dei volumi dei dati del database e uno snapshot dei volumi del log del database. Un backup di solo registro contiene solo uno snapshot dei volumi di registro del database.
 +
-image::snapctr_ora_azure_anf_bkup_13.png[Questa immagine fornisce il backup del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_bkup_13.png["Questa immagine fornisce il backup del database per il server SnapCenter"]
 
 
 
@@ -335,35 +314,35 @@ Ripristino di database tramite SnapCenter consente di ripristinare una copia Sna
 
 . Da `Resources` aprire il database `Primary Backup(s)` pagina. Scegliere lo snapshot del volume di dati del database, quindi fare clic su `Restore` per avviare il flusso di lavoro di ripristino del database. Se si desidera eseguire il ripristino da Oracle SCN o timestamp, annotare il numero SCN o l'indicatore data e ora nei set di backup.
 +
-image::snapctr_ora_azure_anf_restore_01.png[Questa immagine fornisce il ripristino del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_restore_01.png["Questa immagine fornisce il ripristino del database per il server SnapCenter"]
 
 . Selezionare `Restore Scope`. Per un database di container, SnapCenter è flessibile per eseguire un ripristino a livello di tablespace, database inseribili o database completo di container (tutti i file di dati).
 +
-image::snapctr_ora_azure_anf_restore_02.png[Questa immagine fornisce il ripristino del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_restore_02.png["Questa immagine fornisce il ripristino del database per il server SnapCenter"]
 
 . Selezionare `Recovery Scope`. `All logs` significa applicare tutti i log di archivio disponibili nel set di backup. Sono disponibili anche il ripristino point-in-time da parte di SCN o timestamp.
 +
-image::snapctr_ora_azure_anf_restore_03.png[Questa immagine fornisce il ripristino del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_restore_03.png["Questa immagine fornisce il ripristino del database per il server SnapCenter"]
 
 . Il `PreOps` consente l'esecuzione di script sul database prima dell'operazione di ripristino/ripristino.
 +
-image::snapctr_ora_azure_anf_restore_04.png[Questa immagine fornisce il ripristino del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_restore_04.png["Questa immagine fornisce il ripristino del database per il server SnapCenter"]
 
 . Il `PostOps` consente l'esecuzione di script sul database dopo l'operazione di ripristino/ripristino.
 +
-image::snapctr_ora_azure_anf_restore_05.png[Questa immagine fornisce il ripristino del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_restore_05.png["Questa immagine fornisce il ripristino del database per il server SnapCenter"]
 
 . Notifica via e-mail, se lo si desidera.
 +
-image::snapctr_ora_azure_anf_restore_06.png[Questa immagine fornisce il ripristino del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_restore_06.png["Questa immagine fornisce il ripristino del database per il server SnapCenter"]
 
 . Ripristinare il riepilogo del processo
 +
-image::snapctr_ora_azure_anf_restore_07.png[Questa immagine fornisce il ripristino del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_restore_07.png["Questa immagine fornisce il ripristino del database per il server SnapCenter"]
 
 . Fare clic su processo in esecuzione per aprirlo `Job Details` finestra. Lo stato del lavoro può essere aperto e visualizzato anche da `Monitor` scheda.
 +
-image::snapctr_ora_azure_anf_restore_08.png[Questa immagine fornisce il ripristino del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_restore_08.png["Questa immagine fornisce il ripristino del database per il server SnapCenter"]
 
 
 
@@ -378,43 +357,43 @@ Clone del database tramite SnapCenter viene ottenuto creando un nuovo volume da 
 
 . Da `Resources` aprire il database `Primary Backup(s)` pagina. Scegliere lo snapshot del volume di dati del database, quindi fare clic su `clone` per avviare il flusso di lavoro dei cloni del database.
 +
-image::snapctr_ora_azure_anf_clone_01.png[Questa immagine fornisce il clone del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_clone_01.png["Questa immagine fornisce il clone del database per il server SnapCenter"]
 
 . Assegnare un nome al SID del database clone. In alternativa, per un database di container, il cloning può essere eseguito anche a livello di PDB.
 +
-image::snapctr_ora_azure_anf_clone_02.png[Questa immagine fornisce il clone del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_clone_02.png["Questa immagine fornisce il clone del database per il server SnapCenter"]
 
 . Selezionare il server DB in cui si desidera collocare la copia del database clonata. Mantenere le posizioni predefinite dei file a meno che non si desideri assegnare loro un nome diverso.
 +
-image::snapctr_ora_azure_anf_clone_03.png[Questa immagine fornisce il clone del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_clone_03.png["Questa immagine fornisce il clone del database per il server SnapCenter"]
 
 . Lo stack software Oracle identico a quello del database di origine deve essere installato e configurato sull'host DB clone. Mantenere la credenziale predefinita ma modificarla `Oracle Home Settings` Per la corrispondenza con le impostazioni sull'host DB clone.
 +
-image::snapctr_ora_azure_anf_clone_04.png[Questa immagine fornisce il clone del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_clone_04.png["Questa immagine fornisce il clone del database per il server SnapCenter"]
 
 . Il `PreOps` consente l'esecuzione degli script prima dell'operazione di clonazione. I parametri del database possono essere regolati per soddisfare le esigenze di un DB clone rispetto a un database di produzione, come una destinazione SGA ridotta.
 +
-image::snapctr_ora_azure_anf_clone_05.png[Questa immagine fornisce il clone del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_clone_05.png["Questa immagine fornisce il clone del database per il server SnapCenter"]
 
 . Il `PostOps` consente l'esecuzione di script sul database dopo l'operazione di clonazione. Il ripristino del database clone può essere basato su SCN, timestamp o fino a quando non viene annullato (rollforward del database all'ultimo log archiviato nel set di backup).
 +
-image::snapctr_ora_azure_anf_clone_06.png[Questa immagine fornisce il clone del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_clone_06.png["Questa immagine fornisce il clone del database per il server SnapCenter"]
 
 . Notifica via e-mail, se lo si desidera.
 +
-image::snapctr_ora_azure_anf_clone_07.png[Questa immagine fornisce il clone del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_clone_07.png["Questa immagine fornisce il clone del database per il server SnapCenter"]
 
 . Clona riepilogo processi.
 +
-image::snapctr_ora_azure_anf_clone_08.png[Questa immagine fornisce il clone del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_clone_08.png["Questa immagine fornisce il clone del database per il server SnapCenter"]
 
 . Fare clic su processo in esecuzione per aprirlo `Job Details` finestra. Lo stato del lavoro può essere aperto e visualizzato anche da `Monitor` scheda.
 +
-image::snapctr_ora_azure_anf_clone_09.png[Questa immagine fornisce il ripristino del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_clone_09.png["Questa immagine fornisce il ripristino del database per il server SnapCenter"]
 
 . Il database clonato si registra immediatamente con SnapCenter.
 +
-image::snapctr_ora_azure_anf_clone_10.png[Questa immagine fornisce il ripristino del database per il server SnapCenter]
+image:snapctr_ora_azure_anf_clone_10.png["Questa immagine fornisce il ripristino del database per il server SnapCenter"]
 
 . Convalidare il database clone sull'host del server DB. Per un database di sviluppo clonato, la modalità di archiviazione dei database deve essere disattivata.
 +

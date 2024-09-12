@@ -22,7 +22,7 @@ Come parte dell'implementazione, è possibile scegliere il metodo di file-servic
 
 Quando gli utenti sono distribuiti in più siti all'interno di uno spazio dei nomi globale, Global file cache può contribuire a ridurre la latenza per i dati ad accesso frequente. L'implementazione di Global file cache può essere automatizzata utilizzando una raccolta di provisioning ed eventi con script. Global file cache gestisce le cache di lettura e scrittura a livello locale e mantiene i blocchi dei file in diverse posizioni. Global file cache può funzionare con qualsiasi file server SMB, incluso Azure NetApp Files.
 
-image::hcvdivds_image13.png[hcvdivds image13]
+image:hcvdivds_image13.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Global file cache richiede quanto segue:
 
@@ -37,47 +37,47 @@ Per la nostra convalida, abbiamo implementato le risorse di base e di gestione s
 
 . Nella sezione License Configuration (Configurazione licenza), utilizzare il collegamento fare clic qui per completare l'attivazione della licenza. Quindi registrare il core.
 +
-image::hcvdivds_image27.png[hcvdivds image27]
+image:hcvdivds_image27.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Fornire l'account di servizio da utilizzare per Global file cache. Per le autorizzazioni richieste per questo account, consultare https://docs.netapp.com/us-en/occm/download_gfc_resources.html#download-required-resources["Documentazione GFC"^].
 +
-image::hcvdivds_image28.png[hcvdivds image28]
+image:hcvdivds_image28.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Aggiungere un nuovo file server back-end e fornire il nome del file server o l'IP.
 +
-image::hcvdivds_image29.png[hcvdivds image29]
+image:hcvdivds_image29.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Sul bordo, l'unità cache deve avere la lettera D. In caso contrario, utilizzare diskpart.exe per selezionare il volume e modificare la lettera dell'unità. Effettuare la registrazione con il server di licenza come edge.
 +
-image::hcvdivds_image30.png[hcvdivds image30]
+image:hcvdivds_image30.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
 Se la configurazione automatica principale è attivata, le informazioni principali vengono recuperate automaticamente dal server di gestione delle licenze.
 
-image::hcvdivds_image31.png[hcvdivds image31]
+image:hcvdivds_image31.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Da qualsiasi computer client, gli amministratori che hanno utilizzato per accedere alla condivisione sul file server possono accedervi con GFC edge utilizzando UNC Path `\\<edge server name>\FASTDATA\<core server name>\<backend file server name>\<share name>`. Gli amministratori possono includere questo percorso nello script di accesso utente o nell'oggetto Criteri di gruppo per la mappatura dei dischi degli utenti nella posizione edge.
 
 Per fornire un accesso trasparente agli utenti di tutto il mondo, un amministratore può configurare il Microsoft Distributed Filesystem (DFS) con collegamenti che puntano alle condivisioni del file server e alle ubicazioni edge.
 
-image::hcvdivds_image32.png[hcvdivds image32]
+image:hcvdivds_image32.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Quando gli utenti accedono con credenziali Active Directory in base alle subnet associate al sito, il client DFS utilizza il collegamento appropriato per accedere ai dati.
 
-image::hcvdivds_image33.png[hcvdivds image33]
+image:hcvdivds_image33.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Le icone dei file cambiano a seconda che un file venga memorizzato nella cache; i file non memorizzati nella cache hanno una X grigia nell'angolo inferiore sinistro dell'icona. Dopo che un utente in una posizione edge accede a un file, tale file viene memorizzato nella cache e l'icona cambia.
 
-image::hcvdivds_image34.png[hcvdivds image34]
+image:hcvdivds_image34.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Quando un file è aperto e un altro utente sta tentando di aprire lo stesso file da una posizione edge, all'utente viene richiesto di selezionare la seguente opzione:
 
-image::hcvdivds_image35.png[hcvdivds image35]
+image:hcvdivds_image35.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Se l'utente seleziona l'opzione per ricevere una notifica quando la copia originale è disponibile, l'utente riceve una notifica come segue:
 
-image::hcvdivds_image36.png[hcvdivds image36]
+image:hcvdivds_image36.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Per ulteriori informazioni, consulta questa sezione https://www.youtube.com/watch?v=91LKb1qsLIM["Video sull'implementazione di Talon e Azure NetApp Files"^].
 
@@ -87,7 +87,7 @@ Per ulteriori informazioni, consulta questa sezione https://www.youtube.com/watc
 
 NetApp VDS offre protezione dei dati per Salesforce e Microsoft Office 365, inclusi Exchange, SharePoint e Microsoft OneDrive. La figura seguente mostra come NetApp VDS fornisce SaaS Backup per questi servizi dati.
 
-image::hcvdivds_image14.png[hcvdivds image14]
+image:hcvdivds_image14.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Per una dimostrazione della protezione dei dati di Microsoft Office 365, vedere https://www.youtube.com/watch?v=MRPBSu8RaC0&ab_channel=NetApp["questo video"^].
 

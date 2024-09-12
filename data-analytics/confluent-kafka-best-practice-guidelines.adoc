@@ -24,7 +24,7 @@ Questa sezione presenta le lezioni apprese da questa certificazione.
 
 La figura seguente illustra l'acquisizione e il recupero dell'oggetto S3 in base a. `length.key.value`.
 
-image::confluent-kafka-image11.png[confluente kafka image11]
+image:confluent-kafka-image11.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 * *Tuning di Kafka.* per migliorare le performance dello storage a più livelli, è possibile aumentare TierFetcherNumThreads e TierArchiverNumThreads. Come linea guida generale, si desidera aumentare TierFetcherNumThreads in modo che corrisponda al numero di core della CPU fisica e aumentare TierArchiverNumThreads fino alla metà del numero di core della CPU. Ad esempio, nelle proprietà del server, se si dispone di un computer con otto core fisici, impostare confluent.Tier.fetcher.num.threads = 8 e confluent.Tier.archiver.num.threads = 4.
 * *Intervallo di tempo per l'eliminazione dell'argomento.* quando un argomento viene cancellato, l'eliminazione dei file di segmenti di registro nella memoria a oggetti non inizia immediatamente. Piuttosto, esiste un intervallo di tempo con un valore predefinito di 3 ore prima che venga eseguita l'eliminazione di tali file. È possibile modificare la configurazione, confluent.tier.topic.delete.check.interval.ms, per modificare il valore di questo intervallo. Se si elimina un argomento o un cluster, è anche possibile eliminare manualmente gli oggetti nel rispettivo bucket.

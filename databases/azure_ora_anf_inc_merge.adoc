@@ -55,7 +55,7 @@ Il test e la convalida di questa soluzione sono stati eseguiti in un ambiente di
 
 === Architettura
 
-image::azure_ora_anf_vldb_architecture.png[Questa immagine fornisce un quadro dettagliato dell'implementazione della fusione incrementale di Oracle VLDB nel cloud pubblico Azure con ANF.]
+image:azure_ora_anf_vldb_architecture.png["Questa immagine fornisce un quadro dettagliato dell'implementazione della fusione incrementale di Oracle VLDB nel cloud pubblico Azure con ANF."]
 
 
 
@@ -139,27 +139,27 @@ In questa sezione viene illustrato il provisioning di un volume NFS da un pool d
 
 . Innanzitutto, dalla console del portale di Azure, si accede al pool di capacità ANF utilizzato per preparare la copia dell'immagine VLDB di Oracle.
 +
-image::azure_ora_anf_vldb_vol_01.png[Questa immagine fornisce la schermata di provisioning del volume ANF utilizzando la console del portale di Azure]
+image:azure_ora_anf_vldb_vol_01.png["Questa immagine fornisce la schermata di provisioning del volume ANF utilizzando la console del portale di Azure"]
 
 . Dal pool di capacità selezionato - `database`, fare clic su `Volumes` e poi, `Add volume` per avviare il flusso di lavoro add-volume.
 +
-image::azure_ora_anf_vldb_vol_02.png[Questa immagine fornisce la schermata di provisioning del volume ANF utilizzando la console del portale di Azure]
+image:azure_ora_anf_vldb_vol_02.png["Questa immagine fornisce la schermata di provisioning del volume ANF utilizzando la console del portale di Azure"]
 
 . Compilare `Volume name`, `Quota`, `Virtual network`, e. `Delegated subnet` per passare a. `Protocol` pagina.
 +
-image::azure_ora_anf_vldb_vol_03.png[Questa immagine fornisce la schermata di provisioning del volume ANF utilizzando la console del portale di Azure]
+image:azure_ora_anf_vldb_vol_03.png["Questa immagine fornisce la schermata di provisioning del volume ANF utilizzando la console del portale di Azure"]
 
 . Prendere nota del percorso del file, immettere l'intervallo CIDR dei client consentiti e attivare `Root Access` per il volume.
 +
-image::azure_ora_anf_vldb_vol_04.png[Questa immagine fornisce la schermata di provisioning del volume ANF utilizzando la console del portale di Azure]
+image:azure_ora_anf_vldb_vol_04.png["Questa immagine fornisce la schermata di provisioning del volume ANF utilizzando la console del portale di Azure"]
 
 . Aggiungere un tag di volume, se lo si desidera.
 +
-image::azure_ora_anf_vldb_vol_05.png[Questa immagine fornisce la schermata di provisioning del volume ANF utilizzando la console del portale di Azure]
+image:azure_ora_anf_vldb_vol_05.png["Questa immagine fornisce la schermata di provisioning del volume ANF utilizzando la console del portale di Azure"]
 
 . Rivedere e creare il volume.
 +
-image::azure_ora_anf_vldb_vol_06.png[Questa immagine fornisce la schermata di provisioning del volume ANF utilizzando la console del portale di Azure]
+image:azure_ora_anf_vldb_vol_06.png["Questa immagine fornisce la schermata di provisioning del volume ANF utilizzando la console del portale di Azure"]
 
 . Accedere al server VLDB Oracle primario come utente con privilegi sudo e montare il volume NFS esportato dallo storage ANF. Modificare l'indirizzo IP del server ANF NFS e il percorso del file secondo necessità. L'indirizzo IP del server NFS ANF può essere recuperato dalla pagina della console dei volumi ANF.
 +

@@ -17,7 +17,7 @@ summary: 'NetApp Astra Control Center offre un"ampia gamma di servizi di gestion
 [role="lead"]
 NetApp Astra Control Center offre un'ampia gamma di servizi di gestione dei dati basati su applicazioni e storage per carichi di lavoro Kubernetes stateful implementati in un ambiente on-premise e basati sulla tecnologia di protezione dei dati di NetApp.
 
-image::redhat_openshift_image44.png[redhat openshift image44]
+image:redhat_openshift_image44.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 È possibile installare NetApp Astra Control Center su un cluster Red Hat OpenShift che dispone di Astra Trident Storage orchestrator implementato e configurato con classi di storage e backend di storage per i sistemi storage NetApp ONTAP.
 
@@ -232,27 +232,27 @@ secret/astra-registry-cred created
 . Selezionare Administrator (Amministratore) dal menu a discesa Perspective (prospettiva).
 . Accedere a Operator > OperatorHub e cercare Astra.
 +
-image::redhat_openshift_image45.JPG[OpenShift Operator Hub]
+image:redhat_openshift_image45.JPG["OpenShift Operator Hub"]
 
 . Selezionare `netapp-acc-operator` affiancare e fare clic su `Install`.
 +
-image::redhat_openshift_image123.jpg[Tessera operatore ACC]
+image:redhat_openshift_image123.jpg["Tessera operatore ACC"]
 
 . Nella schermata Install Operator (Installa operatore), accettare tutti i parametri predefiniti e fare clic su `Install`.
 +
-image::redhat_openshift_image124.jpg[Dettagli operatore ACC]
+image:redhat_openshift_image124.jpg["Dettagli operatore ACC"]
 
 . Attendere il completamento dell'installazione da parte dell'operatore.
 +
-image::redhat_openshift_image125.jpg[L'operatore ACC attende l'installazione]
+image:redhat_openshift_image125.jpg["L'operatore ACC attende l'installazione"]
 
 . Una volta completata l'installazione dell'operatore, selezionare per fare clic su `View Operator`.
 +
-image::redhat_openshift_image126.jpg[Installazione dell'operatore ACC completata]
+image:redhat_openshift_image126.jpg["Installazione dell'operatore ACC completata"]
 
 . Quindi fare clic su `Create Instance` Nel riquadro Astra Control Center dell'operatore.
 +
-image::redhat_openshift_image127.jpg[Creare un'istanza ACC]
+image:redhat_openshift_image127.jpg["Creare un'istanza ACC"]
 
 . Riempire `Create AstraControlCenter` campi del modulo e fare clic su `Create`.
 +
@@ -268,10 +268,10 @@ image::redhat_openshift_image127.jpg[Creare un'istanza ACC]
 .. Inserire il nome della classe di storage se si desidera inserire PVC in una classe di storage non predefinita.
 .. Definire le preferenze di gestione CRD.
 +
-image::redhat_openshift_image128.jpg[Creare un'istanza ACC]
+image:redhat_openshift_image128.jpg["Creare un'istanza ACC"]
 
 +
-image::redhat_openshift_image129.jpg[Creare un'istanza ACC]
+image:redhat_openshift_image129.jpg["Creare un'istanza ACC"]
 
 
 
@@ -428,23 +428,23 @@ traefik                                    LoadBalancer   172.30.99.142    10.61
 ----
 . Aggiungere una voce nel server DNS che punta all'FQDN fornito nel file CRD di Astra Control Center `EXTERNAL-IP` del servizio traefik.
 +
-image::redhat_openshift_image122.jpg[Aggiungi voce DNS per GUI ACC]
+image:redhat_openshift_image122.jpg["Aggiungi voce DNS per GUI ACC"]
 
 . Accedere alla GUI di Astra Control Center esplorando il relativo FQDN.
 +
-image::redhat_openshift_image87.jpg[Accesso ad Astra Control Center]
+image:redhat_openshift_image87.jpg["Accesso ad Astra Control Center"]
 
 . Quando si accede all'interfaccia grafica di Astra Control Center per la prima volta utilizzando l'indirizzo email admin fornito in CRD, è necessario modificare la password.
 +
-image::redhat_openshift_image88.jpg[Modifica obbligatoria della password di Astra Control Center]
+image:redhat_openshift_image88.jpg["Modifica obbligatoria della password di Astra Control Center"]
 
 . Se si desidera aggiungere un utente ad Astra Control Center, accedere a account > Users (account > utenti), fare clic su Add (Aggiungi), inserire i dettagli dell'utente e fare clic su Add (Aggiungi).
 +
-image::redhat_openshift_image89.jpg[Astra Control Center crea un utente]
+image:redhat_openshift_image89.jpg["Astra Control Center crea un utente"]
 
 . Astra Control Center richiede una licenza per il funzionamento di tutte le funzionalità IT. Per aggiungere una licenza, accedere a account > License (account > licenza), fare clic su Add License (Aggiungi licenza) e caricare il file di licenza.
 +
-image::redhat_openshift_image90.jpg[Astra Control Center aggiunge licenza]
+image:redhat_openshift_image90.jpg["Astra Control Center aggiunge licenza"]
 
 +
 

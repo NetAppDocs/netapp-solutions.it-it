@@ -22,14 +22,14 @@ In questa sezione viene descritto come ripristinare le app da un backup.
 
 Per eseguire il ripristino da un backup, presupponiamo che lo spazio dei nomi in cui esisteva l'applicazione sia stato eliminato accidentalmente.
 
-image::redhat_openshift_OADP_app_deleted_image1.png[App eliminata]
+image:redhat_openshift_OADP_app_deleted_image1.png["App eliminata"]
 
 .Ripristinare nello stesso namespace
 [%collapsible]
 ====
 Per eseguire il ripristino dal backup appena creato, è necessario creare una risorsa personalizzata di ripristino (CR). Dobbiamo fornirgli un nome, fornire il nome del backup da cui eseguire il ripristino e impostare su true. È possibile impostare parametri aggiuntivi come illustrato nella link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentazione"]. Fare clic sul pulsante Crea.
 
-image::redhat_openshift_OADP_restore_image1.jpg[Crea ripristino CR]
+image:redhat_openshift_OADP_restore_image1.jpg["Crea ripristino CR"]
 
 ....
 apiVersion: velero.io/v1
@@ -44,9 +44,7 @@ spec:
 ....
 Quando la fase viene visualizzata come completata, è possibile vedere che l'app è stata ripristinata allo stato in cui è stata scattata l'istantanea. L'applicazione viene ripristinata nello stesso spazio dei nomi.
 
-image::redhat_openshift_OADP_restore_image2.jpg[Ripristino completato]
-
-image::redhat_openshift_OADP_restore_image2a.png[Ripristinato nello stesso namespace]
+image:redhat_openshift_OADP_restore_image2.jpg["Ripristino completato"] image:redhat_openshift_OADP_restore_image2a.png["Ripristinato nello stesso namespace"]
 
 ====
 .Ripristinare in un namespace diverso
@@ -72,7 +70,7 @@ spec:
 ....
 Quando la fase viene visualizzata come completata, è possibile vedere che l'app è stata ripristinata allo stato in cui è stata scattata l'istantanea. L'app viene ripristinata in uno spazio dei nomi diverso, come specificato in yaml.
 
-image::redhat_openshift_OADP_restore_image3.png[Ripristino completato in un nuovo namespace]
+image:redhat_openshift_OADP_restore_image3.png["Ripristino completato in un nuovo namespace"]
 
 ====
 .Ripristinare in una classe di archiviazione diversa
@@ -82,9 +80,9 @@ Velero fornisce una capacità generica di modificare le risorse durante il ripri
 
 Nell'esempio seguente, l'applicazione, in fase di implementazione, utilizza ontap-nas come classe di storage per i propri volumi persistenti. Viene creato un backup dell'applicazione denominata backup-postgresql-ontaps3.
 
-image::redhat_openshift_OADP_restore_image4.png[VM che utilizzano ontap-nas]
+image:redhat_openshift_OADP_restore_image4.png["VM che utilizzano ontap-nas"]
 
-image::redhat_openshift_OADP_restore_image5.png[Backup ontap-nas VM]
+image:redhat_openshift_OADP_restore_image5.png["Backup ontap-nas VM"]
 
 Simula una perdita dell'app disinstallando l'app.
 
@@ -107,11 +105,11 @@ resourceModifierRules:
     path: "/spec/storageClassName"
     value: "ontap-nas-eco"
 ....
-image::redhat_openshift_OADP_restore_image6.png[interfaccia utente della mappa di configurazione]
+image:redhat_openshift_OADP_restore_image6.png["interfaccia utente della mappa di configurazione"]
 
 L'oggetto della mappa di configurazione risultante dovrebbe essere simile al seguente (CLI):
 
-image::redhat_openshift_OADP_restore_image7.png[Config map CLI]
+image:redhat_openshift_OADP_restore_image7.png["Config map CLI"]
 
 Questa mappa di configurazione applicherà la regola del modificatore di risorse quando viene creato il ripristino. Verrà applicata una patch per sostituire il nome della classe storage in ontap-nas-eco per tutte le richieste di volume persistenti a partire da rhel.
 
@@ -125,6 +123,6 @@ Per ripristinare la macchina virtuale, utilizzare il seguente comando dall'inter
 ....
 L'applicazione viene ripristinata con lo stesso namespace con le persistenti richieste di volume create utilizzando la classe di storage ontap-nas-eco.
 
-image::redhat_openshift_OADP_restore_image8.png[Ripristino ontap-nas-eco delle macchine virtuali]
+image:redhat_openshift_OADP_restore_image8.png["Ripristino ontap-nas-eco delle macchine virtuali"]
 
 ====

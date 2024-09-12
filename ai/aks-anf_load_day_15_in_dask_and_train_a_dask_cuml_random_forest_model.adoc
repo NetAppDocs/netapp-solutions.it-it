@@ -46,7 +46,7 @@ n_streams = 8 # Performance optimization
 ....
 Nel nostro cluster AKS viene visualizzato il seguente stato:
 
-image::aks-anf_image12.png[aks anf image12]
+image:aks-anf_image12.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Si noti che Dask utilizza il paradigma di esecuzione pigro: Invece di eseguire il codice di elaborazione istantaneamente, Dask crea invece un DAG (Directed Acyclic Graph) di esecuzione. IL DAG contiene una serie di attività e le relative interazioni che ciascun lavoratore deve eseguire. Questo layout significa che i task non vengono eseguiti finché l'utente non dice a Task di eseguirli in un modo o nell'altro. Con Dask hai tre opzioni principali:
 

@@ -49,31 +49,31 @@ NOTE: Esistono molti metodi per implementare Cloud Manager e Cloud Volumes ONTAP
 
 . Selezionare https://cloud.netapp.com/cloud-manager["NetApp Cloud Central"^] ed effettuare l'accesso o l'iscrizione.
 +
-image::cloud_central_login_page.PNG[pagina di accesso a cloud central]
+image:cloud_central_login_page.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Dopo aver effettuato l'accesso, si dovrebbe essere portati a Canvas.
 +
-image::cloud_central_canvas_page.PNG[pagina di tela di cloud central]
+image:cloud_central_canvas_page.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Fai clic su "Aggiungi ambiente di lavoro" e scegli Cloud Volumes ONTAP in AWS. In questo caso, è anche possibile scegliere se implementare un sistema a nodo singolo o una coppia ad alta disponibilità. Ho scelto di implementare una coppia ad alta disponibilità.
 +
-image::cloud_central_add_we.PNG[abbiamo aggiunto cloud central]
+image:cloud_central_add_we.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Se non è stato creato alcun connettore, viene visualizzata una finestra a comparsa che richiede di creare un connettore.
 +
-image::cloud_central_add_conn_1.PNG[connessione aggiunta centrale cloud 1]
+image:cloud_central_add_conn_1.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Fare clic su Avvia, quindi scegliere AWS.
 +
-image::cloud_central_add_conn_3.PNG[connessione aggiunta centrale cloud 3]
+image:cloud_central_add_conn_3.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Inserire la chiave segreta e la chiave di accesso. Assicurarsi che l'utente disponga delle autorizzazioni corrette descritte in https://mysupport.netapp.com/site/info/cloud-manager-policies["Pagina delle policy di NetApp"^].
 +
-image::cloud_central_add_conn_4.PNG[connessione aggiunta centrale cloud 4]
+image:cloud_central_add_conn_4.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Assegnare un nome al connettore e utilizzare un ruolo predefinito come descritto in https://mysupport.netapp.com/site/info/cloud-manager-policies["Pagina delle policy di NetApp"^] Oppure chiedi a Cloud Manager di creare il tuo ruolo.
 +
-image::cloud_central_add_conn_5.PNG[connessione aggiunta centrale cloud 5]
+image:cloud_central_add_conn_5.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Fornire le informazioni di rete necessarie per implementare il connettore. Verificare che l'accesso a Internet in uscita sia attivato:
 +
@@ -81,25 +81,25 @@ image::cloud_central_add_conn_5.PNG[connessione aggiunta centrale cloud 5]
 .. Fornire al connettore un proxy da utilizzare
 .. Fornire al connettore un percorso verso Internet pubblico attraverso un gateway Internet
 +
-image::cloud_central_add_conn_6.PNG[connessione aggiunta centrale cloud 6]
+image:cloud_central_add_conn_6.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
 . Fornire la comunicazione con il connettore tramite SSH, HTTP e HTTPS fornendo un gruppo di protezione o creando un nuovo gruppo di protezione. È stato attivato l'accesso al connettore solo dall'indirizzo IP.
 +
-image::cloud_central_add_conn_7.PNG[connessione aggiunta centrale cloud 7]
+image:cloud_central_add_conn_7.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Esaminare le informazioni nella pagina di riepilogo e fare clic su Add (Aggiungi) per implementare il connettore.
 +
-image::cloud_central_add_conn_8.PNG[connessione aggiunta centrale cloud 8]
+image:cloud_central_add_conn_8.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Il connettore viene ora implementato utilizzando uno stack di formazione cloud. Puoi monitorarne i progressi da Cloud Manager o tramite AWS.
 +
-image::cloud_central_add_conn_9.PNG[connessione aggiunta centrale cloud 9]
+image:cloud_central_add_conn_9.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Una volta completata l'implementazione, viene visualizzata una pagina di successo.
 +
-image::cloud_central_add_conn_10.PNG[connessione aggiunta centrale cloud 10]
+image:cloud_central_add_conn_10.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -109,39 +109,39 @@ image::cloud_central_add_conn_10.PNG[connessione aggiunta centrale cloud 10]
 
 . Selezionare AWS e il tipo di implementazione in base ai requisiti.
 +
-image::cloud_central_add_we_1.PNG[cloud central aggiunge 1 tb]
+image:cloud_central_add_we_1.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Se non è stato assegnato alcun abbonamento e si desidera effettuare l'acquisto con PAYGO, scegliere Modifica credenziali.
 +
-image::cloud_central_add_we_2.PNG[cloud central aggiunge 2 tb]
+image:cloud_central_add_we_2.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Scegliere Aggiungi abbonamento.
 +
-image::cloud_central_add_we_3.PNG[cloud central aggiunge 3 tb]
+image:cloud_central_add_we_3.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Scegliere il tipo di contratto a cui si desidera sottoscrivere. Ho scelto il pay-as-you-go.
 +
-image::cloud_central_add_we_4.PNG[cloud central aggiunge 4 tb]
+image:cloud_central_add_we_4.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Si viene reindirizzati ad AWS; scegliere continua per iscriversi.
 +
-image::cloud_central_add_we_5.PNG[cloud central aggiunge 5 tb]
+image:cloud_central_add_we_5.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Iscriviti e verrai reindirizzato a NetApp Cloud Central. Se sei già iscritto e non ricevi il reindirizzamento, scegli il link "Clicca qui".
 +
-image::cloud_central_add_we_6.PNG[cloud central aggiunge 6 tb]
+image:cloud_central_add_we_6.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Verrai reindirizzato a Cloud Central dove devi assegnare un nome all'abbonamento e assegnarlo al tuo account Cloud Central.
 +
-image::cloud_central_add_we_7.PNG[cloud central aggiunge 7 tb]
+image:cloud_central_add_we_7.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Una volta completata la stampa, viene visualizzata una pagina con un segno di spunta. Tornare alla scheda Cloud Manager.
 +
-image::cloud_central_add_we_8.PNG[cloud central aggiunge 8 tb]
+image:cloud_central_add_we_8.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . L'abbonamento viene ora visualizzato in Cloud Central. Fare clic su Apply (Applica) per continuare.
 +
-image::cloud_central_add_we_9.PNG[cloud central aggiunge 9 tb]
+image:cloud_central_add_we_9.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Inserire i dettagli dell'ambiente di lavoro, ad esempio:
 +
@@ -149,25 +149,25 @@ image::cloud_central_add_we_9.PNG[cloud central aggiunge 9 tb]
 .. Password del cluster
 .. Tag AWS (opzionale)
 +
-image::cloud_central_add_we_10.PNG[cloud central aggiunge 10 tb]
+image:cloud_central_add_we_10.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
 . Scegliere i servizi aggiuntivi che si desidera implementare. Per ulteriori informazioni su questi servizi, visitare il https://cloud.netapp.com["Homepage di NetApp Cloud"^].
 +
-image::cloud_central_add_we_11.PNG[cloud central aggiunge 11 tb]
+image:cloud_central_add_we_11.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Scegliere se eseguire l'implementazione in più zone di disponibilità (si recuperano tre subnet, ciascuna in un AZ diverso) o in una singola zona di disponibilità. Ho scelto più AZS.
 +
-image::cloud_central_add_we_12.PNG[cloud central aggiunge 12 tb]
+image:cloud_central_add_we_12.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Scegliere la regione, il VPC e il gruppo di sicurezza in cui implementare il cluster. In questa sezione, vengono assegnate anche le zone di disponibilità per nodo (e mediatore) e le subnet occupate.
 +
-image::cloud_central_add_we_13.PNG[cloud central aggiunge 13 tb]
+image:cloud_central_add_we_13.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Scegliere i metodi di connessione per i nodi e il mediatore.
 +
-image::cloud_central_add_we_14.PNG[cloud central aggiunge 14 tb]
+image:cloud_central_add_we_14.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -176,47 +176,47 @@ TIP: Il mediatore richiede la comunicazione con le API AWS. Non è richiesto un 
 
 . Gli indirizzi IP mobili vengono utilizzati per consentire l'accesso ai vari indirizzi IP utilizzati da Cloud Volumes ONTAP, inclusi gli IP di gestione del cluster e di erogazione dei dati. Devono essere indirizzi non ancora instradabili all'interno della rete e aggiunti alle tabelle di routing nell'ambiente AWS. Questi sono necessari per abilitare indirizzi IP coerenti per una coppia ha durante il failover. Ulteriori informazioni sugli indirizzi IP mobili sono disponibili nella https://docs.netapp.com/us-en/occm/reference_networking_aws.html#requirements-for-ha-pairs-in-multiple-azs["Documentazione sul cloud di NetApp"^].
 +
-image::cloud_central_add_we_15.PNG[cloud central aggiunge 15 tb]
+image:cloud_central_add_we_15.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare le tabelle di routing a cui aggiungere gli indirizzi IP mobili. Queste tabelle di routing vengono utilizzate dai client per comunicare con Cloud Volumes ONTAP.
 +
-image::cloud_central_add_we_16.PNG[cloud central aggiunge 16 tb]
+image:cloud_central_add_we_16.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Scegliere se attivare la crittografia gestita AWS o AWS KMS per crittografare i dischi root, boot e dati ONTAP.
 +
-image::cloud_central_add_we_17.PNG[cloud central aggiunge 17 tb]
+image:cloud_central_add_we_17.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Scegli il tuo modello di licenza. Se non sai quale scegliere, contatta il tuo rappresentante NetApp.
 +
-image::cloud_central_add_we_18.PNG[cloud central aggiunge 18 tb]
+image:cloud_central_add_we_18.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare la configurazione più adatta al caso d'utilizzo. Ciò è correlato alle considerazioni sul dimensionamento trattate nella pagina dei prerequisiti.
 +
-image::cloud_central_add_we_19.PNG[cloud central aggiunge 19 tb]
+image:cloud_central_add_we_19.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Se si desidera, creare un volume. Questo non è necessario, perché le fasi successive utilizzano SnapMirror, che crea i volumi per noi.
 +
-image::cloud_central_add_we_20.PNG[cloud central aggiunge 20 tb]
+image:cloud_central_add_we_20.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Esaminare le selezioni effettuate e spuntare le caselle per verificare che Cloud Manager implementa le risorse nel proprio ambiente AWS. Quando si è pronti, fare clic su Go (Vai).
 +
-image::cloud_central_add_we_21.PNG[cloud central aggiunge 21 tb]
+image:cloud_central_add_we_21.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Cloud Volumes ONTAP avvia ora il processo di implementazione. Cloud Manager utilizza le API AWS e gli stack di formazione del cloud per implementare Cloud Volumes ONTAP. Quindi, configura il sistema in base alle tue specifiche, offrendo un sistema pronto all'uso che può essere utilizzato immediatamente. I tempi di questo processo variano a seconda delle selezioni effettuate.
 +
-image::cloud_central_add_we_22.PNG[cloud central aggiunge 22 tb]
+image:cloud_central_add_we_22.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . È possibile monitorare l'avanzamento passando alla Timeline.
 +
-image::cloud_central_add_we_23.PNG[cloud central aggiunge 23 tb]
+image:cloud_central_add_we_23.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . La cronologia funge da audit di tutte le azioni eseguite in Cloud Manager. È possibile visualizzare tutte le chiamate API effettuate da Cloud Manager durante la configurazione di AWS e del cluster ONTAP. Questo può essere utilizzato in modo efficace anche per risolvere qualsiasi problema che si deve affrontare.
 +
-image::cloud_central_add_we_24.PNG[cloud central aggiunge 24 tb]
+image:cloud_central_add_we_24.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Una volta completata l'implementazione, il cluster CVO viene visualizzato sul Canvas, che corrisponde alla capacità corrente. Il cluster ONTAP nello stato attuale è completamente configurato per consentire un'esperienza reale e immediata.
 +
-image::cloud_central_add_we_25.PNG[cloud central aggiunge 25 tb]
+image:cloud_central_add_we_25.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -230,62 +230,62 @@ Per una guida sulle versioni compatibili di ONTAP per SnapMirror, consultare htt
 
 . Fare clic sul sistema ONTAP di origine (on-premise) e trascinarlo nella destinazione, selezionare Replication > Enable (Replica > attiva) oppure selezionare Replication > Menu > Replicate (Replica > Menu > Replica).
 +
-image::cloud_central_replication_1.png[replica centralizzata cloud 1]
+image:cloud_central_replication_1.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
 Selezionare Enable (attiva).
 
 +
-image::cloud_central_replication_2.png[replica centralizzata cloud 2]
+image:cloud_central_replication_2.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
 O Opzioni.
 
 +
-image::cloud_central_replication_3.png[replica centralizzata cloud 3]
+image:cloud_central_replication_3.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
 Replicare.
 
 +
-image::cloud_central_replication_4.png[replica centralizzata cloud 4]
+image:cloud_central_replication_4.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Se non è stato trascinato, scegliere il cluster di destinazione in cui replicare.
 +
-image::cloud_central_replication_5.png[replica centralizzata cloud 5]
+image:cloud_central_replication_5.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Scegliere il volume che si desidera replicare. Abbiamo replicato i dati e tutti i volumi di log.
 +
-image::cloud_central_replication_6.png[replica centralizzata cloud 6]
+image:cloud_central_replication_6.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Scegliere il tipo di disco di destinazione e il criterio di tiering. Per il disaster recovery, consigliamo un SSD come tipo di disco e per mantenere il tiering dei dati. Il tiering dei dati tiering i dati mirrorati in storage a oggetti a basso costo e consente di risparmiare denaro sui dischi locali. Quando si rompe la relazione o si clonano i volumi, i dati utilizzano lo storage locale veloce.
 +
-image::cloud_central_replication_7.png[replica centralizzata cloud 7]
+image:cloud_central_replication_7.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare il nome del volume di destinazione scelto `[source_volume_name]_dr`.
 +
-image::cloud_central_replication_8.png[replica centralizzata cloud 8]
+image:cloud_central_replication_8.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare la velocità di trasferimento massima per la replica. Ciò consente di risparmiare larghezza di banda se si dispone di una connessione a bassa larghezza di banda al cloud, ad esempio una VPN.
 +
-image::cloud_central_replication_9.png[replica centralizzata cloud 9]
+image:cloud_central_replication_9.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Definire il criterio di replica. Abbiamo scelto un Mirror, che prende i dataset più recenti e li replica nel volume di destinazione. Puoi anche scegliere una policy diversa in base ai tuoi requisiti.
 +
-image::cloud_central_replication_10.png[replica centralizzata cloud 10]
+image:cloud_central_replication_10.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Scegliere la pianificazione per l'attivazione della replica. NetApp consiglia di impostare una pianificazione "giornaliera" di per il volume di dati e una pianificazione "oraria" per i volumi di log, sebbene sia possibile modificarla in base ai requisiti.
 +
-image::cloud_central_replication_11.png[replica centralizzata cloud 11]
+image:cloud_central_replication_11.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Esaminare le informazioni immesse, fare clic su Go (Vai) per attivare il peer del cluster e il peer SVM (se si tratta della prima replica tra i due cluster), quindi implementare e inizializzare la relazione SnapMirror.
 +
-image::cloud_central_replication_12.png[replica centralizzata cloud 12]
+image:cloud_central_replication_12.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Continuare questa procedura per i volumi di dati e i volumi di log.
 . Per controllare tutte le relazioni, accedere alla scheda Replication (Replica) in Cloud Manager. Qui puoi gestire le tue relazioni e verificare il loro stato.
 +
-image::cloud_central_replication_13.png[replica centralizzata cloud 13]
+image:cloud_central_replication_13.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Una volta replicati tutti i volumi, si è in uno stato stabile e si è pronti per passare ai flussi di lavoro di disaster recovery e di sviluppo/test.
 

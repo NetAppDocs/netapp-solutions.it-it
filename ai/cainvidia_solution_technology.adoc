@@ -16,7 +16,7 @@ summary:
 [role="lead"]
 La figura seguente illustra l'architettura di sistema ai conversazionale proposta. È possibile interagire con il sistema sia con il segnale vocale che con l'immissione di testo. Se viene rilevato un input vocale, Jarvis ai-as-service (AIaaS) esegue ASR per produrre testo per Dialog Manager. Dialog Manager memorizza gli stati di conversazione, indirizza il testo ai servizi corrispondenti e passa i comandi al motore di adempimento. Jarvis NLP Service prende il testo, riconosce intenti ed entità e restituisce tali intenti e slot di entità a Dialog Manager, che invia quindi Action al motore di adempimento. Fulfillment Engine è costituito da API di terze parti o database SQL che rispondono alle query degli utenti. Dopo aver ricevuto il risultato da Fulfillment Engine, Dialog Manager indirizza il testo a Jarvis TTS AIaaS per produrre una risposta audio per l'utente finale. Possiamo archiviare la cronologia delle conversazioni, annotare frasi con intenti e slot per il training NEMO in modo che il servizio NLP migliori man mano che un maggior numero di utenti interagisce con il sistema.
 
-image::cainvidia_image3.png[cainvidia image3]
+image:cainvidia_image3.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 

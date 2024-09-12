@@ -40,7 +40,7 @@ Per evitare che i processi di replica consumino l'intera larghezza di banda dell
 
 Una volta eseguito il failover, una VM replicata assume il ruolo della VM originale. Il failover può essere eseguito allo stato più recente di una replica o a qualsiasi punto di ripristino valido. Ciò abilita recovery dal ransomware o test isolati, se necessario. In Veeam Backup & Replication, il failover e il failback sono passaggi intermedi temporanei che devono essere ulteriormente finalizzati. Veeam Backup & Replication offre diverse opzioni per gestire diversi scenari di disaster recovery.
 
-image::dr-veeam-fsx-image1.png[Diagramma dello scenario di DR con replica Veeam e FSX ONTAP per VMC]
+image:dr-veeam-fsx-image1.png["Diagramma dello scenario di DR con replica Veeam e FSX ONTAP per VMC"]
 
 
 
@@ -87,38 +87,38 @@ Per replicare le VM, attenersi alla seguente procedura:
 ** Selezionare la casella di controllo Network remapping (per i siti VMC AWS con reti diverse) se i segmenti su VMware Cloud su AWS SDDC non corrispondono a quelli delle reti dei siti on-premise.
 ** Se lo schema di indirizzamento IP nel sito di produzione on-premise differisce dallo schema nel sito VMC di AWS, selezionare la casella di controllo Replica re-IP (per i siti di DR con schema di indirizzamento IP diverso).
 +
-image::dr-veeam-fsx-image2.png[dr. veeam fsx image2]
+image:dr-veeam-fsx-image2.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
 . Seleziona le VM da replicare nel datastore FSX per ONTAP collegato a VMware Cloud su AWS SDDC nel passaggio *macchine virtuali*. Le macchine virtuali possono essere posizionate su vSAN per riempire la capacità del datastore vSAN disponibile. In un cluster spia pilota, la capacità utilizzabile di un cluster a 3 nodi sarà limitata. Il resto dei dati può essere replicato in datastore FSX per ONTAP. Fare clic su *Aggiungi*, quindi nella finestra *Aggiungi oggetto* selezionare le VM o i contenitori VM necessari e fare clic su *Aggiungi*. Fare clic su *Avanti*.
 +
-image::dr-veeam-fsx-image3.png[dr. veeam fsx image3]
+image:dr-veeam-fsx-image3.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Quindi, seleziona la destinazione come VMware Cloud su host/cluster SDDC di AWS e il pool di risorse, la cartella VM e il datastore FSX per le repliche VM di ONTAP. Quindi fare clic su *Avanti*.
 +
-image::dr-veeam-fsx-image4.png[dr. veeam fsx image4]
+image:dr-veeam-fsx-image4.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nel passaggio successivo, creare la mappatura tra la rete virtuale di origine e di destinazione secondo necessità.
 +
-image::dr-veeam-fsx-image5.png[dr. veeam fsx image5]
+image:dr-veeam-fsx-image5.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nel passaggio *Impostazioni processo*, specificare il repository di backup che memorizzerà i metadati per le repliche della VM, i criteri di conservazione e così via.
 . Aggiornare i server proxy *Source* e *Target* nel passo *trasferimento dati* e lasciare selezionata l'opzione *Automatic* (impostazione predefinita) e mantenere l'opzione *Direct* (diretto) e fare clic su *Next* (Avanti).
 . Nel passaggio *elaborazione guest*, selezionare *attiva elaborazione in base alle esigenze dell'applicazione*. Fare clic su *Avanti*.
 +
-image::dr-veeam-fsx-image6.png[dr. veeam fsx image6]
+image:dr-veeam-fsx-image6.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Scegliere la pianificazione di replica per eseguire regolarmente il processo di replica.
 . Nel passo *Riepilogo* della procedura guidata, esaminare i dettagli del processo di replica. Per avviare il lavoro subito dopo la chiusura della procedura guidata, selezionare la casella di controllo *Esegui il lavoro quando si fa clic su fine*, altrimenti lasciare deselezionata la casella di controllo. Quindi fare clic su *fine* per chiudere la procedura guidata.
 +
-image::dr-veeam-fsx-image7.png[dr. veeam fsx image7]
+image:dr-veeam-fsx-image7.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
 Una volta avviato il processo di replica, le macchine virtuali con il suffisso specificato verranno popolate nel cluster/host VMC SDDC di destinazione.
 
-image::dr-veeam-fsx-image8.png[dr. veeam fsx image8]
+image:dr-veeam-fsx-image8.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Per ulteriori informazioni sulla replica Veeam, fare riferimento a. link:https://helpcenter.veeam.com/docs/backup/vsphere/replication_process.html?ver=120["Come funziona la replica"].
 
@@ -144,11 +144,11 @@ Per creare il *piano di failover*, procedere come segue:
 . Nella vista Home, selezionare *piano di failover > VMware vSphere*.
 . Quindi, fornire un nome e una descrizione al piano. Gli script pre e post-failover possono essere aggiunti secondo necessità. Ad esempio, eseguire uno script per arrestare le macchine virtuali prima di avviare le macchine virtuali replicate.
 +
-image::dr-veeam-fsx-image9.png[dr. veeam fsx image9]
+image:dr-veeam-fsx-image9.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Aggiungere le VM al piano e modificare l'ordine di avvio delle VM e i ritardi di avvio per soddisfare le dipendenze delle applicazioni.
 +
-image::dr-veeam-fsx-image10.png[dr. veeam fsx image10]
+image:dr-veeam-fsx-image10.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -165,17 +165,17 @@ NOTE: Accertarsi che la segmentazione della rete sia attiva per evitare conflitt
 
 Per avviare il piano di failover, è sufficiente fare clic sulla scheda *piani di failover* e fare clic con il pulsante destro del mouse sul piano di failover. Selezionare *Start*. Il failover viene eseguito utilizzando gli ultimi punti di ripristino delle repliche della VM. Per eseguire il failover su punti di ripristino specifici delle repliche della VM, selezionare *Avvia a*.
 
-image::dr-veeam-fsx-image11.png[dr. veeam fsx image11]
+image:dr-veeam-fsx-image11.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-image::dr-veeam-fsx-image12.png[dr. veeam fsx image12]
+image:dr-veeam-fsx-image12.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Lo stato della replica della macchina virtuale cambia da Pronto a failover e le macchine virtuali vengono avviate sul VMware Cloud di destinazione sul cluster/host AWS SDDC.
 
-image::dr-veeam-fsx-image13.png[dr. veeam fsx image13]
+image:dr-veeam-fsx-image13.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Una volta completato il failover, lo stato delle macchine virtuali passa a "failover".
 
-image::dr-veeam-fsx-image14.png[dr. veeam fsx image14]
+image:dr-veeam-fsx-image14.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 NOTE: Veeam Backup & Replication interrompe tutte le attività di replica per la VM di origine fino a quando la replica non viene riportata allo stato Ready.
@@ -200,21 +200,21 @@ NOTE: Quando si esegue il failback, le modifiche vengono solo trasferite ma non 
 
 In questa demo, è stato scelto il failback in produzione. Il failback alla macchina virtuale originale è stato selezionato durante la fase di destinazione della procedura guidata ed è stata attivata la casella di controllo "accensione della macchina virtuale dopo il ripristino".
 
-image::dr-veeam-fsx-image15.png[dr. veeam fsx image15]
+image:dr-veeam-fsx-image15.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-image::dr-veeam-fsx-image16.png[dr. veeam fsx image16]
+image:dr-veeam-fsx-image16.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Il commit di failback è uno dei modi per finalizzare l'operazione di failback. Quando il failback viene eseguito, conferma che le modifiche inviate alla VM che ha avuto esito negativo (la VM di produzione) funzionano come previsto. Dopo l'operazione di commit, Veeam Backup & Replication riprende le attività di replica per la VM di produzione.
 
 Per informazioni dettagliate sul processo di failback, fare riferimento alla documentazione Veeam per link:https://helpcenter.veeam.com/docs/backup/vsphere/failover_failback.html?ver=120["Failover e failback per la replica"].
 
-image::dr-veeam-fsx-image17.png[dr. veeam fsx image17]
+image:dr-veeam-fsx-image17.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-image::dr-veeam-fsx-image18.png[dr. veeam fsx image18]
+image:dr-veeam-fsx-image18.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Una volta eseguito il failback in produzione, le macchine virtuali vengono tutte ripristinate nel sito di produzione originale.
 
-image::dr-veeam-fsx-image19.png[dr. veeam fsx image19]
+image:dr-veeam-fsx-image19.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 ====
 

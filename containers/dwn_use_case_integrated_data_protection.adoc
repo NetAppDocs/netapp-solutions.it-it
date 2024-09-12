@@ -26,7 +26,7 @@ Man mano che i team aumentano il loro livello di automazione, il ritmo del cambi
 
 In questo caso di utilizzo, analizziamo più da vicino una pipeline di promozione-produzione che implementa una nuova versione di un'applicazione: Prima in un ambiente di staging e poi in un ambiente di produzione. Questo esempio si applica allo stesso modo ai principali cloud pubblici e anche a un ambiente on-premise. Anche se mostriamo l'implementazione di una versione dell'applicazione, la pipeline può essere utilizzata anche con altre strategie, come l'implementazione blu/verde o canary. Come parte della pipeline ci/CD, proteggeremo l'applicazione creando un backup completo dell'applicazione. Un backup applicativo-aware dell'applicazione in-production e dei relativi dati, stato e configurazione può essere utile per numerosi flussi di lavoro DevOps.
 
-image::dwn_image1.jpg[Architettura DevOps con NetApp Astra Use Case 1]
+image:dwn_image1.jpg["Architettura DevOps con NetApp Astra Use Case 1"]
 
 L'applicazione utilizzata per la convalida di questo caso di utilizzo è stata https://magento.com/["Magento"^], Una soluzione di e-commerce con front-end basato su web; un'istanza di Elasticsearch per le funzionalità di ricerca e analisi; e un database MariaDB che tiene traccia di tutti i dettagli dell'inventario di acquisto e delle transazioni. Questa applicazione containerizzata è stata installata in un cluster Red Hat OpenShift. Ogni pod dell'applicazione utilizzava volumi persistenti per memorizzare i dati. I volumi persistenti sono stati creati automaticamente da NetApp Astra Trident, lo storage orchestrator per Kubernetes conforme a Container Storage Interface, che consente il provisioning dello storage sui sistemi storage NetApp. Inoltre, per utilizzare le funzionalità di protezione delle applicazioni di Astra Control Center, l'applicazione in questione è stata gestita da Astra Control, che è stata utilizzata per attivare i backup delle applicazioni che memorizzavano lo stato dell'applicazione insieme ai dati contenuti nei volumi persistenti. Abbiamo utilizzato https://github.com/NetApp/netapp-astra-toolkits["SDK NetApp Astra Control Python"^] Per automatizzare il processo di attivazione dei backup delle applicazioni, che è stato poi introdotto in una pipeline ci/CD. Questa pipeline è stata creata ed eseguita utilizzando un popolare tool ci/CD chiamato [https://www.jenkins.io/["Jenkins"^]] per automatizzare il flusso di creazione, protezione e implementazione dell'applicazione.
 
@@ -87,7 +87,7 @@ magento-mariadb-0                                        1/1     Running   0    
 . Fare clic sui puntini di sospensione dell'applicazione Magento nell'ambiente di produzione (`magento-prod`), quindi fare clic su Manage (Gestisci).
 . L'applicazione Magento è ora gestita da Astra Control Center. Tutte le operazioni supportate da Astra Control possono essere eseguite sull'applicazione. Prendere nota anche della versione dell'applicazione.
 +
-image::dwn_image2.jpg[Verifica della versione di Magento prima dell'aggiornamento]
+image:dwn_image2.jpg["Verifica della versione di Magento prima dell'aggiornamento"]
 
 . Ripetere i passaggi per la gestione dell'applicazione Magento nell'ambiente di staging (`magento-staging`).
 
@@ -102,7 +102,7 @@ Quando lavoriamo con le nuove versioni delle applicazioni, utilizziamo una pipel
 . Accedere a Manage Jenkins > Manage Credentials (Gestisci Jenkins > Gestisci credenziali) e fare clic sul dominio appropriato.
 . Fare clic su Add Credentials (Aggiungi credenziali) e impostare il tipo su Username (Nome utente) con password e ambito impostati su Global (Globale). Immettere il nome utente, la password e un ID per le credenziali, quindi fare clic su OK.
 +
-image::dwn_image8.jpg[Crea credenziali]
+image:dwn_image8.jpg["Crea credenziali"]
 
 . Ripetere la stessa procedura per le altre due credenziali.
 . Tornare alla dashboard, creare una pipeline facendo clic su New Item (nuovo elemento), quindi fare clic su Pipeline (pipeline).
@@ -130,27 +130,27 @@ MAGENTO_MARIADB_ROOT_CREDS = credentials('magento-mariadb-root-cred')
 ----
 . Fare clic su Crea ora. La pipeline inizia a essere eseguita e procede attraverso le fasi. L'immagine dell'applicazione viene creata e caricata nel registro del container.
 +
-image::dwn_image3.jpg[Avanzamento della pipeline]
+image:dwn_image3.jpg["Avanzamento della pipeline"]
 
 . I backup dell'applicazione vengono avviati tramite Astra Control.
 +
-image::dwn_image4.jpg[Backup avviato]
+image:dwn_image4.jpg["Backup avviato"]
 
 . Una volta completate le fasi di backup, verificare i backup da Astra Control Center.
 +
-image::dwn_image5.jpg[Backup riuscito]
+image:dwn_image5.jpg["Backup riuscito"]
 
 . La nuova versione dell'applicazione viene quindi distribuita nell'ambiente di staging.
 +
-image::dwn_image6.jpg[Implementazione dello staging avviata]
+image:dwn_image6.jpg["Implementazione dello staging avviata"]
 
 . Al termine di questa fase, il programma attende che l'utente approvi la distribuzione in produzione. In questa fase, supponiamo che il team di QA esegua alcuni test manuali e approvi la produzione. Fare clic su Approve (approva) per distribuire la nuova versione dell'applicazione nell'ambiente di produzione.
 +
-image::dwn_image7.jpg[In attesa di promozione]
+image:dwn_image7.jpg["In attesa di promozione"]
 
 . Verificare che anche l'applicazione di produzione sia aggiornata alla versione desiderata.
 +
-image::dwn_image11.jpg[App PROD aggiornata]
+image:dwn_image11.jpg["App PROD aggiornata"]
 
 
 

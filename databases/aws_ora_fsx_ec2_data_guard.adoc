@@ -54,7 +54,7 @@ Il test e la convalida di questa soluzione sono stati eseguiti in un ambiente di
 
 === Architettura
 
-image::aws_ora_fsx_data_guard_architecture.png[Questa immagine fornisce un quadro dettagliato dell'implementazione di Oracle Data Guard in AWS con FSxN.]
+image:aws_ora_fsx_data_guard_architecture.png["Questa immagine fornisce un quadro dettagliato dell'implementazione di Oracle Data Guard in AWS con FSxN."]
 
 
 
@@ -863,15 +863,15 @@ ip-172-30-15-45.ec2.internal
 ....
 . Aggiungi cluster di storage FSX a. `Storage Systems` In SnapCenter con IP di gestione cluster FSX e credenziale fsxadmin.
 +
-image::aws_ora_fsx_data_guard_clone_01.png[Schermata che mostra questo passaggio nella GUI.]
+image:aws_ora_fsx_data_guard_clone_01.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Aggiungi AWS EC2 utente a. `Credential` poll `Settings`.
 +
-image::aws_ora_fsx_data_guard_clone_02.png[Schermata che mostra questo passaggio nella GUI.]
+image:aws_ora_fsx_data_guard_clone_02.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Aggiungere l'istanza di standby EC2 DB e clonare l'istanza EC2 DB a. `Hosts`.
 +
-image::aws_ora_fsx_data_guard_clone_03.png[Schermata che mostra questo passaggio nella GUI.]
+image:aws_ora_fsx_data_guard_clone_03.png["Schermata che mostra questo passaggio nella GUI."]
 
 +
 
@@ -879,51 +879,51 @@ NOTE: L'istanza EC2 DB clone deve avere stack software Oracle simili installati 
 
 . Creare un criterio di backup personalizzato per il backup completo del database non in linea/montato.
 +
-image::aws_ora_fsx_data_guard_clone_04.png[Schermata che mostra questo passaggio nella GUI.]
+image:aws_ora_fsx_data_guard_clone_04.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Applicare i criteri di backup per proteggere il database di standby in `Resources` scheda.
 +
-image::aws_ora_fsx_data_guard_clone_05.png[Schermata che mostra questo passaggio nella GUI.]
+image:aws_ora_fsx_data_guard_clone_05.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Fare clic sul nome del database per aprire la pagina di backup del database. Selezionare un backup da utilizzare per il clone del database e fare clic su `Clone` per avviare il flusso di lavoro di clonazione.
 +
-image::aws_ora_fsx_data_guard_clone_06.png[Schermata che mostra questo passaggio nella GUI.]
+image:aws_ora_fsx_data_guard_clone_06.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Selezionare `Complete Database Clone` E denominare il SID dell'istanza clone.
 +
-image::aws_ora_fsx_data_guard_clone_07.png[Schermata che mostra questo passaggio nella GUI.]
+image:aws_ora_fsx_data_guard_clone_07.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Selezionare l'host clone che ospita il database clonato dal database di standby. Accettare il valore predefinito per i file di dati, i file di controllo e i registri di ripristino. Sull'host clone verranno creati due gruppi di dischi ASM corrispondenti ai gruppi di dischi del database di standby.
 +
-image::aws_ora_fsx_data_guard_clone_08.png[Schermata che mostra questo passaggio nella GUI.]
+image:aws_ora_fsx_data_guard_clone_08.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Non sono necessarie credenziali di database per l'autenticazione basata sul sistema operativo. Associare l'impostazione home Oracle a quanto configurato nell'istanza del database EC2 clone.
 +
-image::aws_ora_fsx_data_guard_clone_09.png[Schermata che mostra questo passaggio nella GUI.]
+image:aws_ora_fsx_data_guard_clone_09.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Se necessario, modificare i parametri del database clone e specificare gli script da eseguire prima di cloen, se necessario.
 +
-image::aws_ora_fsx_data_guard_clone_10.png[Schermata che mostra questo passaggio nella GUI.]
+image:aws_ora_fsx_data_guard_clone_10.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Immettere SQL da eseguire dopo la clonazione. Nella demo, abbiamo eseguito comandi per disattivare la modalità di archiviazione del database per un database dev/test/report.
 +
-image::aws_ora_fsx_data_guard_clone_11.png[Schermata che mostra questo passaggio nella GUI.]
+image:aws_ora_fsx_data_guard_clone_11.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Configurare la notifica e-mail, se lo si desidera.
 +
-image::aws_ora_fsx_data_guard_clone_12.png[Schermata che mostra questo passaggio nella GUI.]
+image:aws_ora_fsx_data_guard_clone_12.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Rivedere il riepilogo, fare clic su `Finish` per avviare il clone.
 +
-image::aws_ora_fsx_data_guard_clone_13.png[Schermata che mostra questo passaggio nella GUI.]
+image:aws_ora_fsx_data_guard_clone_13.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Monitorare il processo clone in `Monitor` scheda. Abbiamo osservato che erano necessari circa 8 minuti per clonare un database di circa 300GB TB nelle dimensioni del volume del database.
 +
-image::aws_ora_fsx_data_guard_clone_14.png[Schermata che mostra questo passaggio nella GUI.]
+image:aws_ora_fsx_data_guard_clone_14.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Convalidare il database clone da SnapCenter, che viene registrato immediatamente in `Resources` subito dopo l'operazione di clonazione.
 +
-image::aws_ora_fsx_data_guard_clone_15.png[Schermata che mostra questo passaggio nella GUI.]
+image:aws_ora_fsx_data_guard_clone_15.png["Schermata che mostra questo passaggio nella GUI."]
 
 . Eseguire una query nel database clone dall'istanza clone EC2. Abbiamo validato la transazione di test verificatasi nel database primario in modo da ottenere la clonazione del database.
 +

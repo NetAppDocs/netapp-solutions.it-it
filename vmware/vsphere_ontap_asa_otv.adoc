@@ -79,15 +79,15 @@ Per creare un datastore vVol in Strumenti di ONTAP, attenersi alla seguente proc
 ====
 . Accedere agli strumenti NetApp ONTAP selezionandoli dal menu principale del client vSphere.
 +
-image::vmware-asa-image6.png[Strumenti NetApp ONTAP]
+image:vmware-asa-image6.png["Strumenti NetApp ONTAP"]
 
 . In Strumenti di ONTAP, selezionare *sistemi di archiviazione* dal menu a sinistra, quindi premere *Aggiungi*.
 +
-image::vmware-asa-image8.png[Aggiunta di un sistema storage]
+image:vmware-asa-image8.png["Aggiunta di un sistema storage"]
 
 . Immettere l'indirizzo IP, le credenziali del sistema di archiviazione e il numero di porta. Fare clic su *Aggiungi* per avviare il processo di ricerca.
 +
-image::vmware-asa-image9.png[Aggiunta di un sistema storage]
+image:vmware-asa-image9.png["Aggiunta di un sistema storage"]
 
 
 
@@ -101,31 +101,31 @@ Per creare un profilo di capacità di archiviazione negli strumenti ONTAP, compl
 
 . In Strumenti di ONTAP, selezionare *Profilo capacità di archiviazione* dal menu a sinistra, quindi premere *Crea*.
 +
-image::vmware-asa-image7.png[Profilo delle capacità di storage]
+image:vmware-asa-image7.png["Profilo delle capacità di storage"]
 
 . Nella procedura guidata *Crea profilo capacità di archiviazione* fornire un nome e una descrizione del profilo e fare clic su *Avanti*.
 +
-image::vmware-asa-image10.png[Aggiungere il nome per SCP]
+image:vmware-asa-image10.png["Aggiungere il nome per SCP"]
 
 . Seleziona il tipo di piattaforma e per specificare che il sistema storage deve essere un array SAN all-flash impostato su *asimmetrico* su falso.
 +
-image::vmware-asa-image11.png[Platformio per SCP]
+image:vmware-asa-image11.png["Platformio per SCP"]
 
 . Quindi, selezionare Choice of Protocol (scelta del protocollo) o *Any* (qualsiasi) per consentire tutti i protocolli possibili. Fare clic su *Avanti* per continuare.
 +
-image::vmware-asa-image12.png[Protocollo per SCP]
+image:vmware-asa-image12.png["Protocollo per SCP"]
 
 . La pagina *performance* consente di impostare la qualità del servizio sotto forma di IOPS minimi e massimi consentiti.
 +
-image::vmware-asa-image13.png[QoS per SCP]
+image:vmware-asa-image13.png["QoS per SCP"]
 
 . Completare la pagina *attributi di archiviazione* selezionando l'efficienza di archiviazione, la prenotazione dello spazio, la crittografia e qualsiasi criterio di tiering in base alle esigenze.
 +
-image::vmware-asa-image14.png[Attributi per SCP]
+image:vmware-asa-image14.png["Attributi per SCP"]
 
 . Infine, rivedere il riepilogo e fare clic su fine per creare il profilo.
 +
-image::vmware-asa-image15.png[Riepilogo per SCP]
+image:vmware-asa-image15.png["Riepilogo per SCP"]
 
 
 
@@ -137,23 +137,23 @@ Per creare un datastore vVol in Strumenti di ONTAP, attenersi alla seguente proc
 
 . In Strumenti di ONTAP selezionare *Panoramica* e dalla scheda *Guida introduttiva* fare clic su *Provision* per avviare la procedura guidata.
 +
-image::vmware-asa-image16.png[Provisioning datastore]
+image:vmware-asa-image16.png["Provisioning datastore"]
 
 . Nella pagina *Generale* della procedura guidata nuovo datastore selezionare il data center vSphere o la destinazione del cluster. Selezionare *vVol* come tipo di dastatore, inserire un nome per il datastore e selezionare il protocollo.
 +
-image::vmware-asa-image17.png[Pagina generale]
+image:vmware-asa-image17.png["Pagina generale"]
 
 . Nella pagina *sistema storage*, seleziona un profilo di funzionalità storage, il sistema storage e la SVM. Fare clic su *Avanti* per continuare.
 +
-image::vmware-asa-image18.png[Sistema storage]
+image:vmware-asa-image18.png["Sistema storage"]
 
 . Nella pagina *attributi archiviazione*, selezionare per creare un nuovo volume per l'archivio dati e specificare gli attributi di archiviazione del volume da creare. Fare clic su *Aggiungi* per creare il volume, quindi su *Avanti* per continuare.
 +
-image::vmware-asa-image19.png[Attributi dello storage]
+image:vmware-asa-image19.png["Attributi dello storage"]
 
 . Infine, rivedere il riepilogo e fare clic su *fine* per avviare il processo di creazione del datastore vVol.
 +
-image::vmware-asa-image20.png[Pagina di riepilogo]
+image:vmware-asa-image20.png["Pagina di riepilogo"]
 
 
 
@@ -173,19 +173,19 @@ Per creare un criterio di archiviazione VM, completare i seguenti passaggi:
 
 . Dal menu principale dei client vSphere, selezionare *Criteri e profili*.
 +
-image::vmware-asa-image21.png[Criteri e profili]
+image:vmware-asa-image21.png["Criteri e profili"]
 
 . Nella procedura guidata *Create VM Storage Policy* (Crea criterio di archiviazione VM), compilare prima un nome e una descrizione per il criterio e fare clic su *Next* (Avanti) per continuare.
 +
-image::vmware-asa-image22.png[Procedura guidata dei criteri di storage delle macchine virtuali]
+image:vmware-asa-image22.png["Procedura guidata dei criteri di storage delle macchine virtuali"]
 
 . Nella pagina *struttura criteri*, selezionare per abilitare le regole per lo storage vVol di NetApp Clustered Data ONTAP e fare clic su *Avanti*.
 +
-image::vmware-asa-image23.png[Struttura dei criteri]
+image:vmware-asa-image23.png["Struttura dei criteri"]
 
 . Nella pagina successiva, specifica della struttura dei criteri scelta, selezionare il profilo delle capacità di storage che descrive i sistemi storage da utilizzare nei criteri storage delle macchine virtuali. Fare clic su *Avanti* per continuare.
 +
-image::vmware-asa-image24.png[Struttura dei criteri]
+image:vmware-asa-image24.png["Struttura dei criteri"]
 
 . Nella pagina *compatibilità storage*, esaminare l'elenco dei datastore vSAN che corrispondono a questo criterio e fare clic su *Avanti*.
 . Infine, rivedere il criterio da implementare e fare clic su *fine* per creare il criterio.
@@ -207,22 +207,22 @@ Infine, occorre creare una macchina virtuale utilizzando i criteri di storage de
 
 . Dalla procedura guidata *Nuova macchina virtuale* selezionare *Crea nuova macchina virtuale* e selezionare *Avanti* per continuare.
 +
-image::vmware-asa-image25.png[Nuova macchina virtuale]
+image:vmware-asa-image25.png["Nuova macchina virtuale"]
 
 . Immettere un nome e selezionare una posizione per la macchina virtuale e fare clic su *Avanti*.
 . Nella pagina *Select a compute resource* (Seleziona una risorsa di elaborazione), selezionare una destinazione e fare clic su *Next* (Avanti).
 +
-image::vmware-asa-image26.png[Risorsa di calcolo]
+image:vmware-asa-image26.png["Risorsa di calcolo"]
 
 . Nella pagina *Select storage* (Seleziona storage), seleziona un criterio storage per le macchine virtuali e il datastore vVol che corrisponderanno alla destinazione della macchina virtuale. Fare clic su *Avanti*.
 +
-image::vmware-asa-image27.png[Selezionare lo storage]
+image:vmware-asa-image27.png["Selezionare lo storage"]
 
 . Nella pagina *Select Compatibility* (Seleziona compatibilità), scegliere le versioni vSphere con cui sarà compatibile la VM.
 . Selezionare la famiglia e la versione del sistema operativo guest per la nuova macchina virtuale e fare clic su *Avanti*.
 . Compilare la pagina *Personalizza hardware*. Si noti che è possibile selezionare un criterio di archiviazione VM separato per ogni disco rigido (file VMDK).
 +
-image::vmware-asa-image28.png[Selezionare lo storage]
+image:vmware-asa-image28.png["Selezionare lo storage"]
 
 . Infine, rivedere la pagina di riepilogo e fare clic su *fine* per creare la VM.
 

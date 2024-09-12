@@ -29,19 +29,19 @@ Per le operazioni Snapshot in OpenShift, è necessario definire le risorse Volum
 * VolumeSnapshotClass consente all'amministratore di specificare attributi diversi per un'istantanea VolumeSnapshot. Consente di avere attributi diversi per diversi snapshot acquisiti dallo stesso volume.
 
 
-image::redhat_openshift_image60.png[VM dall'architettura Snapshot]
+image:redhat_openshift_image60.png["VM dall'architettura Snapshot"]
 
 Per creare un'istantanea di una macchina virtuale, attenersi alla seguente procedura:
 
 . Creare una classe VolumeSnapshotClass da utilizzare per creare un'istantanea VolumeSnapshot. Accedere a Storage > VolumeSnapshotClasses e fare clic su Create VolumeSnapshotClass (Crea VolumeSnapshotClass).
 . Immettere il nome della classe Snapshot, immettere csi.trident.netapp.io per il driver e fare clic su Create (Crea).
 +
-image::redhat_openshift_image61.JPG[Creare la classe Snapshot]
+image:redhat_openshift_image61.JPG["Creare la classe Snapshot"]
 
 . Identificare il PVC collegato alla VM di origine e creare un'istantanea del PVC. Selezionare `Storage > VolumeSnapshots` E fare clic su Create VolumeSnapshots (Crea snapshot Volume).
 . Selezionare il PVC per il quale si desidera creare l'istantanea, immettere il nome dell'istantanea o accettare il valore predefinito, quindi selezionare la VolumeSnapshotClass appropriata. Quindi fare clic su Create (Crea).
 +
-image::redhat_openshift_image62.JPG[Crea snapshot]
+image:redhat_openshift_image62.JPG["Crea snapshot"]
 
 . In questo modo viene creata l'istantanea del PVC in quel momento.
 
@@ -53,7 +53,7 @@ image::redhat_openshift_image62.JPG[Crea snapshot]
 . Innanzitutto, ripristinare l'istantanea in un nuovo PVC. Accedere a Storage > VolumeSnapshots (Storage > VolumeSnapshots), fare clic sui puntini di sospensione accanto all'istantanea che si desidera ripristinare e fare clic su Restore as new PVC (Ripristina come nuovo PVC).
 . Inserire i dettagli del nuovo PVC e fare clic su Restore (Ripristina). In questo modo si crea un nuovo PVC.
 +
-image::redhat_openshift_image63.JPG[Ripristinare Snapshot su un nuovo PVC]
+image:redhat_openshift_image63.JPG["Ripristinare Snapshot su un nuovo PVC"]
 
 . Quindi, creare una nuova macchina virtuale da questo PVC. Accedere a virtualizzazione > macchine virtuali e fare clic su Crea > con YAML.
 . Nella sezione spec > template > spec > Volumes (specifiche > modello > specifiche > volumi), specificare il nuovo PVC creato da Snapshot anziché dal disco container. Fornire tutti gli altri dettagli della nuova macchina virtuale in base alle proprie esigenze.

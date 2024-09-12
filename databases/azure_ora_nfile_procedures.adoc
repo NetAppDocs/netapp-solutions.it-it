@@ -52,38 +52,35 @@ In base al carico di lavoro, determinare il tipo di Azure VM necessario e le dim
 
 . Dalla pagina di Azure VM, fare clic su *Create*, quindi scegliere *Azure virtual machine*.
 +
-image::db_ora_azure_anf_vm_01.PNG[Questa schermata mostra l'elenco delle macchine virtuali Azure disponibili.]
+image:db_ora_azure_anf_vm_01.png["Questa schermata mostra l'elenco delle macchine virtuali Azure disponibili."]
 
 . Scegliere l'ID di abbonamento per l'implementazione, quindi scegliere il gruppo di risorse, la regione, il nome host, l'immagine della macchina virtuale, le dimensioni, e metodo di autenticazione. Accedere alla pagina disco.
 +
-image::db_ora_azure_anf_vm_02-1.PNG[Questa schermata mostra l'input per la pagina Create a Virtual Machine (Crea una macchina virtuale).]
-
-+
-image::db_ora_azure_anf_vm_02-2.PNG[Questa schermata mostra l'input aggiuntivo per la pagina Create a Virtual Machine (Crea una macchina virtuale).]
+image:db_ora_azure_anf_vm_02-1.png["Questa schermata mostra l'input per la pagina Create a Virtual Machine (Crea una macchina virtuale)."] image:db_ora_azure_anf_vm_02-2.png["Questa schermata mostra l'input aggiuntivo per la pagina Create a Virtual Machine (Crea una macchina virtuale)."]
 
 . Scegliere *SSD premium* per la ridondanza locale del sistema operativo e lasciare vuoto il disco dati perché i dischi dati sono montati dallo storage ANF. Accedere alla pagina rete.
 +
-image::db_ora_azure_anf_vm_03.PNG[Questa schermata mostra l'input per la pagina Create a Virtual Machine Disks (Crea dischi macchina virtuale).]
+image:db_ora_azure_anf_vm_03.png["Questa schermata mostra l'input per la pagina Create a Virtual Machine Disks (Crea dischi macchina virtuale)."]
 
 . Scegliere VNET e subnet. Assegnare un IP pubblico per l'accesso alle macchine virtuali esterne. Quindi andare alla pagina Management (Gestione).
 +
-image::db_ora_azure_anf_vm_04.PNG[Questa schermata mostra ulteriori input per la pagina Create a Virtual Machine (Crea una macchina virtuale).]
+image:db_ora_azure_anf_vm_04.png["Questa schermata mostra ulteriori input per la pagina Create a Virtual Machine (Crea una macchina virtuale)."]
 
 . Mantenere tutte le impostazioni predefinite per la gestione e passare alla pagina Avanzate.
 +
-image::db_ora_azure_anf_vm_05.PNG[Questa schermata mostra l'input per la pagina Create a Virtual Machine Management (Crea una macchina virtuale).]
+image:db_ora_azure_anf_vm_05.png["Questa schermata mostra l'input per la pagina Create a Virtual Machine Management (Crea una macchina virtuale)."]
 
 . Mantenere tutte le impostazioni predefinite per la pagina Advanced (Avanzate), a meno che non sia necessario personalizzare una macchina virtuale dopo la distribuzione con script personalizzati. Quindi andare alla pagina Tag.
 +
-image::db_ora_azure_anf_vm_06.PNG[Questa schermata mostra l'input per la pagina Create a Virtual Machine Advanced (Crea una macchina virtuale avanzata).]
+image:db_ora_azure_anf_vm_06.png["Questa schermata mostra l'input per la pagina Create a Virtual Machine Advanced (Crea una macchina virtuale avanzata)."]
 
 . Aggiungere un tag per la macchina virtuale, se lo si desidera. Quindi, accedere alla pagina Review + create (Rivedi e crea).
 +
-image::db_ora_azure_anf_vm_07.PNG[Questa schermata mostra l'input per la pagina Create a Virtual Machine Tags (Crea tag macchina virtuale).]
+image:db_ora_azure_anf_vm_07.png["Questa schermata mostra l'input per la pagina Create a Virtual Machine Tags (Crea tag macchina virtuale)."]
 
 . Il flusso di lavoro di implementazione esegue una convalida sulla configurazione e, se la convalida ha esito positivo, fare clic su *Create* (Crea) per creare la macchina virtuale.
 +
-image::db_ora_azure_anf_vm_08.PNG[Questa schermata mostra l'input per la pagina di revisione e creazione di una macchina virtuale]
+image:db_ora_azure_anf_vm_08.png["Questa schermata mostra l'input per la pagina di revisione e creazione di una macchina virtuale"]
 
 
 
@@ -95,30 +92,27 @@ image::db_ora_azure_anf_vm_08.PNG[Questa schermata mostra l'input per la pagina 
 
 . Dalla console Azure, sotto l'elenco dei servizi Azure, fare clic su Azure NetApp Files (Apri) per aprire un flusso di lavoro per la creazione di un volume. Se si dispone di più account storage ANF, fare clic sull'account da cui si desidera eseguire il provisioning dei volumi.
 +
-image::db_ora_azure_anf_vols_00.PNG[Questa schermata mostra la pagina Azure Services, con ANF evidenziato.]
+image:db_ora_azure_anf_vols_00.png["Questa schermata mostra la pagina Azure Services, con ANF evidenziato."]
 
 . Nell'account storage NetApp, fare clic su *Volumes*, quindi su *Add volume* per creare nuovi volumi Oracle.
 +
-image::db_ora_azure_anf_vols_01_1.PNG[Questa schermata mostra la schermata iniziale di un account storage NetApp.]
-
-+
-image::db_ora_azure_anf_vols_01.PNG[Questa schermata mostra i volumi disponibili per l'account storage NetApp.]
+image:db_ora_azure_anf_vols_01_1.png["Questa schermata mostra la schermata iniziale di un account storage NetApp."] image:db_ora_azure_anf_vols_01.png["Questa schermata mostra i volumi disponibili per l'account storage NetApp."]
 
 . Come buona pratica, identificare i volumi Oracle con il nome host della macchina virtuale come prefisso e quindi il punto di montaggio sull'host, come u01 per il binario Oracle, u02 per i dati Oracle e u03 per il registro Oracle. Scegliere lo stesso VNET per il volume della macchina virtuale. Fare clic su *Avanti: Protocollo>*.
 +
-image::db_ora_azure_anf_vols_02.PNG[Schermata di creazione del volume.]
+image:db_ora_azure_anf_vols_02.png["Schermata di creazione del volume."]
 
 . Scegliere il protocollo NFS, aggiungere l'indirizzo IP dell'host Oracle al client consentito e rimuovere il criterio predefinito che consente l'accesso a tutti gli indirizzi IP 0.0.0.0/0. Quindi fare clic su *Avanti: Tag>*.
 +
-image::db_ora_azure_anf_vols_03.PNG[Protocol input (immissione protocollo) nella schermata Volume Creation (creazione volume).]
+image:db_ora_azure_anf_vols_03.png["Protocol input (immissione protocollo) nella schermata Volume Creation (creazione volume)."]
 
 . Aggiungere un tag di volume, se lo si desidera. Quindi fare clic su *Review + Create>* (Rivedi + Crea).
 +
-image::db_ora_azure_anf_vols_04.PNG[Immissione dei tag nella schermata Volume Creation (creazione volume).]
+image:db_ora_azure_anf_vols_04.png["Immissione dei tag nella schermata Volume Creation (creazione volume)."]
 
 . Se la convalida ha esito positivo, fare clic su *Create* (Crea) per creare il volume.
 +
-image::db_ora_azure_anf_vols_05.PNG[Esaminare e creare la fase della schermata Volume Creation (creazione volume).]
+image:db_ora_azure_anf_vols_05.png["Esaminare e creare la fase della schermata Volume Creation (creazione volume)."]
 
 
 

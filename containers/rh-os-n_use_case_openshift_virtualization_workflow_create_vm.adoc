@@ -22,7 +22,7 @@ In questa sezione viene descritto come creare una macchina virtuale con Red Hat 
 
 Le VM sono implementazioni stateful che richiedono volumi per ospitare il sistema operativo e i dati. Con CNV, poiché le macchine virtuali vengono eseguite come pod, le macchine virtuali vengono supportate da PVS ospitati su NetApp ONTAP tramite Trident. Questi volumi sono collegati come dischi e memorizzano l'intero file system, inclusa l'origine di boot della macchina virtuale.
 
-image::redhat_openshift_image52.png[Creare un'architettura VM]
+image:redhat_openshift_image52.png["Creare un'architettura VM"]
 
 Per creare rapidamente una macchina virtuale sul cluster OpenShift, attenersi alla seguente procedura:
 
@@ -54,12 +54,12 @@ Per personalizzare la creazione della macchina virtuale dopo aver selezionato il
 
 NOTE: Quando un'origine di avvio viene configurata per un modello o un sistema operativo da un URL o da un registro, crea un PVC in `openshift-virtualization-os-images` Proiettare e scaricare l'immagine guest KVM sul PVC. È necessario assicurarsi che i PVC modello dispongano di spazio di provisioning sufficiente per ospitare l'immagine guest KVM per il sistema operativo corrispondente. Questi PVC vengono quindi clonati e collegati come rootdisk a macchine virtuali quando vengono creati utilizzando i rispettivi modelli in un progetto.
 
-image::rh-os-n_use_case_vm_create_1.png[rh os n caso di utilizzo vm creare 1]
+image:rh-os-n_use_case_vm_create_1.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-image::rh-os-n_use_case_vm_create_2.png[rh os n caso di utilizzo vm creare 2]
+image:rh-os-n_use_case_vm_create_2.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-image::rh-os-n_use_case_vm_create_3.png[rh os n caso di utilizzo vm creare 3]
+image:rh-os-n_use_case_vm_create_3.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-image::rh-os-n_use_case_vm_create_4.png[rh os n caso di utilizzo vm creare 4]
+image:rh-os-n_use_case_vm_create_4.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-image::rh-os-n_use_case_vm_create_5.png[rh os n caso di utilizzo vm creare 5]
+image:rh-os-n_use_case_vm_create_5.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]

@@ -24,7 +24,7 @@ Niyaz Mohamed, NetApp
 
 È possibile utilizzare Disaster Recovery Orchestrator (DRO, una soluzione basata su script con interfaccia utente) per ripristinare senza problemi i carichi di lavoro replicati da on-premise a FSX per ONTAP. DRO automatizza il ripristino dal livello SnapMirror, attraverso la registrazione delle macchine virtuali su VMC, fino alle mappature di rete direttamente su NSX-T. Questa funzione è inclusa in tutti gli ambienti VMC.
 
-image::dro-vmc-image1.png[Questa immagine mostra la struttura e le interconnessioni tra un data center on-premise, un'istanza di VMware Cloud su SDDC AWS e Amazon FSX per NetApp ONTAP. Ciò include la replica SnapMirror, il traffico DRaaS Ops, la connessione Internet o diretta e VMware Transit Connect.]
+image:dro-vmc-image1.png["Questa immagine mostra la struttura e le interconnessioni tra un data center on-premise, un'istanza di VMware Cloud su SDDC AWS e Amazon FSX per NetApp ONTAP. Ciò include la replica SnapMirror, il traffico DRaaS Ops, la connessione Internet o diretta e VMware Transit Connect."]
 
 
 
@@ -51,7 +51,7 @@ Amazon FSX per NetApp ONTAP è un servizio completamente gestito che offre un fi
 
 Il passaggio successivo consiste nell'utilizzare NetApp BlueXP e individuare FSX per ONTAP su istanza AWS e replicare i volumi datastore desiderati da un ambiente on-premise a FSX per ONTAP con la frequenza appropriata e la conservazione delle copie Snapshot di NetApp:
 
-image::dro-vmc-image2.png[Questa immagine mostra la mappa delle relazioni di BlueXP Canvas che mostra le varie interazioni tra i servizi abilitati.]
+image:dro-vmc-image2.png["Questa immagine mostra la mappa delle relazioni di BlueXP Canvas che mostra le varie interazioni tra i servizi abilitati."]
 
 Seguire la procedura descritta in questo collegamento per configurare BlueXP. È inoltre possibile utilizzare l'interfaccia utente di NetApp ONTAP per pianificare la replica seguendo questo collegamento.
 
@@ -138,7 +138,7 @@ Password: admin
 
 NOTE: La password può essere modificata utilizzando l'opzione "Change Password" (Modifica password).
 
-image::dro-vmc-image3.png[Schermata di accesso a Disaster Recovery Orchestrator.]
+image:dro-vmc-image3.png["Schermata di accesso a Disaster Recovery Orchestrator."]
 
 
 
@@ -164,13 +164,13 @@ Il primo passo è scoprire e aggiungere le risorse on-premise e cloud (vCenter e
 
 
 
-image::dro-vmc-image4.png[Descrizione dell'immagine segnaposto temporanea.]
+image:dro-vmc-image4.png["Descrizione dell'immagine segnaposto temporanea."]
 
-image::dro-vmc-image5.png[Pagina panoramica del sito DRO contenente i siti di origine e destinazione.]
+image:dro-vmc-image5.png["Pagina panoramica del sito DRO contenente i siti di origine e destinazione."]
 
 Una volta aggiunto, DRO esegue il rilevamento automatico e visualizza le macchine virtuali con le repliche SnapMirror corrispondenti dallo storage di origine a FSX per ONTAP. DRO rileva automaticamente le reti e i portgroup utilizzati dalle macchine virtuali e li popola.
 
-image::dro-vmc-image6.png[Schermata di rilevamento automatico contenente 219 VM e 10 datastore.]
+image:dro-vmc-image6.png["Schermata di rilevamento automatico contenente 219 VM e 10 datastore."]
 
 Il passaggio successivo consiste nel raggruppare le macchine virtuali richieste in gruppi funzionali che fungono da gruppi di risorse.
 
@@ -196,7 +196,7 @@ Le opzioni sono le seguenti:
 . Fare clic su *Crea gruppo di risorse*.
 
 
-image::dro-vmc-image7.png[Schermata dell'elenco dei gruppi di risorse con due voci: Test e DemoRG1.]
+image:dro-vmc-image7.png["Schermata dell'elenco dei gruppi di risorse con due voci: Test e DemoRG1."]
 
 
 
@@ -208,15 +208,15 @@ Per iniziare a creare un piano di replica, attenersi alla seguente procedura:
 
 . Accedere a *Replication Plans* e fare clic su *Create New Replication Plan* (Crea nuovo piano di replica).
 +
-image::dro-vmc-image8.png[Schermata del piano di replica contenente un piano chiamato DemoRP.]
+image:dro-vmc-image8.png["Schermata del piano di replica contenente un piano chiamato DemoRP."]
 
 . In *New Replication Plan* (nuovo piano di replica), specificare un nome per il piano e aggiungere i mapping di ripristino selezionando il sito di origine, il vCenter associato, il sito di destinazione e il vCenter associato.
 +
-image::dro-vmc-image9.png[Screenshot dei dettagli del piano di replica, inclusa la mappatura di recovery.]
+image:dro-vmc-image9.png["Screenshot dei dettagli del piano di replica, inclusa la mappatura di recovery."]
 
 . Una volta completata la mappatura di ripristino, selezionare la mappatura del cluster.
 +
-image::dro-vmc-image10.png[Descrizione dell'immagine segnaposto temporanea.]
+image:dro-vmc-image10.png["Descrizione dell'immagine segnaposto temporanea."]
 
 . Selezionare *Dettagli gruppo di risorse* e fare clic su *continua*.
 . Impostare l'ordine di esecuzione per il gruppo di risorse. Questa opzione consente di selezionare la sequenza di operazioni quando esistono più gruppi di risorse.
@@ -227,47 +227,41 @@ image::dro-vmc-image10.png[Descrizione dell'immagine segnaposto temporanea.]
 NOTE: SnapMirror è a livello di volume. Pertanto, tutte le macchine virtuali vengono replicate nella destinazione di replica. Assicurarsi di selezionare tutte le macchine virtuali che fanno parte dell'archivio dati. Se non sono selezionate, vengono elaborate solo le macchine virtuali che fanno parte del piano di replica.
 
 +
-image::dro-vmc-image11.png[Descrizione dell'immagine segnaposto temporanea.]
+image:dro-vmc-image11.png["Descrizione dell'immagine segnaposto temporanea."]
 
 . In base ai dettagli della macchina virtuale, è possibile ridimensionare i parametri della CPU e della RAM della macchina virtuale; ciò può essere molto utile quando si ripristinano ambienti di grandi dimensioni in cluster di destinazione più piccoli o per eseguire test di DR senza dover eseguire il provisioning di un'infrastruttura fisica VMware uno a uno. Inoltre, è possibile modificare l'ordine di avvio e il ritardo di avvio (secondi) per tutte le macchine virtuali selezionate nei gruppi di risorse. Esiste un'opzione aggiuntiva per modificare l'ordine di avvio se sono necessarie modifiche da quelle selezionate durante la selezione dell'ordine di avvio del gruppo di risorse. Per impostazione predefinita, viene utilizzato l'ordine di avvio selezionato durante la selezione del gruppo di risorse; tuttavia, in questa fase è possibile eseguire qualsiasi modifica.
 +
-image::dro-vmc-image12.png[Descrizione dell'immagine segnaposto temporanea.]
+image:dro-vmc-image12.png["Descrizione dell'immagine segnaposto temporanea."]
 
 . Fare clic su *Crea piano di replica*.
 +
-image::dro-vmc-image13.png[Descrizione dell'immagine segnaposto temporanea.]
+image:dro-vmc-image13.png["Descrizione dell'immagine segnaposto temporanea."]
 
 
 
 Una volta creato il piano di replica, è possibile utilizzare l'opzione di failover, l'opzione di test-failover o l'opzione di migrazione a seconda dei requisiti. Durante le opzioni di failover e test-failover, viene utilizzata la copia Snapshot SnapMirror più recente oppure è possibile selezionare una copia Snapshot specifica da una copia Snapshot point-in-time (in base alla policy di conservazione di SnapMirror). L'opzione point-in-time può essere molto utile se si sta affrontando un evento di corruzione come ransomware, in cui le repliche più recenti sono già compromesse o crittografate. DRO mostra tutti i punti disponibili nel tempo. Per attivare il failover o verificare il failover con la configurazione specificata nel piano di replica, fare clic su *failover* o *Test failover*.
 
-image::dro-vmc-image14.png[Descrizione dell'immagine segnaposto temporanea.]
-
-image::dro-vmc-image15.png[In questa schermata, vengono forniti i dettagli di Volume Snapshot e viene offerta la possibilità di scegliere tra l'utilizzo dell'ultima snapshot e la scelta di una specifica istantanea.]
+image:dro-vmc-image14.png["Descrizione dell'immagine segnaposto temporanea."] image:dro-vmc-image15.png["In questa schermata, vengono forniti i dettagli di Volume Snapshot e viene offerta la possibilità di scegliere tra l'utilizzo dell'ultima snapshot e la scelta di una specifica istantanea."]
 
 Il piano di replica può essere monitorato nel menu delle attività:
 
-image::dro-vmc-image16.png[Il menu delle attività mostra tutti i processi e le opzioni per il piano di replica e consente inoltre di visualizzare i registri.]
+image:dro-vmc-image16.png["Il menu delle attività mostra tutti i processi e le opzioni per il piano di replica e consente inoltre di visualizzare i registri."]
 
 Dopo l'attivazione del failover, gli elementi ripristinati possono essere visualizzati in VMC vCenter (macchine virtuali, reti, datastore). Per impostazione predefinita, le macchine virtuali vengono ripristinate nella cartella workload.
 
-image::dro-vmc-image17.png[Descrizione dell'immagine segnaposto temporanea.]
+image:dro-vmc-image17.png["Descrizione dell'immagine segnaposto temporanea."]
 
 Il failback può essere attivato a livello di piano di replica. Per un failover di test, l'opzione di strappo può essere utilizzata per eseguire il rollback delle modifiche e rimuovere la relazione FlexClone. Il failback relativo al failover è un processo in due fasi. Selezionare il piano di replica e selezionare *Reverse data Sync*.
 
-image::dro-vmc-image18.png[Schermata della panoramica del piano di replica con menu a discesa contenente l'opzione Reverse Data Sync.]
-
-image::dro-vmc-image19.png[Descrizione dell'immagine segnaposto temporanea.]
+image:dro-vmc-image18.png["Schermata della panoramica del piano di replica con menu a discesa contenente l'opzione Reverse Data Sync."] image:dro-vmc-image19.png["Descrizione dell'immagine segnaposto temporanea."]
 
 Una volta completato, è possibile attivare il failback per tornare al sito di produzione originale.
 
-image::dro-vmc-image20.png[Schermata della panoramica del piano di replica con menu a discesa contenente l'opzione di failover.]
-
-image::dro-vmc-image21.png[Schermata della pagina di riepilogo di DRO con il sito di produzione originale in funzione.]
+image:dro-vmc-image20.png["Schermata della panoramica del piano di replica con menu a discesa contenente l'opzione di failover."] image:dro-vmc-image21.png["Schermata della pagina di riepilogo di DRO con il sito di produzione originale in funzione."]
 
 Da NetApp BlueXP, possiamo notare che lo stato di salute della replica è stato interrotto per i volumi appropriati (quelli mappati a VMC come volumi di lettura/scrittura). Durante il failover di test, DRO non esegue il mapping del volume di destinazione o di replica. Invece, crea una copia FlexClone dell'istanza SnapMirror (o Snapshot) richiesta ed espone l'istanza FlexClone, che non consuma ulteriore capacità fisica per FSX per ONTAP. Questo processo garantisce che il volume non venga modificato e che i processi di replica possano continuare anche durante i test di DR o i flussi di lavoro di triage. Inoltre, questo processo garantisce che, in caso di errori o di ripristino di dati corrotti, il ripristino possa essere pulito senza il rischio di distruzione della replica.
 
-image::dro-vmc-image22.png[Descrizione dell'immagine segnaposto temporanea.]
+image:dro-vmc-image22.png["Descrizione dell'immagine segnaposto temporanea."]
 
 
 

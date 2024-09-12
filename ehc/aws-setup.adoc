@@ -58,24 +58,15 @@ Una volta configurato l'account VMware e eseguito il dimensionamento corretto, l
 
 . Accedere a VMware Cloud Console utilizzando le credenziali VMware esistenti o create di recente.
 +
-image::aws-config-1.png[config aws 1]
+image:aws-config-1.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Configurare la regione AWS, l'implementazione, il tipo di host e il nome SDDC:
 +
-image::aws-config-2.png[config aws 2]
+image:aws-config-2.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Connettersi all'account AWS desiderato ed eseguire lo stack di formazione cloud AWS.
 +
-image::aws-config-3.png[config aws 3]
-
-+
-image::aws-config-4.png[config aws 4]
-
-+
-image::aws-config-5.png[config aws 5]
-
-+
-image::aws-config-6.png[config aws 6]
+image:aws-config-3.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"] image:aws-config-4.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"] image:aws-config-5.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"] image:aws-config-6.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
 
@@ -83,25 +74,25 @@ NOTE: In questa convalida viene utilizzata la configurazione a host singolo.
 
 . Selezionare il VPC AWS desiderato per la connessione dell'ambiente VMC.
 +
-image::aws-config-7.png[config aws 7]
+image:aws-config-7.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Configurare la subnet di gestione VMC; questa subnet contiene servizi gestiti da VMC come vCenter, NSX e così via. Non scegliere uno spazio di indirizzi sovrapposto con altre reti che necessitano di connettività all'ambiente SDDC. Infine, seguire le raccomandazioni per la dimensione CIDR indicate di seguito.
 +
-image::aws-config-8.png[config aws 8]
+image:aws-config-8.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Esaminare e riconoscere la configurazione SDDC, quindi fare clic su Deploy the SDDC (implementa SDDC).
 +
-image::aws-config-9.png[config aws 9]
+image:aws-config-9.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
 Il completamento del processo di implementazione richiede in genere circa due ore.
 
 +
-image::aws-config-10.png[config aws 10]
+image:aws-config-10.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Al termine dell'operazione, SDDC è pronto per l'uso.
 +
-image::aws-config-11.png[config aws 11]
+image:aws-config-11.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -116,42 +107,30 @@ Per connettere VMware Cloud a FSX ONTAP, attenersi alla seguente procedura:
 
 . Una volta completata l'implementazione di VMware Cloud e connessa ad AWS VPC, è necessario implementare Amazon FSX per NetApp ONTAP in un nuovo VPC anziché nel VPC collegato originale (vedere la schermata riportata di seguito). FSX (IP mobili NFS e SMB) non è accessibile se viene implementato nel VPC connesso. Tenere presente che gli endpoint ISCSI come Cloud Volumes ONTAP funzionano correttamente dal VPC connesso.
 +
-image::aws-connect-fsx-1.png[aws connect fsx 1]
+image:aws-connect-fsx-1.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Implementare un VPC aggiuntivo nella stessa regione, quindi implementare Amazon FSX per NetApp ONTAP nel nuovo VPC.
 +
 La configurazione di un gruppo SDDC nella console VMware Cloud abilita le opzioni di configurazione di rete necessarie per connettersi al nuovo VPC in cui viene implementato FSX. Nella fase 3, verificare che l'opzione "Configurazione di VMware Transit Connect per il gruppo comporterà costi per allegato e trasferimento dati" sia selezionata, quindi scegliere Crea gruppo. Il completamento del processo può richiedere alcuni minuti.
 
 +
-image::aws-connect-fsx-2.png[aws connect fsx 2]
-
-+
-image::aws-connect-fsx-3.png[aws connect fsx 3]
-
-+
-image::aws-connect-fsx-4.png[aws connect fsx 4]
+image:aws-connect-fsx-2.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"] image:aws-connect-fsx-3.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"] image:aws-connect-fsx-4.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Collegare il VPC appena creato al gruppo SDDC appena creato. Selezionare la scheda External VPC (VPC esterno) e seguire le istruzioni link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["Istruzioni per il collegamento di un VPC esterno"] al gruppo. Il completamento di questo processo può richiedere da 10 a 15 minuti.
 +
-image::aws-connect-fsx-5.png[aws connect fsx 5]
-
-+
-image::aws-connect-fsx-6.png[aws connect fsx 6]
+image:aws-connect-fsx-5.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"] image:aws-connect-fsx-6.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nell'ambito del processo VPC esterno, viene richiesto tramite la console AWS di accedere a una nuova risorsa condivisa tramite Resource Access Manager. La risorsa condivisa è link:https://aws.amazon.com/transit-gateway["AWS Transit Gateway"] Gestito da VMware Transit Connect.
 +
-image::aws-connect-fsx-7.png[aws connect fsx 7]
-
-+
-image::aws-connect-fsx-8.png[aws connect fsx 8]
+image:aws-connect-fsx-7.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"] image:aws-connect-fsx-8.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Creare l'allegato del gateway di transito.
 +
-image::aws-connect-fsx-9.png[aws connect fsx 9]
+image:aws-connect-fsx-9.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Sulla console VMC, accettare l'allegato VPC. Il completamento di questo processo può richiedere circa 10 minuti.
 +
-image::aws-connect-fsx-10.png[aws connect fsx 10]
+image:aws-connect-fsx-10.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nella scheda External VPC (VPC esterno), fare clic sull'icona di modifica nella colonna routes (percorsi) e aggiungere i seguenti percorsi richiesti:
 +
@@ -159,17 +138,17 @@ image::aws-connect-fsx-10.png[aws connect fsx 10]
 ** Route per l'intervallo IP mobile per Cloud Volumes ONTAP (se applicabile).
 ** Un percorso per lo spazio di indirizzi VPC esterno appena creato.
 +
-image::aws-connect-fsx-11.png[aws connect fsx 11]
+image:aws-connect-fsx-11.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
 . Infine, consentire il traffico bidirezionale link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-DE330202-D63D-408A-AECF-7CDC6ADF7EAC.html["regole del firewall"] Per l'accesso a FSX/CVO. Seguire queste istruzioni link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-DE330202-D63D-408A-AECF-7CDC6ADF7EAC.html["passaggi dettagliati"] Per le regole firewall del gateway di calcolo per la connettività dei carichi di lavoro SDDC.
 +
-image::aws-connect-fsx-12.png[aws connect fsx 12]
+image:aws-connect-fsx-12.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Una volta configurati i gruppi di firewall per il gateway di gestione e di calcolo, è possibile accedere a vCenter come segue:
 +
-image::aws-connect-fsx-13.png[aws connect fsx 13]
+image:aws-connect-fsx-13.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 

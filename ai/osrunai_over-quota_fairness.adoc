@@ -28,7 +28,7 @@ Per ulteriori informazioni, tra cui invio di lavori, immagini container utilizza
 
 Quando tutti i lavori vengono inoltrati in base alla sezione link:osrunai_testing_details_for_section_410.html["Dettagli sui test per la sezione 4.10"], il dashboard di sistema lo mostra `team-a`, `team-b`, e. `team-c` Tutti hanno più GPU rispetto alla quota preimpostata. `team-a` Occupa quattro GPU in più rispetto alla quota soft preimpostata (quattro), mentre `team-b` e. `team-c` Ciascuna di esse occupa due GPU in più rispetto alla propria quota soft (due). Il rapporto delle GPU con overquota allocate è uguale a quello della quota preimpostata. Questo perché il sistema ha utilizzato la quota preimpostata come riferimento di priorità e fornito di conseguenza quando più team richiedono più GPU, superando la quota. Tale bilanciamento automatico del carico offre equità e prioritizzazione quando i team di data science aziendali sono attivamente impegnati nello sviluppo e nella produzione di modelli di ai.
 
-image::osrunai_image10.png[osrunai image10]
+image:osrunai_image10.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 I risultati di questo scenario di test mostrano quanto segue:
 
@@ -56,4 +56,4 @@ Pertanto, il sistema dovrebbe stabilizzarsi nei seguenti stati:
 |===
 La figura seguente mostra l'allocazione della GPU per progetto nel tempo nella dashboard Run:ai Analytics per le sezioni link:osrunai_achieving_high_cluster_utilization_with_over-uota_gpu_allocation.html["Elevato utilizzo del cluster con allocazione della GPU con quota eccessiva"], link:osrunai_basic_resource_allocation_fairness.html["Equità nell'allocazione delle risorse di base"], e. link:osrunai_over-quota_fairness.html["Equità nell'overquota"]. Ciascuna riga della figura indica il numero di GPU fornite per un determinato team di data science in qualsiasi momento. Possiamo vedere che il sistema alloca dinamicamente le GPU in base ai carichi di lavoro inviati. Ciò consente ai team di superare la quota quando nel cluster sono disponibili GPU, quindi di prevenire i lavori in base all'equità, prima di raggiungere infine uno stato stabile per tutti e quattro i team.
 
-image::osrunai_image11.png[osrunai image11]
+image:osrunai_image11.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]

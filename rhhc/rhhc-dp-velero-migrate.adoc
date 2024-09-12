@@ -62,7 +62,7 @@ spec:
 * Creare un'applicazione nel cluster e eseguire un backup di questa applicazione. Ad esempio, installare un'applicazione postgres.
 
 
-image::redhat_openshift_OADP_migrate_image1.png[installare l'app postgres]
+image:redhat_openshift_OADP_migrate_image1.png["installare l'app postgres"]
 
 * Utilizzare le seguenti specifiche per il CR di backup:
 
@@ -78,7 +78,7 @@ spec:
   storageLocation: velero-sample-1
   ttl: 720h0m0s
 ....
-image::redhat_openshift_OADP_migrate_image2.png[installare l'app postgres]
+image:redhat_openshift_OADP_migrate_image2.png["installare l'app postgres"]
 
 È possibile fare clic sulla scheda **tutte le istanze** per vedere i diversi oggetti creati e che si spostano attraverso diverse fasi per arrivare infine alla fase di backup **completato**.
 
@@ -96,13 +96,13 @@ Un backup delle risorse nello spazio dei nomi postgresql verrà memorizzato nell
 * Il CR di backup deve essere visibile dal secondo cluster.
 
 
-image::redhat_openshift_OADP_migrate_image3.png[trident installato]
+image:redhat_openshift_OADP_migrate_image3.png["trident installato"]
 
-image::redhat_openshift_OADP_migrate_image4.png[postgres non già installato]
+image:redhat_openshift_OADP_migrate_image4.png["postgres non già installato"]
 
-image::redhat_openshift_OADP_migrate_image5.png[OADP sul cluster 2installed]
+image:redhat_openshift_OADP_migrate_image5.png["OADP sul cluster 2installed"]
 
-image::redhat_openshift_OADP_migrate_image6.png[posizione dello storage di backup che punta al medesimo archivio di oggetti]
+image:redhat_openshift_OADP_migrate_image6.png["posizione dello storage di backup che punta al medesimo archivio di oggetti"]
 
 Ripristinare l'app su questo cluster dal backup. Utilizzare il seguente yaml per creare il CR di ripristino.
 
@@ -119,8 +119,8 @@ spec:
 ....
 Al termine del ripristino, l'app postgresql è in esecuzione su questo cluster ed è associata al pvc e a un pv corrispondente. Lo stato dell'applicazione è lo stesso di quando è stato eseguito il backup.
 
-image::redhat_openshift_OADP_migrate_image7.png[ripristino riuscito]
+image:redhat_openshift_OADP_migrate_image7.png["ripristino riuscito"]
 
-image::redhat_openshift_OADP_migrate_image8.png[migrazione di postgres]
+image:redhat_openshift_OADP_migrate_image8.png["migrazione di postgres"]
 
 ====

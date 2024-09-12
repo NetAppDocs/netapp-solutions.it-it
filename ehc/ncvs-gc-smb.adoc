@@ -45,7 +45,7 @@ Ad esempio, questo volume Cloud Volumes Service utilizza il seguente percorso di
 
 In Active Directory, queste sono le voci SPN generate dal servizio Cloud Volumes:
 
-image::ncvs-gc-image6.png[ncvs gc image6]
+image:ncvs-gc-image6.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Questo è il risultato della ricerca DNS in avanti/indietro:
 
@@ -71,7 +71,7 @@ In alcuni casi, potrebbe essere un problema di sicurezza per gli utenti finali c
 
 Se si desidera creare alias per il percorso di condivisione SMB, è possibile sfruttare ciò che è noto come record CNAME in DNS. Ad esempio, se si desidera utilizzare il nome `\\CIFS` per accedere alle condivisioni anziché a. `\\cvs-east- 433d.cvsdemo.local`, Ma si desidera comunque utilizzare l'autenticazione Kerberos, un CNAME nel DNS che punta al record A/AAAA esistente e un ulteriore SPN aggiunto all'account del computer esistente fornisce l'accesso Kerberos.
 
-image::ncvs-gc-image7.png[ncvs gc image7]
+image:ncvs-gc-image7.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Questo è il risultato della ricerca diretta DNS dopo l'aggiunta di un CNAME:
 
@@ -85,11 +85,11 @@ Aliases:  cifs.cvsdemo.local
 ....
 Questa è la query SPN risultante dopo l'aggiunta di nuovi numeri di servizio:
 
-image::ncvs-gc-image8.png[ncvs gc image8]
+image:ncvs-gc-image8.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 In un'acquisizione di pacchetti, è possibile visualizzare la richiesta di configurazione della sessione utilizzando l'SPN legato al CNAME.
 
-image::ncvs-gc-image9.png[ncvs gc image9]
+image:ncvs-gc-image9.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -148,9 +148,9 @@ Per impostazione predefinita, gli ACL di condivisione e gli ACL dei volumi inizi
 
 Ad esempio, se a un utente è consentito solo l'accesso in lettura all'ACL del file di volume Cloud Volumes Service, viene negato l'accesso per creare file e cartelle anche se l'ACL di condivisione è impostato su Everyone con controllo completo, come illustrato nella figura seguente.
 
-image::ncvs-gc-image10.png[ncvs gc image10]
+image:ncvs-gc-image10.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-image::ncvs-gc-image11.png[ncvs gc image11]
+image:ncvs-gc-image11.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Per ottenere i migliori risultati di sicurezza, procedere come segue:
 
@@ -172,7 +172,7 @@ Alcune di queste scelte dipendono dal livello Cloud Volumes Service (prestazioni
 * *Rendi visibile la directory Snapshot (disponibile sia per CVS-Performance che per CVS-SW).* questa opzione controlla se i client SMB possono accedere o meno alla directory Snapshot in una condivisione SMB (`\\server\share\~snapshot` E/o versioni precedenti). L'impostazione predefinita non è selezionata, il che significa che il volume per impostazione predefinita nasconde e non consente l'accesso a `~snapshot` Directory e non vengono visualizzate copie Snapshot nella scheda versioni precedenti del volume.
 
 
-image::ncvs-gc-image12.png[ncvs gc image12]
+image:ncvs-gc-image12.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 È possibile nascondere le copie Snapshot dagli utenti finali per motivi di sicurezza, di performance (nascondendo queste cartelle dalle scansioni AV) o di preferenza. Le istantanee di Cloud Volumes Service sono di sola lettura, quindi anche se sono visibili, gli utenti finali non possono eliminare o modificare i file nella directory Snapshot. Si applicano le autorizzazioni per i file o le cartelle al momento dell'esecuzione della copia Snapshot. Se le autorizzazioni di un file o di una cartella cambiano tra le copie Snapshot, le modifiche si applicano anche ai file o alle cartelle nella directory Snapshot. Utenti e gruppi possono accedere a questi file o cartelle in base alle autorizzazioni. Sebbene non sia possibile eliminare o modificare i file nella directory Snapshot, è possibile copiare file o cartelle dalla directory Snapshot.
 
@@ -202,11 +202,11 @@ Quando si specifica un utente da aggiungere agli utenti di backup, l'utente vien
 
 Quando si aggiunge un utente a Security Privilege Users, all'utente viene assegnato il privilegio SeSecurityPrivilege, utile in alcuni casi di utilizzo dell'applicazione, ad esempio https://docs.netapp.com/us-en/ontap/smb-hyper-v-sql/add-sesecurityprivilege-user-account-task.html["SQL Server su condivisioni SMB"^].
 
-image::ncvs-gc-image13.png[ncvs gc image13]
+image:ncvs-gc-image13.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 È possibile visualizzare le appartenenze ai gruppi locali di Cloud Volumes Service tramite MMC con i privilegi appropriati. La figura seguente mostra gli utenti aggiunti utilizzando la console di Cloud Volumes Service.
 
-image::ncvs-gc-image14.png[ncvs gc image14]
+image:ncvs-gc-image14.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 La seguente tabella mostra l'elenco dei gruppi BUILTIN predefiniti e gli utenti/gruppi aggiunti per impostazione predefinita.
 
@@ -232,9 +232,9 @@ La seguente tabella mostra l'elenco dei gruppi BUILTIN predefiniti e gli utenti/
 
 È possibile visualizzare gli utenti e i gruppi locali (e i membri del gruppo) nella finestra MMC, ma non è possibile aggiungere o eliminare oggetti o modificare le appartenenze ai gruppi da questa console. Per impostazione predefinita, solo il gruppo Domain Admins e l'amministratore vengono aggiunti al gruppo BUILTIN/Administrators in Cloud Volumes Service. Al momento, non è possibile modificarlo.
 
-image::ncvs-gc-image15.png[ncvs gc image15]
+image:ncvs-gc-image15.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-image::ncvs-gc-image16.png[ncvs gc image16]
+image:ncvs-gc-image16.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -250,9 +250,9 @@ Quando si visualizzano le condivisioni SMB con le autorizzazioni appropriate, ve
 
 Tenere presente che è consentita una sola connessione Active Directory per regione.
 
-image::ncvs-gc-image17.png[ncvs gc image17]
+image:ncvs-gc-image17.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-image::ncvs-gc-image18.png[ncvs gc image18]
+image:ncvs-gc-image18.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 La seguente tabella mostra un elenco delle funzionalità supportate/non supportate per MMC.
 

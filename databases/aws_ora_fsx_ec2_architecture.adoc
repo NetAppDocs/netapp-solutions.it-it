@@ -20,7 +20,7 @@ All'interno dell'ambiente, l'istanza di calcolo Oracle viene implementata tramit
 
 Lo storage del database Oracle sui volumi FSX, invece, viene implementato con la console AWS FSX o CLI. I volumi binari, dati o log Oracle vengono successivamente presentati e montati su un host Linux di istanza EC2. A ogni volume di dati o log possono essere allocate più LUN in base al protocollo di storage sottostante utilizzato.
 
-image::aws_ora_fsx_ec2_arch.PNG[Questa immagine mostra un diagramma dell'architettura di esempio che include il cluster ha primario - il cluster ha in standby - nodi di gestione - e i nodi di connessione correlati.]
+image:aws_ora_fsx_ec2_arch.png["Questa immagine mostra un diagramma dell'architettura di esempio che include il cluster ha primario - il cluster ha in standby - nodi di gestione - e i nodi di connessione correlati."]
 
 Un cluster di storage FSX è progettato con doppia ridondanza, in modo che i cluster di storage primario e di standby siano implementati in due diverse zone di disponibilità. I volumi di database vengono replicati da un cluster FSX primario a un cluster FSX di standby a un intervallo configurabile dall'utente per tutti i volumi binari, di dati e di log Oracle.
 

@@ -44,7 +44,7 @@ Per la configurazione di SnapCenter e la protezione delle risorse di Microsoft S
 
 Configurare le credenziali per il backup di SQL Server e ripristinare l'utente con diritti sysadmin.
 
-image::sqlsb-aws-image1.png[sqlsb aws image1]
+image:sqlsb-aws-image1.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 NetApp consiglia di utilizzare RBAC (Role-Based Access Control) per delegare le funzionalità di gestione e protezione dei dati a singoli utenti attraverso gli host SnapCenter e Window. L'utente deve avere accesso a SQL Server che ospita il database. Per più host, il nome utente e la password devono essere identici tra i vari host. Inoltre, per consentire a SnapCenter di distribuire il plug-in richiesto sugli host SQL Server, è necessario registrare le informazioni di dominio per SnapCenter per convalidare le credenziali e gli host.
 
@@ -55,11 +55,11 @@ Espandere le sezioni seguenti per visualizzare le istruzioni dettagliate su come
 ====
 Accedere a *Impostazioni*, selezionare *credenziali* e fare clic su (*+*).
 
-image::sqlsb-aws-image2.png[sqlsb aws image2]
+image:sqlsb-aws-image2.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Il nuovo utente deve disporre dei diritti di amministratore sull'host di SQL Server.
 
-image::sqlsb-aws-image3.png[sqlsb aws image3]
+image:sqlsb-aws-image3.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 ====
 .Configurare lo storage
@@ -70,15 +70,15 @@ Per configurare lo storage in SnapCenter, attenersi alla seguente procedura:
 . Nell'interfaccia utente di SnapCenter, selezionare *sistemi di storage*. Esistono due tipi di storage, *SVM ONTAP* e *cluster ONTAP*. Per impostazione predefinita, il tipo di storage è *SVM ONTAP*.
 . Fare clic su (*+*) per aggiungere le informazioni sul sistema di storage.
 +
-image::sqlsb-aws-image4.png[sqlsb aws image4]
+image:sqlsb-aws-image4.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Fornire l'endpoint *FSX per la gestione ONTAP*.
 +
-image::sqlsb-aws-image5.png[sqlsb aws image5]
+image:sqlsb-aws-image5.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . La SVM è ora configurata in SnapCenter.
 +
-image::sqlsb-aws-image6.png[sqlsb aws image6]
+image:sqlsb-aws-image6.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -90,7 +90,7 @@ Per aggiungere un host SQL Server, attenersi alla seguente procedura:
 
 . Dalla scheda host, fare clic su (*+*) per aggiungere l'host Microsoft SQL Server.
 +
-image::sqlsb-aws-image7.png[sqlsb aws image7]
+image:sqlsb-aws-image7.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Fornire il nome di dominio completo (FQDN) o l'indirizzo IP dell'host remoto.
 +
@@ -99,17 +99,17 @@ NOTE: Le credenziali vengono popolate per impostazione predefinita.
 
 . Selezionare l'opzione Microsoft Windows e Microsoft SQL Server, quindi inviare.
 +
-image::sqlsb-aws-image8.png[sqlsb aws image8]
+image:sqlsb-aws-image8.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
 I pacchetti di SQL Server sono installati.
 
-image::sqlsb-aws-image9.png[sqlsb aws image9]
+image:sqlsb-aws-image9.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Al termine dell'installazione, accedere alla scheda *risorsa* per verificare la presenza di tutti i volumi iSCSI FSX per ONTAP.
 +
-image::sqlsb-aws-image10.png[sqlsb aws image10]
+image:sqlsb-aws-image10.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -121,25 +121,25 @@ Per configurare una directory del registro host, attenersi alla seguente procedu
 
 . Fare clic sulla casella di controllo. Viene visualizzata una nuova scheda.
 +
-image::sqlsb-aws-image11.png[sqlsb aws image11]
+image:sqlsb-aws-image11.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Fare clic sul collegamento *configure log directory*.
 +
-image::sqlsb-aws-image12.png[sqlsb aws image12]
+image:sqlsb-aws-image12.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare l'unità per la directory del log host e la directory del log dell'istanza FCI. Fare clic su *Save* (Salva). Ripetere la stessa procedura per il secondo nodo del cluster. Chiudere la finestra.
 +
-image::sqlsb-aws-image13.png[sqlsb aws image13]
+image:sqlsb-aws-image13.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
 L'host si trova ora in uno stato di esecuzione.
 
-image::sqlsb-aws-image14.png[sqlsb aws image14]
+image:sqlsb-aws-image14.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Dalla scheda *risorse*, abbiamo tutti i server e i database.
 +
-image::sqlsb-aws-image15.png[sqlsb aws image15]
+image:sqlsb-aws-image15.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -159,39 +159,39 @@ Per configurare un criterio di backup per un database FCI, attenersi alla seguen
 
 . Vai a *Impostazioni* e seleziona *Criteri* in alto a sinistra. Quindi fare clic su *nuovo*.
 +
-image::sqlsb-aws-image16.png[sqlsb aws image16]
+image:sqlsb-aws-image16.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Immettere il nome e la descrizione del criterio. Fare clic su *Avanti*.
 +
-image::sqlsb-aws-image17.png[sqlsb aws image17]
+image:sqlsb-aws-image17.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare *Backup completo* come tipo di backup.
 +
-image::sqlsb-aws-image18.png[sqlsb aws image18]
+image:sqlsb-aws-image18.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare la frequenza di pianificazione (in base allo SLA aziendale). Fare clic su *Avanti*.
 +
-image::sqlsb-aws-image19.png[sqlsb aws image19]
+image:sqlsb-aws-image19.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Configurare le impostazioni di conservazione per il backup.
 +
-image::sqlsb-aws-image20.png[sqlsb aws image20]
+image:sqlsb-aws-image20.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Configurare le opzioni di replica.
 +
-image::sqlsb-aws-image21.png[sqlsb aws image21]
+image:sqlsb-aws-image21.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Specificare uno script di esecuzione da eseguire prima e dopo l'esecuzione di un processo di backup (se presente).
 +
-image::sqlsb-aws-image22.png[sqlsb aws image22]
+image:sqlsb-aws-image22.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Eseguire la verifica in base alla pianificazione del backup.
 +
-image::sqlsb-aws-image23.png[sqlsb aws image23]
+image:sqlsb-aws-image23.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . La pagina *Summary* fornisce i dettagli della policy di backup. Gli eventuali errori possono essere corretti qui.
 +
-image::sqlsb-aws-image24.png[sqlsb aws image24]
+image:sqlsb-aws-image24.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -202,26 +202,26 @@ image::sqlsb-aws-image24.png[sqlsb aws image24]
 
 . Impostare la data di inizio e la data di scadenza del criterio di backup.
 +
-image::sqlsb-aws-image25.png[sqlsb aws image25]
+image:sqlsb-aws-image25.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Definire la pianificazione del backup. A tale scopo, fare clic su (*+*) per configurare una pianificazione. Inserire la data *inizio* e *scadenza*. Impostare l'ora in base allo SLA dell'azienda.
 +
-image::sqlsb-aws-image26.png[sqlsb aws image26]
+image:sqlsb-aws-image26.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Configurare il server di verifica. Dal menu a discesa, selezionare il server.
 +
-image::sqlsb-aws-image27.png[sqlsb aws image27]
+image:sqlsb-aws-image27.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Confermare la pianificazione configurata facendo clic sul segno più e confermare.
 . Fornire informazioni per la notifica via email. Fare clic su *Avanti*.
 +
-image::sqlsb-aws-image28.png[sqlsb aws image28]
+image:sqlsb-aws-image28.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
 Il riepilogo dei criteri di backup per il database di SQL Server è ora configurato.
 
-image::sqlsb-aws-image29.png[sqlsb aws image29]
+image:sqlsb-aws-image29.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -231,15 +231,15 @@ Per creare backup di SQL Server on-demand, attenersi alla seguente procedura:
 
 . Dalla vista *Resource*, selezionare la risorsa e selezionare *Backup now*.
 +
-image::sqlsb-aws-image30.png[sqlsb aws image30]
+image:sqlsb-aws-image30.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nella finestra di dialogo *Backup*, fare clic su *Backup*.
 +
-image::sqlsb-aws-image31.png[sqlsb aws image31]
+image:sqlsb-aws-image31.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Viene visualizzata una schermata di conferma. Fare clic su *Sì* per confermare.
 +
-image::sqlsb-aws-image32.png[sqlsb aws image32]
+image:sqlsb-aws-image32.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -249,10 +249,10 @@ image::sqlsb-aws-image32.png[sqlsb aws image32]
 
 . Dalla scheda *Monitor*, fare clic sul lavoro e selezionare *Dettagli* a destra per visualizzare i lavori.
 +
-image::sqlsb-aws-image33.png[sqlsb aws image33]
+image:sqlsb-aws-image33.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
-image::sqlsb-aws-image34.png[sqlsb aws image34]
+image:sqlsb-aws-image34.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -266,15 +266,15 @@ Per configurare un criterio di backup per più database di SQL Server, creare i 
 
 . Nella scheda *risorse* del menu *Visualizza*, passare a un gruppo di risorse utilizzando il menu a discesa.
 +
-image::sqlsb-aws-image35.png[sqlsb aws image35]
+image:sqlsb-aws-image35.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Fare clic su (*+*) per visualizzare un nuovo gruppo di risorse.
 +
-image::sqlsb-aws-image36.png[sqlsb aws image36]
+image:sqlsb-aws-image36.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Fornire un nome e un tag. Fare clic su *Avanti*.
 +
-image::sqlsb-aws-image37.png[sqlsb aws image37]
+image:sqlsb-aws-image37.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Aggiungere risorse al gruppo di risorse:
 +
@@ -282,47 +282,47 @@ image::sqlsb-aws-image37.png[sqlsb aws image37]
 ** *Tipo di risorsa.* dal menu a discesa, selezionare *Database*.
 ** *Istanza di SQL Server.* selezionare il server.
 +
-image::sqlsb-aws-image38.png[sqlsb aws image38]
+image:sqlsb-aws-image38.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
 Per impostazione predefinita, l'opzione *opzione* Auto seleziona tutte le risorse dallo stesso volume di storage*. Deselezionare l'opzione e selezionare solo i database da aggiungere al gruppo di risorse, fare clic sulla freccia per aggiungere e fare clic su *Avanti*.
 
 +
-image::sqlsb-aws-image39.png[sqlsb aws image39]
+image:sqlsb-aws-image39.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
 . Nei criteri, fare clic su (*+*).
 +
-image::sqlsb-aws-image40.png[sqlsb aws image40]
+image:sqlsb-aws-image40.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Immettere il nome del criterio del gruppo di risorse.
 +
-image::sqlsb-aws-image41.png[sqlsb aws image41]
+image:sqlsb-aws-image41.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare *Backup completo* e la frequenza di pianificazione in base allo SLA aziendale.
 +
-image::sqlsb-aws-image42.png[sqlsb aws image42]
+image:sqlsb-aws-image42.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Configurare le impostazioni di conservazione.
 +
-image::sqlsb-aws-image43.png[sqlsb aws image43]
+image:sqlsb-aws-image43.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Configurare le opzioni di replica.
 +
-image::sqlsb-aws-image44.png[sqlsb aws image44]
+image:sqlsb-aws-image44.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Configurare gli script da eseguire prima di eseguire un backup. Fare clic su *Avanti*.
 +
-image::sqlsb-aws-image45.png[sqlsb aws image45]
+image:sqlsb-aws-image45.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Confermare la verifica per le seguenti pianificazioni di backup.
 +
-image::sqlsb-aws-image46.png[sqlsb aws image46]
+image:sqlsb-aws-image46.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nella pagina *Riepilogo*, verificare le informazioni e fare clic su *fine*.
 +
-image::sqlsb-aws-image47.png[sqlsb aws image47]
+image:sqlsb-aws-image47.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -332,28 +332,28 @@ image::sqlsb-aws-image47.png[sqlsb aws image47]
 
 . Fare clic sul segno (*+*) per configurare la data di inizio e la data di scadenza.
 +
-image::sqlsb-aws-image48.png[sqlsb aws image48]
+image:sqlsb-aws-image48.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Impostare l'ora.
 +
-image::sqlsb-aws-image49.png[sqlsb aws image49]
+image:sqlsb-aws-image49.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
-image::sqlsb-aws-image50.png[sqlsb aws image50]
+image:sqlsb-aws-image50.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Dalla scheda *verifica*, selezionare il server, configurare la pianificazione e fare clic su *Avanti*.
 +
-image::sqlsb-aws-image51.png[sqlsb aws image51]
+image:sqlsb-aws-image51.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Configurare le notifiche per l'invio di un'e-mail.
 +
-image::sqlsb-aws-image52.png[sqlsb aws image52]
+image:sqlsb-aws-image52.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
 Il criterio è ora configurato per il backup di più database SQL Server.
 
-image::sqlsb-aws-image53.png[sqlsb aws image53]
+image:sqlsb-aws-image53.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -361,20 +361,20 @@ image::sqlsb-aws-image53.png[sqlsb aws image53]
 
 . Dalla scheda *Resource*, selezionare view (Visualizza). Dal menu a discesa, selezionare *Gruppo di risorse*.
 +
-image::sqlsb-aws-image54.png[sqlsb aws image54]
+image:sqlsb-aws-image54.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare il nome del gruppo di risorse.
 . Fare clic su *Backup now* in alto a destra.
 +
-image::sqlsb-aws-image55.png[sqlsb aws image55]
+image:sqlsb-aws-image55.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Viene visualizzata una nuova finestra. Fare clic sulla casella di controllo *Verify after backup* (verifica dopo il backup), quindi fare clic su backup.
 +
-image::sqlsb-aws-image56.png[sqlsb aws image56]
+image:sqlsb-aws-image56.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Viene visualizzato un messaggio di conferma. Fare clic su *Sì*.
 +
-image::sqlsb-aws-image57.png[sqlsb aws image57]
+image:sqlsb-aws-image57.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -384,11 +384,11 @@ image::sqlsb-aws-image57.png[sqlsb aws image57]
 
 Dalla barra di navigazione a sinistra, fare clic su *Monitor*, selezionare il processo di backup e fare clic su *Dettagli* per visualizzare l'avanzamento del processo.
 
-image::sqlsb-aws-image58.png[sqlsb aws image58]
+image:sqlsb-aws-image58.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 Fare clic sulla scheda *Resource* per visualizzare il tempo necessario per il completamento del backup.
 
-image::sqlsb-aws-image59.png[sqlsb aws image59]
+image:sqlsb-aws-image59.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -400,49 +400,49 @@ Per eseguire un backup del log delle transazioni, attenersi alla seguente proced
 
 . Dalla scheda *risorse*, modificare il menu di visualizzazione da *Database* a *Gruppo di risorse*.
 +
-image::sqlsb-aws-image60.png[sqlsb aws image60]
+image:sqlsb-aws-image60.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare il criterio di backup del gruppo di risorse creato.
 . Selezionare *Modify Resource Group* (Modifica gruppo di risorse) in alto a destra.
 +
-image::sqlsb-aws-image61.png[sqlsb aws image61]
+image:sqlsb-aws-image61.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Per impostazione predefinita, la sezione *Nome* utilizza il nome e il tag del criterio di backup. Fare clic su *Avanti*.
 +
 La scheda *risorse* evidenzia le basi in cui deve essere configurato il criterio di backup delle transazioni.
 
 +
-image::sqlsb-aws-image62.png[sqlsb aws image62]
+image:sqlsb-aws-image62.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Immettere il nome del criterio.
 +
-image::sqlsb-aws-image63.png[sqlsb aws image63]
+image:sqlsb-aws-image63.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare le opzioni di backup di SQL Server.
 . Selezionare log backup (backup registro).
 . Impostare la frequenza di pianificazione in base all'RTO aziendale. Fare clic su *Avanti*.
 +
-image::sqlsb-aws-image64.png[sqlsb aws image64]
+image:sqlsb-aws-image64.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Configurare le impostazioni di conservazione del backup del registro. Fare clic su *Avanti*.
 +
-image::sqlsb-aws-image65.png[sqlsb aws image65]
+image:sqlsb-aws-image65.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . (Facoltativo) configurare le opzioni di replica.
 +
-image::sqlsb-aws-image66.png[sqlsb aws image66]
+image:sqlsb-aws-image66.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . (Facoltativo) configurare gli script da eseguire prima di eseguire un processo di backup.
 +
-image::sqlsb-aws-image67.png[sqlsb aws image67]
+image:sqlsb-aws-image67.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . (Facoltativo) configurare la verificazione del backup.
 +
-image::sqlsb-aws-image68.png[sqlsb aws image68]
+image:sqlsb-aws-image68.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nella pagina *Riepilogo*, fare clic su *fine*.
 +
-image::sqlsb-aws-image69.png[sqlsb aws image69]
+image:sqlsb-aws-image69.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -452,28 +452,28 @@ image::sqlsb-aws-image69.png[sqlsb aws image69]
 
 . Fare clic sul criterio di backup del registro delle transazioni appena creato.
 +
-image::sqlsb-aws-image70.png[sqlsb aws image70]
+image:sqlsb-aws-image70.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Impostare la data *inizio* e *scadenza*.
 . Inserire la frequenza del criterio di backup del registro in base a SLA, RTP e RPO. Fare clic su OK.
 +
-image::sqlsb-aws-image71.png[sqlsb aws image71]
+image:sqlsb-aws-image71.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . È possibile visualizzare entrambi i criteri. Fare clic su *Avanti*.
 +
-image::sqlsb-aws-image72.png[sqlsb aws image72]
+image:sqlsb-aws-image72.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Configurare il server di verifica.
 +
-image::sqlsb-aws-image73.png[sqlsb aws image73]
+image:sqlsb-aws-image73.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Configurare la notifica via email.
 +
-image::sqlsb-aws-image74.png[sqlsb aws image74]
+image:sqlsb-aws-image74.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nella pagina *Riepilogo*, fare clic su *fine*.
 +
-image::sqlsb-aws-image75.png[sqlsb aws image75]
+image:sqlsb-aws-image75.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -485,16 +485,16 @@ Per attivare un backup on-demand del log transazionale per più database di SQL 
 
 . Nella pagina policy appena creata, selezionare *Backup now* (Esegui backup ora) in alto a destra nella pagina.
 +
-image::sqlsb-aws-image76.png[sqlsb aws image76]
+image:sqlsb-aws-image76.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Dalla finestra a comparsa della scheda *Policy*, selezionare il menu a discesa, selezionare il criterio di backup e configurare il backup del log delle transazioni.
 +
-image::sqlsb-aws-image77.png[sqlsb aws image77]
+image:sqlsb-aws-image77.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Fare clic su *Backup*. Viene visualizzata una nuova finestra.
 . Fare clic su *Sì* per confermare la policy di backup.
 +
-image::sqlsb-aws-image78.png[sqlsb aws image78]
+image:sqlsb-aws-image78.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -504,7 +504,7 @@ image::sqlsb-aws-image78.png[sqlsb aws image78]
 
 Passare alla scheda *Monitoring* e monitorare l'avanzamento del processo di backup.
 
-image::sqlsb-aws-image79.png[sqlsb aws image79]
+image:sqlsb-aws-image79.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -527,34 +527,34 @@ Per ripristinare un database SQL Server a un punto temporale, attenersi alla seg
 
 . La seguente schermata mostra lo stato iniziale del database SQL Server prima delle tabelle eliminate.
 +
-image::sqlsb-aws-image80.png[sqlsb aws image80]
+image:sqlsb-aws-image80.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
 La schermata mostra che 20 righe sono state eliminate dalla tabella.
 
 +
-image::sqlsb-aws-image81.png[sqlsb aws image81]
+image:sqlsb-aws-image81.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Accedere al server SnapCenter. Dalla scheda *risorse*, selezionare il database.
 +
-image::sqlsb-aws-image82.png[sqlsb aws image82]
+image:sqlsb-aws-image82.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare il backup più recente.
 . A destra, selezionare *Restore* (Ripristina).
 +
-image::sqlsb-aws-image83.png[sqlsb aws image83]
+image:sqlsb-aws-image83.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Viene visualizzata una nuova finestra. Selezionare l'opzione *Restore*.
 . Ripristinare il database sullo stesso host in cui è stato creato il backup. Fare clic su *Avanti*.
 +
-image::sqlsb-aws-image84.png[sqlsb aws image84]
+image:sqlsb-aws-image84.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Per il tipo di ripristino, selezionare *All log backups* (tutti i backup del registro). Fare clic su *Avanti*.
 +
-image::sqlsb-aws-image85.png[sqlsb aws image85]
+image:sqlsb-aws-image85.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
-image::sqlsb-aws-image86.png[sqlsb aws image86]
+image:sqlsb-aws-image86.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -562,7 +562,7 @@ image::sqlsb-aws-image86.png[sqlsb aws image86]
 
 . Selezionare l'opzione *sovrascrivere il database con lo stesso nome durante il ripristino*. Fare clic su *Avanti*.
 +
-image::sqlsb-aws-image87.png[sqlsb aws image87]
+image:sqlsb-aws-image87.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -570,15 +570,15 @@ image::sqlsb-aws-image87.png[sqlsb aws image87]
 
 . Selezionare l'opzione *operativo, ma non disponibile per il ripristino di ulteriori registri delle transazioni*. Fare clic su *Avanti*.
 +
-image::sqlsb-aws-image88.png[sqlsb aws image88]
+image:sqlsb-aws-image88.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Fornire le impostazioni e-mail. Fare clic su *Avanti*.
 +
-image::sqlsb-aws-image89.png[sqlsb aws image89]
+image:sqlsb-aws-image89.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Nella pagina *Riepilogo*, fare clic su *fine*.
 +
-image::sqlsb-aws-image90.png[sqlsb aws image90]
+image:sqlsb-aws-image90.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -588,15 +588,15 @@ image::sqlsb-aws-image90.png[sqlsb aws image90]
 
 . Dalla scheda *Monitoring* (monitoraggio), fare clic sui dettagli del processo di ripristino per visualizzare l'avanzamento del processo di ripristino.
 +
-image::sqlsb-aws-image91.png[sqlsb aws image91]
+image:sqlsb-aws-image91.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Ripristinare i dettagli del lavoro.
 +
-image::sqlsb-aws-image92.png[sqlsb aws image92]
+image:sqlsb-aws-image92.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Torna all'host SQL Server > database > tabella sono presenti.
 +
-image::sqlsb-aws-image93.png[sqlsb aws image93]
+image:sqlsb-aws-image93.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 

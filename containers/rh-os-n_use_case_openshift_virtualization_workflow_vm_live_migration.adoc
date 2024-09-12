@@ -24,7 +24,7 @@ Live Migration è un processo di migrazione di un'istanza di macchina virtuale d
 
 Pertanto, affinché la migrazione live abbia successo, è necessario eseguire il provisioning delle macchine virtuali con dischi (dischi di boot e dischi hot-plug aggiuntivi) insieme a PVC che utilizzano classi di storage ontap-nas o ontap-san (volumeMode: Blocco). Al momento della creazione di PVC, Trident crea volumi ONTAP in una SVM abilitata per NFS o abilitata per iSCSI.
 
-image::redhat_openshift_image55.png[Architettura VM Live Migration]
+image:redhat_openshift_image55.png["Architettura VM Live Migration"]
 
 Per eseguire una migrazione live di una macchina virtuale creata in precedenza e in esecuzione, attenersi alla seguente procedura:
 
@@ -40,6 +40,6 @@ La migrazione della VM passerà da *in sospeso* a *Pianificazione* a *riuscita*
 
 NOTE: Un'istanza della macchina virtuale in un cluster OpenShift esegue automaticamente la migrazione a un altro nodo quando il nodo originale viene messo in modalità di manutenzione se evictionStrategy è impostato su LiveMigrate.
 
-image::rh-os-n_use_case_vm_live_migrate_1.png[Avvio della migrazione live della VM]
+image:rh-os-n_use_case_vm_live_migrate_1.png["Avvio della migrazione live della VM"]
 
-image::rh-os-n_use_case_vm_live_migrate_2.png[Migrazione live VM riuscita]
+image:rh-os-n_use_case_vm_live_migrate_2.png["Migrazione live VM riuscita"]

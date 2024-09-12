@@ -42,11 +42,11 @@ NOTE: Se si desidera eseguire un backup di una macchina virtuale quando è in es
 . Andare all'Operator Hub del cluster e selezionare Red Hat OADP operator. Nella pagina Installa, utilizzare tutte le selezioni predefinite e fare clic su Installa. Nella pagina successiva, utilizzare nuovamente tutte le impostazioni predefinite e fare clic su Installa. L'operatore OADP sarà installato nello spazio dei nomi openshift-adp.
 
 
-image::redhat_openshift_OADP_install_image1.jpg[API OpenShift per la protezione dei dati in Operator Hub]
+image:redhat_openshift_OADP_install_image1.jpg["API OpenShift per la protezione dei dati in Operator Hub"]
 
-image::redhat_openshift_OADP_install_image2.jpg[OpenShift API per l'installazione dell'operatore di protezione dei dati]
+image:redhat_openshift_OADP_install_image2.jpg["OpenShift API per l'installazione dell'operatore di protezione dei dati"]
 
-image::redhat_openshift_OADP_install_image3.jpg[OpenShift API per Data Protection Operator installato]
+image:redhat_openshift_OADP_install_image3.jpg["OpenShift API per Data Protection Operator installato"]
 
 
 
@@ -81,22 +81,22 @@ Velero può essere configurato per utilizzare l'archiviazione oggetti compatibil
 Per creare un segreto dalla console Web, selezionare segreti, quindi fare clic su chiave/valore segreto. Fornire i valori per il nome della credenziale, la chiave e il valore come mostrato. Assicurarsi di utilizzare l'ID chiave di accesso e la chiave di accesso segreta dell'utente S3. Assegnare un nome appropriato al segreto. Nell'esempio seguente, viene creato un segreto con credenziali utente di ONTAP S3 denominato credenziali ontap-S3.
 
 
-image::redhat_openshift_OADP_install_image4.png[Segreto per S3 credenziali utente]
+image:redhat_openshift_OADP_install_image4.png["Segreto per S3 credenziali utente"]
 
-image::redhat_openshift_OADP_install_image5.png[Crea segreto per le credenziali utente S3]
+image:redhat_openshift_OADP_install_image5.png["Crea segreto per le credenziali utente S3"]
 
 Per creare un segreto denominato sg-S3-credenziali dall'interfaccia CLI, è possibile utilizzare il seguente comando.
 
-image::redhat_openshift_OADP_install_image6.png[Crea segreto per le credenziali utente S3 utilizzando CLI]
+image:redhat_openshift_OADP_install_image6.png["Crea segreto per le credenziali utente S3 utilizzando CLI"]
 
 * Quindi, per configurare Velero, selezionare Installed Operators dalla voce di menu in Operators, fare clic sull'operatore OADP, quindi selezionare la scheda DataProtectionApplication.
 
 
-image::redhat_openshift_OADP_install_image7.jpg[DataProtectionApplication]
+image:redhat_openshift_OADP_install_image7.jpg["DataProtectionApplication"]
 
 Fare clic su Create DataProtectionApplication. Nella vista modulo, specificare un nome per l'applicazione DataProtection o utilizzare il nome predefinito.
 
-image::redhat_openshift_OADP_install_image8.jpg[Creare DataProtectionApplication]
+image:redhat_openshift_OADP_install_image8.jpg["Creare DataProtectionApplication"]
 
 Passare ora alla visualizzazione YAML e sostituire le informazioni sulle specifiche come mostrato negli esempi di file yaml riportati di seguito.
 
@@ -180,7 +180,7 @@ I plug-in di Velero CSI, per eseguire il backup dei PVC supportati da CSI, scegl
 **velero.io/csi-volumesnapshot-class=true** come mostrato di seguito.
 
 
-image::redhat_openshift_OADP_install_image9.jpg[Etichetta classe istantanea Trident]
+image:redhat_openshift_OADP_install_image9.jpg["Etichetta classe istantanea Trident"]
 
 Verificare che gli snapshot possano persistere anche se gli oggetti VolumeSnapshot vengono eliminati. A tale scopo, impostare *deletionPolicy* su Retain. In caso contrario, l'eliminazione di uno spazio dei nomi perderà completamente tutti i PVC di cui è stato eseguito il backup.
 
@@ -192,12 +192,12 @@ metadata:
 driver: csi.trident.netapp.io
 deletionPolicy: Retain
 ....
-image::redhat_openshift_OADP_install_image10.jpg[Il criterio di eliminazione VolumeSnapshotClass deve essere impostato su Retain]
+image:redhat_openshift_OADP_install_image10.jpg["Il criterio di eliminazione VolumeSnapshotClass deve essere impostato su Retain"]
 
 Verificare che DataProtectionApplication sia stato creato e che sia in condizioni:riconciliato.
 
-image::redhat_openshift_OADP_install_image11.jpg[L'oggetto DataProtectionApplication viene creato]
+image:redhat_openshift_OADP_install_image11.jpg["L'oggetto DataProtectionApplication viene creato"]
 
 L'operatore OADP creerà un BackupStorageLocation corrispondente. Questo verrà utilizzato durante la creazione di un backup.
 
-image::redhat_openshift_OADP_install_image12.jpg[BackupStorageLocation viene creato]
+image:redhat_openshift_OADP_install_image12.jpg["BackupStorageLocation viene creato"]

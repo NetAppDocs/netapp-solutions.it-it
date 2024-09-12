@@ -22,18 +22,18 @@ Le aziende hanno adottato il cloud pubblico come risorsa e destinazione praticab
 
 . Per verificare che il ripristino del clone venga eseguito attraverso l'ultimo log disponibile, abbiamo creato una piccola tabella di test e inserito una riga. I dati del test vengono ripristinati dopo un ripristino completo dell'ultimo registro disponibile.
 +
-image::snapctr_ora_dr_01.PNG[snaptr ora dr 01]
+image:snapctr_ora_dr_01.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Accedere a SnapCenter come ID utente per la gestione del database per Oracle. Accedere alla scheda risorse, che mostra i database Oracle protetti da SnapCenter.
 +
-image::snapctr_ora_dr_02.PNG[snaptr ora dr 02]
+image:snapctr_ora_dr_02.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare il gruppo di risorse del registro Oracle e fare clic su Backup Now (Esegui backup ora) per eseguire manualmente un backup del registro Oracle per scaricare l'ultima transazione verso la destinazione nel cloud. In un vero scenario di DR, l'ultima transazione ripristinabile dipende dalla frequenza di replica del volume del log del database nel cloud, che a sua volta dipende dalla policy RTO o RPO dell'azienda.
 +
-image::snapctr_ora_dr_03.PNG[snaptr ora dr 03]
+image:snapctr_ora_dr_03.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
-image::snapctr_ora_dr_04.PNG[snaptr ora dr 04]
+image:snapctr_ora_dr_04.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
 
@@ -41,25 +41,25 @@ NOTE: SnapMirror asincrono perde i dati che non l'hanno fatto alla destinazione 
 
 . Selezionare l'ultimo backup del registro in Secondary Mirror Backup(s) (Backup mirror secondario) e montare il backup del registro.
 +
-image::snapctr_ora_dr_05.PNG[snaptr ora dr 05]
+image:snapctr_ora_dr_05.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
-image::snapctr_ora_dr_06.PNG[snaptr ora dr 06]
+image:snapctr_ora_dr_06.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare l'ultimo backup completo del database e fare clic su Clone (Clona) per avviare il flusso di lavoro dei cloni.
 +
-image::snapctr_ora_dr_07.PNG[snaptr ora dr 07]
+image:snapctr_ora_dr_07.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare un ID DB clone univoco sull'host.
 +
-image::snapctr_ora_dr_08.PNG[snaptr ora dr 08]
+image:snapctr_ora_dr_08.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Eseguire il provisioning di un volume di log e montarlo sul server DR di destinazione per l'area di ripristino flash Oracle e i registri online.
 +
-image::snapctr_ora_dr_09.PNG[snaptr ora dr 09]
+image:snapctr_ora_dr_09.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
-image::snapctr_ora_dr_10.PNG[snaptr ora dr 10]
+image:snapctr_ora_dr_10.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
 
@@ -67,31 +67,31 @@ NOTE: La procedura di clonazione Oracle non crea un volume di log, che deve esse
 
 . Selezionare l'host clone di destinazione e la posizione in cui inserire i file di dati, i file di controllo e i log di ripristino.
 +
-image::snapctr_ora_dr_11.PNG[snaptr ora dr 11]
+image:snapctr_ora_dr_11.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare le credenziali per il clone. Inserire i dettagli della configurazione Oracle home sul server di destinazione.
 +
-image::snapctr_ora_dr_12.PNG[snaptr ora dr 12]
+image:snapctr_ora_dr_12.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Specificare gli script da eseguire prima della clonazione. Se necessario, è possibile regolare i parametri del database.
 +
-image::snapctr_ora_dr_13.PNG[snaptr ora dr 13]
+image:snapctr_ora_dr_13.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare l'opzione di ripristino fino a quando non viene eseguita l'opzione Cancel (Annulla), in modo che il ripristino venga eseguito attraverso tutti i log di archivio disponibili per recuperare l'ultima transazione replicata nella posizione del cloud secondario.
 +
-image::snapctr_ora_dr_14.PNG[snaptr ora dr 14]
+image:snapctr_ora_dr_14.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Configurare il server SMTP per la notifica via email, se necessario.
 +
-image::snapctr_ora_dr_15.PNG[snaptr ora dr 15]
+image:snapctr_ora_dr_15.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Riepilogo dei cloni DR.
 +
-image::snapctr_ora_dr_16.PNG[snaptr ora dr 16]
+image:snapctr_ora_dr_16.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . I DBS clonati vengono registrati con SnapCenter subito dopo il completamento del clone e sono quindi disponibili per la protezione del backup.
 +
-image::snapctr_ora_dr_16_1.PNG[snaptr ora dr 16 1]
+image:snapctr_ora_dr_16_1.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -101,11 +101,11 @@ image::snapctr_ora_dr_16_1.PNG[snaptr ora dr 16 1]
 
 . Convalida l'ultima transazione di test che è stata scaricata, replicata e ripristinata nella posizione DR nel cloud.
 +
-image::snapctr_ora_dr_17.PNG[snaptr ora dr 17]
+image:snapctr_ora_dr_17.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Configurare l'area di ripristino della flash.
 +
-image::snapctr_ora_dr_18.PNG[snaptr ora dr 18]
+image:snapctr_ora_dr_18.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Configurare il listener Oracle per l'accesso degli utenti.
 . Separare il volume clonato dal volume di origine replicato.
@@ -121,42 +121,42 @@ NOTE: La suddivisione dei cloni può comportare un utilizzo temporaneo dello spa
 
 . Allo stesso modo, per verificare che il ripristino del clone SQL sia stato eseguito attraverso l'ultimo log disponibile, abbiamo creato una piccola tabella di test e inserito una riga. I dati del test vengono ripristinati dopo un ripristino completo dell'ultimo registro disponibile.
 +
-image::snapctr_sql_dr_01.PNG[dr sql snapctr 01]
+image:snapctr_sql_dr_01.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Accedere a SnapCenter con un ID utente per la gestione del database per SQL Server. Accedere alla scheda Resources (risorse), che mostra il gruppo di risorse di protezione di SQL Server.
 +
-image::snapctr_sql_dr_02.PNG[dr sql snapctr 02]
+image:snapctr_sql_dr_02.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Eseguire manualmente un backup del log per svuotare l'ultima transazione da replicare sullo storage secondario nel cloud pubblico.
 +
-image::snapctr_sql_dr_03.PNG[dr sql snapctr 03]
+image:snapctr_sql_dr_03.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare l'ultimo backup completo di SQL Server per il clone.
 +
-image::snapctr_sql_dr_04.PNG[dr sql snapctr 04]
+image:snapctr_sql_dr_04.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Impostare l'impostazione del clone, ad esempio Clone Server, Clone Instance, Clone Name e mount. Il percorso di storage secondario in cui viene eseguita la clonazione viene popolato automaticamente.
 +
-image::snapctr_sql_dr_05.PNG[dr sql snapctr 05]
+image:snapctr_sql_dr_05.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Selezionare tutti i backup del registro da applicare.
 +
-image::snapctr_sql_dr_06.PNG[dr sql snapctr 06]
+image:snapctr_sql_dr_06.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Specificare eventuali script opzionali da eseguire prima o dopo la clonazione.
 +
-image::snapctr_sql_dr_07.PNG[dr sql snapctr 07]
+image:snapctr_sql_dr_07.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Specificare un server SMTP se si desidera inviare una notifica via e-mail.
 +
-image::snapctr_sql_dr_08.PNG[dr sql snapctr 08]
+image:snapctr_sql_dr_08.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Riepilogo dei cloni DR. I database clonati vengono immediatamente registrati con SnapCenter e sono disponibili per la protezione del backup.
 +
-image::snapctr_sql_dr_09.PNG[dr sql snapctr 09]
+image:snapctr_sql_dr_09.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 +
-image::snapctr_sql_dr_10.PNG[dr sql snapctr 10]
+image:snapctr_sql_dr_10.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
 
@@ -166,11 +166,11 @@ image::snapctr_sql_dr_10.PNG[dr sql snapctr 10]
 
 . Monitorare lo stato del lavoro clone.
 +
-image::snapctr_sql_dr_11.PNG[dr sql snapctr 11]
+image:snapctr_sql_dr_11.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Verificare che l'ultima transazione sia stata replicata e ripristinata con tutti i cloni dei file di log e il ripristino.
 +
-image::snapctr_sql_dr_12.PNG[dr sql snapctr 12]
+image:snapctr_sql_dr_12.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 . Configurare una nuova directory di log di SnapCenter sul server DR per il backup del log di SQL Server.
 . Separare il volume clonato dal volume di origine replicato.

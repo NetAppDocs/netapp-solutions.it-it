@@ -40,7 +40,7 @@ Lo scopo di nconnect è fornire più connessioni TCP per datastore NFS su un hos
 
 Per risolvere i limiti di performance di una singola connessione di un datastore NFS, vengono montati datastore aggiuntivi o vengono aggiunti host per aumentare la connessione.
 
-image::vmware-vsphere8-nfs-wo-nconnect.png[Datastore NFS senza funzione nconnect]
+image:vmware-vsphere8-nfs-wo-nconnect.png["Datastore NFS senza funzione nconnect"]
 
 
 
@@ -48,7 +48,7 @@ image::vmware-vsphere8-nfs-wo-nconnect.png[Datastore NFS senza funzione nconnect
 
 Una volta creato il datastore NFS utilizzando gli strumenti ONTAP o altre opzioni, il numero di connessione per datastore NFS può essere modificato utilizzando lo strumento vSphere CLI, PowerCLI, govc o altre opzioni API. Per evitare problemi di performance insieme a vMotion, mantenere lo stesso numero di connessioni per il datastore NFS su tutti gli host vSphere che fanno parte di vSphere Cluster.
 
-image::vmware-vsphere8-nfs-nconnect.png[Datastore NFS con funzione nconnect abilitata]
+image:vmware-vsphere8-nfs-nconnect.png["Datastore NFS con funzione nconnect abilitata"]
 
 
 

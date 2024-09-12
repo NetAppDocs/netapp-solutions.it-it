@@ -34,7 +34,7 @@ Sia le copie Snapshot che i backup proteggono i seguenti tipi di dati: - **I met
 
 === Configurazione di Snapshot con ACC
 
-image::rhhc-onprem-dp-snap.png[Vista Snapshot di Astra Control Center]
+image:rhhc-onprem-dp-snap.png["Vista Snapshot di Astra Control Center"]
 
 
 
@@ -48,7 +48,7 @@ Un backup si basa su un'istantanea. ACC può eseguire copie Snapshot utilizzando
 
 ACC ripristina l'applicazione dal bucket S3 in cui sono memorizzati i backup.
 
-image::rhhc-onprem-dp-br.png[Opzione di ripristino di Astra Control Center]
+image:rhhc-onprem-dp-br.png["Opzione di ripristino di Astra Control Center"]
 
 
 
@@ -64,7 +64,7 @@ https://github.com/NetApp/Verda["Progetto NetApp Verda GitHub"] fornisce hook di
 
 == Esempio di gancio di esecuzione per pre-Snapshot di un'applicazione redis.
 
-image::rhhc-onprem-dp-br-hook.png[Gancio di esecuzione di Astra Control Center]
+image:rhhc-onprem-dp-br-hook.png["Gancio di esecuzione di Astra Control Center"]
 
 
 
@@ -81,7 +81,7 @@ Fare riferimento a. link:https://docs.netapp.com/us-en/astra-control-center/use/
 
 === SnapMirror con ACC
 
-image::rhhc-onprem-dp-rep.png[Replica di Astra Control Center]
+image:rhhc-onprem-dp-rep.png["Replica di Astra Control Center"]
 
 
 NOTE: i driver di storage san-economy e nas-economy non supportano la funzione di replica. Fare riferimento a. link:https://docs.netapp.com/us-en/astra-control-center/get-started/requirements.html#astra-trident-requirements["qui"] per ulteriori dettagli.
@@ -104,7 +104,7 @@ I clienti che attualmente dispongono di un sistema ONTAP possono estendere a Met
 
 La soluzione MetroCluster richiede un'estensione di rete Layer 2 o la capacità di accedere allo stesso indirizzo di rete da entrambi i domini di errore. Una volta eseguita la configurazione MetroCluster, la soluzione è trasparente per i proprietari delle applicazioni, in quanto tutti i volumi nella svm MetroCluster sono protetti e ottengono i benefici di SyncMirror (zero RPO).
 
-image::rhhc-onprem-dp-bc.png[Soluzione per la business continuity con MetroCluster]
+image:rhhc-onprem-dp-bc.png["Soluzione per la business continuity con MetroCluster"]
 
 
 TIP: Per la configurazione back-end Trident (TBC), non specificare dataLIF e SVM quando si utilizza la configurazione MetroCluster. Specificare l'IP di gestione SVM per la gestione LIF e utilizzare le credenziali del ruolo vsadmin.

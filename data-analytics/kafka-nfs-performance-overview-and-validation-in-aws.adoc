@@ -52,14 +52,14 @@ La seguente tabella mostra la configurazione ambientale per un cluster Kafka che
 
 . Per la coppia Cloud Volumes ONTAP ha, abbiamo creato due aggregati con tre volumi su ciascun aggregato su ciascun controller di storage. Per il singolo nodo Cloud Volumes ONTAP, creiamo sei volumi in un aggregato.
 +
-image::kafka-nfs-image25.png[Questa immagine mostra le proprietà di aggr3 e aggr22.]
+image:kafka-nfs-image25.png["Questa immagine mostra le proprietà di aggr3 e aggr22."]
 
 +
-image::kafka-nfs-image26.png[Questa immagine mostra le proprietà di aggr2.]
+image:kafka-nfs-image26.png["Questa immagine mostra le proprietà di aggr2."]
 
 . Per ottenere performance di rete migliori, abbiamo attivato il networking ad alta velocità sia per la coppia ha che per il singolo nodo.
 +
-image::kafka-nfs-image27.png[Queste immagini mostrano come abilitare il networking ad alta velocità.]
+image:kafka-nfs-image27.png["Queste immagini mostrano come abilitare il networking ad alta velocità."]
 
 . Abbiamo notato che la NVRAM ONTAP aveva più IOPS, quindi abbiamo modificato gli IOPS a 2350 per il volume root Cloud Volumes ONTAP. Il disco del volume root in Cloud Volumes ONTAP aveva una dimensione di 47 GB. Il seguente comando ONTAP è per la coppia ha e lo stesso passo è applicabile per il singolo nodo.
 +
@@ -88,7 +88,7 @@ Scope: kafka_nfs_cvo_ha1-02
 kafka_nfs_cvo_ha1::*>
 ....
 +
-image::kafka-nfs-image28.png[Queste immagini mostrano come modificare le proprietà del volume.]
+image:kafka-nfs-image28.png["Queste immagini mostrano come modificare le proprietà del volume."]
 
 
 
@@ -99,7 +99,7 @@ La figura seguente mostra l'architettura di un cluster Kafka basato su NAS.
 * *Storage.* abbiamo utilizzato un'istanza di ha-Pair Cloud Volumes ONTAP con un volume AWS-EBS GP3 da 6 TB montato sull'istanza. Il volume è stato quindi esportato nel broker Kafka con un montaggio NFS.
 
 
-image::kafka-nfs-image29.png[Questa figura illustra l'architettura di un cluster Kafka basato su NAS.]
+image:kafka-nfs-image29.png["Questa figura illustra l'architettura di un cluster Kafka basato su NAS."]
 
 
 
@@ -362,8 +362,8 @@ Il driver Sync è in grado di generare un throughput coerente quando i log vengo
 
 Questi numeri di throughput vengono generati per la configurazione AWS specificata. Per requisiti di performance più elevati, i tipi di istanze possono essere scalati e ottimizzati ulteriormente per ottenere numeri di throughput migliori. Il throughput totale o il tasso totale è la combinazione di un tasso di produttore e di consumo.
 
-image::kafka-nfs-image30.png[Qui sono presentati quattro grafici diversi. Driver di throughput coppia CVO-ha. Driver CVO-ha Pair Sync. Driver di throughput CVO a nodo singolo. Driver CVO-single node Sync.]
+image:kafka-nfs-image30.png["Qui sono presentati quattro grafici diversi. Driver di throughput coppia CVO-ha. Driver CVO-ha Pair Sync. Driver di throughput CVO a nodo singolo. Driver CVO-single node Sync."]
 
 Verificare il throughput dello storage durante l'esecuzione del benchmarking del throughput o del driver di sincronizzazione.
 
-image::kafka-nfs-image31.png[Questo grafico mostra le performance in termini di latenza, IOPS e throughput.]
+image:kafka-nfs-image31.png["Questo grafico mostra le performance in termini di latenza, IOPS e throughput."]
