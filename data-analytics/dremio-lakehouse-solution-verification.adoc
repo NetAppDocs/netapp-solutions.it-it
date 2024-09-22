@@ -1,0 +1,120 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/dremio-lakehouse-solution-verification.html 
+keywords: performance, tests, dremio 
+summary: Abbiamo eseguito il test tpc-ds con cinque nodi per workload sql con storage a oggetti NetApp come in ONTAP e StorageGRID. 
+---
+= Panoramica di verifica della soluzione
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+In questa sezione, abbiamo eseguito query di test SQL da più origini per verificare la funzionalità, testare e verificare lo spillover nello storage NetApp.
+
+
+
+=== Query SQL sullo storage a oggetti
+
+. Impostare la memoria su 250GB per server in dremio.env
++
+....
+root@hadoopmaster:~# for i in hadoopmaster hadoopnode1 hadoopnode2 hadoopnode3 hadoopnode4; do ssh $i "hostname; grep -i  DREMIO_MAX_MEMORY_SIZE_MB /opt/dremio/conf/dremio-env; cat /proc/meminfo  | grep -i memtotal"; done
+hadoopmaster
+#DREMIO_MAX_MEMORY_SIZE_MB=120000
+DREMIO_MAX_MEMORY_SIZE_MB=250000
+MemTotal:       263515760 kB
+hadoopnode1
+#DREMIO_MAX_MEMORY_SIZE_MB=120000
+DREMIO_MAX_MEMORY_SIZE_MB=250000
+MemTotal:       263515860 kB
+hadoopnode2
+#DREMIO_MAX_MEMORY_SIZE_MB=120000
+DREMIO_MAX_MEMORY_SIZE_MB=250000
+MemTotal:       263515864 kB
+hadoopnode3
+#DREMIO_MAX_MEMORY_SIZE_MB=120000
+DREMIO_MAX_MEMORY_SIZE_MB=250000
+MemTotal:       264004556 kB
+node4
+#DREMIO_MAX_MEMORY_SIZE_MB=120000
+DREMIO_MAX_MEMORY_SIZE_MB=250000
+MemTotal:       263515484 kB
+root@hadoopmaster:~#
+....
+. Controllare la posizione di fuoriuscita (${DREMIO_HOME}"/dremiocache) nel file dremio.conf e nei dettagli di archiviazione.
++
+....
+paths: {
+  # the local path for dremio to store data.
+  local: ${DREMIO_HOME}"/dremiocache"
+
+  # the distributed path Dremio data including job results, downloads, uploads, etc
+  #dist: "hdfs://hadoopmaster:9000/dremiocache"
+  dist: "dremioS3:///dremioconf"
+}
+
+services: {
+  coordinator.enabled: true,
+  coordinator.master.enabled: true,
+  executor.enabled: false,
+  flight.use_session_service: false
+}
+
+zookeeper: "10.63.150.130:2181,10.63.150.153:2181,10.63.150.151:2181"
+services.coordinator.master.embedded-zookeeper.enabled: false
+....
+. Indica il problema della posizione nello storage NFS di NetApp
++
+....
+root@hadoopnode1:~# ls -ltrh /dremiocache
+total 4.0K
+drwx------ 3 nobody nogroup 4.0K Sep 13 16:00 spilling_stlrx2540m4-12-10g_45678
+root@hadoopnode1:~# ls -ltrh /opt/dremio/dremiocache/
+total 8.0K
+drwxr-xr-x 3 dremio dremio 4.0K Aug 22 18:19 spill_old
+drwxr-xr-x 4 dremio dremio 4.0K Aug 22 18:19 cm
+lrwxrwxrwx 1 root   root     12 Aug 22 19:03 spill -> /dremiocache
+root@hadoopnode1:~# ls -ltrh /dremiocache
+total 4.0K
+drwx------ 3 nobody nogroup 4.0K Sep 13 16:00 spilling_stlrx2540m4-12-10g_45678
+root@hadoopnode1:~# df -h /dremiocache
+Filesystem                              Size  Used Avail Use% Mounted on
+10.63.150.159:/dremiocache_hadoopnode1  2.1T  209M  2.0T   1% /dremiocache
+root@hadoopnode1:~#
+....
+. Selezionare il contesto. Nel nostro test, abbiamo eseguito il test contro i file di parquet generati da TPCDS che risiedono in ONTAP S3. Dashboard Dremio -> SQL runner -> contesto -> NetAppONTAPS3->Parquet1TB
+
+
+image:ontaps3-context.png["impostare la cartella contex su ontaps3 parquet"]
+
+. Eseguire il TPC-DS query67 dalla dashboard di Dremio
+
+
+image:TPCDS-Q67.png["Eseguire la query 67 che è una delle 99 query in TPC-DS"]
+
+. Verificare che il processo sia in esecuzione su tutti gli esecutori. Dashboard Dremio -> Jobs -> <jobid> -> profilo RAW -> Select EXTERNAL_SORT -> Nome host
+
+
+image:node-in-query.png["Elenco dei nodi nella query Q67"]
+
+. Quando la query SQL è in esecuzione, è possibile controllare la cartella di divisione per la memorizzazione nella cache dei dati nel controller di archiviazione NetApp.
++
+....
+root@hadoopnode1:~# ls -ltrh /dremiocache
+total 4.0K
+drwx------ 3 nobody nogroup 4.0K Sep 13 16:00 spilling_stlrx2540m4-12-10g_45678
+root@hadoopnode1:~# ls -ltrh /dremiocache/spilling_stlrx2540m4-12-10g_45678/
+total 4.0K
+drwxr-xr-x 2 root daemon 4.0K Sep 13 16:23 1726243167416
+....
+. Query SQL completata con il recupero image:spinover.png["perdita di dettagli al completamento della query 67"]
+. Riepilogo completamento processo. image:jobsummary.png["Riepilogo del processo della query completata 67"]
+. Controllare le dimensioni dei dati fuoriusciti image:splleddata.png["dettagli di splleddata dal risultato della query"]
+
+
+Stessa procedura per lo storage a oggetti NAS e StorageGRID.

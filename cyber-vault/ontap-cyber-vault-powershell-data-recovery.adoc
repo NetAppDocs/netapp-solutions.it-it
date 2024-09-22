@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: cyber-vault/ontap-cyber-vault-powershell-data-recovery.html 
+keywords: Cyber vault, powershell, script, configuration, validation, hardening 
+summary: Questa è la soluzione NetApp ONTAP per la configurazione, la protezione e la convalida di un cyber vault basato su ONTAP 
+---
+= Recupero dei dati dei vault informatici di ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
+
+
+[role="lead"]
+Se i dati vengono distrutti nel data center di produzione, è possibile ripristinare in modo sicuro nell'ambiente scelto i dati provenienti dal vault informatico. A differenza di una soluzione fisicamente a mappatura d'aria, il cyber vault di ONTAP a mappatura d'aria è costruito utilizzando funzionalità native di ONTAP come SnapLock Compliance e SnapMirror. Il risultato è un processo di recovery che è sia rapido che semplice da eseguire.
+
+In caso di attacco ransomware e di necessità di un ripristino dal cyber vault, il processo di recovery è semplice e immediato, poiché le copie snapshot contenute nel cyber vault vengono utilizzate per ripristinare i dati crittografati.
+
+image:ontap-cyber-vault-data-recovery.png["Ripristinare la relazione"]
+
+Se il requisito è fornire un metodo più rapido per riportare online i dati quando è necessario per validare rapidamente, isolare e analizzare i dati per il recovery. Ciò può essere ottenuto facilmente utilizzando con FlexClone con l'opzione tipo SnapLock impostata su tipo non SnapLock.
+
+
+NOTE: A partire da ONTAP 9.13,1, ripristinare una copia Snapshot bloccata sul volume SnapLock di destinazione di una relazione vault di SnapLock può essere ripristinato immediatamente creando un FlexClone con l'opzione di tipo SnapLock impostata su "non-SnapLock". Quando si esegue l'operazione di creazione del clone del volume, specificare la copia Snapshot come "snapshot padre". Ulteriori informazioni sulla creazione di un volume FlexClone con un tipo di SnapLock link:https://docs.netapp.com/us-en/ontap/volumes/create-flexclone-task.html?q=volume+clone["qui."]
+
+
+NOTE: La pratica delle procedure di ripristino dal cyber vault garantirà che vengano stabilite le procedure corrette per la connessione al cyber vault e il recupero dei dati. Pianificare e testare la procedura è essenziale per qualsiasi recupero durante un attacco informatico.

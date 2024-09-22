@@ -1,0 +1,91 @@
+---
+sidebar: sidebar 
+permalink: cyber-vault/ontap-cyber-vault-powershell-overview.html 
+keywords: Cyber vault, powershell, script, configuration, validation, hardening 
+summary: Questa è la soluzione NetApp ONTAP per la configurazione, la protezione e la convalida di un cyber vault basato su ONTAP 
+---
+= Panoramica del cyber vault di ONTAP con PowerShell
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
+
+
+[role="lead"]
+Nel panorama digitale odierno, la salvaguardia delle risorse dati critiche di un'organizzazione non è solo una Best practice, ma un imperativo aziendale. Le minacce informatiche si stanno evolvendo a un ritmo senza precedenti e le misure tradizionali di data Protection non sono più sufficienti per mantenere al sicuro le informazioni sensibili. È qui che entra in gioco un cyber vault. La soluzione all'avanguardia basata su ONTAP di NetApp combina tecniche avanzate di air-gapping con misure di protezione dei dati efficaci per creare una barriera impenetrabile contro le minacce informatiche. Isolando i dati più preziosi con una tecnologia di protezione avanzata, un cyber vault riduce al minimo la superficie di attacco in modo che i dati più critici rimangano confidenziali, intatti e prontamente disponibili quando necessario.
+
+Un cyber vault è una struttura di storage sicura costituita da più livelli di protezione, quali firewall, networking e storage. Questi componenti salvaguardano i dati di recovery fondamentali necessari per operazioni aziendali cruciali. I componenti del cyber vault si sincronizzano regolarmente con i dati di produzione essenziali in base alla policy del vault, ma in caso contrario rimangono inaccessibili. Questa configurazione isolata e disconnessa garantisce che, in caso di attacco informatico che compromette l'ambiente di produzione, sia possibile eseguire facilmente un recupero finale e affidabile dal cyber vault.
+
+NetApp consente di creare facilmente un traferro per il cyber vault configurando la rete, disabilitando le LIF, aggiornando le regole del firewall e isolando il sistema dalle reti esterne e da Internet. Questo approccio robusto scollega efficacemente il sistema dalle reti esterne e da Internet, fornendo una protezione senza precedenti contro gli attacchi informatici remoti e i tentativi di accesso non autorizzati, rendendo il sistema immune alle minacce basate sulla rete e alle intrusioni.
+
+Combinando questo aspetto con la protezione SnapLock Compliance, i dati non possono essere modificati o eliminati, nemmeno dagli amministratori ONTAP o dal supporto NetApp. SnapLock viene sottoposto a una verifica periodica rispetto alle normative SEC e FINRA, accertandosi che la resilienza dei dati soddisfi questi rigorosi requisiti WORM e di conservazione dei dati del settore bancario. NetApp è l'unico storage Enterprise validato da NSA CSFC per la memorizzazione di dati top-secret.
+
+image:ontap-cyber-vault-logical-air-gap.png["Cyber vault ONTAP a zampa d'aria con copie SnapLock immutabili e indelebili"]
+
+Questo documento descrive la configurazione automatizzata del vault informatico di NetApp per lo storage ONTAP on-premise in un altro storage ONTAP designato con snapshot immutabili che aggiungono un ulteriore livello di protezione dall'aumento degli attacchi informatici per un ripristino rapido. In questa architettura viene applicata l'intera configurazione in base alle Best practice ONTAP. L'ultima sezione contiene istruzioni per eseguire un ripristino in caso di attacco.
+
+
+NOTE: La stessa soluzione è applicabile per creare il cyber vault designato in AWS utilizzando FSX per ONTAP.
+
+
+
+== Passaggi di alto livello per creare un cyber vault di ONTAP
+
+* Creare una relazione di peering
++
+** Il sito di produzione che utilizza lo storage ONTAP è sottoposto a peering con lo storage ONTAP dedicato al vault informatico
+
+
+* Creazione di un volume SnapLock Compliance
+* Impostare la relazione e la regola SnapMirror per impostare l'etichetta
++
+** Vengono configurate la relazione SnapMirror e le pianificazioni appropriate
+
+
+* Impostare le trattenute prima di avviare il trasferimento SnapMirror (vault)
++
+** Il blocco di conservazione viene applicato sui dati copiati, per evitare ulteriormente i dati da un interno o guasto dei dati. Utilizzando questa funzione, i dati non possono essere eliminati prima della scadenza del periodo di conservazione
+** Le organizzazioni possono conservare questi dati per poche settimane/mesi, a seconda dei requisiti
+
+
+* Inizializzare la relazione SnapMirror in base alle etichette
++
+** Il seeding iniziale e il trasferimento incrementale ininterrotto avvengono in base alla pianificazione del SnapMirror
+** I dati sono protetti (immutabili e indelebili) con SnapLock Compliance, e che sono disponibili per il recovery
+
+
+* Implementare rigidi controlli di trasferimento dei dati
++
+** Il vault Cyber viene sbloccato per un periodo limitato con i dati del sito di produzione e sincronizzato con i dati nel vault. Una volta completato il trasferimento, la connessione viene disconnessa, chiusa e nuovamente bloccata
+
+
+* Recovery rapido
++
+** Se il server primario è interessato dal sito di produzione, i dati provenienti dal cyber vault vengono ripristinati in modo sicuro nella produzione originale o in un altro ambiente scelto
+
+
+
+
+image:ontap-cyber-vault-air-gap.png["Passaggi di alto livello per creare un cyber vault di ONTAP"]
+
+
+
+== Componenti della soluzione
+
+NetApp ONTAP con 9.15.1 su cluster di origine e destinazione.
+
+ONTAP One: Licenza All-in-One di NetApp ONTAP.
+
+Funzionalità utilizzate dalla licenza ONTAP ONE:
+
+* Conformità SnapLock
+* SnapMirror
+* Verifica multi-admin
+* Tutte le funzionalità di protezione avanzata esposte da ONTAP
+* Separare le credenziali RBAC per il cyber vault
+
+
+
+NOTE: Tutti gli array fisici unificati ONTAP possono essere utilizzati per un cyber vault, tuttavia i sistemi flash basati sulla capacità AFF C-Series e i sistemi flash ibridi FAS sono le piattaforme ideali più convenienti per questo scopo. Consultare link:./ontap-cyber-vault-sizing.html["Dimensionamento dei cyber vault di ONTAP"]per le istruzioni sul dimensionamento.
