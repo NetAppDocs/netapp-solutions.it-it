@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/rh-os-n_use_case_multitenancy_architecture.html 
-keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
 summary: Configurazione della multitenancy su Red Hat OpenShift con NetApp 
 ---
 = Architettura
@@ -14,13 +14,13 @@ summary: Configurazione della multitenancy su Red Hat OpenShift con NetApp
 
 
 [role="lead"]
-Sebbene Red Hat OpenShift e Astra Trident supportati da NetApp ONTAP non forniscano l'isolamento tra i carichi di lavoro per impostazione predefinita, offrono un'ampia gamma di funzionalità che possono essere utilizzate per configurare la multi-tenancy. Per comprendere meglio la progettazione di una soluzione multi-tenant su un cluster Red Hat OpenShift con Astra Trident supportato da NetApp ONTAP, prendiamo in considerazione un esempio con una serie di requisiti e descriviamo la configurazione che lo circonda.
+Anche se Red Hat OpenShift e Trident supportati da NetApp ONTAP non forniscono isolamento tra carichi di lavoro per impostazione predefinita, offrono una vasta gamma di funzionalità che possono essere utilizzate per configurare la multi-tenancy. Per comprendere meglio la progettazione di una soluzione multitenant su un cluster Red Hat OpenShift con Trident supportato da NetApp ONTAP, prendiamo in considerazione un esempio con un set di requisiti e delineiamo la configurazione che la circonda.
 
-Supponiamo che un'organizzazione esegue due dei propri workload su un cluster Red Hat OpenShift nell'ambito di due progetti su cui lavorano due team diversi. I dati per questi carichi di lavoro risiedono su PVC che vengono forniti dinamicamente da Astra Trident su un backend NAS NetApp ONTAP. L'organizzazione deve progettare una soluzione multi-tenant per questi due carichi di lavoro e isolare le risorse utilizzate per questi progetti per garantire il mantenimento della sicurezza e delle performance, concentrandosi principalmente sui dati che servono tali applicazioni.
+Supponiamo che un'organizzazione esegue due dei propri workload su un cluster Red Hat OpenShift nell'ambito di due progetti su cui lavorano due team diversi. I dati per questi workload si trovano in PVC che vengono forniti in modo dinamico da Trident su un backend NAS NetApp ONTAP. L'organizzazione deve progettare una soluzione multi-tenant per questi due carichi di lavoro e isolare le risorse utilizzate per questi progetti per garantire il mantenimento della sicurezza e delle performance, concentrandosi principalmente sui dati che servono tali applicazioni.
 
-La seguente figura illustra la soluzione multi-tenant su un cluster Red Hat OpenShift con Astra Trident supportato da NetApp ONTAP.
+La figura seguente illustra la soluzione multitenant su un cluster Red Hat OpenShift con Trident supportato da NetApp ONTAP.
 
-image:redhat_openshift_image40.jpg["Multi-tenancy su cluster Red Hat OpenShift con Astra Trident supportato da NetApp ONTAP"]
+image:redhat_openshift_image40.jpg["Multi-tenancy sul cluster Red Hat OpenShift con Trident supportato da NetApp ONTAP"]
 
 
 
@@ -28,7 +28,7 @@ image:redhat_openshift_image40.jpg["Multi-tenancy su cluster Red Hat OpenShift c
 
 . Cluster di storage NetApp ONTAP
 . Cluster Red Hat OpenShift
-. Astra Trident
+. Trident
 
 
 
@@ -47,7 +47,7 @@ Successivamente, configurare RBAC nel cluster. La Best practice consiste nell'av
 
 
 
-== Astra Trident
+== Trident
 
 Dopo aver creato diverse SVM per diversi progetti su NetApp ONTAP, è necessario mappare ciascuna SVM su un backend Trident diverso. La configurazione di back-end su Trident determina l'allocazione dello storage persistente alle risorse del cluster OpenShift e richiede il mapping dei dettagli della SVM. Questo dovrebbe essere il driver del protocollo per il backend al minimo. Facoltativamente, consente di definire il provisioning dei volumi sullo storage e di impostare limiti per la dimensione dei volumi o l'utilizzo degli aggregati e così via. È possibile trovare i dettagli relativi alla definizione dei backend Trident https://docs.netapp.com/us-en/trident/trident-use/backends.html["qui"^].
 

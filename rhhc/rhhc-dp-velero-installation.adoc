@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: rhhc/rhhc-dp-velero-installation.html 
-keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OADP operator, Openshift Data Protection Application operator, Velero 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OADP operator, Openshift Data Protection Application operator, Velero 
 summary: Protezione dei dati applicativi Red Hat OpenShift Container con NetApp ONTAP 
 ---
 = Installazione dell'operatore OpenShift API for Data Protection (OADP)
@@ -21,9 +21,9 @@ In questa sezione viene descritta l'installazione dell'operatore OpenShift API f
 == Prerequisiti
 
 * Un cluster Red Hat OpenShift (versione successiva alla 4,12) installato in un'infrastruttura bare-metal con nodi di lavoro RHCOS
-* Un cluster NetApp ONTAP integrato con il cluster utilizzando Astra Trident
+* Un cluster NetApp ONTAP integrato con il cluster utilizzando Trident
 * Un backend Trident configurato con una SVM sul cluster ONTAP
-* StorageClass configurato sul cluster OpenShift con Astra Trident come provisioner
+* Una StorageClass configurata nel cluster OpenShift con Trident come provisioner
 * Classe Snapshot Trident creata nel cluster
 * Accesso cluster-admin al cluster Red Hat OpenShift
 * Accesso amministrativo al cluster NetApp ONTAP
@@ -165,8 +165,7 @@ La sezione delle specifiche nel file yaml deve essere configurata in modo approp
 **BackupLocations**
 ONTAP S3 o StorageGRID S3 (con le relative credenziali e altre informazioni come mostrato in yaml) è configurato come BackupLocation predefinito per velero.
 
-**SnapshotLocations**
-Se si utilizzano gli snapshot Container Storage Interface (CSI), non è necessario specificare una posizione dello snapshot perché si creerà un VolumeSnapshotClass CR per registrare il driver CSI. Nel nostro esempio, si utilizza Astra Trident CSI e in precedenza si è creato VolumeSnapShotClass CR utilizzando il driver Trident CSI.
+**SnapshotLocations** se si utilizzano snapshot Container Storage Interface (CSI), non è necessario specificare una posizione snapshot perché si creerà un VolumeSnapshotClass CR per registrare il driver CSI. Nel nostro esempio, si utilizza Trident CSI e si è creato in precedenza VolumeSnapShotClass CR utilizzando il driver Trident CSI.
 
 **Attiva plugin CSI**
 Aggiungere csi ai prefaultPlugin per Velero per eseguire il backup dei volumi persistenti con gli snapshot CSI.

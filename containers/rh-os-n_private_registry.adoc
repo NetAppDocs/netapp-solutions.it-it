@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: containers/rh-os-n_private_registry.html 
-keywords: Advanced Configuration, Private Registry, Astra Trident, OpenShift Registry, NetApp Astra Control Center Registry 
-summary: Questa sezione è dedicata alla creazione e alla configurazione di un registro di immagini privato supportato dallo storage persistente fornito da Astra Trident. 
+keywords: Advanced Configuration, Private Registry, Trident, OpenShift Registry, NetApp Astra Control Center Registry 
+summary: Questa sezione è dedicata alla creazione e alla configurazione di un registro delle immagini private supportato da un archivio permanente fornito da Trident. 
 ---
 = Creazione di registri immagine privati
 :hardbreaks:
@@ -16,7 +16,7 @@ summary: Questa sezione è dedicata alla creazione e alla configurazione di un r
 [role="lead"]
 Per la maggior parte delle implementazioni di Red Hat OpenShift, utilizzando un registro pubblico come https://quay.io["Quay.io"] oppure https://hub.docker.com["DockerHub"] soddisfa la maggior parte delle esigenze dei clienti. Tuttavia, in alcuni casi un cliente potrebbe voler ospitare le proprie immagini private o personalizzate.
 
-Questa procedura documenta la creazione di un registro di immagini privato supportato da un volume persistente fornito da Astra Trident e NetApp ONTAP.
+Questa procedura documenta la creazione di un registro di immagine privata, supportato da un volume persistente fornito da Trident e NetApp ONTAP.
 
 
 NOTE: Astra Control Center richiede un registro per ospitare le immagini richieste dai container Astra. La sezione seguente descrive i passaggi per configurare un registro privato sul cluster Red Hat OpenShift e per inviare le immagini necessarie per supportare l'installazione di Astra Control Center.

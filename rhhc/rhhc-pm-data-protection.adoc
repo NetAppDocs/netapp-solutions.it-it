@@ -16,13 +16,13 @@ summary:
 [role="lead"]
 Questa pagina mostra le opzioni di protezione dei dati per i cluster Managed Red Hat OpenShift on AWS (ROSA) utilizzando Astra Control Service. Astra Control Service (ACS) offre un'interfaccia grafica utente di facile utilizzo che consente di aggiungere cluster, definire le applicazioni in esecuzione ed eseguire attività di gestione dei dati integrate con le applicazioni. È possibile accedere alle funzioni ACS anche utilizzando un'API che consente l'automazione dei workflow.
 
-L'alimentazione di Astra Control (ACS o ACC) è NetApp Astra Trident. Astra Trident integra diversi tipi di cluster Kubernetes come Red Hat OpenShift, EKS, AKS, SUSE Rancher, anthos ecc., con varie soluzioni di storage NetApp ONTAP come FAS/AFF, ONTAP Select, CVO, Google Cloud Volumes Service, Azure NetApp Files e Amazon FSX per NetApp ONTAP.
+L'alimentazione di Astra Control (ACS o ACC) è NetApp Trident. Trident integra diversi tipi di cluster Kubernetes come Red Hat OpenShift, EKS, AKS, SUSE Rancher, anthos ecc., con varie versioni dello storage NetApp ONTAP come FAS/AFF, ONTAP Select, CVO, Google Cloud Volumes Service, Azure NetApp Files e Amazon FSX per NetApp ONTAP.
 
 Questa sezione fornisce dettagli sulle seguenti opzioni di protezione dei dati con ACS:
 
 * Un video che mostra il backup e il ripristino di un'applicazione ROSA in esecuzione in una regione e il ripristino in un'altra regione.
 * Un video che mostra l'istantanea e il ripristino di un'applicazione ROSA.
-* Dettagli dettagliati sull'installazione di un cluster ROSA, Amazon FSX per NetApp ONTAP, utilizzando NetApp Astra Trident per l'integrazione con il backend di storage, installazione di un'applicazione postgresql su un cluster ROSA, utilizzando ACS per creare una snapshot dell'applicazione e il ripristino dell'applicazione da esso.
+* Dettagli dettagliati sull'installazione di un cluster ROSA, Amazon FSX per NetApp ONTAP, utilizzando NetApp Trident per l'integrazione con il backend di storage, l'installazione di un'applicazione postgresql su un cluster ROSA, utilizzando ACS per creare una snapshot dell'applicazione e il ripristino dell'applicazione da esso.
 * Un blog che mostra i dettagli passo per passo della creazione e del ripristino da uno snapshot per un'applicazione mysql su un cluster ROSA con FSX per ONTAP usando ACS.
 
 
@@ -75,7 +75,7 @@ video::36ecf505-5d1d-4e99-a6f8-b11c00341793[panopto]
 
 . Creare un utente amministratore e accedere al cluster.
 . Creare un file kubeconfig per il cluster.
-. Installare Astra Trident nel cluster.
+. Installare Trident sul cluster.
 . Creare una configurazione backend, di classe storage e di classe Snapshot utilizzando il provisioner Trident CSI.
 . Implementare un'applicazione postgresql nel cluster.
 . Creare un database e aggiungere un record.
@@ -110,9 +110,9 @@ Seguire le procedure link:https://docs.netapp.com/us-en/astra-control-service/ge
 
 
 
-==== **3. Installare Astra Trident sul cluster**
+==== **3. Installare Trident sul quadro strumenti**
 
-Installare Astra Trident (versione più recente) sul cluster ROSA. A tale scopo, è possibile seguire una qualsiasi delle procedure indicate link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["qui"]. Per installare Trident utilizzando helm dalla console del cluster, creare prima un progetto chiamato Trident.
+Installare Trident (versione più recente) sul cluster ROSA. A tale scopo, è possibile seguire una qualsiasi delle procedure indicate link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["qui"]. Per installare Trident utilizzando helm dalla console del cluster, creare prima un progetto chiamato Trident.
 
 image:rhhc-trident-project-create.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 

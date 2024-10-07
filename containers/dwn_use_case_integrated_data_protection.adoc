@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: containers/dwn_use_case_integrated_data_protection.html 
-keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Astra Trident, Helm, Operator, ONTAP, OpenShift, Kubernetes, Red Hat OpenShift, DevOps, Data Protection, Continuous Data Protection, Induce Data Protection into CI/CD, CI, CD, CI/CD 
+keywords: NetApp Astra Control, Astra Control Center, Application, Trident, Trident, Helm, Operator, ONTAP, OpenShift, Kubernetes, Red Hat OpenShift, DevOps, Data Protection, Continuous Data Protection, Induce Data Protection into CI/CD, CI, CD, CI/CD 
 summary: 'NetApp Astra Control Center offre un"ampia gamma di servizi di gestione dei dati application-aware e storage per carichi di lavoro Kubernetes stateful, implementati in un ambiente on-premise, basati sulla tecnologia di protezione dei dati di NetApp.' 
 ---
 = Integra la protezione nelle pipeline ci/CD con NetApp Astra Control
@@ -28,7 +28,7 @@ In questo caso di utilizzo, analizziamo più da vicino una pipeline di promozion
 
 image:dwn_image1.jpg["Architettura DevOps con NetApp Astra Use Case 1"]
 
-L'applicazione utilizzata per la convalida di questo caso di utilizzo è stata https://magento.com/["Magento"^], Una soluzione di e-commerce con front-end basato su web; un'istanza di Elasticsearch per le funzionalità di ricerca e analisi; e un database MariaDB che tiene traccia di tutti i dettagli dell'inventario di acquisto e delle transazioni. Questa applicazione containerizzata è stata installata in un cluster Red Hat OpenShift. Ogni pod dell'applicazione utilizzava volumi persistenti per memorizzare i dati. I volumi persistenti sono stati creati automaticamente da NetApp Astra Trident, lo storage orchestrator per Kubernetes conforme a Container Storage Interface, che consente il provisioning dello storage sui sistemi storage NetApp. Inoltre, per utilizzare le funzionalità di protezione delle applicazioni di Astra Control Center, l'applicazione in questione è stata gestita da Astra Control, che è stata utilizzata per attivare i backup delle applicazioni che memorizzavano lo stato dell'applicazione insieme ai dati contenuti nei volumi persistenti. Abbiamo utilizzato https://github.com/NetApp/netapp-astra-toolkits["SDK NetApp Astra Control Python"^] Per automatizzare il processo di attivazione dei backup delle applicazioni, che è stato poi introdotto in una pipeline ci/CD. Questa pipeline è stata creata ed eseguita utilizzando un popolare tool ci/CD chiamato [https://www.jenkins.io/["Jenkins"^]] per automatizzare il flusso di creazione, protezione e implementazione dell'applicazione.
+L'applicazione utilizzata per la convalida di questo caso di utilizzo era https://magento.com/["Magento"^], una soluzione di e-commerce con un front-end basato sul Web, un'istanza Elasticsearch per le funzioni di ricerca e analisi e un database MariaDB che tiene traccia di tutti i dettagli dell'inventario di acquisto e delle transazioni. Questa applicazione containerizzata è stata installata in un cluster Red Hat OpenShift. Ogni pod dell'applicazione utilizzava volumi persistenti per memorizzare i dati. I volumi persistenti sono stati creati automaticamente da NetApp Trident, l'orchestrator di storage conforme a Container Storage Interface per Kubernetes che consente il provisioning dello storage sui sistemi storage NetApp. Inoltre, per utilizzare le funzionalità di protezione delle applicazioni di Astra Control Center, l'applicazione in questione è stata gestita da Astra Control, che è stata utilizzata per attivare i backup delle applicazioni che memorizzavano lo stato dell'applicazione insieme ai dati contenuti nei volumi persistenti. Abbiamo utilizzato https://github.com/NetApp/netapp-astra-toolkits["SDK NetApp Astra Control Python"^] per automatizzare il processo di attivazione dei backup delle applicazioni, che è stato poi introdotto in una pipeline ci/CD. Questa pipeline è stata creata ed eseguita utilizzando un noto strumento ci/CD denominato [https://www.jenkins.io/["Jenkins"^]] per automatizzare il flusso di creazione, protezione e distribuzione dell'applicazione.
 
 Analizziamo i prerequisiti e la procedura per introdurre la protezione in una pipeline ci/CD.
 
@@ -39,7 +39,7 @@ Analizziamo i prerequisiti e la procedura per introdurre la protezione in una pi
 I seguenti strumenti o piattaforme sono stati implementati e configurati come prerequisiti:
 
 . Red Hat OpenShift Container Platform
-. NetApp Astra Trident installato su OpenShift con un sistema ONTAP di back-end configurato
+. NetApp Trident installato su OpenShift con un backend al sistema NetApp ONTAP configurato
 . Uno storageclass predefinito configurato, che punta a un backend NetApp ONTAP
 . NetApp Astra Control Center installato su un cluster OpenShift
 . Cluster OpenShift aggiunto come cluster gestito ad Astra Control Center

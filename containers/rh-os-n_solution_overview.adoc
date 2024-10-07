@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: containers/rh-os-n_solution_overview.html 
-keywords: NVA-1160, Red Hat, OpenShift, Netapp, Astra Trident 
-summary: 'Questo documento di riferimento fornisce la convalida dell"implementazione della soluzione Red Hat OpenShift, implementata tramite l"infrastruttura IPI (Installer Provised Infrastructure) in diversi ambienti di data center come validati da NetApp. Inoltre, descrive in dettaglio l"integrazione dello storage con i sistemi di storage NetApp utilizzando Astra Trident Storage orchestrator per la gestione dello storage persistente. Infine, vengono analizzate e documentate una serie di validazioni delle soluzioni e casi di utilizzo reali.' 
+keywords: NVA-1160, Red Hat, OpenShift, Netapp, Trident 
+summary: 'Questo documento di riferimento fornisce la convalida dell"implementazione della soluzione Red Hat OpenShift, implementata tramite l"infrastruttura IPI (Installer Provised Infrastructure) in diversi ambienti di data center come validati da NetApp. Descrive inoltre l"integrazione dello storage con i sistemi storage NetApp utilizzando Trident Storage orchestrator per la gestione dello storage persistente. Infine, vengono analizzate e documentate una serie di validazioni delle soluzioni e casi di utilizzo reali.' 
 ---
 = NVA-1160: Red Hat OpenShift con NetApp
 :hardbreaks:
@@ -16,7 +16,7 @@ summary: 'Questo documento di riferimento fornisce la convalida dell"implementaz
 Alan Cowles e Nikhil M Kulkarni, NetApp
 
 [role="lead"]
-Questo documento di riferimento fornisce la convalida dell'implementazione della soluzione Red Hat OpenShift, implementata tramite l'infrastruttura IPI (Installer Provised Infrastructure) in diversi ambienti di data center come validati da NetApp. Inoltre, descrive in dettaglio l'integrazione dello storage con i sistemi di storage NetApp utilizzando Astra Trident Storage orchestrator per la gestione dello storage persistente. Infine, vengono analizzate e documentate una serie di validazioni delle soluzioni e casi di utilizzo reali.
+Questo documento di riferimento fornisce la convalida dell'implementazione della soluzione Red Hat OpenShift, implementata tramite l'infrastruttura IPI (Installer Provised Infrastructure) in diversi ambienti di data center come validati da NetApp. Descrive inoltre l'integrazione dello storage con i sistemi storage NetApp utilizzando Trident Storage orchestrator per la gestione dello storage persistente. Infine, vengono analizzate e documentate una serie di validazioni delle soluzioni e casi di utilizzo reali.
 
 
 
@@ -26,7 +26,7 @@ La soluzione Red Hat OpenShift con NetApp è progettata per offrire un valore ec
 
 * Facile da implementare e gestire Red Hat OpenShift implementato utilizzando IPI (Installer Provised Infrastructure) su bare metal, Red Hat OpenStack Platform, Red Hat Virtualization e VMware vSphere.
 * Potenza combinata dei container aziendali e dei carichi di lavoro virtualizzati con Red Hat OpenShift implementato virtualmente su OSP, RHV o vSphere o su bare metal con la virtualizzazione OpenShift.
-* Configurazione e casi d'utilizzo reali che evidenziano le funzionalità di Red Hat OpenShift se utilizzato con lo storage NetApp e Astra Trident, l'orchestrator dello storage open source per Kubernetes.
+* Configurazione reale e casi di utilizzo che evidenziano le funzionalità di Red Hat OpenShift quando utilizzato con storage NetApp e Trident, l'orchestrator di storage open source per Kubernetes.
 
 
 
@@ -76,9 +76,9 @@ NetApp Astra Control offre un ricco set di servizi di gestione dei dati integrat
 
 Per ulteriori informazioni, visitare il sito Web di NetApp Astra https://docs.netapp.com/us-en/astra-family/["qui"].
 
-Astra Trident è un orchestrator di storage open-source e completamente supportato per container e distribuzioni Kubernetes, incluso Red Hat OpenShift.
+Trident è un orchestrator di storage open-source e completamente supportato per container e distribuzioni Kubernetes, incluso Red Hat OpenShift.
 
-Per ulteriori informazioni, visita il sito web di Astra Trident https://docs.netapp.com/us-en/trident/index.html["qui"].
+Per ulteriori informazioni, visitare il sito Web Trident https://docs.netapp.com/us-en/trident/index.html["qui"] .
 
 
 
@@ -105,7 +105,7 @@ Questa sezione è dedicata alle personalizzazioni che gli utenti reali dovrebber
 | NetApp Astra Control | Gestione dei dati consapevole dell'applicazione | 21.12.60, 23,04, 23,07, 23,10, 24,02 
 
 
-| NetApp Astra Trident | Orchestrazione dello storage | 22.01.0, 23,04, 23,07, 23,10, 24,02 
+| Trident di NetApp | Orchestrazione dello storage | 22.01.0, 23,04, 23,07, 23,10, 24,02 
 
 
 | Red Hat OpenShift | Orchestrazione di container | 4,6 EUS, 4,7, 4,8, 4,10, 4,11, 4,12, 4,13, 4,14 

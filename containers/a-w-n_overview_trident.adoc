@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: containers/a-w-n_overview_trident.html 
-keywords: Trident, Astra Trident, Helm, Operator, iSCSI, NFS 
-summary: Astra Trident è un orchestrator di storage open-source completamente supportato per container e distribuzioni Kubernetes, incluso Anthos. 
+keywords: Trident, Trident, Helm, Operator, iSCSI, NFS 
+summary: Trident è un orchestrator di storage open-source, completamente supportato, per container e distribuzioni Kubernetes, incluso anthos. 
 ---
-= Panoramica di Astra Trident
+= Panoramica di Trident
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,27 +14,27 @@ summary: Astra Trident è un orchestrator di storage open-source completamente s
 
 
 [role="lead"]
-Astra Trident è un orchestrator di storage open-source completamente supportato per container e distribuzioni Kubernetes, incluso Anthos. Trident lavora con l'intero portfolio di storage NetApp, incluso NetApp ONTAP, e supporta anche connessioni NFS e iSCSI. Trident accelera il workflow DevOps consentendo agli utenti finali di eseguire il provisioning e gestire lo storage dai sistemi storage NetApp senza richiedere l'intervento di un amministratore dello storage.
+Trident è un orchestrator di storage open-source, completamente supportato, per container e distribuzioni Kubernetes, incluso anthos. Trident lavora con l'intero portfolio di storage NetApp, incluso NetApp ONTAP, e supporta anche connessioni NFS e iSCSI. Trident accelera il workflow DevOps consentendo agli utenti finali di eseguire il provisioning e gestire lo storage dai sistemi storage NetApp senza richiedere l'intervento di un amministratore dello storage.
 
 Un amministratore può configurare una serie di backend di storage in base alle esigenze di progetto e ai modelli di sistemi di storage che consentono funzionalità di storage avanzate, tra cui compressione, tipi di dischi specifici e livelli di QoS che garantiscono un certo livello di performance. Una volta definiti, questi backend possono essere utilizzati dagli sviluppatori nei loro progetti per creare dichiarazioni di volume persistenti (PVC) e per collegare storage persistente ai propri container on-demand.
 
 image:a-w-n_astra_trident.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-Astra Trident ha un rapido ciclo di sviluppo e, come Kubernetes, viene rilasciato quattro volte all'anno.
+Trident svolge un ciclo di sviluppo rapido e, come Kubernetes, viene rilasciato quattro volte all'anno.
 
-È possibile trovare la documentazione relativa all'ultima versione di Astra Trident https://docs.netapp.com/us-en/trident/index.html["qui"]. Matrice di supporto per quale versione di Trident è stata testata con la quale è possibile trovare la distribuzione Kubernetes https://docs.netapp.com/us-en/trident/trident-get-started/requirements.html#supported-frontends-orchestrators["qui"].
+La documentazione per la versione più recente di Trident è disponibile https://docs.netapp.com/us-en/trident/index.html["qui"]. Una matrice di supporto per quale versione di Trident è stata testata con quale distribuzione Kubernetes può essere trovata https://docs.netapp.com/us-en/trident/trident-get-started/requirements.html#supported-frontends-orchestrators["qui"].
 
 A partire dalla versione 20.04, l'impostazione di Trident viene eseguita dall'operatore Trident. L'operatore semplifica le implementazioni su larga scala e fornisce supporto aggiuntivo, inclusa la riparazione automatica dei pod implementati nell'installazione di Trident.
 
 Con la versione 22.04, è stato reso disponibile un grafico Helm per facilitare l'installazione dell'operatore Trident.
 
-Per informazioni dettagliate sull'installazione di Astra Trident, vedere https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["qui"].
+Per informazioni dettagliate sull'installazione di Trident, vedere https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["qui"].
 
 
 
 == Creare un backend di sistema storage
 
-Dopo aver completato l'installazione di Astra Trident Operator, è necessario configurare il backend per la piattaforma di storage NetApp specifica in uso. Seguire il link riportato di seguito per continuare l'installazione e la configurazione di Astra Trident.link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html#step-1-create-a-backend["Creare un backend."]
+Dopo aver completato l'installazione dell'operatore Trident, è necessario configurare il backend per la piattaforma di storage NetApp specifica che si sta utilizzando. Seguire il collegamento riportato di seguito per continuare l'installazione e la configurazione di Trident. link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html#step-1-create-a-backend["Creare un backend."]
 
 
 

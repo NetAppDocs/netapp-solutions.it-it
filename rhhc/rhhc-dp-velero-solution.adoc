@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: rhhc/rhhc-dp-velero-solution.html 
-keywords: OpenShift, OCP, Astra Trident, NetApp ONTAP, Red Hat OpenShift, OADP operator, Openshift Data Protection Application operator, Velero, app data protection, Containers 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OADP operator, Openshift Data Protection Application operator, Velero, app data protection, Containers 
 summary: Protezione dei dati applicativi Red Hat OpenShift Container con NetApp ONTAP 
 ---
 = Protezione dei dati per container Apps in OpenShift Container Platform utilizzando OpenShift API for Data Protection (OADP)
@@ -16,9 +16,9 @@ summary: Protezione dei dati applicativi Red Hat OpenShift Container con NetApp 
 Autore: Banu Sundhar, NetApp
 
 [role="lead"]
-Questa sezione del documento di riferimento fornisce dettagli per la creazione di backup di app container utilizzando l'API OpenShift per la protezione dei dati (OADP) con Velero su NetApp ONTAP S3 o NetApp StorageGRID S3. I backup delle risorse con ambito del namespace, inclusi i volumi persistenti (PVS) dell'applicazione, vengono creati utilizzando gli Snapshot CSI Astra Trident.
+Questa sezione del documento di riferimento fornisce dettagli per la creazione di backup di app container utilizzando l'API OpenShift per la protezione dei dati (OADP) con Velero su NetApp ONTAP S3 o NetApp StorageGRID S3. I backup delle risorse con ambito del namespace, inclusi i volumi persistenti (PVS) dell'applicazione, vengono creati utilizzando le Snapshot CSI Trident.
 
-Lo storage persistente per le app container può essere supportato dallo storage ONTAP integrato nel cluster OpenShift utilizzando link:https://docs.netapp.com/us-en/trident/["CSI Astra Trident"]. In questa sezione link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["OpenShift API per la protezione dei dati (OADP)"] eseguiamo il backup di app, inclusi i volumi di dati in
+Lo storage persistente per le app container può essere supportato dallo storage ONTAP integrato nel cluster OpenShift utilizzando link:https://docs.netapp.com/us-en/trident/["CSI Trident"]. In questa sezione link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["OpenShift API per la protezione dei dati (OADP)"] eseguiamo il backup di app, inclusi i volumi di dati in
 
 * Storage a oggetti ONTAP
 * StorageGRID
@@ -41,11 +41,9 @@ OADP 1,3 è disponibile dall'hub operatore del gruppo OpenShift 4,12 e versioni 
 * Gruppo OpenShift 4,14
 * OADP Operator 1,13 fornito da Red Hat
 * Velero CLI 1,13 per Linux
-* Astra Trident 24,02
+* Trident 24,02
 * ONTAP 9,12
 * postgresql installato utilizzando helm.
 
 
-link:https://docs.netapp.com/us-en/trident/["CSI Astra Trident"]
-link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["OpenShift API per la protezione dei dati (OADP)"]
-link:https://velero.io/["Velero"]
+link:https://docs.netapp.com/us-en/trident/["CSI Trident"] link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["OpenShift API per la protezione dei dati (OADP)"] link:https://velero.io/["Velero"]
