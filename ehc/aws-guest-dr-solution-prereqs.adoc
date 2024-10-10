@@ -141,14 +141,14 @@ VMware Cloud su AWS porta il software SDDC di livello Enterprise di VMware su AW
 Per ulteriori informazioni su VMware Cloud su AWS, seguire https://docs.vmware.com/en/VMware-Cloud-on-AWS/index.html["questo link"^].
 
 ====
-.Amazon FSX per NetApp ONTAP
+.Amazon FSX ONTAP
 [%collapsible]
 ====
-Amazon FSX per NetApp ONTAP è un sistema ONTAP completo e completamente gestito, disponibile come servizio AWS nativo. Basato su NetApp ONTAP, offre funzionalità familiari offrendo la semplicità di un servizio cloud completamente gestito.
+Amazon FSX ONTAP è un sistema ONTAP completamente gestito e dotato di funzionalità avanzate disponibile come servizio AWS nativo. Basato su NetApp ONTAP, offre funzionalità familiari offrendo la semplicità di un servizio cloud completamente gestito.
 
-Amazon FSX per ONTAP offre il supporto multiprotocollo per una varietà di tipi di calcolo, tra cui VMware nel cloud pubblico o on-premise. Disponibile oggi per i casi di utilizzo connessi agli ospiti e per gli archivi dati NFS in anteprima tecnologica, Amazon FSX per ONTAP consente alle aziende di sfruttare le funzionalità familiari dei propri ambienti on-premise e nel cloud.
+Amazon FSX ONTAP offre supporto multiprotocollo per una varietà di tipi di calcolo, incluso VMware nel cloud pubblico oppure on-premise. Disponibile per i casi d'utilizzo connessi ai guest oggi e per i datastore NFS in anteprima tecnica, Amazon FSX ONTAP consente alle aziende di sfruttare le funzionalità a loro familiari nei loro ambienti on-premise e nel cloud.
 
-Per ulteriori informazioni su Amazon FSX per NetApp ONTAP, fai clic qui https://aws.amazon.com/fsx/netapp-ontap/["questo link"].
+Per ulteriori informazioni su Amazon FSX ONTAP, segui https://aws.amazon.com/fsx/netapp-ontap/["questo link"].
 
 ====
 
@@ -188,7 +188,7 @@ Per creare una soluzione di DR con VMware e ONTAP on-premise e VMware Cloud su A
 
 * Provisioning dell'ambiente VMware on-premise e di ONTAP
 * Ambiente cloud VMware
-* Un file system Amazon per FSX per ONTAP
+* File system Amazon per FSX ONTAP
 * Connettività tra il tuo ambiente on-premise e AWS
 * Connettività per AWS VPC
 
@@ -319,7 +319,7 @@ Devi essere in grado di implementare le risorse con NetApp Cloud Manager. Per ve
 
 
 =====
-.Amazon FSX per NetApp ONTAP
+.Amazon FSX ONTAP
 [%collapsible]
 =====
 Una volta ottenuto un account AWS, è necessario essere in grado di eseguire la seguente attività:
@@ -440,7 +440,7 @@ La seguente tabella elenca i requisiti delle porte SnapCenter.
 
 == Networking
 
-Questa soluzione richiede una comunicazione di successo dal cluster ONTAP on-premise ad AWS FSX per gli indirizzi di rete del cluster di interconnessione ONTAP di NetApp per eseguire le operazioni SyncMirror di NetApp. Inoltre, un server di backup Veeam deve avere accesso a un bucket AWS S3. Invece di utilizzare il trasporto Internet, è possibile utilizzare un collegamento VPN o Direct Connect esistente come collegamento privato a un bucket S3.
+Questa soluzione richiede una comunicazione efficace dal cluster ONTAP on-premise agli indirizzi di rete del cluster di interconnessione AWS FSX ONTAP per eseguire le operazioni NetApp SyncMirror. Inoltre, un server di backup Veeam deve avere accesso a un bucket AWS S3. Invece di utilizzare il trasporto Internet, è possibile utilizzare un collegamento VPN o Direct Connect esistente come collegamento privato a un bucket S3.
 
 .On-premise
 [%collapsible]
@@ -484,7 +484,7 @@ I clienti hanno molte opzioni per connettere il proprio ambiente on-premise alle
 .VPN (Virtual Private Network)
 [%collapsible]
 =====
-Le VPN (Virtual Private Network) vengono spesso utilizzate per creare un tunnel IPSec sicuro con reti MPLS private o basate su Internet. Una VPN è facile da configurare, ma non offre affidabilità (se basata su Internet) e velocità. Il punto finale può essere terminato su AWS VPC o su VMware Cloud SDDC. Per questa soluzione di disaster recovery, abbiamo creato la connettività ad AWS FSX per NetApp ONTAP dalla rete on-premise. Pertanto, può essere terminato sul VPC AWS (gateway privato virtuale o gateway di transito) dove è connesso FSX per NetApp ONTAP.
+Le VPN (Virtual Private Network) vengono spesso utilizzate per creare un tunnel IPSec sicuro con reti MPLS private o basate su Internet. Una VPN è facile da configurare, ma non offre affidabilità (se basata su Internet) e velocità. Il punto finale può essere terminato su AWS VPC o su VMware Cloud SDDC. In questa soluzione di disaster recovery abbiamo creato la connettività ad AWS FSX ONTAP dalla rete on-premise. Pertanto, può essere terminato sul VPC AWS (Virtual Private Gateway o Gateway di transito) in cui è connesso FSX ONTAP.
 
 La configurazione VPN può essere basata su routing o policy. Con una configurazione basata su route, gli endpoint si scambiano automaticamente i percorsi e la configurazione apprende il percorso verso le subnet appena create. Con un'impostazione basata su policy, è necessario definire le subnet locali e remote e, quando vengono aggiunte nuove subnet e consentite la comunicazione nel tunnel IPSec, è necessario aggiornare le route.
 
@@ -501,7 +501,7 @@ image:dr-vmc-aws-image3.png["Figura che mostra la finestra di dialogo input/outp
 =====
 Direct Connect fornisce un collegamento dedicato alla rete AWS. Le connessioni dedicate creano collegamenti ad AWS utilizzando una porta Ethernet da 1 Gbps, 10 Gbps o 100 Gbps. I partner AWS Direct Connect forniscono connessioni in hosting utilizzando collegamenti di rete prestabiliti tra loro e AWS e sono disponibili da 50 Mbps fino a 10 Gbps. Per impostazione predefinita, il traffico non è crittografato. Tuttavia, sono disponibili opzioni per proteggere il traffico con MACsec o IPSec. MACsec fornisce la crittografia Layer-2, mentre IPSec fornisce la crittografia Layer-3. MACsec offre una maggiore sicurezza nascondendo quali dispositivi stanno comunicando.
 
-I clienti devono disporre dell'apparecchiatura router in una sede AWS Direct Connect. Per configurare questa opzione, è possibile utilizzare AWS Partner Network (APN). Viene stabilita una connessione fisica tra il router e il router AWS. Per consentire l'accesso a FSX per NetApp ONTAP su VPC, è necessario disporre di un'interfaccia virtuale privata o di un'interfaccia virtuale di transito da connessione diretta a un VPC. Con un'interfaccia virtuale privata, la scalabilità della connessione Direct Connect a VPC è limitata.
+I clienti devono disporre dell'apparecchiatura router in una sede AWS Direct Connect. Per configurare questa opzione, è possibile utilizzare AWS Partner Network (APN). Viene stabilita una connessione fisica tra il router e il router AWS. Per abilitare l'accesso a FSX ONTAP su VPC, è necessario disporre di un'interfaccia virtuale privata o di un'interfaccia virtuale di transito da Direct Connect a un VPC. Con un'interfaccia virtuale privata, la scalabilità della connessione Direct Connect a VPC è limitata.
 
 La figura seguente mostra le opzioni dell'interfaccia Direct Connect.
 
@@ -520,7 +520,7 @@ Il gateway di transito è un modello a livello di regione che consente una maggi
 ====
 Nel cloud, l'infrastruttura di rete sottostante è gestita dal provider di servizi cloud, mentre i clienti devono gestire le reti VPC, le subnet, le tabelle di routing e così via in AWS. Devono inoltre gestire i segmenti di rete NSX all'edge del calcolo. SDDC raggruppa i percorsi per VPC esterno e Transit Connect.
 
-Quando FSX per NetApp ONTAP con disponibilità multi-AZ viene implementato su un VPC connesso a VMware Cloud, il traffico iSCSI riceve gli aggiornamenti necessari della tabella di routing per abilitare la comunicazione. Per impostazione predefinita, non è disponibile alcun percorso da VMware Cloud alla subnet NFS/SMB di FSX ONTAP sul VPC connesso per l'implementazione multi-AZ. Per definire questo percorso, abbiamo utilizzato il gruppo VMware Cloud SDDC, un gateway di transito gestito da VMware, per consentire la comunicazione tra gli SDDC VMware Cloud nella stessa regione, nonché con i VPC esterni e altri gateway di transito.
+Quando FSX ONTAP con disponibilità Multi-AZ viene distribuito su un VPC connesso a VMware Cloud, il traffico iSCSI riceve gli aggiornamenti necessari della tabella di routing per abilitare la comunicazione. Per impostazione predefinita, non è disponibile alcun percorso da VMware Cloud alla subnet NFS/SMB di FSX ONTAP sul VPC connesso per l'implementazione multi-AZ. Per definire questo percorso, abbiamo utilizzato il gruppo VMware Cloud SDDC, un gateway di transito gestito da VMware, per consentire la comunicazione tra gli SDDC VMware Cloud nella stessa regione, nonché con i VPC esterni e altri gateway di transito.
 
 
 NOTE: L'utilizzo di un gateway di transito comporta costi di trasferimento dei dati. Per i dettagli sui costi specifici di una regione, vedere https://aws.amazon.com/transit-gateway/pricing/["questo link"^].
@@ -611,12 +611,12 @@ Abbiamo anche utilizzato lo storage ONTAP per il repository di backup Veeam prim
 ====
 Questa soluzione include VMware Cloud su AWS per l'hosting di macchine virtuali ripristinate come parte del processo di failover. Al momento della stesura del presente documento, VMware supporta lo storage vSAN per gli archivi dati che ospitano le macchine virtuali e i VMDK.
 
-FSX per ONTAP viene utilizzato come storage secondario per i dati delle applicazioni sottoposti a mirroring utilizzando SnapCenter e SyncMirror. Come parte del processo di failover, il cluster FSX per ONTAP viene convertito in storage primario e le applicazioni di database possono riprendere la normale funzione in esecuzione sul cluster di storage FSX.
+FSX ONTAP viene utilizzato come storage secondario per i dati delle applicazioni su cui viene eseguito il mirroring utilizzando SnapCenter e SyncMirror. Durante il processo di failover, il cluster FSX ONTAP viene convertito nello storage primario e le applicazioni di database possono riprendere il normale funzionamento in esecuzione nel cluster di storage FSX.
 
-.Configurazione di Amazon FSX per NetApp ONTAP
+.Configurazione di Amazon FSX ONTAP
 [%collapsible]
 =====
-Per implementare AWS FSX per NetApp ONTAP utilizzando Cloud Manager, seguire le istruzioni all'indirizzo https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/start/task-getting-started-fsx.html["questo link"^].
+Per implementare AWS FSX ONTAP con Cloud Manager, segui le istruzioni su https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/start/task-getting-started-fsx.html["questo link"^].
 
 Dopo aver implementato FSX ONTAP, trascinare le istanze di ONTAP on-premise in FSX ONTAP per avviare la configurazione della replica dei volumi.
 
@@ -628,7 +628,7 @@ image:dr-vmc-aws-image8.png["Figura che mostra la finestra di dialogo input/outp
 .Interfacce di rete create
 [%collapsible]
 =====
-FSX per NetApp ONTAP dispone di interfacce di rete preconfigurate e pronte all'uso per reti iSCSI, NFS, SMB e tra cluster.
+FSX ONTAP dispone di interfacce di rete preconfigurate e pronte all'uso per reti iSCSI, NFS, SMB e tra cluster.
 
 =====
 .Storage del datastore delle macchine virtuali

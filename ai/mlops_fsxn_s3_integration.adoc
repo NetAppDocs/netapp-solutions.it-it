@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: ai/mlops_fsxn_s3_integration.html 
-keywords: FSxN, MLOps, NetApp ONTAP, SageMaker, AWS S3 
-summary: Questo post fornisce una guida alla configurazione di FSxN come bucket S3 privato tramite AWS SageMaker. 
+keywords: FSx ONTAP, MLOps, NetApp ONTAP, SageMaker, AWS S3 
+summary: Questo post fornisce una guida alla configurazione di FSX ONTAP come bucket S3 privato tramite AWS SageMaker. 
 ---
-= Parte 1 - integrazione di AWS FSX per NetApp ONTAP (FSxN) come bucket S3 privato in AWS SageMaker
+= Parte 1 - integrazione di Amazon FSX per NetApp ONTAP (FSX ONTAP) come bucket S3 privato in AWS SageMaker
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary: Questo post fornisce una guida alla configurazione di FSxN come bucket 
 
 
 [role="lead"]
-Questa sezione fornisce una guida alla configurazione di FSxN come bucket S3 privato tramite AWS SageMaker.
+Questa sezione fornisce una guida alla configurazione di FSX ONTAP come bucket S3 privato tramite AWS SageMaker.
 
 *Autore(i):*
 Jian Jian (Ken), Senior Data & Applied Scientist, NetApp
@@ -23,9 +23,9 @@ Jian Jian (Ken), Senior Data & Applied Scientist, NetApp
 
 == Introduzione
 
-Utilizzando SageMaker come esempio, questa pagina fornisce istruzioni sulla configurazione di FSxN come bucket S3 privato.
+Utilizzando SageMaker come esempio, questa pagina fornisce istruzioni sulla configurazione di FSX ONTAP come bucket S3 privato.
 
-Per ulteriori informazioni su FSxN, si prega di dare un'occhiata a questa presentazione (.link:http://youtube.com/watch?v=mFN13R6JuUk["Collegamento video"])
+Per ulteriori informazioni su FSX ONTAP, date un'occhiata a questa presentazione (link:http://youtube.com/watch?v=mFN13R6JuUk["Collegamento video"])
 
 
 
@@ -47,11 +47,7 @@ image:mlops_fsxn_s3_integration_0.png["Apri la console AWS"]
 +
 image:mlops_fsxn_s3_integration_1.png["Console istanza notebook AWS SageMaker"]
 
-. Nella pagina di creazione,
-Immettere il *nome istanza notebook*
-Espandere il pannello *rete*
-Lasciare le altre voci predefinite e selezionare i gruppi *VPC*, *Subnet* e *protezione*. (Questa *VPC* e *sottorete* verranno utilizzate per creare il file system FSxN in un secondo momento)
-Fare clic sul pulsante arancione *Crea istanza notebook* in basso a destra.
+. Nella pagina di creazione, immettere il nome dell'istanza del notebook* espandere il pannello *rete* lasciare le altre voci predefinite e selezionare un gruppo *VPC*, *sottorete* e *protezione*. (Questa *VPC* e *sottorete* verranno utilizzate per creare il file system FSX ONTAP in seguito) fate clic sul pulsante arancione *Crea istanza notebook* in basso a destra.
 +
 image:mlops_fsxn_s3_integration_2.png["Creare l'istanza del notebook"]
 
@@ -59,7 +55,7 @@ image:mlops_fsxn_s3_integration_2.png["Creare l'istanza del notebook"]
 
 
 
-==== Creare un file system FSxN
+==== Crea un file system FSX ONTAP
 
 . Apri la console AWS. Nel pannello di ricerca, cercate FSX e fate clic sul servizio *FSX*.
 +
@@ -69,7 +65,7 @@ image:mlops_fsxn_s3_integration_3.png["Pannello FSX"]
 +
 image:mlops_fsxn_s3_integration_4.png["Creare il file system"]
 
-. Selezionare la prima scheda *FSX per NetApp ONTAP* e fare clic su *Avanti*.
+. Selezionare la prima scheda *FSX ONTAP* e fare clic su *Avanti*.
 +
 image:mlops_fsxn_s3_integration_5.png["Selezionare il tipo di file system"]
 
@@ -131,14 +127,11 @@ image:mlops_fsxn_s3_integration_15.png["Console istanza notebook AWS SageMaker"]
 +
 image:mlops_fsxn_s3_integration_16.png["Pagina di benvenuto di Jupyter Lab"]
 
-. Inserisci il comando ssh ssh <nome utente admin>@<IP server ONTAP> per accedere al file system FSxN ONTAP. (Il nome utente e l'indirizzo IP sono recuperati dalla fase 2)
-Utilizzare la password utilizzata durante la creazione della *Storage Virtual Machine*.
+. Inserisci il comando ssh ssh <nome utente admin>@<IP server ONTAP> per accedere al file system FSX ONTAP. (Il nome utente e l'indirizzo IP vengono recuperati dal passaggio 2) utilizzare la password utilizzata per creare la *Storage Virtual Machine*.
 +
 image:mlops_fsxn_s3_integration_17.png["Terminale Jupyter Lab"]
 
-. Eseguire i comandi nel seguente ordine.
-Utilizziamo *fsxn-ontap* come nome per il *nome bucket S3 privato FSxN*.
-Utilizzare *storage virtual machine name* per l'argomento *-vserver*.
+. Eseguire i comandi nel seguente ordine. Usiamo *fsxn-ONTAP* come nome per il *FSX ONTAP private S3 bucket name*. Utilizzare *storage virtual machine name* per l'argomento *-vserver*.
 +
 [source, bash]
 ----
@@ -153,7 +146,7 @@ vserver object-store-server bucket create fsxn-ontap -vserver fsxn-svm-demo -typ
 +
 image:mlops_fsxn_s3_integration_18.png["Uscita terminale Jupyter Lab"]
 
-. Eseguire i seguenti comandi per recuperare l'IP dell'endpoint e le credenziali per FSxN private S3.
+. Eseguire i seguenti comandi per recuperare l'IP dell'endpoint e le credenziali per FSX ONTAP private S3.
 +
 [source, bash]
 ----
@@ -177,9 +170,7 @@ image:mlops_fsxn_s3_integration_19.png["Terminale Jupyter Lab"]
 +
 image:mlops_fsxn_s3_integration_20.png["Aprire un nuovo notebook Jupyter"]
 
-. Utilizzare il codice riportato di seguito come soluzione alternativa per caricare i file nel bucket S3 privato di FSxN.
-Per un esempio di codice completo, fare riferimento a questo notebook.
-link:https://nbviewer.jupyter.org/github/NetAppDocs/netapp-solutions/blob/main/media/mlops_fsxn_s3_integration_0.ipynb["fsxn_demo.ipynb"]
+. Utilizza il codice riportato di seguito come soluzione per caricare i file nel bucket S3 privato di FSX ONTAP. Per un esempio di codice completo, fare riferimento a questo notebook. link:https://nbviewer.jupyter.org/github/NetAppDocs/netapp-solutions/blob/main/media/mlops_fsxn_s3_integration_0.ipynb["fsxn_demo.ipynb"]
 +
 [source, python]
 ----
@@ -189,7 +180,7 @@ seed: int = 77                                              # Random seed
 bucket_name: str = 'fsxn-ontap'                             # The bucket name in ONTAP
 aws_access_key_id = '<Your ONTAP bucket key id>'            # Please get this credential from ONTAP
 aws_secret_access_key = '<Your ONTAP bucket access key>'    # Please get this credential from ONTAP
-fsx_endpoint_ip: str = '<Your FSxN IP address>'             # Please get this IP address from FSXN
+fsx_endpoint_ip: str = '<Your FSx ONTAP IP address>'        # Please get this IP address from FSx ONTAP
 # -------- Manual configurations --------
 
 # Workaround
@@ -198,17 +189,17 @@ fsx_endpoint_ip: str = '<Your FSxN IP address>'             # Please get this IP
 !sudo mount -t nfs $fsx_endpoint_ip:/vol1 /home/ec2-user/SageMaker/vol1
 !sudo chmod 777 /home/ec2-user/SageMaker/vol1
 
-## Authentication for FSxN as a Private S3 Bucket
+## Authentication for FSx ONTAP as a Private S3 Bucket
 !aws configure set aws_access_key_id $aws_access_key_id
 !aws configure set aws_secret_access_key $aws_secret_access_key
 
-## Upload file to the FSxN Private S3 Bucket
+## Upload file to the FSx ONTAP Private S3 Bucket
 %%capture
 local_file_path: str = <Your local file path>
 
 !aws s3 cp --endpoint-url http://$fsx_endpoint_ip /home/ec2-user/SageMaker/$local_file_path  s3://$bucket_name/$local_file_path
 
-# Read data from FSxN Private S3 bucket
+# Read data from FSx ONTAP Private S3 bucket
 ## Initialize a s3 resource client
 import boto3
 
@@ -239,13 +230,13 @@ binary_data = bucket.Object(data.filename).get()['Body']
 ----
 
 
-Si conclude così l'integrazione tra FSxN e l'istanza SageMaker.
+Si conclude così l'integrazione tra FSX ONTAP e l'istanza di SageMaker.
 
 
 
 == Utile elenco di controllo per il debug
 
-* Verificare che l'istanza di SageMaker notebook e il file system FSxN si trovino nello stesso VPC.
+* Verificare che l'istanza del notebook SageMaker e il file system FSX ONTAP si trovino nello stesso VPC.
 * Ricordarsi di eseguire il comando *set dev* su ONTAP per impostare il livello di privilegio su *dev*.
 
 
@@ -253,14 +244,14 @@ Si conclude così l'integrazione tra FSxN e l'istanza SageMaker.
 
 == FAQ (al 27 settembre 2023)
 
-D: Perché viene visualizzato l'errore "*si è verificato un errore (NotImplemented) quando si chiama l'operazione CreateMultipartUpload: Il comando S3 richiesto non è implementato*" quando si caricano i file su FSxN?
+D: Perché viene visualizzato l'errore "*si è verificato un errore (NotImplemented) quando si chiama l'operazione CreateMultipartUpload: Il comando S3 richiesto non è implementato*" quando si caricano i file in FSX ONTAP?
 
-R: Come bucket S3 privato, FSxN supporta il caricamento di file fino a 100MB MB. Quando si utilizza il protocollo S3, i file di dimensioni superiori a 100MB KB vengono divisi in 100MB blocchi e viene richiamata la funzione "CreateMultipartUpload". Tuttavia, l'attuale implementazione di FSxN private S3 non supporta questa funzione.
+R: Come bucket S3 privato, FSX ONTAP supporta il caricamento di file fino a 100MB KB. Quando si utilizza il protocollo S3, i file di dimensioni superiori a 100MB KB vengono divisi in 100MB blocchi e viene richiamata la funzione "CreateMultipartUpload". Tuttavia, l'attuale implementazione di FSX ONTAP private S3 non supporta questa funzione.
 
-D: Perché ricevo l'errore "*si è verificato un errore (AccessDenied) quando si chiamano le operazioni PutObject: Access Denied*" quando si caricano i file su FSxN?
+D: Perché viene visualizzato l'errore "*si è verificato un errore (accesso negato) quando si chiamano le operazioni PutObject: Accesso negato*" quando si caricano i file in FSX ONTAP?
 
-R: Per accedere al bucket S3 privato FSxN da un'istanza di SageMaker notebook, passare le credenziali AWS alle credenziali FSxN. Tuttavia, la concessione del permesso di scrittura all'istanza richiede una soluzione alternativa che implica il montaggio del bucket e l'esecuzione del comando shell 'chmod' per modificare le autorizzazioni.
+R: Per accedere al bucket S3 privato FSX ONTAP da un'istanza di notebook SageMaker, passare le credenziali AWS alle credenziali FSX ONTAP. Tuttavia, la concessione del permesso di scrittura all'istanza richiede una soluzione alternativa che implica il montaggio del bucket e l'esecuzione del comando shell 'chmod' per modificare le autorizzazioni.
 
-D: Come posso integrare il bucket S3 privato di FSxN con altri servizi ML di SageMaker?
+D: Come posso integrare il bucket S3 privato di FSX ONTAP con altri servizi ML di SageMaker?
 
-R: Purtroppo, SageMaker Services SDK non fornisce un modo per specificare l'endpoint per il bucket S3 privato. Di conseguenza, FSxN S3 non è compatibile con i servizi SageMaker come Sagemaker Data Wrangler, Sagemaker Clarify, Sagemaker Glue, Sagemaker Athena, Sagemaker AutoML, e altri.
+R: Purtroppo, SageMaker Services SDK non fornisce un modo per specificare l'endpoint per il bucket S3 privato. Di conseguenza, FSX ONTAP S3 non è compatibile con i servizi SageMaker come Sagemaker Data Wrangler, Sagemaker Clarify, Sagemaker Glue, Sagemaker Athena, Sagemaker AutoML e altri.

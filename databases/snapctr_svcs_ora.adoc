@@ -24,11 +24,11 @@ Allen Cao, Niyaz Mohamed, NetApp
 
 I servizi SnapCenter sono la versione SaaS del classico tool di interfaccia utente per la gestione dei database SnapCenter disponibile tramite la console di gestione del cloud NetApp BlueXP. È parte integrante dell'offerta NetApp di cloud-backup e protezione dei dati per database come Oracle e HANA in esecuzione su cloud storage NetApp. Questo servizio basato su SaaS semplifica l'implementazione di un server standalone SnapCenter tradizionale, che in genere richiede un server Windows che opera in un ambiente di dominio Windows.
 
-In questa documentazione, illustreremo come configurare i servizi SnapCenter per il backup, il ripristino e la clonazione dei database Oracle distribuiti su Amazon FSX per lo storage ONTAP e le istanze di calcolo EC2. Sebbene sia molto più semplice da configurare e utilizzare, i servizi SnapCenter offrono funzionalità chiave disponibili nel tool precedente dell'interfaccia utente di SnapCenter.
+In questa documentazione, dimostreremo come configurare i SnapCenter Services per il backup, il ripristino e la clonazione di database Oracle implementati nello storage Amazon FSX ONTAP e in istanze di calcolo EC2. Sebbene sia molto più semplice da configurare e utilizzare, i servizi SnapCenter offrono funzionalità chiave disponibili nel tool precedente dell'interfaccia utente di SnapCenter.
 
 Questa soluzione risolve i seguenti casi di utilizzo:
 
-* Backup del database con snapshot per i database Oracle ospitati in Amazon FSX per ONTAP
+* Backup del database con snapshot per database Oracle ospitati in Amazon FSX ONTAP
 * Ripristino del database Oracle in caso di guasto
 * Clonazione rapida ed efficiente in termini di storage dei database primari per un ambiente di sviluppo/test o altri casi di utilizzo
 
@@ -39,10 +39,10 @@ Questa soluzione risolve i seguenti casi di utilizzo:
 
 Questa soluzione è destinata ai seguenti destinatari:
 
-* Il DBA che gestisce i database Oracle in esecuzione su Amazon FSX per lo storage ONTAP
+* I DBA che gestiscono i database Oracle in esecuzione sullo storage Amazon FSX ONTAP
 * Il Solution architect che è interessato a testare il backup, il ripristino e la clonazione del database Oracle nel cloud AWS pubblico
-* L'amministratore dello storage che supporta e gestisce Amazon FSX per lo storage ONTAP
-* Il proprietario dell'applicazione che possiede applicazioni distribuite su Amazon FSX per lo storage ONTAP
+* L'amministratore dello storage che supporta e gestisce lo storage Amazon FSX ONTAP
+* Il proprietario dell'applicazione che possiede le applicazioni implementate nello storage ONTAP Amazon FSX
 
 
 
@@ -101,7 +101,7 @@ Questa immagine offre un quadro dettagliato del backup e recovery di BlueXP per 
 * *Il connettore deve essere implementato nello stesso VPC del database e FSX.* quando possibile, il connettore deve essere implementato nello stesso AWS VPC, che consente la connettività allo storage FSX e all'istanza di calcolo EC2.
 * *Una policy IAM AWS creata per SnapCenter Connector.* la policy in formato JSON è disponibile nella documentazione dettagliata del servizio SnapCenter. Quando si avvia l'implementazione di Connector con la console BlueXP, viene anche richiesto di impostare i prerequisiti con i dettagli dell'autorizzazione richiesta in formato JSON. Il criterio deve essere assegnato all'account utente AWS proprietario del connettore.
 * *La chiave di accesso dell'account AWS e la coppia di chiavi SSH create nell'account AWS.* la coppia di chiavi SSH viene assegnata all'utente ec2 per l'accesso all'host del connettore e l'implementazione di un plug-in del database nell'host del server DB EC2. La chiave di accesso concede l'autorizzazione per il provisioning del connettore richiesto con il criterio IAM di cui sopra.
-* *Una credenziale aggiunta all'impostazione della console BlueXP.* per aggiungere Amazon FSX per ONTAP all'ambiente di lavoro BlueXP, una credenziale che concede i permessi BlueXP per accedere ad Amazon FSX per ONTAP viene impostata nell'impostazione della console BlueXP.
+* *Una credenziale aggiunta all'impostazione della console BlueXP .* Per aggiungere Amazon FSX ONTAP all'ambiente di lavoro BlueXP , viene impostata nell'impostazione della console BlueXP  una credenziale che concede le autorizzazioni BlueXP  per l'accesso ad Amazon FSX ONTAP.
 * *java-11-openjdk installato sull'host di istanza del database EC2.* l'installazione del servizio SnapCenter richiede la versione 11 di java. Deve essere installato sull'host dell'applicazione prima di tentare la distribuzione del plugin.
 
 
@@ -109,11 +109,11 @@ Questa immagine offre un quadro dettagliato del backup e recovery di BlueXP per 
 
 == Implementazione della soluzione
 
-È disponibile un'ampia documentazione NetApp con un ambito più ampio per aiutarti a proteggere i dati delle applicazioni native del cloud. L'obiettivo di questa documentazione è fornire procedure passo-passo che coprano l'implementazione del servizio SnapCenter con la console BlueXP per proteggere il database Oracle distribuito su Amazon FSX per ONTAP e un'istanza di calcolo EC2. Questo documento contiene alcuni dettagli che potrebbero non essere presenti nelle istruzioni più generali.
+È disponibile un'ampia documentazione NetApp con un ambito più ampio per aiutarti a proteggere i dati delle applicazioni native del cloud. L'obiettivo di questa documentazione è fornire procedure dettagliate relative alla distribuzione dei servizi SnapCenter con la console BlueXP  per proteggere il database Oracle distribuito su Amazon FSX ONTAP e un'istanza di calcolo EC2. Questo documento contiene alcuni dettagli che potrebbero non essere presenti nelle istruzioni più generali.
 
 Per iniziare, attenersi alla seguente procedura:
 
-* Leggere le istruzioni generali link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/concept-protect-cloud-app-data-to-cloud.html#architecture["Proteggi i dati delle tue applicazioni native nel cloud"^] E le sezioni relative a Oracle e Amazon FSX per ONTAP.
+* Leggi le istruzioni generali link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/concept-protect-cloud-app-data-to-cloud.html#architecture["Proteggi i dati delle tue applicazioni native nel cloud"^]e le sezioni relative a Oracle e Amazon FSX ONTAP.
 * Guarda il video seguente.
 
 
@@ -128,9 +128,9 @@ video::4b0fd212-7641-46b8-9e55-b01200f9383a[panopto]
 L'implementazione richiede i seguenti prerequisiti.
 
 . Un server database Oracle primario su un'istanza EC2 con un database Oracle completamente implementato e in esecuzione.
-. Un cluster Amazon FSX per ONTAP implementato in AWS che ospita i volumi di database qui sopra.
+. Un cluster Amazon FSX ONTAP implementato in AWS che ospita i volumi dei database qui sopra.
 . Un server di database opzionale su un'istanza EC2, utilizzabile per il test del cloning di un database Oracle su un host alternativo al fine di supportare un carico di lavoro di sviluppo/test o qualsiasi caso d'utilizzo che richiede un set di dati completo di un database Oracle di produzione.
-. Se hai bisogno di aiuto per soddisfare i prerequisiti sopra indicati per l'implementazione del database Oracle su Amazon FSX per ONTAP e istanze di calcolo EC2, consulta link:aws_ora_fsx_ec2_iscsi_asm.html["Implementazione e protezione di database Oracle in AWS FSX/EC2 con iSCSI/ASM"^] o white paper link:aws_ora_fsx_ec2_deploy_intro.html["Oracle Database Deployment su EC2 e FSX Best Practice"^]
+. Se hai bisogno di assistenza per soddisfare i prerequisiti indicati in precedenza per la distribuzione dei database Oracle su un'istanza di calcolo Amazon FSX ONTAP e EC2, consulta link:aws_ora_fsx_ec2_iscsi_asm.html["Implementazione e protezione di database Oracle in AWS FSX/EC2 con iSCSI/ASM"^] o white paper link:aws_ora_fsx_ec2_deploy_intro.html["Oracle Database Deployment su EC2 e FSX Best Practice"^]
 
 
 ====
@@ -256,21 +256,21 @@ image:snapctr_svcs_setup_01.png["Schermata che mostra questo passaggio nella GUI
 
 image:snapctr_svcs_setup_02.png["Schermata che mostra questo passaggio nella GUI."]
 
-. Fai clic su *Scopri esistente* accanto a *Amazon FSX per ONTAP*.
+. Fare clic su *Scopri esistente* accanto a *Amazon FSX ONTAP*.
 
 
 image:snapctr_svcs_setup_03.png["Schermata che mostra questo passaggio nella GUI."]
 
-. Seleziona il *Nome credenziali* creato nella sezione precedente per assegnare ad BlueXP le autorizzazioni necessarie per gestire FSX per ONTAP. Se non sono state aggiunte credenziali, è possibile aggiungerle dal menu *Settings* (Impostazioni) nell'angolo superiore destro della console BlueXP.
+. Selezionare il *Nome credenziali* creato nella sezione precedente per concedere a BlueXP  le autorizzazioni necessarie per gestire FSX ONTAP. Se non sono state aggiunte credenziali, è possibile aggiungerle dal menu *Settings* (Impostazioni) nell'angolo superiore destro della console BlueXP.
 +
 image:snapctr_svcs_setup_04.png["Schermata che mostra questo passaggio nella GUI."]
 
-. Scegliere la regione AWS in cui viene implementato Amazon FSX per ONTAP, selezionare il cluster FSX che ospita il database Oracle e fare clic su Aggiungi.
+. Scegli la regione AWS in cui viene implementato Amazon FSX ONTAP, seleziona il cluster FSX che ospita il database Oracle e fai clic su Aggiungi.
 
 
 image:snapctr_svcs_setup_05.png["Schermata che mostra questo passaggio nella GUI."]
 
-. L'istanza scoperta di Amazon FSX per ONTAP viene ora visualizzata nell'ambiente di lavoro.
+. L'istanza di Amazon FSX ONTAP rilevata viene ora visualizzata nell'ambiente di lavoro.
 
 
 image:snapctr_svcs_setup_06.png["Schermata che mostra questo passaggio nella GUI."]
@@ -280,7 +280,7 @@ image:snapctr_svcs_setup_06.png["Schermata che mostra questo passaggio nella GUI
 
 image:snapctr_svcs_setup_07.png["Schermata che mostra questo passaggio nella GUI."]
 
-. Dopo aver effettuato l'accesso ad Amazon FSX per ONTAP, esaminare le informazioni di storage del database (ad esempio i volumi del database).
+. Dopo aver effettuato l'accesso ad Amazon FSX ONTAP, esaminare le informazioni sullo storage del database (come i volumi del database).
 
 
 image:snapctr_svcs_setup_08.png["Schermata che mostra questo passaggio nella GUI."]
@@ -449,7 +449,7 @@ link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.htmll["https:
 
 link:https://docs.netapp.com/us-en/cloud-manager-backup-restore/index.html["https://docs.netapp.com/us-en/cloud-manager-backup-restore/index.html"^]
 
-* Amazon FSX per NetApp ONTAP
+* Amazon FSX ONTAP
 
 
 link:https://aws.amazon.com/fsx/netapp-ontap/["https://aws.amazon.com/fsx/netapp-ontap/"^]

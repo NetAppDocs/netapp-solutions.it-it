@@ -107,15 +107,15 @@ ssh -i ora-db1v2.pem ec2-user@54.80.114.77
 
 
 
-== Provisioning di FSX per file system ONTAP per lo storage di database Oracle
+== Esegui il provisioning dei file system FSX ONTAP per lo storage del database Oracle
 
-L'implementazione dell'istanza EC2 assegna un volume root EBS per il sistema operativo. FSX per file system ONTAP fornisce volumi di storage per database Oracle, inclusi volumi binari, dati e log Oracle. È possibile eseguire il provisioning dei volumi NFS dello storage FSX dalla console AWS FSX o dall'installazione di Oracle e l'automazione della configurazione che assegna i volumi come l'utente configura in un file di parametri di automazione.
+L'implementazione dell'istanza EC2 assegna un volume root EBS per il sistema operativo. I file system FSX ONTAP offrono volumi di storage dei database Oracle, inclusi i volumi binari, di dati e di log di Oracle. È possibile eseguire il provisioning dei volumi NFS dello storage FSX dalla console AWS FSX o dall'installazione di Oracle e l'automazione della configurazione che assegna i volumi come l'utente configura in un file di parametri di automazione.
 
 
 
-=== Creazione di FSX per file system ONTAP
+=== Creazione di file system FSX ONTAP
 
-Si fa riferimento alla presente documentazione https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-file-systems.html["Gestione di FSX per file system ONTAP"^] Per la creazione di file system FSX per ONTAP.
+Si è fatto riferimento a questa documentazione https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-file-systems.html["Gestione dei file system FSX ONTAP"^] per la creazione di file system FSX ONTAP.
 
 Considerazioni principali:
 
@@ -136,7 +136,7 @@ Per la configurazione di un cluster ha FSX primario o di standby, consultare le 
 +
 image:aws_ora_fsx_ec2_stor_01.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-. Selezionare Amazon FSX per NetApp ONTAP. Quindi fare clic su Next (Avanti).
+. Seleziona Amazon FSX ONTAP. Quindi fare clic su Next (Avanti).
 +
 image:aws_ora_fsx_ec2_stor_02.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
@@ -170,7 +170,7 @@ image:aws_ora_fsx_ec2_stor_08.png["Figura che mostra la finestra di dialogo inpu
 
 === Provisioning dei volumi di database per il database Oracle
 
-Vedere link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-volumes.html["Gestione di FSX per volumi ONTAP - creazione di un volume"^] per ulteriori informazioni.
+Per ulteriori informazioni, vedere link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-volumes.html["Gestione di FSX ONTAP Volumes - creazione di un volume"^] .
 
 Considerazioni principali:
 

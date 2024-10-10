@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: ai/vector-database-milvus-with-Amazon-FSxN-for-NetApp-ONTAP.html 
 keywords: vector database 
-summary: milvus con Amazon FSxN per NetApp ONTAP - soluzione di database vettoriale per NetApp 
+summary: milvus con Amazon FSX ONTAP per NetApp ONTAP - soluzione di database vettoriale per NetApp 
 ---
-= Milvus con Amazon FSxN per NetApp ONTAP - dualità di file e oggetti
+= Milvus con Amazon FSX ONTAP per NetApp ONTAP - dualità di file e oggetti
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,23 +14,22 @@ summary: milvus con Amazon FSxN per NetApp ONTAP - soluzione di database vettori
 
 
 [role="lead"]
-In questa sezione viene illustrata la configurazione del cluster milvus con Amazon FSxN per la soluzione di database vettoriale per NetApp.
+In questa sezione viene illustrata la configurazione del cluster milvus con Amazon FSX ONTAP per la soluzione di database vettoriale per NetApp.
 
 
 
-== Milvus con Amazon FSxN per NetApp ONTAP – dualismo di file e oggetti
+== Milvus con Amazon FSX ONTAP per NetApp ONTAP – dualismo di file e oggetti
 
-In questa sezione, perché è necessario implementare il database vettoriale nel cloud e i passaggi per distribuire il database vettoriale ( milvus standalone) in Amazon FSxN per NetApp ONTAP all'interno dei contenitori docker.
+In questa sezione, perché è necessario implementare il database vettoriale nel cloud e i passaggi per distribuire il database vettoriale (milvus standalone) in Amazon FSX ONTAP per NetApp ONTAP all'interno dei contenitori docker.
 
-L'implementazione di un database vettoriale nel cloud offre diversi vantaggi significativi, in particolare per le applicazioni che richiedono la gestione di dati ad alta dimensione e l'esecuzione di ricerche di similarità. Innanzitutto, l'implementazione basata sul cloud offre scalabilità, consentendo una facile regolazione delle risorse in base ai volumi di dati in crescita e ai carichi di query. In questo modo, il database può gestire in modo efficiente l'aumento della domanda mantenendo al contempo prestazioni elevate. In secondo luogo, l'implementazione del cloud offre high Availability e disaster recovery, poiché i dati possono essere replicati in diverse posizioni geografiche, riducendo al minimo il rischio di perdita di dati e garantendo un servizio continuo anche in eventi imprevisti. In terzo luogo, garantisce convenienza, poiché si paga solo per le risorse utilizzate e si può scalare in verticale o in orizzontale in base alla domanda, evitando la necessità di investimenti anticipati sostanziali in hardware. Infine, l'implementazione di un database vettoriale nel cloud può migliorare la collaborazione, poiché i dati possono essere accessibili e condivisi da qualsiasi luogo, facilitando il lavoro di gruppo e il processo decisionale basato sui dati.
-Controllare l'architettura del milvus standalone con Amazon FSxN per NetApp ONTAP utilizzato in questa convalida.
+L'implementazione di un database vettoriale nel cloud offre diversi vantaggi significativi, in particolare per le applicazioni che richiedono la gestione di dati ad alta dimensione e l'esecuzione di ricerche di similarità. Innanzitutto, l'implementazione basata sul cloud offre scalabilità, consentendo una facile regolazione delle risorse in base ai volumi di dati in crescita e ai carichi di query. In questo modo, il database può gestire in modo efficiente l'aumento della domanda mantenendo al contempo prestazioni elevate. In secondo luogo, l'implementazione del cloud offre high Availability e disaster recovery, poiché i dati possono essere replicati in diverse posizioni geografiche, riducendo al minimo il rischio di perdita di dati e garantendo un servizio continuo anche in eventi imprevisti. In terzo luogo, garantisce convenienza, poiché si paga solo per le risorse utilizzate e si può scalare in verticale o in orizzontale in base alla domanda, evitando la necessità di investimenti anticipati sostanziali in hardware. Infine, l'implementazione di un database vettoriale nel cloud può migliorare la collaborazione, poiché i dati possono essere accessibili e condivisi da qualsiasi luogo, facilitando il lavoro di gruppo e il processo decisionale basato sui dati. Controllare l'architettura del milvus standalone con Amazon FSX ONTAP per NetApp ONTAP utilizzato in questa convalida.
 
 image:Amazon_fsxn_milvus.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-. Creare un'istanza di Amazon FSxN for NetApp ONTAP e annotare i dettagli di VPC, gruppi di sicurezza VPC e subnet. Queste informazioni saranno necessarie quando si crea un'istanza EC2. Puoi trovare ulteriori dettagli qui - https://us-east-1.console.aws.amazon.com/fsx/home?region=us-east-1#file-system-create[]
-. Creare un'istanza EC2, verificando che VPC, gruppi di sicurezza e subnet corrispondano a quelli dell'istanza Amazon FSxN per NetApp ONTAP.
+. Creare un'istanza di Amazon FSX ONTAP per NetApp ONTAP e annotare i dettagli di VPC, gruppi di sicurezza VPC e subnet. Queste informazioni saranno necessarie quando si crea un'istanza EC2. Puoi trovare ulteriori dettagli qui - https://us-east-1.console.aws.amazon.com/fsx/home?region=us-east-1#file-system-create[]
+. Creare un'istanza EC2, accertandosi che VPC, gruppi di sicurezza e subnet corrispondano a quelli dell'istanza di Amazon FSX ONTAP per NetApp ONTAP.
 . Installare nfs-common usando il comando 'apt-get install nfs-common' e aggiornare le informazioni sui pacchetti usando 'sudo apt-get update'.
-. Creare una cartella di montaggio e montare su di essa Amazon FSxN per NetApp ONTAP.
+. Creare una cartella di montaggio e montare su di essa Amazon FSX ONTAP per NetApp ONTAP.
 +
 ....
 ubuntu@ip-172-31-29-98:~$ mkdir /home/ubuntu/milvusvectordb
@@ -83,8 +82,8 @@ drwxr-xr-x 4 root root 4.0K Apr  4 20:21 minio
 drwxr-xr-x 5 root root 4.0K Apr  4 20:21 milvus
 ubuntu@ip-172-31-29-98:~$
 ----
-. Per convalidare la funzionalità di lettura e scrittura del database vettoriale e dei relativi dati in Amazon FSxN per NetApp ONTAP, abbiamo utilizzato l'SDK Python Milvus e un programma di esempio di PyMilvus. Installare i pacchetti necessari usando 'apt-get install python3-numpy python3-pip' e installare PyMilvus usando 'pip3 install pymilvus'.
-. Convalidare le operazioni di scrittura e lettura dei dati da Amazon FSxN per NetApp ONTAP nel database vettoriale.
+. Per convalidare la funzionalità di lettura e scrittura del database vettoriale e dei relativi dati in Amazon FSX ONTAP per NetApp ONTAP, abbiamo utilizzato l'SDK Python Milvus e un programma di esempio di PyMilvus. Installare i pacchetti necessari usando 'apt-get install python3-numpy python3-pip' e installare PyMilvus usando 'pip3 install pymilvus'.
+. Convalidare le operazioni di scrittura e lettura dei dati da Amazon FSX ONTAP per NetApp ONTAP nel database vettoriale.
 +
 [source, python]
 ----
@@ -195,6 +194,6 @@ volumes/minio/a-bucket/files/stats_log/448789845791611912/448789845791611913/448
 root@ip-172-31-29-98:~/pymilvus/examples#
 ----
 +
-Questa sezione dimostra in modo efficace come i clienti possono implementare e utilizzare un setup Milvus standalone all'interno dei container Docker, utilizzando la funzione FSxN di Amazon NetApp per lo storage dei dati NetApp ONTAP. Il setup consente ai clienti di sfruttare la potenza dei database vettoriali per la gestione dei dati ad alta dimensione e l'esecuzione di query complesse, il tutto all'interno dell'ambiente scalabile ed efficiente dei container Docker. Creando un'istanza di Amazon FSxN per NetApp ONTAP e abbinando l'istanza di EC2, i clienti possono garantire un utilizzo ottimale delle risorse e la gestione dei dati. La convalida riuscita delle operazioni di scrittura e lettura dei dati da parte di FSxN nel database vettoriale fornisce ai clienti la garanzia di operazioni di dati affidabili e coerenti. Inoltre, la possibilità di elencare (leggere) i dati dai workload ai tramite il protocollo S3 offre una migliore accessibilità dei dati. Questo processo completo, pertanto, fornisce ai clienti una soluzione solida ed efficiente per gestire le loro operazioni di dati su larga scala, sfruttando le capacità di FSxN di Amazon per NetApp ONTAP.
+Questa sezione dimostra in modo efficace come i clienti possono implementare e utilizzare una configurazione Milvus standalone all'interno dei container Docker, utilizzando Amazon NetApp FSX ONTAP per lo storage dei dati NetApp ONTAP. Il setup consente ai clienti di sfruttare la potenza dei database vettoriali per la gestione dei dati ad alta dimensione e l'esecuzione di query complesse, il tutto all'interno dell'ambiente scalabile ed efficiente dei container Docker. Creando un'istanza di Amazon FSX ONTAP per NetApp ONTAP e una corrispondente istanza di EC2, i clienti possono garantire un utilizzo ottimale delle risorse e una gestione dei dati. La convalida riuscita delle operazioni di scrittura e lettura dei dati da FSX ONTAP nel database vettoriale fornisce ai clienti la garanzia di operazioni di dati affidabili e coerenti. Inoltre, la possibilità di elencare (leggere) i dati dai workload ai tramite il protocollo S3 offre una migliore accessibilità dei dati. Questo processo completo, pertanto, offre ai clienti una soluzione solida ed efficiente per gestire le loro operazioni sui dati su larga scala, sfruttando le funzionalità di Amazon FSX ONTAP per NetApp ONTAP.
 
 

@@ -4,7 +4,7 @@ permalink: ehc/dro-overview.html
 keywords: NetApp Solutions, hybrid, multicloud, multi cloud, hyperscalers, vmware, disaster recovery orchestrator, DRO 
 summary:  
 ---
-= TR-4955: Disaster recovery con FSX per ONTAP e VMC (AWS VMware Cloud)
+= TR-4955: Disaster recovery con FSX ONTAP e VMC (cloud AWS VMware)
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-Il disaster recovery nel cloud è un metodo resiliente e conveniente per proteggere i carichi di lavoro da interruzioni del sito ed eventi di corruzione dei dati (ad esempio ransomware). Con la tecnologia NetApp SnapMirror, i carichi di lavoro VMware on-premise possono essere replicati su FSX per ONTAP in esecuzione in AWS.
+Il disaster recovery nel cloud è un metodo resiliente e conveniente per proteggere i carichi di lavoro da interruzioni del sito ed eventi di corruzione dei dati (ad esempio ransomware). Con la tecnologia NetApp SnapMirror, i workload VMware on-premise possono essere replicati in FSX ONTAP in AWS.
 
 Niyaz Mohamed, NetApp
 
@@ -22,9 +22,9 @@ Niyaz Mohamed, NetApp
 
 == Panoramica
 
-È possibile utilizzare Disaster Recovery Orchestrator (DRO, una soluzione basata su script con interfaccia utente) per ripristinare senza problemi i carichi di lavoro replicati da on-premise a FSX per ONTAP. DRO automatizza il ripristino dal livello SnapMirror, attraverso la registrazione delle macchine virtuali su VMC, fino alle mappature di rete direttamente su NSX-T. Questa funzione è inclusa in tutti gli ambienti VMC.
+È possibile utilizzare DR (Disaster Recovery Orchestrator), una soluzione con script e interfaccia utente, per ripristinare perfettamente i carichi di lavoro replicati dalle strutture on-premise in FSX ONTAP. DRO automatizza il ripristino dal livello SnapMirror, tramite la registrazione della VM al VMC, alle mappature di rete direttamente su NSX-T. questa funzione è inclusa in tutti gli ambienti VMC.
 
-image:dro-vmc-image1.png["Questa immagine mostra la struttura e le interconnessioni tra un data center on-premise, un'istanza di VMware Cloud su SDDC AWS e Amazon FSX per NetApp ONTAP. Ciò include la replica SnapMirror, il traffico DRaaS Ops, la connessione Internet o diretta e VMware Transit Connect."]
+image:dro-vmc-image1.png["Questo grafico illustra la struttura e le interconnessioni tra un data center on-premise, un'istanza di VMware Cloud su AWS SDDC e Amazon FSX ONTAP. Ciò include la replica SnapMirror, il traffico DRaaS Ops, la connessione Internet o diretta e VMware Transit Connect."]
 
 
 
@@ -41,15 +41,15 @@ NOTE: Nella versione iniziale, DRO supporta un cluster pilota-light esistente. L
 
 
 
-=== Provisioning e configurazione di FSX per ONTAP
+=== Esegui il provisioning e configura FSX ONTAP
 
-Amazon FSX per NetApp ONTAP è un servizio completamente gestito che offre un file storage altamente affidabile, scalabile, dalle performance elevate e ricco di funzionalità, basato sul popolare file system ONTAP di NetApp. Seguire questa procedura link:aws-native-overview.html["collegamento"^] Per eseguire il provisioning e la configurazione di FSX per ONTAP.
+Amazon FSX ONTAP è un servizio completamente gestito che offre un file storage altamente affidabile, scalabile, dalle performance elevate e ricco di funzionalità, costruito sul popolare file system NetApp ONTAP. Per eseguire il provisioning e la configurazione di FSX ONTAP, procedere come seguelink:aws-native-overview.html["collegamento"^].
 
 
 
-=== Implementare e configurare SnapMirror in FSX per ONTAP
+=== Implementa e configura SnapMirror in FSX ONTAP
 
-Il passaggio successivo consiste nell'utilizzare NetApp BlueXP e individuare FSX per ONTAP su istanza AWS e replicare i volumi datastore desiderati da un ambiente on-premise a FSX per ONTAP con la frequenza appropriata e la conservazione delle copie Snapshot di NetApp:
+Il passaggio successivo è utilizzare NetApp BlueXP  e scoprire l'istanza di FSX ONTAP su AWS sottoposta a provisioning e replicare i volumi del datastore desiderati da un ambiente on-premise in FSX ONTAP con la frequenza appropriata e la Snapshot retention di NetApp:
 
 image:dro-vmc-image2.png["Questa immagine mostra la mappa delle relazioni di BlueXP Canvas che mostra le varie interazioni tra i servizi abilitati."]
 
@@ -144,9 +144,9 @@ image:dro-vmc-image3.png["Schermata di accesso a Disaster Recovery Orchestrator.
 
 == Configurazione DRO
 
-Dopo aver configurato correttamente FSX per ONTAP e VMC, è possibile iniziare a configurare DRO per automatizzare il ripristino dei carichi di lavoro on-premise su VMC utilizzando le copie SnapMirror di sola lettura su FSX per ONTAP.
+Una volta configurate correttamente FSX ONTAP e VMC, è possibile iniziare a configurare DRO per automatizzare il ripristino dei workload on-premise in VMC utilizzando le copie SnapMirror di sola lettura in FSX ONTAP.
 
-NetApp consiglia di implementare l'agente DRO in AWS e anche sullo stesso VPC in cui viene implementato FSX per ONTAP (può anche essere collegato in modo peer), In modo che l'agente DRO possa comunicare attraverso la rete con i componenti on-premise e con le risorse FSX per ONTAP e VMC.
+NetApp consiglia di distribuire l'agente DRO in AWS e anche sullo stesso VPC in cui è installato FSX ONTAP (può essere connesso anche da peer), in modo che l'agente DRO possa comunicare tramite la rete con i componenti locali e con le risorse FSX ONTAP e VMC.
 
 Il primo passo è scoprire e aggiungere le risorse on-premise e cloud (vCenter e storage) a DRO. Aprire DRO in un browser supportato e utilizzare il nome utente e la password predefiniti (admin/admin) e Add Sites (Aggiungi siti). I siti possono essere aggiunti anche utilizzando l'opzione Discover. Aggiungere le seguenti piattaforme:
 
@@ -159,7 +159,7 @@ Il primo passo è scoprire e aggiungere le risorse on-premise e cloud (vCenter e
 * Cloud
 +
 ** VMC vCenter
-** FSX per ONTAP
+** ONTAP FSX
 
 
 
@@ -168,7 +168,7 @@ image:dro-vmc-image4.png["Descrizione dell'immagine segnaposto temporanea."]
 
 image:dro-vmc-image5.png["Pagina panoramica del sito DRO contenente i siti di origine e destinazione."]
 
-Una volta aggiunto, DRO esegue il rilevamento automatico e visualizza le macchine virtuali con le repliche SnapMirror corrispondenti dallo storage di origine a FSX per ONTAP. DRO rileva automaticamente le reti e i portgroup utilizzati dalle macchine virtuali e li popola.
+Una volta aggiunto, DRO esegue il rilevamento automatico e visualizza le macchine virtuali con repliche SnapMirror corrispondenti dallo storage di origine in FSX ONTAP. DRO rileva automaticamente le reti e i portgroup utilizzati dalle macchine virtuali e li popola.
 
 image:dro-vmc-image6.png["Schermata di rilevamento automatico contenente 219 VM e 10 datastore."]
 
@@ -259,7 +259,7 @@ Una volta completato, è possibile attivare il failback per tornare al sito di p
 
 image:dro-vmc-image20.png["Schermata della panoramica del piano di replica con menu a discesa contenente l'opzione di failover."] image:dro-vmc-image21.png["Schermata della pagina di riepilogo di DRO con il sito di produzione originale in funzione."]
 
-Da NetApp BlueXP, possiamo notare che lo stato di salute della replica è stato interrotto per i volumi appropriati (quelli mappati a VMC come volumi di lettura/scrittura). Durante il failover di test, DRO non esegue il mapping del volume di destinazione o di replica. Invece, crea una copia FlexClone dell'istanza SnapMirror (o Snapshot) richiesta ed espone l'istanza FlexClone, che non consuma ulteriore capacità fisica per FSX per ONTAP. Questo processo garantisce che il volume non venga modificato e che i processi di replica possano continuare anche durante i test di DR o i flussi di lavoro di triage. Inoltre, questo processo garantisce che, in caso di errori o di ripristino di dati corrotti, il ripristino possa essere pulito senza il rischio di distruzione della replica.
+Da NetApp BlueXP, possiamo notare che lo stato di salute della replica è stato interrotto per i volumi appropriati (quelli mappati a VMC come volumi di lettura/scrittura). Durante il failover di test, DRO non esegue il mapping del volume di destinazione o di replica. Crea invece una copia FlexClone dell'istanza SnapMirror (o Snapshot) richiesta ed espone l'istanza FlexClone, che non consuma capacità fisica aggiuntiva per FSX ONTAP. Questo processo garantisce che il volume non venga modificato e che i processi di replica possano continuare anche durante i test di DR o i flussi di lavoro di triage. Inoltre, questo processo garantisce che, in caso di errori o di ripristino di dati corrotti, il ripristino possa essere pulito senza il rischio di distruzione della replica.
 
 image:dro-vmc-image22.png["Descrizione dell'immagine segnaposto temporanea."]
 

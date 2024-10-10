@@ -14,23 +14,23 @@ summary:
 
 
 [role="lead"]
-Una volta che VMware Cloud è pronto e connesso ad AWS VPC, è necessario implementare Amazon FSX per NetApp ONTAP in un nuovo VPC designato piuttosto che nel VPC predefinito originale connesso o esistente.
+Dopo che VMware Cloud è pronto e connesso al VPC AWS, devi implementare Amazon FSX ONTAP in un VPC appena designato, piuttosto che il VPC originale, connesso o predefinito esistente.
 
-Per iniziare, implementa un VPC aggiuntivo nella stessa regione e zona di disponibilità in cui risiede SDDC, quindi implementa Amazon FSX per NetApp ONTAP nel nuovo VPC. https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-6B20CA3B-ABCD-4939-9176-BCEA44473C2B.html["Configurazione di un gruppo SDDC in VMware Cloud"^] Console abilita le opzioni di configurazione di rete necessarie per connettersi al nuovo VPC designato in cui verrà implementato FSX per ONTAP.
-
-
-NOTE: Implementare FSX per ONTAP nella stessa area disponibile di VMware Cloud su SDDC AWS.
+Per iniziare, implementa un VPC aggiuntivo nella stessa regione e zona di disponibilità in cui risiede SDDC, quindi implementa Amazon FSX ONTAP nel nuovo VPC. https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-6B20CA3B-ABCD-4939-9176-BCEA44473C2B.html["Configurazione di un gruppo SDDC in VMware Cloud"^] Console abilita le opzioni di configurazione di rete necessarie per connettersi al VPC appena designato in cui verrà distribuito FSX ONTAP.
 
 
-NOTE: Non è possibile implementare FSX per ONTAP nel VPC connesso. È invece necessario implementarlo in un nuovo VPC designato e quindi collegarlo a un VMware Managed Transit Gateway (vTGW) tramite gruppi SDDC.
+NOTE: Implementa FSX ONTAP nella stessa zona disponibile di VMware Cloud su AWS SDDC.
 
-.Fase 1: Creazione di Amazon FSX per ONTAP in un nuovo VPC designato
+
+NOTE: Non è possibile distribuire FSX ONTAP nel VPC connesso. È invece necessario implementarlo in un nuovo VPC designato e quindi collegarlo a un VMware Managed Transit Gateway (vTGW) tramite gruppi SDDC.
+
+.Passaggio 1: Creare Amazon FSX ONTAP in un nuovo VPC designato
 [%collapsible]
 ====
-Per creare e montare il file system Amazon FSX per NetApp ONTAP, attenersi alla seguente procedura:
+Per creare e montare il file system Amazon FSX ONTAP, attenersi alla seguente procedura:
 
 . Aprire la console Amazon FSX all'indirizzo `https://console.aws.amazon.com/fsx/` E scegliere *Crea file system* per avviare la procedura guidata *creazione file system*.
-. Nella pagina Seleziona tipo di file system, selezionare *Amazon FSX per NetApp ONTAP*, quindi fare clic su *Avanti*. Viene visualizzata la pagina *Create file System* (Crea file system).
+. Nella pagina Seleziona tipo file system, seleziona *Amazon FSX ONTAP*, quindi fai clic su *Avanti*. Viene visualizzata la pagina *Create file System* (Crea file system).
 +
 image:fsx-nfs-image2.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
@@ -52,7 +52,7 @@ NOTE: Assicurarsi che si tratti di un nuovo VPC designato e non del VPC collegat
 
 +
 
-NOTE: Per impostazione predefinita, FSX per ONTAP utilizza 198.19.0.0/16 come intervallo di indirizzi IP dell'endpoint predefinito per il file system. Assicurarsi che l'intervallo di indirizzi IP degli endpoint non sia in conflitto con il VMC sull'SDDC AWS, le subnet VPC associate e l'infrastruttura on-premise. In caso di dubbi, utilizzare un intervallo non sovrapposto senza conflitti.
+NOTE: Per impostazione predefinita, FSX ONTAP utilizza 198.19.0.0/16 come intervallo di indirizzi IP endpoint predefinito per il file system. Assicurarsi che l'intervallo di indirizzi IP degli endpoint non sia in conflitto con il VMC sull'SDDC AWS, le subnet VPC associate e l'infrastruttura on-premise. In caso di dubbi, utilizzare un intervallo non sovrapposto senza conflitti.
 
 +
 image:fsx-nfs-image5.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
@@ -146,7 +146,7 @@ NOTE: Ripetere i passaggi precedenti per creare più macchine virtuali o file sy
 
 
 
-Per ulteriori informazioni sulle prestazioni di Amazon FSX per ONTAP, consulta https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["Performance di Amazon FSX per NetApp ONTAP"^].
+Per ulteriori informazioni sulle prestazioni di Amazon FSX ONTAP, consulta https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["Performance di Amazon FSX ONTAP"^].
 
 ====
 .Fase 2: Creazione del gruppo SDDC
@@ -177,7 +177,7 @@ image:fsx-nfs-image14.png["Figura che mostra la finestra di dialogo input/output
 
 . Fare clic su *Aggiungi account*.
 +
-.. Fornire l'account AWS utilizzato per il provisioning del file system FSX per ONTAP.
+.. Fornire l'account AWS utilizzato per il provisioning del file system FSX ONTAP.
 .. Fare clic su *Aggiungi*.
 
 
@@ -201,7 +201,7 @@ image:fsx-nfs-image16.png["Figura che mostra la finestra di dialogo input/output
 [%collapsible]
 ====
 . Nella console AWS, accedere alla pagina del servizio VPC e accedere al VPC utilizzato per il provisioning del file system FSX. In questo punto, è possibile creare un allegato del gateway di transito facendo clic su *Transit Gateway Attachment* (collegamento gateway di transito) nel riquadro di navigazione a destra.
-. Nella sezione *allegato VPC*, assicurarsi che sia selezionata l'opzione supporto DNS e selezionare il VPC in cui è stato implementato FSX per ONTAP.
+. In *collegamento VPC*, assicurarsi che il supporto DNS sia selezionato e selezionare il VPC in cui è stato distribuito FSX ONTAP.
 +
 image:fsx-nfs-image17.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
@@ -222,7 +222,7 @@ NOTE: La visualizzazione di questa opzione potrebbe richiedere alcuni minuti.
 
 . Quindi, nella scheda *External VPC* della colonna *routes*, fare clic sull'opzione *Add routes* (Aggiungi percorsi) e aggiungere i percorsi richiesti:
 +
-** Un percorso per l'intervallo IP mobile per Amazon FSX per gli IP mobili NetApp ONTAP.
+** Un percorso per l'intervallo IP mobile per gli IP mobili di Amazon FSX ONTAP.
 ** Un percorso per lo spazio di indirizzi VPC esterno appena creato.
 +
 image:fsx-nfs-image21.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
@@ -254,7 +254,7 @@ image:fsx-nfs-image25.png["Figura che mostra la finestra di dialogo input/output
 
 +
 
-NOTE: Verificare che la tabella di routing VPC (dove risiede FSX per ONTAP) sia aggiornata per evitare problemi di connettività.
+NOTE: Verificare che la tabella di routing VPC (dove si trova FSX ONTAP) sia aggiornata per evitare problemi di connettività.
 
 +
 

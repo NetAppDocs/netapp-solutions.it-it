@@ -20,34 +20,34 @@ AWS supporta lo storage NetApp connesso agli ospiti con il servizio FSX nativo (
 
 == ONTAP FSX
 
-Amazon FSX per NetApp ONTAP è un servizio completamente gestito che offre un file storage altamente affidabile, scalabile, dalle performance elevate e ricco di funzionalità, basato sul popolare file system ONTAP di NetApp. FSX per ONTAP combina le funzionalità, le performance, le funzionalità e le operazioni API dei file system NetApp con l'agilità, la scalabilità e la semplicità di un servizio AWS completamente gestito.
+Amazon FSX ONTAP è un servizio completamente gestito che offre un file storage altamente affidabile, scalabile, dalle performance elevate e ricco di funzionalità, costruito sul popolare file system ONTAP di NetApp. FSX ONTAP combina le caratteristiche, le performance, le capacità e le operazioni API note dei file system NetApp con l'agilità, la scalabilità e la semplicità di un servizio AWS completamente gestito.
 
-FSX per ONTAP offre uno storage di file condiviso ricco di funzionalità, rapido e flessibile, ampiamente accessibile dalle istanze di calcolo Linux, Windows e macOS eseguite in AWS o on-premise. FSX per ONTAP offre storage a stato solido (SSD) dalle performance elevate con latenze sotto al millisecondo. Con FSX per ONTAP, puoi ottenere livelli di performance SSD per il tuo carico di lavoro pagando allo stesso tempo lo storage SSD per una piccola frazione dei tuoi dati.
+FSX ONTAP offre un file storage condiviso ricco di funzionalità, rapido e flessibile, altamente accessibile da istanze di calcolo Linux, Windows e macOS in esecuzione in AWS o on-premise. FSX ONTAP offre uno storage su dischi a stato solido (SSD) dalle performance elevate con latenze sotto al millisecondo. Con FSX ONTAP, puoi ottenere livelli di performance SSD per il tuo carico di lavoro, pagando per lo storage SSD solo per una piccola frazione dei dati.
 
-La gestione dei dati con FSX per ONTAP è più semplice perché puoi creare snapshot, clonare e replicare i file con un semplice clic. Inoltre, FSX per ONTAP esegue automaticamente il Tier dei dati per uno storage elastico e a basso costo, riducendo la necessità di eseguire il provisioning o la gestione della capacità.
+Gestire i dati con FSX ONTAP è più semplice perché puoi snapshot, clonazione e replica i file con un semplice clic. Inoltre, FSX ONTAP esegue automaticamente il tiering dei dati su uno storage elastico e a basso costo, riducendo la necessità di eseguire il provisioning o gestire la capacità.
 
-FSX per ONTAP offre inoltre storage altamente disponibile e durevole con backup completamente gestiti e supporto per il disaster recovery multiregione. Per semplificare la protezione e la protezione dei dati, FSX per ONTAP supporta le applicazioni antivirus e di sicurezza dei dati più diffuse.
+FSX ONTAP offre inoltre storage altamente disponibile e duraturo con backup completamente gestiti e supporto per il disaster recovery tra più aree. Per semplificare la protezione e la protezione dei dati, FSX ONTAP supporta le più diffuse applicazioni antivirus e di sicurezza dei dati.
 
 
 
 === FSX ONTAP come storage connesso guest
 
-.Configurare Amazon FSX per NetApp ONTAP con VMware Cloud su AWS
+.Configura Amazon FSX ONTAP con VMware Cloud su AWS
 [%collapsible]
 ====
-Le condivisioni e le LUN dei file ONTAP di Amazon FSX per NetApp possono essere montate da macchine virtuali create nell'ambiente SDDC di VMware presso AWS. I volumi possono anche essere montati sul client Linux e mappati sul client Windows utilizzando il protocollo NFS o SMB, mentre I LUN possono essere utilizzati sui client Linux o Windows come dispositivi a blocchi se montati su iSCSI. Amazon FSX per il file system NetApp ONTAP può essere configurato rapidamente con i seguenti passaggi.
+Le condivisioni di file Amazon FSX ONTAP e le LUN possono essere montate dalle macchine virtuali create all'interno dell'ambiente VMware SDDC in VMware Cloud in AWS. I volumi possono anche essere montati sul client Linux e mappati sul client Windows utilizzando il protocollo NFS o SMB, mentre I LUN possono essere utilizzati sui client Linux o Windows come dispositivi a blocchi se montati su iSCSI. Amazon FSX per il file system NetApp ONTAP può essere configurato rapidamente con i seguenti passaggi.
 
 
-NOTE: Amazon FSX per NetApp ONTAP e VMware Cloud su AWS devono trovarsi nella stessa zona di disponibilità per ottenere performance migliori ed evitare i costi di trasferimento dei dati tra le zone di disponibilità.
+NOTE: Amazon FSX ONTAP e VMware Cloud on AWS devono trovarsi nella stessa zona di disponibilità per ottenere performance migliori ed evitare i costi di trasferimento dei dati tra le zone di disponibilità.
 
 ====
-.Creare e montare Amazon FSX per ONTAP Volumes
+.Crea e monta volumi Amazon FSX ONTAP
 [%collapsible]
 ====
-Per creare e montare il file system Amazon FSX per NetApp ONTAP, attenersi alla seguente procedura:
+Per creare e montare il file system Amazon FSX ONTAP, attenersi alla seguente procedura:
 
 . Aprire link:https://console.aws.amazon.com/fsx/["Console Amazon FSX"] E scegliere Create file system (Crea file system) per avviare la creazione guidata del file system.
-. Nella pagina Seleziona tipo di file system, scegliere Amazon FSX per NetApp ONTAP, quindi Avanti. Viene visualizzata la pagina Create file System (Crea file system).
+. Nella pagina Seleziona tipo di file system, scegli Amazon FSX ONTAP, quindi scegli Avanti. Viene visualizzata la pagina Create file System (Crea file system).
 
 
 image:aws-fsx-guest-1.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
@@ -91,7 +91,7 @@ image:aws-fsx-guest-7.png["Figura che mostra la finestra di dialogo input/output
 
 image:aws-fsx-guest-8.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"] image:aws-fsx-guest-9.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"] image:aws-fsx-guest-10.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-Per ulteriori informazioni, vedere link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started.html["Introduzione a Amazon FSX per NetApp ONTAP"].
+Per informazioni più dettagliate, vedere link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started.html["Guida introduttiva di Amazon FSX ONTAP"].
 
 Dopo aver creato il file system come sopra, creare il volume con le dimensioni e il protocollo richiesti.
 
@@ -117,7 +117,7 @@ Per montare il volume FSX ONTAP creato nel passaggio precedente. Dalle macchine 
 . Creare una directory per il punto di montaggio del volume con il seguente comando:
 +
  $ sudo mkdir /fsx/nfsdemovol01
-. Montare il volume NFS Amazon FSX per NetApp ONTAP nella directory creata nel passaggio precedente.
+. Montare il volume NFS Amazon FSX ONTAP nella directory creata nella fase precedente.
 +
  sudo mount -t nfs nfsvers=4.1,198.19.254.239:/nfsdemovol01 /fsx/nfsdemovol01
 
@@ -165,19 +165,19 @@ Per ulteriori informazioni sulla creazione e la gestione delle condivisioni SMB 
 image:aws-fsx-guest-26.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 ====
-.Connessione di un LUN FSX per NetApp ONTAP a un host utilizzando iSCSI
+.Collegare un LUN FSX ONTAP a un host tramite iSCSI
 [%collapsible]
 ====
-.Connessione di un LUN FSX per NetApp ONTAP a un host utilizzando iSCSI
+.Collegare un LUN FSX ONTAP a un host tramite iSCSI
 video::0d03e040-634f-4086-8cb5-b01200fb8515[panopto]
-Il traffico iSCSI per FSX attraversa VMware Transit Connect/AWS Transit Gateway attraverso i percorsi forniti nella sezione precedente. Per configurare un LUN in Amazon FSX per NetApp ONTAP, seguire la documentazione disponibile link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html["qui"].
+Il traffico iSCSI per FSX attraversa VMware Transit Connect/AWS Transit Gateway attraverso i percorsi forniti nella sezione precedente. Per configurare un LUN in Amazon FSX ONTAP, seguire la documentazione trovata link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html["qui"].
 
 Sui client Linux, assicurarsi che il daemon iSCSI sia in esecuzione. Una volta eseguito il provisioning dei LUN, consultare le istruzioni dettagliate sulla configurazione iSCSI con Ubuntu (come esempio) link:https://ubuntu.com/server/docs/service-iscsi["qui"].
 
 In questo documento, viene illustrata la connessione del LUN iSCSI a un host Windows:
 
 ====
-.Provisioning di un LUN in FSX per NetApp ONTAP:
+.Provisioning di una LUN in FSX ONTAP:
 [%collapsible]
 ====
 . Accedere alla CLI di NetApp ONTAP utilizzando la porta di gestione di FSX per il file system ONTAP.
@@ -453,7 +453,7 @@ Per montare il file system Cloud Volumes ONTAP (DIY) dalle macchine virtuali all
 . Creare una directory per il punto di montaggio del volume con il seguente comando.
 +
  $ sudo mkdir /fsxcvotesting01/nfsdemovol01
-. Montare il volume NFS Amazon FSX per NetApp ONTAP nella directory creata nel passaggio precedente.
+. Montare il volume NFS Amazon FSX ONTAP nella directory creata nella fase precedente.
 +
  sudo mount -t nfs nfsvers=4.1,172.16.0.2:/nfsdemovol01 /fsxcvotesting01/nfsdemovol01
 

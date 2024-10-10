@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ai/ddlnexus_initial_setup.html 
-keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx for NetApp ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
 summary: MLOps multicloud ibrido con Domino Data Lab e NetApp - Configurazione iniziale 
 ---
 = Setup iniziale
@@ -23,11 +23,11 @@ Questa sezione descrive le attività di configurazione iniziali che devono esser
 Prima di eseguire le operazioni descritte in questa sezione, si presuppone che siano già state eseguite le seguenti operazioni:
 
 * Hai già implementato e configurato la tua piattaforma di storage NetApp ONTAP on-premise. Per ulteriori informazioni, consultare la link:https://www.netapp.com/support-and-training/documentation/["Documentazione sui prodotti NetApp"].
-* Hai già eseguito il provisioning di un'istanza di Amazon FSX per NetApp ONTAP in AWS. Per ulteriori informazioni, consultare la link:https://aws.amazon.com/fsx/netapp-ontap/["Pagina del prodotto Amazon FSX per NetApp ONTAP"].
+* Hai già eseguito il provisioning di un'istanza di Amazon FSX ONTAP in AWS. Per ulteriori informazioni, fare riferimento alla link:https://aws.amazon.com/fsx/netapp-ontap/["Pagina del prodotto Amazon FSX ONTAP"].
 * Hai già effettuato il provisioning di un cluster Kubernetes nel tuo data center on-premise. Per ulteriori informazioni, consultare la link:https://docs.dominodatalab.com/en/latest/admin_guide/b35e66/admin-guide/["Guida amministratore di Domino"].
 * Hai già effettuato il provisioning di un cluster Amazon EKS in AWS. Per ulteriori informazioni, consultare la link:https://docs.dominodatalab.com/en/latest/admin_guide/b35e66/admin-guide/["Guida amministratore di Domino"].
 * Hai installato NetApp Trident nel tuo cluster Kubernetes on-premise. Inoltre, hai configurato questa istanza Trident per utilizzare la tua piattaforma di storage NetApp ONTAP on-premise durante il provisioning e la gestione delle risorse di storage. Per ulteriori informazioni, fare riferimento alla link:https://docs.netapp.com/us-en/trident/index.html["Documentazione di NetApp Trident"].
-* Hai installato NetApp Trident nel tuo cluster Amazon EKS. Inoltre, questa istanza Trident è stata configurata per utilizzare la tua istanza di Amazon FSX per NetApp ONTAP durante il provisioning e la gestione delle risorse di storage. Per ulteriori informazioni, fare riferimento alla link:https://docs.netapp.com/us-en/trident/index.html["Documentazione di NetApp Trident"].
+* Hai installato NetApp Trident nel tuo cluster Amazon EKS. Inoltre, questa istanza di Trident è stata configurata in modo da utilizzare la tua istanza di Amazon FSX ONTAP per il provisioning e la gestione delle risorse di storage. Per ulteriori informazioni, fare riferimento alla link:https://docs.netapp.com/us-en/trident/index.html["Documentazione di NetApp Trident"].
 * Devi disporre di connettività di rete bidirezionale tra il data center on-premise e il cloud privato virtuale (VPC) in AWS. Per ulteriori informazioni sulle varie opzioni di implementazione, fare riferimento alla link:https://docs.aws.amazon.com/vpc/latest/userguide/vpn-connections.html["Documentazione di Amazon Virtual Private Network (VPN)"].
 
 
@@ -41,7 +41,7 @@ Per installare Domino Enterprise MLOps Platform in AWS, seguire le istruzioni ri
 NOTE: Fare riferimento a. link:https://docs.dominodatalab.com/en/latest/admin_guide/7f4331/install-configuration-reference/#storage-classes["Guida di riferimento per l'installazione di Domino"] per informazioni dettagliate su come specificare una classe di archiviazione condivisa nel file di configurazione di installazione domino.yml.
 
 
-NOTE: link:https://www.netapp.com/media/79922-tr-4952.pdf["Report tecnico TR-4952"] Guida l'implementazione di Domino in AWS con Amazon FSX per NetApp ONTAP e può essere un utile riferimento per la risoluzione di eventuali problemi che si verificano.
+NOTE: link:https://www.netapp.com/media/79922-tr-4952.pdf["Report tecnico TR-4952"] Guida l'implementazione di Domino in AWS con Amazon FSX ONTAP e può essere un utile riferimento per la risoluzione di eventuali problemi che si verificano.
 
 
 

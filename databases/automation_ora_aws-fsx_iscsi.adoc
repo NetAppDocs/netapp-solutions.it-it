@@ -22,7 +22,7 @@ Questa soluzione fornisce una panoramica e dettagli sull'implementazione automat
 
 == Scopo
 
-Amazon FSX per NetApp ONTAP è un servizio storage che ti consente di avviare ed eseguire file system NetApp ONTAP completamente gestiti nel cloud AWS. Offre le caratteristiche, le performance, le funzionalità e le API note dei file system NetApp con l'agilità, la scalabilità e la semplicità di un servizio AWS completamente gestito. Ti permette di eseguire con tranquillità il workload dei database più complessi, come Oracle, nel cloud AWS.
+Amazon FSX ONTAP è un servizio storage che ti permette di lanciare ed eseguire file system NetApp ONTAP completamente gestiti nel cloud AWS. Offre le caratteristiche, le performance, le funzionalità e le API note dei file system NetApp con l'agilità, la scalabilità e la semplicità di un servizio AWS completamente gestito. Ti permette di eseguire con tranquillità il workload dei database più complessi, come Oracle, nel cloud AWS.
 
 Questa documentazione dimostra l'implementazione semplificata dei database Oracle in un file system Amazon FSX ONTAP tramite l'automazione Ansible. Il database Oracle viene installato in una configurazione di riavvio standalone con protocollo iSCSI per l'accesso ai dati e Oracle ASM per la gestione dei dischi di archiviazione del database. Il prodotto offre anche informazioni su backup, ripristino e cloning dei database Oracle attraverso il tool UI di NetApp SnapCenter per le operazioni efficienti in termini di storage per i database in AWS Cloud.
 
@@ -143,7 +143,7 @@ L'implementazione richiede i seguenti prerequisiti.
 
 . È stato impostato un account AWS e sono stati creati i segmenti VPC e di rete necessari all'interno dell'account AWS.
 . Dalla console AWS EC2, implementa EC2 istanze Linux come server Oracle DB. Attiva l'autenticazione a chiave pubblica/privata SSH per EC2 utenti. Per ulteriori informazioni sulla configurazione dell'ambiente, fare riferimento al diagramma dell'architettura riportato nella sezione precedente. Esaminare anche il link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html["Guida utente per istanze Linux"^] per ulteriori informazioni.
-. Dalla console AWS FSX, effettua il provisioning di un file system Amazon FSX ONTAP che soddisfi i requisiti. Consultare la documentazione link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["Creazione di FSX per file system ONTAP"^] per istruzioni dettagliate.
+. Dalla console AWS FSX, effettua il provisioning di un file system Amazon FSX ONTAP che soddisfi i requisiti. Consultare la documentazione link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["Creazione di file system FSX ONTAP"^] per le istruzioni dettagliate.
 . I passaggi 2 e 3 possono essere eseguiti utilizzando il seguente toolkit di automazione Terraform, che crea un'istanza EC2 denominata `ora_01` E un file system FSX denominato `fsx_01`. Prima dell'esecuzione, rivedere attentamente le istruzioni e modificare le variabili in base all'ambiente in uso. Il modello può essere facilmente rivisto in base ai tuoi requisiti di implementazione.
 +
 [source, cli]
@@ -585,7 +585,7 @@ Fare riferimento a TR-4979 link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-re
 
 Per ulteriori informazioni sulle informazioni descritte in questo documento, consultare i seguenti documenti e/o siti Web:
 
-* Amazon FSX per NetApp ONTAP
+* Amazon FSX ONTAP
 +
 link:https://aws.amazon.com/fsx/netapp-ontap/["https://aws.amazon.com/fsx/netapp-ontap/"^]
 

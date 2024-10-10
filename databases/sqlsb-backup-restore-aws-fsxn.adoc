@@ -4,7 +4,7 @@ permalink: databases/sqlsb-backup-restore-aws-fsxn.html
 keywords: SQL server, SQL, backup, recover, AWS, aws, sql 
 summary:  
 ---
-= TR-4951: Backup e ripristino per Microsoft SQL Server su AWS FSX per ONTAP
+= TR-4951: Backup e recovery per Microsoft SQL Server su AWS FSX ONTAP
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -16,7 +16,7 @@ summary:
 Autore: Niyaz Mohammed, Carine Ngwekwe - NetApp Solutions Engineering
 
 [role="lead"]
-Questo documento illustra i passaggi necessari per eseguire il backup e il ripristino di Microsoft SQL Server su AWS FSX per ONTAP con SnapCenter. Sono incluse le seguenti informazioni:
+Questo documento illustra i passaggi necessari per eseguire backup e recovery per Microsoft SQL Server su AWS FSX ONTAP con SnapCenter. Sono incluse le seguenti informazioni:
 
 * Configurazione di NetApp SnapCenter
 * Operazioni di backup di SnapCenter
@@ -32,7 +32,7 @@ Questo documento illustra i passaggi necessari per eseguire il backup e il ripri
 Per la configurazione di SnapCenter e la protezione delle risorse di Microsoft SQL Server, è necessario eseguire le seguenti operazioni. Ciascuna delle seguenti fasi è illustrata in dettaglio nelle sezioni seguenti.
 
 . Configurare le credenziali sysadmin per l'utente di backup e ripristino di SQL Server.
-. Configurare le impostazioni di storage. Fornire credenziale di gestione dei servizi Web Amazon (AWS) per accedere alle macchine virtuali storage (SVM) ONTAP di Amazon FSX per NetApp da SnapCenter.
+. Configurare le impostazioni di storage. Fornisci una credenziale di gestione di Amazon Web Services (AWS) per accedere alle Storage Virtual Machine (SVM) di Amazon FSX ONTAP da SnapCenter.
 . Aggiungere un host SQL Server a SnapCenter. Implementare e installare i plug-in SnapCenter richiesti.
 . Configurare i criteri. Definire il tipo di operazione di backup, la conservazione e la replica di backup Snapshot opzionale.
 . Configurare e proteggere il database Microsoft SQL Server.
@@ -72,7 +72,7 @@ Per configurare lo storage in SnapCenter, attenersi alla seguente procedura:
 +
 image:sqlsb-aws-image4.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-. Fornire l'endpoint *FSX per la gestione ONTAP*.
+. Fornire l'endpoint *FSX ONTAP Management*.
 +
 image:sqlsb-aws-image5.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
@@ -107,7 +107,7 @@ I pacchetti di SQL Server sono installati.
 
 image:sqlsb-aws-image9.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-. Al termine dell'installazione, accedere alla scheda *risorsa* per verificare la presenza di tutti i volumi iSCSI FSX per ONTAP.
+. Al termine dell'installazione, andare alla scheda *risorsa* per verificare se sono presenti tutti i volumi iSCSI di FSX ONTAP.
 +
 image:sqlsb-aws-image10.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 

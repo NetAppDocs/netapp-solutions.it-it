@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: automation/fsxn_monitoring_resizing_automation.html 
-keywords: AWS, FSX, FSxN, automation, FSxN monitoring, FSxN automation, FSxN resizing, FSx for NetApp ONTAP monitoring, FSx for ONTAP monitoring 
-summary: 'Questa pagina descrive l"automazione del monitoraggio di AWS FSxN e il ridimensionamento automatico in base alla soglia.' 
+keywords: AWS, FSX, FSx ONTAP, automation, FSx ONTAP monitoring, FSx ONTAP automation, FSx ONTAP resizing, FSx ONTAP monitoring, FSx ONTAP monitoring 
+summary: 'In questa pagina viene descritta l"automazione del monitoraggio di AWS FSX ONTAP e il ridimensionamento automatico in base alla soglia.' 
 ---
-= FSX per il monitoraggio ONTAP e il ridimensionamento automatico mediante la funzione lambda di AWS
+= Monitoraggio e ridimensionamento automatico di FSX ONTAP tramite la funzione AWS Lambda
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,15 +14,15 @@ summary: 'Questa pagina descrive l"automazione del monitoraggio di AWS FSxN e il
 
 
 [role="lead"]
-Questa pagina descrive l'automazione del monitoraggio di AWS FSxN e il ridimensionamento automatico in base alla soglia.
+In questa pagina viene descritta l'automazione del monitoraggio di AWS FSX ONTAP e il ridimensionamento automatico in base alla soglia.
 
 
 
-== Panoramica: Monitoraggio e ridimensionamento automatico di FSX per ONTAP tramite la funzione AWS Lambda
+== Panoramica: Monitoraggio e ridimensionamento automatico di FSX ONTAP tramite la funzione AWS Lambda
 
-FSX per ONTAP è un servizio di cloud storage Enterprise first-party disponibile su AWS che offre un file storage altamente affidabile, scalabile, ad alte performance e ricco di funzionalità, costruito sul popolare file system NetApp ONTAP.
+FSX ONTAP è un servizio di cloud storage Enterprise first-party disponibile su AWS che offre un file storage altamente affidabile, scalabile, dalle performance elevate e ricco di funzionalità, costruito sul popolare file system NetApp ONTAP.
 
-FSX per ONTAP offre un'esperienza di implementazione e gestione perfetta. Per iniziare, non è richiesta alcuna competenza in ambito storage. Per semplificare il monitoraggio, è possibile utilizzare una funzione lambda AWS (per automatizzare il ridimensionamento della capacità di storage totale, delle dimensioni del volume o delle dimensioni del LUN in base alla soglia).  Questo documento fornisce una guida dettagliata alla creazione di un'installazione automatica che monitora FSX per ONTAP a intervalli regolari, notifica e ridimensiona quando viene superata una soglia specificata dall'utente e notifica all'amministratore l'attività di ridimensionamento.
+FSX ONTAP offre un'esperienza di distribuzione e gestione perfetta. Per iniziare, non è richiesta alcuna competenza in ambito storage. Per semplificare il monitoraggio, è possibile utilizzare una funzione lambda AWS (per automatizzare il ridimensionamento della capacità di storage totale, delle dimensioni del volume o delle dimensioni del LUN in base alla soglia).  Questo documento fornisce una guida dettagliata alla creazione di un'installazione automatica che monitora FSX ONTAP a intervalli regolari, notifica e ridimensiona quando viene superata una soglia specificata dall'utente e notifica all'amministratore l'attività di ridimensionamento.
 
 .Caratteristiche
 [%collapsible]
@@ -31,7 +31,7 @@ La soluzione offre le seguenti funzionalità:
 
 * Possibilità di monitorare:
 +
-** Utilizzo della capacità di storage complessiva di FSX per ONTAP
+** Utilizzo della capacità di storage generale di FSX ONTAP
 ** Utilizzo di ciascun volume (thin provisioning/thick provisioning)
 ** Utilizzo di ciascun LUN (thin provisioning/thick provisioning)
 
@@ -43,7 +43,7 @@ La soluzione offre le seguenti funzionalità:
 * Possibilità di monitorare i controlli a intervalli regolari
 * Possibilità di utilizzare la soluzione con o senza accesso a Internet
 * Possibilità di implementare manualmente o utilizzando AWS CloudFormation Template
-* Possibilità di monitorare più file system FSX per ONTAP in un unico VPC
+* Possibilità di monitorare più file system FSX ONTAP in un unico VPC
 
 
 ====
@@ -52,16 +52,16 @@ La soluzione offre le seguenti funzionalità:
 ====
 Prima di iniziare, assicurarsi che siano soddisfatti i seguenti prerequisiti:
 
-* Viene implementato FSX per ONTAP
-* Subnet privata con connettività a FSX per ONTAP
-* La password "fsxadmin" è stata impostata per FSX per ONTAP
+* FSX ONTAP viene implementato
+* Subnet privata con connettività a FSX ONTAP
+* La password "fsxadmin" è stata impostata per FSX ONTAP
 
 
 ====
 .Architettura high-level
 [%collapsible]
 ====
-* La funzione AWS Lambda effettua chiamate API a FSX per ONTAP per recuperare e aggiornare le dimensioni della capacità di storage, dei volumi e delle LUN.
+* La funzione AWS Lambda richiama le API in FSX ONTAP per recuperare e aggiornare le dimensioni di capacità storage, volumi e LUN.
 * Password "fsxadmin" memorizzata come stringa sicura in AWS SSM Parameter Store per un ulteriore livello di sicurezza.
 * AWS SES (Simple Email Service) viene utilizzato per notificare agli utenti finali quando si verifica un evento di ridimensionamento.
 * Se si implementa la soluzione in un VPC senza accesso a Internet, gli endpoint VPC per AWS SSM, FSX e se sono configurati in modo da consentire a Lambda di raggiungere questi servizi tramite la rete interna di AWS.
@@ -79,7 +79,7 @@ image:fsxn-monitoring-resizing-architecture.png["Questa immagine mostra l'archit
 === Implementazione automatica
 
 
-NOTE: Copre un singolo file system FSX per ONTAP.
+NOTE: Copre un singolo filesystem FSX ONTAP.
 
 Seguire la serie di passaggi per completare l'implementazione automatica di questa soluzione:
 
@@ -171,7 +171,7 @@ image:fsxn-monitoring-resizing-email-2.png["Questa immagine mostra la notifica e
 === Implementazione manuale
 
 
-NOTE: Supporta il monitoraggio di più file system FSX per ONTAP in un unico VPC.
+NOTE: Supporta il monitoraggio di più file system FSX ONTAP in un unico VPC.
 
 Seguire la serie di passaggi per completare l'implementazione manuale di questa soluzione:
 
@@ -210,10 +210,9 @@ Tier: Standard
 Type: SecureString
 KMS key source: My current account
   KMS Key ID: <Use the default one selected>
-Value: <Enter the password for "fsxadmin" user configured on FSx for ONTAP>
+Value: <Enter the password for "fsxadmin" user configured on FSx ONTAP>
 ----
-Fare clic su *Create Parameter* (Crea parametro).
-Ripetere i passaggi precedenti per tutti i file system FSX per ONTAP da monitorare.
+Fare clic su *Create Parameter* (Crea parametro). Ripetere i passaggi precedenti per tutti i file system FSX ONTAP da monitorare.
 
 image:fsxn-monitoring-resizing-ssm-parameter.png["Questa immagine mostra la finestra di creazione dei parametri SSM sulla console AWS."]
 
@@ -271,7 +270,7 @@ image:fsxn-monitoring-resizing-vpc-endpoint-create-2.png["Questa immagine mostra
 .Fase 6: Creare e configurare la funzione AWS Lambda
 [%collapsible]
 ====
-. Accedere alla console AWS > *AWS Lambda* > *funzioni* e fare clic su *Crea funzione* nella stessa regione di FSX per ONTAP
+. Accedere alla console AWS > *AWS Lambda* > *funzioni* e fare clic su *Crea funzione* nella stessa regione di FSX ONTAP
 . Utilizza l'impostazione predefinita *Author from zero* e aggiorna i seguenti campi:
 +
 [listing]
@@ -282,7 +281,7 @@ Architecture: x86_64
 Permissions: Select "Create a new role with basic Lambda permissions"
 Advanced Settings:
   Enable VPC: Checked
-    VPC: <Choose either the same VPC as FSx for ONTAP or a VPC that can access both FSx for ONTAP and the internet via a private subnet>
+    VPC: <Choose either the same VPC as FSx ONTAP or a VPC that can access both FSx ONTAP and the internet via a private subnet>
     Subnets: <Choose 2 private subnets that have NAT gateway attached pointing to public subnets with internet gateway and subnets that have internet access>
     Security Group: <Choose a Security Group>
 ----
@@ -328,17 +327,16 @@ image:fsxn-monitoring-resizing-layers-added.png["Questa immagine mostra i layer 
 | *Nome* | *Tipo* | *Descrizione* 
 
 
-| *FsxList* | Elenco | (Obbligatorio) elenco di tutti i file system FSX per ONTAP da monitorare.
-Includere tutti i file system nell'elenco per il monitoraggio e il ridimensionamento automatico. 
+| *FsxList* | Elenco | (Obbligatorio) elenco di tutti i file system FSX ONTAP da monitorare. Includere tutti i file system nell'elenco per il monitoraggio e il ridimensionamento automatico. 
 
 
-| *FsxMgmtIp* | Stringa | (Obbligatorio) inserire "endpoint di gestione - indirizzo IP" dalla console FSX per ONTAP su AWS. 
+| *FsxMgmtIp* | Stringa | (Obbligatorio) immettere "endpoint di gestione - indirizzo IP" dalla console FSX ONTAP su AWS. 
 
 
-| *FsxId* | Stringa | (Obbligatorio) inserire l'ID del file system dalla console FSX per ONTAP su AWS. 
+| *FsxId* | Stringa | (Obbligatorio) immettere l'ID del file system dalla console FSX ONTAP su AWS. 
 
 
-| *nome utente* | Stringa | (Obbligatorio) inserire il "nome utente amministratore ONTAP" di FSX per ONTAP dalla console di ONTAP su AWS. 
+| *nome utente* | Stringa | (Obbligatorio) immettere il nome utente dell'amministratore di ONTAP di FSX ONTAP dalla console di FSX ONTAP su AWS. 
 
 
 | *resize_threshold* | Intero | (Obbligatorio) inserire la percentuale di soglia compresa tra 0 e 100. Questa soglia verrà utilizzata per misurare la capacità di storage, il volume e l'utilizzo del LUN e quando l'utilizzo % di qualsiasi aumento oltre questa soglia, si verificherà un'attività di ridimensionamento. 
@@ -400,4 +398,4 @@ image:fsxn-monitoring-resizing-eventbridge.png["Questa immagine mostra la finest
 
 == Conclusione
 
-Con la soluzione fornita in dotazione, è facile configurare una soluzione di monitoring che monitora regolarmente FSX per lo storage ONTAP, lo ridimensiona in base a una soglia specificata dall'utente e offre un meccanismo di avviso. In questo modo, il processo di utilizzo e monitoraggio di FSX per ONTAP consente agli amministratori di concentrarsi sulle attività business-critical, mentre lo storage cresce automaticamente quando necessario.
+Con la soluzione fornita, è facile configurare una soluzione di monitoring che monitora regolarmente lo storage FSX ONTAP, lo ridimensiona in base a una soglia specificata dall'utente e fornisce un meccanismo di avviso. In questo modo, il processo di utilizzo e monitoring di FSX ONTAP permette agli amministratori di concentrarsi su attività business-critical, mentre lo storage cresce automaticamente quando necessario.

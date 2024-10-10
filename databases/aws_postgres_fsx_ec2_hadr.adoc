@@ -129,7 +129,7 @@ L'implementazione richiede i seguenti prerequisiti.
 
 . È stato impostato un account AWS e sono stati creati i segmenti VPC e di rete necessari all'interno dell'account AWS.
 . Dalla console AWS EC2, è necessario implementare due istanze EC2 Linux, una come server primario PostgreSQL DB sul primario e una sul sito di DR di standby. Per la ridondanza di calcolo nei siti DR primari e di standby, implementare due istanze EC2 Linux aggiuntive come server PostgreSQL DB in standby. Per ulteriori informazioni sulla configurazione dell'ambiente, vedere il diagramma dell'architettura nella sezione precedente. Esaminare anche il link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html["Guida utente per istanze Linux"] per ulteriori informazioni.
-. Dalla console AWS EC2, implementare due cluster ha di storage FSX ONTAP per ospitare i volumi di database PostgreSQL. Se non si ha familiarità con l'implementazione dello storage FSX, consultare la documentazione link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["Creazione di FSX per file system ONTAP"] per istruzioni dettagliate.
+. Dalla console AWS EC2, implementare due cluster ha di storage FSX ONTAP per ospitare i volumi di database PostgreSQL. Se non hai dimestichezza con l'implementazione dello storage FSX, consulta la documentazione link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html["Creazione di file system FSX ONTAP"] per istruzioni dettagliate.
 . Creare una macchina virtuale CentOS Linux per ospitare il controller Ansible. Il controller Ansible può essere collocato on-premise o nel cloud AWS. Se si trova on-premise, è necessario disporre della connettività SSH per VPC, istanze EC2 Linux e cluster di storage FSX.
 . Impostare il controller Ansible come descritto nella sezione "impostazione del nodo di controllo Ansible per le implementazioni CLI su RHEL/CentOS" dalla risorsa link:../automation/getting-started.html["Introduzione all'automazione delle soluzioni NetApp"].
 . Clonare una copia del toolkit di automazione dal sito pubblico NetApp GitHub.
@@ -376,7 +376,7 @@ NetApp consiglia di eseguire il failover manuale o di utilizzare cluster-ware de
 
 Per ulteriori informazioni sulle informazioni descritte in questo documento, consultare i seguenti documenti e/o siti Web:
 
-* Amazon FSX per NetApp ONTAP
+* Amazon FSX ONTAP
 
 
 link:https://aws.amazon.com/fsx/netapp-ontap/["https://aws.amazon.com/fsx/netapp-ontap/"^]

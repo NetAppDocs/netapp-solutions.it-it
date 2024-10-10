@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: ehc/veeam-fsxn-dr-to-vmc.html 
-keywords: disaster recovery, vmc, vmware cloud, aws, amazon web services, fsxn, fsx for ontap, fsx for netapp ontap, disaster recovery, dr, veeam, replication 
+keywords: disaster recovery, vmc, vmware cloud, aws, amazon web services, fsxn, FSx ONTAP, FSx ONTAP, disaster recovery, dr, veeam, replication 
 summary:  
 ---
-= Utilizzo di Veeam Replication and FSX for ONTAP per il disaster recovery in VMware Cloud su AWS
+= Utilizzo di Veeam Replication ed FSX ONTAP per il disaster recovery in VMware Cloud su AWS
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-L'integrazione di Amazon FSX per NetApp ONTAP con VMware Cloud su AWS è un datastore NFS esterno gestito da AWS e costruito sul file system ONTAP di NetApp che può essere collegato a un cluster nell'SDDC. Offre ai clienti un'infrastruttura storage virtualizzata flessibile e dalle performance elevate, che può scalare in maniera indipendente dalle risorse di calcolo.
+L'integrazione di Amazon FSX ONTAP con VMware Cloud su AWS è un datastore NFS esterno gestito da AWS e costruito sul file system ONTAP di NetApp che può essere collegato a un cluster nell'SDDC. Offre ai clienti un'infrastruttura storage virtualizzata flessibile e dalle performance elevate, che può scalare in maniera indipendente dalle risorse di calcolo.
 
 Autore: Niyaz Mohamed - Ingegneria di soluzioni di NetApp
 
@@ -22,15 +22,15 @@ Autore: Niyaz Mohamed - Ingegneria di soluzioni di NetApp
 
 == Panoramica
 
-Per i clienti che desiderano utilizzare VMware Cloud su AWS SDDC come destinazione di disaster recovery, i datastore FSX per ONTAP possono essere utilizzati per replicare i dati dalle strutture on-premise utilizzando qualsiasi soluzione di terze parti validata che offre funzionalità di replica delle macchine virtuali. Aggiungendo un datastore di FSX per ONTAP, si otterrà un'implementazione ottimizzata dei costi rispetto alla costruzione di un cloud VMware su AWS SDDC con un'enorme quantità di host ESXi solo per ospitare lo storage.
+Per i clienti che desiderano utilizzare VMware Cloud su AWS SDDC come destinazione di disaster recovery, i datastore FSX ONTAP possono essere utilizzati per replicare i dati dalle strutture on-premise utilizzando qualsiasi soluzione convalidata di terze parti che offre funzionalità di replica delle macchine virtuali. Aggiungendo un datastore FSX ONTAP, sarà possibile un'implementazione ottimizzata dei costi rispetto alla costruzione di un cloud VMware su AWS SDDC, con un'enorme quantità di host ESXi solo per ospitare lo storage.
 
-Questo approccio aiuta inoltre i clienti a utilizzare cluster pilota leggero in VMC insieme ai datastore FSX per ONTAP per ospitare le repliche della macchina virtuale. Lo stesso processo può anche essere esteso come opzione di migrazione a VMware Cloud su AWS eseguendo con dignità il failover del piano di replica.
+Questo approccio aiuta inoltre i clienti a utilizzare il cluster pilota leggero in VMC insieme ai datastore FSX ONTAP per ospitare le repliche della macchina virtuale. Lo stesso processo può anche essere esteso come opzione di migrazione a VMware Cloud su AWS eseguendo con dignità il failover del piano di replica.
 
 
 
 == Descrizione del problema
 
-Questo documento descrive come utilizzare il datastore FSX per ONTAP e la replica di Veeam Backup per configurare il disaster recovery per le VM VMware on-premise su VMware Cloud su AWS utilizzando la funzionalità di replica delle VM.
+Questo documento descrive come utilizzare il datastore FSX ONTAP e la replica di Veeam Backup per configurare il disaster recovery per le VM VMware on-premise su VMware Cloud su AWS utilizzando la funzionalità di replica delle VM.
 
 Veeam Backup & Replication offre replica on-site e remota per il disaster recovery (DR). Quando le macchine virtuali vengono replicate, Veeam Backup & Replication crea una copia esatta delle macchine virtuali nel formato nativo di VMware vSphere sul cluster VMware Cloud di destinazione su AWS SDDC e mantiene la copia sincronizzata con la macchina virtuale originale.
 
@@ -51,7 +51,7 @@ image:dr-veeam-fsx-image1.png["Diagramma dello scenario di DR con replica Veeam 
 === Gradini di alto livello
 
 . Il software Veeam Backup and Replication è in esecuzione in un ambiente on-premise con appropriata connettività di rete.
-. Configurare VMware Cloud su AWS, vedere l'articolo VMware Cloud Tech zone link:https://vmc.techzone.vmware.com/fsx-guide["Guida all'integrazione di VMware Cloud su AWS con Amazon FSX per l'implementazione di NetApp ONTAP"] Per eseguire l'implementazione, configura VMware Cloud su AWS SDDC e FSX per ONTAP come datastore NFS. (Per scopi di DR è possibile utilizzare un ambiente pilota con configurazione minima. In caso di incidente, è possibile eseguire il failover delle macchine virtuali su questo cluster e aggiungere nodi.
+. Configura VMware Cloud su AWS, consulta l'articolo di VMware Cloud Tech zone link:https://vmc.techzone.vmware.com/fsx-guide["Integrazione di VMware Cloud su AWS con guida all'implementazione di Amazon FSX ONTAP"]per implementare e configurare VMware Cloud su AWS SDDC e FSX ONTAP come datastore NFS. (Per scopi di DR è possibile utilizzare un ambiente pilota con configurazione minima. In caso di incidente, è possibile eseguire il failover delle macchine virtuali su questo cluster e aggiungere nodi.
 . Impostare i lavori di replica per creare repliche VM utilizzando Veeam Backup and Replication.
 . Creazione di un piano di failover ed esecuzione di un failover.
 . Tornare alle macchine virtuali di produzione una volta che l'evento di disastro è completo e il sito primario è attivo.
@@ -59,11 +59,11 @@ image:dr-veeam-fsx-image1.png["Diagramma dello scenario di DR con replica Veeam 
 
 
 
-=== Prerequisiti per la replica della macchina virtuale Veeam nei datastore VMC ed FSX per ONTAP
+=== Prerequisiti per la replica della macchina virtuale Veeam nei datastore VMC ed FSX ONTAP
 
 . Garantire che la macchina virtuale di backup di Veeam Backup & Replication sia connessa al vCenter di origine e al cloud VMware di destinazione sui cluster AWS SDDC.
 . Il server di backup deve essere in grado di risolvere i nomi brevi e di connettersi ai centri virtuali di origine e di destinazione.
-. Il datastore FSX per ONTAP di destinazione deve avere spazio libero sufficiente per archiviare VMDK di macchine virtuali replicate
+. Il datastore FSX ONTAP di destinazione deve avere spazio libero sufficiente per archiviare VMDK di macchine virtuali replicate
 
 
 Per ulteriori informazioni, fare riferimento a "considerazioni e limitazioni" link:https://helpcenter.veeam.com/docs/backup/vsphere/replica_limitations.html?ver=120["qui"].
@@ -91,11 +91,11 @@ image:dr-veeam-fsx-image2.png["Figura che mostra la finestra di dialogo input/ou
 
 
 
-. Seleziona le VM da replicare nel datastore FSX per ONTAP collegato a VMware Cloud su AWS SDDC nel passaggio *macchine virtuali*. Le macchine virtuali possono essere posizionate su vSAN per riempire la capacità del datastore vSAN disponibile. In un cluster spia pilota, la capacità utilizzabile di un cluster a 3 nodi sarà limitata. Il resto dei dati può essere replicato in datastore FSX per ONTAP. Fare clic su *Aggiungi*, quindi nella finestra *Aggiungi oggetto* selezionare le VM o i contenitori VM necessari e fare clic su *Aggiungi*. Fare clic su *Avanti*.
+. Seleziona le VM da replicare nel datastore FSX ONTAP collegato a VMware Cloud su AWS SDDC nel passaggio *macchine virtuali*. Le macchine virtuali possono essere posizionate su vSAN per riempire la capacità del datastore vSAN disponibile. In un cluster spia pilota, la capacità utilizzabile di un cluster a 3 nodi sarà limitata. Il resto dei dati può essere replicato nei datastore FSX ONTAP. Fare clic su *Aggiungi*, quindi nella finestra *Aggiungi oggetto* selezionare le VM o i contenitori VM necessari e fare clic su *Aggiungi*. Fare clic su *Avanti*.
 +
 image:dr-veeam-fsx-image3.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-. Quindi, seleziona la destinazione come VMware Cloud su host/cluster SDDC di AWS e il pool di risorse, la cartella VM e il datastore FSX per le repliche VM di ONTAP. Quindi fare clic su *Avanti*.
+. Quindi, seleziona la destinazione come VMware Cloud su host/cluster SDDC di AWS e il pool di risorse, la cartella VM e il datastore FSX ONTAP per le repliche delle VM appropriate. Quindi fare clic su *Avanti*.
 +
 image:dr-veeam-fsx-image4.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
@@ -221,7 +221,7 @@ image:dr-veeam-fsx-image19.png["Figura che mostra la finestra di dialogo input/o
 
 == Conclusione
 
-La funzionalità datastore di FSX per ONTAP permette a Veeam o a qualsiasi strumento di terze parti validato di fornire una soluzione DR a basso costo utilizzando il cluster pilota leggero e senza standing un elevato numero di host nel cluster solo per ospitare la copia della replica della VM. Questo offre una potente soluzione per gestire un piano di disaster recovery personalizzato e su misura e consente inoltre di riutilizzare i prodotti di backup esistenti in sede per soddisfare le esigenze di disaster recovery, consentendo in questo modo il disaster recovery basato sul cloud uscendo dai data center on-premise. Il failover può essere eseguito come failover pianificato o failover con un clic su un pulsante in caso di disastro e si decide di attivare il sito di DR.
+La funzionalità datastore FSX ONTAP permette a Veeam o a qualsiasi tool di terze parti validato di fornire una soluzione DR a basso costo utilizzando il cluster pilota leggero e senza standing un elevato numero di host nel cluster solo per ospitare la copia della replica della VM. Questo offre una potente soluzione per gestire un piano di disaster recovery personalizzato e su misura e consente inoltre di riutilizzare i prodotti di backup esistenti in sede per soddisfare le esigenze di disaster recovery, consentendo in questo modo il disaster recovery basato sul cloud uscendo dai data center on-premise. Il failover può essere eseguito come failover pianificato o failover con un clic su un pulsante in caso di disastro e si decide di attivare il sito di DR.
 
 Per ulteriori informazioni su questo processo, segui il video dettagliato.
 

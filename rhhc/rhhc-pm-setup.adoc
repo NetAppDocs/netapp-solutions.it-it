@@ -14,14 +14,14 @@ summary:
 
 
 [role="lead"]
-Questa sezione descrive un workflow di alto livello per la configurazione dei cluster Managed Red Hat OpenShift su AWS(ROSA). Mostra l'utilizzo di FSX gestito per NetApp ONTAP (FSxN) come backend dello storage da Trident per fornire volumi persistenti. Vengono forniti dettagli sull'implementazione di FSxN su AWS utilizzando BlueXP. Inoltre, vengono forniti dettagli sull'utilizzo di BlueXP e OpenShift GitOps (Argo CD) per eseguire attività di migrazione e protezione dei dati per le applicazioni stateful sui cluster ROSA.
+Questa sezione descrive un workflow di alto livello per la configurazione dei cluster Managed Red Hat OpenShift su AWS(ROSA). Mostra l'utilizzo di Amazon FSX per NetApp ONTAP (FSX ONTAP) gestito come backend dello storage da Trident per fornire volumi persistenti. Sono disponibili dettagli sull'implementazione di FSX ONTAP su AWS utilizzando BlueXP . Inoltre, vengono forniti dettagli sull'utilizzo di BlueXP e OpenShift GitOps (Argo CD) per eseguire attività di migrazione e protezione dei dati per le applicazioni stateful sui cluster ROSA.
 
-Di seguito è riportato un diagramma che illustra i cluster ROSA implementati su AWS e che utilizzano FSxN come storage back-end.
+Segue un diagramma che illustra i cluster ROSA implementati su AWS e che utilizzano FSX ONTAP come storage backend.
 
 image:rhhc-rosa-with-fsxn.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 
-NOTE: Questa soluzione è stata verificata utilizzando due cluster ROSA in due VPC in AWS. Ogni cluster ROSA è stato integrato con FSxN utilizzando Trident. Esistono diversi modi per implementare I cluster ROSA e FSxN in AWS. Questa descrizione di alto livello dell'installazione fornisce collegamenti alla documentazione per il metodo specifico utilizzato. È possibile fare riferimento agli altri metodi riportati nei relativi collegamenti forniti nella link:rhhc-resources.html["sezione risorse"].
+NOTE: Questa soluzione è stata verificata utilizzando due cluster ROSA in due VPC in AWS. Ogni cluster ROSA è stato integrato con FSX ONTAP utilizzando Trident. Esistono diversi modi per implementare i cluster ROSA e FSX ONTAP in AWS. Questa descrizione di alto livello dell'installazione fornisce collegamenti alla documentazione per il metodo specifico utilizzato. È possibile fare riferimento agli altri metodi riportati nei relativi collegamenti forniti nella link:rhhc-resources.html["sezione risorse"].
 
 Il processo di installazione può essere suddiviso nei seguenti passaggi:
 
@@ -33,11 +33,11 @@ Il processo di installazione può essere suddiviso nei seguenti passaggi:
 
 
 ====
-.Installare FSxN
+.Installa FSX ONTAP
 [%collapsible]
 ====
-* Installare FSxN sui VPC da BlueXP. Fare riferimento a. link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["qui"] Per la creazione di un account BlueXP e per iniziare. Fare riferimento a. link:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/index.html["qui"] Per l'installazione di FSxN. Fare riferimento a. link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["qui"] Per creare un connettore in AWS per gestire FSxN.
-* Implementare FSxN utilizzando AWS. Fare riferimento a. link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["qui"] Per l'implementazione utilizzando la console AWS.
+* Installare FSX ONTAP sui VPC di BlueXP . Per informazioni su come creare un account BlueXP  e per iniziare, consulta la link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["qui"]sezione. Fare riferimento a link:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/index.html["qui"] per l'installazione di FSX ONTAP. Fare riferimento a link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["qui"]creazione di un connettore in AWS per gestire FSX ONTAP.
+* Implementa FSX ONTAP con AWS. Fai riferimento link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["qui"] per l'implementazione tramite console AWS.
 
 
 ====
@@ -47,7 +47,7 @@ Il processo di installazione può essere suddiviso nei seguenti passaggi:
 * USA il grafico Helm per installare Trident sui cluster ROSA. url del grafico Helm: https://netapp.github.io/trident-helm-chart[]
 
 
-.Integrazione di FSxN con Trident per cluster ROSA
+.Integrazione di FSX ONTAP con Trident per i cluster ROSA
 video::621ae20d-7567-4bbf-809d-b01200fa7a68[panopto]
 
 NOTE: OpenShift GitOps può essere utilizzato per distribuire Trident CSI a tutti i cluster gestiti quando vengono registrati su ArgoCD utilizzando ApplicationSet.
@@ -55,7 +55,7 @@ NOTE: OpenShift GitOps può essere utilizzato per distribuire Trident CSI a tutt
 image:rhhc-trident-helm.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
 ====
-.Creare classi di storage e backend utilizzando Trident (per FSxN)
+.Creare classi di backend e storage utilizzando Trident (per FSX ONTAP)
 [%collapsible]
 ====
 * Fare riferimento a. link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["qui"] per informazioni dettagliate sulla creazione di classe di storage e backend.

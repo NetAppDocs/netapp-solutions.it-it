@@ -4,7 +4,7 @@ permalink: ehc/aws-native-overview.html
 keywords:  
 summary:  
 ---
-= TR-4938: Montare Amazon FSX per ONTAP come datastore NFS con VMware Cloud su AWS
+= TR-4938: Monta Amazon FSX ONTAP come datastore NFS con VMware Cloud su AWS
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-Questo documento delinea il modo in cui montare Amazon FSX per ONTAP come datastore NFS con VMware Cloud su AWS.
+Questo documento descrive come montare Amazon FSX ONTAP come datastore NFS con VMware Cloud su AWS.
 
 Niyaz Mohamed, NetApp
 
@@ -24,11 +24,11 @@ Niyaz Mohamed, NetApp
 
 Ogni organizzazione di successo sta passando per la trasformazione e la modernizzazione. Nell'ambito di questo processo, le aziende utilizzano solitamente i propri investimenti VMware esistenti per sfruttare i vantaggi del cloud e scoprire come migrare, eseguire il burst, estendere e fornire il disaster recovery per i processi nel modo più semplice possibile. I clienti che migrano al cloud devono valutare i casi di utilizzo per flessibilità e burst, uscita dal data center, consolidamento del data center, scenari di fine ciclo di vita, fusioni, acquisizioni e così via.
 
-Anche se VMware Cloud su AWS è l'opzione preferita dalla maggior parte dei clienti perché offre funzionalità ibride uniche a un cliente, opzioni di storage nativo limitate ne hanno limitato l'utilità per le organizzazioni con carichi di lavoro elevati in termini di storage. Poiché lo storage è direttamente legato agli host, l'unico modo per scalare lo storage è aggiungere più host, che possono aumentare i costi del 35-40% o più per i carichi di lavoro a elevato utilizzo dello storage. Questi carichi di lavoro richiedono storage aggiuntivo e performance separate, non potenza aggiuntiva, ma ciò significa pagare per altri host. È qui che si trova https://aws.amazon.com/about-aws/whats-new/2022/08/announcing-vmware-cloud-aws-integration-amazon-fsx-netapp-ontap/["integrazione recente"^] Di FSX per ONTAP è utile per i carichi di lavoro con storage e performance intensive con VMware Cloud su AWS.
+Anche se VMware Cloud su AWS è l'opzione preferita dalla maggior parte dei clienti perché offre funzionalità ibride uniche a un cliente, opzioni di storage nativo limitate ne hanno limitato l'utilità per le organizzazioni con carichi di lavoro elevati in termini di storage. Poiché lo storage è direttamente legato agli host, l'unico modo per scalare lo storage è aggiungere più host, che possono aumentare i costi del 35-40% o più per i carichi di lavoro a elevato utilizzo dello storage. Questi carichi di lavoro richiedono storage aggiuntivo e performance separate, non potenza aggiuntiva, ma ciò significa pagare per altri host. È qui che https://aws.amazon.com/about-aws/whats-new/2022/08/announcing-vmware-cloud-aws-integration-amazon-fsx-netapp-ontap/["integrazione recente"^] FSX ONTAP si rivela utile per i carichi di lavoro con performance elevate e storage grazie a VMware Cloud su AWS.
 
 Consideriamo il seguente scenario: Un cliente richiede otto host per la potenza (vCPU/VMEM), ma ha anche un requisito sostanziale per lo storage. In base alla loro valutazione, sono necessari 16 host per soddisfare i requisiti di storage. Questo aumenta il TCO complessivo perché devono acquistare tutta la potenza aggiuntiva quando è necessario solo uno storage maggiore. Questo è valido per qualsiasi caso di utilizzo, inclusi migrazione, disaster recovery, bursting, sviluppo/test, e così via.
 
-Questo documento illustra i passaggi necessari per il provisioning e l'aggiunta di FSX per ONTAP come datastore NFS per VMware Cloud su AWS.
+Questo documento guida i passaggi necessari per il provisioning e l'aggiunta di FSX ONTAP come datastore NFS per VMware Cloud su AWS.
 
 
 NOTE: Questa soluzione è disponibile anche da VMware. Visitare il link:https://vmc.techzone.vmware.com/resource/vmware-cloud-aws-integration-amazon-fsx-netapp-ontap-deployment-guide["Tech zone di VMware Cloud"] per ulteriori informazioni.
@@ -38,7 +38,7 @@ NOTE: Questa soluzione è disponibile anche da VMware. Visitare il link:https://
 == Opzioni di connettività
 
 
-NOTE: VMware Cloud su AWS supporta implementazioni multi-AZ e single-AZ di FSX per ONTAP.
+NOTE: VMware Cloud su AWS supporta le implementazioni multi-AZ e single-AZ di FSX ONTAP.
 
 In questa sezione viene descritta l'architettura di connettività di alto livello e le fasi necessarie per implementare la soluzione per espandere lo storage in un cluster SDDC senza la necessità di aggiungere altri host.
 
@@ -46,25 +46,25 @@ image:fsx-nfs-image1.png["Figura che mostra la finestra di dialogo input/output 
 
 Le fasi di implementazione di alto livello sono le seguenti:
 
-. Creare Amazon FSX per ONTAP in un nuovo VPC designato.
+. Crea Amazon FSX ONTAP in un nuovo VPC designato.
 . Creare un gruppo SDDC.
 . Creare VMware Transit Connect e un allegato TGW.
 . Configurare il routing (AWS VPC e SDDC) e i gruppi di sicurezza.
 . Collegare un volume NFS come datastore al cluster SDDC.
 
 
-Prima di eseguire il provisioning e collegare FSX per ONTAP come datastore NFS, è necessario configurare un ambiente VMware su cloud SDDC o aggiornare un SDDC esistente alla versione 1.20 o superiore. Per ulteriori informazioni, consultare link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws.getting-started/GUID-3D741363-F66A-4CF9-80EA-AA2866D1834E.html["Introduzione a VMware Cloud su AWS"^].
+Prima di eseguire il provisioning e collegare FSX ONTAP come datastore NFS, devi prima configurare un ambiente VMware su SDDC cloud o ottenere un SDDC esistente aggiornato alla versione v1,20 o successiva. Per ulteriori informazioni, vedere link:https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws.getting-started/GUID-3D741363-F66A-4CF9-80EA-AA2866D1834E.html["Introduzione a VMware Cloud su AWS"^].
 
 
-NOTE: FSX per ONTAP non è attualmente supportato con i cluster estesi.
+NOTE: FSX ONTAP non è attualmente supportato con cluster allungati.
 
 
 
 == Conclusione
 
-Questo documento illustra i passaggi necessari per configurare Amazon FSX per ONTAP con VMware cloud su AWS. Amazon FSX per ONTAP offre opzioni eccellenti per implementare e gestire i carichi di lavoro delle applicazioni insieme ai file service, riducendo al contempo il TCO, rendendo i requisiti dei dati perfetti a livello applicativo. Qualunque sia il caso d'utilizzo, scegli VMware Cloud su AWS insieme ad Amazon FSX per ONTAP per ottenere una rapida realizzazione dei vantaggi del cloud, un'infrastruttura coerente e operazioni da on-premise ad AWS, portabilità bidirezionale dei carichi di lavoro e capacità e performance di livello Enterprise. Si tratta degli stessi processi e procedure familiari utilizzati per collegare lo storage. Ricorda che è solo la posizione dei dati che sono stati modificati insieme ai nuovi nomi; i tool e i processi rimangono tutti gli stessi e Amazon FSX per ONTAP aiuta a ottimizzare l'implementazione generale.
+Questo documento illustra i passaggi necessari per configurare Amazon FSX ONTAP con cloud VMware su AWS. Amazon FSX ONTAP offre opzioni eccellenti per l'implementazione e la gestione dei workload dell'applicazione insieme ai file service, riducendo al tempo stesso il TCO rendendo i requisiti dei dati perfetti nel layer applicativo. Qualunque sia il caso di utilizzo, scegli VMware Cloud on AWS insieme ad Amazon FSX ONTAP per ottenere una rapida realizzazione dei vantaggi del cloud, di un'infrastruttura coerente e delle operazioni on-premise in AWS, della portabilità bidirezionale dei workload e della capacità e delle performance di livello Enterprise. Si tratta degli stessi processi e procedure familiari utilizzati per collegare lo storage. Ricorda che sono solo la posizione dei dati modificati e i nuovi nomi: Tool e processi restano invariati e Amazon FSX ONTAP aiuta a ottimizzare l'implementazione complessiva.
 
 Per ulteriori informazioni su questo processo, segui il video dettagliato.
 
-.Amazon FSX per ONTAP e il cloud VMware
+.Cloud VMware Amazon FSX ONTAP
 video::6462f4e4-2320-42d2-8d0b-b01200f00ccb[panopto]

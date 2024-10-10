@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: ehc/aws-vmc-veeam-fsx-solution.html 
-keywords: disaster recovery, vmc, vmware cloud, aws, amazon web services, nfs datastore, fsxn, fsx for ontap, fsx for netapp ontap, backup, restore, sql server, oracle 
+keywords: disaster recovery, vmc, vmware cloud, aws, amazon web services, nfs datastore, fsxn, FSx ONTAP, FSx ONTAP, backup, restore, sql server, oracle 
 summary:  
 ---
-= Backup e ripristino di Veeam in VMware Cloud, con Amazon FSX per ONTAP
+= Backup e ripristino di Veeam in VMware Cloud, con Amazon FSX ONTAP
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-Veeam Backup & Replication è una soluzione efficace e affidabile per la protezione dei dati in VMware Cloud. Questa soluzione dimostra la corretta configurazione e configurazione per l'utilizzo di backup e replica Veeam per il backup e il ripristino delle macchine virtuali dell'applicazione che risiedono su datastore NFS FSX per ONTAP in VMware Cloud.
+Veeam Backup & Replication è una soluzione efficace e affidabile per la protezione dei dati in VMware Cloud. Questa soluzione dimostra la configurazione e il setup corretti per l'utilizzo di Veeam Backup and Replication per il backup e il ripristino delle macchine virtuali dell'applicazione che risiedono sui datastore NFS FSX ONTAP in VMware Cloud.
 
 Autore: Josh Powell - NetApp Solutions Engineering
 
@@ -22,7 +22,7 @@ Autore: Josh Powell - NetApp Solutions Engineering
 
 == Panoramica
 
-VMware Cloud (in AWS) supporta l'utilizzo di datastore NFS come storage supplementare, mentre FSX per NetApp ONTAP è una soluzione sicura per i clienti che hanno bisogno di memorizzare grandi quantità di dati per le loro applicazioni cloud, in grado di scalare indipendentemente dal numero di host ESXi nel cluster SDDC. Questo servizio di storage AWS integrato offre uno storage altamente efficiente con tutte le funzionalità tradizionali di NetApp ONTAP.
+VMware Cloud (in AWS) supporta l'utilizzo dei datastore NFS come storage supplementare, mentre FSX ONTAP è una soluzione sicura per i clienti che devono memorizzare grandi quantità di dati per le proprie applicazioni cloud, in grado di scalare in maniera indipendente dal numero di host ESXi nel cluster SDDC. Questo servizio di storage AWS integrato offre uno storage altamente efficiente con tutte le funzionalità tradizionali di NetApp ONTAP.
 
 
 
@@ -30,16 +30,16 @@ VMware Cloud (in AWS) supporta l'utilizzo di datastore NFS come storage suppleme
 
 Questa soluzione risolve i seguenti casi di utilizzo:
 
-* Backup e ripristino di macchine virtuali Windows e Linux ospitate in VMC utilizzando FSX per NetApp ONTAP come repository di backup.
-* Backup e ripristino dei dati delle applicazioni Microsoft SQL Server utilizzando FSX per NetApp ONTAP come repository di backup.
-* Backup e ripristino dei dati delle applicazioni Oracle utilizzando FSX per NetApp ONTAP come repository di backup.
+* Backup e ripristino di macchine virtuali Windows e Linux ospitate in VMC utilizzando FSX ONTAP come repository di backup.
+* Backup e ripristino dei dati applicativi di Microsoft SQL Server con FSX ONTAP come repository di backup.
+* Backup e ripristino dei dati applicativi Oracle con FSX ONTAP come repository di backup.
 
 
 
 
-=== Archivi dati NFS che utilizzano Amazon FSX per ONTAP
+=== Datastore NFS che utilizzano Amazon FSX ONTAP
 
-Tutte le macchine virtuali di questa soluzione risiedono su datastore NFS supplementari FSX per ONTAP. L'utilizzo di FSX per ONTAP come datastore NFS supplementare offre diversi vantaggi. Ad esempio, consente di:
+Tutte le macchine virtuali contenute in questa soluzione risiedono in datastore NFS supplementari FSX ONTAP. L'utilizzo di FSX ONTAP come datastore NFS supplementare presenta diversi vantaggi. Ad esempio, consente di:
 
 * Crea un file system scalabile e altamente disponibile nel cloud senza la necessità di complesse operazioni di configurazione e gestione.
 * Integrazione con l'ambiente VMware esistente, che consente di utilizzare strumenti e processi familiari per gestire le risorse cloud.
@@ -49,10 +49,10 @@ Tutte le macchine virtuali di questa soluzione risiedono su datastore NFS supple
 .Panoramica sull'implementazione della soluzione
 [%collapsible]
 ====
-Questo elenco fornisce i passaggi di alto livello necessari per configurare il backup e la replica di Veeeam, eseguire processi di backup e ripristino utilizzando FSX per ONTAP come repository di backup ed eseguire ripristini di macchine virtuali e database SQL Server e Oracle:
+Questo elenco fornisce i passaggi di alto livello necessari per configurare Veeam Backup & Replication, eseguire i processi di backup e ripristino utilizzando FSX ONTAP come repository di backup ed eseguire ripristini delle VM e dei database SQL Server e Oracle:
 
-. Creare il file system FSX per ONTAP da utilizzare come repository di backup iSCSI per il backup e la replica Veeam.
-. Implementare Veeam Proxy per distribuire i carichi di lavoro di backup e montare repository di backup iSCSI ospitati su FSX per ONTAP.
+. Creare il file system FSX ONTAP da utilizzare come repository di backup iSCSI per Veeam Backup & Replication.
+. Implementa Veeam Proxy per distribuire i workload di backup e montare repository di backup iSCSI ospitati su FSX ONTAP.
 . Configurare Veeam Backup Jobs per il backup di macchine virtuali SQL Server, Oracle, Linux e Windows.
 . Ripristinare le macchine virtuali SQL Server e i singoli database.
 . Ripristinare le macchine virtuali Oracle e i singoli database.
@@ -62,22 +62,22 @@ Questo elenco fornisce i passaggi di alto livello necessari per configurare il b
 .Prerequisiti
 [%collapsible]
 ====
-Lo scopo di questa soluzione è dimostrare la protezione dei dati delle macchine virtuali in esecuzione in VMware Cloud e situate su archivi dati NFS ospitati da FSX per NetApp ONTAP. Questa soluzione presuppone che i seguenti componenti siano configurati e pronti per l'uso:
+Lo scopo di questa soluzione è dimostrare la data Protection delle macchine virtuali eseguite in VMware Cloud e che si trovano negli archivi dati NFS ospitati da FSX ONTAP. Questa soluzione presuppone che i seguenti componenti siano configurati e pronti per l'uso:
 
-. File system FSX per ONTAP con uno o più datastore NFS connessi a VMware Cloud.
+. File system FSX ONTAP con uno o più datastore NFS collegati a VMware Cloud.
 . Macchina virtuale Microsoft Windows Server con software Veeam Backup & Replication installato.
 +
 ** Il server vCenter è stato rilevato dal server Veeam Backup & Replication utilizzando il proprio indirizzo IP o il nome di dominio completo.
 
 
 . Microsoft Windows Server VM da installare con i componenti di Veeam Backup Proxy durante l'implementazione della soluzione.
-. Macchine virtuali Microsoft SQL Server con VMDK e dati delle applicazioni che risiedono su FSX per datastore NFS di ONTAP. Per questa soluzione avevamo due database SQL su due VMDK separati.
+. Macchine virtuali Microsoft SQL Server con VMDK e dati applicativi che risiedono in datastore NFS FSX ONTAP. Per questa soluzione avevamo due database SQL su due VMDK separati.
 +
 ** Nota: Come Best practice, i file di log delle transazioni e dei database vengono collocati su dischi separati, in quanto ciò migliorerà le performance e l'affidabilità. Ciò è dovuto in parte al fatto che i log delle transazioni vengono scritti in sequenza, mentre i file di database vengono scritti in modo casuale.
 
 
-. VM di database Oracle con VMDK e dati delle applicazioni che risiedono su FSX per datastore NFS di ONTAP.
-. VM di file server Linux e Windows con VMDK residenti su FSX per datastore NFS ONTAP.
+. Macchine virtuali dei database Oracle con VMDK e dati delle applicazioni che risiedono nei datastore NFS FSX ONTAP.
+. Macchine virtuali file server Linux e Windows con VMDK che risiedono in datastore NFS FSX ONTAP.
 . Veeam richiede porte TCP specifiche per la comunicazione tra server e componenti nell'ambiente di backup. Sui componenti dell'infrastruttura di backup Veeam, le regole firewall richieste vengono create automaticamente. Per un elenco completo dei requisiti delle porte di rete, consultare la sezione Porte del https://helpcenter.veeam.com/docs/backup/vsphere/used_ports.html?zoom_highlight=network+ports&ver=120["Guida utente di Veeam Backup and Replication per VMware vSphere"].
 
 
@@ -93,16 +93,16 @@ image:aws-vmc-veeam-00.png["Diagramma dell'architettura della soluzione"]
 .Componenti hardware/software
 [%collapsible]
 ====
-Lo scopo di questa soluzione è dimostrare la protezione dei dati delle macchine virtuali in esecuzione in VMware Cloud e situate su archivi dati NFS ospitati da FSX per NetApp ONTAP. Questa soluzione presuppone che i seguenti componenti siano già configurati e pronti per l'uso:
+Lo scopo di questa soluzione è dimostrare la data Protection delle macchine virtuali eseguite in VMware Cloud e che si trovano negli archivi dati NFS ospitati da FSX ONTAP. Questa soluzione presuppone che i seguenti componenti siano già configurati e pronti per l'uso:
 
-* Macchine virtuali Microsoft Windows situate su un archivio dati NFS FSX per ONTAP
-* Macchine virtuali Linux (CentOS) situate su un archivio dati NFS FSX per ONTAP
-* Macchine virtuali Microsoft SQL Server situate su un archivio dati NFS FSX per ONTAP
+* Macchine virtuali di Microsoft Windows situate in un datastore NFS FSX ONTAP
+* Macchine virtuali Linux (CentOS) che si trovano in un datastore NFS FSX ONTAP
+* Macchine virtuali di Microsoft SQL Server situate in un datastore NFS FSX ONTAP
 +
 ** Due database ospitati su VMDK separati
 
 
-* Oracle VM si trova su un archivio dati FSX per NFS ONTAP
+* Oracle VM situata in un datastore NFS FSX ONTAP
 
 
 ====
@@ -110,11 +110,11 @@ Lo scopo di questa soluzione è dimostrare la protezione dei dati delle macchine
 
 == Implementazione della soluzione
 
-In questa soluzione forniamo istruzioni dettagliate per l'implementazione e la convalida di una soluzione che utilizza il software di backup e replica Veeam per eseguire il backup e il ripristino di macchine virtuali di file server SQL Server, Oracle e Windows e Linux in un VMware Cloud SDDC su AWS. Le macchine virtuali di questa soluzione risiedono su un datastore NFS supplementare ospitato da FSX per ONTAP. Inoltre, viene utilizzato un file system FSX separato per ONTAP per ospitare volumi iSCSI che verranno utilizzati per i repository di backup Veeam.
+In questa soluzione forniamo istruzioni dettagliate per l'implementazione e la convalida di una soluzione che utilizza il software di backup e replica Veeam per eseguire il backup e il ripristino di macchine virtuali di file server SQL Server, Oracle e Windows e Linux in un VMware Cloud SDDC su AWS. Le macchine virtuali di questa soluzione risiedono in un datastore NFS supplementare ospitato da FSX ONTAP. Inoltre, viene utilizzato un file system FSX ONTAP separato per ospitare i volumi iSCSI che saranno utilizzati per i repository di backup di Veeam.
 
-Passeremo a FSX per la creazione di file system ONTAP, il montaggio di volumi iSCSI da utilizzare come repository di backup, la creazione e l'esecuzione di processi di backup e il ripristino di macchine virtuali e database.
+Andremo oltre la creazione del file system FSX ONTAP, il montaggio dei volumi iSCSI da utilizzare come repository di backup, la creazione e l'esecuzione di lavori di backup ed il ripristino di macchine virtuali e database.
 
-Per informazioni dettagliate su FSX per NetApp ONTAP, fare riferimento a. https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["Guida utente di FSX per ONTAP"^].
+Per informazioni dettagliate su FSX ONTAP, fare riferimento alla https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["Guida dell'utente di FSX ONTAP"^] .
 
 Per informazioni dettagliate su Veeam Backup e Replication, fare riferimento a. https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Documentazione tecnica del Centro assistenza Veeam"^] sito.
 
@@ -182,22 +182,22 @@ image:aws-vmc-veeam-10.png["Configurare le regole del traffico di rete"]
 
 === Configurare storage e repository di backup
 
-Il server primario Veeam Backup e il server Veeam Proxy hanno accesso a un repository di backup sotto forma di storage a connessione diretta. In questa sezione viene descritta la creazione di un file system FSX per ONTAP, il montaggio di LUN iSCSI sui server Veeam e la creazione di repository di backup.
+Il server primario Veeam Backup e il server Veeam Proxy hanno accesso a un repository di backup sotto forma di storage a connessione diretta. In questa sezione tratteremo la creazione di un file system FSX ONTAP, il montaggio di LUN iSCSI sui server Veeam e la creazione di repository di backup.
 
-.Creare FSX per il file system ONTAP
+.Crea file system FSX ONTAP
 [%collapsible]
 ====
-Creare un file system FSX per ONTAP che verrà utilizzato per ospitare i volumi iSCSI per i repository di backup Veeam.
+Creare un file system FSX ONTAP che verrà utilizzato per ospitare i volumi iSCSI per i Veeam Backup Repository.
 
 . Nella console AWS, andare a FSX e quindi a *Create file system*
 +
-image:aws-vmc-veeam-01.png["Creare FSX per il file system ONTAP"]
+image:aws-vmc-veeam-01.png["Crea file system FSX ONTAP"]
 
-. Selezionare *Amazon FSX per NetApp ONTAP*, quindi *Avanti* per continuare.
+. Selezionare *Amazon FSX ONTAP*, quindi *Avanti* per continuare.
 +
-image:aws-vmc-veeam-02.png["Selezionare Amazon FSX per NetApp ONTAP"]
+image:aws-vmc-veeam-02.png["Seleziona Amazon FSX ONTAP"]
 
-. Inserire il nome del file system, il tipo di implementazione, la capacità dello storage SSD e il VPC in cui si trova il cluster FSX per ONTAP. Deve essere un VPC configurato per comunicare con la rete di macchine virtuali in VMware Cloud. Fare clic su *Avanti*.
+. Inserisci nome del file system, tipo di implementazione, capacità dello storage SSD e VPC in cui risiede il cluster FSX ONTAP. Deve essere un VPC configurato per comunicare con la rete di macchine virtuali in VMware Cloud. Fare clic su *Avanti*.
 +
 image:aws-vmc-veeam-03.png["Compilare le informazioni sul file system"]
 
@@ -208,13 +208,13 @@ image:aws-vmc-veeam-03.png["Compilare le informazioni sul file system"]
 .Configurare e montare LUN iSCSI
 [%collapsible]
 ====
-Creare e configurare i LUN iSCSI su FSX per ONTAP e montarli sui server proxy e di backup Veeam. Questi LUN verranno utilizzati in seguito per creare repository di backup Veeam.
+Creare e configurare le LUN iSCSI in FSX ONTAP e montarle sui server proxy e di backup Veeam. Questi LUN verranno utilizzati in seguito per creare repository di backup Veeam.
 
 
-NOTE: La creazione di un LUN iSCSI su FSX per ONTAP è un processo multi-step. La prima fase della creazione dei volumi può essere eseguita nella console Amazon FSX o con la CLI NetApp ONTAP.
+NOTE: La creazione di una LUN iSCSI su FSX ONTAP è un processo in più fasi. La prima fase della creazione dei volumi può essere eseguita nella console Amazon FSX o con la CLI NetApp ONTAP.
 
 
-NOTE: Per ulteriori informazioni sull'utilizzo di FSX per ONTAP, consultare https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["Guida utente di FSX per ONTAP"^].
+NOTE: Per ulteriori informazioni sull'utilizzo di FSX ONTAP, vedere la https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["Guida dell'utente di FSX ONTAP"^].
 
 . Dalla CLI di NetApp ONTAP creare i volumi iniziali utilizzando il seguente comando:
 +
@@ -449,7 +449,7 @@ image:aws-vmc-veeam-36.png["Selezionare un punto di ripristino dall'elenco"]
 
 VMware Cloud è una potente piattaforma per l'esecuzione di applicazioni business-critical e l'archiviazione di dati sensibili. Una soluzione sicura per la protezione dei dati è essenziale per le aziende che si affidano a VMware Cloud per garantire la continuità del business e contribuire alla protezione dalle minacce informatiche e dalla perdita di dati. Scegliendo una soluzione di protezione dei dati affidabile e solida, le aziende possono essere sicure che i loro dati critici siano sicuri e sicuri, indipendentemente da cosa.
 
-Il caso di utilizzo presentato in questa documentazione si concentra su tecnologie di data Protection comprovate che evidenziano l'integrazione tra NetApp, VMware e Veeeam. FSX per ONTAP è supportato come datastore NFS supplementari per VMware Cloud in AWS e viene utilizzato per tutti i dati delle macchine virtuali e delle applicazioni. Veeam Backup & Replication è una soluzione completa per la protezione dei dati progettata per aiutare le aziende a migliorare, automatizzare e ottimizzare i processi di backup e recovery. Veeam viene utilizzato insieme ai volumi target di backup iSCSI, ospitati su FSX per ONTAP, per fornire una soluzione di protezione dei dati sicura e facile da gestire per i dati applicativi residenti in VMware Cloud.
+Il caso di utilizzo presentato in questa documentazione si concentra su tecnologie di data Protection comprovate che evidenziano l'integrazione tra NetApp, VMware e Veeeam. FSX ONTAP è supportato come datastore NFS supplementare per VMware Cloud in AWS e viene utilizzato per tutti i dati delle macchine virtuali e delle applicazioni. Veeam Backup & Replication è una soluzione completa per la protezione dei dati progettata per aiutare le aziende a migliorare, automatizzare e ottimizzare i processi di backup e recovery. Veeam viene utilizzato in combinazione con i volumi di destinazione del backup iSCSI, ospitati su FSX ONTAP, per offrire una soluzione per la data Protection sicura e facile da gestire per i dati delle applicazioni che risiedono in VMware Cloud.
 
 
 
@@ -457,7 +457,7 @@ Il caso di utilizzo presentato in questa documentazione si concentra su tecnolog
 
 Per ulteriori informazioni sulle tecnologie presentate in questa soluzione, fare riferimento alle seguenti informazioni aggiuntive.
 
-* https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["Guida utente di FSX per ONTAP"^]
+* https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["Guida dell'utente di FSX ONTAP"^]
 * https://www.veeam.com/documentation-guides-datasheets.html?productId=8&version=product%3A8%2F221["Documentazione tecnica del Centro assistenza Veeam"^]
 * https://www.veeam.com/kb2414["Supporto di VMware Cloud su AWS. Considerazioni e limitazioni"]
 

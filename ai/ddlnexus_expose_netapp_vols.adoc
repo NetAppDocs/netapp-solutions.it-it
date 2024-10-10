@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ai/ddlnexus_expose_netapp_vols.html 
-keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx for NetApp ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
 summary: MLOps multicloud ibrido con Domino Data Lab e NetApp - esponi i volumi NetApp esistenti a Domino 
 ---
 = Esporre i volumi NetApp esistenti a Domino
@@ -39,7 +39,7 @@ Se il tuo volume NFS NetApp ONTAP esistente non è stato sottoposto a provisioni
 === Crea PV e PVC in Kubernetes
 
 
-NOTE: Per i volumi on-premise, creare PV e PVC nel cluster Kubernetes on-premise. Per Amazon FSX per i volumi NetApp ONTAP, crea il PV e il PVC in Amazon EKS.
+NOTE: Per i volumi on-premise, creare PV e PVC nel cluster Kubernetes on-premise. Per i volumi ONTAP di Amazon FSX, crea il PV e il PVC in Amazon EKS.
 
 Innanzitutto, devi creare un volume persistente (PV) e una dichiarazione di volume persistente (PVC) nel cluster Kubernetes. Per creare PV e PVC, utilizzare il link:https://docs.dominodatalab.com/en/latest/admin_guide/4cdae9/set-up-kubernetes-pv-and-pvc/#_nfs_pvpvc_example["ESEMPIO DI NFS PV/PVC"] Dalla guida dell'amministratore di Domino e aggiornare i valori in modo che riflettano l'ambiente in uso. Assicurarsi di specificare i valori corretti per `namespace`, `nfs.path`, e. `nfs.server` campi. Inoltre, consigliamo di assegnare nomi univoci ai PV e PVC che rappresentino la natura dei dati memorizzati nel volume NFS ONTAP corrispondente. Ad esempio, se il volume contiene immagini di difetti di fabbricazione, è possibile denominare PV, `pv-mfg-defect-images`, E il PVC, `pvc-mfg-defect-images`.
 

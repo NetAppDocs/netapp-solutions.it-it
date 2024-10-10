@@ -412,7 +412,7 @@ Molte organizzazioni IT stanno adottando un approccio "cloud-first" ibrido duran
 
 Attraverso l'integrazione con i servizi 1P basati su NetApp su ciascun hyperscaler, le organizzazioni possono realizzare una soluzione cloud basata su vSphere senza un semplice approccio alla migrazione, senza re-platforming, modifiche IP e modifiche architetturali. Inoltre, questa ottimizzazione consente di scalare l'impatto dello storage mantenendo il numero di host alla quantità minima richiesta in vSphere, senza modificare la gerarchia dello storage, la sicurezza o i file resi disponibili.
 
-* Visualizzare le istruzioni dettagliate per link:../ehc/aws-migrate-vmware-hcx.html["Migra i carichi di lavoro in FSX per il datastore ONTAP"].
+* Visualizzare le istruzioni dettagliate per link:../ehc/aws-migrate-vmware-hcx.html["Migra i carichi di lavoro nel datastore FSX ONTAP"].
 * Visualizzare le istruzioni dettagliate per link:../ehc/azure-migrate-vmware-hcx.html["Migra i carichi di lavoro nel datastore Azure NetApp Files"].
 * Visualizzare le istruzioni dettagliate per link:../ehc/gcp-migrate-vmware-hcx.html["Migra i carichi di lavoro nel datastore dei volumi di Google Cloud NetApp"].
 
@@ -431,9 +431,9 @@ Per ulteriori dettagli, visitare il sito Web all'indirizzo link:../ehc/dr-draas-
 
 === Disaster recovery tra on-premise e VMware Cloud in qualsiasi hyperscaler
 
-Per i clienti che desiderano utilizzare VMware Cloud su qualsiasi hyperscaler come destinazione di disaster recovery, è possibile utilizzare datastore basati sullo storage ONTAP (Azure NetApp Files, FSX per ONTAP, Google Cloud NetApp Volumes) per replicare i dati da sistemi on-premise, utilizzando qualsiasi soluzione di terze parti validata che offre funzionalità di replica delle VM. Aggiungendo datastore basati su storage ONTAP, potrai eseguire un disaster recovery ottimizzato in termini di costi sulla destinazione, con un numero inferiore di host ESXi. Ciò consente anche di decommissionare un sito secondario nell'ambiente on-premise, ottenendo così notevoli risparmi sui costi.
+Per i clienti che desiderano utilizzare VMware Cloud su qualsiasi hyperscaler come destinazione di disaster recovery, è possibile utilizzare datastore basati sullo storage ONTAP (Azure NetApp Files, FSX ONTAP, Google Cloud NetApp Volumes) per replicare i dati da sistemi on-premise, utilizzando qualsiasi soluzione di terze parti validata che offre funzionalità di replica delle VM. Aggiungendo datastore basati su storage ONTAP, potrai eseguire un disaster recovery ottimizzato in termini di costi sulla destinazione, con un numero inferiore di host ESXi. Ciò consente anche di decommissionare un sito secondario nell'ambiente on-premise, ottenendo così notevoli risparmi sui costi.
 
-* Visualizzare le istruzioni dettagliate per link:../ehc/veeam-fsxn-dr-to-vmc.html["Disaster recovery in FSX per ONTAP"].
+* Visualizzare le istruzioni dettagliate per link:../ehc/veeam-fsxn-dr-to-vmc.html["Disaster recovery nel datastore FSX ONTAP"].
 * Visualizzare le istruzioni dettagliate per link:../ehc/azure-native-dr-jetstream.html["Disaster recovery nel datastore Azure NetApp Files"].
 * Visualizzare le istruzioni dettagliate per link:../ehc/gcp-app-dr-sc-cvs-veeam.html["Disaster recovery nel datastore Google Cloud NetApp Volumes"].
 
