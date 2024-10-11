@@ -57,7 +57,13 @@ Poiché FSX ONTAP è un file system ONTAP, offre una serie di funzioni e servizi
 
 La risorsa centrale di FSX ONTAP è il suo file system basato sullo storage su dischi a stato solido (SSD). Durante il provisioning di un file system FSX ONTAP, l'utente inserisce una velocità effettiva e una capacità di storage desiderate e seleziona un VPC Amazon in cui si troverà il file system.
 
-Gli utenti possono anche scegliere tra due modelli di distribuzione integrati ad alta disponibilità per il file system: Implementazione di Multi-Availability zone (AZ) o di una singola AZ. Ciascuna di queste opzioni offre il proprio livello di durata e disponibilità, che i clienti possono scegliere in base ai requisiti di business continuity del caso d'utilizzo. Le implementazioni multi-AZ sono costituite da nodi doppi che si replicano senza problemi tra due AZS. L'opzione di distribuzione single-AZ più conveniente struttura il file system in due nodi divisi tra due domini di errore separati che risiedono entrambi all'interno di una singola AZ. Storage Virtual Machine i dati nel file system FSX ONTAP sono accessibili attraverso una partizione storage logica chiamata Storage Virtual Machine (SVM). Una SVM è in realtà un suo file server dotato di propri data e access point amministrativi. Quando si accede alle LUN iSCSI su un file system FSX ONTAP, l'istanza di Amazon EC2 si interfaccia direttamente con la SVM utilizzando l'indirizzo IP dell'endpoint iSCSI della SVM.
+Gli utenti possono anche scegliere tra due modelli di distribuzione integrati ad alta disponibilità per il file system: Implementazione di Multi-Availability zone (AZ) o di una singola AZ. Ciascuna di queste opzioni offre il proprio livello di durata e disponibilità, che i clienti possono scegliere in base ai requisiti di business continuity del caso d'utilizzo. Le implementazioni multi-AZ sono costituite da nodi doppi che si replicano senza problemi tra due AZS. L'opzione di distribuzione single-AZ più conveniente struttura il file system in due nodi divisi tra due domini di errore separati che risiedono entrambi all'interno di una singola AZ.
+
+
+
+=== Macchine virtuali di storage
+
+Ai dati nel file system FSX ONTAP si accede tramite una partizione storage logica chiamata Storage Virtual Machine (SVM). Una SVM è in realtà un suo file server dotato di propri data e access point amministrativi. Quando si accede alle LUN iSCSI su un file system FSX ONTAP, l'istanza di Amazon EC2 si interfaccia direttamente con la SVM utilizzando l'indirizzo IP dell'endpoint iSCSI della SVM.
 
 Anche se è possibile mantenere una singola SVM in un cluster, è possibile eseguire diverse SVM in un cluster solo in svariati utilizzi e benefici. I clienti sono in grado di determinare il numero ottimale di SVM da configurare tenendo in considerazione le esigenze aziendali, compresi i requisiti per l'isolamento del workload.
 
