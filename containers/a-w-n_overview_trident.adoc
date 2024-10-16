@@ -34,22 +34,22 @@ Per informazioni dettagliate sull'installazione di Trident, vedere https://docs.
 
 == Creare un backend di sistema storage
 
-Dopo aver completato l'installazione dell'operatore Trident, è necessario configurare il backend per la piattaforma di storage NetApp specifica che si sta utilizzando. Seguire il collegamento riportato di seguito per continuare l'installazione e la configurazione di Trident. link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html#step-1-create-a-backend["Creare un backend."]
+Dopo aver completato l'installazione dell'operatore Trident, è necessario configurare il backend per la piattaforma di storage NetApp specifica che si sta utilizzando. Seguire il collegamento riportato di seguito per continuare l'installazione e la configurazione di Trident. link:https://docs.netapp.com/us-en/trident/trident-use/backends.html["Creare un backend."]
 
 
 
 == Creare una classe di storage
 
-Dopo aver creato il backend, è necessario creare una classe di storage che gli utenti Kubernetes specificheranno quando desiderano un volume. Kubernetes consente agli utenti di eseguire il provisioning dei volumi utilizzando le dichiarazioni di volumi persistenti (PVC) che specificano una classe di storage in base al nome. Fare clic sul collegamento riportato di seguito per creare una classe di storage.link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html#step-2-create-a-storage-class["Creare una classe di storage"]
+Dopo aver creato il backend, è necessario creare una classe di storage che gli utenti Kubernetes specificheranno quando desiderano un volume. Kubernetes consente agli utenti di eseguire il provisioning dei volumi utilizzando le dichiarazioni di volumi persistenti (PVC) che specificano una classe di storage in base al nome. Fare clic sul collegamento riportato di seguito per creare una classe di archiviazione. link:https://docs.netapp.com/us-en/trident/trident-use/create-stor-class.html["Creare una classe di storage"]
 
 
 
 == Eseguire il provisioning dinamico di un volume
 
-È necessario creare un oggetto Kubernetes Persistent Volume claim (PVC) utilizzando la classe storage per eseguire il provisioning dinamico di un volume. Fare clic sul collegamento riportato di seguito per creare un oggetto PVC.link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html#step-3-provision-your-first-volume["Creare un PVC"]
+È necessario creare un oggetto Kubernetes Persistent Volume claim (PVC) utilizzando la classe storage per eseguire il provisioning dinamico di un volume. Seguire il collegamento riportato di seguito per creare un oggetto PVC. link:https://docs.netapp.com/us-en/trident/trident-use/vol-provision.html["Creare un PVC"]
 
 
 
 == Utilizzare il volume
 
-Il volume fornito nella fase precedente può essere utilizzato da un'applicazione montando il volume nel pod.il link seguente mostra un esempio.link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html#step-4-mount-the-volumes-in-a-pod["Montare il volume in un pod"]
+Il volume fornito nel passaggio precedente può essere utilizzato da un'applicazione montando il volume nel pod. Il collegamento riportato di seguito mostra un esempio. link:https://docs.netapp.com/us-en/trident/trident-use/vol-provision.html#sample-manifests["Montare il volume in un pod"]
