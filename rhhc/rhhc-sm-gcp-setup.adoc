@@ -4,16 +4,16 @@ permalink: rhhc/rhhc-sm-gcp-setup.html
 keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP, Google Cloud Platform, Google Cloud, GCP 
 summary:  
 ---
-= Implementare e configurare la piattaforma Red Hat OpenShift Container su GCP
+= Implementa e configura Red Hat OpenShift Container Platform su Google Cloud
 :allow-uri-read: 
 
 
 
 
-== Implementare e configurare la piattaforma Red Hat OpenShift Container su GCP
+== Implementa e configura Red Hat OpenShift Container Platform su Google Cloud
 
 [role="lead"]
-In questa sezione viene descritto un workflow di alto livello che illustra come configurare e gestire i cluster OpenShift in GCP e come implementare applicazioni stateful su di essi. Mostra l'utilizzo dello storage NetApp Cloud Volumes ONTAP con l'aiuto di Trident per la fornitura di volumi persistenti. Vengono forniti dettagli sull'utilizzo di Astra Control Center per eseguire attività di migrazione e protezione dei dati per le applicazioni stateful.
+In questa sezione viene descritto un workflow di alto livello che illustra come configurare e gestire i cluster OpenShift in GCP e come implementare applicazioni stateful su di essi. Mostra l'uso dei volumi Google Cloud NetApp e dello storage NetApp Cloud Volumes ONTAP con l'aiuto di Trident per fornire volumi persistenti.
 
 Segue un diagramma che mostra i cluster implementati in GCP e connessi al data center tramite una VPN.
 
@@ -24,9 +24,7 @@ NOTE: Esistono diversi modi per implementare i cluster di piattaforme container 
 
 Il processo di installazione può essere suddiviso nei seguenti passaggi:
 
-.Installare un cluster OCP su GCP dalla CLI.
-[%collapsible]
-====
+.Installare un cluster OCP su GCP dalla CLI
 * Assicurarsi di aver soddisfatto tutti i prerequisiti indicati link:https://docs.openshift.com/container-platform/4.13/installing/installing_gcp/installing-gcp-default.html["qui"].
 * Per la connettività VPN tra on-premise e GCP, è stata creata e configurata una macchina virtuale pfsense. Per istruzioni, vedere https://docs.netgate.com/pfsense/en/latest/recipes/ipsec-s2s-psk.html["qui"].
 +
@@ -49,34 +47,28 @@ Il processo di installazione può essere suddiviso nei seguenti passaggi:
 
 
 
-====
-.Implementa Cloud Volumes ONTAP in GCP usando BlueXP.
-[%collapsible]
-====
+.Implementa Google Cloud NetApp Volumes
+* Google Cloud NetApp Volumes può essere aggiunto ai progetti come descritto link:https://cloud.google.com/netapp/volumes/docs/discover/overview["qui"].
+
+
+.Implementare Cloud Volumes ONTAP in GCP usando BlueXP 
 * Installare un connettore in Google Cloud. Fare riferimento alle istruzioni https://docs.netapp.com/us-en/bluexp-setup-admin/task-install-connector-google-bluexp-gcloud.html["qui"].
 * Implementa un'istanza CVO in Google Cloud usando Connector. Fare riferimento alle istruzioni riportate di seguito. https://docs.netapp.com/us-en/bluexp-cloud-volumes-ontap/task-getting-started-gcp.html[]
 
 
-====
 .Installare Trident nel cluster OCP in GCP
-[%collapsible]
-====
 * Esistono molti metodi per distribuire Trident, come illustrato https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["qui"].
 * Per questo progetto, Trident è stato installato distribuendo l'operatore Trident manualmente utilizzando le istruzioni https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-operator.html["qui"].
 * Creare classi di storage e backend. Fare riferimento alle istruzioni link:https://docs.netapp.com/us-en/trident/trident-use/backends.html["qui"].
 
 
-====
-.Aggiungere il cluster OCP su GCP all'Astra Control Center.
-[%collapsible]
-====
+.Aggiungere il cluster OCP su GCP all'Astra Control Center
 * Creare un file KubeConfig separato con un ruolo cluster che contenga le autorizzazioni minime necessarie per gestire un cluster da Astra Control. Le istruzioni sono disponibili
 link:https://docs.netapp.com/us-en/astra-control-center/get-started/setup_overview.html#create-a-cluster-role-kubeconfig["qui"].
 * Aggiungere il cluster ad Astra Control Center seguendo le istruzioni
 link:https://docs.netapp.com/us-en/astra-control-center/get-started/setup_overview.html#add-cluster["qui"]
 
 
-====
 .Utilizzo della funzionalità topologia CSI di Trident per architetture multi-zona
 I cloud provider, oggi, consentono agli amministratori di cluster Kubernetes/OpenShift di generare nodi dei cluster basati su zone. I nodi possono essere collocati in diverse zone di disponibilità all'interno di una regione o in diverse regioni. Per facilitare il provisioning dei volumi per i carichi di lavoro in un'architettura multi-zona, Trident utilizza la topologia CSI. Utilizzando la funzionalità topologia CSI, l'accesso ai volumi può essere limitato a un sottoinsieme di nodi, in base alle aree geografiche e alle zone di disponibilità. Per ulteriori dettagli, fare riferimento alla sezionelink:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["qui"].
 
