@@ -37,10 +37,10 @@ Il processo di installazione può essere suddiviso nei seguenti passaggi:
 .Implementare e configurare un cluster OpenShift Container Platform su VMware vSphere (Hub Cluster)
 [%collapsible]
 ====
-Fare riferimento alle istruzioni del link:https://access.redhat.com/documentation/en-us/assisted_installer_for_openshift_container_platform/2022/html/assisted_installer_for_openshift_container_platform/installing-on-vsphere#doc-wrapper/["Implementazione assistita"] Metodo per implementare un cluster OCP.
+Fare riferimento alle istruzioni per il link:https://docs.openshift.com/container-platform/4.17/installing/installing_vsphere/installing-vsphere-assisted-installer.html["Implementazione assistita"] metodo di implementazione di un cluster OCP.
 
 
-TIP: Tenere presente quanto segue: - Creare una chiave pubblica e privata ssh da fornire all'installatore. Queste chiavi verranno utilizzate per accedere ai nodi master e worker, se necessario. - Scaricare il programma di installazione dal programma di installazione assistito. Questo programma viene utilizzato per avviare le macchine virtuali create nell'ambiente VMware vSphere per i nodi master e worker. Le macchine virtuali devono avere i requisiti minimi di CPU, memoria e disco rigido. (Fare riferimento ai comandi di creazione della macchina virtuale su link:https://access.redhat.com/documentation/en-us/assisted_installer_for_openshift_container_platform/2022/html/assisted_installer_for_openshift_container_platform/installing-on-vsphere#doc-wrapper/["questo"] Per i nodi master e worker che forniscono queste informazioni) - diskUID deve essere abilitato su tutte le macchine virtuali. - Creare un minimo di 3 nodi per master e 3 nodi per worker. Una volta rilevati dal programma di installazione, attivare il pulsante di attivazione/disattivazione dell'integrazione VMware vSphere.
+TIP: Tenere presente quanto segue: - Creare una chiave pubblica e privata ssh da fornire all'installatore. Queste chiavi verranno utilizzate per accedere ai nodi master e worker, se necessario. - Scaricare il programma di installazione dal programma di installazione assistito. Questo programma viene utilizzato per avviare le macchine virtuali create nell'ambiente VMware vSphere per i nodi master e worker. Le macchine virtuali devono avere i requisiti minimi di CPU, memoria e disco rigido. (Fare riferimento ai comandi vm create link:https://docs.redhat.com/en/documentation/assisted_installer_for_openshift_container_platform/2024/html/installing_openshift_container_platform_with_the_assisted_installer/installing-on-vsphere["questo"]a pagina per i nodi master e worker che forniscono queste informazioni) - diskUUID deve essere abilitato su tutte le VM. - Creare un minimo di 3 nodi per master e 3 nodi per worker. Una volta rilevati dal programma di installazione, attivare il pulsante di attivazione/disattivazione dell'integrazione VMware vSphere.
 
 ====
 .Installare Advanced Cluster Management sul cluster Hub
@@ -81,7 +81,7 @@ Viene installato utilizzando Advanced Cluster Management Operator sul cluster Hu
 * Fare riferimento alle istruzioni link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-operator.html["qui"].
 * Creare un backend di storage per ontap-nas .
 * Creare una classe di storage per ontap-nas.
-* Fare riferimento alle istruzioni link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["qui"].
+* Fare riferimento alle istruzioni link:https://docs.netapp.com/us-en/trident/trident-use/create-stor-class.html["qui"].
 
 
 ====

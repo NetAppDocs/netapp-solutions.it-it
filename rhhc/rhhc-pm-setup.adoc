@@ -44,7 +44,7 @@ Il processo di installazione può essere suddiviso nei seguenti passaggi:
 .Installare Trident sui cluster ROSA (utilizzando il grafico Helm)
 [%collapsible]
 ====
-* USA il grafico Helm per installare Trident sui cluster ROSA. url del grafico Helm: https://netapp.github.io/trident-helm-chart[]
+* USA il grafico Helm per installare Trident sui cluster ROSA. Fare riferimento al link della documentazione: https://docs.NetApp.com/us-en/Trident/Trident-get-started/kuapart.com-deploy-helm.html[qui].
 
 
 .Integrazione di FSX ONTAP con Trident per i cluster ROSA
@@ -58,7 +58,7 @@ image:rhhc-trident-helm.png["Figura che mostra la finestra di dialogo input/outp
 .Creare classi di backend e storage utilizzando Trident (per FSX ONTAP)
 [%collapsible]
 ====
-* Fare riferimento a. link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-postdeployment.html["qui"] per informazioni dettagliate sulla creazione di classe di storage e backend.
+* Per ulteriori dettagli sulla creazione di backend e di classe di archiviazione, fare riferimento link:https://docs.netapp.com/us-en/trident/trident-use/backends.html["qui"]a.
 * Rendere la classe di storage creata per FsxN con Trident CSI come predefinita da OpenShift Console. Vedere la schermata riportata di seguito:
 
 
@@ -72,7 +72,7 @@ image:rhhc-default-storage-class.png["Figura che mostra la finestra di dialogo i
 * Configurare una nuova istanza del CD Argo per il cluster. Fare riferimento alle istruzioni link:https://docs.openshift.com/container-platform/4.10/cicd/gitops/setting-up-argocd-instance.html["qui"].
 
 
-Aprire la console del CD Argo e implementare un'applicazione. Ad esempio, puoi implementare un'applicazione Jenkins utilizzando il CD Argo con Helm Chart. Durante la creazione dell'applicazione, sono stati forniti i seguenti dettagli: Progetto: Cluster predefinito: https://kubernetes.default.svc[]Spazio dei nomi: Jenkins l'URL per il grafico Helm: https://charts.bitnami.com/bitnami[]
+Aprire la console del CD Argo e implementare un'applicazione. Ad esempio, puoi implementare un'applicazione Jenkins utilizzando il CD Argo con Helm Chart. Al momento della creazione dell'applicazione, sono stati forniti i seguenti dettagli: Project: Default cluster: 'https://kubernetes.default.svc'[] (Senza le virgolette) namespace: Jenkins l'URL per Helm Chart:  (Senza le virgolette'https://charts.bitnami.com/bitnami'[])
 
 Parametri Helm: Global.storageClass: Fsxn-nas
 
