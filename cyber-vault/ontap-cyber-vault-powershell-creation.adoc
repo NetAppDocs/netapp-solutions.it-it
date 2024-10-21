@@ -48,7 +48,7 @@ NOTE: Il cluster del vault Cyber può trovarsi nello stesso data center o in un 
 
 
 
-NOTE: La conservazione predefinita è "impostata al minimo". A un volume SnapLock che è una destinazione del vault è assegnato un periodo di conservazione predefinito. Il valore per questo periodo è inizialmente impostato su un minimo di 0 anni e su un massimo di 30 anni per i volumi SnapLock Compliance. Ogni copia Snapshot di NetApp viene inizialmente impegnata con questo periodo di conservazione predefinito. Il periodo di conservazione può essere prolungato in un secondo momento, se necessario, ma mai abbreviato.
+NOTE: La conservazione predefinita è "impostata al minimo". A un volume SnapLock che è una destinazione del vault è assegnato un periodo di conservazione predefinito. Il valore per questo periodo è inizialmente fissato ad un minimo di 0 anni e massimo di 100 anni (a partire da ONTAP 9.10,1. Per le release precedenti di ONTAP, il valore è 0 - 70.) per SnapLock Compliance Volumes. Ogni copia Snapshot di NetApp viene inizialmente impegnata con questo periodo di conservazione predefinito. Il periodo di conservazione può essere prolungato in un secondo momento, se necessario, ma mai abbreviato. Per ulteriori informazioni, vedere link:https://docs.netapp.com/us-en/ontap/snaplock/set-retention-period-task.html["Imposta la panoramica del tempo di conservazione"^].
 
 Quanto sopra comprende i passaggi manuali. Gli esperti di sicurezza consigliano di automatizzare il processo per evitare la gestione manuale che introduce un notevole margine di errore. Di seguito è riportato il frammento di codice che automatizza completamente i prerequisiti e la configurazione di SnapLock Compliance e l'inizializzazione dell'orologio.
 
