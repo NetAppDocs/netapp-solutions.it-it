@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_rosa_solution_prerequisites.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift Service on AWS, 
+summary: Servizio Red Hat OpenShift su AWS con NetApp ONTAP 
+---
+= Servizio Red Hat OpenShift su AWS con NetApp ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+
+
+= Prerequisiti
+
+* link:https://signin.aws.amazon.com/signin?redirect_uri=https://portal.aws.amazon.com/billing/signup/resume&client_id=signup["Account AWS"]
+* link:https://console.redhat.com/["Un account Red Hat"]
+* Utente IAM link:https://www.rosaworkshop.io/rosa/1-account_setup/["con autorizzazioni appropriate"]per creare e accedere al cluster ROSA
+* link:https://aws.amazon.com/cli/["CLI AWS"]
+* link:https://console.redhat.com/openshift/downloads["ROSA CLI"]
+* link:https://console.redhat.com/openshift/downloads["Interfaccia a riga di comando OpenShift"] (oc)
+* Timone 3 link:https://docs.aws.amazon.com/eks/latest/userguide/helm.html["documentazione"]
+* link:https://docs.openshift.com/rosa/rosa_hcp/rosa-hcp-sts-creating-a-cluster-quickly.html["UN CLUSTER HCP ROSA"]
+* link:https://console.redhat.com/openshift/overview["Accesso alla console web Red Hat OpenShift"]
+
+
+Questo diagramma mostra il cluster ROSA implementato in più zone di disponibilità. I nodi master del cluster ROSA, i nodi infrastruttura si trovano nel VPC di Red Hat, mentre i nodi di lavoro si trovano in un VPC nell'account del cliente . Creeremo un file system FSX per ONTAP con lo stesso VPC e installeremo il driver Trident nel cluster ROSA, permettendo a tutte le subnet di questo VPC di connettersi al file system.
+
+image:redhat_openshift_container_rosa_image1.png["Architettura Rosa"]

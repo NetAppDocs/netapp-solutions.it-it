@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: containers/rh-os-n_use_case_openshift_virtualization_workflow_rosa_vm_live_migration.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, ROSA, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Red Hat OpenShift Virtualization su ROSA 
+---
+= Migrazione live delle VM
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+In queste sezioni verrà eseguita una migrazione live della VM, quindi verrà esaminato il contenuto dei dischi. La migrazione in tempo reale si riferisce al processo di spostamento di una macchina virtuale in esecuzione da un host fisico a un altro host senza interrompere le normali operazioni o causare downtime o altri effetti negativi per l'utente finale. La migrazione in tempo reale è considerata un passo importante nella virtualizzazione. Permette lo spostamento di un'intera macchina virtuale con un sistema operativo in esecuzione, memoria, storage e connettività di rete dal nodo corrente alla destinazione. Di seguito viene illustrato come eseguire una migrazione live della macchina virtuale dal nodo corrente a un nuovo nodo.
+
+Prendere nota del nodo su cui è in esecuzione la VM image:redhat_openshift_ocpv_rosa_image24.png["Nodo corrente VM OCP-v"]
+
+Fare clic sui 3 punti e selezionare Migra image:redhat_openshift_ocpv_rosa_image25.png["Migrazione live di OCP-v VM"]
+
+Nella pagina Panoramica, è possibile vedere che la migrazione è riuscita e che lo stato è stato modificato in riuscito. image:redhat_openshift_ocpv_rosa_image26.png["Migrazione OCP-v VM riuscita"]
+
+Al termine della migrazione in tempo reale, la VM si trova ora su un nodo diverso. image:redhat_openshift_ocpv_rosa_image27.png["Macchina virtuale OCP-v su un nodo diverso"]
+
+Aprire la console Web e visualizzare il contenuto dei dischi. Contiene ancora gli stessi file 2 creati prima di Live Migration. image:redhat_openshift_ocpv_rosa_image28.png["OCP-v VM stessi file dopo Live migration1"] image:redhat_openshift_ocpv_rosa_image29.png["OCP-v VM stessi file dopo Live migration2"]
+
+Lo storage per la VM sul nuovo nodo mostra ancora gli stessi dischi image:redhat_openshift_ocpv_rosa_image30.png["OCP-v VM stessi dischi dopo la migrazione live"]
+
+Inoltre, i PVC sono gli stessi. image:redhat_openshift_ocpv_rosa_image31.png["OCP-v VM stessi PVC dopo la migrazione live"]
+
+Anche i volumi associati al pod VM sono gli stessi (2 PVC) di prima. image:redhat_openshift_ocpv_rosa_image32.png["OCP-v VM stessi PVC dopo la migrazione live"]
