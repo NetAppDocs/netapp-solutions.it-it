@@ -13,5 +13,240 @@ summary: Servizio Red Hat OpenShift su AWS con NetApp ONTAP
 :imagesdir: ../media/
 
 
-[role="lead"]
+
+
+== Panoramica
+
 In questa sezione, mostreremo come utilizzare FSX per ONTAP come layer di storage persistente per le applicazioni eseguite su ROSA. Mostra l'installazione del driver NetApp Trident CSI su un cluster ROSA, il provisioning di un file system FSX per ONTAP e la distribuzione di un'applicazione stateful di esempio. Oltre a mostrare le strategie per il backup e il ripristino dei dati dell'applicazione. Con questa soluzione integrata, è possibile stabilire un framework di storage condiviso che scala facilmente tra le zone di disponibilità, semplificando i processi di scalabilità, protezione e ripristino dei dati utilizzando il driver Trident CSI.
+
+
+
+== Prerequisiti
+
+* link:https://signin.aws.amazon.com/signin?redirect_uri=https://portal.aws.amazon.com/billing/signup/resume&client_id=signup["Account AWS"]
+* link:https://console.redhat.com/["Un account Red Hat"]
+* Utente IAM link:https://www.rosaworkshop.io/rosa/1-account_setup/["con autorizzazioni appropriate"]per creare e accedere al cluster ROSA
+* link:https://aws.amazon.com/cli/["CLI AWS"]
+* link:https://console.redhat.com/openshift/downloads["ROSA CLI"]
+* link:https://console.redhat.com/openshift/downloads["Interfaccia a riga di comando OpenShift"] (oc)
+* Timone 3 link:https://docs.aws.amazon.com/eks/latest/userguide/helm.html["documentazione"]
+* link:https://docs.openshift.com/rosa/rosa_hcp/rosa-hcp-sts-creating-a-cluster-quickly.html["UN CLUSTER HCP ROSA"]
+* link:https://console.redhat.com/openshift/overview["Accesso alla console web Red Hat OpenShift"]
+
+
+Questo diagramma mostra il cluster ROSA implementato in più zone di disponibilità. I nodi master del cluster ROSA, i nodi infrastruttura si trovano nel VPC di Red Hat, mentre i nodi di lavoro si trovano in un VPC nell'account del cliente . Creeremo un file system FSX per ONTAP con lo stesso VPC e installeremo il driver Trident nel cluster ROSA, permettendo a tutte le subnet di questo VPC di connettersi al file system.
+
+image:redhat_openshift_container_rosa_image1.png["Architettura Rosa"]
+
+
+
+== Setup iniziale
+
+**1. Esegui il provisioning di FSX per NetApp ONTAP**
+
+Creare un FSX multi-AZ per NetApp ONTAP nello stesso VPC del cluster ROSA. Ci sono diversi modi per farlo. Vengono forniti i dettagli per la creazione di FSxN utilizzando uno stack di CloudFormation
+
+**A.Clona il repository di GitHub**
+
+[source]
+----
+$ git clone https://github.com/aws-samples/rosa-fsx-netapp-ontap.git
+----
+**B.Run the CloudFormation Stack** Esegui il comando qui sotto sostituendo i valori dei parametri con i tuoi valori:
+
+[source]
+----
+$ cd rosa-fsx-netapp-ontap/fsx
+----
+[source]
+----
+$ aws cloudformation create-stack \
+  --stack-name ROSA-FSXONTAP \
+  --template-body file://./FSxONTAP.yaml \
+  --region <region-name> \
+  --parameters \
+  ParameterKey=Subnet1ID,ParameterValue=[subnet1_ID] \
+  ParameterKey=Subnet2ID,ParameterValue=[subnet2_ID] \
+  ParameterKey=myVpc,ParameterValue=[VPC_ID] \
+ParameterKey=FSxONTAPRouteTable,ParameterValue=[routetable1_ID,routetable2_ID] \
+  ParameterKey=FileSystemName,ParameterValue=ROSA-myFSxONTAP \
+  ParameterKey=ThroughputCapacity,ParameterValue=1024 \
+  ParameterKey=FSxAllowedCIDR,ParameterValue=[your_allowed_CIDR] \
+  ParameterKey=FsxAdminPassword,ParameterValue=[Define Admin password] \
+  ParameterKey=SvmAdminPassword,ParameterValue=[Define SVM password] \
+  --capabilities CAPABILITY_NAMED_IAM
+----
+Dove : nome-regione: Uguale alla regione in cui viene distribuito il cluster ROSA subnet1_ID : id della subnet preferita per FSxN subnet2_ID: id della subnet di standby per FSxN VPC_ID: id del VPC in cui viene distribuito il cluster ROSA routetable1_ID, routetable2_ID: ID delle tabelle di instradamento associate alle sottoreti scelte sopra il tuo_permesso_CIDR: Permesso l'intervallo di sicurezza CIDR per l'ingresso per i gruppi di controllo ONTAP. È possibile utilizzare 0,0.0.0/0 o qualsiasi CIDR appropriato per consentire a tutto il traffico di accedere alle porte specifiche di FSX per ONTAP. Definisci password amministratore: Una password per accedere a FSxN Definisci password SVM: Una password per accedere a SVM che verrà creata.
+
+Verifica che il file system e la Storage Virtual Machine (SVM) siano stati creati utilizzando la console Amazon FSX, illustrata di seguito:
+
+image:redhat_openshift_container_rosa_image2.png["FSxN creato"]
+
+**2.installare e configurare il driver Trident CSI per il cluster ROSA**
+
+**A.aggiungere il repository Helm di Trident**
+
+[source]
+----
+$ helm repo add netapp-trident https://netapp.github.io/trident-helm-chart
+----
+**B.installare Trident utilizzando helm**
+
+[source]
+----
+$ helm install trident netapp-trident/trident-operator --version 100.2406.0 --create-namespace --namespace trident
+----
+
+NOTE: A seconda della versione installata, il parametro della versione dovrà essere modificato nel comando mostrato. Fare riferimento alla link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-helm.html["documentazione"]per il numero di versione corretto. Per ulteriori metodi di installazione di Trident, consultare Trident link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["documentazione"].
+
+**C.verificare che tutti i pod Trident siano in stato di funzionamento**
+
+image:redhat_openshift_container_rosa_image3.png["Pod Trident in esecuzione"]
+
+**3. Configurare il backend Trident CSI per utilizzare FSX for ONTAP (ONTAP NAS)**
+
+La configurazione back-end Trident indica a Trident come comunicare con il sistema storage (in questo caso FSX per ONTAP). Per la creazione del backend, forniremo le credenziali della Storage Virtual Machine a cui connettersi, insieme alle interfacce dati di Cluster Management e NFS. Utilizzeremo link:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas.html["driver ontap-nas"]per il provisioning dei volumi di storage nel file system FSX.
+
+**a. Innanzitutto, creare un segreto per le credenziali SVM utilizzando il seguente yaml**
+
+[source]
+----
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-fsx-ontap-nas-secret
+  namespace: trident
+type: Opaque
+stringData:
+  username: vsadmin
+  password: <value provided for Define SVM password as a parameter to the Cloud Formation Stack>
+----
+
+NOTE: Puoi anche recuperare la password SVM creata per FSxN da AWS Secrets Manager, come illustrato di seguito.
+
+image:redhat_openshift_container_rosa_image4.png["Gestore segreti AWS"]
+
+image:redhat_openshift_container_rosa_image5.png["recupera segreto"]
+
+**B.Avanti, aggiungere il segreto per le credenziali SVM al cluster ROSA utilizzando il seguente comando**
+
+[source]
+----
+$ oc apply -f svm_secret.yaml
+----
+È possibile verificare che il segreto sia stato aggiunto nello spazio dei nomi Trident utilizzando il seguente comando
+
+[source]
+----
+$ oc get secrets -n trident |grep backend-fsx-ontap-nas-secret
+----
+image:redhat_openshift_container_rosa_image6.png["segreto applicato"]
+
+**c. Successivamente, creare l'oggetto backend** per questo, spostarsi nella directory **fsx** del repository Git clonato. Aprire il file backend-ONTAP-nas.yaml. Sostituire quanto segue: **ManagementLIF** con il nome DNS di gestione **dataLIF** con il nome DNS NFS della SVM Amazon FSX e **svm** con il nome svm. Creare l'oggetto backend utilizzando il seguente comando.
+
+Creare l'oggetto backend utilizzando il seguente comando.
+
+[source]
+----
+$ oc apply -f backend-ontap-nas.yaml
+----
+
+NOTE: Puoi ottenere il nome del DNS di gestione, il nome del DNS NFS e il nome della SVM dalla Amazon FSX Console, come mostrato nella screenshot seguente
+
+image:redhat_openshift_container_rosa_image7.png["ottieni i lifs"]
+
+**d. A questo punto, eseguire il comando seguente per verificare che l'oggetto backend sia stato creato e che la fase sia associata e che lo stato sia riuscito**
+
+image:redhat_openshift_container_rosa_image8.png["creare il backend"]
+
+**4. Creare classe di storage** ora che il back-end Trident è configurato, è possibile creare una classe di storage Kubernetes per utilizzare il back-end. La classe storage è un oggetto risorsa reso disponibile al cluster. Descrive e classifica il tipo di storage che puoi richiedere per un'applicazione.
+
+**a. Esaminare il file storage-class-csi-nas.yaml nella cartella fsx.**
+
+[source]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: trident-csi
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-nas"
+  fsType: "ext4"
+allowVolumeExpansion: True
+reclaimPolicy: Retain
+----
+**b. Creare la classe di archiviazione nel cluster ROSA e verificare che la classe di archiviazione Trident-csi sia stata creata.**
+
+image:redhat_openshift_container_rosa_image9.png["creare il backend"]
+
+L'installazione del driver Trident CSI e la sua connettività al file system FSX per ONTAP vengono completate. Ora puoi implementare un'applicazione stateful PostgreSQL di esempio su ROSA usando i volumi di file su FSX per ONTAP.
+
+**c. Verificare che non siano stati creati PVC e PVC utilizzando la classe di archiviazione Trident-csi.**
+
+image:redhat_openshift_container_rosa_image10.png["Nessun PVC che utilizza Trident"]
+
+**d. Verificare che le applicazioni possano creare PV utilizzando Trident CSI.**
+
+Creare un PVC utilizzando il file pvc-Trident.yaml fornito nella cartella **fsx**.
+
+[source]
+----
+pvc-trident.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: basic
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: trident-csi
+----
+ You can issue the following commands to create a pvc and verify that it has been created.
+image:redhat_openshift_container_rosa_image11.png["Creare un PVC di test con Trident"]
+
+**5. Distribuire un'applicazione stateful PostgreSQL di esempio**
+
+**a. Utilizzare helm per installare postgresql**
+
+[source]
+----
+$ helm install postgresql bitnami/postgresql -n postgresql --create-namespace
+----
+image:redhat_openshift_container_rosa_image12.png["installare postgresql"]
+
+**b. Verificare che il pod applicazioni sia in esecuzione e che siano stati creati PVC e PV per l'applicazione.**
+
+image:redhat_openshift_container_rosa_image13.png["pod postgresql"]
+
+image:redhat_openshift_container_rosa_image14.png["pvc postgresql"]
+
+image:redhat_openshift_container_rosa_image15.png["postgresql pv"]
+
+**c. Distribuire un client PostgreSQL**
+
+**Utilizzare il seguente comando per ottenere la password per il server postgresql installato.**
+
+[source]
+----
+$ export POSTGRES_PASSWORD=$(kubectl get secret --namespace postgresql postgresql -o jsoata.postgres-password}" | base64 -d)
+----
+**Utilizzare il seguente comando per eseguire un client postgresql e connettersi al server utilizzando la password**
+
+[source]
+----
+$ kubectl run postgresql-client --rm --tty -i --restart='Never' --namespace postgresql --image docker.io/bitnami/postgresql:16.2.0-debian-11-r1 --env="PGPASSWORD=$POSTGRES_PASSWORD" \
+> --command -- psql --host postgresql -U postgres -d postgres -p 5432
+----
+image:redhat_openshift_container_rosa_image16.png["client postgresql"]
+
+**d. Creare un database e una tabella. Creare uno schema per la tabella e inserire 2 righe di dati nella tabella.**
+
+image:redhat_openshift_container_rosa_image17.png["tabella postgresql,schema,righe"]
+
+image:redhat_openshift_container_rosa_image18.png["postgresql row1"]
+
+image:redhat_openshift_container_rosa_image19.png["postgresql rows2"]
