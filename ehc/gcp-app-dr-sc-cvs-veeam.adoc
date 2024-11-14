@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: ehc/gcp-app-dr-sc-cvs-veeam.html 
-keywords: gcp, gcve, snapcenter, cvo, cvs, iscsi, guest connect, dr, disaster recovery 
+keywords: gcp, gcve, snapcenter, cvo, gcnv, iscsi, guest connect, dr, disaster recovery 
 summary: Il disaster recovery nel cloud è un metodo resiliente e conveniente per proteggere i workload da interruzioni del sito e eventi di corruzione dei dati come ransomware. Con NetApp SnapMirror, è possibile replicare i workload VMware on-premise che utilizzano lo storage connesso agli ospiti su NetApp Cloud Volumes ONTAP in esecuzione su Google Cloud. 
 ---
 = Disaster recovery coerente con l'applicazione con replica NetApp SnapCenter e Veeam
@@ -92,7 +92,7 @@ video::395e33db-0d63-4e48-8898-b01200f006ca[panopto]
 ====
 Due fattori importanti da prendere in considerazione durante l'implementazione di SDDC sono le dimensioni del cluster SDDC nella soluzione GCVE e il tempo necessario per mantenere SDDC in servizio. Queste due considerazioni chiave per una soluzione di disaster recovery contribuiscono a ridurre i costi operativi complessivi. Il controller SDDC può contenere fino a tre host, fino a un cluster multi-host in un'implementazione su larga scala.
 
-Il servizio di volume cloud di NetApp per datastore NFS e Cloud Volumes ONTAP per database SQL e log possono essere implementati su qualsiasi VPC e deve disporre di una connessione privata a tale VPC per montare datastore NFS e connettere le macchine virtuali a LUN iSCSI.
+Google Cloud NetApp Volumes per datastore NFS e database e log Cloud Volumes ONTAP per SQL possono essere implementati su qualsiasi VPC e GCVE devono avere una connessione privata a quel VPC per montare il datastore NFS e far sì che le macchine virtuali si connettano alle LUN iSCSI.
 
 Per configurare GCVE SDDC, vedere link:gcp-setup.html["Implementare e configurare l'ambiente di virtualizzazione su Google Cloud Platform (GCP)"^]. Come prerequisito, verificare che le macchine virtuali guest che risiedono sugli host GCVE siano in grado di utilizzare i dati da Cloud Volumes ONTAP dopo aver stabilito la connettività.
 

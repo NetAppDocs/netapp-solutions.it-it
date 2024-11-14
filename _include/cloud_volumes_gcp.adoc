@@ -304,10 +304,10 @@ Variabili di terraform per istanze NetApp CVO in coppia ha su GCP.
 | *gcp_cvo_gcp_volume_size_unit* | Stringa | (Opzionale) ['GB' o 'TB']. Il valore predefinito è 'TB'. 
 |===
 --
-.Volume CVS
+.Volume volumi NetApp
 --
-.File di configurazione del terraform per l'implementazione di NetApp CVS Volume su GCP
-Questa sezione contiene diversi file di configurazione Terraform per implementare/configurare il volume NetApp CVS (Cloud Volumes Services) su GCP (Google Cloud Platform).
+.File di configurazione di sottoforma per l'implementazione di NetApp Volumes Volume su GCP
+Questa sezione contiene vari file di configurazione di Terraform per implementare/configurare il volume NetApp Volumes (Google Cloud NetApp Volumes) su GCP (Google Cloud Platform).
 
 Documentazione terraform: https://registry.terraform.io/providers/NetApp/netapp-gcp/latest/docs[]
 
@@ -361,25 +361,25 @@ Per eliminare l'implementazione
     terraform destroy
 ----
 .Ricipiti:
-`CVS Volume`
+`NetApp Volumes Volume`
 
-Variabili di terraform per NetApp GCP CVS Volume.
+Variabili terraform per volume NetApp GCP di NetApp.
 
 [cols="20%, 10%, 70%"]
 |===
 | *Nome* | *Tipo* | *Descrizione* 
 
 
-| *gcp_cvs_name* | Stringa | (Obbligatorio) il nome del volume NetApp CVS. 
+| *gcp_cvs_name* | Stringa | (Obbligatorio) il nome del volume NetApp Volumes. 
 
 
-| *gcp_cvs_project_id* | Stringa | (Obbligatorio) l'id_progetto GCP in cui verrà creato il volume CVS. 
+| *gcp_cvs_project_id* | Stringa | (Obbligatorio) l'id_progetto GCP in cui verrà creato il volume NetApp Volumes. 
 
 
-| *gcp_cvs_gcp_service_account_path* | Stringa | (Obbligatorio) il percorso locale del file Service_account JSON per l'autorizzazione GCP. Questo account di servizio viene utilizzato per creare il volume CVS in GCP. 
+| *gcp_cvs_gcp_service_account_path* | Stringa | (Obbligatorio) il percorso locale del file Service_account JSON per l'autorizzazione GCP. Questo account di servizio viene utilizzato per creare il volume NetApp Volumes in GCP. 
 
 
-| *gcp_cvs_regione* | Stringa | (Obbligatorio) la zona GCP in cui verrà creato il volume CVS. 
+| *gcp_cvs_regione* | Stringa | (Obbligatorio) zona GCP in cui verrà creato il volume NetApp Volumes. 
 
 
 | *gcp_cvs_network* | Stringa | (Obbligatorio) il VPC di rete del volume. 

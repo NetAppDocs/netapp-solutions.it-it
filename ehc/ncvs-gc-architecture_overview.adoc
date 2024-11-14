@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: ehc/ncvs-gc-architecture_overview.html 
 keywords: architecture overview, control plane, data plane 
-summary: 'Parte dell"affidabilità di una soluzione cloud è la comprensione dell"architettura e del modo in cui è protetta. In questa sezione vengono descritti diversi aspetti dell"architettura Cloud Volumes Service di Google per ridurre i potenziali problemi relativi alla protezione dei dati, nonché le aree in cui potrebbero essere necessarie ulteriori procedure di configurazione per ottenere un"implementazione più sicura.' 
+summary: 'Parte dell"affidabilità di una soluzione cloud è la comprensione dell"architettura e del modo in cui è protetta. In questa sezione vengono illustrati i diversi aspetti dell"architettura Google Cloud NetApp Volumes in Google per ridurre i potenziali dubbi su come proteggere i dati, oltre a richiamare le aree in cui potrebbero essere necessari passaggi di configurazione aggiuntivi per ottenere la distribuzione più sicura.' 
 ---
 = Panoramica
 :hardbreaks:
@@ -14,20 +14,20 @@ summary: 'Parte dell"affidabilità di una soluzione cloud è la comprensione del
 
 
 [role="lead"]
-Parte dell'affidabilità di una soluzione cloud è la comprensione dell'architettura e del modo in cui è protetta. In questa sezione vengono descritti diversi aspetti dell'architettura Cloud Volumes Service di Google per ridurre i potenziali problemi relativi alla protezione dei dati, nonché le aree in cui potrebbero essere necessarie ulteriori procedure di configurazione per ottenere un'implementazione più sicura.
+Parte dell'affidabilità di una soluzione cloud è la comprensione dell'architettura e del modo in cui è protetta. In questa sezione vengono illustrati i diversi aspetti dell'architettura Google Cloud NetApp Volumes in Google per ridurre i potenziali dubbi su come proteggere i dati, oltre a richiamare le aree in cui potrebbero essere necessari passaggi di configurazione aggiuntivi per ottenere la distribuzione più sicura.
 
-L'architettura generale di Cloud Volumes Service può essere suddivisa in due componenti principali: Il piano di controllo e il piano dati.
+L'architettura generale di Google Cloud NetApp Volumes può essere suddivisa in due componenti principali: Il piano di controllo e il piano dati.
 
 
 
 == Piano di controllo
 
-Il piano di controllo di Cloud Volumes Service è l'infrastruttura di back-end gestita dagli amministratori Cloud Volumes Service e dal software di automazione nativo NetApp. Questo piano è completamente trasparente per gli utenti finali e include networking, hardware per lo storage, aggiornamenti software e così via per contribuire a fornire valore a una soluzione residente nel cloud come Cloud Volumes Service.
+Il piano di controllo in Google Cloud NetApp Volumes è l'infrastruttura di back-end gestita dagli amministratori di Google Cloud NetApp Volumes e dal software di automazione nativo di NetApp. Questo piano è completamente trasparente per gli utenti finali e include networking, hardware di storage, aggiornamenti software e così via per contribuire a fornire valore a una soluzione residente nel cloud come Google Cloud NetApp Volumes.
 
 
 
 == Piano dati
 
-Il piano dati di Cloud Volumes Service include i volumi di dati effettivi e la configurazione generale di Cloud Volumes Service (ad esempio controllo degli accessi, autenticazione Kerberos e così via). Il data plane è interamente sotto il controllo degli utenti finali e dei consumatori della piattaforma Cloud Volumes Service.
+Il piano dati in Google Cloud NetApp Volumes include i volumi di dati effettivi e la configurazione generale dei volumi Google Cloud NetApp (come il controllo degli accessi, l'autenticazione Kerberos e così via). Il data plane è completamente sotto il controllo degli utenti finali e dei consumatori della piattaforma Google Cloud NetApp Volumes.
 
-Esistono differenze distinte nel modo in cui ciascun piano viene protetto e gestito. Le seguenti sezioni illustrano queste differenze, a partire da una panoramica dell'architettura Cloud Volumes Service.
+Esistono differenze distinte nel modo in cui ciascun piano viene protetto e gestito. Le seguenti sezioni trattano queste differenze, a cominciare da una panoramica dell'architettura Google Cloud NetApp Volumes.

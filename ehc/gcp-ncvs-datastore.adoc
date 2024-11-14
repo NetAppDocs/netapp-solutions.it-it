@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: ehc/gcp-ncvs-datastore.html 
-keywords: gcp, gcve, cvs, nfs, supplemental, datastore, vcenter, vmware 
-summary: I clienti possono espandere la capacità dello storage su Google Cloud VMware Engine utilizzando il datastore supplementare NFS con il servizio volumi cloud di NetApp. 
+keywords: gcp, gcve, gcnv, nfs, supplemental, datastore, vcenter, vmware 
+summary: I clienti possono espandere la capacità storage su Google Cloud VMware Engine utilizzando un datastore supplementare NFS con i volumi Google Cloud NetApp. 
 ---
-= Datastore NFS supplementare di Google Cloud con il servizio volumi cloud di NetApp
+= Google Cloud VMware Engine: Datastore NFS supplementare con Google Cloud NetApp Volumes
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary: I clienti possono espandere la capacità dello storage su Google Cloud 
 
 
 [role="lead"]
-I clienti possono espandere la capacità dello storage su Google Cloud VMware Engine utilizzando il datastore supplementare NFS con il servizio volumi cloud di NetApp.
+I clienti possono espandere la capacità storage su Google Cloud VMware Engine utilizzando un datastore supplementare NFS con i volumi Google Cloud NetApp.
 
 
 
@@ -22,40 +22,36 @@ I clienti possono espandere la capacità dello storage su Google Cloud VMware En
 
 Autori: Suresh Thoppay, NetApp
 
-I clienti che richiedono capacità di storage aggiuntiva nell'ambiente Google Cloud VMware Engine (GCVE) possono utilizzare il servizio volumi cloud di NetApp per il montaggio come archivio dati NFS supplementare.
-L'archiviazione dei dati nel servizio volumi cloud di NetApp consente ai clienti di replicare tra regioni per proteggersi dal diaster.
+I clienti che richiedono capacità di storage aggiuntiva nell'ambiente Google Cloud VMware Engine (GCVE) possono utilizzare il servizio volumi cloud di NetApp per il montaggio come archivio dati NFS supplementare. La memorizzazione dei dati in Google Cloud NetApp Volumes consente ai clienti di eseguire la replica tra aree per proteggerle da accessi non frequenti.
 
-image:gcp_ncvs_ds01.png["Archivio dati NFS del servizio volumi cloud di NetApp su GCVE"]
-
+image:gcp_ncvs_ds01.png["Datastore Google Cloud NetApp Volumes NFS su GCVE"]
 
 
-== Fasi di implementazione per montare il datastore NFS da NetApp CVS su GCVE
 
-.Provisioning del volume CVS-Performance
+== Passaggi di implementazione per montare un datastore NFS da Google Cloud NetApp Volumes (NetApp Volumes) in GCVE
+
+.Esegui il provisioning di NetApp Volumes-Performance Volume
 [%collapsible]
 ====
-Il provisioning del volume del servizio volume cloud NetApp può essere eseguito da
-link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/workflow["Con Google Cloud Console"]
-link:https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-service-gcp/task-create-volumes.html["Utilizzando il portale o l'API BlueXP di NetApp"]
+È possibile eseguire il provisioning del volume dei volumi di Google Cloud NetApp link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/workflow["Con Google Cloud Console"] link:https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-service-gcp/task-create-volumes.html["Utilizzando il portale o l'API BlueXP di NetApp"]
 
 ====
-.Contrassegnare il volume CVS come non cancellabile
+.Indica che il volume di NetApp Volumes non è eliminabile
 [%collapsible]
 ====
-Per evitare l'eliminazione accidentale del volume mentre la macchina virtuale è in esecuzione, assicurarsi che il volume sia contrassegnato come non cancellabile, come mostrato nella seguente schermata. image:gcp_ncvs_ds02.png["Opzione CVS NetApp non cancellabile"] Per ulteriori informazioni, consultare la link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-nfs-volumes#creating_an_nfs_volume["Creazione di un volume NFS"] documentazione.
+Per evitare l'eliminazione accidentale del volume mentre la macchina virtuale è in esecuzione, assicurarsi che il volume sia contrassegnato come non cancellabile, come mostrato nella seguente schermata. image:gcp_ncvs_ds02.png["Opzione non eliminabile per NetApp Volumes"] Per ulteriori informazioni, consultare la link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-nfs-volumes#creating_an_nfs_volume["Creazione di un volume NFS"] documentazione.
 
 ====
-.Assicurarsi che sia presente una connessione privata su GCVE per VPC tenant CVS NetApp.
+.Verificare che esista una connessione privata in GCVE per il VPC tenant di NetApp Volumes.
 [%collapsible]
 ====
-Per montare NFS Datastore, dovrebbe esistere una connessione privata tra il progetto GCVE e il progetto CVS di NetApp.
-Per ulteriori informazioni, fare riferimento a. link:https://cloud.google.com/vmware-engine/docs/networking/howto-setup-private-service-access["Come configurare l'accesso al servizio privato"]
+Per montare il datastore NFS, dovrebbe essere presente una connessione privata tra GCVE e il progetto NetApp Volumes. Per ulteriori informazioni, consulta link:https://cloud.google.com/vmware-engine/docs/networking/howto-setup-private-service-access["Come configurare l'accesso al servizio privato"]
 
 ====
 .Montare il datastore NFS
 [%collapsible]
 ====
-Per istruzioni su come montare il datastore NFS su GCVE, fare riferimento link:https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-service-datastores["Come creare un datastore NFS con NetApp CVS"]
+Per istruzioni su come montare il datastore NFS su GCVE, fare riferimento link:https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-service-datastores["Come creare un datastore NFS con i volumi NetApp"]
 
 
 NOTE: Poiché gli host vSphere sono gestiti da Google, non è possibile installare NFS vSphere API for Array Integration (VAAI) vSphere Installation Bundle (VIB).
@@ -65,14 +61,14 @@ Se si desidera utilizzare i frame jumbo, fare riferimento a. link:https://cloud.
 ====
 
 
-== Risparmi con il servizio volumi cloud di NetApp
+== Risparmi con Google Cloud NetApp Volumes
 
-Per ulteriori informazioni sul potenziale risparmio con il servizio volumi cloud di NetApp per le tue esigenze di storage su GCVE, consulta la sezione link:https://bluexp.netapp.com/gcve-cvs/roi["Calcolatore del ROI di NetApp"]
+Per ulteriori informazioni sul tuo potenziale risparmio con Google Cloud NetApp Volumes per le tue richieste di storage su GCVE, consulta link:https://bluexp.netapp.com/gcve-cvs/roi["Calcolatore del ROI di NetApp"]
 
 
 
 == Link di riferimento
 
-* link:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["Blog di Google - come utilizzare NetApp CVS come datastore per Google Cloud VMware Engine"]
+* link:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["Blog Google - come utilizzare NetApp Volumes come datastore per Google Cloud VMware Engine"]
 * link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["Blog di NetApp: Un modo migliore per migrare le tue applicazioni ricche di storage su Google Cloud"]
 

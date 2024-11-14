@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: ehc/ncvs-gc-how-cloud-volumes-service-in-google-cloud-secures-your-data.html 
 keywords: secure, architecture, tenancy model, identity management, control plane, security hardening, encryption, zero trust, ransomware 
-summary: Cloud Volumes Service in Google Cloud offre una moltitudine di modi per proteggere in modo nativo i tuoi dati. 
+summary: Google Cloud NetApp Volumes in Google Cloud offre numerosi modi per proteggere in modo nativo i tuoi dati. 
 ---
-= In che modo Cloud Volumes Service in Google Cloud protegge i tuoi dati
+= In che modo Google Cloud NetApp Volumes in Google Cloud protegge i tuoi dati
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,21 +14,21 @@ summary: Cloud Volumes Service in Google Cloud offre una moltitudine di modi per
 
 
 [role="lead"]
-Cloud Volumes Service in Google Cloud offre una moltitudine di modi per proteggere in modo nativo i tuoi dati.
+Google Cloud NetApp Volumes in Google Cloud offre numerosi modi per proteggere in modo nativo i tuoi dati.
 
 
 
 == Architettura sicura e modello di tenancy
 
-Cloud Volumes Service offre un'architettura sicura in Google Cloud segmentando la gestione del servizio (piano di controllo) e l'accesso ai dati (piano dati) tra diversi endpoint in modo che nessuno dei due possa influire sull'altro (vedere la sezione link:ncvs-gc-cloud-volumes-service-architecture.html[""Architettura Cloud Volumes Service""]). Utilizza Google https://cloud.google.com/vpc/docs/private-services-access?hl=en_US["accesso ai servizi privati"^] (PSA) per fornire il servizio. Questo framework distingue tra il produttore di servizi, fornito e gestito da NetApp, e il consumatore di servizi, che è un cloud privato virtuale (VPC) in un progetto del cliente, che ospita i client che desiderano accedere alle condivisioni di file Cloud Volumes Service.
+Google Cloud NetApp Volumes fornisce un'architettura sicura in Google Cloud segmentando la gestione dei servizi (piano di controllo) e l'accesso ai dati (piano dati) tra endpoint diversi in modo che nessuno dei due possa influire sull'altro (vedere la sezione link:ncvs-gc-cloud-volumes-service-architecture.html[""Google Cloud NetApp Volumes Architecture""]). Utilizza il framework di Google https://cloud.google.com/vpc/docs/private-services-access?hl=en_US["accesso ai servizi privati"^] (PSA) per fornire il servizio. Questo framework distingue tra il service Producer, fornito e gestito da NetApp, e il consumatore di servizi, ovvero un cloud privato virtuale (VPC) in un progetto del cliente, che ospita i client che desiderano accedere alle condivisioni di file di Google Cloud NetApp Volumes.
 
-In questa architettura, i tenant (vedere la sezione link:ncvs-gc-cloud-volumes-service-architecture.html#tenancy-model[""Modello di tenancy""]) Sono definiti come progetti Google Cloud che sono completamente isolati l'uno dall'altro, a meno che l'utente non sia esplicitamente connesso. I tenant consentono l'isolamento completo dei volumi di dati, dei servizi di nomi esterni e di altre parti essenziali della soluzione da parte di altri tenant utilizzando la piattaforma per volumi Cloud Volumes Service. Poiché la piattaforma Cloud Volumes Service è connessa tramite peering VPC, tale isolamento si applica anche ad essa. È possibile abilitare la condivisione di volumi Cloud Volumes Service tra più progetti utilizzando un VPC condiviso (vedere la sezione link:ncvs-gc-cloud-volumes-service-architecture.html#shared-vpcs[""VPC condivisi""]). È possibile applicare i controlli di accesso alle condivisioni SMB e alle esportazioni NFS per limitare chi o cosa può visualizzare o modificare i set di dati.
+In questa architettura, i tenant (vedere la sezione link:ncvs-gc-cloud-volumes-service-architecture.html#tenancy-model[""Modello di tenancy""]) sono definiti come progetti di Google Cloud che sono completamente isolati l'uno dall'altro a meno che non siano esplicitamente connessi dall'utente. I tenant consentono l'isolamento completo dei volumi di dati, dei name service esterni e di altri elementi essenziali della soluzione da parte degli altri tenant utilizzando la piattaforma volume Google Cloud NetApp Volumes. Poiché la piattaforma Google Cloud NetApp Volumes è connessa tramite peering VPC, questo isolamento si applica anche a questa vulnerabilità. È possibile abilitare la condivisione dei volumi di Google Cloud NetApp tra più progetti utilizzando un VPC condiviso (vedere la sezione link:ncvs-gc-cloud-volumes-service-architecture.html#shared-vpcs[""VPC condivisi""]). È possibile applicare i controlli di accesso alle condivisioni SMB e alle esportazioni NFS per limitare chi o cosa può visualizzare o modificare i set di dati.
 
 
 
 == Gestione efficace delle identità per il piano di controllo
 
-Nel piano di controllo in cui avviene la configurazione Cloud Volumes Service, la gestione delle identità viene gestita tramite https://cloud.google.com/iam/docs/overview["IAM (Identity Access Management)"^]. IAM è un servizio standard che consente di controllare l'autenticazione (accessi) e l'autorizzazione (autorizzazioni) per le istanze di progetto di Google Cloud. Tutta la configurazione viene eseguita con API Cloud Volumes Service su un trasporto HTTPS sicuro utilizzando la crittografia TLS 1.2 e l'autenticazione viene eseguita utilizzando token JWT per una maggiore sicurezza. L'interfaccia utente della console Google per Cloud Volumes Service converte l'input dell'utente in chiamate API Cloud Volumes Service.
+Nel piano di controllo in cui avviene la configurazione dei volumi di Google Cloud NetApp, la gestione delle identità viene gestita utilizzando https://cloud.google.com/iam/docs/overview["IAM (Identity Access Management)"^]. IAM è un servizio standard che consente di controllare l'autenticazione (accessi) e l'autorizzazione (autorizzazioni) per le istanze di progetto di Google Cloud. Tutte le configurazioni vengono eseguite con le API di Google Cloud NetApp Volumes su un trasporto HTTPS sicuro utilizzando la crittografia TLS 1,2 e l'autenticazione viene eseguita utilizzando i token JWT per una maggiore sicurezza. L'interfaccia utente della console Google per Google Cloud NetApp Volumes traduce l'input dell'utente in chiamate API di Google Cloud NetApp Volumes.
 
 
 
@@ -36,7 +36,7 @@ Nel piano di controllo in cui avviene la configurazione Cloud Volumes Service, l
 
 Una parte della sicurezza effettiva consiste nel limitare il numero di superfici di attacco disponibili in un servizio. Le superfici di attacco possono includere una varietà di elementi, tra cui dati a riposo, trasferimenti in volo, accessi e set di dati stessi.
 
-Un servizio gestito rimuove alcune delle superfici di attacco intrinsecamente nella sua progettazione. Gestione dell'infrastruttura, come descritto nella sezione link:ncvs-gc-service-operation.html[""Funzionamento del servizio""] è gestito da un team dedicato ed è automatizzato per ridurre il numero di volte in cui un umano tocca effettivamente le configurazioni, contribuendo a ridurre il numero di errori intenzionali e non intenzionali. La rete è disattivata in modo che solo i servizi necessari possano accedere l'uno all'altro. La crittografia viene inserita nello storage dei dati e solo il piano dati richiede attenzione per la sicurezza da parte degli amministratori di Cloud Volumes Service. Nascondendo la maggior parte della gestione dietro un'interfaccia API, la sicurezza viene ottenuta limitando le superfici di attacco.
+Un servizio gestito rimuove alcune delle superfici di attacco intrinsecamente nella sua progettazione. La gestione dell'infrastruttura, come descritto nella sezione, link:ncvs-gc-service-operation.html[""Funzionamento del servizio""]è gestita da un team dedicato e viene automatizzata per ridurre il numero di volte in cui un essere umano tocca effettivamente le configurazioni, il che contribuisce a ridurre il numero di errori intenzionali e non intenzionali. La rete è disattivata in modo che solo i servizi necessari possano accedere l'uno all'altro. La crittografia si integra nello storage dei dati e solo il piano dati ha bisogno di attenzione di sicurezza da parte degli amministratori di Google Cloud NetApp Volumes. Nascondendo la maggior parte della gestione dietro un'interfaccia API, la sicurezza viene ottenuta limitando le superfici di attacco.
 
 
 
@@ -53,7 +53,7 @@ Zero Trust è diventata una nuova metodologia per la sicurezza, con l'attuale ma
 * Piccoli elenchi esclusivi di amministratori affidabili e dedicati con audit digitale e percorsi cartacei
 
 
-Cloud Volumes Service eseguito in Google Cloud rispetta il modello Zero Trust implementando la posizione "Trust Nothing, Verify Everything".
+Google Cloud NetApp Volumes in Google Cloud aderisce al modello Zero Trust implementando la posizione di "fidarsi di nulla, verificare tutto".
 
 
 
@@ -65,10 +65,10 @@ Crittografare i dati inattivi (vedere la sezione link:ncvs-gc-data-encryption-at
 
 == Protezione dei dati e backup
 
-La sicurezza non riguarda solo la prevenzione degli attacchi. Si tratta anche del modo in cui ripristiniamo gli attacchi in caso o quando si verificano. Questa strategia include backup e protezione dei dati. Cloud Volumes Service fornisce metodi per la replica in altre regioni in caso di interruzioni (vedere la sezione link:ncvs-gc-security-considerations-and-attack-surfaces.html#cross-region-replication[""Replica tra regioni""]) o se un set di dati è interessato da un attacco ransomware. Inoltre, può eseguire backup asincroni dei dati in posizioni esterne all'istanza di Cloud Volumes Service utilizzando link:ncvs-gc-security-considerations-and-attack-surfaces.html#cloud-volumes-service-backup["Backup Cloud Volumes Service"]. Con backup regolari, la mitigazione degli eventi di sicurezza può richiedere meno tempo e risparmiare denaro e angoscia per gli amministratori.
+La sicurezza non riguarda solo la prevenzione degli attacchi. Si tratta anche del modo in cui ripristiniamo gli attacchi in caso o quando si verificano. Questa strategia include backup e protezione dei dati. Google Cloud NetApp Volumes fornisce metodi per la replica in altre regioni in caso di interruzioni (vedere la sezione link:ncvs-gc-security-considerations-and-attack-surfaces.html#cross-region-replication[""Replica tra regioni""]) o se un set di dati è interessato da un attacco ransomware. Può anche eseguire backup asincroni dei dati in posizioni esterne all'istanza di Google Cloud NetApp Volumes utilizzando link:ncvs-gc-security-considerations-and-attack-surfaces.html#cloud-volumes-service-backup["Backup di Google Cloud NetApp Volumes"]. Con backup regolari, la mitigazione degli eventi di sicurezza può richiedere meno tempo e risparmiare denaro e angoscia per gli amministratori.
 
 
 
 == Riduzione rapida del ransomware con copie Snapshot leader del settore
 
-Oltre alla protezione dei dati e ai backup, Cloud Volumes Service fornisce il supporto per copie Snapshot immutabili (vedere la sezione link:ncvs-gc-security-considerations-and-attack-surfaces.html#immutable-snapshot-copies[""Copie Snapshot immutabili""]) di volumi che consentono il ripristino da attacchi ransomware (vedere la sezione link:ncvs-gc-service-operation.html[""Funzionamento del servizio""]) entro pochi secondi dalla scoperta del problema e con interruzioni minime. I tempi e gli effetti di recovery dipendono dalla pianificazione di Snapshot, ma è possibile creare copie Snapshot che forniscono solo un'ora di delta negli attacchi ransomware. Le copie Snapshot hanno un effetto trascurabile sulle performance e sull'utilizzo della capacità e rappresentano un approccio a basso rischio e con premi elevati per la protezione dei set di dati.
+Oltre alla protezione dei dati e ai backup, Google Cloud NetApp Volumes offre il supporto per le copie Snapshot immutabili (vedi la sezione link:ncvs-gc-security-considerations-and-attack-surfaces.html#immutable-snapshot-copies[""Copie Snapshot immutabili""]) di volumi che consentono il recovery da attacchi ransomware (vedi la sezione link:ncvs-gc-service-operation.html[""Funzionamento del servizio""]) entro pochi secondi dall'individuazione del problema e con interruzioni minime. I tempi e gli effetti di recovery dipendono dalla pianificazione di Snapshot, ma è possibile creare copie Snapshot che forniscono solo un'ora di delta negli attacchi ransomware. Le copie Snapshot hanno un effetto trascurabile sulle performance e sull'utilizzo della capacità e rappresentano un approccio a basso rischio e con premi elevati per la protezione dei set di dati.

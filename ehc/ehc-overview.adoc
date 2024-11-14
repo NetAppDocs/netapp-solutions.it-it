@@ -62,7 +62,7 @@ Indipendentemente dal cloud utilizzato, quando viene implementato un VMware SDDC
 
 Per i clienti che intendono ospitare carichi di lavoro a uso intensivo di storage e scalare su qualsiasi soluzione VMware ospitata nel cloud, l'infrastruttura iperconvergente predefinita impone che l'espansione debba essere sulle risorse di calcolo e storage.
 
-Integrando con NetApp Cloud Volumes, come Azure NetApp Files, Amazon FSX ONTAP, Cloud Volumes ONTAP (disponibile in tutti e tre i principali hyperscaler) e Cloud Volumes Service per Google Cloud, i clienti ora hanno la possibilità di scalare separatamente il proprio storage in modo indipendente e di aggiungere nodi di calcolo al cluster SDDC solo in base alle necessità.
+Integrando con NetApp Cloud Volumes, come Azure NetApp Files, Amazon FSX ONTAP, Cloud Volumes ONTAP (disponibile in tutti e tre i principali hyperscaler) e Google Cloud NetApp Volumes per Google Cloud, i clienti ora hanno la possibilità di scalare separatamente il proprio storage in modo indipendente e di aggiungere nodi di calcolo al cluster SDDC solo in base alle necessità.
 
 
 
@@ -74,7 +74,7 @@ Integrando con NetApp Cloud Volumes, come Azure NetApp Files, Amazon FSX ONTAP, 
 * È molto semplice raggiungere i limiti di capacità dello storage di vSAN costruito sugli host del cluster. Utilizza NetApp Cloud Volumes per scalare lo storage in modo da ospitare set di dati attivi o dati Tier-cooler in storage persistente.
 
 
-Azure NetApp Files, Amazon FSX ONTAP, Cloud Volumes ONTAP (disponibile in tutti e tre i principali hyperscaler) e Cloud Volumes Service per Google Cloud possono essere utilizzati insieme alle VM guest. Questa architettura di storage ibrido è costituita da un datastore vSAN che contiene i dati binari del sistema operativo guest e dell'applicazione. I dati dell'applicazione sono collegati alla macchina virtuale tramite un iniziatore iSCSI basato su guest o montaggi NFS/SMB che comunicano direttamente con Amazon FSX ONTAP, Cloud Volume ONTAP, Azure NetApp Files e Cloud Volumes Service per Google Cloud, rispettivamente. Questa configurazione consente di superare facilmente le sfide con la capacità dello storage, come con vSAN, lo spazio libero disponibile dipende dallo spazio a vuoto e dalle policy di storage utilizzate.
+Azure NetApp Files, Amazon FSX ONTAP, Cloud Volumes ONTAP (disponibile in tutti e tre i principali hyperscaler) e Google Cloud NetApp Volumes per Google Cloud possono essere utilizzati insieme alle VM guest. Questa architettura di storage ibrido è costituita da un datastore vSAN che contiene i dati binari del sistema operativo guest e dell'applicazione. I dati dell'applicazione sono collegati alla macchina virtuale tramite un iniziatore iSCSI basato su guest o montaggi NFS/SMB che comunicano direttamente con Amazon FSX ONTAP, Cloud Volume ONTAP, Azure NetApp Files e Google Cloud NetApp Volumes per Google Cloud, rispettivamente. Questa configurazione consente di superare facilmente le sfide con la capacità dello storage, come con vSAN, lo spazio libero disponibile dipende dallo spazio a vuoto e dalle policy di storage utilizzate.
 
 Prendiamo in considerazione un cluster SDDC a tre nodi su VMware Cloud su AWS:
 
@@ -103,7 +103,7 @@ NOTE: Lo storage in-guest era l'unica opzione disponibile al momento della stesu
 === Punti da ricordare
 
 * Nei modelli di storage ibrido, posizionare i carichi di lavoro di livello 1 o ad alta priorità sul datastore vSAN per soddisfare qualsiasi requisito di latenza specifico, poiché fanno parte dell'host stesso e si trovano nelle vicinanze. Utilizzare meccanismi in-guest per qualsiasi workload VM per cui le latenze transazionali sono accettabili.
-* La tecnologia NetApp SnapMirror® consente di replicare i dati del carico di lavoro dal sistema ONTAP on-premise a Cloud Volumes ONTAP o Amazon FSX ONTAP per semplificare la migrazione con meccanismi a livello di blocco. Ciò non si applica a Azure NetApp Files e ai servizi Cloud Volumes. Per la migrazione dei dati su Azure NetApp Files o Cloud Volumes Services, utilizza NetApp XCP, la copia e sincronizzazione di BlueXP, rysnc o robocopy, a seconda del protocollo del file utilizzato.
+* La tecnologia NetApp SnapMirror® consente di replicare i dati del carico di lavoro dal sistema ONTAP on-premise a Cloud Volumes ONTAP o Amazon FSX ONTAP per semplificare la migrazione con meccanismi a livello di blocco. Ciò non si applica a Azure NetApp Files e Google Cloud NetApp Volumes. Per la migrazione dei dati su Azure NetApp Files o Google Cloud NetApp Volumes, utilizza NetApp XCP, la copia e sincronizzazione di BlueXP , rysnc o robocopy, a seconda del protocollo file utilizzato.
 * I test mostrano una latenza aggiuntiva di 2-4 ms durante l'accesso allo storage dai rispettivi SDDC. Considerare questa latenza aggiuntiva nei requisiti dell'applicazione quando si esegue la mappatura dello storage.
 * Per il montaggio dello storage connesso agli ospiti durante il failover di test e il failover effettivo, assicurarsi che gli iniziatori iSCSI siano riconfigurati, che il DNS sia aggiornato per le condivisioni SMB e che i punti di montaggio NFS siano aggiornati in fstab.
 * Assicurarsi che le impostazioni del Registro di sistema di i/o multipath Microsoft (MPIO), firewall e timeout del disco in-guest siano configurate correttamente all'interno della macchina virtuale.
@@ -144,6 +144,6 @@ NOTE: Coinvolgi i Solution Architect di NetApp e i rispettivi cloud architect hy
 
 == Architettura dettagliata
 
-Da un punto di vista di alto livello, questa architettura (illustrata nella figura seguente) illustra come ottenere connettività multicloud ibrida e portabilità delle applicazioni tra più cloud provider utilizzando NetApp Cloud Volumes ONTAP, Cloud Volumes Service per Google Cloud e Azure NetApp Files come opzione aggiuntiva di storage in-guest.
+Da una prospettiva high-level, questa architettura (mostrata nella figura sotto) copre come ottenere una connettività multicloud ibrida e la portabilità delle applicazioni su diversi cloud provider utilizzando NetApp Cloud Volumes ONTAP, Google Cloud NetApp Volumes per Google Cloud e Azure NetApp Files come opzione di storage in-guest aggiuntiva.
 
 image:ehc-architecture.png["Architettura di cloud ibrido aziendale"]
