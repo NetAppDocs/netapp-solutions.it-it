@@ -16,7 +16,7 @@ summary: 'Lo storage condiviso nell"ambiente virtuale Proxmox (VE) riduce il tem
 [role="lead"]
 Lo storage condiviso nell'ambiente virtuale Proxmox (VE) riduce il tempo necessario per la migrazione live delle VM e migliora la destinazione dei backup e dei modelli coerenti nell'intero ambiente. Lo storage ONTAP è in grado di soddisfare le esigenze degli ambienti host Proxmox VE e delle richieste di storage a file, blocchi e oggetti guest.
 
-Gli host Proxmox VE devono disporre di interfacce FC, Ethernet o altre interfacce supportate collegate agli switch e comunicare con le interfacce logiche ONTAP.
+Gli host Proxmox VE devono disporre di interfacce FC, Ethernet o altre interfacce supportate collegate agli switch e comunicare con le interfacce logiche ONTAP. Verificare sempre le https://mysupport.netapp.com/matrix/#welcome["Tool di matrice di interoperabilità"] configurazioni supportate.
 
 
 
@@ -142,6 +142,8 @@ Per utilizzare le condivisioni di file SMB/CIFS, ci sono determinati task che de
 
 NOTE: La password verrà salvata in un file di testo non crittografato ed è accessibile solo all'utente root. Fare riferimento alla link:https://pve.proxmox.com/pve-docs/chapter-pvesm.html#storage_cifs["Documentazione di Proxmox VE"].
 
+.Pool di storage condiviso SMB con ONTAP
+video::5b4ae54a-08d2-4f7d-95ec-b22d015f6035[panopto,width=360]
 .Attività di amministrazione di <strong> </strong>
 [%collapsible]
 ====
@@ -200,6 +202,8 @@ ONTAP supporta tutte le versioni NFS supportate da Proxmox VE. Per fornire tolle
 
 Se non conosci ancora ONTAP, utilizza l'interfaccia di System Manager per completare queste attività e ottenere una migliore esperienza.
 
+.Opzione nconnect NFS con ONTAP
+video::f6c9aba3-b070-45d6-8048-b22e001acfd4[panopto,width=360]
 .Attività di amministrazione di <strong> </strong>
 [%collapsible]
 ====
@@ -248,12 +252,14 @@ image:proxmox-ontap-image12.png["File di configurazione dello storage per NFS"]
 
 == LVM con iSCSI
 
+.Pool condiviso LVM con iSCSI utilizzando ONTAP
+video::d66ef67f-bcc2-4ced-848e-b22e01588e8c[panopto,width=360]
 Per configurare Logical Volume Manager per lo storage condiviso tra host Proxmox, completare le seguenti attività:
 
 .Attività di amministrazione di <strong> </strong>
 [%collapsible]
 ====
-. Assicurarsi che siano configurati due bridge linux ciascuno sul proprio ethernet nic (idealmente su VLAN diverse).
+. Assicurarsi che siano disponibili due interfacce vlan linux.
 . Assicurarsi che su tutti gli host Proxmox VE siano installati strumenti multipath. Assicurarsi che si avvii all'avvio.
 +
 [source, shell]
@@ -319,14 +325,16 @@ image:proxmox-ontap-image19.png["configurazione iscsi lvm"]
 ====
 
 
-=== LVM con NVMe/TCP
+== LVM con NVMe/TCP
 
+.Pool condiviso LVM con NVMe/TCP utilizzando ONTAP
+video::80164fe4-06db-4c21-a25d-b22e0179c3d2[panopto,width=360]
 Per configurare Logical Volume Manager per lo storage condiviso tra gli host Proxmox, completare le seguenti attività:
 
 .Attività di amministrazione di <strong> </strong>
 [%collapsible]
 ====
-. Assicurarsi che siano configurati due bridge linux, ciascuno con un proprio dispositivo ethernet (idealmente su VLAN diverse).
+. Assicurarsi che siano disponibili due interfacce vlan linux.
 . Su ogni host Proxmox sul cluster, eseguire il comando seguente per raccogliere le informazioni dell'iniziatore dell'host.
 +
 [source, shell]
