@@ -16,7 +16,7 @@ summary:
 [role="lead"]
 Dopo che VMware Cloud è pronto e connesso al VPC AWS, devi implementare Amazon FSX ONTAP in un VPC appena designato, piuttosto che il VPC originale, connesso o predefinito esistente.
 
-Per iniziare, implementa un VPC aggiuntivo nella stessa regione e zona di disponibilità in cui risiede SDDC, quindi implementa Amazon FSX ONTAP nel nuovo VPC. https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-6B20CA3B-ABCD-4939-9176-BCEA44473C2B.html["Configurazione di un gruppo SDDC in VMware Cloud"^] Console abilita le opzioni di configurazione di rete necessarie per connettersi al VPC appena designato in cui verrà distribuito FSX ONTAP.
+Per iniziare, implementa un VPC aggiuntivo nella stessa regione e zona di disponibilità in cui risiede SDDC, quindi implementa Amazon FSX ONTAP nel nuovo VPC. https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-networking-security/GUID-C957DBA7-16F5-412B-BB72-15B49B714723.html["Configurazione di un gruppo SDDC in VMware Cloud"^] Console abilita le opzioni di configurazione di rete necessarie per connettersi al VPC appena designato in cui verrà distribuito FSX ONTAP.
 
 
 NOTE: Implementa FSX ONTAP nella stessa zona disponibile di VMware Cloud su AWS SDDC.
@@ -171,7 +171,7 @@ image:fsx-nfs-image13.png["Figura che mostra la finestra di dialogo input/output
 .Fase 3: Configurare VMware Transit CONNECT
 [%collapsible]
 ====
-. Collegare il VPC designato appena creato al gruppo SDDC. Selezionare la scheda *External VPC* (VPC esterno) e seguire le istruzioni https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-operations/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["Istruzioni per il collegamento di un VPC esterno al gruppo"^]. Il completamento di questo processo può richiedere 10-15 minuti.
+. Collegare il VPC designato appena creato al gruppo SDDC. Selezionare la scheda *VPC esterno* e seguire le istruzioni riportate nella https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-networking-security/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["Istruzioni per il collegamento di un VPC esterno al gruppo"^]. Il completamento di questo processo può richiedere 10-15 minuti.
 +
 image:fsx-nfs-image14.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
