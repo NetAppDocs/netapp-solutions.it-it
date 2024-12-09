@@ -40,7 +40,7 @@ La tabella seguente mostra esempi di assegnazioni di cablaggio per un massimo di
 | switch1 porte 37-40 | Da AFF-A90-01 a -04 | porta e11a 
 
 
-| switch1 porte 41-44 | Da AFF-A90-01 a -04 | porta e8a 
+| switch1 porte 41-44 | Da AFF-A90-01 a -04 | porta e2a 
 
 
 | switch1 porte 57-64 | ISL a switch2 | porte 57-64 
@@ -61,7 +61,7 @@ La tabella seguente mostra esempi di assegnazioni di cablaggio per un massimo di
 | switch2 porte 37-40 | Da AFF-A90-01 a -04 | porta e11b 
 
 
-| switch2 porte 41-44 | Da AFF-A90-01 a -04 | porta e8b 
+| switch2 porte 41-44 | Da AFF-A90-01 a -04 | porta e2b 
 
 
 | switch2 porte 57-64 | ISL a switch1 | porte 57-64 
@@ -100,7 +100,7 @@ Di seguito sono descritte le fasi di base utilizzate per configurare gli switch 
 . Configurare LACP MLAG per ciascuna coppia di porte client e porte di storage su entrambi gli switch
 +
 ** Porta swp17 su ogni switch per DGX-H100-01 (enp170s0f1np1 e enp41s0f1np1), porta swp18 per DGX-H100-02, ecc. (bond1-16)
-** Porta swp41 su ciascun switch per AFF-A90-01 (E8a e e8b), porta swp42 per AFF-A90-02, ecc. (bond17-20)
+** Porta swp41 su ogni switch per AFF-A90-01 (e2a e e2b), porta swp42 per AFF-A90-02, ecc. (bond17-20)
 ** nv set interfaccia bondX membro di legame swpX
 ** nv set interfaccia bondx bond mlag id X
 
@@ -201,7 +201,7 @@ Di seguito sono illustrate le fasi di base utilizzate per configurare il sistema
 . Configurare ifgrps su ogni controller
 +
 ** net port ifgrp create -node <node> -ifgrp a1a -mode multimode_lacp -distr-function port
-** net port ifgrp add-port -node <node> -ifgrp <ifgrp> -ports <node>:e8a,<node>:e8b
+** net port ifgrp add-port -node <node> -ifgrp <ifgrp> -ports <node>:e2a,<node>:e2b
 
 
 . Configurare la porta vlan di gestione su ifgrp su ciascun controller
@@ -245,7 +245,7 @@ Di seguito sono illustrate le fasi di base utilizzate per configurare il sistema
 +
 ** Configurare la SVM per il supporto RDMA
 +
-*** vserver modify -vserver basepod-data -rdma enabled
+*** vserver nfs modify -vserver basepod-data -rdma enabled
 
 
 ** Crea LIF
