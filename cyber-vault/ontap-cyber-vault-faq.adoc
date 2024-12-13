@@ -110,10 +110,27 @@ La base di un cyber vault di NetApp è SnapMirror e SnapLock Compliance, ma l'ut
 Le copie Snapshot di ONTAP sono immutabili per impostazione predefinita e possono essere rese indelebili con SnapLock Compliance. Nemmeno i supporti NetApp possono eliminare le copie Snapshot di SnapLock. La domanda migliore da porsi è cosa rende NetApp cyber vault migliore di altri cyber vault del settore. In primo luogo, ONTAP è lo storage più sicuro al mondo e ha ottenuto la convalida CSFC, che consente lo storage di dati segreti e top-secret a riposo sia a livello hardware che a livello software. Ulteriori informazioni su link:https://www.netapp.com/esg/trust-center/compliance/CSfC-Program/["CSFC può essere trovato qui"^]. Inoltre, ONTAP può essere sottoposto a air-gapping al livello di storage, con il sistema di cyber vault che controlla la replica consentendo la creazione di un air-gap all'interno della rete di cyber vault.
 
 ====
-.Il volume di origine di un cyber vault può essere un volume abilitato per ONTAP Fabric Pool (volume in tiering su ONTAP S3 o StorageGRID)?
+.Un volume su un cyber vault può utilizzare ONTAP Fabric Pool?
 [%collapsible%open]
 ====
-No, Un volume di origine di Fabric Pool, A prescindere dalla policy utilizzata, non può essere replicato su una destinazione SnapLock Compliance.
+No, un volume del cyber vault (destinazione SnapLock Compliance SnapMirror) non può essere suddiviso in Tier tramite Fabric Pool, indipendentemente dalle policy.
+
+image:ontap-cyber-vault-fabric-pool-configurations.png["Configurazioni supportate da Cyber vault Fabric Pool"]
+
+
+NOTE: Esistono diversi scenari in cui il pool di fabric *non può* essere utilizzato con un cyber vault.
+
+. I Tier freddi di Fabric Pool *non possono* essere utilizzati da un cluster di vault cibernetico. Ciò è dovuto al fatto che l'attivazione del protocollo S3 invalida la natura sicura dell'architettura di riferimento del cyber vault. Inoltre, il bucket S3 utilizzato per il pool di fabric non può essere protetto.
+. I volumi SnapLock Compliance sul cyber vault *non possono* essere suddivisi in Tier in un bucket S3 poiché i dati sono bloccati nel volume.
+
+
+image:ontap-cyber-vault-fabric-pool-configurations-p-s-cv.png["Il pool di fabric del vault Cyber supportava le configurazioni per le relazioni a cascata"]
+
+====
+.ONTAP S3 Worm è disponibile su un cyber vault?
+[%collapsible%open]
+====
+No, S3 è un protocollo di accesso ai dati che invalida la natura sicura dell'architettura di riferimento.
 
 ====
 .Il cyber vault di NetApp viene eseguito su una personalità o un profilo ONTAP diverso?
