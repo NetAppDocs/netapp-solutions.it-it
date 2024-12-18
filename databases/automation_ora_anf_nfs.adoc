@@ -150,7 +150,7 @@ L'implementazione richiede i seguenti prerequisiti.
 . Dal portale cloud Azure, implementa le macchine virtuali Azure Linux come server Oracle DB. Creare un pool di capacità Azure NetApp Files e volumi di database per il database Oracle. Abilitare l'autenticazione a chiave privata/pubblica SSH VM per azureuser nei server DB. Per ulteriori informazioni sulla configurazione dell'ambiente, fare riferimento al diagramma dell'architettura riportato nella sezione precedente. A cui si fa anche riferimento link:azure_ora_nfile_procedures.html["Procedure di implementazione Oracle dettagliate su Azure VM e Azure NetApp Files"^] per informazioni dettagliate.
 +
 
-NOTE: Per le macchine virtuali Azure distribuite con ridondanza del disco locale, assicurarsi di aver allocato almeno 128G GB nel disco principale della macchina virtuale in modo da avere spazio sufficiente per preparare i file di installazione di Oracle e aggiungere il file di swap del sistema operativo. Espandere di conseguenza la partizione del sistema operativo /tmplv e /rootlv. Assicurarsi che la denominazione del volume del database sia conforme alle convenzioni VMname-U01, VMname-U02 e VMname-U03.
+NOTE: Per le macchine virtuali Azure distribuite con ridondanza del disco locale, assicurarsi di aver allocato almeno 128G GB nel disco principale della macchina virtuale in modo da avere spazio sufficiente per preparare i file di installazione di Oracle e aggiungere il file di swap del sistema operativo. Espandere di conseguenza la partizione del sistema operativo /tmplv e /rootlv. Aggiungere 1G MB di spazio libero a rootvg-homelv se è inferiore a 1G MB. Assicurarsi che la denominazione del volume del database sia conforme alle convenzioni VMname-U01, VMname-U02 e VMname-U03.
 
 +
 [source, cli]
@@ -161,6 +161,11 @@ sudo lvresize -r -L +20G /dev/mapper/rootvg-rootlv
 [source, cli]
 ----
 sudo lvresize -r -L +10G /dev/mapper/rootvg-tmplv
+----
++
+[source, cli]
+----
+sudo lvresize -r -L +1G /dev/mapper/rootvg-homelv
 ----
 . Dal portale cloud Azure, eseguire il provisioning di un server Windows per eseguire lo strumento UI di NetApp SnapCenter con la versione più recente. Fare riferimento al seguente link per i dettagli: link:https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["Installare il server SnapCenter"^]
 . Esegui il provisioning di una VM Linux come nodo di controller Ansible con l'ultima versione di Ansible e Git installata. Fare riferimento al seguente link per i dettagli: link:../automation/getting-started.html["Introduzione all'automazione delle soluzioni NetApp"^] nella sezione -
