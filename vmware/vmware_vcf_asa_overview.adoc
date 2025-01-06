@@ -16,9 +16,9 @@ summary:
 [role="lead"]
 VMware Cloud Foundation (VCF) è una piattaforma SDDC (Software Defined Data Center) integrata che fornisce uno stack completo di infrastrutture software-defined per eseguire applicazioni aziendali in un ambiente di cloud ibrido. Combina funzionalità di calcolo, storage, networking e gestione in una piattaforma unificata, offrendo un'esperienza operativa coerente su cloud pubblici e privati.
 
-Autore: Josh Powell
+Autore: Josh Powell, Suresh Thoppay
 
-Il presente documento fornisce informazioni sulle opzioni di storage disponibili per VMware Cloud Foundation utilizzando l'array SAN all-flash DI NetApp. Le opzioni di storage supportate sono coperte da istruzioni specifiche per la distribuzione di datastore iSCSI come storage supplementare per domini di gestione e datastore vVol (iSCSI) e NVMe/TCP come datastore supplementare per domini di workload. Inoltre, viene offerta la data Protection di macchine virtuali e datastore che utilizzano SnapCenter per VMware vSphere.
+Il presente documento fornisce informazioni sulle opzioni di storage disponibili per VMware Cloud Foundation utilizzando l'array SAN all-flash DI NetApp. Le opzioni di storage supportate sono coperte da istruzioni specifiche per la distribuzione di datastore VMFS (FC/iSCSI) come storage principale e supplementare (FC/iSCSI/NVMe-of/vVol) per domini di gestione e workload. Inoltre, viene offerta la data Protection di macchine virtuali e datastore che utilizzano SnapCenter per VMware vSphere.
 
 
 
@@ -71,16 +71,50 @@ Per ulteriori informazioni sull'architettura e la pianificazione di VCF, fare ri
 
 ==== Opzioni di archiviazione VCF
 
-VMware divide le opzioni di storage per VCF in *Principal* e *integrative*. Il dominio di gestione VCF deve utilizzare vSAN come storage principale. Tuttavia, esistono molte opzioni di storage supplementari per il dominio di gestione e per le opzioni di storage principale e supplementare disponibili per i domini del carico di lavoro VI.
+VMware divide le opzioni di storage per VCF in *Principal* e *integrative*. È possibile utilizzare lo storage ONTAP come storage principale e supplementare per i domini di gestione e carico di lavoro a partire da VCF 5,2, che consente di convertire un ambiente vSphere esistente in un dominio di gestione VCF o di importare come dominio del carico di lavoro in un ambiente VCF esistente.
 
 image:vmware-vcf-aff-image01.png["Opzioni di archiviazione VCF"]
 
-*Archiviazione principale per i domini del carico di lavoro*
-Lo storage principale si riferisce a qualsiasi tipo di storage che può essere direttamente connesso a un dominio del carico di lavoro VI durante il processo di installazione in SDDC Manager. Lo storage principale viene implementato con il manager SDDC nell'ambito dell'orchestrazione per la creazione del cluster ed è il primo datastore configurato per un dominio del carico di lavoro. Include vSAN, vVol (VMFS), NFS e VMFS su Fibre Channel.
+*Archiviazione principale per domini di gestione e workload* l'archiviazione principale si riferisce a qualsiasi tipo di archiviazione che può essere distribuita o importata come parte del processo di configurazione del dominio. Per utilizzare lo storage ONTAP come storage principale nel dominio di gestione, è necessario convertirlo dall'ambiente vSphere esistente. VMFS su datastore FC o NFS v3 sono opzioni supportate.
+
+[cols="20% 20% 20% 20% 20%"]
+|===
+| Tipo di storage | Dominio di gestione - Cluster predefinito | Dominio di gestione - cluster aggiuntivo | Dominio carico di lavoro VI - cluster predefinito | Dominio carico di lavoro VI - cluster aggiuntivo 
+
+
+| VMFS su FC | *Strumento di importazione* | *API SDDC* | Sì | Sì 
+
+
+| VMFS su iSCSI | NA | NA | NA | NA 
+
+
+| VVol con FC | NA | NA | No | Sì 
+
+
+| VVol con iSCSI | NA | NA | No | Sì 
+|===
+* NA - non supportato da VCF.
+
 
 *Archiviazione supplementare per domini di gestione e carico di lavoro*
 Lo storage supplementare è il tipo di storage che è possibile aggiungere ai domini di gestione o del carico di lavoro in qualsiasi momento dopo la creazione del cluster. Lo storage supplementare rappresenta la più ampia gamma di opzioni di storage supportate, tutte supportate dagli array NetApp ASA. È possibile implementare storage supplementare utilizzando i tool ONTAP per VMware vSphere per la maggior parte dei tipi di protocollo di storage.
 
+[cols="25% 25% 25% 25%"]
+|===
+| Tipo di storage | Dominio di gestione - Cluster predefinito | Dominio di gestione - cluster aggiuntivo | Dominio del carico di lavoro VI 
+
+
+| VMFS su FC | Sì | Sì | Sì 
+
+
+| VMFS su iSCSI | Sì | Sì | Sì 
+
+
+| VVol con FC | Sì | Sì | Sì 
+
+
+| VVol con iSCSI | Sì | Sì | Sì 
+|===
 Ulteriori risorse di documentazione per VMware Cloud Foundation:
 * link:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["Documentazione di VMware Cloud Foundation"]
 * link:https://docs.vmware.com/en/VMware-Cloud-Foundation/5.1/vcf-design/GUID-2156EC66-BBBB-4197-91AD-660315385D2E.html["Tipi di storage supportati per VMware Cloud Foundation"]
@@ -194,12 +228,14 @@ Per ulteriori informazioni sulle strategie di backup 3-2-1 con BlueXP, visita il
 
 == Panoramica della soluzione
 
-Gli scenari presentati in questa documentazione dimostrano come utilizzare i sistemi di storage ONTAP come storage supplementare per i domini di gestione e di carico di lavoro. Inoltre, per proteggere macchine virtuali e datastore viene utilizzato il plug-in SnapCenter per VMware vSphere.
+Gli scenari presentati in questa documentazione dimostrano come utilizzare i sistemi di storage ONTAP come storage principale e supplementare per i domini di gestione e di carico di lavoro. Inoltre, per proteggere macchine virtuali e datastore viene utilizzato il plug-in SnapCenter per VMware vSphere.
 
 Scenari trattati nella presente documentazione:
 
 * *Utilizzare gli strumenti ONTAP per distribuire gli archivi dati iSCSI in un dominio di gestione VCF*. Fare clic su link:vmware_vcf_asa_supp_mgmt_iscsi.html["*qui*"] per le fasi di implementazione.
 * *Utilizzare gli strumenti ONTAP per distribuire gli archivi dati vVol (iSCSI) in un dominio del carico di lavoro VI*. Fare clic su link:vmware_vcf_asa_supp_wkld_vvols.html["*qui*"] per le fasi di implementazione.
 * *Configurare i datastore NVMe su TCP per l'utilizzo in un dominio di carico di lavoro VI*. Fare clic su link:vmware_vcf_asa_supp_wkld_nvme.html["*qui*"] per le fasi di implementazione.
-* *Distribuire e utilizzare il plug-in SnapCenter per VMware vSphere per proteggere e ripristinare le VM in un dominio del carico di lavoro VI*. Fare clic su link:vmware_vcf_asa_scv_wkld.html["*qui*"] per le fasi di implementazione.
+* *Distribuire e utilizzare il plug-in SnapCenter per VMware vSphere per proteggere e ripristinare le VM in un dominio del carico di lavoro VI* fare clic link:vmware_vcf_asa_scv_wkld.html["*qui*"] per le fasi di distribuzione.
+* *Utilizzare cluster stretch con datastore VMFS nel dominio di gestione* fare clic link:vmware_vcf_asa_mgmt_stretchcluster.html["*qui*"] per i passaggi di distribuzione.
+* *Utilizzare cluster stretch con datastore VMFS nel dominio del carico di lavoro VI* fare clic link:vmware_vcf_asa_wkld_stretchcluster.html["*qui*"] per i passaggi di distribuzione.
 
