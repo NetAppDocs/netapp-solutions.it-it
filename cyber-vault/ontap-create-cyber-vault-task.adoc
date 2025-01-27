@@ -40,7 +40,7 @@ image:ontap-cyber-vault-air-gap.png["Vault Cyber a zampa d'aria con NetApp ONTAP
 Il seguente comando crea un volume SnapLock Compliance da 2 GB denominato `dstvolB` in nell' `SVM2`aggregato `node01_aggr`:
 
 +
-`cluster2::> volume create -vserver SVM2 -volume dstvolB -aggregate node01_aggr -snaplock-type compliance -type DP -size 2GG`
+`cluster2::> volume create -vserver SVM2 -volume dstvolB -aggregate node01_aggr -snaplock-type compliance -type DP -size 2GB`
 
 . Nel cluster di destinazione, per creare il traferro, impostare il periodo di conservazione predefinito, come descritto in link:https://docs.netapp.com/us-en/ontap/snaplock/set-default-retention-period-task.html["Impostare il periodo di conservazione predefinito"^]. A un volume SnapLock che è una destinazione del vault è assegnato un periodo di conservazione predefinito. Il valore per questo periodo è inizialmente fissato ad un minimo di 0 anni e massimo di 100 anni (a partire da ONTAP 9.10,1. Per le release precedenti di ONTAP, il valore è 0 - 70.) per SnapLock Compliance Volumes. Ogni copia Snapshot di NetApp viene inizialmente impegnata con questo periodo di conservazione predefinito. È necessario modificare il periodo di conservazione predefinito. Il periodo di conservazione può essere prolungato in un secondo momento, se necessario, ma mai abbreviato. Per ulteriori informazioni, vedere link:https://docs.netapp.com/us-en/ontap/snaplock/set-retention-period-task.html["Imposta la panoramica del tempo di conservazione"^].
 +
