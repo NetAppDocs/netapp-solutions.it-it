@@ -14,18 +14,34 @@ summary: Virtualizzazione Red Hat OpenShift con NetApp ONTAP
 
 
 [role="lead"]
-In questa sezione viene descritto come migrare una macchina virtuale da VMware a un cluster OpenShift utilizzando il toolkit di migrazione Red Hat OpenShift Virtualization.
+In questa sezione viene illustrato come eseguire la migrazione di una macchina virtuale da VMware a un cluster OpenShift utilizzando il toolkit di migrazione Red Hat OpenShift Virtualization. Sono coperti i seguenti tipi di migrazione:
 
+.Migrazione a freddo
+[%collapsible]
+====
+Questo è il tipo di migrazione predefinito. Le macchine virtuali di origine vengono arrestate durante la copia dei dati.
+
+====
+.Migrazione al caldo
+[%collapsible]
+====
+In questo tipo di migrazione, la maggior parte dei dati viene copiata durante la fase di precopia mentre le macchine virtuali (VM) di origine sono in esecuzione. A questo punto, le macchine virtuali vengono arrestate e i dati rimanenti vengono copiati durante la fase di cutover.
+
+====
+
+
+== Dimostrazione video
+
+Il video seguente mostra una dimostrazione della migrazione a freddo di una macchina virtuale RHEL da VMware alla virtualizzazione OpenShift, utilizzando la classe di storage ONTAP-san per lo storage persistente.
+
+.Utilizzo di Red Hat MTV per migrare le VM alla virtualizzazione OpenShift con lo storage NetApp ONTAP
+video::bac58645-dd75-4e92-b5fe-b12b015dc199[panopto,width=360]
 
 
 == Migrazione di VM da VMware alla virtualizzazione OpenShift mediante Migration Toolkit for Virtualization
 
 In questa sezione, vedremo come utilizzare il kit di strumenti di migrazione per la virtualizzazione (MTV) per migrare le macchine virtuali da VMware alla virtualizzazione OpenShift eseguita sulla piattaforma contenitore OpenShift e integrata con lo storage NetApp ONTAP mediante Trident.
 
-Il seguente video mostra una dimostrazione della migrazione di una macchina virtuale RHEL da VMware alla virtualizzazione OpenShift, utilizzando la classe storage ontap-san per lo storage persistente.
-
-.Utilizzo di Red Hat MTV per migrare le VM alla virtualizzazione OpenShift con lo storage NetApp ONTAP
-video::bac58645-dd75-4e92-b5fe-b12b015dc199[panopto,width=360]
 Il diagramma seguente mostra una vista di alto livello della migrazione di una VM da VMware a Red Hat OpenShift Virtualization.
 
 image:rh-os-n_use_case_vm_migration_using_mtv.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
@@ -179,7 +195,7 @@ allowVolumeExpansion: true
 ----
 
 
-=== *Installare MTV*
+=== Installare MTV
 
 A questo punto è possibile installare il Migration Toolkit for Virtualization (MTV). Fare riferimento alle istruzioni fornite link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/2.5/html/installing_and_using_the_migration_toolkit_for_virtualization/installing-the-operator["qui"] per informazioni sull'installazione.
 
@@ -225,11 +241,51 @@ Una volta creato il piano di migrazione, lo stato del piano dovrebbe mostrare *R
 
 image:rh-os-n_use_case_vm_migration_using_mtv_plan_ready.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
+
+
+=== Eseguire la migrazione a freddo
+
 Facendo clic su *Start* verrà eseguita una sequenza di passaggi per completare la migrazione della VM.
 
 image:rh-os-n_use_case_vm_migration_using_mtv_plan_complete.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
-Al termine di tutte le fasi, è possibile visualizzare le VM migrate facendo clic su *macchine virtuali* in *virtualizzazione* nel menu di navigazione a sinistra.
-Vengono fornite le istruzioni per accedere alle macchine virtuali link:https://docs.openshift.com/container-platform/4.13/virt/virtual_machines/virt-accessing-vm-consoles.html["qui"].
+Al termine di tutte le fasi, è possibile visualizzare le VM migrate facendo clic su *macchine virtuali* in *virtualizzazione* nel menu di navigazione a sinistra. Vengono fornite le istruzioni per accedere alle macchine virtuali link:https://docs.openshift.com/container-platform/4.13/virt/virtual_machines/virt-accessing-vm-consoles.html["qui"].
 
 È possibile accedere alla macchina virtuale e verificare il contenuto dei database posgresql. I database, le tabelle e le voci nella tabella devono essere uguali a quelli creati sulla macchina virtuale di origine.
+
+
+
+=== Esecuzione di una migrazione a caldo
+
+Per eseguire una migrazione a caldo, dopo aver creato un piano di migrazione come illustrato sopra, è necessario modificare le impostazioni del piano per modificare il tipo di migrazione predefinito. Fare clic sull'icona di modifica accanto alla migrazione a freddo e attivare/disattivare il pulsante per impostare la migrazione a caldo. Fare clic su **Salva**. Fare clic su **Start** per avviare la migrazione.
+
+
+NOTE: Assicurarsi che, quando si passa dallo storage a blocchi in VMware, sia stata selezionata una classe di storage a blocchi per la VM di virtualizzazione OpenShift. Inoltre, la modalità volumeMode dovrebbe essere impostata su Block e la modalità di accesso dovrebbe essere rwx in modo da poter eseguire la migrazione live della macchina virtuale in un secondo momento.
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm1.png["1"]
+
+Fare clic su **0 di 1 vm completate**, espandere la vm e vedere l'avanzamento della migrazione.
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm2.png["2"]
+
+Dopo un po' di tempo, il trasferimento del disco viene completato e la migrazione attende di passare allo stato di cutover. DataVolume è in stato di pausa. Tornare al piano e fare clic sul pulsante **Cutover**.
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm3.png["3"]
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm4.png["4"]
+
+L'ora corrente viene visualizzata nella finestra di dialogo. Modificare l'ora in un momento futuro se si desidera pianificare un cutover in un momento successivo. In caso contrario, per eseguire un cutover ora, fare clic su **Imposta cutover**.
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm5.png["5"]
+
+Dopo alcuni secondi, il DataVolume passa dallo stato in pausa a ImportScheduled a ImportInProgress quando inizia la fase di cutover.
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm6.png["6"]
+
+Al termine della fase di cutover, il DataVolume passa allo stato Successful e il PVC viene associato.
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm7.png["7"]
+
+Il piano di migrazione procede per completare la fase ImageConversion e infine la fase VirtualMachineCreation viene completata. La VM viene in esecuzione su OpenShift Virtualization.
+
+image:rh-os-n_use_case_vm_migration_using_mtv_plan_warm8.png["8"]
