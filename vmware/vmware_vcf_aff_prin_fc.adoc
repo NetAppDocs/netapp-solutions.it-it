@@ -1,0 +1,90 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware_vcf_aff_prin_fc.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, array, ontap tools, otv, sddc, fc 
+summary:  
+---
+= VMFS su FC come archivio dati principale VCF
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+In questo scenario, verrà illustrato come implementare un datastore VMFS con backend Fiber Channel (FC) per domini di gestione e carico di lavoro.
+
+Autore: Suresh Thoppay
+
+
+
+== Panoramica dello scenario
+
+L'archiviazione principale VCF si riferisce a qualsiasi tipo di archiviazione distribuita, convertita o importata come parte del processo di configurazione del dominio VCF. Questo documento tratta i seguenti scenari.
+
+[cols="20% 20% 20% 20% 20%"]
+|===
+| Tipo di storage | Dominio di gestione - Cluster predefinito | Dominio di gestione - cluster aggiuntivo | Dominio carico di lavoro VI - cluster predefinito | Dominio carico di lavoro VI - cluster aggiuntivo 
+
+
+| VMFS su FC | *Strumento di importazione* | *Strumento di importazione, API SDDC* | Sì | Sì 
+|===
+
+
+== Prerequisiti
+
+Questo scenario richiede i seguenti componenti e configurazioni:
+
+* Un sistema storage ONTAP con porte FC collegate agli switch FC.
+* SVM creata con life FC.
+* VSphere con HBA FC collegati agli switch FC.
+* Lo zoning a initiator singolo target è configurato sugli switch FC.
++
+
+NOTE: Utilizza l'interfaccia logica FC SVM in configurazione delle zone invece delle porte FC fisiche sui sistemi ONTAP.
+
+
+
+NetApp consiglia un multipath per le LUN FC.
+
+
+
+== Fasi di implementazione
+
+
+
+=== Dominio di gestione - Cluster predefinito
+
+Lo storage principale FC sul cluster iniziale è supportato solo con lo strumento di importazione brownfield VCF. Se VCF viene implementato con lo strumento cloudbuilder (fino alla versione 5,2.x), è supportato solo VSAN. Per ulteriori informazioni, fare riferimento alla sezione https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["Conversione dell'ambiente vSphere esistente in dominio di gestione"].
+
+
+
+=== Dominio di gestione - cluster aggiuntivo
+
+Il cluster vSphere aggiuntivo nel dominio di gestione può essere distribuito con le seguenti opzioni: * Sono presenti cluster aggiuntivi nell'ambiente vSphere e utilizzano lo strumento di importazione brownfield di VCF per convertire l'ambiente vSphere nel dominio di gestione. https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html["Strumenti ONTAP per VMware vSphere"], https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["API di System Manager o ONTAP"] Può essere utilizzato per implementare il datastore VMFS nel cluster vSphere. * Utilizzare l'API SDDC per distribuire cluster aggiuntivi. Gli host vSphere devono avere configurato il datastore VMFS. Utilizzare https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["API di System Manager o ONTAP"] per implementare LUN negli host vSphere. * Utilizzare l'interfaccia utente di SDDC Manager per distribuire cluster aggiuntivi. Ma questa opzione crea solo il datastore VSAN fino alla versione 5,2.x
+
+
+
+=== Dominio carico di lavoro VI - cluster predefinito
+
+Dopo aver attivato e attivato il dominio di gestione, è possibile creare il dominio del carico di lavoro VI * utilizzando l'interfaccia utente di SDDC Manager. Gli host vSphere devono avere configurato il datastore VMFS. Utilizza System Manager o l'API ONTAP per implementare LUN negli host vSphere. * Importare un ambiente vSphere esistente come nuovo dominio del carico di lavoro VI. È possibile utilizzare i tool ONTAP per le API VMware vSphere, System Manager o ONTAP per implementare il datastore VMFS nel cluster vSphere.
+
+
+
+=== Dominio carico di lavoro VI - cluster aggiuntivo
+
+Una volta attivo e funzionante il carico di lavoro VI, è possibile implementare cluster aggiuntivi con VMFS su FC LUN usando le opzioni seguenti.
+
+* Cluster aggiuntivi nell'ambiente vSphere importati utilizzando il tool di importazione Brownfield di VCF. È possibile utilizzare i tool ONTAP per le API VMware vSphere, System Manager o ONTAP per implementare il datastore VMFS nel cluster vSphere.
+* Utilizzo dell'interfaccia utente o dell'API di SDDC Manager per l'implementazione di cluster aggiuntivi. Gli host vSphere devono avere configurato il datastore VMFS. Utilizza System Manager o l'API ONTAP per implementare LUN negli host vSphere.
+
+
+
+
+== Ulteriori informazioni
+
+Per informazioni sulla configurazione dei sistemi storage ONTAP, consultare la link:https://docs.netapp.com/us-en/ontap["Documentazione di ONTAP 9"] centro.
+
+Per informazioni sulla configurazione di VCF, fare riferimento alla link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["Documentazione di VMware Cloud Foundation"].
