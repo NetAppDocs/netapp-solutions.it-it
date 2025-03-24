@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-In questa sezione viene descritto un workflow di alto livello che illustra come configurare e gestire i cluster OpenShift e gestire le applicazioni stateful su di essi. Mostra l'utilizzo degli storage array NetApp ONTAP con l'aiuto di Trident per la fornitura di volumi persistenti. Vengono forniti dettagli sull'utilizzo di Astra Control Center per eseguire attività di migrazione e protezione dei dati per le applicazioni stateful.
+In questa sezione viene descritto un workflow di alto livello che illustra come configurare e gestire i cluster OpenShift e gestire le applicazioni stateful su di essi. Mostra l'utilizzo degli storage array NetApp ONTAP con l'aiuto di Trident per la fornitura di volumi persistenti.
 
 
 NOTE: Esistono diversi modi per implementare i cluster di piattaforme container Red Hat OpenShift. Questa descrizione di alto livello dell'installazione fornisce collegamenti alla documentazione per il metodo specifico utilizzato. È possibile fare riferimento agli altri metodi riportati nei relativi collegamenti forniti nella link:rhhc-resources.html["sezione risorse"].
@@ -49,14 +49,6 @@ TIP: Tenere presente quanto segue: - Creare una chiave pubblica e privata ssh da
 Viene installato utilizzando Advanced Cluster Management Operator sul cluster Hub. Fare riferimento alle istruzioni link:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/install/installing#doc-wrapper["qui"].
 
 ====
-.Installare un registro Red Hat Quay interno sul cluster Hub.
-[%collapsible]
-====
-* Per inviare l'immagine Astra è necessario un registro interno. Un registro interno Quay viene installato utilizzando l'operatore nel cluster Hub.
-* Fare riferimento alle istruzioni link:https://access.redhat.com/documentation/en-us/red_hat_quay/2.9/html-single/deploy_red_hat_quay_on_openshift/index#installing_red_hat_quay_on_openshift["qui"]
-
-
-====
 .Installare due cluster OCP aggiuntivi (origine e destinazione)
 [%collapsible]
 ====
@@ -85,26 +77,10 @@ Viene installato utilizzando Advanced Cluster Management Operator sul cluster Hu
 
 
 ====
-.Installare NetApp Astra Control Center
-[%collapsible]
-====
-* NetApp Astra Control Center viene installato utilizzando Astra Operator sul cluster Hub.
-* Fare riferimento alle istruzioni link:https://docs.netapp.com/us-en/astra-control-center/get-started/acc_operatorhub_install.html["qui"].
-
-
-Punti da ricordare: * Scarica l'immagine di NetApp Astra Control Center dal sito di supporto. * Inserire l'immagine in un registro interno. * Fare riferimento alle istruzioni qui.
-
-====
 .Implementare un'applicazione sul cluster di origine
 [%collapsible]
 ====
 Utilizza OpenShift GitOps per implementare un'applicazione. (es. Postgres, Ghost)
 
 ====
-.Aggiungere i cluster di origine e destinazione in Astra Control Center.
-[%collapsible]
-====
-Dopo aver aggiunto un cluster alla gestione di Astra Control, è possibile installare le applicazioni sul cluster (all'esterno di Astra Control) e quindi passare alla pagina delle applicazioni in Astra Control per definire le applicazioni e le relative risorse. Fare riferimento a. link:https://docs.netapp.com/us-en/astra-control-center/use/manage-apps.html["Inizia a gestire le app di Astra Control Center"].
-
-====
-Il passaggio successivo consiste nell'utilizzare Astra Control Center per la protezione dei dati e la migrazione dei dati dal cluster di origine a quello di destinazione.
+Il passaggio successivo consiste nell'utilizzare Trident Protect per la protezione dei dati e la migrazione dei dati dal cluster di origine a quello di destinazione. Fare riferimento link:rhhc/rhhc-dp-tp-solution.html["qui"] per le istruzioni.
