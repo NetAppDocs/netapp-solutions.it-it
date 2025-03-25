@@ -1,0 +1,275 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-vmsc-mgmt-mcc.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, array, ontap tools, otv, sddc, sddc manager, ontap tools, metrocluster 
+summary:  
+---
+= Cluster stretch per dominio di gestione VCF con MetroCluster
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+I componenti di gestione di VCF risiedono nel dominio di gestione VCF e per abilitare la tolleranza agli errori viene utilizzato vSphere Metro Storage Cluster (vMSC). Generalmente viene utilizzato ONTAP MetroCluster con implementazione FC o IP per fornire tolleranza agli errori degli archivi dati VMFS e NFS.
+
+image:vmw-vcf-vmsc-mgmt-mcc-image01.png["VCF Management Domain con vMSC"]
+
+In questa soluzione verrà illustrato come implementare dominio di gestione VCF Stetch con NFS come datastore principale utilizzando ONTAP MetroCluster.
+
+
+
+== Panoramica dello scenario
+
+Questo scenario copre i seguenti passaggi di alto livello:
+
+* Implementa gli host vSphere e il server vCenter.
+* Provisioning del datastore NFS agli host vSphere.
+* Implementare SDDC Manager nel cluster vSphere.
+* Utilizzare lo strumento di importazione VCF per convalidare il cluster vSphere.
+* Configurare un file JSON per creare una NSX durante la conversione VCF.
+* Utilizzare lo strumento di importazione VCF per convertire l'ambiente vSphere 8 in un dominio di gestione VCF.
+
+
+
+
+== Prerequisiti
+
+Questo scenario richiede i seguenti componenti e configurazioni:
+
+* Configurazione ONTAP MetroCluster supportata
+* Storage Virtual Machine (SVM) configurata per supportare il traffico NFS.
+* L'interfaccia logica (LIF) è stata creata nella rete IP per il trasporto del traffico NFS e associata alla SVM.
+* Un cluster vSphere 8 con 4 host ESXi connessi allo switch di rete.
+* Scaricare il software necessario per la conversione VCF.
+
+
+Ecco l'esempio di schermata di Gestione sistema che mostra la configurazione di MetroCluster. image:vmw-vcf-vmsc-mgmt-mcc-image15.png["IP MetroCluster a 4 nodi"]
+
+Ecco le interfacce di rete SVM di entrambi i domini di errore. image:vmw-vcf-vmsc-mgmt-mcc-image13.png["Interconnessioni di rete SVM dal dominio di errore 1"]
+
+image:vmw-vcf-vmsc-mgmt-mcc-image14.png["Interconnessioni di rete SVM dal dominio di errore 2"]
+
+[NOTA] la SVM sarà attiva in uno dei domini di errore di MetroCluster.
+
+image:vmw-vcf-vmsc-mgmt-mcc-image16.png["SVM sul dominio di errore 1"]
+
+image:vmw-vcf-vmsc-mgmt-mcc-image17.png["SVM sul dominio di errore 2"]
+
+Fare riferimento a https://knowledge.broadcom.com/external/article/312183/vmware-vsphere-support-with-netapp-metro.html["VMSC con MetroCluster"].
+
+Per lo storage supportato e altre considerazioni sulla conversione o l'importazione di vSphere in VCF 5,2, fare riferimento a https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/considerations-before-converting-or-importing-existing-vsphere-environments-into-vcf-admin.html["Considerazioni prima di convertire o importare ambienti vSphere esistenti in VMware Cloud Foundation"].
+
+Prima di creare il cluster vSphere che verrà convertito nel dominio di gestione VCF, fare riferimento a. https://knowledge.broadcom.com/external/article/373968/vlcm-config-manager-is-enabled-on-this-c.html["Considerazioni NSX su vSphere Cluster"]
+
+Per il software richiesto, fare riferimento a https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/download-software-for-converting-or-importing-existing-vsphere-environments-admin.html["Scarica il software per la conversione o l'importazione di ambienti vSphere esistenti"].
+
+Per informazioni sulla configurazione dei sistemi storage ONTAP, consultare la link:https://docs.netapp.com/us-en/ontap["Documentazione di ONTAP 9"] centro.
+
+Per informazioni sulla configurazione di VCF, fare riferimento alla link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["Documentazione di VMware Cloud Foundation"].
+
+
+
+== Fasi di implementazione
+
+Per distribuire il dominio di gestione esteso VCF con NFS come datastore principale,
+
+Attenersi alla seguente procedura:
+
+* Implementare gli host vSphere e vCenter.
+* Crea cluster vSphere.
+* Provisioning del datastore NFS.
+* Copiare lo strumento di importazione VCF nell'appliance vCenter.
+* Eseguire un controllo preliminare sull'appliance vCenter utilizzando lo strumento di importazione VCF.
+* Implementare la VM di gestione SDDC nel cluster vCenter.
+* Creare un file JSON per un cluster NSX da distribuire durante il processo di conversione.
+* Caricare il software richiesto sul programma di gestione SDDC.
+* Convertire il cluster vSphere in dominio di gestione VCF.
+
+
+Per una panoramica del processo di conversione, fare riferimento alla https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["Convertire un ambiente vSphere in un dominio di gestione o importare un ambiente vSphere come dominio del carico di lavoro VI in VMware Cloud Foundation"].
+
+
+
+=== Implementare gli host vSphere e vCenter
+
+Distribuire vSphere sugli host utilizzando ISO scaricato dal portale di supporto Broadcom oppure utilizzare l'opzione di implementazione esistente per l'host vSphere.
+
+.Montare il datastore NFS sulle macchine virtuali host
+[%collapsible]
+====
+In questa fase, creiamo il volume NFS e lo montiamo come datastore per ospitare le macchine virtuali.
+
+. Utilizzando System Manager, creare un volume e collegarlo alla policy di esportazione che includa la subnet IP dell'host vSphere. image:vmw-vcf-vmsc-mgmt-mcc-image02.png["Creazione di un volume NFS con System Manager"]
+. SSH sull'host vSphere e montare il datastore NFS. image:vmw-vcf-vmsc-mgmt-mcc-image03.png["Montare il datastore NFS sull'host vSphere"]
++
+[NOTA] se l'accelerazione hardware viene indicata come non supportata, assicurarsi che l'ultimo componente NFS VAAI (scaricato dal portale di supporto NetApp) sia installato sull'host vSphere image:vmw-vcf-vmsc-mgmt-mcc-image05.png["Installare il componente NFS VAAI"]e che vStorage sia attivato nella SVM che ospita il volume. image:vmw-vcf-vmsc-mgmt-mcc-image04.png["Abilita vStorage su SVM per VAAI"]
+
+. Ripetere i passaggi precedenti per ulteriori esigenze del datastore e assicurarsi che l'accelerazione hardware sia supportata. image:vmw-vcf-vmsc-mgmt-mcc-image06.png["Elenco dei datastore. Uno per ciascun dominio di errore"]
+
+
+====
+Implementare vCenter su NFS Datastore. Assicurarsi che SSH e la shell Bash siano attivate sull'appliance vCenter.
+
+
+
+=== Crea cluster vSphere
+
+. Accedere a vSphere webclient, creare il DataCenter e il cluster vSphere aggiungendo uno degli host in cui viene implementato NFS VAAI. Abbiamo scelto di gestire tutti gli host del cluster con l'opzione di un'immagine singola. [SUGGERIMENTO] non selezionare Gestisci configurazione a livello di cluster. Per ulteriori dettagli, fare riferimento a https://knowledge.broadcom.com/external/article/373968/vlcm-config-manager-is-enabled-on-this-c.html["Considerazioni NSX su vSphere Cluster"]. Per le Best practice vMSC con ONTAP MetroCluster, selezionare https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware_vmsc_design.html#netapp-storage-configuration["Linee guida per la progettazione e l'implementazione di vMSC"]
+. Aggiungere altri host vSphere al cluster.
+. Creare Distributed Switch e aggiungere i gruppi di porte.
+. https://techdocs.broadcom.com/us/en/vmware-cis/vsan/vsan/8-0/vsan-network-design/migrating-from-standard-to-distributed-vswitch.html["Migrazione del networking da vSwitch standard a switch distribuito."]
+
+
+
+
+=== Convertire l'ambiente vSphere in dominio di gestione VCF
+
+Nella sezione seguente vengono descritti i passaggi per distribuire il gestore SDDC e convertire il cluster vSphere 8 in un dominio di gestione VCF 5,2. Se del caso, per ulteriori dettagli si farà riferimento alla documentazione VMware.
+
+VCF Import Tool di VMware di Broadcom è un'utility utilizzata sia sull'appliance vCenter sia sul manager SDDC per convalidare le configurazioni e fornire servizi di conversione e importazione per gli ambienti vSphere e VCF.
+
+Per ulteriori informazioni, fare riferimento a https://docs.vmware.com/en/VMware-Cloud-Foundation/5.2/vcf-admin/GUID-44CBCB85-C001-41B2-BBB4-E71928B8D955.html["Opzioni e parametri dello strumento di importazione VCF"].
+
+.Copiare ed estrarre lo strumento di importazione VCF
+[%collapsible]
+====
+Lo strumento di importazione VCF viene utilizzato sull'appliance vCenter per verificare che il cluster vSphere sia integro per il processo di conversione o importazione di VCF.
+
+Attenersi alla seguente procedura:
+
+. Per copiare lo strumento di importazione VCF nella posizione corretta, attenersi alla procedura descritta in https://docs.vmware.com/en/VMware-Cloud-Foundation/5.2/vcf-admin/GUID-6ACE3794-BF52-4923-9FA2-2338E774B7CB.html["Copiare lo strumento di importazione VCF nell'appliance vCenter di destinazione"] documenti VMware.
+. Estrarre il bundle utilizzando il seguente comando:
++
+....
+tar -xvf vcf-brownfield-import-<buildnumber>.tar.gz
+....
+
+
+====
+.Convalidare l'appliance vCenter
+[%collapsible]
+====
+Utilizzare lo strumento di importazione VCF per convalidare l'appliance vCenter prima della conversione.
+
+. Per eseguire la convalida, attenersi alla procedura descritta in https://docs.vmware.com/en/VMware-Cloud-Foundation/5.2/vcf-admin/GUID-AC6BF714-E0DB-4ADE-A884-DBDD7D6473BB.html["Eseguire un controllo preliminare sul vCenter di destinazione prima della conversione"] .
+. Il seguente output mostra che l'appliance vCenter ha superato il controllo preliminare.
++
+image:vmw-vcf-vmsc-mgmt-mcc-image07.png["controllo preliminare strumento di importazione vcf"]
+
+
+
+====
+.Distribuire SDDC Manager
+[%collapsible]
+====
+Il gestore SDDC deve essere collocato nel cluster vSphere che verrà convertito in un dominio di gestione VCF.
+
+Seguire le istruzioni di distribuzione su VMware Docs per completare la distribuzione.
+
+image:vmw-vcf-vmsc-mgmt-mcc-image08.png["Prima della conversione VCF"]
+
+Fare riferimento alla https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin/deploy-the-sddc-manager-appliance-on-the-target-vcenter-admin.html["Implementare l'appliance SDDC Manager sul vCenter di destinazione"].
+
+====
+.Creare un file JSON per la distribuzione NSX
+[%collapsible]
+====
+Per implementare NSX Manager durante l'importazione o la conversione di un ambiente vSphere in VMware Cloud Foundation, creare una specifica di distribuzione NSX. L'implementazione di NSX richiede un minimo di 3 host.
+
+
+NOTE: Quando si distribuisce un cluster NSX Manager in un'operazione di conversione o importazione, viene utilizzato il segmento supportato dalla VLAN NSX. Per informazioni dettagliate sulle limitazioni del segmento supportato da NSX-VLAN, fare riferimento alla sezione "considerazioni prima di convertire o importare ambienti vSphere esistenti in VMware Cloud Foundation. Per informazioni sulle limitazioni della rete NSX-VLAN, fare riferimento a https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/considerations-before-converting-or-importing-existing-vsphere-environments-into-vcf-admin.html["Considerazioni prima di convertire o importare ambienti vSphere esistenti in VMware Cloud Foundation"].
+
+Di seguito è riportato un esempio di file JSON per la distribuzione NSX:
+
+....
+{
+  "deploy_without_license_keys": true,
+  "form_factor": "small",
+  "admin_password": "******************",
+  "install_bundle_path": "/nfs/vmware/vcf/nfs-mount/bundle/bundle-133764.zip",
+  "cluster_ip": "10.61.185.114",
+  "cluster_fqdn": "mcc-nsx.sddc.netapp.com",
+  "manager_specs": [{
+    "fqdn": "mcc-nsxa.sddc.netapp.com",
+    "name": "mcc-nsxa",
+    "ip_address": "10.61.185.111",
+    "gateway": "10.61.185.1",
+    "subnet_mask": "255.255.255.0"
+  },
+  {
+    "fqdn": "mcc-nsxb.sddc.netapp.com",
+    "name": "mcc-nsxb",
+    "ip_address": "10.61.185.112",
+    "gateway": "10.61.185.1",
+    "subnet_mask": "255.255.255.0"
+  },
+  {
+    "fqdn": "mcc-nsxc.sddc.netapp.com",
+    "name": "mcc-nsxc",
+    "ip_address": "10.61.185.113",
+    "gateway": "10.61.185.1",
+    "subnet_mask": "255.255.255.0"
+  }]
+}
+....
+Copiare il file JSON nella cartella principale dell'utente vcf in SDDC Manager.
+
+====
+.Caricare il software su SDDC Manager
+[%collapsible]
+====
+Copiare lo strumento di importazione VCF nella cartella principale dell'utente vcf e il pacchetto di distribuzione NSX nella cartella /nfs/vmware/vcf/nfs-mount/bundle/ in SDDC Manager.
+
+Vedere https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin/seed-software-on-sddc-manager-admin.html["Caricare il software richiesto sull'appliance SDDC Manager"] per istruzioni dettagliate.
+
+====
+.Controllo dettagliato su vCenter prima della conversione
+[%collapsible]
+====
+Prima di eseguire un'operazione di conversione del dominio di gestione o un'operazione di importazione del dominio del carico di lavoro VI, è necessario eseguire un controllo dettagliato per verificare che la configurazione dell'ambiente vSphere esistente sia supportata per la conversione o l'importazione. . SSH all'appliance SDDC Manager come vcf utente. . Passare alla directory in cui è stato copiato lo strumento di importazione VCF. . Eseguire il comando seguente per verificare che l'ambiente vSphere possa essere convertito
+
+....
+python3 vcf_brownfield.py check --vcenter '<vcenter-fqdn>' --sso-user '<sso-user>' --sso-password '********' --local-admin-password '****************' --accept-trust
+....
+====
+.Convertire il cluster vSphere nel dominio di gestione VCF
+[%collapsible]
+====
+Lo strumento di importazione VCF viene utilizzato per eseguire il processo di conversione.
+
+Viene eseguito il seguente comando per convertire il cluster vSphere in un dominio di gestione VCF e distribuire il cluster NSX:
+
+....
+python3 vcf_brownfield.py convert --vcenter '<vcenter-fqdn>' --sso-user '<sso-user>' --sso-password '******' --vcenter-root-password '********' --local-admin-password '****************' --backup-password '****************' --domain-name '<Mgmt-domain-name>' --accept-trust --nsx-deployment-spec-path /home/vcf/nsx.json
+....
+Quando più archivi dati sono disponibili sull'host vSphere, viene visualizzato l'archivio dati che deve essere considerato come archivio dati primario sul quale verranno distribuite per impostazione predefinita le macchine virtuali NSX. image:vmw-vcf-vmsc-mgmt-mcc-image12.png["Selezionare datastore principale"]
+
+Per istruzioni complete, fare riferimento alla https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["Procedura di conversione VCF"].
+
+Le macchine virtuali NSX verranno implementate in vCenter. image:vmw-vcf-vmsc-mgmt-mcc-image09.png["Dopo la conversione VCF"]
+
+SDDC Manager mostra il dominio di gestione creato con il nome fornito e NFS come datastore. image:vmw-vcf-vmsc-mgmt-mcc-image10.png["VCF Management Domain con NFS"]
+
+Durante l'ispezione del cluster, vengono fornite le informazioni del datastore NFS. image:vmw-vcf-vmsc-mgmt-mcc-image11.png["Informazioni sul datastore NFS di VCF"]
+
+====
+.Aggiungere la licenza a VCF
+[%collapsible]
+====
+Dopo aver completato la conversione, è necessario aggiungere la licenza all'ambiente.
+
+. Accedere all'interfaccia utente di SDDC Manager.
+. Accedere a *Amministrazione > licenze* nel riquadro di navigazione.
+. Fare clic su *+ License Key*.
+. Scegliere un prodotto dal menu a discesa.
+. Immettere la chiave di licenza.
+. Fornire una descrizione per la licenza.
+. Fare clic su *Aggiungi*.
+. Ripetere questi passaggi per ogni licenza.
+
+
+====
