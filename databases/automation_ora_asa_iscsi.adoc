@@ -140,7 +140,7 @@ Nelle sezioni seguenti vengono fornite procedure dettagliate per l'implementazio
 
 === Prerequisiti per l'implementazione
 
-[%collapsible]
+[%collapsible%open]
 ====
 L'implementazione richiede i seguenti prerequisiti.
 
@@ -178,7 +178,7 @@ video::79095731-6b02-41d5-9fa1-b0c00100d055[panopto,width=360]
 
 === File dei parametri di automazione
 
-[%collapsible]
+[%collapsible%open]
 ====
 Il playbook Ansible esegue attività di installazione e configurazione del database con parametri predefiniti. Per questa soluzione di automazione Oracle, esistono tre file di parametri definiti dall'utente che devono essere inseriti dall'utente prima dell'esecuzione del playbook.
 
@@ -194,7 +194,7 @@ Oltre a questi file di variabili definiti dall'utente, esistono diversi file di 
 
 === Configurazione dei file dei parametri
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Destinazione Ansible `hosts` configurazione file:
 +
@@ -285,7 +285,7 @@ memory_limit: 8192
 
 === Esecuzione Playbook
 
-[%collapsible]
+[%collapsible%open]
 ====
 Nel toolkit di automazione sono presenti sei playbook in totale. Ciascuna di esse esegue blocchi di attività diversi e ha scopi diversi.
 
@@ -360,7 +360,7 @@ ansible-playbook -i hosts 5-destroy.yml -u admin -e @vars/vars.yml
 
 === Convalida post-esecuzione
 
-[%collapsible]
+[%collapsible%open]
 ====
 Dopo aver eseguito il playbook, effettua l'accesso al server Oracle DB come utente oracle per validare la corretta creazione dell'infrastruttura Oracle Grid e del database. Di seguito viene riportato un esempio di convalida del database Oracle sull'host ora_01.
 
@@ -494,7 +494,7 @@ image:automation_ora_asa_em_03.png["Questa immagine fornisce la vista del databa
 
 === Backup, ripristino e cloning di Oracle con SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 Fare riferimento a TR-4979 link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["Oracle semplificata e autogestita in VMware Cloud su AWS con FSX ONTAP montato su guest"^] sezione `Oracle backup, restore, and clone with SnapCenter` Per informazioni dettagliate su configurazione di SnapCenter ed esecuzione di flussi di lavoro di backup, ripristino e cloning del database.
 

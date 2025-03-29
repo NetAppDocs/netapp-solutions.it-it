@@ -58,7 +58,7 @@ NOTE: Ci sono alcune restrizioni riguardo alla produzione e/o alla condivisione 
 
 === Prerequisiti per l'implementazione
 
-[%collapsible]
+[%collapsible%open]
 ====
 L'implementazione richiede i seguenti prerequisiti.
 
@@ -85,7 +85,7 @@ NOTE: Per semplificare, il server Oracle di destinazione clone deve essere confi
 
 === Scaricare il toolkit
 
-[%collapsible]
+[%collapsible%open]
 ====
 [source, cli]
 ----
@@ -99,7 +99,7 @@ NOTE: Al momento è possibile accedere al toolkit solo da parte dell'utente inte
 
 === Configurazione dei file host di origine e destinazione Ansible
 
-[%collapsible]
+[%collapsible%open]
 ====
 Il toolkit include un file hosts che definisce l'origine e la destinazione degli host Oracle per cui è in esecuzione il playbook Ansible. In genere, include l'host DB di standby nella configurazione di Data Guard e l'host clone Oracle di destinazione. Di seguito è riportato un file di esempio. Una voce dell'host include l'indirizzo IP dell'host di destinazione e la chiave ssh per l'accesso dell'utente all'host per eseguire il comando clone o refresh. Lo storage Azure NetApp Files viene configurato tramite API. Pertanto, la connessione ANF avviene tramite host locale tramite protocollo HTTP.
 
@@ -120,7 +120,7 @@ localhost ansible_connection=local
 
 === Configurazione variabili globali
 
-[%collapsible]
+[%collapsible%open]
 ====
 Di seguito è riportato un esempio di tipico file di variabile globale vars.yml che include variabili applicabili a livello globale.
 
@@ -196,7 +196,7 @@ sys_pwd: "xxxxxxxx"
 
 === Configurazione variabili host
 
-[%collapsible]
+[%collapsible%open]
 ====
 Le variabili host sono definite nella directory host_vars denominata {{ host_name }}.yml che si applica solo all'host specifico. Per questa soluzione, è configurato solo il file dei parametri dell'host del database clone di destinazione. I parametri del database di standby di Oracle sono configurati in un file vars globale. Di seguito è riportato un esempio di file orac.yml delle variabili host del database Oracle clone di destinazione che mostra la configurazione tipica.
 
@@ -219,7 +219,7 @@ asm_sid: +ASM
 
 === Configurazione aggiuntiva del server Oracle di destinazione dei cloni
 
-[%collapsible]
+[%collapsible%open]
 ====
 Il server Oracle di destinazione della clonazione deve avere lo stesso stack software Oracle del server Oracle di origine installato e sottoposto a patch. L'utente Oracle .bash_profile ha $ORACLE_BASE e $ORACLE_HOME configurato. Inoltre, la variabile $ORACLE_HOME deve corrispondere all'impostazione del server Oracle di origine. Se l'impostazione ORACLE_HOME di destinazione è diversa dalla configurazione del server Oracle di standby, creare un collegamento simbolico per risolvere le differenze. Di seguito viene riportato un esempio.
 
@@ -242,7 +242,7 @@ alias asm='export ORACLE_HOME=$GRID_HOME;export PATH=$PATH:$GRID_HOME/bin;export
 
 === Esecuzione Playbook
 
-[%collapsible]
+[%collapsible%open]
 ====
 Sono disponibili un totale di due playbook per l'esecuzione del ciclo di vita dei cloni del database Oracle. Il clone o l'refresh del DB possono essere eseguiti on-demand o pianificati come job crontab.
 

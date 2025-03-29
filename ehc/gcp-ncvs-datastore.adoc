@@ -20,8 +20,6 @@ I clienti possono espandere la capacità storage su Google Cloud VMware Engine u
 
 == Panoramica
 
-Autori: Suresh Thoppay, NetApp
-
 I clienti che richiedono capacità di storage aggiuntiva nell'ambiente Google Cloud VMware Engine (GCVE) possono utilizzare il servizio volumi cloud di NetApp per il montaggio come archivio dati NFS supplementare. La memorizzazione dei dati in Google Cloud NetApp Volumes consente ai clienti di eseguire la replica tra aree per proteggerle da accessi non frequenti.
 
 image:gcp_ncvs_ds01.png["Datastore Google Cloud NetApp Volumes NFS su GCVE"]
@@ -31,25 +29,25 @@ image:gcp_ncvs_ds01.png["Datastore Google Cloud NetApp Volumes NFS su GCVE"]
 == Passaggi di implementazione per montare un datastore NFS da Google Cloud NetApp Volumes (NetApp Volumes) in GCVE
 
 .Esegui il provisioning di NetApp Volumes-Performance Volume
-[%collapsible]
+[%collapsible%open]
 ====
 È possibile eseguire il provisioning del volume dei volumi di Google Cloud NetApp link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/workflow["Con Google Cloud Console"] link:https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-service-gcp/task-create-volumes.html["Utilizzando il portale o l'API BlueXP di NetApp"]
 
 ====
 .Indica che il volume di NetApp Volumes non è eliminabile
-[%collapsible]
+[%collapsible%open]
 ====
 Per evitare l'eliminazione accidentale del volume mentre la macchina virtuale è in esecuzione, assicurarsi che il volume sia contrassegnato come non cancellabile, come mostrato nella seguente schermata. image:gcp_ncvs_ds02.png["Opzione non eliminabile per NetApp Volumes"] Per ulteriori informazioni, consultare la link:https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-nfs-volumes#creating_an_nfs_volume["Creazione di un volume NFS"] documentazione.
 
 ====
 .Verificare che esista una connessione privata in GCVE per il VPC tenant di NetApp Volumes.
-[%collapsible]
+[%collapsible%open]
 ====
 Per montare il datastore NFS, dovrebbe essere presente una connessione privata tra GCVE e il progetto NetApp Volumes. Per ulteriori informazioni, consulta link:https://cloud.google.com/vmware-engine/docs/networking/howto-setup-private-service-access["Come configurare l'accesso al servizio privato"]
 
 ====
 .Montare il datastore NFS
-[%collapsible]
+[%collapsible%open]
 ====
 Per istruzioni su come montare il datastore NFS su GCVE, fare riferimento link:https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-cloud-volumes-service-datastores["Come creare un datastore NFS con i volumi NetApp"]
 

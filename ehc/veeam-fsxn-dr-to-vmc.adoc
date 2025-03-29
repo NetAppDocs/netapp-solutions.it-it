@@ -16,8 +16,6 @@ summary:
 [role="lead"]
 L'integrazione di Amazon FSX ONTAP con VMware Cloud su AWS è un datastore NFS esterno gestito da AWS e costruito sul file system ONTAP di NetApp che può essere collegato a un cluster nell'SDDC. Offre ai clienti un'infrastruttura storage virtualizzata flessibile e dalle performance elevate, che può scalare in maniera indipendente dalle risorse di calcolo.
 
-Autore: Niyaz Mohamed - Ingegneria di soluzioni di NetApp
-
 
 
 == Panoramica
@@ -73,7 +71,7 @@ Per ulteriori informazioni, fare riferimento a "considerazioni e limitazioni" li
 === Dettagli sull'implementazione
 
 .Fase 1: Replica delle VM
-[%collapsible]
+[%collapsible%open]
 ====
 Veeam Backup & Replication sfrutta le funzionalità snapshot di VMware vSphere e, durante la replica, Veeam Backup & Replication richiede a VMware vSphere la creazione di una snapshot delle VM. L'istantanea della VM è la copia point-in-time di una VM che include dischi virtuali, stato del sistema, configurazione e così via. Veeam Backup & Replication utilizza la snapshot come origine dei dati per la replica.
 
@@ -124,7 +122,7 @@ Per ulteriori informazioni sulla replica Veeam, fare riferimento a. link:https:/
 
 ====
 .Passaggio 2: Creare un piano di failover
-[%collapsible]
+[%collapsible%open]
 ====
 Una volta completata la replica o il seeding iniziale, creare il piano di failover. Il piano di failover consente di eseguire automaticamente il failover per le VM dipendenti una alla volta o come gruppo. Il piano di failover è il modello per l'ordine in cui le macchine virtuali vengono elaborate, inclusi i ritardi di avvio. Il piano di failover aiuta inoltre a garantire che le VM dipendenti da fattori critici siano già in esecuzione.
 
@@ -156,7 +154,7 @@ Per ulteriori informazioni sulla creazione di processi di replica, fare riferime
 
 ====
 .Passaggio 3: Eseguire il piano di failover
-[%collapsible]
+[%collapsible%open]
 ====
 Durante il failover, la macchina virtuale di origine nel sito di produzione viene commutata alla replica nel sito di disaster recovery. Come parte del processo di failover, Veeam Backup & Replication ripristina la replica della VM al punto di ripristino richiesto e sposta tutte le attività di i/o dalla VM di origine alla replica. Le repliche possono essere utilizzate non solo in caso di disastro, ma anche per simulare esercitazioni sul DR. Durante la simulazione del failover, la VM di origine rimane in esecuzione. Una volta eseguiti tutti i test necessari, è possibile annullare il failover e tornare alla normale operatività.
 
@@ -184,7 +182,7 @@ Per informazioni dettagliate sui piani di failover, fare riferimento a. link:htt
 
 ====
 .Fase 4: Failback nel sito di produzione
-[%collapsible]
+[%collapsible%open]
 ====
 Quando il piano di failover è in esecuzione, viene considerato come una fase intermedia e deve essere finalizzato in base al requisito. Le opzioni includono:
 

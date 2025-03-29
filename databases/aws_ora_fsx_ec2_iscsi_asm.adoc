@@ -114,7 +114,7 @@ La sezione seguente fornisce le procedure di implementazione passo-passo.
 
 === Prerequisiti per l'implementazione
 
-[%collapsible]
+[%collapsible%open]
 ====
 L'implementazione richiede i seguenti prerequisiti.
 
@@ -136,7 +136,7 @@ NOTE: Assicurarsi di aver allocato almeno 50 G nel volume root dell'istanza EC2 
 
 === Configurazione del kernel dell'istanza EC2
 
-[%collapsible]
+[%collapsible%open]
 ====
 Con i prerequisiti forniti, accedere all'istanza EC2 come ec2-user e sudo to root user per configurare il kernel Linux per l'installazione di Oracle.
 
@@ -277,7 +277,7 @@ systemctl disable firewalld
 
 === Eseguire il provisioning e il mapping di volumi di database e LUN all'host dell'istanza EC2
 
-[%collapsible]
+[%collapsible%open]
 ====
 Provisioning di tre volumi dalla riga di comando tramite login al cluster FSX tramite ssh come utente fsxadmin con IP di gestione del cluster FSX per ospitare file binari, dati e log del database Oracle.
 
@@ -369,7 +369,7 @@ svm_ora    /vol/ora_01_logs/ora_01_logs_02           ora_01        6  iscsi
 
 === Configurazione dello storage del database
 
-[%collapsible]
+[%collapsible%open]
 ====
 A questo punto, importare e configurare lo storage FSX per l'infrastruttura grid Oracle e l'installazione del database sull'host dell'istanza EC2.
 
@@ -640,7 +640,7 @@ systemctl restart multipathd
 
 === Installazione dell'infrastruttura grid Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Accedere all'istanza EC2 come ec2-user tramite SSH e abilitare l'autenticazione della password senza commenti `PasswordAuthentication yes` e poi commentando `PasswordAuthentication no`.
 +
@@ -818,7 +818,7 @@ ASMCMD-9526: The AFD state is 'LOADED' and filtering is 'ENABLED' on host 'ip-17
 
 === Installazione del database Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Accedere come utente Oracle e annullare l'impostazione `$ORACLE_HOME` e. `$ORACLE_SID` se è impostato.
 +

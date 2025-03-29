@@ -142,7 +142,7 @@ Le sezioni seguenti forniscono procedure dettagliate per la distribuzione automa
 
 === Prerequisiti per l'implementazione
 
-[%collapsible]
+[%collapsible%open]
 ====
 L'implementazione richiede i seguenti prerequisiti.
 
@@ -176,7 +176,7 @@ installer_archives:
 
 === Configurare Networking e SVM su C-Series per Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 Questa sezione della guida all'implementazione illustra le Best practice per la configurazione di networking e Storage Virtual Machine (SVM) su controller C-Series per carichi di lavoro Oracle con protocollo NFS e con l'interfaccia utente di ONTAP System Manager.
 
@@ -276,7 +276,7 @@ La configurazione del controller C-series per Oracle viene completata.
 
 === File dei parametri di automazione
 
-[%collapsible]
+[%collapsible%open]
 ====
 Il playbook Ansible esegue attività di installazione e configurazione del database con parametri predefiniti. Per questa soluzione di automazione Oracle, esistono tre file di parametri definiti dall'utente che devono essere inseriti dall'utente prima dell'esecuzione del playbook.
 
@@ -292,7 +292,7 @@ Oltre a questi file di variabili definiti dall'utente, esistono diversi file di 
 
 === Configurazione dei file dei parametri
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Destinazione Ansible `hosts` configurazione file:
 +
@@ -366,7 +366,7 @@ nfs_lif: 172.30.136.68
 
 === Esecuzione Playbook
 
-[%collapsible]
+[%collapsible%open]
 ====
 Nel toolkit di automazione sono presenti un totale di cinque playbook. Ciascuna di esse esegue blocchi di attività diversi e ha scopi diversi.
 
@@ -430,7 +430,7 @@ ansible-playbook -i hosts 5-destroy.yml -u admin -e @vars/vars.yml
 
 === Convalida post-esecuzione
 
-[%collapsible]
+[%collapsible%open]
 ====
 Dopo aver eseguito il playbook, effettua l'accesso alla macchina virtuale del server di Oracle DB per validare l'installazione e la configurazione di Oracle e la creazione di un database di container. Segue un esempio di convalida del database Oracle su DB VM ora_01 o ora_02.
 
@@ -662,7 +662,7 @@ image:automation_ora_c-series_nfs_em_01.png["Questa immagine fornisce la scherma
 
 === Backup, ripristino e cloning di Oracle con SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 NetApp consiglia il tool dell'interfaccia utente di SnapCenter per gestire i database Oracle distribuiti in C-Series. Fare riferimento a TR-4979 link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["Oracle semplificata e autogestita in VMware Cloud su AWS con FSX ONTAP montato sul guest"^] sezione `Oracle backup, restore, and clone with SnapCenter` Per informazioni dettagliate su configurazione di SnapCenter ed esecuzione di flussi di lavoro di backup, ripristino e cloning del database.
 

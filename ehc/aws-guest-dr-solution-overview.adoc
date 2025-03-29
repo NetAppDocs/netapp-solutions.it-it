@@ -16,8 +16,6 @@ summary: 'Un ambiente e un piano di disaster recovery (DR) comprovati sono fonda
 [role="lead"]
 Un ambiente e un piano di disaster recovery (DR) comprovati sono fondamentali per le organizzazioni per garantire che le applicazioni business-critical possano essere ripristinate rapidamente in caso di grave interruzione del servizio. Questa soluzione si concentra sulla dimostrazione dei casi di utilizzo del DR con particolare attenzione alle tecnologie VMware e NetApp, sia on-premise che con VMware Cloud su AWS.
 
-Autori: Chris Reno, Josh Powell e Suresh Thoppay - NetApp Solutions Engineering
-
 
 
 == Panoramica
@@ -60,7 +58,7 @@ Per impostare le relazioni di SnapMirror tra un sistema ONTAP on-premise e FSX O
 NOTE: Per ulteriori informazioni sulla creazione di relazioni SnapMirror con FSX, fare riferimento al https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/ONTAPGuide.pdf["FSX ONTAP – Guida dell'utente di ONTAP"^] .
 
 .Registrare le interfacce logiche Intercluster di origine e destinazione
-[%collapsible]
+[%collapsible%open]
 ====
 Per il sistema ONTAP di origine residente on-premise, è possibile recuperare le informazioni LIF tra cluster da Gestore di sistema o dall'interfaccia CLI.
 
@@ -80,7 +78,7 @@ image:dr-vmc-aws-image11.png["Figura che mostra la finestra di dialogo input/out
 
 ====
 .Stabilire il peering del cluster tra ONTAP e FSX
-[%collapsible]
+[%collapsible%open]
 ====
 Per stabilire il peering del cluster tra i cluster ONTAP, è necessario confermare una passphrase univoca inserita nel cluster ONTAP di avvio nell'altro cluster peer.
 
@@ -118,7 +116,7 @@ image:dr-vmc-aws-image14.png["Figura che mostra la finestra di dialogo input/out
 
 ====
 .Stabilire una relazione di peering SVM
-[%collapsible]
+[%collapsible%open]
 ====
 Il passaggio successivo consiste nell'impostare una relazione SVM tra le macchine virtuali dello storage di destinazione e di origine che contengono i volumi che si trovano nelle relazioni di SnapMirror.
 
@@ -147,7 +145,7 @@ image:dr-vmc-aws-image16.png["Figura che mostra la finestra di dialogo input/out
 
 ====
 .Creare un criterio di conservazione delle snapshot
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenter gestisce le pianificazioni di conservazione per i backup che esistono come copie Snapshot sul sistema di storage primario. Questo viene stabilito quando si crea un criterio in SnapCenter. SnapCenter non gestisce le policy di conservazione per i backup conservati nei sistemi di storage secondari. Questi criteri vengono gestiti separatamente attraverso un criterio SnapMirror creato nel cluster FSX secondario e associato ai volumi di destinazione che si trovano in una relazione SnapMirror con il volume di origine.
 
@@ -189,7 +187,7 @@ NOTE: Creare regole aggiuntive per ciascuna etichetta SnapMirror e il numero di 
 
 ====
 .Creare volumi di destinazione
-[%collapsible]
+[%collapsible%open]
 ====
 Per creare un volume di destinazione su FSX che riceverà le copie Snapshot dai volumi di origine, eseguire il seguente comando su FSX ONTAP:
 
@@ -198,7 +196,7 @@ FSx-Dest::> volume create -vserver DestSVM -volume DestVolName -aggregate DestAg
 ....
 ====
 .Creare le relazioni di SnapMirror tra i volumi di origine e di destinazione
-[%collapsible]
+[%collapsible%open]
 ====
 Per creare una relazione SnapMirror tra un volume di origine e un volume di destinazione, eseguire il seguente comando su FSX ONTAP:
 
@@ -207,7 +205,7 @@ FSx-Dest::> snapmirror create -source-path OnPremSourceSVM:OnPremSourceVol -dest
 ....
 ====
 .Inizializzare le relazioni di SnapMirror
-[%collapsible]
+[%collapsible%open]
 ====
 Inizializzare la relazione SnapMirror. Questo processo avvia un nuovo snapshot generato dal volume di origine e lo copia nel volume di destinazione.
 
@@ -220,7 +218,7 @@ FSx-Dest::> snapmirror initialize -destination-path DestSVM:DestVol
 === Implementare e configurare Windows SnapCenter Server on-premise.
 
 .Implementazione del server Windows SnapCenter on-premise
-[%collapsible]
+[%collapsible%open]
 ====
 Questa soluzione utilizza NetApp SnapCenter per eseguire backup coerenti con l'applicazione dei database SQL Server e Oracle. Insieme a Veeam Backup & Replication per il backup dei VMDK delle macchine virtuali, questo offre una soluzione completa di disaster recovery per data center on-premise e basati sul cloud.
 
@@ -234,7 +232,7 @@ Dopo aver effettuato l'accesso alla console, è necessario configurare SnapCente
 
 ====
 .Aggiungere controller storage a SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 Per aggiungere controller di storage a SnapCenter, attenersi alla seguente procedura:
 
@@ -256,7 +254,7 @@ Per ulteriori informazioni sull'aggiunta di sistemi storage a SnapCenter, consul
 
 ====
 .Aggiungere host a SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 Il passaggio successivo consiste nell'aggiungere server applicazioni host a SnapCenter. Il processo è simile sia per SQL Server che per Oracle.
 
@@ -273,7 +271,7 @@ image:dr-vmc-aws-image22.png["Figura che mostra la finestra di dialogo input/out
 
 ====
 .Creare policy SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 I criteri stabiliscono le regole specifiche da seguire per un processo di backup. Includono, a titolo esemplificativo ma non esaustivo, la pianificazione del backup, il tipo di replica e il modo in cui SnapCenter gestisce il backup e il troncamento dei log delle transazioni.
 
@@ -298,7 +296,7 @@ image:dr-vmc-aws-image24.png["Figura che mostra la finestra di dialogo input/out
 
 ====
 .Creare gruppi di risorse SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 I gruppi di risorse consentono di selezionare le risorse di database che si desidera includere nei backup e i criteri seguiti per tali risorse.
 
@@ -322,7 +320,7 @@ Per eseguire il backup delle risorse Oracle, seguire questa procedura https://do
 Il software Veeam Backup & Replication viene utilizzato nella soluzione per eseguire il backup delle macchine virtuali delle applicazioni e archiviare una copia dei backup in un bucket Amazon S3 utilizzando un repository di backup scale-out Veeeam (SOBR). Veeam viene implementato su un server Windows in questa soluzione. Per informazioni specifiche sull'implementazione di Veeam, vedere https://www.veeam.com/documentation-guides-datasheets.html["Documentazione tecnica del centro di assistenza Veeam"^].
 
 .Configurare il repository di backup scale-out Veeam
-[%collapsible]
+[%collapsible%open]
 ====
 Dopo aver implementato e ottenuto la licenza del software, è possibile creare un repository di backup scale-out (SOBR) come storage di destinazione per i processi di backup. È inoltre necessario includere un bucket S3 come backup dei dati delle macchine virtuali fuori sede per il disaster recovery.
 
@@ -333,7 +331,7 @@ Prima di iniziare, consultare i seguenti prerequisiti.
 
 
 .Aggiungere storage ONTAP a Veeam
-[%collapsible]
+[%collapsible%open]
 =====
 Innanzitutto, aggiungere il cluster di storage ONTAP e il relativo file system SMB/NFS come infrastruttura storage in Veeam.
 
@@ -370,7 +368,7 @@ image:dr-vmc-aws-image32.png["Figura che mostra la finestra di dialogo input/out
 
 =====
 .Aggiungi il bucket Amazon S3 come repository di backup
-[%collapsible]
+[%collapsible%open]
 =====
 Il passaggio successivo consiste nell'aggiungere lo storage Amazon S3 come repository di backup.
 
@@ -392,7 +390,7 @@ image:dr-vmc-aws-image35.png["Figura che mostra la finestra di dialogo input/out
 
 =====
 .Creare un repository di backup scale-out
-[%collapsible]
+[%collapsible%open]
 =====
 Ora che abbiamo aggiunto i nostri repository di storage a Veeam, possiamo creare il SOBR per tierare automaticamente le copie di backup nel nostro storage a oggetti Amazon S3 fuori sede per il disaster recovery.
 
@@ -415,7 +413,7 @@ image:dr-vmc-aws-image39.png["Figura che mostra la finestra di dialogo input/out
 
 =====
 .Creare i processi di repository di backup scale-out
-[%collapsible]
+[%collapsible%open]
 =====
 L'ultima fase della configurazione di Veeam consiste nella creazione di processi di backup utilizzando il SOBR appena creato come destinazione di backup. La creazione di processi di backup è una parte normale del repertorio di qualsiasi amministratore dello storage e non viene descritta la procedura dettagliata. Per informazioni più complete sulla creazione di processi di backup in Veeam, vedere https://www.veeam.com/documentation-guides-datasheets.html["Documentazione tecnica del Centro assistenza Veeam"^].
 
@@ -428,7 +426,7 @@ L'ultima fase della configurazione di Veeam consiste nella creazione di processi
 Per eseguire un failover delle macchine virtuali applicative e dei volumi di database sui servizi di volume cloud VMware in esecuzione in AWS, è necessario installare e configurare un'istanza in esecuzione del server SnapCenter e del server di backup e replica Veeeam. Una volta completato il failover, è necessario configurare questi strumenti per riprendere le normali operazioni di backup fino a quando non viene pianificato ed eseguito un failback al data center on-premise.
 
 .Implementare il server Windows SnapCenter secondario
-[#deploy-secondary-snapcenter%collapsible]
+[#deploy-secondary-snapcenter%collapsible%open]
 ====
 Il server SnapCenter viene implementato nell'SDDC cloud VMware o installato su un'istanza EC2 che risiede in un VPC con connettività di rete all'ambiente cloud VMware.
 
@@ -438,7 +436,7 @@ Il software SnapCenter è disponibile all'indirizzo https://mysupport.netapp.com
 
 ====
 .Configurare il server secondario Windows SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 Per eseguire un ripristino dei dati applicativi mirrorati in FSX ONTAP, è necessario prima eseguire un ripristino completo del database SnapCenter on-premise. Una volta completato questo processo, la comunicazione con le macchine virtuali viene ristabilita e i backup delle applicazioni possono ora riprendere utilizzando FSX ONTAP come storage primario.
 
@@ -453,13 +451,13 @@ A tale scopo, è necessario completare i seguenti elementi sul server SnapCenter
 
 ====
 .Implementare il server di replica Veeam Backup & secondario
-[#deploy-secondary-veeam%collapsible]
+[#deploy-secondary-veeam%collapsible%open]
 ====
 È possibile installare il server Veeam Backup & Replication su un server Windows in VMware Cloud su AWS o su un'istanza EC2. Per informazioni dettagliate sull'implementazione, vedere https://www.veeam.com/documentation-guides-datasheets.html["Documentazione tecnica del Centro assistenza Veeam"^].
 
 ====
 .Configurare il server di replica di Veeam Backup & secondario
-[%collapsible]
+[%collapsible%open]
 ====
 Per eseguire un ripristino delle macchine virtuali di cui è stato eseguito il backup sullo storage Amazon S3, è necessario installare Veeam Server su un server Windows e configurarlo per comunicare con VMware Cloud, FSX ONTAP e il bucket S3 che contiene il repository di backup originale. Deve inoltre disporre di un nuovo repository di backup configurato su FSX ONTAP per eseguire nuovi backup delle macchine virtuali dopo il ripristino.
 
@@ -481,7 +479,7 @@ Per ulteriori informazioni sul ripristino delle macchine virtuali utilizzando Ve
 SnapCenter consente il backup e il ripristino del database MySQL sottostante e dei dati di configurazione allo scopo di ripristinare il server SnapCenter in caso di disastro. Per la nostra soluzione, abbiamo recuperato il database e la configurazione di SnapCenter su un'istanza di AWS EC2 che risiede nel nostro VPC. Per ulteriori informazioni sul ripristino di emergenza di SnapCenter, vedere https://docs.netapp.com/us-en/snapcenter/concept/concept_disaster_recovery.html["questo link"^].
 
 .Prerequisiti per il backup di SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 Per il backup di SnapCenter sono necessari i seguenti prerequisiti:
 
@@ -493,7 +491,7 @@ Per il backup di SnapCenter sono necessari i seguenti prerequisiti:
 
 ====
 .Riepilogo del processo di backup e ripristino di SnapCenter
-[#snapcenter-backup-and-restore-process-summary%collapsible]
+[#snapcenter-backup-and-restore-process-summary%collapsible%open]
 ====
 * Creare un volume sul sistema ONTAP on-premise per ospitare i file di configurazione e di database di backup.
 * Impostare una relazione SnapMirror tra on-premise e FSX/CVO.
@@ -509,12 +507,12 @@ Per il backup di SnapCenter sono necessari i seguenti prerequisiti:
 
 ====
 .Eseguire il backup del database e della configurazione di SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenter fornisce un'interfaccia client Web per l'esecuzione dei comandi API REST. Per informazioni sull'accesso alle API REST tramite Swagger, consultare la documentazione di SnapCenter all'indirizzo https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_rest_apis.html["questo link"^].
 
 .Accedere a Swagger e ottenere il token di autorizzazione
-[%collapsible]
+[%collapsible%open]
 =====
 Una volta aperta la pagina Swagger, è necessario recuperare un token di autorizzazione per avviare il processo di ripristino del database.
 
@@ -538,7 +536,7 @@ image:dr-vmc-aws-image43.png["Figura che mostra la finestra di dialogo input/out
 
 =====
 .Eseguire un backup del database SnapCenter
-[%collapsible]
+[%collapsible%open]
 =====
 Quindi, accedere all'area Disaster Recovery della pagina Swagger per avviare il processo di backup di SnapCenter.
 
@@ -562,7 +560,7 @@ image:dr-vmc-aws-image46.png["Figura che mostra la finestra di dialogo input/out
 
 =====
 .Monitorare il processo di backup da SnapCenter
-[%collapsible]
+[%collapsible%open]
 =====
 Accedere a SnapCenter per esaminare i file di registro quando si avvia il processo di ripristino del database. Nella sezione Monitor, è possibile visualizzare i dettagli del backup di disaster recovery del server SnapCenter.
 
@@ -570,7 +568,7 @@ image:dr-vmc-aws-image47.png["Figura che mostra la finestra di dialogo input/out
 
 =====
 .Utilizzare l'utility XCOPY per copiare il file di backup del database nella condivisione SMB
-[%collapsible]
+[%collapsible%open]
 =====
 Quindi, spostare il backup dal disco locale sul server SnapCenter alla condivisione CIFS utilizzata per copiare i dati nella posizione secondaria situata sull'istanza FSX in AWS. Utilizzare xcopy con opzioni specifiche che conservano i permessi dei file.
 
@@ -587,7 +585,7 @@ xcopy c:\SC_Backups\SnapCenter_DR \\10.61.181.185\snapcenter_dr /O /X /E /H /K
 === Failover
 
 .Il disastro si verifica nel sito primario
-[%collapsible]
+[%collapsible%open]
 ====
 In caso di disastro che si verifica nel data center primario on-premise, il nostro scenario include il failover su un sito secondario che risiede nell'infrastruttura Amazon Web Services utilizzando VMware Cloud su AWS. Supponiamo che le macchine virtuali e il nostro cluster ONTAP on-premise non siano più accessibili. Inoltre, le macchine virtuali SnapCenter e Veeam non sono più accessibili e devono essere ricostruite nel nostro sito secondario.
 
@@ -601,7 +599,7 @@ In questa sezione viene descritto il failover della nostra infrastruttura nel cl
 
 ====
 .Processo di ripristino del database SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenter supporta scenari di disaster recovery consentendo il backup e il ripristino del database MySQL e dei file di configurazione. Ciò consente a un amministratore di mantenere backup regolari del database SnapCenter nel data center on-premise e di ripristinare successivamente tale database in un database SnapCenter secondario.
 
@@ -656,7 +654,7 @@ NOTE: Vedere i commenti relativi alle procedure aggiuntive.
 === Ripristinare le macchine virtuali applicative con il ripristino completo di Veeam
 
 .Creare un repository di backup e importare i backup da S3
-[%collapsible]
+[%collapsible%open]
 ====
 Dal server Veeam secondario, importare i backup dallo storage S3 e ripristinare le macchine virtuali SQL Server e Oracle nel cluster VMware Cloud.
 
@@ -687,7 +685,7 @@ image:dr-vmc-aws-image57.png["Figura che mostra la finestra di dialogo input/out
 
 ====
 .Importare backup dallo storage a oggetti S3
-[%collapsible]
+[%collapsible%open]
 ====
 Per importare i backup dal repository S3 aggiunto nella sezione precedente, attenersi alla seguente procedura.
 
@@ -707,7 +705,7 @@ image:dr-vmc-aws-image60.png["Figura che mostra la finestra di dialogo input/out
 
 ====
 .Ripristinare le macchine virtuali applicative con il ripristino completo di Veeam su VMware Cloud
-[%collapsible]
+[%collapsible%open]
 ====
 Per ripristinare le macchine virtuali SQL e Oracle su VMware Cloud su cluster/dominio del carico di lavoro AWS, completare la seguente procedura.
 
@@ -755,7 +753,7 @@ Si presuppone che i seguenti prerequisiti siano completi per continuare con le f
 
 
 .VM: Configurazione post-ripristino per SQL Server VM
-[%collapsible]
+[%collapsible%open]
 ====
 Una volta completato il ripristino della macchina virtuale, è necessario configurare la rete e altri elementi in preparazione per il rispristino della macchina virtuale host in SnapCenter.
 
@@ -772,7 +770,7 @@ NOTE: Per riscoprire automaticamente le macchine virtuali ripristinate in SnapCe
 
 ====
 .Configurare lo storage FSX per il ripristino di SQL Server
-[%collapsible]
+[%collapsible%open]
 ====
 Per eseguire il processo di ripristino del disaster recovery per una macchina virtuale SQL Server, è necessario interrompere la relazione SnapMirror esistente dal cluster FSX e concedere l'accesso al volume. A tale scopo, attenersi alla seguente procedura.
 
@@ -796,7 +794,7 @@ FSx-Dest::> lun mapping create -vserver DestSVM -path LUNPath igroup igroupName
 
 ====
 .Configurare la macchina virtuale Windows per l'accesso iSCSI e rilevare i file system
-[%collapsible]
+[%collapsible%open]
 ====
 . Da SQL Server VM, configurare l'adattatore di rete iSCSI per comunicare sul gruppo di porte VMware stabilito con la connettività alle interfacce di destinazione iSCSI sull'istanza FSX.
 . Aprire l'utility iSCSI Initiator Properties (Proprietà iSCSI Initiator) e cancellare le vecchie impostazioni di connettività nelle schede Discovery (rilevamento), Favorite Targets (destinazioni preferite) e Targets (destinazioni).
@@ -823,7 +821,7 @@ image:dr-vmc-aws-image72.png["Figura che mostra la finestra di dialogo input/out
 
 ====
 .Collegare i database di SQL Server
-[%collapsible]
+[%collapsible%open]
 ====
 . Da SQL Server VM, aprire Microsoft SQL Server Management Studio e selezionare Allega per avviare il processo di connessione al database.
 +
@@ -842,7 +840,7 @@ image:dr-vmc-aws-image75.png["Figura che mostra la finestra di dialogo input/out
 
 ====
 .Confermare la comunicazione SnapCenter con il plug-in di SQL Server
-[%collapsible]
+[%collapsible%open]
 ====
 Una volta ripristinato lo stato precedente, il database SnapCenter rileva automaticamente gli host di SQL Server. Affinché questo funzioni correttamente, tenere presente i seguenti prerequisiti:
 
@@ -870,7 +868,7 @@ Completare i seguenti prerequisiti per continuare con la procedura di ripristino
 
 
 .Configurazione di FSX per il ripristino di Oracle - interruzione della relazione SnapMirror
-[%collapsible]
+[%collapsible%open]
 ====
 Per rendere accessibili ai server Oracle i volumi di storage secondario ospitati nell'istanza di FSX ONTAP, occorre innanzitutto interrompere la relazione di SnapMirror esistente.
 
@@ -902,7 +900,7 @@ image:dr-vmc-aws-image80.png["Figura che mostra la finestra di dialogo input/out
 
 ====
 .Montare volumi NFS su Oracle Server
-[%collapsible]
+[%collapsible%open]
 ====
 In Cloud Manager, è possibile ottenere il comando mount con l'indirizzo IP NFS LIF corretto per il montaggio dei volumi NFS che contengono i file di database e i log Oracle.
 

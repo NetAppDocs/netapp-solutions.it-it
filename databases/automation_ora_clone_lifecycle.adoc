@@ -58,7 +58,7 @@ NOTE: Ci sono alcune restrizioni riguardo alla produzione e/o alla condivisione 
 
 === Prerequisiti per l'implementazione
 
-[%collapsible]
+[%collapsible%open]
 ====
 L'implementazione richiede i seguenti prerequisiti.
 
@@ -91,7 +91,7 @@ NOTE: Per semplificare, il server Oracle di destinazione clone deve essere confi
 
 === Scaricare il toolkit
 
-[%collapsible]
+[%collapsible%open]
 ====
 [source, cli]
 ----
@@ -105,7 +105,7 @@ NOTE: Al momento è possibile accedere al toolkit solo da parte dell'utente inte
 
 === Configurazione dei file host di destinazione Ansible
 
-[%collapsible]
+[%collapsible%open]
 ====
 Il toolkit include un file hosts che definisce le destinazioni per cui viene eseguito un playbook Ansible. In genere, si tratta degli host clone di Oracle di destinazione. Di seguito è riportato un file di esempio. Una voce dell'host include l'indirizzo IP dell'host di destinazione e la chiave ssh per l'accesso di un utente amministratore all'host per eseguire il comando clone o refresh.
 
@@ -122,7 +122,7 @@ ora_04.cie.netapp.com ansible_host=10.61.180.29 ansible_ssh_private_key_file=ora
 
 === Configurazione variabili globali
 
-[%collapsible]
+[%collapsible%open]
 ====
 I playbook Ansible prendono input variabili da diversi file variabili. Di seguito è riportato un esempio di file variabile globale vars.yml.
 
@@ -140,7 +140,7 @@ snapctr_pwd: 'xxxxxxxx'
 
 === Configurazione variabili host
 
-[%collapsible]
+[%collapsible%open]
 ====
 Le variabili host sono definite nella directory host_vars denominata {{ host_name }}.yml. Di seguito è riportato un esempio di file di variabile host Oracle di destinazione ora_04.cie.netapp.com.yml che mostra la configurazione tipica.
 
@@ -160,7 +160,7 @@ clone_db_sid: NTAP1DEV
 
 === Configurazione aggiuntiva del server Oracle di destinazione dei cloni
 
-[%collapsible]
+[%collapsible%open]
 ====
 Il server Oracle di destinazione della clonazione deve avere lo stack software Oracle identico a quello del server Oracle di origine installato e sottoposto a patch. L'utente Oracle .bash_profile ha $ORACLE_BASE e $ORACLE_HOME configurato. Inoltre, la variabile $ORACLE_HOME deve corrispondere all'impostazione del server Oracle di origine. Di seguito viene riportato un esempio.
 
@@ -181,7 +181,7 @@ export ORACLE_HOME=/u01/app/oracle/product/19.0.0/NTAP1
 
 === Esecuzione Playbook
 
-[%collapsible]
+[%collapsible%open]
 ====
 Sono disponibili un totale di tre playbook per eseguire il ciclo di vita dei cloni del database Oracle con le utility della CLI di SnapCenter.
 

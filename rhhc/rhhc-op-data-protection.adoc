@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-Questa pagina mostra le opzioni di protezione dei dati per le applicazioni basate su container Red Hat OpenShift eseguite su VMware vSphere utilizzando Astra Control Center (ACC).
+Questa pagina mostra le opzioni di protezione dei dati per le applicazioni basate su container Red Hat OpenShift in esecuzione su VMware vSphere utilizzando Trident Protect (ACC).
 
 Mentre gli utenti intraprendono il percorso di modernizzazione delle proprie applicazioni con Red Hat OpenShift, è necessario adottare una strategia di protezione dei dati per proteggerli da cancellazioni accidentali o altri errori umani. Spesso, per proteggere i propri dati da un diaster, è necessaria anche una strategia di protezione a scopo normativo o di compliance.
 
@@ -34,13 +34,13 @@ Sia le copie Snapshot che i backup proteggono i seguenti tipi di dati: - **I met
 
 === Configurazione di Snapshot con ACC
 
-image:rhhc-onprem-dp-snap.png["Vista Snapshot di Astra Control Center"]
+image:rhhc-onprem-dp-snap.png["Trident protegge la vista Snapshot"]
 
 
 
 == Backup e ripristino con ACC
 
-Un backup si basa su un'istantanea. ACC può eseguire copie Snapshot utilizzando CSI ed eseguire il backup utilizzando la copia Snapshot point-in-time. Il backup viene memorizzato in un archivio di oggetti esterno (qualsiasi compatibile con s3, incluso ONTAP S3, in una posizione diversa). È possibile configurare i criteri di protezione per i backup pianificati e il numero di versioni di backup da conservare. L'RPO minimo è di un'ora.
+Un backup si basa su un'istantanea. Trident Protect può effettuare copie Snapshot utilizzando CSI ed eseguire il backup utilizzando la copia Snapshot point-in-time. Il backup viene memorizzato in un archivio di oggetti esterno (qualsiasi compatibile con s3, incluso ONTAP S3, in una posizione diversa). È possibile configurare i criteri di protezione per i backup pianificati e il numero di versioni di backup da conservare. L'RPO minimo è di un'ora.
 
 
 
@@ -48,7 +48,7 @@ Un backup si basa su un'istantanea. ACC può eseguire copie Snapshot utilizzando
 
 ACC ripristina l'applicazione dal bucket S3 in cui sono memorizzati i backup.
 
-image:rhhc-onprem-dp-br.png["Opzione di ripristino di Astra Control Center"]
+image:rhhc-onprem-dp-br.png["Opzione di ripristino Trident Protect"]
 
 
 
@@ -64,13 +64,13 @@ https://github.com/NetApp/Verda["Progetto NetApp Verda GitHub"] fornisce hook di
 
 == Esempio di gancio di esecuzione per pre-Snapshot di un'applicazione redis.
 
-image:rhhc-onprem-dp-br-hook.png["Gancio di esecuzione di Astra Control Center"]
+image:rhhc-onprem-dp-br-hook.png["Gancio di esecuzione Trident Protect"]
 
 
 
 == Replica con ACC
 
-Per la protezione regionale o per una soluzione RPO e RTO bassa, un'applicazione può essere replicata in un'altra istanza di Kubernetes in esecuzione in un sito diverso, preferibilmente in un'altra regione. ACC utilizza SnapMirror asincrono ONTAP con RPO in soli 5 minuti. La replica viene eseguita replicando in ONTAP, quindi un failover crea le risorse Kubernetes nel cluster di destinazione.
+Per la protezione regionale o per una soluzione RPO e RTO bassa, un'applicazione può essere replicata in un'altra istanza di Kubernetes in esecuzione in un sito diverso, preferibilmente in un'altra regione. Trident Protect utilizza SnapMirror asincrono di ONTAP con RPO di soli 5 minuti. La replica viene eseguita replicando in ONTAP, quindi un failover crea le risorse Kubernetes nel cluster di destinazione.
 
 
 NOTE: Tenere presente che la replica è diversa dal backup e ripristino, dove il backup viene eseguito in S3 e il ripristino viene eseguito da S3. Fare riferimento al link: https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html#replication-to-a-remote-cluster[here] per ulteriori dettagli sulle differenze tra i due tipi di protezione dei dati.
@@ -81,7 +81,7 @@ Fare riferimento a. link:https://docs.netapp.com/us-en/astra-control-center/use/
 
 === SnapMirror con ACC
 
-image:rhhc-onprem-dp-rep.png["Replica di Astra Control Center"]
+image:rhhc-onprem-dp-rep.png["Replica protetta con Trident"]
 
 
 NOTE: i driver di storage san-economy e nas-economy non supportano la funzione di replica. Fare riferimento a. link:https://docs.netapp.com/us-en/astra-control-center/get-started/requirements.html#astra-trident-requirements["qui"] per ulteriori dettagli.
@@ -90,9 +90,9 @@ NOTE: i driver di storage san-economy e nas-economy non supportano la funzione d
 
 === Video dimostrativo:
 
-link:https://www.netapp.tv/details/29504?mcid=35609780286441704190790628065560989458["Video dimostrativo del disaster recovery con Astra Control Center"]
+link:https://www.netapp.tv/details/29504?mcid=35609780286441704190790628065560989458["Video dimostrativo sul disaster recovery con Trident Protect"]
 
-.Data Protection con Astra Control Center
+.Data Protection con Trident Protect
 video::0cec0c90-4c6f-4018-9e4f-b09700eefb3a[panopto,width=360]
 
 
@@ -109,4 +109,4 @@ image:rhhc-onprem-dp-bc.png["Soluzione per la business continuity con MetroClust
 
 TIP: Per la configurazione back-end Trident (TBC), non specificare dataLIF e SVM quando si utilizza la configurazione MetroCluster. Specificare l'IP di gestione SVM per la gestione LIF e utilizzare le credenziali del ruolo vsadmin.
 
-Sono disponibili dettagli sulle funzioni di protezione dei dati di Astra Control Center link:https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html["qui"]
+Sono disponibili dettagli sulle funzioni di protezione dei dati Trident Protect link:https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html["qui"]

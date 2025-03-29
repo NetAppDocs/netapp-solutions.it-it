@@ -123,7 +123,7 @@ video::4b0fd212-7641-46b8-9e55-b01200f9383a[panopto]
 
 === Prerequisiti per l'implementazione del servizio SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 L'implementazione richiede i seguenti prerequisiti.
 
@@ -138,7 +138,7 @@ L'implementazione richiede i seguenti prerequisiti.
 
 === Preparazione al BlueXP
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Utilizzare il link link:https://console.bluexp.netapp.com/["NetApp BlueXP"] Per iscriversi all'accesso alla console BlueXP.
 . Effettua l'accesso al tuo account AWS per creare una policy IAM con autorizzazioni appropriate e assegnare la policy all'account AWS che verrà utilizzato per l'implementazione di BlueXP Connector.
@@ -156,7 +156,7 @@ Il criterio deve essere configurato con una stringa JSON disponibile nella docum
 
 === Implementare un connettore per i servizi SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Accedi alla console BlueXP. Per un account condiviso, è consigliabile creare un singolo spazio di lavoro facendo clic su *account* > *Manage account* > *Workspace* per aggiungere un nuovo spazio di lavoro.
 +
@@ -204,7 +204,7 @@ image:snapctr_svcs_connector_10-review.png["Schermata che mostra questo passaggi
 
 === Definisci una credenziale nell'accesso alle risorse BlueXP per AWS
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Innanzitutto, dalla console AWS EC2, creare un ruolo nel menu *Identity and Access Management (IAM)* *Roles*, *Create role* per avviare il flusso di lavoro di creazione dei ruoli.
 +
@@ -242,7 +242,7 @@ image:snapctr_svcs_credential_07-aws.png["Schermata che mostra questo passaggio 
 
 === Configurazione dei servizi SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 Con il connettore distribuito e la credenziale aggiunta, i servizi SnapCenter possono ora essere configurati con la seguente procedura:
 
@@ -325,7 +325,7 @@ Questa operazione completa la configurazione iniziale dei servizi SnapCenter per
 
 === Backup del database Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Fare clic sui tre punti accanto al database *Protection Status* (Stato protezione), quindi fare clic su *Polices* (Criteri) per visualizzare i criteri di protezione predefiniti del database che è possibile applicare per proteggere i database Oracle.
 
@@ -367,7 +367,7 @@ image:snapctr_svcs_bkup_07.png["Schermata che mostra questo passaggio nella GUI.
 
 === Ripristino e ripristino del database Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Per un ripristino del database, scegliere il backup corretto, in base al tempo di backup o SCN. Fare clic sui tre punti del backup dei dati del database, quindi fare clic su *Restore* (Ripristina) per avviare il ripristino e il ripristino del database.
 
@@ -396,7 +396,7 @@ image:snapctr_svcs_restore_04.png["Schermata che mostra questo passaggio nella G
 
 === Clone del database Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 Per clonare un database, avviare il flusso di lavoro dei cloni dalla stessa pagina dei dettagli di backup del database.
 

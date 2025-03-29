@@ -101,7 +101,7 @@ Consulta la https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-c
 Completare i seguenti passaggi per creare e utilizzare un datastore NFS per GCVE che utilizza volumi NetApp:
 
 .Crea volume NetApp Volumes NFS
-[%collapsible]
+[%collapsible%open]
 ====
 È possibile accedere a Google Cloud NetApp Volumes dalla console di Google Cloud Platform (GCP).
 
@@ -152,7 +152,7 @@ image::dr-veeam-gcnv-image05.png[proprietà del volume]
 
 ====
 .Montare il datastore NFS in GCVE
-[%collapsible]
+[%collapsible%open]
 ====
 Al momento di questa scrittura, il processo per montare un datastore in GCVE richiede l'apertura di un ticket di supporto GCP per fare in modo che il volume sia montato come datastore NFS.
 
@@ -164,7 +164,7 @@ Per ulteriori informazioni, fare riferimento https://cloud.google.com/vmware-eng
 === Replica delle VM in GCVE ed esecuzione di un piano di failover e failback
 
 .Replica delle VM nel datastore NFS in GCVE
-[%collapsible]
+[%collapsible%open]
 ====
 Veeam Backup & Replication sfrutta le funzionalità snapshot di VMware vSphere durante la replica, Veeam Backup & Replication richiede a VMware vSphere di creare una snapshot delle VM. Lo snapshot della VM è la copia point-in-time di una VM che include dischi virtuali, stato del sistema, configurazione e metadati. Veeam Backup & Replication utilizza la snapshot come origine dei dati per la replica.
 
@@ -257,7 +257,7 @@ Per ulteriori informazioni sulla replica Veeam, fare riferimento a. link:https:/
 
 ====
 .Creazione di un piano di failover
-[%collapsible]
+[%collapsible%open]
 ====
 Una volta completata la replica o il seeding iniziale, creare il piano di failover. Il piano di failover consente di eseguire automaticamente il failover per le VM dipendenti una alla volta o come gruppo. Il piano di failover è il modello per l'ordine in cui le macchine virtuali vengono elaborate, inclusi i ritardi di avvio. Il piano di failover aiuta inoltre a garantire che le VM dipendenti critiche siano già in esecuzione.
 
@@ -313,7 +313,7 @@ Per ulteriori informazioni sulla creazione di processi di replica, fare riferime
 
 ====
 .Eseguire il piano di failover
-[%collapsible]
+[%collapsible%open]
 ====
 Durante il failover, la macchina virtuale di origine nel sito di produzione passa alla replica nel sito di disaster recovery. Come parte del processo, Veeam Backup & Replication ripristina la replica della VM al punto di ripristino richiesto e trasferisce tutte le attività di i/o dalla VM di origine alla propria replica. Le repliche servono non solo per i disastri effettivi ma anche per la simulazione di esercitazioni pratiche di DR. Nella simulazione del failover, la VM di origine continua a funzionare. Una volta completati i test necessari, il failover può essere annullato e riportare le operazioni alla normalità.
 
@@ -345,7 +345,7 @@ Per informazioni dettagliate sui piani di failover, consultare link:https://help
 
 ====
 .Eseguire il failback nel sito di produzione
-[%collapsible]
+[%collapsible%open]
 ====
 L'esecuzione di un failover è considerata una fase intermedia e deve essere finalizzata in base al requisito. Le opzioni includono:
 

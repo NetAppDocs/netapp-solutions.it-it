@@ -16,8 +16,6 @@ summary:
 [role="lead"]
 Questa soluzione riguarda l'implementazione di SQL Server su AWS EC2 tramite Amazon FSX ONTAP.
 
-Autori: Pat Sinthusan e Niyaz Mohamed, NetApp
-
 
 
 == Introduzione
@@ -70,7 +68,7 @@ Prima di completare la procedura descritta in questo documento, è necessario di
 Inoltre, fare riferimento alle Best practice NetApp per gli ambienti SQL Server per garantire la migliore configurazione dello storage.
 
 .Configurazioni Best practice per ambienti SQL Server su EC2
-[%collapsible]
+[%collapsible%open]
 ====
 Con FSX ONTAP, procurarsi lo storage è l'attività più semplice e può essere eseguita aggiornando il file system. Questo semplice processo consente l'ottimizzazione dinamica dei costi e delle performance in base alle esigenze, aiuta a bilanciare il carico di lavoro SQL ed è anche un ottimo elemento di supporto per il thin provisioning. Il thin provisioning di FSX ONTAP è progettato per presentare più storage logico alle istanze EC2 che eseguono SQL Server rispetto a quanto previsto nel file system. Invece di allocare lo spazio in anticipo, lo spazio di storage viene allocato dinamicamente a ciascun volume o LUN durante la scrittura dei dati. Nella maggior parte delle configurazioni, lo spazio libero viene liberato anche quando i dati nel volume o nel LUN vengono cancellati (e non vengono conservati da alcuna copia Snapshot). La tabella seguente fornisce le impostazioni di configurazione per l'allocazione dinamica dello storage.
 
@@ -140,7 +138,7 @@ NOTE: L'overcommitment dello storage deve essere attentamente considerato e gest
 Per eseguire operazioni SQL Server con SnapCenter, è necessario innanzitutto creare volumi e LUN per SQL Server.
 
 .Creare volumi e LUN per SQL Server
-[%collapsible]
+[%collapsible%open]
 ====
 Per creare volumi e LUN per SQL Server, attenersi alla seguente procedura:
 
@@ -288,13 +286,13 @@ Format-Volume -DriveLetter G -FileSystem NTFS -AllocationUnitSize 65536
 Una volta definiti i volumi e le LUN, è necessario configurare SnapCenter per eseguire le operazioni del database.
 
 .Panoramica di SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 NetApp SnapCenter è un software per la protezione dei dati di prossima generazione per le applicazioni Enterprise Tier-1. SnapCenter, con la sua interfaccia di gestione con singolo pannello di controllo, automatizza e semplifica i processi manuali, complessi e lunghi associati al backup, al ripristino e alla clonazione di più database e altri carichi di lavoro applicativi. SnapCenter sfrutta le tecnologie NetApp, tra cui NetApp Snapshots, NetApp SnapMirror, SnapRestore e NetApp FlexClone. Questa integrazione consente alle organizzazioni IT di scalare la propria infrastruttura storage, soddisfare gli impegni SLA sempre più rigorosi e migliorare la produttività degli amministratori in tutta l'azienda.
 
 ====
 .Requisiti del server SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 La seguente tabella elenca i requisiti minimi per l'installazione del server e del plug-in SnapCenter.
 
@@ -346,7 +344,7 @@ Per informazioni sulla compatibilità delle versioni, consultare https://mysuppo
 
 ====
 .Layout dello storage del database
-[%collapsible]
+[%collapsible%open]
 ====
 La figura seguente illustra alcune considerazioni relative alla creazione del layout di storage del database Microsoft SQL Server durante il backup con SnapCenter.
 
@@ -375,7 +373,7 @@ NOTE: Quando si crea un nuovo database, Microsoft consiglia di specificare unit�
 
 ====
 .Installazione e configurazione di SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 Seguire la https://docs.netapp.com/us-en/snapcenter/install/task_install_the_snapcenter_server_using_the_install_wizard.html["Installare il server SnapCenter"^] e. https://docs.netapp.com/us-en/snapcenter/protect-scsql/task_add_hosts_and_install_snapcenter_plug_ins_package_for_windows.html["Installazione del plug-in SnapCenter per Microsoft SQL Server"^] Per installare e configurare SnapCenter.
 
@@ -423,7 +421,7 @@ image:sql-awsec2-image18.png["Figura che mostra la finestra di dialogo input/out
 Ora è possibile eseguire operazioni di backup, ripristino e clonazione per SQL Server.
 
 .Database di backup con SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 Dopo aver inserito il database e i file di log nelle LUN ONTAP FSX, è possibile utilizzare SnapCenter per eseguire il backup dei database. I seguenti processi vengono utilizzati per creare un backup completo.
 
@@ -465,7 +463,7 @@ image:sql-awsec2-image23.png["Figura che mostra la finestra di dialogo input/out
 
 ====
 .Ripristinare il database con SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 Uno dei principali vantaggi dell'utilizzo di FSX ONTAP con SQL Server su EC2 è la capacità di eseguire un ripristino rapido e granulare a ogni livello di database.
 
@@ -485,7 +483,7 @@ image:sql-awsec2-image25.png["Figura che mostra la finestra di dialogo input/out
 
 ====
 .Considerazioni per un'istanza con un elevato numero di database di piccole o grandi dimensioni
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenter può eseguire il backup di un gran numero di database importanti in un'istanza o in un gruppo di istanze all'interno di un gruppo di risorse. La dimensione di un database non è il fattore principale nel tempo di backup. La durata di un backup può variare a seconda del numero di LUN per volume, del carico su Microsoft SQL Server, del numero totale di database per istanza e, in particolare, della larghezza di banda e dell'utilizzo di i/O. Durante la configurazione del criterio per eseguire il backup dei database da un'istanza o da un gruppo di risorse, NetApp consiglia di limitare a 100 il numero massimo di database di cui è stato eseguito il backup per copia Snapshot per host. Assicurarsi che il numero totale di copie Snapshot non superi il limite di 1,023 copie.
 
@@ -516,7 +514,7 @@ Oltre al backup completo, NetApp consiglia di configurare un backup del log dell
 
 ====
 .Clonazione di database con SnapCenter
-[%collapsible]
+[%collapsible%open]
 ====
 Per ripristinare un database in un'altra posizione in un ambiente di sviluppo o test o per creare una copia a scopo di analisi aziendale, la Best practice di NetApp consiste nel sfruttare la metodologia di cloning per creare una copia del database sulla stessa istanza o su un'istanza alternativa.
 
@@ -527,7 +525,7 @@ La clonazione di un database può essere eseguita con il metodo dual: È possibi
 SnapCenter consente di montare la copia clone sul disco richiesto per mantenere il formato della struttura di cartelle sull'istanza secondaria e continuare a pianificare i processi di backup.
 
 .Clonare i database con il nuovo nome del database nella stessa istanza
-[%collapsible]
+[%collapsible%open]
 =====
 Per clonare i database con il nuovo nome del database nella stessa istanza di SQL Server in esecuzione su EC2, è possibile utilizzare i seguenti passaggi:
 
@@ -539,7 +537,7 @@ Per clonare i database con il nuovo nome del database nella stessa istanza di SQ
 
 =====
 .Clonare i database nella nuova istanza di SQL Server in esecuzione su EC2
-[%collapsible]
+[%collapsible%open]
 =====
 La seguente procedura viene utilizzata per clonare i database nella nuova istanza di SQL Server in esecuzione su EC2:
 
@@ -570,7 +568,7 @@ video::27f28284-433d-4273-8748-b01200fb3cd7[panopto]
 == Appendici
 
 .Appendice A: File YAML da utilizzare nel modello di formazione cloud
-[%collapsible]
+[%collapsible%open]
 ====
 Il seguente file .yaml può essere utilizzato con Cloud Formation Template in AWS Console.
 
@@ -581,7 +579,7 @@ Per automatizzare la creazione di LUN ISCSI e l'installazione di NetApp SnapCent
 
 ====
 .Appendice B: Script PowerShell per il provisioning di volumi e LUN
-[%collapsible]
+[%collapsible%open]
 ====
 Il seguente script viene utilizzato per eseguire il provisioning di volumi e LUN e per impostare iSCSI in base alle istruzioni fornite in precedenza. Esistono due script PowerShell:
 

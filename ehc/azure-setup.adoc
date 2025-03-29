@@ -21,7 +21,7 @@ Questa sezione descrive come configurare e gestire Azure VMware Solution e utili
 Il processo di installazione può essere suddiviso nei seguenti passaggi:
 
 .Registrare il provider di risorse e creare un cloud privato
-[%collapsible]
+[%collapsible%open]
 ====
 Per utilizzare Azure VMware Solution, registrare innanzitutto il provider di risorse nell'abbonamento identificato:
 
@@ -62,7 +62,7 @@ image:avs-register-create-pc-4.png["Figura che mostra la finestra di dialogo inp
 
 ====
 .Connettersi a un gateway di rete virtuale ExpressRoute nuovo o esistente
-[%collapsible]
+[%collapsible%open]
 ====
 Per creare una nuova rete virtuale Azure (VNET), selezionare la scheda Azure VNET Connect. In alternativa, è possibile crearne una manualmente dal portale Azure utilizzando la procedura guidata Create Virtual Network (Crea rete virtuale):
 
@@ -90,7 +90,7 @@ NOTE: Se si crea un VNET manualmente, creare un gateway di rete virtuale con lo 
 
 ====
 .Convalidare la connessione di rete e l'accesso al cloud privato Azure VMware Solution
-[%collapsible]
+[%collapsible%open]
 ====
 Azure VMware Solution non consente di gestire un cloud privato con VMware vCenter on-premise. Per connettersi all'istanza di Azure VMware Solution vCenter è invece necessario un host jump. Creare un host jump nel gruppo di risorse designato e accedere a Azure VMware Solution vCenter. Questo host jump dovrebbe essere una macchina virtuale Windows sulla stessa rete virtuale creata per la connettività e dovrebbe fornire l'accesso a vCenter e NSX Manager.
 

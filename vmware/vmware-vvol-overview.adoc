@@ -14,7 +14,13 @@ summary:
 
 
 [role="lead"]
-I volumi virtuali di VMware (vVol) consentono di utilizzare requisiti specifici delle applicazioni per prendere decisioni sul provisioning dello storage sfruttando l'ampio set di funzionalità degli storage array. L'API vSphere per Storage Awareness (VASA) consente a un amministratore delle macchine virtuali di utilizzare con facilità qualsiasi funzionalità storage necessarie per il provisioning delle macchine virtuali senza dover interagire con il team di storage. Prima di VASA, gli amministratori delle macchine virtuali potevano definire le policy di storage delle macchine virtuali, ma dovevano collaborare con gli amministratori dello storage per identificare gli archivi dati appropriati, spesso utilizzando la documentazione o le convenzioni di denominazione. Con VASA, gli amministratori di vCenter con le autorizzazioni appropriate possono definire una serie di funzionalità di storage che gli utenti di vCenter possono utilizzare per eseguire il provisioning delle macchine virtuali. La mappatura tra policy di storage delle macchine virtuali e profilo di funzionalità di storage del datastore consente a vCenter di visualizzare un elenco di datastore compatibili per la selezione, nonché di abilitare altre tecnologie come aria (precedentemente nota come vRealize) Automation o Tanzu Kubernetes Grid per selezionare automaticamente lo storage da una policy assegnata. Questo approccio è noto come gestione basata su criteri di storage. Anche se i profili e le policy delle funzionalità di storage possono essere utilizzati anche con i datastore tradizionali, la nostra attenzione qui è dedicata agli archivi dati vVols. Il provider VASA per ONTAP è incluso come parte dei tool ONTAP per VMware vSphere.
+I volumi virtuali di VMware (vVol) consentono di utilizzare requisiti specifici delle applicazioni per prendere decisioni sul provisioning dello storage sfruttando l'ampio set di funzionalità degli storage array.
+
+
+
+== Panoramica
+
+L'API vSphere per Storage Awareness (VASA) consente a un amministratore delle macchine virtuali di utilizzare con facilità qualsiasi funzionalità storage necessarie per il provisioning delle macchine virtuali senza dover interagire con il team di storage. Prima di VASA, gli amministratori delle macchine virtuali potevano definire le policy di storage delle macchine virtuali, ma dovevano collaborare con gli amministratori dello storage per identificare gli archivi dati appropriati, spesso utilizzando la documentazione o le convenzioni di denominazione. Con VASA, gli amministratori di vCenter con le autorizzazioni appropriate possono definire una serie di funzionalità di storage che gli utenti di vCenter possono utilizzare per eseguire il provisioning delle macchine virtuali. La mappatura tra policy di storage delle macchine virtuali e profilo di funzionalità di storage del datastore consente a vCenter di visualizzare un elenco di datastore compatibili per la selezione, nonché di abilitare altre tecnologie come aria (precedentemente nota come vRealize) Automation o Tanzu Kubernetes Grid per selezionare automaticamente lo storage da una policy assegnata. Questo approccio è noto come gestione basata su criteri di storage. Anche se i profili e le policy delle funzionalità di storage possono essere utilizzati anche con i datastore tradizionali, la nostra attenzione qui è dedicata agli archivi dati vVols. Il provider VASA per ONTAP è incluso come parte dei tool ONTAP per VMware vSphere.
 
 I vantaggi offerti dall'offerta di provider VASA fuori dallo storage array includono:
 
@@ -84,7 +90,9 @@ I volumi virtuali di VMware (vVol) offrono i seguenti benefici:
 
 L'ambiente dual fabric è generalmente consigliato per le reti di storage per gestire high Availability, performance e fault tolerance. I vVol sono supportati con iSCSI, FC, NFSv3 e NVMe/FC. NOTA: Fare riferimento alla link:https://imt.netapp.com/matrix["Tool di matrice di interoperabilità (IMT)"]versione dello strumento ONTAP supportata
 
-L'opzione di connettività rimane coerente con le opzioni del datastore VMFS o NFS. Di seguito è illustrato un esempio di rete vSphere di riferimento per iSCSI e NFS. image:vmware-vvol-overview-image03.png["Rete iSCSI"]
+L'opzione di connettività rimane coerente con le opzioni del datastore VMFS o NFS. Di seguito è illustrato un esempio di rete vSphere di riferimento per iSCSI e NFS.
+
+image:vmware-vvol-overview-image03.png["Rete iSCSI"]
 
 image:vmware-vvol-overview-image04.png["Rete NFS"]
 

@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-ontap-tools-for-vmware.html 
+keywords: vmware, getting, started, overview, netapp, otv, ontap, tools 
+summary:  
+---
+= Strumenti ONTAP per VMware (OTV)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+I tool ONTAP per VMware vSphere offrono una gestione del ciclo di vita end-to-end per le macchine virtuali negli ambienti VMware che utilizzano sistemi storage NetApp.
+
+
+
+== Introduzione
+
+Permette agli amministratori di gestire direttamente lo storage all'interno di vCenter Server e semplifica lo storage e la gestione dei dati per gli ambienti VMware. Lo strumento plug-in VMware vSphere Client è progettato per integrare la funzionalità plug-in nel client vSphere senza dover essere eseguito all'interno di vCenter Server. In questo modo si ottiene l'isolamento dei plug-in e la scalabilità orizzontale dei plug-in che operano in ambienti vSphere di grandi dimensioni.
+
+
+
+== Componenti degli strumenti ONTAP
+
+* *Virtual Storage Console (VSC)* la console VSC comprende l'interfaccia integrata con il client vSphere in cui è possibile aggiungere storage controller, eseguire il provisioning dei datastore, monitorare le performance dei datastore e visualizzare e aggiornare le impostazioni dell'host ESXi.
+* *VASA Provider* il provider VMware vSphere APIs for Storage Awareness (VASA) per ONTAP invia al vCenter Server le informazioni sullo storage utilizzato da VMware vSphere, consentendo il provisioning dei datastore VMware Virtual Volumes (vVol), la creazione e l'utilizzo di profili di capacità dello storage, la verifica della conformità e il monitoraggio delle performance.
+* *Storage Replication Adapter (SRA)* se abilitato e utilizzato con VMware Site Recovery Manager (SRM), SRA facilita il ripristino dei datastore di vCenter Server e delle macchine virtuali in caso di guasto, consentendo la configurazione di siti protetti e siti di ripristino per il disaster recovery.
+
+
+Per ulteriori informazioni sugli strumenti NetApp ONTAP per VMware, vedere https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["Strumenti ONTAP per la documentazione VMware vSphere"].

@@ -13,8 +13,6 @@ summary: 'La soluzione fornisce una panoramica e dettagli per la configurazione 
 :imagesdir: ../media/
 
 
-Allen Cao, Niyaz Mohamed, NetApp
-
 [role="lead"]
 La soluzione fornisce una panoramica e dettagli per la configurazione di Oracle Data Guard utilizzando Microsoft Azure NetApp Files (ANF) come storage primario e di standby per database al fine di ridurre i costi operativi e di licenza della soluzione ha/DR Oracle Data Guard nel cloud Azure.
 
@@ -115,7 +113,7 @@ image:azure_ora_anf_data_guard_architecture.png["Questa immagine fornisce un qua
 === Fattori chiave per l'implementazione
 
 * *Clone database standby.* Durante la ricezione e l'applicazione dei log delle transazioni dal database primario, è possibile clonare e montare un database fisico in standby su una macchina virtuale del database per supportare altri carichi di lavoro come SVILUPPO, TEST o report. Il clone può essere un clone sottile o spesso. Al momento, ANF supporta solo cloni thick, ovvero una copia completa del database di standby. L'opzione thin clone ANF verrà rilasciata a breve. Per le copie clonate in modo sottile di volumi di database, condivide gli stessi volumi DB del database di standby e utilizza la tecnologia copy-on-write per gli io in scrittura. Pertanto, i cloni sono molto efficienti in termini di storage, che possono essere utilizzati per molti altri casi di utilizzo con una nuova allocazione di storage minima e incrementale per i nuovi io in scrittura. Ciò consente un notevole risparmio sui costi di storage riducendo sostanzialmente l'ingombro dello storage di Active Data Guard. NetApp consiglia di ridurre al minimo le attività di FlexClone in caso di passaggio del database dallo storage primario a quello ANF di standby per mantenere prestazioni Oracle ad alto livello.
-* *Requisiti del software Oracle.* in generale, un database di standby fisico deve avere la stessa versione iniziale del database principale, incluse le eccezioni al set di patch (PSE), gli aggiornamenti critici delle patch (CPU), e gli aggiornamenti del set di patch (PSU), a meno che non sia in corso un processo di applicazione della patch standby-first di Oracle Data Guard (come descritto nella nota di supporto Oracle 1265700,1 all'indirizzo link:http://support.oracle.com.["support.oracle.com"^]
+* *Requisiti del software Oracle.* In generale, un database di standby fisico deve avere la stessa versione iniziale del database principale, inclusi PSE (Patch Set Exceptions), CPU (Critical Patch Updates) e PSU (Patch Set Updates), a meno che non sia in corso un processo di applicazione della patch standby-first di Oracle Data Guard (come descritto nella nota di supporto Oracle 1265700,1 all'indirizzo link:https://support.oracle.com["support.oracle.com"^].
 * *Considerazioni sulla struttura della directory del database di standby.* se possibile, i file di dati, i file di log e i file di controllo sui sistemi primario e di standby devono avere gli stessi nomi e nomi di percorso e utilizzare le convenzioni di denominazione OFA (Optimal Flexible Architecture). Anche le directory di archivio del database di standby devono essere identiche tra i siti, comprese le dimensioni e la struttura. Questa strategia consente ad altre operazioni quali backup, switchover e failover di eseguire la stessa serie di passaggi, riducendo la complessità della manutenzione.
 * *Imponi modalità di registrazione.* per proteggere dalle scritture dirette non registrate nel database primario che non possono essere propagate al database di standby, attivare IMPONI REGISTRAZIONE nel database primario prima di eseguire i backup dei file di dati per la creazione in standby.
 * *Dimensionamento di Azure VM.* In questi test e convalide, è stato utilizzato Azure VM - Standard_B4ms con 4 vCPU di memoria and16 GiB. È necessario dimensionare correttamente la macchina virtuale del database di Azure in base al numero di vCPU e alla quantità di RAM in base ai requisiti effettivi dei carichi di lavoro.
@@ -135,7 +133,7 @@ Il tuo database Oracle primario può anche essere eseguito su uno storage NetApp
 
 === Prerequisiti per l'implementazione
 
-[%collapsible]
+[%collapsible%open]
 ====
 L'implementazione richiede i seguenti prerequisiti.
 
@@ -174,7 +172,7 @@ Verificare che i flussi di traffico siano stati stabiliti (fare clic su tre punt
 
 === Preparare il database primario per Data Guard
 
-[%collapsible]
+[%collapsible%open]
 ====
 In questa dimostrazione, abbiamo configurato un database Oracle primario chiamato NTAP sul server DB Azure primario con tre punti di montaggio NFS: /U01 per il file binario Oracle, /U02 per i file di dati Oracle e un file di controllo Oracle, /U03 per i log attivi Oracle, i file di log archiviati e un file di controllo Oracle ridondante. Di seguito vengono illustrate le procedure dettagliate per l'impostazione del database primario per la protezione Oracle Data Guard. Tutti i passaggi devono essere eseguiti come proprietario del database Oracle o come utente predefinito `oracle`.
 
@@ -484,7 +482,7 @@ Questa operazione completa l'impostazione del database primario per Data Guard.
 
 === Preparare il database di standby e attivare Data Guard
 
-[%collapsible]
+[%collapsible%open]
 ====
 Oracle Data Guard richiede la configurazione del kernel del sistema operativo e gli stack software Oracle, inclusi i set di patch sul server DB di standby, in modo che corrispondano al server DB primario. Per semplificare la gestione e la semplicità, la configurazione dello storage del database del server DB di standby dovrebbe idealmente corrispondere anche al server DB primario, come il layout della directory del database e le dimensioni dei punti di montaggio NFS. Di seguito sono riportate le procedure dettagliate per la configurazione del server Oracle DB di standby e l'attivazione di Oracle DataGuard per la protezione ha/DR. Tutti i comandi devono essere eseguiti come id utente predefinito del proprietario di Oracle `oracle` .
 
@@ -846,7 +844,7 @@ In questo modo viene completata l'impostazione della protezione Data Guard per N
 
 === Impostare Data Guard Broker
 
-[%collapsible]
+[%collapsible%open]
 ====
 Oracle Data Guard broker è un framework di gestione distribuito che automatizza e centralizza la creazione, la manutenzione e il monitoraggio delle configurazioni di Oracle Data Guard. Nella sezione seguente viene illustrato come configurare Data Guard Broker per la gestione dell'ambiente Data Guard.
 
@@ -943,7 +941,7 @@ In caso di errore, Data Guard Broker può essere utilizzato per eseguire il fail
 
 === Clonare il database di standby per altri casi di utilizzo
 
-[%collapsible]
+[%collapsible%open]
 ====
 Il vantaggio principale dell'hosting del database di standby Oracle su ANF nella configurazione di Oracle Data Guard è che può essere rapidamente clonato per soddisfare molti altri casi di utilizzo con un investimento di storage aggiuntivo minimo se è abilitato un thin clone. NetApp consiglia di utilizzare lo strumento UI di SnapCenter per gestire il database Oracle DataGuard. Nella sezione seguente, mostreremo come creare snapshot e clonare i volumi di database di standby montati e in fase di ripristino su ANF per altri scopi, come SVILUPPO, TEST, REPORT, ecc., utilizzando lo strumento NetApp SnapCenter.
 

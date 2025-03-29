@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: vmware/vmware_nfs_arp.html 
-keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, ransomeware 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, ransomware 
 summary:  
 ---
 = Protezione autonoma dal ransomware per lo storage NFS
@@ -34,7 +34,7 @@ Se un attacco ransomware riguarda la macchina virtuale (VM) e altera i file all'
 
 Per informazioni dettagliate, fare riferimento alla sezione "ARP e macchine virtuali" nel link:https://docs.netapp.com/us-en/ontap/anti-ransomware/use-cases-restrictions-concept.html#supported-configurations["ARP usecases e considerazioni"].
 
-Passando da file a dati di backup, gli attacchi ransomware puntano sempre più ai backup e ai punti di recovery delle snapshot, cercando di eliminarli prima di iniziare a crittografare i file. Tuttavia, con ONTAP, questo può essere impedito creando snapshot antimanomissione su sistemi primari o secondari con link:https://docs.netapp.com/us-en/ontap/snaplock/snapshot-lock-concept.html["Blocco copia NetApp Snapshot™"].
+Passando da file a dati di backup, gli attacchi ransomware puntano sempre più ai backup e ai punti di recovery delle snapshot, cercando di eliminarli prima di iniziare a crittografare i file. Tuttavia, con ONTAP, questo può essere evitato creando istantanee antimanomissione su sistemi primari o secondari con link:https://docs.netapp.com/us-en/ontap/snaplock/snapshot-lock-concept.html["Blocco copia NetApp Snapshot™"].
 
 image:nfs-arp-image3.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
 
@@ -46,7 +46,7 @@ Quanto sopra dimostra in che modo lo storage ONTAP aggiunge un ulteriore livello
 
 Per ulteriori informazioni, visualizzare le istruzioni per link:https://www.netapp.com/media/7334-tr4572.pdf["Soluzioni NetApp per il ransomware"].
 
-Ora, se tutti questi elementi devono essere orchestrati e integrati con strumenti SIEM, è possibile utilizzare il servizio OFFTAP come la protezione ransomware BlueXP . È un servizio ideato per proteggere i dati da ransomware. Questo servizio offre protezione per i workload basati sulle applicazioni come Oracle, MySQL, datastore VM e file share sullo storage NFS on-premise.
+Ora che tutti questi aspetti devono essere orchestrati e integrati con strumenti SIEM, è possibile utilizzare un servizio OFFTAP come la protezione dal ransomware BlueXP . È un servizio ideato per proteggere i dati da ransomware. Questo servizio offre protezione per i workload basati sulle applicazioni come Oracle, MySQL, datastore VM e file share sullo storage NFS on-premise.
 
 In questo esempio, il datastore NFS "Src_NFS_DS04" è protetto tramite la protezione ransomware BlueXP .
 

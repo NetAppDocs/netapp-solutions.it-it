@@ -151,7 +151,7 @@ Le sezioni seguenti forniscono procedure dettagliate per l'implementazione di Or
 
 === Prerequisiti per l'implementazione
 
-[%collapsible]
+[%collapsible%open]
 ====
 L'implementazione richiede i seguenti prerequisiti.
 
@@ -178,7 +178,7 @@ NOTE: Assicurarsi di aver allocato almeno 50g MB nel volume root di Oracle VM in
 
 === Configurazione del kernel VM del DB
 
-[%collapsible]
+[%collapsible%open]
 ====
 Con i prerequisiti forniti, accedere a Oracle VM come utente amministratore tramite SSH e sudo all'utente root per configurare il kernel Linux per l'installazione di Oracle. I file di installazione di Oracle possono essere suddivisi in un bucket AWS S3 e trasferiti nella VM.
 
@@ -398,7 +398,7 @@ chmod 440 /etc/sudoers
 
 === Esegui il provisioning e la mappatura delle LUN di FSX ONTAP alla DB VM
 
-[%collapsible]
+[%collapsible%open]
 ====
 Esegui il provisioning di tre volumi dalla riga di comando eseguendo il login al cluster FSX come utente fsxadmin tramite ssh e l'IP di gestione del cluster FSX. Creare LUN all'interno dei volumi per ospitare i file binari, di dati e di log del database Oracle.
 
@@ -530,7 +530,7 @@ nim        /vol/ora_02_logs/ora_02_u03_02            ora_02        6  iscsi
 
 === Configurazione dello storage delle VM dei DATABASE
 
-[%collapsible]
+[%collapsible%open]
 ====
 Importare e configurare lo storage FSX ONTAP per l'infrastruttura grid di Oracle e l'installazione del database sulla macchina virtuale del database VMC.
 
@@ -823,7 +823,7 @@ systemctl restart multipathd
 
 === Installazione dell'infrastruttura grid Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Accedere alla DB VM come utente amministratore tramite SSH e abilitare l'autenticazione della password senza commenti `PasswordAuthentication yes` e poi commentando `PasswordAuthentication no`.
 +
@@ -1084,7 +1084,7 @@ CRS-4638: Oracle High Availability Services is online
 
 === Installazione del database Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Accedere come utente Oracle e annullare l'impostazione `$ORACLE_HOME` e. `$ORACLE_SID` se è impostato.
 +
@@ -1475,7 +1475,7 @@ In questo modo è completa l'implementazione di Oracle 19c versione 19,18 Restar
 
 ==== Impostazione SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenter si affida a un plug-in lato host su macchine virtuali del database per eseguire attività di gestione della protezione dei dati integrate con l'applicazione. Per informazioni dettagliate sul plugin NetApp SnapCenter per Oracle, consultare questa documentazione link:https://docs.netapp.com/us-en/snapcenter/protect-sco/concept_what_you_can_do_with_the_snapcenter_plug_in_for_oracle_database.html["Cosa puoi fare con il plug-in per database Oracle"^]. Segue passaggi di alto livello per configurare SnapCenter per backup, ripristino e clonazione del database Oracle.
 
@@ -1516,7 +1516,7 @@ NOTE: Assicurarsi che il nome del server SnapCenter possa essere risolto all'ind
 
 ==== Backup del database
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenter sfrutta lo snapshot di volume FSX ONTAP per backup, ripristino o clone di database più rapidi rispetto alla metodologia tradizionale basata su RMAN. Le snapshot sono coerenti con l'applicazione, poiché il database viene impostato in modalità di backup Oracle prima di una snapshot.
 
@@ -1551,7 +1551,7 @@ image:aws_ora_fsx_vmc_snapctr_11.png["Schermata che mostra la configurazione di 
 
 ==== Recovery del database
 
-[%collapsible]
+[%collapsible%open]
 ====
 SnapCenter offre diverse opzioni di ripristino e recovery per i database Oracle dal backup snapshot. In questo esempio, viene dimostrato un ripristino point-in-time per ripristinare per errore una tabella eliminata. In VM ora_02, due database cdb3, cdb4 condividono gli stessi gruppi di dischi +DATA e +LOGS. Il ripristino di un database non influisce sulla disponibilità dell'altro database.
 
@@ -1748,7 +1748,7 @@ SQL>
 
 ==== Clone del database
 
-[%collapsible]
+[%collapsible%open]
 ====
 In questo esempio, gli stessi set di backup vengono utilizzati per clonare un database sulla stessa VM in un ORACLE_HOME diverso. Le procedure sono applicabili anche per clonare un database dal backup a una VM separata in VMC, se necessario.
 

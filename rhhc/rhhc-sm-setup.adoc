@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-In questa sezione viene descritto un workflow di alto livello che illustra come configurare e gestire i cluster OpenShift in AWS e come implementare applicazioni stateful su di essi. Mostra l'utilizzo dello storage NetApp Cloud Volumes ONTAP con l'aiuto di Trident per la fornitura di volumi persistenti. Vengono forniti dettagli sull'utilizzo di Astra Control Center per eseguire attività di migrazione e protezione dei dati per le applicazioni stateful.
+In questa sezione viene descritto un workflow di alto livello che illustra come configurare e gestire i cluster OpenShift in AWS e come implementare applicazioni stateful su di essi. Mostra l'utilizzo dello storage NetApp Cloud Volumes ONTAP con l'aiuto di Trident per la fornitura di volumi persistenti. Sono disponibili dettagli sull'utilizzo di Trident Protect per eseguire attività di migrazione e data Protection per le applicazioni stateful.
 
 
 NOTE: Esistono diversi modi per implementare i cluster di piattaforme container Red Hat OpenShift su AWS. Questa descrizione di alto livello dell'installazione fornisce collegamenti alla documentazione per il metodo specifico utilizzato. È possibile fare riferimento agli altri metodi riportati nei relativi collegamenti forniti nella link:rhhc-resources.html["sezione risorse"].
@@ -26,7 +26,7 @@ image:rhhc-self-managed-aws.png["Figura che mostra la finestra di dialogo input/
 Il processo di installazione può essere suddiviso nei seguenti passaggi:
 
 .Installare un cluster OCP su AWS da Advanced Cluster Management.
-[%collapsible]
+[%collapsible%open]
 ====
 * Creare un VPC con una connessione VPN sito-sito (utilizzando pfsense) per connettersi alla rete on-premise.
 * La rete on-premise dispone di connettività Internet.
@@ -44,7 +44,7 @@ TIP: Quando si crea il cluster utilizzando ACM, è possibile personalizzare l'in
 
 ====
 .Implementare Cloud Volumes ONTAP in AWS utilizzando BlueXP.
-[%collapsible]
+[%collapsible%open]
 ====
 * Installare il connettore in ambiente VMware on-premise. Fare riferimento alle istruzioni link:https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-install-connector-on-prem.html#install-the-connector["qui"].
 * Implementare un'istanza CVO in AWS utilizzando il connettore. Fare riferimento alle istruzioni link:https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-ontap/task-getting-started-aws.html["qui"].
@@ -55,7 +55,7 @@ NOTE: Il connettore può essere installato anche nell'ambiente cloud. Fare rifer
 
 ====
 .Installare Trident nel quadro strumenti OCP
-[%collapsible]
+[%collapsible%open]
 ====
 * Implementare Trident Operator utilizzando Helm. Fare riferimento alle istruzioni link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-helm.html["qui"]
 * Creare un backend e una classe di storage. Fare riferimento alle istruzioni link:https://docs.netapp.com/us-en/trident/trident-use/backends.html["qui"].

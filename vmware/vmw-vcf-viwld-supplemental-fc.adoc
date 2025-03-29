@@ -1,0 +1,91 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supplemental-fc.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, fc 
+summary:  
+---
+= VMFS su FC come storage supplementare per i domini di gestione e carico di lavoro VI utilizzando ONTAP Tools per VMware
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+In questo scenario, verrà illustrato come implementare un datastore VMFS con backend Fiber Channel (FC) per domini di gestione e carichi di lavoro che utilizzano gli strumenti ONTAP.
+
+
+
+== Vantaggi di Fibre Channel
+
+*Prestazioni elevate:* FC offre velocità di trasferimento dati elevate, il che lo rende ideale per le applicazioni che richiedono un accesso rapido e affidabile a grandi quantità di dati.
+
+*Bassa latenza:* latenza molto bassa, fondamentale per applicazioni sensibili alle performance come database e ambienti virtualizzati.
+
+*Affidabilità:* le reti FC sono note per la loro robustezza e affidabilità, con caratteristiche come la ridondanza integrata e la correzione degli errori.
+
+*Larghezza di banda dedicata:* FC fornisce una larghezza di banda dedicata per il traffico di storage, riducendo il rischio di congestione della rete.
+
+Per ulteriori informazioni sull'utilizzo di Fibre Channel con i sistemi di storage NetApp, consultare https://docs.netapp.com/us-en/ontap/san-admin/san-provisioning-fc-concept.html["Provisioning di SAN con FC"] .
+
+
+
+== Panoramica dello scenario
+
+Il datastore supplementare VCF viene fornito come parte delle operazioni del giorno 2 utilizzando vCenter. Questo scenario copre i seguenti passaggi di alto livello:
+
+* Distribuzione degli strumenti ONTAP nel dominio di gestione
+* Registra i server vCenter del carico di lavoro VI negli strumenti ONTAP
+* Definire il backend dello storage sul plug-in di strumenti ONTAP per VMware vSphere
+* Provisioning di VMFS sul trasporto FC
+
+
+
+
+== Prerequisiti
+
+Questo scenario richiede i seguenti componenti e configurazioni:
+
+* Un sistema storage ONTAP AFF o ASA con porte FC collegate agli switch FC.
+* SVM creata con life FC.
+* VSphere con HBA FC collegati agli switch FC.
+* Lo zoning a initiator singolo target è configurato sugli switch FC.
++
+
+NOTE: Utilizza l'interfaccia logica FC SVM in configurazione delle zone invece delle porte FC fisiche sui sistemi ONTAP.
+
+
+
+NetApp consiglia un multipath per le LUN FC.
+
+Per informazioni complete sulla configurazione del Fibre Channel sui sistemi di storage ONTAP, consultare la https://docs.netapp.com/us-en/ontap/san-management/index.html["Gestione dello storage SAN"] documentazione di ONTAP 9.
+
+Per ulteriori informazioni sull'utilizzo di VMFS con i sistemi di storage ONTAP, consultare la https://docs.netapp.com/us-en/netapp-solutions/vmware/vmfs-deployment.html["Guida alla distribuzione per VMFS"].
+
+
+
+== Fasi di distribuzione per il dominio del carico di lavoro VI
+
+Per implementare ONTAP Tools e utilizzarlo per creare un datastore VMFS nel dominio del carico di lavoro VCF VI, attenersi alla seguente procedura:
+
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["Registra vCenter carico di lavoro VI per abilitare il plug-in vCenter"]
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["Definire il backend dello storage utilizzando l'interfaccia client vSphere"]
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html["Provisioning di VMFS su FC"]
+
+
+
+
+== Ulteriori informazioni
+
+Per informazioni sulla configurazione dei sistemi storage ONTAP, consultare la link:https://docs.netapp.com/us-en/ontap["Documentazione di ONTAP 9"] centro.
+
+Per informazioni sulla configurazione di VCF, fare riferimento alla link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["Documentazione di VMware Cloud Foundation"].
+
+
+
+== Video dimostrativo per questa soluzione
+
+.Datastore VMFS(FC) come archiviazione supplementare per dominio di gestione VCF
+video::3135c36f-3a13-4c95-aac9-b2a0001816dc[panopto,width=360]

@@ -21,7 +21,7 @@ Il DR Jetstream può essere utilizzato per ripristinare perfettamente i carichi 
 Il presente documento fornisce informazioni sui principi operativi di DR di JetStream e sui relativi componenti principali.
 
 .Panoramica sull'implementazione della soluzione
-[%collapsible]
+[%collapsible%open]
 ====
 . Installare il software DR JetStream nel data center on-premise.
 +
@@ -69,7 +69,7 @@ NOTE: Il numero e il contenuto dei domini prescritti dipendono da diverse caratt
 Il software Jetstream DR è costituito da tre componenti principali: Appliance virtuale Jetstream DR Management Server (MSA), appliance virtuale DR (DRVA) e componenti host (pacchetti di filtro i/o). MSA viene utilizzato per installare e configurare i componenti host sul cluster di calcolo e quindi per amministrare il software DR JetStream. Il seguente elenco fornisce una descrizione dettagliata del processo di installazione:
 
 .Come installare JetStream DR per on-premise
-[%collapsible]
+[%collapsible%open]
 ====
 . Verificare i prerequisiti.
 . Eseguire Capacity Planning Tool per ottenere consigli su risorse e configurazione (facoltativo ma consigliato per le prove proof-of-concept).
@@ -140,7 +140,7 @@ NOTE: La configurazione di rete, inclusa la creazione di segmenti, deve essere c
 A seconda dei requisiti SLA e RTO, è possibile utilizzare il failover continuo o la normale modalità di failover (standard). Per un RTO vicino allo zero, è necessario avviare una procedura di reidratazione continua presso il sito di ripristino.
 
 .Come installare JetStream DR per AVS in un cloud privato
-[%collapsible]
+[%collapsible%open]
 ====
 Per installare JetStream DR per AVS su un cloud privato Azure VMware Solution, attenersi alla seguente procedura:
 
@@ -189,7 +189,7 @@ image:vmware-dr-image18.png["Figura che mostra la finestra di dialogo input/outp
 == Esecuzione di failover/failover
 
 .Come eseguire un failover/failover
-[%collapsible]
+[%collapsible%open]
 ====
 . In caso di disastro nel cluster protetto dell'ambiente on-premise (errore parziale o completo), attivare il failover.
 +

@@ -114,7 +114,7 @@ La sezione seguente fornisce le procedure di implementazione passo-passo.
 
 === Prerequisiti per l'implementazione
 
-[%collapsible]
+[%collapsible%open]
 ====
 L'implementazione richiede i seguenti prerequisiti.
 
@@ -136,7 +136,7 @@ NOTE: Assicurarsi di aver allocato almeno 50 G nel volume root dell'istanza EC2 
 
 === Configurazione del kernel dell'istanza EC2
 
-[%collapsible]
+[%collapsible%open]
 ====
 Con i prerequisiti forniti, accedere all'istanza EC2 come ec2-user e sudo to root user per configurare il kernel Linux per l'installazione di Oracle.
 
@@ -245,7 +245,7 @@ usermod -a -G asm oracle
 
 === Provisioning ed esportazione di volumi NFS da montare sull'host dell'istanza EC2
 
-[%collapsible]
+[%collapsible%open]
 ====
 Provisioning di tre volumi dalla riga di comando tramite login al cluster FSX tramite ssh come utente fsxadmin con IP di gestione del cluster FSX per ospitare file binari, dati e log del database Oracle.
 
@@ -297,7 +297,7 @@ svm_ora   svm_ora_root aggr1        online     RW          1GB    972.1MB    0%
 
 === Configurazione dello storage del database
 
-[%collapsible]
+[%collapsible%open]
 ====
 A questo punto, importare e configurare lo storage FSX per l'infrastruttura grid Oracle e l'installazione del database sull'host dell'istanza EC2.
 
@@ -406,7 +406,7 @@ chmod 640 /oralogs/asm/*
 
 === Installazione dell'infrastruttura grid Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Accedere all'istanza EC2 come ec2-user tramite SSH e abilitare l'autenticazione della password senza commenti `PasswordAuthentication yes` e poi commentando `PasswordAuthentication no`.
 +
@@ -542,7 +542,7 @@ ora.evmd            ONLINE  ONLINE       ip-172-30-15-58          STABLE
 
 === Installazione del database Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Accedere come utente Oracle e annullare l'impostazione `$ORACLE_HOME` e. `$ORACLE_SID` se è impostato.
 +

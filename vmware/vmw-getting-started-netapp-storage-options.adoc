@@ -1,0 +1,136 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-netapp-storage-options.html 
+keywords: vmware, getting, started, overview, netapp, storage 
+summary:  
+---
+= Opzioni di storage NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le soluzioni NetApp FAS (Fabric-Attached Storage), AFF (All Flash FAS), ASA (All SAN Array) e cloud offrono una gamma di funzionalità altamente vantaggiose per gli ambienti VMware, incluse le implementazioni di VMware Cloud Foundation e VMware vSphere Foundation.
+
+
+
+== Introduzione
+
+Tali offerte migliorano le performance, la scalabilità e la gestione dei dati per l'amministratore VMware. Inoltre, ONTAP viene utilizzato in tutte queste piattaforme, per una soluzione di gestione dei dati unificata, scalabile ed efficiente, che supporta diversi protocolli storage, migliora la protezione dei dati e ottimizza le performance per workload diversi.
+
+
+
+== Benefici comuni delle piattaforme NetApp
+
+* *Integrazione con VMware:* tutte le piattaforme NetApp offrono integrazioni avanzate con VMware, migliorando l'efficienza dell'ambiente di storage. Le soluzioni on-premise possono sfruttare plug-in, API, VAAI e VASA per migliorare la gestione generale dei dati, migliorando al contempo la versatilità dell'infrastruttura.
+* *Ottimizzazione dei costi ed efficienze dello storage:* sfruttando lo storage NetApp è possibile sfruttare le tecnologie di efficienza native come deduplica, compressione e thin provisioning, ridurre significativamente il consumo e i costi di storage, massimizzando al contempo l'utilizzo della capacità e le performance. Inoltre, questi risparmi in termini di storage si traducono in un carico ridotto sulle risorse di calcolo.
+* *Gestione dei dati unificata:* ONTAP fornisce una singola interfaccia di gestione per lo storage on-premise e basato sul cloud, semplificando l'amministrazione e riducendo la complessità. Ciò consente uno spostamento e una gestione perfetti dei dati tra ambienti on-premise e cloud, garantendo flessibilità e scalabilità per i carichi di lavoro VMware.
+* *Supporto multiprotocollo:* ONTAP supporta un'ampia gamma di protocolli storage, tra cui NFS, CIFS/SMB, iSCSI, FC e NVMe, consentendo alle organizzazioni di consolidare i workload su una singola piattaforma o di sfruttare le offerte SAN costruite ad hoc senza creare silos di dati.
+* *Automazione e orchestrazione:* il supporto di strumenti di automazione come VMware Cloud Foundation Automation (in precedenza VMware aria Automation) e l'integrazione con Ansible e altri framework di automazione ottimizzano le operazioni e riducono l'overhead amministrativo.
+* *Sicurezza:* le solide funzionalità di sicurezza, tra cui la crittografia a riposo e in transito, la multi-tenancy sicura e il controllo degli accessi basato sui ruoli, garantiscono la protezione degli ambienti VMware.
+* *Strumenti ONTAP per VMware:* gli strumenti NetApp ONTAP per VMware offrono funzionalità di integrazione e gestione perfette, consentendo un provisioning efficiente dello storage, una protezione dei dati e prestazioni migliorate per gli ambienti VMware attraverso un'interfaccia unificata e intuitiva.
+* *SnapCenter for VMware vSphere:* NetApp SnapCenter for VMware vSphere semplifica e centralizza le operazioni di protezione, backup e ripristino dei dati per gli ambienti VMware, garantendo una gestione affidabile ed efficiente dei dati delle macchine virtuali.
+* *Alta disponibilità e resilienza:* caratteristiche come RAID-TEC e RAID-DP offrono una solida protezione dei dati e un'elevata disponibilità, fondamentali per gli ambienti VMware.
+* *Quality of Service (QoS):* consente agli amministratori di impostare le garanzie di prestazioni per diverse macchine virtuali, garantendo che i carichi di lavoro critici ricevano le risorse necessarie.
+
+
+Nota: Le soluzioni cloud NetApp potrebbero avere funzionalità limitate dal cloud provider, eppure rimangono molto robuste per la connessione guest e il supporto di datastore NFS nativi.
+
+
+
+== Vantaggi di NetApp ASA (array All SAN)
+
+* *Ottimizzato per SAN:* progettato specificamente per carichi di lavoro SAN, offre performance elevate e bassa latenza per gli ambienti VMware che si affidano allo storage a blocchi.
+* *Alta disponibilità avanzata:* caratteristiche come i controller Active-Active e la replica sincrona garantiscono disponibilità continua e protezione dei dati.
+
+
+La linea ASA comprende sia i modelli A-Series che C-Series.
+
+Gli array flash NetApp A-Series all-NVMe sono progettati per carichi di lavoro dalle performance elevate, offrendo latenza estremamente bassa ed elevata resilienza, rendendoli adatti ad applicazioni mission-critical.
+
+image:vmware-asa-image1.png["larghezza=800"]
+
+I Flash Array C-Series QLC mirano a casi di utilizzo di capacità più elevata, fornendo la velocità della tecnologia flash insieme al risparmio della tecnologia flash ibrida.
+
+image:vmware-asa-image2.png["larghezza=800"]
+
+
+
+=== Supporto dei protocolli di storage
+
+Il sistema ASA supporta tutti i protocolli SAN standard tra cui iSCSI, Fibre Channel (FC), Fibre Channel over Ethernet (FCoE) e NVME over Fabrics.
+
+*ISCSI* - NetApp ASA fornisce un solido supporto per iSCSI, consentendo l'accesso a livello di blocco ai dispositivi di storage su reti IP. Offre un'integrazione perfetta con gli initiator iSCSI, consentendo un provisioning e una gestione efficienti delle LUN iSCSI. Funzionalità avanzate di ONTAP, come multipathing, autenticazione CHAP e supporto ALUA.
+
+Per istruzioni sulla progettazione delle configurazioni iSCSI, fare riferimento alla https://docs.netapp.com/us-en/ontap/san-config/configure-iscsi-san-hosts-ha-pairs-reference.html["Documentazione di riferimento per la configurazione SAN"].
+
+*Fibre Channel* - NetApp ASA offre un supporto completo per Fibre Channel (FC), una tecnologia di rete ad alta velocità comunemente utilizzata nelle reti SAN. ONTAP si integra perfettamente con l'infrastruttura FC, fornendo un accesso a livello di blocco affidabile ed efficiente ai dispositivi storage. Offre funzioni come zoning, multi-path e fabric login (FLOGI) per ottimizzare le prestazioni, migliorare la sicurezza e garantire una connettività perfetta negli ambienti FC.
+
+Per informazioni sulla progettazione delle configurazioni Fibre Channel, fare riferimento alla https://docs.netapp.com/us-en/ontap/san-config/fc-config-concept.html["Documentazione di riferimento per la configurazione SAN"].
+
+*NVMe over Fabrics* - NetApp ONTAP e ASA supportano NVMe over Fabrics. NVMe/FC consente l'utilizzo di dispositivi storage NVMe su un'infrastruttura Fibre Channel e NVMe/TCP su reti IP di storage.
+
+Per informazioni sulla progettazione su NVMe, fare riferimento a. https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["Configurazione, supporto e limitazioni NVMe"]
+{nbsp}
+
+
+
+=== Tecnologia Active-Active
+
+Gli array SAN all-flash NetApp offrono percorsi Active-Active attraverso entrambi i controller, eliminando la necessità per il sistema operativo host di attendere un errore di percorso attivo, prima di attivare il percorso alternativo. Ciò significa che l'host può utilizzare tutti i percorsi disponibili su tutti i controller, garantendo che i percorsi attivi siano sempre presenti, indipendentemente dal fatto che il sistema si trovi in uno stato regolare o stia eseguendo un'operazione di failover del controller.
+
+Inoltre, NetApp ASA offre una caratteristica distintiva che migliora notevolmente la velocità del failover SAN. Ogni controller replica continuamente i metadati LUN essenziali al proprio partner. Di conseguenza, ogni controller è pronto ad assumersi le responsabilità del Data Serving in caso di guasto improvviso del partner. Questa disponibilità è possibile perché il controller possiede già le informazioni necessarie per iniziare a utilizzare le unità precedentemente gestite dal controller guasto.
+
+Con il path Active-Active, i takeover pianificati e non pianificati hanno tempi di ripresa io di 2-3 secondi.
+
+Per ulteriori informazioni, vedere https://www.netapp.com/pdf.html?item=/media/85671-tr-4968.pdf["TR-4968, array All-SAS NetApp – disponibilità e integrità dei dati con NetApp ASA"].
+{nbsp}
+
+Per informazioni dettagliate, consultare la https://www.netapp.com/data-storage/all-flash-san-storage-array["Landing page di NetApp ASA"].
+{nbsp}
+
+
+
+== Vantaggi di NetApp AFF (All Flash FAS)
+
+* *Extreme Performance:* utilizza lo storage all-flash per offrire latenza sotto al millisecondo e IOPS elevati, ideali per carichi di lavoro VMware sensibili alle performance.
+* *Bassa latenza costante:* garantisce prestazioni prevedibili per applicazioni e VM critiche, fondamentali per il mantenimento degli SLA.
+
+
+Per ulteriori informazioni sugli storage array NetApp AFF A-Series, consultare la link:https://www.netapp.com/data-storage/aff-a-series/["NetApp AFF A-Series"] landing page.
+
+Per ulteriori informazioni sugli storage array NetApp C-Series, consultare la link:https://www.netapp.com/data-storage/aff-c-series/["NetApp AFF C-Series"] landing page.
+
+{nbsp}
+
+
+
+== Vantaggi di NetApp FAS (Fabric-Attached Storage)
+
+* *Architettura di storage unificata:* supporta protocolli SAN (a livello di blocco) e NAS (a livello di file), rendendolo versatile per vari carichi di lavoro VMware.
+* *Conveniente:* ideale per ambienti che richiedono un equilibrio tra prestazioni e costi, offrendo una combinazione di HDD e SSD.
+
+
+
+
+== Benefici delle soluzioni cloud
+
+* *Gestione dei dati nativa del cloud:* utilizza offerte native del cloud per migliorare la mobilità dei dati, il backup e il disaster recovery per i carichi di lavoro VMware. Il supporto per il supporto nativo dei datastore NFS per i carichi di lavoro cloud VMware è il seguente:
++
+** VMware Cloud su AWS con Amazon FSX per NetApp ONTAP
+** Azure VMware Service con Azure NetApp Files
+** Google Cloud VMware Engine con Google Cloud NetApp Volume -
+
+
+* *Flessibilità del cloud ibrido:* integrazione perfetta tra ambienti on-premise e cloud, offrendo flessibilità per i carichi di lavoro VMware che coprono più posizioni.
+
+
+
+
+== Riepilogo
+
+In sintesi, le piattaforme ONTAP e NetApp offrono un insieme completo di vantaggi per i carichi di lavoro VMware, migliorando le performance, la scalabilità e la gestione dei dati. Mentre le funzioni comuni forniscono una base solida, ogni piattaforma offre vantaggi differenziati su misura per esigenze specifiche, sia che si tratti di storage conveniente con FAS, performance elevate con AFF, performance SAN ottimizzate con ASA o flessibilità di cloud ibrido con le offerte cloud di NetApp.

@@ -25,7 +25,7 @@ NOTE: Implementa FSX ONTAP nella stessa zona disponibile di VMware Cloud su AWS 
 NOTE: Non è possibile distribuire FSX ONTAP nel VPC connesso. È invece necessario implementarlo in un nuovo VPC designato e quindi collegarlo a un VMware Managed Transit Gateway (vTGW) tramite gruppi SDDC.
 
 .Passaggio 1: Creare Amazon FSX ONTAP in un nuovo VPC designato
-[%collapsible]
+[%collapsible%open]
 ====
 Per creare e montare il file system Amazon FSX ONTAP, attenersi alla seguente procedura:
 
@@ -150,7 +150,7 @@ Per ulteriori informazioni sulle prestazioni di Amazon FSX ONTAP, consulta https
 
 ====
 .Fase 2: Creazione del gruppo SDDC
-[%collapsible]
+[%collapsible%open]
 ====
 Una volta creati i file system e le SVM, utilizzare VMware Console per creare un gruppo SDDC e configurare VMware Transit Connect. A tale scopo, completare i seguenti passaggi e ricordare che è necessario spostarsi tra VMware Cloud Console e AWS Console.
 
@@ -169,7 +169,7 @@ image:fsx-nfs-image13.png["Figura che mostra la finestra di dialogo input/output
 
 ====
 .Fase 3: Configurare VMware Transit CONNECT
-[%collapsible]
+[%collapsible%open]
 ====
 . Collegare il VPC designato appena creato al gruppo SDDC. Selezionare la scheda *VPC esterno* e seguire le istruzioni riportate nella https://docs.vmware.com/en/VMware-Cloud-on-AWS/services/com.vmware.vmc-aws-networking-security/GUID-A3D03968-350E-4A34-A53E-C0097F5F26A9.html["Istruzioni per il collegamento di un VPC esterno al gruppo"^]. Il completamento di questo processo può richiedere 10-15 minuti.
 +
@@ -198,7 +198,7 @@ image:fsx-nfs-image16.png["Figura che mostra la finestra di dialogo input/output
 
 ====
 .Fase 4: Creazione dell'allegato del gateway di transito
-[%collapsible]
+[%collapsible%open]
 ====
 . Nella console AWS, accedere alla pagina del servizio VPC e accedere al VPC utilizzato per il provisioning del file system FSX. In questo punto, è possibile creare un allegato del gateway di transito facendo clic su *Transit Gateway Attachment* (collegamento gateway di transito) nel riquadro di navigazione a destra.
 . In *collegamento VPC*, assicurarsi che il supporto DNS sia selezionato e selezionare il VPC in cui è stato distribuito FSX ONTAP.
@@ -236,7 +236,7 @@ image:fsx-nfs-image22.png["Figura che mostra la finestra di dialogo input/output
 
 ====
 .Fase 5: Configurare il routing (AWS VPC e SDDC) e i gruppi di sicurezza
-[%collapsible]
+[%collapsible%open]
 ====
 . Nella console AWS, creare il percorso di ritorno a SDDC individuando il VPC nella pagina di servizio VPC e selezionare la tabella di percorso *main* per il VPC.
 . Individuare la tabella dei percorsi nel pannello inferiore e fare clic su *Edit routes* (Modifica percorsi).
@@ -266,7 +266,7 @@ Questa è la fase finale della preparazione della connettività all'SDDC appropr
 
 ====
 .Fase 6: Collegare il volume NFS come datastore al cluster SDDC
-[%collapsible]
+[%collapsible%open]
 ====
 Dopo aver eseguito il provisioning del file system e aver attivato la connettività, accedere a VMware Cloud Console per montare il datastore NFS.
 

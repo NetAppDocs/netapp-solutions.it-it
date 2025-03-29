@@ -1,0 +1,48 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-ontap-apis-automation.html 
+keywords:  
+summary:  
+---
+= Utilizzo delle API NetApp per migliorare l'amministrazione di VMware
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le API (Application Programming Interface) giocano un ruolo cruciale nell'amministrazione di VMware abilitando l'automazione, l'integrazione e la gestione semplificata degli ambienti virtualizzati.
+
+
+
+== Introduzione
+
+VMware fornisce una serie di API che consentono agli amministratori di interagire a livello di programmazione con i vari prodotti e servizi VMware, migliorando l'efficienza e la coerenza delle operazioni. Inoltre, le API NetApp ONTAP offrono un solido set di tool che consentono agli amministratori di automatizzare, integrare e ottimizzare la gestione degli ambienti storage, in particolare insieme ai workload VMware. Queste API facilitano l'interazione perfetta tra i sistemi storage di ONTAP e VMware, migliorando l'efficienza, le performance e la protezione dei dati.
+
+
+
+== API basate su VMware
+
+* *API VMware vSphere:* l'API vSphere è un'API completa che consente agli amministratori di gestire e automatizzare gli ambienti VMware vSphere. Il prodotto offre l'accesso a una vasta gamma di funzionalità di vSphere, tra cui provisioning delle macchine virtuali, configurazione, monitoraggio e gestione del ciclo di vita.
+* *API REST di VMware vCenter Server:* l'API REST di vCenter Server fornisce una moderna interfaccia RESTful per la gestione di vCenter Server e dei suoi componenti associati. Semplifica l'automazione e l'integrazione con altri sistemi e tool.
+* *API di VMware Cloud Foundation:* le API SDDC (Software-Defined Data Center) di VMware offrono l'accesso programmatico ai vari componenti e servizi all'interno di un ambiente SDDC di VMware. Queste API consentono ad amministratori e sviluppatori di automatizzare, gestire e integrare i diversi aspetti del data center, inclusi i servizi di calcolo, storage, rete e gestione.
+* *API di storage di VMware vSphere - Storage Awareness:* VASA è un set di API che fornisce l'integrazione degli storage array con vCenter per la gestione e l'amministrazione. L'architettura si basa su diversi componenti, tra cui il provider VASA che gestisce la comunicazione tra VMware vSphere e i sistemi storage. Con ONTAP, il provider viene implementato come parte dei tool ONTAP per VMware vSphere.
+* *API storage di VMware vSphere - integrazione degli array:* VAAI è un insieme di API che consentono la comunicazione tra gli host di VMware vSphere ESXi e i dispositivi storage. L'API comprende un set di operazioni primitive utilizzate dagli host per scaricare operazioni di storage sull'array. VAAI può offrire miglioramenti significativi delle performance per i task a uso intensivo di storage.
+
+
+
+
+== API basate su ONTAP
+
+* *API REST NetApp ONTAP:* l'API REST ONTAP offre una moderna interfaccia RESTful per la gestione dei sistemi storage ONTAP. Semplifica l'automazione di task di storage come il provisioning, il monitoraggio e la configurazione. Il prodotto offre una semplice integrazione con VMware vSphere e altri tool di gestione di VMware, consentendo operazioni di storage automatizzate direttamente dagli ambienti VMware. Supporta una vasta gamma di operazioni, dalla gestione di base dello storage ai task di replica e protezione dei dati avanzati, consentendo una gestione dello storage scalabile e flessibile.
+* *Strumenti ONTAP per VMware vSphere:* gli strumenti ONTAP per VMware vSphere sono un insieme di strumenti per l'integrazione di ONTAP e vSphere. Implementa la funzionalità provider del framework API VASA. I tool ONTAP includono anche il plug-in vCenter, un adattatore di replica dello storage (SRA) per VMware Site Recovery Manager e un server di API REST utilizzabili per costruire le applicazioni di automazione.
+
+
+
+
+== Riepilogo
+
+In sintesi, con le API di ONTAP, gli amministratori possono creare e configurare i datastore in ambienti VMware, garantendo un provisioning dello storage rapido e coerente. Inoltre, possono automatizzare la creazione, la pianificazione e l'eliminazione di snapshot per le macchine virtuali VMware, offrendo opzioni efficienti di recovery e protezione dei dati. Le API SnapMirror facilitano l'automazione della gestione e del setup delle relazioni di replica, garantendo solide soluzioni di disaster recovery per i carichi di lavoro VMware. Gli amministratori possono anche implementare script per monitorare le metriche delle performance dello storage e attivare avvisi o azioni automatizzate in caso di violazione delle soglie di performance, garantendo performance dello storage ottimali per i carichi di lavoro VMware. Integrando le API ONTAP con le API VMware, come quelle fornite da vSphere e vRealize, gli amministratori possono ottenere un'esperienza di gestione perfetta e altamente automatizzata, migliorando l'efficienza e l'affidabilità complessive dell'infrastruttura virtualizzata.

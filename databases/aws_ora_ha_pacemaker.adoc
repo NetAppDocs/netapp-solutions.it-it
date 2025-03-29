@@ -139,7 +139,7 @@ Le seguenti sezioni forniscono procedure dettagliate per l'implementazione e la 
 
 === Prerequisiti per l'implementazione
 
-[%collapsible]
+[%collapsible%open]
 ====
 L'implementazione richiede i seguenti prerequisiti.
 
@@ -157,7 +157,7 @@ Abilita l'autenticazione a chiave pubblica/privata ssh tra il controller Ansible
 
 === Provisioning di EC2 istanze e del cluster di storage Amazon FSX ONTAP
 
-[%collapsible]
+[%collapsible%open]
 ====
 Anche se è possibile eseguire il provisioning dell'istanza EC2 e di Amazon FSX ONTAP dalla console AWS manualmente, si consiglia di utilizzare il toolkit di automazione basato su NetApp Terraform per automatizzare il provisioning di EC2 istanze e del cluster di storage FSX ONTAP. Di seguito sono riportate le procedure dettagliate.
 
@@ -253,7 +253,7 @@ Questo completa le istanze EC2 e il provisioning di FSX ONTAP per Oracle.
 
 === Impostazione del gruppo pacemaker
 
-[%collapsible]
+[%collapsible%open]
 ====
 Il componente aggiuntivo ad alta disponibilità per RHEL è un sistema in cluster che garantisce affidabilità, scalabilità e disponibilità per servizi di produzione critici come i servizi dei database Oracle. In questo caso di utilizzo, viene configurato e configurato un cluster pacemaker a due nodi per supportare l'elevata disponibilità di un database Oracle in uno scenario di clustering attivo/passivo.  
 
@@ -486,7 +486,7 @@ Questa operazione completa la configurazione iniziale e l'impostazione del grupp
 
 === Configurazione della recinzione del gruppo pacemaker
 
-[%collapsible]
+[%collapsible%open]
 ====
 La configurazione della recinzione del pacemaker è obbligatoria per un gruppo di produzione. Garantisce che un nodo malfunzionante sul cluster AWS EC2 sia isolato automaticamente, impedendo così al nodo di consumare le risorse del cluster, compromettendo la funzionalità del cluster o danneggiando i dati condivisi. In questa sezione viene illustrata la configurazione della scherma del cluster utilizzando l'agente di scherma Fence_aws.
 
@@ -599,7 +599,7 @@ NOTE: Eseguire `pcs stonith refresh` il comando per aggiornare l'agente di recin
 
 === Distribuzione del database Oracle nel cluster PC
 
-[%collapsible]
+[%collapsible%open]
 ====
 Consigliamo di sfruttare il playbook Ansible fornito da NetApp per eseguire task di installazione e configurazione del database con parametri predefiniti sul cluster PCS. Per questa implementazione Oracle automatizzata, è necessario inserire tre file di parametri definiti dall'utente prima dell'esecuzione del playbook.
 
@@ -1026,7 +1026,7 @@ The command completed successfully
 
 === Configurare le risorse Oracle per la gestione dei PC
 
-[%collapsible]
+[%collapsible%open]
 ====
 L'obiettivo della configurazione del clustering pacemaker è di impostare una soluzione ad alta disponibilità attiva/passiva per l'esecuzione di Oracle in ambiente AWS EC2 e FSX ONTAP con un intervento minimo da parte dell'utente in caso di guasto. Di seguito viene illustrata la configurazione delle risorse Oracle per la gestione dei PC.
 
@@ -1382,7 +1382,7 @@ Daemon Status:
 
 === Convalida ha successiva all'implementazione
 
-[%collapsible]
+[%collapsible%open]
 ====
 Dopo la distribuzione, è fondamentale eseguire alcuni test e convalida per garantire che il cluster di failover del database Oracle DEI PC sia configurato correttamente e funzioni come previsto. Il test di validazione include failover gestito, guasto simulato e inatteso delle risorse e recovery dal meccanismo di protezione del cluster.
 
@@ -1816,7 +1816,7 @@ Questo completa la convalida di Oracle ha e la dimostrazione della soluzione in 
 
 === Backup, ripristino e cloning di Oracle con SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 NetApp consiglia il tool dell'interfaccia utente di SnapCenter per gestire i database Oracle implementati in AWS EC2 e Amazon FSX ONTAP. Consultare la link:aws_ora_fsx_vmc_guestmount.html#oracle-backup-restore-and-clone-with-snapcenter["Oracle semplificata e autogestita in VMware Cloud su AWS con FSX ONTAP montato sul guest"^]sezione TR-4979  `Oracle backup, restore, and clone with SnapCenter`per dettagli su come configurare SnapCenter ed eseguire flussi di lavoro di backup, ripristino e cloning del database.
 

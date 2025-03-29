@@ -142,7 +142,7 @@ Le seguenti sezioni forniscono procedure passo per passo per implementazione di 
 
 === Prerequisiti per l'implementazione
 
-[%collapsible]
+[%collapsible%open]
 ====
 L'implementazione richiede database Oracle esistenti in esecuzione su ANF in Azure. In caso contrario, attenersi alla procedura riportata di seguito per creare due database Oracle da convalidare con la soluzione. Per informazioni dettagliate sull'implementazione del database Oracle in ANF nel cloud Azure con automazione, fare riferimento al documento TR-4987: link:automation_ora_anf_nfs.html["Implementazione semplificata e automatizzata di Oracle su Azure NetApp Files con NFS"^]
 
@@ -196,7 +196,7 @@ video::960fb370-c6e0-4406-b6d5-b110014130e8[panopto,width=360]
 
 === Installazione e configurazione di SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 Si consiglia di accedere online link:https://docs.netapp.com/us-en/snapcenter/index.html["Documentazione del software SnapCenter"^] Prima di procedere all'installazione e alla configurazione di SnapCenter: . Di seguito viene fornito un riepilogo ad alto livello dei passaggi per l'installazione e la configurazione del software SnapCenter per Oracle su Azure ANF.
 
@@ -249,7 +249,7 @@ image:snapctr_ora_azure_anf_setup_05.png["Questa immagine fornisce le impostazio
 
 === Backup del database
 
-[%collapsible]
+[%collapsible%open]
 ====
 Il backup di uno snapshot NetApp crea un'immagine point-in-time dei volumi di database che è possibile utilizzare per il ripristino in caso di errore di sistema o perdita di dati. I backup di Snapshot richiedono pochissimo tempo, generalmente meno di un minuto. L'immagine di backup consuma uno spazio di storage minimo e subisce un overhead delle performance trascurabile poiché registra solo le modifiche ai file dall'ultima copia snapshot effettuata. Nella sezione seguente viene illustrata l'implementazione di snapshot per il backup del database Oracle in SnapCenter.
 
@@ -308,7 +308,7 @@ image:snapctr_ora_azure_anf_bkup_13.png["Questa immagine fornisce il backup del 
 
 === Recovery del database
 
-[%collapsible]
+[%collapsible%open]
 ====
 Ripristino di database tramite SnapCenter consente di ripristinare una copia Snapshot point-in-time dell'immagine del volume di database. Il database viene quindi inoltrato a un punto desiderato da SCN/timestamp o da un punto come consentito dai log di archivio disponibili nel set di backup. Nella sezione seguente viene illustrato il flusso di lavoro di ripristino del database con l'interfaccia utente di SnapCenter.
 
@@ -351,7 +351,7 @@ image:snapctr_ora_azure_anf_restore_08.png["Questa immagine fornisce il ripristi
 
 === Clone del database
 
-[%collapsible]
+[%collapsible%open]
 ====
 Clone del database tramite SnapCenter viene ottenuto creando un nuovo volume da una snapshot di un volume. Il sistema utilizza le informazioni dello snapshot per clonare un nuovo volume utilizzando i dati sul volume quando è stata acquisita la snapshot. Cosa più importante, è rapida ed efficiente rispetto ad altri metodi per creare una copia clonata del database di produzione per supportare lo sviluppo o i test. Pertanto, migliora drasticamente la gestione del ciclo di vita delle applicazioni del database. Nella sezione seguente viene illustrato il flusso di lavoro del clone del database con interfaccia utente di SnapCenter.
 

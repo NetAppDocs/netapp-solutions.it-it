@@ -17,7 +17,7 @@ summary:
 A partire da VMware vSphere 8,0 U1 (come Tech-preview), la funzionalità nconnect consente a più connessioni TCP per i volumi del datastore NFS v3 di aumentare il throughput. I clienti che utilizzano un datastore NFS possono ora incrementare il numero di connessioni al server NFS, ottimizzando così l'utilizzo delle schede di interfaccia di rete ad alta velocità.
 
 
-NOTE: La funzione è generalmente disponibile per NFS v3 con 8,0 U2, fare riferimento alla sezione di memorizzazione a link:https://docs.vmware.com/en/VMware-vSphere/8.0/rn/vsphere-esxi-802-release-notes/index.html["Note sulla versione di VMware vSphere 8,0 Update 2"]. Il supporto di NFS v4,1 viene aggiunto con vSphere 8,0 U3. Per ulteriori informazioni, consulta link:https://docs.vmware.com/en/VMware-vSphere/8.0/rn/vsphere-vcenter-server-803-release-notes/index.html["Note sulla versione di vSphere 8,0 Update 3"]
+NOTE: La funzione è generalmente disponibile per NFS v3 con 8,0 U2, fare riferimento alla sezione di memorizzazione a link:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/release-notes/esxi-update-and-patch-release-notes/vsphere-esxi-802-release-notes.html["Note sulla versione di VMware vSphere 8,0 Update 2"]. Il supporto di NFS v4,1 viene aggiunto con vSphere 8,0 U3. Per ulteriori informazioni, consulta link:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/release-notes/esxi-update-and-patch-release-notes/vsphere-esxi-803-release-notes.html["Note sulla versione di vSphere 8,0 Update 3"]
 
 
 
@@ -137,7 +137,7 @@ Fare riferimento a. link:https://kb.vmware.com/s/article/91497["Articolo della K
 
 Il numero massimo di connessioni supportate da ONTAP dipende dal modello di piattaforma di storage. Cercare exec_ctx su link:https://www.netapp.com/media/10720-tr-4067.pdf["Guida alle Best practice e all'implementazione di NFS"] per ulteriori informazioni.
 
-Con l'aumento del numero di connessioni per datastore NFSv3, il numero di datastore NFS che è possibile montare su quell'host vSphere diminuisce. Il numero totale di connessioni supportate per host vSphere è 256. Controllare link:https://kb.vmware.com/s/article/91481["Articolo della KB di VMware 91481"] Per i limiti del datastore per host vSphere.
+Con l'aumento del numero di connessioni per datastore NFSv3, il numero di datastore NFS che è possibile montare su quell'host vSphere diminuisce. Il numero totale di connessioni supportate per host vSphere è 256. Controllare link:https://knowledge.broadcom.com/external/article?legacyId=91481["Articolo della KB di VMware 91481"]i limiti del datastore per host vSphere.
 
 
 NOTE: Il datastore vVol non supporta la funzione nConnect. Tuttavia, gli endpoint del protocollo contano verso il limite di connessione. Al momento della creazione del datastore vVol, viene creato un endpoint di protocollo per ogni dato lif di SVM.

@@ -13,8 +13,6 @@ summary: Red Hat OpenShift Virtualization Data Protection con NetApp ONTAP
 :imagesdir: ../media/
 
 
-Autore: Banu Sundhar, NetApp
-
 [role="lead"]
 Questa sezione del documento di riferimento fornisce dettagli per la creazione di snapshot e backup delle VM utilizzando Trident Protect.
 
@@ -36,7 +34,7 @@ Trident Protect permette snapshot, backup, ripristino e disaster recovery di app
 
 
 .Crea AppVault
-[%collapsible]
+[%collapsible%open]
 ====
 Prima di creare snapshot e backup per un'applicazione o una VM, è necessario configurare uno storage a oggetti in Trident Protect per memorizzare snapshot e backup. Questa operazione viene eseguita utilizzando la benna CR. Solo gli amministratori possono creare e configurare un bucket CR. Il bucket CR è noto come AppVault in Trident Protect. Gli oggetti AppVault sono la rappresentazione dichiarativa del flusso di lavoro di Kubernetes di un bucket di storage. AppVault CR contiene le configurazioni necessarie per l'utilizzo di un bucket nelle operazioni di protezione, come backup, snapshot, operazioni di ripristino e replica SnapMirror.
 
@@ -102,7 +100,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_8.png["ONTAP S3 Appvault creato"]
 
 ====
 .Crea una macchina virtuale con OpenShift Virtualization
-[%collapsible]
+[%collapsible%open]
 ====
 Le seguenti schermate mostrano la creazione della VM (demo-fedora nello spazio dei nomi) dalla console utilizzando il template. Il disco principale sceglie automaticamente la classe di archiviazione predefinita, quindi verificare che la classe di archiviazione predefinita sia impostata correttamente. In questa installazione, la classe di archiviazione predefinita è **sc-zonea-san**. Quando si crea il disco aggiuntivo, scegliere la classe di archiviazione sc-zonea-san e selezionare la casella di controllo "**Apply Optimized storage settings**" (Applica impostazioni di archiviazione ottimizzate**). In questo modo, le modalità di accesso vengono impostate su RWX e modalità volume su Blocca.
 
@@ -125,7 +123,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_7.png["creazione di vm, pod e pvc"]
 
 ====
 .Crea app
-[%collapsible]
+[%collapsible%open]
 ====
 **Creare un'app Trident Protect per la VM**
 
@@ -152,7 +150,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_9.png["App creata"]
 
 ====
 .Creare backup
-[%collapsible]
+[%collapsible%open]
 ====
 **Creare un backup su richiesta**
 
@@ -202,7 +200,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_17.png["Backup creati on-demand e on-Schedule"
 
 ====
 .Ripristino da backup
-[%collapsible]
+[%collapsible%open]
 ====
 **Ripristinare la VM nello stesso spazio dei nomi**
 
@@ -282,7 +280,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_23.png["VM nel nuovo namespace"]
 
 ====
 .Creare istantanee
-[%collapsible]
+[%collapsible%open]
 ====
 **Creare un'istantanea su richiesta** creare un'istantanea per l'app e specificare l'appvault in cui deve essere memorizzata.
 
@@ -350,7 +348,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_26.png["snapshot pianificata"]
 
 ====
 .Ripristino da Snapshot
-[%collapsible]
+[%collapsible%open]
 ====
 **Ripristina la VM dallo snapshot allo stesso namespace** Elimina la VM demo-fedora dallo spazio dei nomi demo2.
 
@@ -428,7 +426,7 @@ image:rh-os-n_use_case_ocpv_tp_dp_32.png["VM ripristinata in un nuovo namespace"
 
 ====
 .Selezione di macchine virtuali specifiche in uno spazio dei nomi per creare snapshot/backup e ripristino
-[%collapsible]
+[%collapsible%open]
 ====
 Nell'esempio precedente, avevamo una singola macchina virtuale all'interno di un namespace. Includendo l'intero namespace nel backup, sono state acquisite tutte le risorse associate a tale macchina virtuale. Nell'esempio seguente, aggiungeremo un'altra macchina virtuale allo stesso spazio dei nomi e creeremo un'applicazione solo per questa nuova macchina virtuale utilizzando un selettore di etichette.
 
@@ -489,9 +487,9 @@ image:rh-os-n_use_case_ocpv_tp_dp_18.png["Backup di una macchina virtuale specif
 
 **Ripristinare una macchina virtuale specifica nello stesso spazio dei nomi** il backup di una macchina virtuale specifica (centos) è stato creato utilizzando l'applicazione corrispondente. Se si crea un backup-in-place-restore o un backup-ripristino da questo, viene ripristinata solo questa VM specifica. Eliminare CentOS VM.
 
-image:rh-os-n_use_case_ocpv_tp_dp_33["CentOS VM presente"]
+image:rh-os-n_use_case_ocpv_tp_dp_33.png["CentOS VM presente"]
 
-image:rh-os-n_use_case_ocpv_tp_dp_34["CentOS VM eliminato"]
+image:rh-os-n_use_case_ocpv_tp_dp_34.png["CentOS VM eliminato"]
 
 Creare un ripristino di backup sul posto da demo-centos-backup-on-demand e verificare che centos VM sia stato ricreato.
 
@@ -500,9 +498,9 @@ Creare un ripristino di backup sul posto da demo-centos-backup-on-demand e verif
 #tp create bir demo-centos-restore --backup demo/demo-centos-backup-on-demand -n demo
 BackupInplaceRestore "demo-centos-restore" created.
 ----
-image:rh-os-n_use_case_ocpv_tp_dp_35["creare un bir centos vm"]
+image:rh-os-n_use_case_ocpv_tp_dp_35.png["creare un bir centos vm"]
 
-image:rh-os-n_use_case_ocpv_tp_dp_36["centos vm creato"]
+image:rh-os-n_use_case_ocpv_tp_dp_36.png["centos vm creato"]
 
 **Ripristinare una macchina virtuale specifica in uno spazio dei nomi diverso** creare un ripristino di backup in uno spazio dei nomi diverso (demo3) da demo-centos-backup-on-demand e verificare che la macchina virtuale centos sia stata ricreata.
 
@@ -511,8 +509,8 @@ image:rh-os-n_use_case_ocpv_tp_dp_36["centos vm creato"]
 # tp create br demo2-centos-restore --backup demo/demo-centos-backup-on-demand --namespace-mapping demo:demo3 -n demo3
 BackupRestore "demo2-centos-restore" created.
 ----
-image:rh-os-n_use_case_ocpv_tp_dp_37["creare un bir centos vm"]
+image:rh-os-n_use_case_ocpv_tp_dp_37.png["creare un bir centos vm"]
 
-image:rh-os-n_use_case_ocpv_tp_dp_38["centos vm creato"]
+image:rh-os-n_use_case_ocpv_tp_dp_38.png["centos vm creato"]
 
 ====

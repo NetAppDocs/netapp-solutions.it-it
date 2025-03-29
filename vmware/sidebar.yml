@@ -3,147 +3,123 @@ section: vmware
 title: Virtualizzazione VMware
 url: "/vmware/index.html"
 entries:
-- title: Virtualizzazione VMware per ONTAP
-  pdf-filename: Virtualizzazione VMware per ONTAP
-  url: "/vmware/vmware-for-ontap.html"
-- title: VMware vSphere Foundation (Fondazione VMware vSphere)
+- title: Guida introduttiva di NetApp e VMware
+  pdf-filename: Guida introduttiva di NetApp e VMware
   entries:
-  - title: NFS Reference Guide for vSphere 8
-    pdf-filename: NFS Reference Guide for vSphere 8
-    entries:
-    - title: Panoramica
-      url: "/vmware/vmware_nfs_overview.html"
-    - title: Funzionalità NFS nConnect con NetApp e VMware
-      url: "/vmware/vmware-vsphere8-nfs-nconnect.html"
-    - title: Gestione dei datastore NFS con OTV 10
-      url: "/vmware/vmware_nfs_otv10.html"
-    - title: Disaster Recovery di datastore NFS con VMware Site Recovery Manager
-      url: "/vmware/vmware_nfs_vlsr.html"
-    - title: Protezione autonoma dal ransomware per lo storage NFS
-      url: "/vmware/vmware_nfs_arp.html"
-  - title: VVol - Guida di riferimento per vSphere 8
-    pdf-filename: VVol - Guida di riferimento per vSphere 8
-    url: "/vmware/vmware-vvol-overview.html"
-  - title: Guida alla distribuzione di VMFS per vSphere 8
-    pdf-filename: Guida alla distribuzione di VMFS per vSphere 8
-    url: "/vmware/vmfs-deployment.html"
-  - title: Array SAN all-flash NetApp con VMware vSphere 8
-    pdf-filename: Array SAN all-flash NetApp con VMware vSphere 8
-    entries:
-    - title: Panoramica
-      url: "/vmware/vsphere_ontap_asa_overview.html"
-    - title: Strumenti ONTAP per VMware vSphere
-      url: "/vmware/vsphere_ontap_asa_otv.html"
-    - title: Cloud Insights
-      url: "/vmware/vsphere_ontap_asa_insights.html"
-    - title: Cluster di storage VMware vSphere Metro con sincronizzazione attiva SnapMirror
-      url: "/vmware/vmware-vmsc-with-smas.html"
-- title: VMware Cloud Foundation
+  - title: Panoramica
+    url: "/vmware/vmw-getting-started-overview.html"
+  - title: Opzioni di storage NetApp
+    url: "/vmware/vmw-getting-started-netapp-storage-options.html"
+  - title: VSphere Metro Storage Cluster
+    url: "/vmware/vmw-getting-started-metro-storage-cluster.html"
+  - title: Strumenti ONTAP per VMware (OTV)
+    url: "/vmware/vmw-getting-started-ontap-tools-for-vmware.html"
+  - title: Automazione di VMware con ONTAP
+    url: "/vmware/vmw-getting-started-ontap-apis-automation.html"
+  - title: SnapCenter
+    url: "/vmware/vmw-getting-started-snapcenter.html"
+  - title: Multi-Cloud ibrido
+    url: "/vmware/vmw-getting-started-hybrid-multicloud.html"
+  - title: Gestire sicurezza e ransomware per i carichi di lavoro VMware
+    url: "/vmware/vmw-getting-started-security-ransomware.html"
+  - title: Migrazione dei carichi di lavoro delle macchine virtuali su ONTAP
+    url: "/vmware/vmw-getting-started-migration.html"
+  - title: Disaster recovery BlueXP  (DRaaS)
+    url: "/vmware/vmw-getting-started-bluexp-disaster-recovery.html"
+  - title: Informazioni sull'infrastruttura dati (DII)
+    url: "/vmware/vmw-getting-started-data-infrastructure-insights.html"
+  - title: VMDC (VM Data Collector)
+    url: "/vmware/vmw-getting-started-vm-data-collector.html"
+- title: VMware Cloud Foundation (VCF) su NetApp
+  pdf-filename: VMware Cloud Foundation (VCF) su NetApp
   entries:
-  - title: Storage NetApp con VMware Cloud Foundation
-    pdf-filename: Storage NetApp con VMware Cloud Foundation
-    url: "/vmware/vmware-vcf-overview.html"
-  - title: VCF con array NetApp ASA
-    pdf-filename: VCF con array NetApp ASA
+  - title: Panoramica
+    url: "/vmware/vmw-vcf-overview.html"
+  - title: Migrare l'infrastruttura esistente a VCF
     entries:
-    - title: Panoramica
-      url: "/vmware/vmware_vcf_asa_overview.html"
-    - title: Cluster stretch (FC/iSCSI) su dominio di gestione
-      url: "/vmware/vmware_vcf_asa_mgmt_stretchcluster.html"
-    - title: Cluster stretch (FC/iSCSI) su dominio del carico di lavoro VI
-      url: "/vmware/vmware_vcf_asa_wkld_stretchcluster.html"
-    - title: ISCSI come storage supplementare per i domini di gestione
-      url: "/vmware/vmware_vcf_asa_supp_mgmt_iscsi.html"
-    - title: VVol come storage supplementare per i domini del carico di lavoro
-      url: "/vmware/vmware_vcf_asa_supp_wkld_vvols.html"
-    - title: FC come storage principale
-      url: "/vmware/vmware_vcf_asa_prin_fc.html"
-    - title: FC come conservazione supplementare
-      url: "/vmware/vmware_vcf_asa_supp_fc.html"
-    - title: NVMe/TCP come storage supplementare per i domini dei carichi di lavoro
-      url: "/vmware/vmware_vcf_asa_supp_wkld_nvme.html"
-    - title: Proteggi i domini di lavoro con il plug-in SnapCenter per VMware vSphere
-      url: "/vmware/vmware_vcf_asa_scv_wkld.html"
-  - title: VCF con array NetApp AFF
-    pdf-filename: VCF con array NetApp AFF
+    - title: Conversione dell'istanza vCenter esistente in VCF Management Domain (NFS)
+      url: "/vmware/vmw-vcf-mgmt-nfs.html"
+    - title: Convertire l'istanza vCenter (datastore FC) in dominio di gestione VCF
+      url: "/vmware/vmw-vcf-mgmt-fc.html"
+  - title: Provisioning dell'ambiente VCF con l'archiviazione principale
     entries:
-    - title: Panoramica
-      url: "/vmware/vmware_vcf_aff_overview.html"
-    - title: NFS come storage principale per i domini di workload
-      url: "/vmware/vmware_vcf_aff_principal_nfs."
-    - title: Cluster stretch (FC/iSCSI) su dominio di gestione
-      url: "/vmware/vmware_vcf_asa_mgmt_stretchcluster.html"
-    - title: Cluster stretch (FC/iSCSI) su dominio del carico di lavoro VI
-      url: "/vmware/vmware_vcf_asa_wkld_stretchcluster.html"
-    - title: NFS e vVol come storage supplementare per i domini del carico di lavoro
-      url: "/vmware/vmware_vcf_aff_supp_wkld_nfs.html"
-    - title: FC come storage principale
-      url: "/vmware/vmware_vcf_aff_prin_fc.html"
-    - title: FC come conservazione supplementare
-      url: "/vmware/vmware_vcf_aff_supp_fc.html"
-    - title: Converti il cluster vSphere (datastore NFS) in dominio di gestione VCF
-      url: "/vmware/vmware_vcf_import_nfs.html"
-    - title: Cluster stretch (FC/iSCSI) su dominio di gestione
-      url: "/vmware/vmware_vcf_asa_mgmt_stretchcluster.html"
-    - title: Cluster stretch (FC/iSCSI) su dominio del carico di lavoro VI
-      url: "/vmware/vmware_vcf_asa_wkld_stretchcluster.html"
+    - title: Dominio di gestione con FC
+      url: "/vmware/vmw-vcf-mgmt-principal-fc.html"
+    - title: Dominio di gestione con NFS
+      url: "/vmware/vmw-vcf-mgmt-principal-nfs.html"
+    - title: Dominio del carico di lavoro dell'infrastruttura virtuale con FC
+      url: "/vmware/vmw-vcf-viwld-principal-fc.html"
+    - title: Dominio del carico di lavoro dell'infrastruttura virtuale con NFS
+      url: "/vmware/vmw-vcf-viwld-principal-nfs.html"
+  - title: Espandere ambiente VCF con archiviazione supplementare
+    entries:
+    - title: Dominio di gestione con iSCSI
+      url: "/vmware/vmw-vcf-mgmt-supplemental-iscsi.html"
+    - title: Dominio di gestione con FC
+      url: "/vmware/vmw-vcf-mgmt-supplemental-fc.html"
+    - title: Dominio del carico di lavoro dell'infrastruttura virtuale con vVol (iSCSI)
+      url: "/vmware/vmw-vcf-viwld-supplemental-vvols.html"
+    - title: Dominio del carico di lavoro dell'infrastruttura virtuale con vVol (NFS)
+      url: "/vmware/vmw-vcf-viwld-supplemental-nfs-vvols.html"
+    - title: Dominio del carico di lavoro dell'infrastruttura virtuale con NVMe/TCP
+      url: "/vmware/vmw-vcf-viwld-supplemental-nvme.html"
+    - title: Dominio del carico di lavoro dell'infrastruttura virtuale con FC
+      url: "/vmware/vmw-vcf-viwld-supplemental-fc.html"
+  - title: Proteggi i carichi di lavoro con NetApp SnapCenter
+    entries:
+    - title: Proteggi il dominio del carico di lavoro VCF
+      url: "/vmware/vmw-vcf-scv-wkld.html"
+    - title: Proteggere i domini multipli del carico di lavoro VCF
+      url: "/vmware/vmw-vcf-scv-multiwkld.html"
+    - title: Proteggi il dominio del carico di lavoro VCF con NVMe
+      url: "/vmware/vmw-vcf-scv-nvme.html"
+    - title: Data Protection 3-2-1 per VMware con plug-in SnapCenter e backup e recovery
+        BlueXP per le VM
+      url: "/vmware/vmw-vcf-scv-321.html"
+  - title: Alta disponibilità con VMware vSphere Metro Storage Cluster (vMSC)
+    entries:
+    - title: Cluster stretch per dominio di gestione che utilizza la sincronizzazione
+        attiva di SnapMirror
+      url: "/vmware/vmw-vcf-vmsc-mgmt-smas.html"
     - title: Cluster stretch per dominio di gestione con MetroCluster
       url: "/vmware/vmw-vcf-vmsc-mgmt-mcc.html"
+    - title: Cluster stretch per dominio del carico di lavoro VI con sincronizzazione
+        attiva SnapMirror
+      url: "/vmware/vmw-vcf-vmsc-viwld-smas.html"
     - title: Cluster stretch per dominio del carico di lavoro VI con MetroCluster
       url: "/vmware/vmw-vcf-vmsc-viwld-mcc.html"
-    - title: Proteggere i domini del carico di lavoro con NetApp SnapCenter
-      url: "/vmware/vmware_vcf_aff_multi_wkld_scv.html"
-    - title: Protezione dei dati efficiente, scalabile e semplice per VMware VCF con
-        storage NetApp basato su NVMe
-      url: "/vmware/vmware_vcf_nvme_scv.html"
-- title: Migrazione delle VM
-  entries:
-  - title: Migra le macchine virtuali nel datastore ONTAP
-    pdf-filename: Migra le macchine virtuali nel datastore ONTAP
+  - title: Migrazione delle VM
     url: "/vmware/migrate-vms-to-ontap-datastore.html"
-  - title: Migra le macchine virtuali su Amazon EC2 con Amazon FSX per ONTAP
-    pdf-filename: Migra le macchine virtuali su Amazon EC2 con Amazon FSX per ONTAP
+  - title: Disaster recovery con BlueXP  DRaaS
     entries:
-    - title: Panoramica
-      url: "/vmware/migrate-vms-to-ec2-fsxn.html"
-    - title: Architettura e prerequisiti
-      url: "/vmware/migrate-vms-to-ec2-fsxn-arch.html"
-    - title: Procedura di implementazione
-      url: "/vmware/migrate-vms-to-ec2-fsxn-deploy.html"
-    - title: Conclusione
-      url: "/vmware/migrate-vms-to-ec2-fsxn-wrapup.html"
-- title: VMware per il cloud pubblico
-  url: "/ehc/index.html"
-- title: Casi d'utilizzo di multicloud ibrido di VMware
+    - title: Dr utilizzando BlueXP  DRaaS per archivi dati VMFS
+      url: "/vmware/vmw-dr-draas-vmfs.html"
+    - title: Dr utilizzando BlueXP  DRaaS per datastore NFS
+      url: "/vmware/vmw-dr-draas-nfs.html"
+  - title: Protezione ransomware
+    url: "/vmware/vmware_nfs_arp.html"
+  - title: Monitorare i carichi di lavoro con Data Infrastructure Insights (DII)
+    url: "/vmware/vmw-dii.html"
+- title: VMware vSphere Foundation (VVF) su NetApp
+  pdf-filename: VMware vSphere Foundation (VVF) su NetApp
   entries:
-  - title: Panoramica del caso d'utilizzo
-    url: "/ehc/ehc-use-cases.html"
-- title: Automazione VMware vSphere
+  - title: Panoramica
+    url: "/vmware/vmware_nfs_overview.html"
+  - title: 'Virtualizzazione VMware per ONTAP: Best practice'
+    url: "/vmware/vmware-for-ontap.html"
+  - title: Guida alla distribuzione di VMFS per vSphere 8
+    url: "/vmware/vmfs-deployment.html"
+  - title: Funzionalità NFS nConnect con NetApp e VMware
+    url: "/vmware/vmware-vsphere8-nfs-nconnect.html"
+  - title: Gestione dei datastore NFS con OTV 10
+    url: "/vmware/vmware_nfs_otv10.html"
+  - title: Disaster Recovery di datastore NFS con VMware Site Recovery Manager
+    url: "/vmware/vmware_nfs_vlsr.html"
+- title: Volumi virtuali VMware (vVol) su NetApp
+  pdf-filename: Volumi virtuali VMware (vVol) su NetApp
   entries:
-  - title: Introduzione
-    url: "/vmware/vsphere_auto_introduction.html"
-  - title: Provisioning tradizionale dello storage a blocchi
-    entries:
-    - title: Panoramica
-      url: "/vmware/vsphere_ontap_auto_block.html"
-    - title: VMFS - Fibre Channel
-      url: "/vmware/vsphere_ontap_auto_block_fc.html"
-    - title: VMFS - Fibre Channel over Ethernet
-      url: "/vmware/vsphere_ontap_auto_block_fcoe.html"
-    - title: VMFS - iSCSI
-      url: "/vmware/vsphere_ontap_auto_block_iscsi.html"
-    - title: VMFS - NVMe su fabric
-      url: "/vmware/vsphere_ontap_auto_block_nvmeof.html"
-  - title: Provisioning di file storage tradizionale
-    entries:
-    - title: Panoramica
-      url: "/vmware/vsphere_ontap_auto_file.html"
-    - title: NFS - v3
-      url: "/vmware/vsphere_ontap_auto_file_nfs.html"
-    - title: NFS - v4.1
-      url: "/vmware/vsphere_ontap_auto_file_nfs41.html"
-  - title: Data Collector VM
-    url: "/vmware/vmdc.html"
+  - title: Utilizzo di vVol con ONTAP
+    url: "/vmware/vmware-vvol-overview.html"
 - title: Demo ed esercitazioni
   entries:
   - title: Video

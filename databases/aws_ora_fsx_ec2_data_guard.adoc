@@ -137,7 +137,7 @@ Il tuo database Oracle primario può essere eseguito su un FSX ONTAP o su qualsi
 
 === Prerequisiti per l'implementazione
 
-[%collapsible]
+[%collapsible%open]
 ====
 L'implementazione richiede i seguenti prerequisiti.
 
@@ -160,7 +160,7 @@ NOTE: Assicurarsi di aver allocato almeno 50 G nel volume root dell'istanza EC2 
 
 === Preparare il database primario per Data Guard
 
-[%collapsible]
+[%collapsible%open]
 ====
 In questa dimostrazione, abbiamo configurato un database Oracle primario denominato DB1 sull'istanza DB primaria EC2 con due gruppi di dischi ASM in configurazione riavvio standalone con file di dati nel gruppo di dischi ASM +area di DATI e di ripristino flash nel gruppo di dischi ASM +LOGS. Di seguito vengono illustrate le procedure dettagliate per l'impostazione del database primario per Data Guard. Tutti i passaggi devono essere eseguiti come proprietario del database - utente oracle.
 
@@ -404,7 +404,7 @@ L'impostazione del database primario per Data Guard viene completata.
 
 === Preparare il database di standby e attivare Data Guard
 
-[%collapsible]
+[%collapsible%open]
 ====
 Oracle Data Guard richiede la configurazione del kernel del sistema operativo e gli stack di software Oracle, inclusi i set di patch sull'istanza EC2 DB di standby, in modo che corrispondano all'istanza primaria EC2 DB. Per semplificare la gestione e la semplicità, la configurazione dello storage del database di istanza EC2 DB di standby dovrebbe corrispondere idealmente anche all'istanza primaria EC2 DB, come il nome, il numero e la dimensione dei gruppi di dischi ASM. Di seguito sono riportate le procedure dettagliate per impostare l'istanza di standby EC2 DB per Data Guard. Tutti i comandi devono essere eseguiti come ID utente proprietario di oracle.
 
@@ -704,7 +704,7 @@ In questo modo viene completata l'impostazione della protezione Data Guard per D
 
 === Impostare Data Guard Broker
 
-[%collapsible]
+[%collapsible%open]
 ====
 Oracle Data Guard broker è un framework di gestione distribuito che automatizza e centralizza la creazione, la manutenzione e il monitoraggio delle configurazioni di Oracle Data Guard. Nella sezione seguente viene illustrato come configurare Data Guard Broker per la gestione dell'ambiente Data Guard.
 
@@ -799,7 +799,7 @@ In caso di guasto, Data Guard Broker può essere utilizzato per eseguire il fail
 
 === Clonare il database di standby per altri casi di utilizzo
 
-[%collapsible]
+[%collapsible%open]
 ====
 Il principale vantaggio dello staging del database di standby su AWS FSX ONTAP in Data Guard è la possibilità di creare con FlexClone il supporto di molti altri casi di utilizzo con un investimento minimo nello storage aggiuntivo. Nella sezione seguente, mostreremo come creare snapshot e clonare i volumi di database di standby montati e in fase di ripristino in FSX ONTAP per altri scopi, come SVILUPPO, TEST, REPORT, ecc. utilizzo dello strumento NetApp SnapCenter.
 

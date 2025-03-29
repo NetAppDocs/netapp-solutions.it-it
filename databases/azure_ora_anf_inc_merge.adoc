@@ -116,7 +116,7 @@ Il tuo VLDB Oracle può essere eseguito su uno storage ANF o su qualsiasi altro 
 
 === Prerequisiti per l'implementazione
 
-[%collapsible]
+[%collapsible%open]
 ====
 L'implementazione richiede i seguenti prerequisiti.
 
@@ -133,7 +133,7 @@ NOTE: Assicurarsi di aver allocato almeno 128G MB nel volume root di Azure VM in
 
 === Eseguire il provisioning e l'esportazione del volume NFS da montare sul server Oracle VLDB primario
 
-[%collapsible]
+[%collapsible%open]
 ====
 In questa sezione viene illustrato il provisioning di un volume NFS da un pool di capacità ANF tramite la console del portale di Azure. Ripetere le procedure su altri pool di capacità ANF se sono stati configurati più pool di capacità ANF per adattarsi alle dimensioni del database.
 
@@ -185,7 +185,7 @@ sudo chown oracle:oinstall /nfsanf
 
 === Configurare Oracle RMAN Unione incrementale a copia immagine su ANF
 
-[%collapsible]
+[%collapsible%open]
 ====
 La fusione incrementale RMAN aggiorna continuamente la copia dell'immagine dei file di dati del database di staging a ogni intervallo incrementale di backup/Unione. La copia dell'immagine del backup del database sarà aggiornata quanto la frequenza di esecuzione del backup/Unione incrementale. Pertanto, prendere in considerazione le performance del database, gli obiettivi RTO e RPO quando si decide la frequenza del backup incrementale e dell'Unione RMAN.
 
@@ -812,7 +812,7 @@ In questo modo viene completata l'installazione di un backup e di un merge di co
 
 === Passa da Oracle VLDB a Image Copy per un rapido ripristino
 
-[%collapsible]
+[%collapsible%open]
 ====
 In caso di guasto a causa di un problema di storage principale, come perdita o danneggiamento dei dati, il database può essere rapidamente trasferito alla copia dell'immagine sul montaggio NFS ANF e ripristinato allo stato corrente senza ripristinare il database. L'eliminazione del ripristino dei supporti accelera enormemente il ripristino del database per un VLDB. Questo caso di utilizzo presuppone che il server Oracle VLDB DB sia intatto e che il file di controllo del database, i registri archiviati e quelli correnti siano tutti disponibili per il ripristino.
 
@@ -1094,7 +1094,7 @@ SQL>
 
 === Ripristino di Oracle VLDB dalla copia dell'immagine a un server DB in standby
 
-[%collapsible]
+[%collapsible%open]
 ====
 In caso di errore durante la quale vengono persi sia lo storage primario che l'host del server del database primario, il ripristino non può essere eseguito dal server originale. Tuttavia, la copia dell'immagine di backup del database Oracle disponibile sul file system NFS ANF è molto utile. È possibile ripristinare rapidamente il database primario in un server database di standby, se disponibile, utilizzando la copia dell'immagine di backup. In questa sezione, verranno illustrate le procedure passo per passo per tale ripristino.
 

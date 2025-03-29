@@ -23,7 +23,7 @@ In questa sezione viene descritto come ripristinare le macchine virtuali da un b
 Per eseguire il ripristino da un backup, supponiamo che lo spazio dei nomi in cui esisteva la macchina virtuale sia stato eliminato accidentalmente.
 
 .Ripristinare nello stesso namespace
-[%collapsible]
+[%collapsible%open]
 ====
 Per eseguire il ripristino dal backup appena creato, è necessario creare una risorsa personalizzata di ripristino (CR). Dobbiamo fornirgli un nome, fornire il nome del backup da cui eseguire il ripristino e impostare su true. È possibile impostare parametri aggiuntivi come illustrato nella link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentazione"]. Fare clic sul pulsante Crea.
 
@@ -45,7 +45,7 @@ image:redhat_openshift_OADP_restore_image2.jpg["Ripristino completato"]
 
 ====
 .Ripristinare in un namespace diverso
-[%collapsible]
+[%collapsible%open]
 ====
 Per ripristinare la macchina virtuale in uno spazio dei nomi diverso, è possibile fornire un namespaceMapping nella definizione yaml di Restore CR.
 
@@ -71,7 +71,7 @@ image:redhat_openshift_OADP_restore_image3.jpg["Ripristino completato in un nuov
 
 ====
 .Ripristinare in una classe di archiviazione diversa
-[%collapsible]
+[%collapsible%open]
 ====
 Velero fornisce una capacità generica di modificare le risorse durante il ripristino specificando le patch json. Le patch json vengono applicate alle risorse prima di essere ripristinate. Le patch json sono specificate in una configmap e la configmap è referenziata nel comando restore. Questa funzione consente di eseguire il ripristino utilizzando una classe di archiviazione diversa.
 

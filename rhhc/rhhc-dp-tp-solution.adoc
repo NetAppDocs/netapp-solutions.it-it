@@ -13,8 +13,6 @@ summary: Protezione dei dati applicativi dei container Red Hat OpenShift con Tri
 :imagesdir: ../media/
 
 
-Autore: Banu Sundhar, NetApp
-
 [role="lead"]
 Questa sezione del documento di riferimento fornisce dettagli per la creazione di istantanee e backup di app container utilizzando Trident Protect. NetApp Trident Protect offre capacità avanzate di gestione dei dati delle applicazioni che migliorano la funzionalità e la disponibilità delle applicazioni stateful Kubernetes supportate dai sistemi storage NetApp ONTAP e dal provisioner dello storage NetApp Trident CSI. Trident Protect crea snapshot e backup delle applicazioni, il che significa che non solo vengono creati snapshot e backup dei dati delle applicazioni nei volumi persistenti, ma vengono anche creati snapshot e backup dei metadati delle applicazioni. Le snapshot e i backup creati da Trident Protect possono essere memorizzati in uno qualsiasi dei seguenti sistemi storage a oggetti e ripristinati da essi in un secondo momento.
 
@@ -36,7 +34,7 @@ NOTE: L'amministratore del cluster ha accesso alle risorse nel namespace predefi
 Trident Protect può essere installato seguendo le istruzioni fornite nella documentazionelink:https://docs.netapp.com/us-en/trident/trident-protect/trident-protect-installation.html["qui"]. Questa sezione mostra il flusso di lavoro per la protezione dei dati delle applicazioni dei contenitori e il ripristino delle applicazioni utilizzando Trident Protect. 1. Creazione di snapshot (on-demand su richiesta pianificata) 2. Ripristino da Snapshot (ripristino nello stesso namespace diverso) 3. Creazione di backup 4. Ripristina da backup
 
 .Prerequisito
-[%collapsible]
+[%collapsible%open]
 ====
 Prima di creare istantanee e backup per un'applicazione, è necessario configurare un archivio oggetti in Trident Protect per memorizzare snapshot e backup. Questa operazione viene eseguita utilizzando la benna CR. Solo gli amministratori possono creare e configurare un bucket CR. Il bucket CR è noto come AppVault in Trident Protect. Gli oggetti AppVault sono la rappresentazione dichiarativa del flusso di lavoro di Kubernetes di un bucket di storage. AppVault CR contiene le configurazioni necessarie per l'utilizzo di un bucket nelle operazioni di protezione, come backup, snapshot, operazioni di ripristino e replica SnapMirror.
 
@@ -178,7 +176,7 @@ image:rhhc_dp_tp_solution_container_image2.png["App creata"]
 
 ====
 .Creare istantanee
-[%collapsible]
+[%collapsible%open]
 ====
 **Creazione di uno snapshot su richiesta**
 
@@ -243,7 +241,7 @@ image:rhhc_dp_tp_solution_container_image8.png["Snap PVC creato in base alla pia
 
 ====
 .Eliminare l'applicazione per simulare la perdita dell'applicazione
-[%collapsible]
+[%collapsible%open]
 ====
 [source, yaml]
 ----
@@ -253,7 +251,7 @@ No resources found in postgres namespace.
 ----
 ====
 .Ripristino da Snapshot nello stesso namespace
-[%collapsible]
+[%collapsible%open]
 ====
 [source, yaml]
 ----
@@ -268,7 +266,7 @@ image:rhhc_dp_tp_solution_container_image10.png["App ripristinata, Signore"]
 
 ====
 .Ripristino da Snapshot a un namespace diverso
-[%collapsible]
+[%collapsible%open]
 ====
 [source, yaml]
 ----
@@ -283,7 +281,7 @@ image:rhhc_dp_tp_solution_container_image12.png["App ripristinata, SnapRestore"]
 
 ====
 .Creare backup
-[%collapsible]
+[%collapsible%open]
 ====
 **Creazione di un backup su richiesta**
 
@@ -307,7 +305,7 @@ image:rhhc_dp_tp_solution_container_image13a.png["Pianificazione creata in prece
 
 ====
 .Ripristino dal backup
-[%collapsible]
+[%collapsible%open]
 ====
 **Eliminare l'applicazione e i PVC per simulare una perdita di dati.**
 
@@ -327,7 +325,7 @@ image:rhhc_dp_tp_solution_container_image17.png["ripristinare in un namespace di
 
 ====
 .Migrazione delle applicazioni
-[%collapsible]
+[%collapsible%open]
 ====
 Per clonare o migrare un'applicazione in un cluster diverso (eseguire un clone tra cluster), creare un backup nel cluster di origine, quindi ripristinare il backup in un cluster diverso. Assicurarsi che Trident Protect sia installato sul cluster di destinazione.
 

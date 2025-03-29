@@ -25,7 +25,7 @@ FSX ONTAP è un servizio di cloud storage Enterprise first-party disponibile su 
 FSX ONTAP offre un'esperienza di distribuzione e gestione perfetta. Per iniziare, non è richiesta alcuna competenza in ambito storage. Per semplificare il monitoraggio, è possibile utilizzare una funzione lambda AWS (per automatizzare il ridimensionamento della capacità di storage totale, delle dimensioni del volume o delle dimensioni del LUN in base alla soglia).  Questo documento fornisce una guida dettagliata alla creazione di un'installazione automatica che monitora FSX ONTAP a intervalli regolari, notifica e ridimensiona quando viene superata una soglia specificata dall'utente e notifica all'amministratore l'attività di ridimensionamento.
 
 .Caratteristiche
-[%collapsible]
+[%collapsible%open]
 ====
 La soluzione offre le seguenti funzionalità:
 
@@ -48,7 +48,7 @@ La soluzione offre le seguenti funzionalità:
 
 ====
 .Prerequisiti
-[%collapsible]
+[%collapsible%open]
 ====
 Prima di iniziare, assicurarsi che siano soddisfatti i seguenti prerequisiti:
 
@@ -59,7 +59,7 @@ Prima di iniziare, assicurarsi che siano soddisfatti i seguenti prerequisiti:
 
 ====
 .Architettura high-level
-[%collapsible]
+[%collapsible%open]
 ====
 * La funzione AWS Lambda richiama le API in FSX ONTAP per recuperare e aggiornare le dimensioni di capacità storage, volumi e LUN.
 * Password "fsxadmin" memorizzata come stringa sicura in AWS SSM Parameter Store per un ulteriore livello di sicurezza.
@@ -84,7 +84,7 @@ NOTE: Copre un singolo filesystem FSX ONTAP.
 Seguire la serie di passaggi per completare l'implementazione automatica di questa soluzione:
 
 .Fase 1: Clonare il repository di GitHub
-[%collapsible]
+[%collapsible%open]
 ====
 Clonare il repository GitHub sul sistema locale:
 
@@ -94,7 +94,7 @@ git clone https://github.com/NetApp/fsxn-monitoring-auto-resizing.git
 ----
 ====
 .Fase 2: Configurare un bucket AWS S3
-[%collapsible]
+[%collapsible%open]
 ====
 . Accedere a AWS Console > *S3* e fare clic su *Create bucket* (Crea bucket). Creare il bucket con le impostazioni predefinite.
 . Una volta all'interno del bucket, fare clic su *carica* > *Aggiungi file* e selezionare *Utilities.zip* dal repository GitHub clonato sul sistema.
@@ -105,7 +105,7 @@ image:fsxn-monitoring-resizing-s3-upload-zip-files.png["Questa immagine mostra l
 
 ====
 .Fase 3: Configurazione SMTP di AWS SES (necessaria se non è disponibile l'accesso a Internet)
-[%collapsible]
+[%collapsible%open]
 ====
 Seguire questa procedura se si desidera implementare la soluzione senza accesso a Internet (Nota: I costi aggiuntivi associati agli endpoint VPC in fase di configurazione).
 
@@ -122,7 +122,7 @@ image:fsxn-monitoring-resizing-ses-smtp-creds-addition.png["Questa immagine most
 
 ====
 .Fase 4: Implementazione di AWS CloudFormation
-[%collapsible]
+[%collapsible%open]
 ====
 . Accedere a AWS Console > *CloudFormation* > Create stack > with New Resources (Standard) (Console AWS > *CloudFormation* > Crea stack > con nuove risorse (Standard).
 +
@@ -176,7 +176,7 @@ NOTE: Supporta il monitoraggio di più file system FSX ONTAP in un unico VPC.
 Seguire la serie di passaggi per completare l'implementazione manuale di questa soluzione:
 
 .Fase 1: Clonare il repository di GitHub
-[%collapsible]
+[%collapsible%open]
 ====
 Clonare il repository GitHub sul sistema locale:
 
@@ -186,7 +186,7 @@ git clone https://github.com/NetApp/fsxn-monitoring-auto-resizing.git
 ----
 ====
 .Fase 2: Configurazione SMTP di AWS SES (necessaria se non è disponibile l'accesso a Internet)
-[%collapsible]
+[%collapsible%open]
 ====
 Seguire questa procedura se si desidera implementare la soluzione senza accesso a Internet (Nota: I costi aggiuntivi associati agli endpoint VPC in fase di configurazione).
 
@@ -199,7 +199,7 @@ image:fsxn-monitoring-resizing-ses-smtp-creds-addition.png["Questa immagine most
 
 ====
 .Fase 3: Creare il parametro SSM per la password fsxadmin
-[%collapsible]
+[%collapsible%open]
 ====
 Accedere a AWS Console > *Parameter Store* e fare clic su *Create Parameter* (Crea parametro).
 
@@ -220,7 +220,7 @@ Eseguire le stesse operazioni per memorizzare il nome utente smtp e la password 
 
 ====
 .Fase 4: Configurazione del servizio e-mail
-[%collapsible]
+[%collapsible%open]
 ====
 Accedere a AWS Console > *Simple Email Service (SES)* e fare clic su *Create Identity* (Crea identità).
 
@@ -237,7 +237,7 @@ image:fsxn-monitoring-resizing-ses.png["Questa immagine mostra la finestra di cr
 
 ====
 .Passaggio 5: Configurazione degli endpoint VPC (necessario se non è disponibile alcun accesso a Internet)
-[%collapsible]
+[%collapsible%open]
 ====
 
 NOTE: Richiesto solo se implementato senza accesso a Internet. Ci saranno costi aggiuntivi associati agli endpoint VPC.
@@ -268,7 +268,7 @@ image:fsxn-monitoring-resizing-vpc-endpoint-create-2.png["Questa immagine mostra
 
 ====
 .Fase 6: Creare e configurare la funzione AWS Lambda
-[%collapsible]
+[%collapsible%open]
 ====
 . Accedere alla console AWS > *AWS Lambda* > *funzioni* e fare clic su *Crea funzione* nella stessa regione di FSX ONTAP
 . Utilizza l'impostazione predefinita *Author from zero* e aggiorna i seguenti campi:

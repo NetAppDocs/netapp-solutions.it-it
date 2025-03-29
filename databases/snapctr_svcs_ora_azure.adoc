@@ -121,7 +121,7 @@ video::48adf2d8-3f5e-4ab3-b25c-b04a014635ac[panopto]
 
 === Prerequisiti per l'implementazione del servizio SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 L'implementazione richiede i seguenti prerequisiti.
 
@@ -136,7 +136,7 @@ L'implementazione richiede i seguenti prerequisiti.
 
 === Preparazione al BlueXP
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Utilizzare il link link:https://console.bluexp.netapp.com/["NetApp BlueXP"] Per iscriversi all'accesso alla console BlueXP.
 . Creare un account utente Azure o un principio di servizio Active Directory e concedere autorizzazioni con ruolo nel portale Azure per la distribuzione di Azure Connector.
@@ -149,7 +149,7 @@ L'implementazione richiede i seguenti prerequisiti.
 
 === Implementare un connettore per i servizi SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Accedi alla console BlueXP.
 +
@@ -198,7 +198,7 @@ image:snapctr_svcs_connector_11-azure.png["Schermata che mostra questo passaggio
 
 === Definisci una credenziale in BlueXP per l'accesso alle risorse di Azure
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Fare clic sull'icona delle impostazioni nell'angolo superiore destro della console BlueXP per aprire la pagina *credenziali account*, fare clic su *Aggiungi credenziali* per avviare il flusso di lavoro di configurazione delle credenziali.
 +
@@ -221,7 +221,7 @@ image:snapctr_svcs_credential_03-azure.png["Schermata che mostra questo passaggi
 
 === Configurazione dei servizi SnapCenter
 
-[%collapsible]
+[%collapsible%open]
 ====
 Con la credenziale Azure configurata, i servizi SnapCenter possono ora essere configurati con le seguenti procedure:
 
@@ -282,7 +282,7 @@ Questa operazione completa la configurazione iniziale dei servizi SnapCenter per
 
 === Backup del database Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Il nostro database Oracle di test in Azure VM è configurato con tre volumi con uno storage totale aggregato di circa 1,6 TiB. Questo fornisce un contesto in cui vengono descritte le tempistiche per il backup, il ripristino e il clone di un database di queste dimensioni.
 
@@ -339,7 +339,7 @@ image:snapctr_svcs_bkup_06-azure.png["Schermata che mostra questo passaggio nell
 
 === Ripristino e ripristino del database Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 . Per il ripristino di un database, fare clic sul menu a discesa a tre punti per il database specifico da ripristinare in *applicazioni*, quindi fare clic su *Ripristina* per avviare il flusso di lavoro di ripristino e ripristino del database.
 +
@@ -372,7 +372,7 @@ image:snapctr_svcs_restore_06-azure.png["Schermata che mostra questo passaggio n
 
 === Clone del database Oracle
 
-[%collapsible]
+[%collapsible%open]
 ====
 Le procedure di clone del database sono simili al ripristino, ma a una VM Azure alternativa con stack software Oracle identico preinstallato e configurato.
 
