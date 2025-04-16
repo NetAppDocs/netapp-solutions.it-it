@@ -96,6 +96,76 @@ Per semplificare la gestione di un ambiente di database di cloud ibrido, NetApp 
 
 La funzionalità di automazione di un controller Ansible può anche essere utilizzata per aumentare il SnapCenter per determinate attività, come la rottura dell'istanza di SnapMirror per attivare la copia dei dati DR per la produzione.
 
-Segui queste istruzioni per configurare il nodo di controllo Ansible per le macchine RedHat o CentOS: Include:_include/Automation_rhel_centos_setup.adoc[]
+Seguire queste istruzioni per configurare il nodo di controllo Ansible per le macchine RedHat o CentOS:
 
-Seguire queste istruzioni per impostare il nodo di controllo Ansible per le macchine Ubuntu o Debian: Include::_include/automation_ubuntu_debian_setup.adoc[]
+. Requisiti per il nodo di controllo Ansible:
++
+.. Una macchina RHEL/CentOS con i seguenti pacchetti installati:
++
+... Pito3
+... Pip3
+... Ansible (versione successiva alla 2.10.0)
+... Git
+
+
+
+
+
+
+Se si dispone di un computer RHEL/CentOS nuovo senza i requisiti sopra indicati, seguire la procedura riportata di seguito per configurare tale computer come nodo di controllo Ansible:
+
+. Abilitare il repository Ansible per RHEL-8/RHEL-7
++
+.. Per RHEL-8 (eseguire il seguente comando come root)
++
+[source, cli]
+----
+subscription-manager repos --enable ansible-2.9-for-rhel-8-x86_64-rpms
+----
+.. Per RHEL-7 (eseguire il seguente comando come root)
++
+[source, cli]
+----
+subscription-manager repos --enable rhel-7-server-ansible-2.9-rpms
+----
+
+
+. Incollare il contenuto riportato di seguito nel terminale
++
+[source, cli]
+----
+sudo yum -y install python3 >> install.log
+sudo yum -y install python3-pip >> install.log
+python3 -W ignore -m pip --disable-pip-version-check install ansible >> install.log
+sudo yum -y install git >> install.log
+----
+
+
+Seguire queste istruzioni per configurare il nodo di controllo Ansible per le macchine Ubuntu o Debian:
+
+. Requisiti per il nodo di controllo Ansible:
++
+.. Una macchina Ubuntu/Debian con i seguenti pacchetti installati:
++
+... Pito3
+... Pip3
+... Ansible (versione successiva alla 2.10.0)
+... Git
+
+
+
+
+
+
+Se si dispone di una nuova macchina Ubuntu/Debian senza i requisiti di cui sopra, seguire la procedura riportata di seguito per impostare la macchina come nodo di controllo Ansible:
+
+. Incollare il contenuto riportato di seguito nel terminale
++
+[source, cli]
+----
+sudo apt-get -y install python3 >> outputlog.txt
+sudo apt-get -y install python3-pip >> outputlog.txt
+python3 -W ignore -m pip --disable-pip-version-check install ansible >> outputlog.txt
+sudo apt-get -y install git >> outputlog.txt
+----
+
