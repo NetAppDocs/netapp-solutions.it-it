@@ -14,7 +14,7 @@ summary: Questo documento documenta la replica bidirezionale sincrona della tecn
 
 
 [role="lead"]
-Questo documento documenta la replica bidirezionale sincrona della tecnologia di sincronizzazione attiva SnapMirror tra Microsoft estende i cluster di failover, consentendo ai dati delle applicazioni multisito, ad esempio MSSQL e Oracle, di essere attivamente accessibili e sincronizzati tra entrambi i siti.
+Questo documento documenta la replica bidirezionale sincrona della tecnologia di sincronizzazione attiva SnapMirror tra i cluster di failover Microsoft stretch, consentendo ai dati delle applicazioni multisito, ad esempio MSSQL e Oracle, di essere attivamente accessibili e sincronizzati tra entrambi i siti.
 
 
 
@@ -28,7 +28,7 @@ A partire da ONTAP 9.15,1, SnapMirror Active Sync supporta implementazioni Activ
 * Migliora le performance: Utilizza la configurazione Active/Active simmetrica per distribuire il carico su più sistemi storage, migliorando i tempi di risposta e le performance generali del sistema.
 
 
-Questo documento documenta la replica bidirezionale sincrona della tecnologia di sincronizzazione attiva SnapMirror tra Microsoft estende i cluster di failover, consentendo ai dati delle applicazioni multisito, ad esempio MSSQL e Oracle, di essere attivamente accessibili e sincronizzati tra entrambi i siti. In caso di guasto, le applicazioni vengono reindirizzate immediatamente al sito attivo rimanente, senza perdita di dati e senza perdita di accesso, fornendo disponibilità elevata, disaster recovery e ridondanza geografica.
+Questo documento documenta la replica bidirezionale sincrona della tecnologia di sincronizzazione attiva SnapMirror tra i cluster di failover Microsoft stretch, consentendo ai dati delle applicazioni multisito, ad esempio MSSQL e Oracle, di essere attivamente accessibili e sincronizzati tra entrambi i siti. In caso di guasto, le applicazioni vengono reindirizzate immediatamente al sito attivo rimanente, senza perdita di dati e senza perdita di accesso, fornendo disponibilità elevata, disaster recovery e ridondanza geografica.
 
 
 
@@ -39,7 +39,7 @@ In caso di interruzioni come attacchi informatici, interruzioni di corrente o di
 SnapMirror Active Sync offre i seguenti casi d'utilizzo:
 
 .Implementazione dell'applicazione per RTO (Zero Recovery Time Object)
-In una distribuzione SnapMirror Active Sync, hai un cluster primario e un cluster mirror. Una LUN nel cluster primario ( \L1P) ha un mirror (L1S) sul secondario; le letture e le scritture sono fornite dal sito locale agli host in base alle impostazioni di prossimità a caldo.
+In una distribuzione SnapMirror Active Sync, hai un cluster primario e un cluster mirror. Una LUN nel cluster primario (L1P) ha un mirror (L1S) sul secondario; le letture e le scritture sono servite dal sito locale agli host in base alle impostazioni di prossimità a caldo.
 
 .Implementazione dell'applicazione per RTO o TAF zero
 Il transparent Application failover (TAF) si basa sul failover del percorso basato sul software MPIO dell'host per ottenere un accesso senza interruzioni allo storage. Entrambe le copie LUN, ad esempio quella primaria (L1P) e quella mirror (L1S), hanno la stessa identità (numero di serie) e vengono riportate come scrivibili in lettura sull'host.
@@ -57,12 +57,12 @@ SnapMirror Active Sync offre flessibilità con una granularità a livello di app
 
 == Architettura della soluzione
 
-Il cluster stretch di failover Microsoft ha due nodi Hyper-V su ciascun sito. Questi due nodi condividono lo storage NetApp e utilizzano la sincronizzazione Active-Active simmetrica Active di SnapMirror per replicare i volumi tra i due siti. Un gruppo di coerenza garantisce che tutti i volumi di un set di dati siano inattivi e quindi schioccati esattamente nello stesso momento. In questo modo, si otterrà un punto di ripristino coerente con i dati nei volumi che supportano il set di dati. Il mediatore ONTAP riceve informazioni sullo stato di salute dei cluster e dei nodi ONTAP sottoposti a peering, orchestrando tra i due e determinando l'integrità e il funzionamento di ciascun nodo/cluster.
+Il cluster stretch di Microsoft dispone di due nodi Hyper-V su ciascun sito. Questi due nodi condividono lo storage NetApp e utilizzano la sincronizzazione Active-Active simmetrica Active di SnapMirror per replicare i volumi tra i due siti. Un gruppo di coerenza garantisce che tutti i volumi di un set di dati siano inattivi e quindi schioccati esattamente nello stesso momento. In questo modo, si otterrà un punto di ripristino coerente con i dati nei volumi che supportano il set di dati. Il mediatore ONTAP riceve informazioni sullo stato di salute dei cluster e dei nodi ONTAP sottoposti a peering, orchestrando tra i due e determinando l'integrità e il funzionamento di ciascun nodo/cluster.
 
 Componenti della soluzione:
 
 * Due sistemi di storage NetApp ONTAP 9.15,1: Primo e secondo dominio di errore
-* Rethat 8,7 VM per ONTAP mediator
+* Un mediatore Redhat 8,7 VM per ONTAP
 * Tre cluster di failover Hyper-V in Windows 2022:
 +
 ** site1, sito 2 per le applicazioni
@@ -82,7 +82,7 @@ image:hyperv-smas-image1.png["Figura che mostra la finestra di dialogo input/out
 
 Ecco una guida dettagliata alla configurazione di Windows Stretch Cluster:
 
-. Installare Windows 2022 su tutti e quattro i server hyperv1, hyperv2, hyperv3 e hyperv4
+. Installare Windows 2022 su tutti e quattro i server hyperv1, hyperv2, hyperv3 e hyperv4.
 . Collegare tutti e quattro i server allo stesso dominio Active Directory: hyperv.local.
 . Installare le funzioni di Windows failover-clustering, Hyper-V, Hyper-V_PowerShell e MPIO su ciascun server.
 +
@@ -147,7 +147,7 @@ image:hyperv-smas-image7.png["Figura che mostra la finestra di dialogo input/out
 
 Il mediatore ONTAP riceve informazioni sullo stato di salute dei cluster e dei nodi ONTAP sottoposti a peering, orchestrando tra i due e determinando l'integrità e il funzionamento di ciascun nodo/cluster. SM-AS consente di replicare i dati nella destinazione non appena vengono scritti nel volume di origine. Il mediatore deve essere distribuito nel terzo dominio di errore. Prerequisiti
 
-* Specifiche HW: 8GB GB di RAM, 2 CPU da 2 GHz, 1Gb GB di rete (<125ms RTT)
+* Specifiche HW: 8GB GB di RAM, 2 CPU da 2 GHz, 1Gb GB di rete (<125ms RTT).
 * Installato sistema operativo Red Hat 8,7, controllare link:https://docs.netapp.com/us-en/ontap/mediator/index.html["Versione ONTAP Mediator e versione Linux supportata"].
 * Configurare l'host Mediator Linux: Configurazione della rete e porte firewall 31784 e 3260
 * Installare il pacchetto yum-utils
@@ -247,7 +247,7 @@ Si consiglia di eseguire test di failover pianificati per eseguire un controllo 
 I requisiti del cluster di failover di Hyper-V includono:
 
 * La relazione di sincronizzazione attiva di SnapMirror deve essere sincronizzata.
-* Non è possibile avviare un failover pianificato quando è in corso un'operazione senza interruzioni. Le operazioni senza interruzioni includono spostamenti dei volumi, spostamenti degli aggregati e failover dello storage.
+* Impossibile avviare un failover pianificato quando è in corso un'operazione senza interruzioni. Le operazioni senza interruzioni includono spostamenti dei volumi, spostamenti degli aggregati e failover dello storage.
 * Il mediatore ONTAP deve essere configurato, connesso e in quorum.
 * Almeno due nodi cluster Hyper-V su ciascun sito con processori CPU appartengono alla stessa famiglia di CPU per ottimizzare il processo di migrazione delle VM. Le CPU devono essere CPU con supporto per la virtualizzazione assistita da hardware e la protezione esecuzione programmi (DEP) basata su hardware.
 * I nodi cluster di Hyper-V devono essere gli stessi membri di Active Directory Domain per garantire la resilienza.
@@ -269,7 +269,6 @@ image:hyperv-smas-image13.png["Figura che mostra la finestra di dialogo input/ou
 
 
 .Guasto dello storage in un singolo sito
-* Volumi offline azione: cluster1::> volume offline vol1 risultati attesi: ONTAP rileverà il volume del sito primario offline, il cluster comunicherà con il mediatore e rileverà lo stato dello storage. L'Hyper-V del sito primario comunica con il volume di storage del sito di mirroring per ottenere un RPO pari a zero e un RTO pari a zero.
 * Interruzione di una SVM sul sito primario azione: Interruzione dei risultati attesi di SVM iSCSI: Il cluster primario Hyper-v si è già connesso al sito mirror e con la sincronizzazione attiva/simmetrica Active-Active di SnapMirror senza impatto dei workload con RPO pari a zero e RTO pari a zero.
 
 
