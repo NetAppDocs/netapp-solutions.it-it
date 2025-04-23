@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: hyperv/hyperv-smas.html 
 keywords: hyperv, hyper-v, snapmirror, active, sync, stretch, cluster, netapp, virtualization 
-summary: Questo documento documenta la replica bidirezionale sincrona della tecnologia di sincronizzazione attiva SnapMirror tra Microsoft estende i cluster di failover, consentendo ai dati delle applicazioni multisito, ad esempio MSSQL e Oracle, di essere attivamente accessibili e sincronizzati tra entrambi i siti. 
+summary: Questo documento documenta la replica bidirezionale sincrona della tecnologia di sincronizzazione attiva SnapMirror tra i cluster stretch di Microsoft, consentendo ai dati delle applicazioni multisito, ad esempio MSSQL e Oracle, di essere attivamente accessibili e sincronizzati tra entrambi i siti. 
 ---
 = Sincronizzazione attiva di SnapMirror con cluster Microsoft Stretch
 :hardbreaks:
@@ -269,7 +269,7 @@ image:hyperv-smas-image13.png["Figura che mostra la finestra di dialogo input/ou
 
 
 .Guasto dello storage in un singolo sito
-* Interruzione di una SVM sul sito primario azione: Interruzione dei risultati attesi di SVM iSCSI: Il cluster primario Hyper-v si è già connesso al sito mirror e con la sincronizzazione attiva/simmetrica Active-Active di SnapMirror senza impatto dei workload con RPO pari a zero e RTO pari a zero.
+* Interruzione di una SVM sul sito primario azione: Interruzione dei risultati attesi della SVM iSCSI: Il cluster primario Hyper-V si è già connesso al sito mirror e con la sincronizzazione attiva/simmetrica Active-Active di SnapMirror senza impatto dei workload con RPO pari a zero e RTO pari a zero.
 
 
 .Criteri di successo
@@ -288,4 +288,4 @@ Durante le prove, osservare quanto segue:
 
 == Riepilogo
 
-La sincronizzazione attiva di SnapMirror può aiutare i dati delle applicazioni multisito, ad esempio MSSQL e Oracle ad essere attivamente accessibili e sincronizzati tra entrambi i siti. In caso di errore, le applicazioni vengono reindirizzate immediatamente al sito attivo rimanente, senza perdita di dati e senza perdita di accesso.
+La sincronizzazione attiva di SnapMirror può aiutare i dati delle applicazioni multi-sito, ad esempio MSSQL e Oracle ad essere attivamente accessibili e sincronizzati tra entrambi i siti. In caso di errore, le applicazioni vengono reindirizzate immediatamente al sito attivo rimanente, senza perdita di dati e senza perdita di accesso.
