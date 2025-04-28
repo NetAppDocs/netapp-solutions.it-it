@@ -33,60 +33,20 @@ Esamineremo anche la connessione alla macchina virtuale utilizzando le credenzia
 * link:https://console.redhat.com/openshift/downloads["Interfaccia a riga di comando OpenShift"] (oc)
 * link:https://docs.aws.amazon.com/eks/latest/userguide/helm.html["Documentazione di Helm 3"]
 * link:https://docs.openshift.com/rosa/rosa_hcp/rosa-hcp-sts-creating-a-cluster-quickly.html["UN CLUSTER HCP ROSA"] (con almeno 3 nodi di lavoro bare-metal)
-* link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/virtualization/installing#virt-aws-bm_preparing-cluster-for-virt["OpenShift Virtualization installato su ROSA Cluster"]
 * link:https://console.redhat.com/openshift/overview["Accesso alla console web Red Hat OpenShift"]
-* Trident 25,02 o versioni successive a partire dalla release Trident 25,02, puoi facilmente preparare i nodi di lavoro del cluster ROSA (o qualsiasi cluster OpenShift) per eseguire operazioni iSCSI sullo storage FSxN. Esistono 2 semplici modi per installare Trident 25,02 (o versione successiva) che automatizzano la preparazione del nodo di lavoro per iSCSI.
-+
-.. utilizzo del node-prep-flag dalla riga di comando utilizzando lo strumento tridentctl.
-.. Utilizzo dell'operatore Trident certificato Red Hat dall'hub dell'operatore e personalizzazione.
-.. Utilizzo di Helm
+* Trident 25,02 o versione successiva
+* link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/virtualization/installing#virt-aws-bm_preparing-cluster-for-virt["OpenShift Virtualization installato su ROSA Cluster"]
 
 
-
-
-**Metodo 1: Utilizzare l'attrezzo tridentctl**
-
-Utilizza il flag node-prep e installa Trident come mostrato. Prima di inviare il comando install, è necessario aver scaricato il pacchetto del programma di installazione. Fare riferimento alla link:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-tridentctl.html#step-1-download-the-trident-installer-package["la documentazione qui"].
-
-[source, yaml]
-----
-#./tridentctl install trident -n trident --node-prep=iscsi
-----
-**Metodo 2: Utilizzare l'operatore Trident certificato Red Hat e personalizzare** dal OperatorHub, individuare l'operatore Trident certificato Red Hat e installarlo.
-
-image:rh-os-n_use_case_operator_img1.png["Operatore nel mozzo operatore"]
-
-image:rh-os-n_use_case_operator_img2.png["Installare l'operatore 1"]
-
-image:rh-os-n_use_case_operator_img3.png["Installare l'operatore 2"]
-
-image:rh-os-n_use_case_operator_img4.png["operatore installato"]
-
-Quindi, creare l'istanza di Trident Orchestrator. Utilizzare la vista YAML per impostare valori personalizzati o abilitare la preparazione del nodo iscsi durante l'installazione.
-
-image:rh-os-n_use_case_operator_img5.png["creazione di orchestrator"]
-
-image:rh-os-n_use_case_operator_img6.png["Attivare NodePrep"]
-
-image:rh-os-n_use_case_operator_img7.png["orchestrator installato"]
-
-image:rh-os-n_use_case_operator_img8.png["Trident installato"]
-
-L'installazione di Trident con uno qualsiasi dei metodi sopra indicati preparerà i nodi di lavoro del cluster ROSA per iSCSI avviando i servizi iscsid e multipathd e impostando quanto segue nel file /etc/multipath.conf
-
-image:rh-os-n_use_case_iscsi_node_prep1.png["iscsid attivo"]
-
-image:rh-os-n_use_case_iscsi_node_prep2.png["multipathd attivo"]
-
-image:rh-os-n_use_case_iscsi_node_prep3.png["file multipath.conf"]
+A partire dalla release di Trident 25,02, è possibile preparare facilmente i nodi di lavoro del cluster ROSA (o qualsiasi cluster OpenShift) per eseguire operazioni iSCSI sullo storage FSxN. Esistono 2 semplici modi per installare Trident 25,02 (o versione successiva) che automatizzano la preparazione del nodo di lavoro per iSCSI. Prima di installare la virtualizzazione OpenShift, è necessario aver già creato gli oggetti back-end Trident, la classe di storage e la classe snapshot del volume e impostarli come predefiniti. Per ulteriori dettagli, fare riferimento alla link:rh-os-n_use_case_openshift_virtualization_trident_install.html["Sezione di installazione di Trident"].
 
 
 
 == Setup iniziale
 
-In questa sezione viene illustrato come configurare il backend Trident e la classe di storage predefinita e VolumeSnapshotClass predefinita. Viene quindi illustrato come creare una macchina virtuale da un modello, quindi connettersi e accedere a tale macchina utilizzando le credenziali guest.
+Impostare il backend Trident, la classe di storage e VolumeSnapshotClass. Per ulteriori dettagli, fare riferimento alla link:rh-os-n_use_case_openshift_virtualization_trident_install.html["Sezione di installazione di Trident"].
 
-Utilizzare quanto segue per creare un oggetto backend Trident
+Esempio di yaml per creare un oggetto backend Trident
 
 [source, yaml]
 ----
@@ -138,16 +98,8 @@ deletionPolicy: Retain
 #oc create -f sc.yaml
 #oc create -f snapshot-class.yaml
 ----
-È possibile impostare la classe storage e la classe volumeSnapshot create in precedenza come valori predefiniti dalla console o dalla riga di comando
+Prima di installare OpenShift Virtualization, verificare che la classe di storage e la classe di snapshot del volume siano configurate come valori predefiniti. Per informazioni dettagliate su come impostare le impostazioni predefinite, , è possibile fare riferimento alla link:rh-os-n_use_case_openshift_virtualization_trident_install.html["Impostazione delle impostazioni predefinite con la sezione archiviazione Trident e Classe Snapshot"]per ulteriori dettagli.
 
-[source]
-----
-$ oc patch storageclass trident-csi -p '{"metadata": {"annotations": {"storageclass.kubernetes.io/is-default-class": "true"}}}'
-----
-[source]
-----
-$ oc patch VolumeSnapshotClasses fsx-snapclass -p '{"metadata": {"annotations": {"snapshot.storage.kubernetes.io/is-default-class": "true"}}}'
-----
 Assicurarsi che la classe di archiviazione predefinita sia impostata su Trident-csi image:redhat_openshift_ocpv_rosa_image1.png["Classe di archiviazione predefinita OCP-v."]
 
 Assicurarsi che VolumeSnapShotClasses predefinito sia impostato come illustrato image:redhat_openshift_ocpv_rosa_image2.png["Classe VolumeSnapshot predefinita di OCP-v"]

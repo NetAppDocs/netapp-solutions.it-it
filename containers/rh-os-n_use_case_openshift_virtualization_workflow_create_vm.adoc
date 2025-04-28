@@ -14,7 +14,7 @@ summary: Virtualizzazione Red Hat OpenShift con NetApp ONTAP
 
 
 [role="lead"]
-In questa sezione viene descritto come creare una macchina virtuale con Red Hat OpenShift Virtualization.
+In questa sezione viene descritto come creare una macchina virtuale con Red Hat OpenShift Virtualization. Come prerequisito, sarebbe necessario aver già creato il back-end Trident, la classe storage e gli oggetti di classe snapshot del volume. Per ulteriori dettagli, fare riferimento alla link:rh-os-n_use_case_openshift_virtualization_trident_install.html["Sezione di installazione di Trident"].
 
 
 
@@ -38,7 +38,7 @@ La macchina virtuale viene creata e avviata e passa allo stato *in esecuzione*. 
 Per configurare la classe di archiviazione ONTAP-san sul cluster, vedere link:rh-os-n_use_case_openshift_virtualization_workflow_vm_migration_using_mtv.html["Sezione per la migrazione di una macchina virtuale da VMware a OpenShift Virtualization"].
 
 
-NOTE: È possibile configurare ONTAP NAS o iSCSI come classe di archiviazione predefinita per il cluster. Facendo clic su Quick create VirtualMachine verrà utilizzata la classe di archiviazione predefinita per creare PVC e PV per il disco root avviabile per la VM. Se la classe di storage predefinita non è ontap-nas o ontap-san, è possibile selezionare la classe di storage per il disco, selezionando Customize VirtualMachine > Customize VirtualMachine parameters > Disks e quindi modificando il disco in modo da utilizzare la classe di storage richiesta.
+NOTE: Facendo clic su Quick create VirtualMachine verrà utilizzata la classe di archiviazione predefinita per creare PVC e PV per il disco root avviabile per la VM. È possibile selezionare una classe di archiviazione diversa per il disco, selezionando Customize VirtualMachine > Customize VirtualMachine parameters > Disks e quindi modificando il disco in modo da utilizzare la classe di archiviazione richiesta.
 
 In genere è preferibile la modalità di accesso ai blocchi rispetto ai file system durante il provisioning dei dischi della VM.
 
