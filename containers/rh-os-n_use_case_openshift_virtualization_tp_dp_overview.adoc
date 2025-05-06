@@ -33,6 +33,10 @@ Trident Protect permette snapshot, backup, ripristino e disaster recovery di app
 * link:https://docs.netapp.com/us-en/ontap/["ONTAP 9,16"]
 
 
+
+
+== Crea App Vault per lo storage a oggetti
+
 .Crea AppVault
 [%collapsible%open]
 ====
@@ -99,6 +103,10 @@ spec:
 image:rh-os-n_use_case_ocpv_tp_dp_8.png["ONTAP S3 Appvault creato"]
 
 ====
+
+
+== Crea una macchina virtuale con OpenShift Virtualization
+
 .Crea una macchina virtuale con OpenShift Virtualization
 [%collapsible%open]
 ====
@@ -122,6 +130,10 @@ image:rh-os-n_use_case_ocpv_tp_dp_6.png["disco aggiunto"]
 image:rh-os-n_use_case_ocpv_tp_dp_7.png["creazione di vm, pod e pvc"]
 
 ====
+
+
+== Creare un'applicazione
+
 .Crea app
 [%collapsible%open]
 ====
@@ -149,6 +161,10 @@ spec:
 image:rh-os-n_use_case_ocpv_tp_dp_9.png["App creata"]
 
 ====
+
+
+== Proteggere l'app creando un backup
+
 .Creare backup
 [%collapsible%open]
 ====
@@ -199,6 +215,10 @@ image:rh-os-n_use_case_ocpv_tp_dp_16.png["Pianificazione backup creata"]
 image:rh-os-n_use_case_ocpv_tp_dp_17.png["Backup creati on-demand e on-Schedule"]
 
 ====
+
+
+== Ripristina da backup
+
 .Ripristino da backup
 [%collapsible%open]
 ====
@@ -279,6 +299,10 @@ Verifica che VM, pod e pvc siano creati nel nuovo namespace demo2.
 image:rh-os-n_use_case_ocpv_tp_dp_23.png["VM nel nuovo namespace"]
 
 ====
+
+
+== Proteggere l'app utilizzando le istantanee
+
 .Creare istantanee
 [%collapsible%open]
 ====
@@ -347,6 +371,10 @@ image:rh-os-n_use_case_ocpv_tp_dp_25.png["pianificazione delle snapshot"]
 image:rh-os-n_use_case_ocpv_tp_dp_26.png["snapshot pianificata"]
 
 ====
+
+
+== Ripristino da Snapshot
+
 .Ripristino da Snapshot
 [%collapsible%open]
 ====
@@ -425,6 +453,10 @@ Verificare che la macchina virtuale e i relativi PVC siano ripristinati nel nuov
 image:rh-os-n_use_case_ocpv_tp_dp_32.png["VM ripristinata in un nuovo namespace"]
 
 ====
+
+
+== Ripristino di una VM specifica
+
 .Selezione di macchine virtuali specifiche in uno spazio dei nomi per creare snapshot/backup e ripristino
 [%collapsible%open]
 ====
@@ -514,3 +546,11 @@ image:rh-os-n_use_case_ocpv_tp_dp_37.png["creare un bir centos vm"]
 image:rh-os-n_use_case_ocpv_tp_dp_38.png["centos vm creato"]
 
 ====
+
+
+== Dimostrazione video
+
+Il video seguente mostra una dimostrazione di protezione di una macchina virtuale tramite Snapshot
+
+.Protezione di una VM
+video::4670e188-3d67-4207-84c5-b2d500f934a0[panopto,width=360]
