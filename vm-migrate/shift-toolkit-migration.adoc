@@ -1,0 +1,127 @@
+---
+sidebar: sidebar 
+permalink: vm-migrate/shift-toolkit-migration.html 
+keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, hyper-v, proxmox 
+summary:  
+---
+= Utilizzo di Shift Toolkit per eseguire la migrazione delle macchine virtuali
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+In questa sezione viene descritto come eseguire la migrazione delle macchine virtuali utilizzando Shift Toolkit.
+
+
+
+== Migrazione
+
+Una volta creato il progetto, è possibile utilizzare l'opzione "Migrate" (Migra). Durante l'opzione di migrazione, shift toolkit esegue una serie di passaggi per convertire il formato del disco e utilizzare il disco convertito per creare macchine virtuali sull'host Hyper-V come definito nel Blueprint.
+
+Le fasi di alto livello eseguite sono le seguenti:
+
+Prerequisito: Prima di iniziare la migrazione, assicurarsi che le macchine virtuali (VM) siano regolarmente spente, sia che la migrazione sia ad-hoc o programmata in base al tempo di manutenzione pianificato. Verificare che le VM siano completamente chiuse; se il sistema operativo è in attesa di aggiornamenti, attivare la migrazione solo dopo che le VM sono state completamente chiuse.
+
+* Eliminare le istantanee esistenti per tutte le VM nel BluePrint
+* Attiva snapshot VM per Blueprint – all'origine
+* Attiva lo snapshot del volume prima della conversione del disco
+* Clona e converti VMDK in formato VHDx per tutte le macchine virtuali
+* Accendere le macchine virtuali nel gruppo di protezione, alla destinazione
+* Registrare le reti su ciascuna macchina virtuale
+* Rimuovere gli strumenti VMware e assegnare gli indirizzi IP utilizzando lo script trigger o il processo cron a seconda del tipo di sistema operativo
+
+
+
+
+=== Fattori da considerare
+
+Prima di iniziare la migrazione, assicurarsi che tutti i prerequisiti siano soddisfatti (descritti in dettaglio nella presente sezione dei prerequisiti del presente documento). Ecco una rapida lista di controllo per un riepilogo:
+
+* Verificare che Shift VM faccia parte del dominio
+* Assicurarsi che la condivisione CIFS sia configurata con autorizzazioni appropriate
+* Il qtree utilizzato per la migrazione o la conversione ha il giusto stile di sicurezza
+* Come test rapido, provare a creare una macchina virtuale utilizzando Hyper-V Manager da uno qualsiasi degli host Hyper-V nel cluster e posizionare VHDX nella condivisione CIFS (indicata nel punto — a). Provate la stessa soluzione offerta dalla VM del toolkit Shift aggiungendo gli strumenti di gestione Hyper-V (tramite "programmi e funzionalità" o utilizzando "PowerShell" - add-windowsfeature rsat-Hyper-v-tools)
+
+
+
+NOTE: In caso di guasti, link:https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/manage/remotely-manage-hyper-v-hosts["abilitare la delega utilizzando qualsiasi protocollo di autenticazione"].
+
+
+
+=== Suggerimenti e considerazioni sulla rete
+
+È necessario tenere in considerazione le seguenti considerazioni sulla rete:
+
+* Verificare che gli indirizzi IP statici siano disponibili e non assegnati a un'altra macchina virtuale
+
+
+Per macchine virtuali Windows:
+
+* Lo script di preparazione crea una copia dei dettagli della configurazione di rete (spazio indirizzi IP, indirizzo gateway, server DNS) e lo script di attivazione (durante la migrazione) riapplicherà le impostazioni di rete, sia che si tratti di una singola NIC o di più NIC in base alla mappatura di mappa.
+* Dopo la migrazione, Gestione dispositivi di Windows potrebbe ancora visualizzare le informazioni della vecchia scheda di rete dalla pre-migrazione. Sebbene ciò non influisca sulla nuova scheda di rete creata dopo la migrazione e non causi conflitti IP, allo stato attuale lo script non elimina la vecchia registrazione, quindi rimane visibile.
+
+
+Per VM Linux:
+
+* Lo script di preparazione crea una copia dei dettagli di configurazione della rete (spazio degli indirizzi IP, route, server DNS, nomi dei dispositivi di rete) e, a seconda della distribuzione Linux, identifica il tipo di rete utilizzato e applica le impostazioni IP. Lo script di riassegnazione della rete viene impostato come job cron usando crontab e attivato all'avvio. Ad esempio, il cronjob eseguirà lo script (dopo la migrazione) sull'istanza per riapplicare le impostazioni di rete, sia che si tratti di una singola NIC o di più NIC basate sulla mappatura del Blueprint.
+* In alcuni scenari, le macchine virtuali Hyper-V convertite avranno nomi di interfaccia come eth0 o eth1 invece di ens192 o 33, che si trovava sul lato di origine. In questo caso, lo script aggiornerà i dettagli della configurazione di rete in modo che corrispondano ai nuovi nomi dell'interfaccia. Se vengono utilizzati nomi prevedibili (come i sistemi moderni) e il nome dell'interfaccia viene mantenuto sul lato Hyper-V, lo script salterà il lato della rete e rimuoverà solo gli strumenti VMware, quindi riavvierà la macchina virtuale.
+* Shift toolkit attualmente supporta i meccanismi NetworkManager, Netplan e ifconfig e mantiene l'IP come specificato nel Blueprint.
+
+
+
+
+=== Fasi e Opzioni
+
+Di seguito sono riportate le fasi e le opzioni principali del processo di migrazione.
+
+. Preparazione della VM – preparare le VM per la migrazione, in modo che tutti i prerequisiti siano stati completati in modo completo.
+. Migrazione - una volta completata la preparazione, selezionare ed eseguire la migrazione delle macchine virtuali VMware a Hyper-V. al termine della migrazione, verificare che le macchine virtuali siano state avviate correttamente e che i dati siano stati migrati correttamente.
+. Migrazione di test - la migrazione di test simula la migrazione convertendo VMDK in VHDX e creando una macchina virtuale Hyper-V utilizzando il file VHDX convertito che risiede nella condivisione SMB. La migrazione di prova non consente la configurazione della mappatura di rete; questa attività dovrebbe essere eseguita in genere manualmente su una rete a bolle d'aria.
+. Riprova migrazione – se la migrazione non riesce, il toolkit Shift fornisce un'opzione per riprovare. Questa funzionalità consente al processo di migrazione di riprendere dal punto di errore. Prima di riprovare l'operazione, è importante rivedere e correggere eventuali messaggi di errore.
+
+
+
+NOTE: Il toolkit Shift non altera la VM di origine, ad eccezione della copia degli script necessari per la preparazione della VM. Ciò consente un rapido rollback in caso di errori di conversione.
+
+Per attivare il flusso di lavoro Migrate con la configurazione specificata in Blueprint, fare clic su Migrate.
+
+image:shift-toolkit-image50.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
+
+Una volta avviato, il flusso di lavoro si attiva e il processo di conversione segue i passaggi descritti per registrare la VM. Se le VM all'interno del BluePrint non sono spente, il kit di strumenti Shift richiederà un arresto regolare prima di procedere.
+
+image:shift-toolkit-image51.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
+
+
+NOTE: Si consiglia di non eseguire più di dieci conversioni in parallelo dalla stessa origine ESXi alla stessa destinazione Hyper-V.
+
+image:shift-toolkit-image52.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
+
+La conversione di VMDK in VHDx avviene in pochi secondi, il che rende questo approccio il più veloce tra tutte le opzioni disponibili a un costo aggiuntivo. Questo aiuta anche a ridurre il downtime delle macchine virtuali durante la migrazione.
+
+image:shift-toolkit-image53.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
+
+Una volta completato il processo, lo stato del progetto passa a "migrazione completata".
+
+image:shift-toolkit-image54.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
+
+Una volta completata la migrazione, è il momento di validare le macchine virtuali su un lato Hyper-V. Lo screenshot seguente mostra le macchine virtuali in esecuzione sull'host Hyper-V specificato durante la creazione del BluePrint.
+
+image:shift-toolkit-image55.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
+
+
+NOTE: Shift toolkit usa cron job che viene eseguito all'avvio. Non sono state create connessioni ssh o equivalenti per macchine virtuali basate su Linux una volta acquistate le macchine virtuali sugli host Hyper-V.
+
+image:shift-toolkit-image56.png["Figura che mostra la finestra di dialogo input/output o rappresenta il contenuto scritto"]
+
+
+NOTE: Per le macchine virtuali Windows, shift toolkit utilizza PowerShell Direct per la connessione a queste macchine virtuali guest basate su Windows. PowerShell Direct consente la connessione a macchine virtuali guest basate su Windows indipendentemente dalla configurazione di rete o dalle impostazioni di gestione remota.
+
+
+NOTE: Dopo la conversione, tutti i dischi VM sul sistema operativo Windows, ad eccezione del disco del sistema operativo, saranno offline. Questo perché il parametro NewDiskPolicy è impostato su offlineALL sulle macchine virtuali VMware per impostazione predefinita. Il problema è causato dal criterio SAN predefinito di Microsoft Windows. Questo criterio è progettato per impedire l'attivazione dei LUN all'avvio di Windows Server se vi si accede da più server. Questa operazione viene eseguita per evitare potenziali problemi di danneggiamento dei dati. Questo può essere gestito eseguendo un comando PowerShell: Set-StorageSetting -NewDiskPolicy OnlineAll
+
+
+NOTE: Utilizzare più volumi per lo staging delle macchine virtuali, il che significa che le macchine virtuali devono essere trasferite in volumi diversi, in base alle esigenze. Se il gruppo di risorse include macchine virtuali con VMDK di grandi dimensioni, distribuirle in volumi diversi per la conversione. Questo approccio aiuta a prevenire gli errori di snapshot busy, eseguendo operazioni di cloning su volumi separati in parallelo, mentre il clone split avviene in background.
