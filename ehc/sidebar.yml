@@ -22,24 +22,32 @@ entries:
       url: "/ehc/azure-setup.html"
     - title: Configurare GCVE per GCP
       url: "/ehc/gcp-setup.html"
-  - title: Storage NetApp nei cloud hyperscaler
+  - title: Storage NetApp nei cloud pubblici
     entries:
     - title: Introduzione
       url: "/ehc/ehc-datastore-intro.html"
-    - title: Datastore NFS supplementare per VMC
+    - title: Opzioni di storage per VMS in AWS
+      url: "/ehc/aws-storage-options.html"
+    - title: Datastore NFS supplementare per VMC (panoramica)
       url: "/ehc/aws-native-overview.html"
+    - title: Creazione di un datastore NFS supplementare in AWS
+      url: "/ehc/aws-native-nfs-datastore-option.html"
     - title: Storage guest connesso per VMC
       url: "/ehc/aws-guest.html"
-    - title: Archivio dati NFS supplementare per AVS
+    - title: Opzioni di storage per AVS in Azure
+      url: "/ehc/azure-storage-options.html"
+    - title: Datastore NFS supplementare per AVS (panoramica)
       url: "/ehc/azure-native-overview.html"
+    - title: Creazione di un datastore NFS supplementare in Azure
+      url: "/ehc/azure-native-nfs-datastore-option.html"
     - title: Storage guest connesso per AVS
       url: "/ehc/azure-guest.html"
+    - title: Opzioni di archiviazione per GCVE in Google Cloud
+      url: "/ehc/gcp-storage-options.html"
     - title: Archivio dati NFS supplementare per GCVE
       url: "/ehc/gcp-ncvs-datastore.html"
     - title: Storage connesso guest per GCVE
       url: "/ehc/gcp-guest.html"
-    - title: Supporto regionale per datastore NFS
-      url: "/ehc/ehc-regions.html"
   - title: Riepilogo e conclusione
     url: "/ehc/ehc-summary.html"
 - title: Casi di utilizzo di VMware Hybrid Cloud
@@ -47,6 +55,8 @@ entries:
   entries:
   - title: Panoramica del caso d'utilizzo
     url: "/ehc/ehc-use-cases.html"
+  - title: Panoramica delle soluzioni
+    url: "/ehc/ehc-solutions.html"
   - title: Soluzioni per AWS/VMC
     url: "/ehc/aws-solutions.html"
   - title: Soluzioni per Azure / AVS
@@ -81,8 +91,6 @@ entries:
       pdf-filename: Migrazione dei carichi di lavoro nel datastore FSX ONTAP utilizzando
         VMware HCX
       url: "/ehc/aws-migrate-vmware-hcx.html"
-  - title: Supporto regionale per datastore NFS
-    url: "/ehc/aws-regions.html"
 - title: NetApp per Azure/AVS
   entries:
   - title: Panoramica
@@ -110,8 +118,6 @@ entries:
       pdf-filename: Migrazione dei carichi di lavoro nel datastore ANF con VMware
         HCX
       url: "/ehc/azure-migrate-vmware-hcx.html"
-  - title: Supporto regionale per datastore NFS
-    url: "/ehc/azure-regions.html"
 - title: NetApp per GCP/GCVE
   entries:
   - title: Panoramica
@@ -142,8 +148,48 @@ entries:
       pdf-filename: Migra i carichi di lavoro VM nel datastore NFS di Google Cloud
         NetApp Volumes usando la replica Veeam
       url: "/ehc/gcp-migrate-veeam.html"
-  - title: Supporto regionale per datastore NFS NetApp Volumes
-    url: "/ehc/gcp-regions.html"
+  - title: Panoramica sulla sicurezza - Google Cloud NetApp Volumes (GCNV) in Google
+      Cloud
+    entries:
+    - title: Panoramica
+      url: "/ehc/ncvs-gc-overview.html"
+    - title: In che modo Google Cloud NetApp Volumes in Google Cloud protegge i tuoi
+        dati
+      url: "/ehc/ncvs-gc-how-cloud-volumes-service-in-google-cloud-secures-your-data.html"
+    - title: Considerazioni sulla sicurezza e superfici di attacco
+      url: "/ehc/ncvs-gc-security-considerations-and-attack-surfaces.html"
+    - title: Panoramica dell'architettura
+      url: "/ehc/ncvs-gc-architecture_overview.html"
+    - title: Architettura di Google Cloud NetApp Volumes
+      url: "/ehc/ncvs-gc-cloud-volumes-service-architecture.html"
+    - title: Architettura del piano di controllo
+      url: "/ehc/ncvs-gc-control-plane-architecture.html"
+    - title: Architettura del data plane
+      url: "/ehc/ncvs-gc-data-plane-architecture.html"
+    - title: Crittografia dei dati in transito
+      url: "/ehc/ncvs-gc-data-encryption-in-transit.html"
+    - title: Crittografia dei dati a riposo
+      url: "/ehc/ncvs-gc-data-encryption-at-rest.html"
+    - title: Firewall
+      url: "/ehc/ncvs-gc-firewall.html"
+    - title: Panoramica dei protocolli NAS
+      url: "/ehc/ncvs-gc-nas-protocols_overview.html"
+    - title: Nozioni di base sui protocolli NAS
+      url: "/ehc/ncvs-gc-basics-of-nas-protocols.html"
+    - title: NFS
+      url: "/ehc/ncvs-gc-nfs.html"
+    - title: PMI
+      url: "/ehc/ncvs-gc-smb.html"
+    - title: Protocollo doppio/multiprotocollo
+      url: "/ehc/ncvs-gc-dual-protocol-multiprotocol.html"
+    - title: Considerazioni per la creazione di connessioni Active Directory
+      url: "/ehc/ncvs-gc-considerations-creating-active-directory-connections.html"
+    - title: Altre dipendenze del servizio infrastruttura NAS (KDC, LDAP, DNS)
+      url: "/ehc/ncvs-gc-other-nas-infrastructure-service-dependencies.html"
+    - title: Funzionamento del servizio
+      url: "/ehc/ncvs-gc-service-operation.html"
+    - title: Ulteriori informazioni
+      url: "/ehc/ncvs-gc-additional-information.html"
   - title: Panoramica sulla sicurezza - Google Cloud NetApp Volumes (GCNV) in Google
       Cloud
     entries:

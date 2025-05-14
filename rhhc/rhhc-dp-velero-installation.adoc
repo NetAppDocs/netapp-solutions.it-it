@@ -38,11 +38,11 @@ In questa sezione viene descritta l'installazione dell'operatore OpenShift API f
 . Andare all'Operator Hub del cluster e selezionare Red Hat OADP operator. Nella pagina Installa, utilizzare tutte le selezioni predefinite e fare clic su Installa. Nella pagina successiva, utilizzare nuovamente tutte le impostazioni predefinite e fare clic su Installa. L'operatore OADP sarà installato nello spazio dei nomi openshift-adp.
 
 
-image:redhat_openshift_OADP_install_image1.jpg["API OpenShift per la protezione dei dati in Operator Hub"]
+image:redhat_openshift_OADP_install_image1.png["API OpenShift per la protezione dei dati in Operator Hub"]
 
-image:redhat_openshift_OADP_install_image2.jpg["OpenShift API per l'installazione dell'operatore di protezione dei dati"]
+image:redhat_openshift_OADP_install_image2.png["OpenShift API per l'installazione dell'operatore di protezione dei dati"]
 
-image:redhat_openshift_OADP_install_image3.jpg["OpenShift API per Data Protection Operator installato"]
+image:redhat_openshift_OADP_install_image3.png["OpenShift API per Data Protection Operator installato"]
 
 
 
@@ -88,11 +88,11 @@ image:redhat_openshift_OADP_install_image6.png["Creare un segreto per le credenz
 * Quindi, per configurare Velero, selezionare Installed Operators dalla voce di menu in Operators, fare clic sull'operatore OADP, quindi selezionare la scheda **DataProtectionApplication**.
 
 
-image:redhat_openshift_OADP_install_image7.jpg["DataProtectionApplication"]
+image:redhat_openshift_OADP_install_image7.png["DataProtectionApplication"]
 
 Fare clic su Create DataProtectionApplication. Nella vista modulo, specificare un nome per l'applicazione DataProtection o utilizzare il nome predefinito.
 
-image:redhat_openshift_OADP_install_image8.jpg["Creare DataProtectionApplication"]
+image:redhat_openshift_OADP_install_image8.png["Creare DataProtectionApplication"]
 
 Passare ora alla visualizzazione YAML e sostituire le informazioni sulle specifiche come mostrato negli esempi di file yaml riportati di seguito.
 
@@ -176,7 +176,7 @@ I plug-in di Velero CSI, per eseguire il backup dei PVC supportati da CSI, scegl
 **velero.io/csi-volumesnapshot-class=true** come mostrato di seguito.
 
 
-image:redhat_openshift_OADP_install_image9.jpg["Etichetta classe istantanea Trident"]
+image:redhat_openshift_OADP_install_image9.png["Etichetta classe istantanea Trident"]
 
 Verificare che gli snapshot possano persistere anche se gli oggetti VolumeSnapshot vengono eliminati. A tale scopo, impostare *deletionPolicy* su Retain. In caso contrario, l'eliminazione di uno spazio dei nomi perderà completamente tutti i PVC di cui è stato eseguito il backup.
 
@@ -188,7 +188,7 @@ metadata:
 driver: csi.trident.netapp.io
 deletionPolicy: Retain
 ....
-image:redhat_openshift_OADP_install_image10.jpg["Il criterio di eliminazione VolumeSnapshotClass deve essere impostato su Retain"]
+image:redhat_openshift_OADP_install_image10.png["Il criterio di eliminazione VolumeSnapshotClass deve essere impostato su Retain"]
 
 Verificare che DataProtectionApplication sia stato creato e che sia in condizioni:riconciliato.
 

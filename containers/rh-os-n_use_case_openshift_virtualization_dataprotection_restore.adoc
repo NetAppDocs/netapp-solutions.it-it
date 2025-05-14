@@ -27,7 +27,7 @@ Per eseguire il ripristino da un backup, supponiamo che lo spazio dei nomi in cu
 ====
 Per eseguire il ripristino dal backup appena creato, è necessario creare una risorsa personalizzata di ripristino (CR). Dobbiamo fornirgli un nome, fornire il nome del backup da cui eseguire il ripristino e impostare su true. È possibile impostare parametri aggiuntivi come illustrato nella link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentazione"]. Fare clic sul pulsante Crea.
 
-image:redhat_openshift_OADP_restore_image1.jpg["Crea ripristino CR"]
+image:redhat_openshift_OADP_restore_image1.png["Crea ripristino CR"]
 
 ....
 apiVersion: velero.io/v1
@@ -41,7 +41,7 @@ spec:
 ....
 Quando la fase è completata, è possibile vedere che le macchine virtuali sono state ripristinate allo stato in cui è stato acquisito lo snapshot. (Se il backup è stato creato quando la VM era in esecuzione, ripristinando la VM dal backup si avvia la VM ripristinata e la si porta in esecuzione). La VM viene ripristinata nello stesso namespace.
 
-image:redhat_openshift_OADP_restore_image2.jpg["Ripristino completato"]
+image:redhat_openshift_OADP_restore_image2.png["Ripristino completato"]
 
 ====
 .Ripristinare in un namespace diverso
@@ -67,7 +67,7 @@ spec:
 ....
 Quando la fase è completata, è possibile vedere che le macchine virtuali sono state ripristinate allo stato in cui è stato acquisito lo snapshot. (Se il backup è stato creato quando la VM era in esecuzione, ripristinando la VM dal backup si avvia la VM ripristinata e la si porta in esecuzione). La VM viene ripristinata in uno spazio dei nomi diverso, come specificato in yaml.
 
-image:redhat_openshift_OADP_restore_image3.jpg["Ripristino completato in un nuovo namespace"]
+image:redhat_openshift_OADP_restore_image3.png["Ripristino completato in un nuovo namespace"]
 
 ====
 .Ripristinare in una classe di archiviazione diversa
@@ -77,9 +77,9 @@ Velero fornisce una capacità generica di modificare le risorse durante il ripri
 
 Nell'esempio seguente, la macchina virtuale, in fase di creazione, utilizza ontap-nas come classe di storage per i dischi. Viene creato un backup della macchina virtuale denominata Backup1.
 
-image:redhat_openshift_OADP_restore_image4.jpg["VM che utilizzano ontap-nas"]
+image:redhat_openshift_OADP_restore_image4.png["VM che utilizzano ontap-nas"]
 
-image:redhat_openshift_OADP_restore_image5.jpg["Backup ontap-nas VM"]
+image:redhat_openshift_OADP_restore_image5.png["Backup ontap-nas VM"]
 
 Simula la perdita della macchina virtuale eliminando la macchina virtuale.
 
@@ -107,11 +107,11 @@ version: v1
         path: "/spec/storageClassName"
         value: "ontap-nas-eco"
 ....
-image:redhat_openshift_OADP_restore_image6.jpg["interfaccia utente della mappa di configurazione"]
+image:redhat_openshift_OADP_restore_image6.png["interfaccia utente della mappa di configurazione"]
 
 L'oggetto della mappa di configurazione risultante dovrebbe essere simile al seguente (CLI):
 
-image:redhat_openshift_OADP_restore_image7.jpg["Config map CLI"]
+image:redhat_openshift_OADP_restore_image7.png["Config map CLI"]
 
 Questa mappa di configurazione applicherà la regola del modificatore di risorse quando viene creato il ripristino. Verrà applicata una patch per sostituire il nome della classe storage in ontap-nas-eco per tutte le richieste di volume persistenti a partire da rhel.
 
@@ -124,6 +124,6 @@ Per ripristinare la macchina virtuale, utilizzare il seguente comando dall'inter
 ....
 La macchina virtuale viene ripristinata con lo stesso namespace con i dischi creati utilizzando la classe storage ontap-nas-eco.
 
-image:redhat_openshift_OADP_restore_image8.jpg["Ripristino ontap-nas-eco delle macchine virtuali"]
+image:redhat_openshift_OADP_restore_image8.png["Ripristino ontap-nas-eco delle macchine virtuali"]
 
 ====

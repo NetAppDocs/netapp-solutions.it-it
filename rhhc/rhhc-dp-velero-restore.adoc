@@ -29,7 +29,7 @@ image:redhat_openshift_OADP_app_deleted_image1.png["App eliminata"]
 ====
 Per eseguire il ripristino dal backup appena creato, è necessario creare una risorsa personalizzata di ripristino (CR). Dobbiamo fornirgli un nome, fornire il nome del backup da cui eseguire il ripristino e impostare su true. È possibile impostare parametri aggiuntivi come illustrato nella link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentazione"]. Fare clic sul pulsante Crea.
 
-image:redhat_openshift_OADP_restore_image1.jpg["Crea ripristino CR"]
+image:redhat_openshift_OADP_restore_image1.png["Crea ripristino CR"]
 
 ....
 apiVersion: velero.io/v1
@@ -44,7 +44,7 @@ spec:
 ....
 Quando la fase viene visualizzata come completata, è possibile vedere che l'app è stata ripristinata allo stato in cui è stata scattata l'istantanea. L'applicazione viene ripristinata nello stesso spazio dei nomi.
 
-image:redhat_openshift_OADP_restore_image2.jpg["Ripristino completato"] image:redhat_openshift_OADP_restore_image2a.png["Ripristinato nello stesso namespace"]
+image:redhat_openshift_OADP_restore_image2.png["Ripristino completato"] image:redhat_openshift_OADP_restore_image2a.png["Ripristinato nello stesso namespace"]
 
 ====
 .Ripristinare in un namespace diverso
