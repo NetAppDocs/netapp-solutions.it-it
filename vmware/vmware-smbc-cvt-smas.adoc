@@ -1,0 +1,92 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-smbc-cvt-smas.html 
+keywords: NetApp Solutions, vMSC, Metro Storage Cluster, SnapMirror active sync, Business Continuity, SMBC, ONTAP Tools, AFD, SCV, iSCSI, backup, restore 
+summary:  
+---
+= Converti la sincronizzazione attiva SM da asimmetrica a simmetrica Active/Active con VMware vSphere Metro Storage Cluster
+:allow-uri-read: 
+
+
+link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/["Sincronizzazione attiva NetApp SnapMirror (sincronizzazione attiva SM)"] È una soluzione solida per ottenere l'obiettivo RTO (Recovery Time Objective) zero e l'RPO (Recovery Point Objective) zero in un ambiente virtualizzato. link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware_vmsc_overview.html["VMware vSphere Metro Storage Cluster (vMSC)"] È una soluzione cluster estesa su diversi domini di errore e consente la distribuzione delle macchine virtuali (VM) su due siti separati geograficamente, fornendo una disponibilità continua anche in caso di guasto a un sito. La combinazione di vMSC con SM Active Sync garantisce la coerenza dei dati e funzionalità di failover immediato tra due siti. Questo setup è particolarmente cruciale per le applicazioni mission-critical in cui la perdita di dati o i downtime sono inaccettabili.
+
+La sincronizzazione attiva di SM, precedentemente nota come SMBC (SnapMirror Business Continuity), consente ai servizi aziendali di continuare a funzionare anche attraverso un guasto completo del sito, supportando le applicazioni per il failover in modo trasparente utilizzando una copia secondaria. A partire da ONTAP 9.15.1, SM Active Sync supporta una capacità Active/Active simmetrica. Active/Active simmetrico consente operazioni i/o in lettura e scrittura da entrambe le copie di una LUN protetta con replica sincrona bidirezionale, in modo che entrambe le copie LUN possano servire le operazioni i/o a livello locale. Questo documento illustra i passaggi per convertire SM Active Sync asimmetrico Active/Active in SM Active Sync simmetrico Active/Active in un ambiente cluster stretch VMware, in altre parole converte una SM Active Sync da un criterio di failover automatizzato a un criterio failover-duplex automatizzato. Per informazioni dettagliate su come configurare vMSC con SnapMirror Active Sync (SM-AS) utilizzando Gestione di sistema e gli strumenti di ONTAP, consultare link:https://docs.netapp.com/us-en/netapp-solutions/vmware/vmware-vmsc-with-smas.html["Cluster di storage VMware vSphere Metro con sincronizzazione attiva SnapMirror"].
+
+
+
+== Prerequisiti
+
+* Sistemi storage NetApp: Assicurati di avere due cluster di storage NetApp (origine e destinazione) con le licenze SnapMirror.
+* Connettività di rete: Verifica della connettività di rete a bassa latenza tra i sistemi di origine e di destinazione.
+* Peering di cluster e SVM: Configurare il peering dei cluster e il peering di Storage Virtual Machine (SVM) tra i cluster di origine e di destinazione.
+* Versione ONTAP: Assicurarsi che entrambi i cluster eseguano una versione di ONTAP che supporti la replica sincrona. Per la sincronizzazione attiva SM, è necessario ONTAP 9.15.1 e versioni successive.
+* Infrastruttura vMSC VMware: Un cluster allungato consente ai sottosistemi di estendersi per aree geografiche, presentando un singolo set di risorse dell'infrastruttura di base comune al cluster vSphere in entrambi i siti. Estende la rete e lo storage tra i siti.
+* Utilizzare gli attrezzi ONTAP a partire dalla versione 10,2 per una maggiore facilità d'uso di NetApp SnapMirror; per ulteriori dettagli, controllare link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/release-notes/ontap-tools-9-ontap-tools-10-feature-comparison.html["Tool ONTAP per VMware vSphere 10."]
+* Deve esistere una relazione sincrona SnapMirror con RPO pari a zero tra il cluster primario e secondario.
+* Prima di poter creare la relazione di SnapMirror con RTO nullo, è necessario annullare la mappatura di tutte le LUN del volume di destinazione.
+* SnapMirror Active Sync supporta solo i protocolli SAN (non NFS/CIFS). Assicurarsi che nessun componente del gruppo di coerenza sia montato per l'accesso NAS.
+
+
+
+
+== Passi per convertire la sincronizzazione attiva SM asimmetrica a simmetrica
+
+Nell'esempio seguente, selectrz1 è il sito primario e selectrz2 è il sito secondario.
+
+. Dal sito secondario, eseguire un aggiornamento del SnapMirror sulla relazione esistente.
++
+....
+selectrz2::> snapmirror update -destination-path site2:/cg/CGsite1_dest
+....
+. Verificare che l'aggiornamento di SnapMirror sia stato completato correttamente.
++
+....
+selectrz2::> snapmirror show
+....
+. Metti in pausa ciascuna delle relazioni sincrone di RPO pari a zero.
++
+....
+ selectrz2::> snapmirror quiesce -destination-path site2:/cg/CGsite1_dest
+....
+. Elimina ciascuna delle relazioni sincrone zero RPO.
++
+....
+selectrz2::> snapmirror delete -destination-path site2:/cg/CGsite1_dest
+....
+. Rilasciare la relazione SnapMirror di origine ma conservare gli snapshot comuni.
++
+....
+selectrz1::> snapmirror release -relationship-info-only  true -destination-path svm0.1:/cg/CGsite1_dest                                           ".
+....
+. Creare una relazione sincrona SnapMirror RTO zero con il criterio AutomatedFailoverDuplex.
++
+....
+selectrz2::> snapmirror create -source-path svm0.1:/cg/CGsite1 -destination-path site2:/cg/CGsite1_dest -cg-item-mappings site1lun1:@site1lun1_dest -policy AutomatedFailOverDuplex
+....
+. Se gli host esistenti sono locali del cluster primario, aggiungere l'host al cluster secondario e stabilire la connettività con il rispettivo accesso a ciascun cluster.
+. Sul sito secondario, eliminare le mappe LUN sugli igroup associati agli host remoti.
++
+....
+selectrz2::> lun mapping delete -vserver svm0 -igroup wlkd01 -path  /vol/wkld01/wkld01
+....
+. Sul sito primario, modificare la configurazione dell'iniziatore per gli host esistenti per impostare il percorso prossimale per gli iniziatori sul cluster locale.
++
+....
+selectrz1::> set -privilege advanced
+selectrz1::*> igroup initiator add-proximal-vserver -vserver site1  -initiator iqn.1998-01.com.vmware:vcf-wkld-esx01.sddc.netapp.com:575556728:67 -proximal-vserver site1
+....
+. Aggiungere un nuovo igroup e iniziatore per i nuovi host e impostare la prossimità dell'host per l'affinità dell'host al sito locale. Abilitare la replica igroup per replicare la configurazione e invertire la posizione dell'host sul cluster remoto.
++
+....
+selectrz1::*> igroup modify -vserver site1  -igroup smbc2smas -replication-peer svm0.1
+selectrz1::*> igroup initiator add-proximal-vserver -vserver site1 -initiator iqn.1998-01.com.vmware:vcf-wkld-esx01.sddc.netapp.com:575556728:67 -proximal-vserver svm0.1
+....
+. Rilevare i percorsi sugli host e verificare che gli host dispongano di un percorso Active/Optimized verso la LUN dello storage dal cluster preferito.
+. Implementa l'applicazione e distribuisci i workload VM tra i cluster.
+. Risincronizzare il gruppo di coerenza.
++
+....
+selectrz2::> snapmirror resync -destination-path site2:/cg/CGsite1_dest
+....
+. Eseguire nuovamente la scansione dei percorsi i/o del LUN host per ripristinare tutti i percorsi dei LUN.
+
