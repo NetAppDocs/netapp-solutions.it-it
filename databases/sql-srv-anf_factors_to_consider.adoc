@@ -105,7 +105,7 @@ image:sql-srv-anf_image2.png["Figura che mostra la finestra di dialogo input/out
 
 == Convalida delle performance
 
-Come per qualsiasi implementazione, il test della macchina virtuale e dello storage è fondamentale. Per la convalida dello storage, strumenti come HammerDB, Apploader, https://github.com/NetApp/SQL_Storage_Benchmark["Tool di benchmark dello storage (SB) di SQL Server"^], O qualsiasi script personalizzato o FIO con il mix di lettura/scrittura appropriato. Tenere presente tuttavia che la maggior parte dei carichi di lavoro di SQL Server, anche i carichi di lavoro OLTP occupati, sono più vicini al 80%-90% in lettura e al 10%-20% in scrittura.
+Come per qualsiasi implementazione, il test della macchina virtuale e dello storage è fondamentale. Per la convalida dell'archiviazione, è opportuno utilizzare strumenti quali HammerDB, Apploader o qualsiasi script personalizzato o FIO con la combinazione di lettura/scrittura appropriata. Tenere presente tuttavia che la maggior parte dei carichi di lavoro di SQL Server, anche i carichi di lavoro OLTP occupati, sono più vicini al 80%-90% in lettura e al 10%-20% in scrittura.
 
 Per mostrare le performance, è stato eseguito un rapido test su un volume utilizzando livelli di servizio premium. In questo test, le dimensioni del volume sono state aumentate da 100 GB a 2 TB in tempo reale senza alcuna interruzione dell'accesso alle applicazioni e senza alcuna migrazione dei dati.
 
