@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: ehc/evs-mount-fsxn-intro.html 
+keywords: Amazon, AWS, EVS, Elastic VMware Service, ONTAP, FSx 
+summary: 'In questo documento vengono illustrati i passaggi dettagliati per creare un file system FSx per ONTAP e collegarlo per l"utilizzo come datastore Internet Small Computer System Interface (iSCSI) o Network File System (NFS) per l"uso con Amazon EVS.' 
+---
+= Come montare Amazon FSx per NetApp ONTAP come datastore esterno per Amazon Elastic VMware Service
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+In questo documento vengono illustrati i passaggi dettagliati per creare un file system FSx per ONTAP e collegarlo per l'utilizzo come datastore Internet Small Computer System Interface (iSCSI) o Network File System (NFS) per l'uso con Amazon EVS.
+
+
+
+== Introduzione
+
+Le organizzazioni con investimenti VMware on-premise alla ricerca di soluzioni efficienti e convenienti per modernizzare le proprie distribuzioni migrando, espandendo, estendendo o proteggendo (backup e disaster recovery) le copie su AWS, si sono trovate ad affrontare diverse sfide. Con il rilascio di Amazon Elastic VMware Service (Amazon EVS), è ora disponibile un servizio AWS nativo che consente di eseguire VMware Cloud Foundation (VCF) direttamente in un Amazon Virtual Private Cloud (VPC).
+
+Amazon EVS consente di estendere le distribuzioni VCF esistenti su AWS, di espanderle in AWS per aumentare le prestazioni durante i picchi di utilizzo e di eseguire interamente carichi di lavoro VCF su AWS per facilitare modernizzazioni, uscite dai data center, consolidamenti e altri casi d'uso.
+
+Sebbene Amazon EVS offra notevoli vantaggi, l'architettura iperconvergente predefinita accoppia elaborazione e storage, impedendo la scalabilità indipendente dell'uno o dell'altro in base alle esigenze aziendali. Nell'attuale mondo incentrato sui dati, le esigenze di storage in molte organizzazioni sono superiori a quelle di elaborazione. Tuttavia, con l'architettura iperconvergente VMware, le risorse di storage sono accoppiate a quelle di elaborazione. Ciò significa che il ridimensionamento dello storage può essere effettuato solo aggiungendo host di elaborazione che non verranno mai utilizzati. È una situazione che può aumentare considerevolmente i costi, soprattutto nei carichi di lavoro con carichi di lavoro ad alta intensità di storage.
+
+Per risolvere questo problema, AWS e NetApp offrono Amazon FSx for NetApp ONTAP (FSx for ONTAP) come servizio di storage esterno per Amazon EVS. FSx for ONTAP è un servizio di storage nativo di AWS che offre le elevate prestazioni, la resilienza dei dati e l'economicità del software NetApp® ONTAP®. Utilizzando FSx for ONTAP come storage esterno, gli utenti di Amazon EVS possono scalare le risorse di elaborazione e storage in modo indipendente, ottimizzando il costo totale di proprietà (TCO).
+
+
+
+== Panoramica
+
+In questo documento vengono illustrati i passaggi dettagliati per creare un file system FSx per ONTAP e collegarlo per l'utilizzo come datastore Internet Small Computer System Interface (iSCSI) o Network File System (NFS) per l'uso con Amazon EVS.
+
+
+
+== Scopo di questa guida
+
+Questa guida fornisce istruzioni su come configurare un datastore FSx for ONTAP per Amazon EVS, nonché best practice, requisiti di supporto, considerazioni sul dimensionamento e altre informazioni per aiutarti a pianificare, progettare e implementare l'integrazione.
+
+
+
+== Pubblico
+
+Questo tutorial è destinato ad architetti e amministratori cloud che hanno familiarità con VMware vSphere, Amazon EVS, AWS Console e FSx per ONTAP.
+
+
+
+== Architettura di alto livello
+
+In questa sezione forniremo una panoramica dell'architettura della soluzione per l'utilizzo di FSx per ONTAP come datastore per Amazon EVS.
+
+Di seguito è possibile visualizzare una panoramica dell'architettura del datastore FSx for ONTAP con un ambiente Amazon EVS all'interno di un AWS VPC.
+
+image:evs-mount-fsxn-01.png["Figura che rappresenta l'architettura di alto livello per questa soluzione"]
