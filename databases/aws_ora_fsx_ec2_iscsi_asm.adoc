@@ -694,7 +694,7 @@ unzip -q /tmp/archive/p6880880_190000_Linux-x86-64.zip
 ....
 vi cv/admin/cvu_config
 ....
-. Preparare un `gridsetup.rsp` file per l'installazione automatica e inserire il file rsp in `/tmp/archive` directory. Il file rsp deve riguardare le sezioni A, B e G con le seguenti informazioni:
+. Aggiorna un  `gridsetup.rsp` file per l'installazione silenziosa e posizionare il file rsp nel  `/tmp/archive` elenco. Il file rsp deve riguardare le sezioni A, B e G con le seguenti informazioni:
 +
 ....
 INVENTORY_LOCATION=/u01/app/oraInventory
@@ -774,7 +774,7 @@ systemctl restart multipathd
 ....
 /u01/app/oracle/product/19.0.0/grid/gridSetup.sh -executeConfigTools -responseFile /tmp/archive/gridsetup.rsp -silent
 ....
-. In qualità di utente Oracle, creare il gruppo di dischi DEI LOG.
+. Come utente Oracle, da $GRID_HOME, creare il gruppo di dischi LOGS.
 +
 ....
 bin/asmca -silent -sysAsmPassword 'yourPWD' -asmsnmpPassword 'yourPWD' -createDiskGroup -diskGroupName LOGS -disk 'AFD:LOGS*' -redundancy EXTERNAL -au_size 4
@@ -857,7 +857,7 @@ vi cv/admin/cvu_config
 ....
 unzip p34765931_190000_Linux-x86-64.zip
 ....
-. Preparare il file rsp di installazione automatica del DB in `/tmp/archive/dbinstall.rsp` directory con i seguenti valori:
+. Aggiorna il file rsp standard di installazione silenziosa del DB in  `/tmp/archive/dbinstall.rsp` directory con i seguenti valori nelle sezioni pertinenti:
 +
 ....
 oracle.install.option=INSTALL_DB_SWONLY
@@ -884,7 +884,7 @@ oracle.install.db.rootconfig.executeRootScript=false
 ....
 /u01/app/oracle/product/19.0.0/db1/root.sh
 ....
-. In qualità di utente Oracle, creare il `dbca.rsp` file con le seguenti voci:
+. Come utente Oracle, aggiorna lo standard  `dbca.rsp` file con le seguenti voci nelle sezioni pertinenti:
 +
 ....
 gdbName=db1.demo.netapp.com
@@ -909,7 +909,7 @@ databaseType=MULTIPURPOSE
 automaticMemoryManagement=false
 totalMemory=8192
 ....
-. In qualità di utente Oracle, Lauch DB Creation with dbca.
+. Come utente Oracle, dalla directory $ORACLE_HOME, avvia la creazione del DB con dbca.
 +
 ....
 bin/dbca -silent -createDatabase -responseFile /tmp/archive/dbca.rsp
@@ -984,7 +984,7 @@ alias asm='export ORACLE_HOME=/u01/app/oracle/product/19.0.0/grid;export ORACLE_
 . Convalidare il CDB/PDB creato.
 +
 ....
-/home/oracle/.bash_profile
+source /home/oracle/.bash_profile
 
 sqlplus / as sysdba
 

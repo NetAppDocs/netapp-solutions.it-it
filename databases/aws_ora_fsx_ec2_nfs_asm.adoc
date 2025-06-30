@@ -382,7 +382,7 @@ dd if=/dev/zero of=/oradata/asm/nfs_data_disk02 bs=1M count=20480 oflag=direct
 dd if=/dev/zero of=/oradata/asm/nfs_data_disk03 bs=1M count=20480 oflag=direct
 dd if=/dev/zero of=/oradata/asm/nfs_data_disk04 bs=1M count=20480 oflag=direct
 ....
-. Come utente root, modificare l'autorizzazione del file del disco dati su 640
+. Modificare l'autorizzazione del file del disco dati a 640
 +
 ....
 chmod 640 /oradata/asm/*
@@ -393,7 +393,7 @@ chmod 640 /oradata/asm/*
 dd if=/dev/zero of=/oralogs/asm/nfs_logs_disk01 bs=1M count=40960 oflag=direct
 dd if=/dev/zero of=/oralogs/asm/nfs_logs_disk02 bs=1M count=40960 oflag=direct
 ....
-. In qualità di utente root, modificare l'autorizzazione del file del disco di log in 640
+. Modificare l'autorizzazione del file disco dei registri a 640
 +
 ....
 chmod 640 /oralogs/asm/*
